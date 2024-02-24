@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.blockly.android'
+    namespace 'com.tscodeeditor.blockly.android'
     compileSdk 33
     
     defaultConfig {
-        applicationId "com.blockly.android"
+        applicationId "com.tscodeeditor.blockly.android"
         minSdk 21
         targetSdk 33
         versionCode 1
