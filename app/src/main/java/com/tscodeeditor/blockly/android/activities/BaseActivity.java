@@ -18,6 +18,7 @@
 package com.tscodeeditor.blockly.android.activities;
 
 import android.os.Bundle;
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
@@ -27,5 +28,6 @@ public class BaseActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
+    EdgeToEdge.enable(this);
   }
 }
