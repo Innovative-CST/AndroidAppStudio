@@ -2,6 +2,14 @@ plugins {
     id 'com.android.application'
 }
 
+def localPropsFile = rootProject.file("local.properties")
+def properties = new Properties()
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { inputStream ->
+        properties.load(inputStream)
+    }
+}
+
 android {
     namespace 'com.tscodeeditor.blockly.android'
     compileSdk 33
@@ -31,6 +39,7 @@ android {
         versionCode 1
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         buildConfigField "String", "commitSha", getCommitSha()
+        buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
 
         vectorDrawables { 
             useSupportLibrary true
