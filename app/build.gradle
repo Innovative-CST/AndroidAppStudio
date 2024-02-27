@@ -29,7 +29,7 @@ if (localPropsFile.exists()) {
 
 android {
     namespace 'com.tscodeeditor.blockly.android'
-    compileSdk 33
+    compileSdk 34
 
     def getCommitHash = { ->
         def stdout = new ByteArrayOutputStream()
@@ -85,5 +85,5 @@ android {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.12.0-alpha03")
 }
