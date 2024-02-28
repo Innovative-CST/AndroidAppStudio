@@ -19,6 +19,7 @@ package com.tscodeeditor.android.appstudio;
 
 import android.app.Application;
 import android.content.Context;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 
 public class MyApplication extends Application {
   private static Context mApplicationContext;
@@ -30,6 +31,7 @@ public class MyApplication extends Application {
   @Override
   public void onCreate() {
     mApplicationContext = getApplicationContext();
+    EnvironmentUtils.init(this);
     super.onCreate();
   }
 }
