@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Blockly Android</string>
+    <string name="app_name">Android AppStudio</string>
     <string name="create_new_project">Create new project</string>
     <string name="no_projects_yet">No projects yet.</string>
     <string name="storage_permission_denied">Storage permission denied</string>

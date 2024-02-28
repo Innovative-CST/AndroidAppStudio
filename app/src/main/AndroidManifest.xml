@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.tscodeeditor.blockly.android.activities.ProjectManagerActivity"
+            android:name="com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity"
             android:exported="true">
             <intent-filter>
                 <action
