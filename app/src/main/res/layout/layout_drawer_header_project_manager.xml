@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:textSize="36sp"
             android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
             android:text="@string/app_name" />
 
     </LinearLayout>
