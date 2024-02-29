@@ -65,6 +65,16 @@ public class ProjectManagerActivity extends BaseActivity {
     binding.drawerLayout.addDrawerListener(toggle);
     toggle.syncState();
 
+    binding.navigationView.setNavigationItemSelectedListener(
+        menuItem -> {
+          if (menuItem.getItemId() == R.id.source_License) {
+            Intent licenseActivity = new Intent();
+            licenseActivity.setClass(this, LicenseActivity.class);
+            startActivity(licenseActivity);
+          }
+          return true;
+        });
+
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.
