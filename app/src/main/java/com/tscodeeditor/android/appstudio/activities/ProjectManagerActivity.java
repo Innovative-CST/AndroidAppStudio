@@ -27,12 +27,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectManagerBinding;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.PermissionUtils;
+import java.io.File;
+import java.util.concurrent.Executors;
 
 public class ProjectManagerActivity extends BaseActivity {
   private ActivityProjectManagerBinding binding;
 
-  // Section Contants
+  // Contants for showing the section easily
   public static final int LOADING_SECTION = 0;
   public static final int NO_PROJECTS_YET_SECTION = 1;
   public static final int PROJECT_LIST_SECTION = 2;
@@ -47,6 +50,7 @@ public class ProjectManagerActivity extends BaseActivity {
     // Set layout of activity
     setContentView(binding.getRoot());
 
+    // SetUp the drawer
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,6 +69,7 @@ public class ProjectManagerActivity extends BaseActivity {
     binding.drawerLayout.addDrawerListener(toggle);
     toggle.syncState();
 
+    // SetUp the items click events in drawer
     binding.navigationView.setNavigationItemSelectedListener(
         menuItem -> {
           if (menuItem.getItemId() == R.id.source_License) {
@@ -78,6 +83,7 @@ public class ProjectManagerActivity extends BaseActivity {
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.
+     * Show storage permission denied error when storage permission is denied.
      */
     if (PermissionUtils.isStoagePermissionGranted(this)) {
       tryToLoadProjects();
@@ -87,6 +93,10 @@ public class ProjectManagerActivity extends BaseActivity {
     }
   }
 
+  /*
+   * Method for switching the section quickly.
+   * All other section will be GONE except the section of which the section code is provided
+   */
   public void switchSection(int section) {
     binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.noProjectsYet.setVisibility(
@@ -106,7 +116,48 @@ public class ProjectManagerActivity extends BaseActivity {
     binding = null;
   }
 
-  public void tryToLoadProjects() {}
+  public void tryToLoadProjects() {
+    /*
+     * Show LOADING_SECTION.
+     * Then load project in a saparate thread
+     */
+    switchSection(LOADING_SECTION);
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              /*
+               * Check if the PROJECTS directory exists or not.
+               * If not exists then:
+               * - Create PROJECTS directory now.
+               * - Show NO_PROJECTS_YET_SECTION.
+               * - Stop the thread on further execution.
+               */
+              if (!EnvironmentUtils.PROJECTS.exists()) {
+                EnvironmentUtils.PROJECTS.mkdirs();
+                runOnUiThread(
+                    () -> {
+                      switchSection(NO_PROJECTS_YET_SECTION);
+                    });
+                return;
+              }
+              /*
+               * List all the file list available in PROJECTS.
+               * And check all the paths and only list when confirmed that it is a project directory.
+               */
+              for (File file : EnvironmentUtils.PROJECTS.listFiles()) {
+                /*
+                 * Only check further if the file is a directory.
+                 * If file is a file then skip it.
+                 */
+                if (file.isFile()) continue;
+                /*
+                 * Check if the ProjectModel file exists in the directory(file)
+                 * If it does not exists then skip it.
+                 */
+                if (!new File(file, EnvironmentUtils.PROJECT_CONFIGRATION).exists()) continue;
+              }
+            });
+  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
