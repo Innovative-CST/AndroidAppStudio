@@ -26,7 +26,9 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.adapters.ProjectListAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectManagerBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
@@ -200,6 +202,10 @@ public class ProjectManagerActivity extends BaseActivity {
                         projectModelList.size() > 0
                             ? PROJECT_LIST_SECTION
                             : NO_PROJECTS_YET_SECTION);
+                    binding.list.setAdapter(
+                        new ProjectListAdapter(projectModelList, ProjectManagerActivity.this));
+                    binding.list.setLayoutManager(
+                        new LinearLayoutManager(ProjectManagerActivity.this));
                   });
             });
   }
