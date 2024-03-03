@@ -28,9 +28,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectManagerBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.PermissionUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 public class ProjectManagerActivity extends BaseActivity {
@@ -93,7 +96,7 @@ public class ProjectManagerActivity extends BaseActivity {
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.
-     * Show storage permission denied error when storage permission is denied.
+     * Show storage permission denied error when storage permission is denied and ask to grant storage permission.
      */
     if (PermissionUtils.isStoagePermissionGranted(this)) {
       tryToLoadProjects();
@@ -152,8 +155,9 @@ public class ProjectManagerActivity extends BaseActivity {
               }
               /*
                * List all the file list available in PROJECTS.
-               * And check all the paths and only list when confirmed that it is a project directory.
+               * And check all the paths and add ProjectModel to projectModelList when confirmed that it is a project directory.
                */
+              ArrayList<ProjectModel> projectModelList = new ArrayList<ProjectModel>();
               for (File file : EnvironmentUtils.PROJECTS.listFiles()) {
                 /*
                  * Only check further if the file is a directory.
@@ -161,11 +165,42 @@ public class ProjectManagerActivity extends BaseActivity {
                  */
                 if (file.isFile()) continue;
                 /*
-                 * Check if the ProjectModel file exists in the directory(file)
+                 * Check if the ProjectModel file exists in the directory(file).
                  * If it does not exists then skip it.
                  */
                 if (!new File(file, EnvironmentUtils.PROJECT_CONFIGRATION).exists()) continue;
+                /*
+                 * Logic to Deserialize the path as it exists as file.
+                 * Add ProjectModel to list once Deserialized
+                 */
+                ProjectModelSerializationUtils.deserialize(
+                    file,
+                    new ProjectModelSerializationUtils.DeserializerListener() {
+
+                      @Override
+                      public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+                        /*
+                         * Add the ProjectModel to ArrayList as it is project
+                         */
+                        projectModelList.add(mProjectModel);
+                      }
+
+                      @Override
+                      public void onFailed(int errorCode, Exception e) {}
+                    });
               }
+              /*
+               * Updating the UI according to the loaded project.
+               * - Show ProjectList if the number of ProjectModel in projectModelList is atleast 1.
+               * - Show no projects yet section if there is no ProjectModel in projectModelList.
+               */
+              runOnUiThread(
+                  () -> {
+                    switchSection(
+                        projectModelList.size() > 0
+                            ? PROJECT_LIST_SECTION
+                            : NO_PROJECTS_YET_SECTION);
+                  });
             });
   }
 
