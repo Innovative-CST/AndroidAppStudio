@@ -32,6 +32,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.tscodeeditor.android.appstudio.R;
 
 public class PermissionUtils {
+  /**
+   * The `showStoragePermissionDialog` method displays an alert dialog asking the user to grant
+   * storage permission.
+   */
   public static void showStoragePermissionDialog(Activity activity) {
     MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(activity);
     dialog.setTitle(R.string.storage_permission_required);
@@ -50,6 +54,13 @@ public class PermissionUtils {
     dialog.create().show();
   }
 
+  /*
+   * The `showRationaleOfStoragePermissionDialog` method creates an alert dialog using
+   * `MaterialAlertDialogBuilder` to explain the rationale behind requesting storage permission in an
+   * app. The dialog includes a title, a message explaining the importance of storage
+   * permission for storing and reading files on the device, and buttons for the user to either
+   * continue or decline the permission request.
+   */
   public static void showRationaleOfStoragePermissionDialog(Activity activity) {
     MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(activity);
     dialog.setTitle(R.string.storage_permission_required);
