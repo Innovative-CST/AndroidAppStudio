@@ -20,6 +20,7 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,9 @@ public class ProjectManagerActivity extends BaseActivity {
   public static final int NO_PROJECTS_YET_SECTION = 1;
   public static final int PROJECT_LIST_SECTION = 2;
   public static final int ERROR_SECTION = 3;
+
+  // Social links
+  public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -76,6 +80,12 @@ public class ProjectManagerActivity extends BaseActivity {
             Intent licenseActivity = new Intent();
             licenseActivity.setClass(this, LicenseActivity.class);
             startActivity(licenseActivity);
+          }
+          if (menuItem.getItemId() == R.id.discord) {
+            Intent discord = new Intent();
+            discord.setAction(Intent.ACTION_VIEW);
+            discord.setData(Uri.parse(DISCORD));
+            startActivity(discord);
           }
           return true;
         });

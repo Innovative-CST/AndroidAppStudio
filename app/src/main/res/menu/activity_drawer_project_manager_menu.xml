@@ -8,5 +8,14 @@
         android:icon="@drawable/file_document"
         android:title="License and Attribution"
         app:showAsAction="ifRoom" />
-
+    <item
+        android:title="@string/social_links">
+        <menu>
+            <item
+                android:id="@+id/discord"
+                android:icon="@drawable/discord"
+                android:title="@string/discord"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
 </menu>
