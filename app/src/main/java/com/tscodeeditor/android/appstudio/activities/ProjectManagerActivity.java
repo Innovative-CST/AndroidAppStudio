@@ -18,12 +18,17 @@
 package com.tscodeeditor.android.appstudio.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,16 +55,30 @@ public class ProjectManagerActivity extends BaseActivity {
   // Social links
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
 
+  // Result launcher
+  ActivityResultLauncher<Intent> createNewProjectActivityResultLauncher;
+
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
-    // Initialize binding
+    // Initializing
     binding = ActivityProjectManagerBinding.inflate(getLayoutInflater());
+    createNewProjectActivityResultLauncher =
+        registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+              @Override
+              public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                  tryToLoadProjects();
+                }
+              }
+            });
 
     // Set layout of activity
     setContentView(binding.getRoot());
 
-    // SetUp the drawer
+    // SetUp the toolbar
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,7 +113,17 @@ public class ProjectManagerActivity extends BaseActivity {
           }
           return true;
         });
-
+    /*
+     * Initialize new project click listener.
+     */
+    binding.fab.setOnClickListener(
+        v -> {
+          createProject();
+        });
+    binding.createNewProject.setOnClickListener(
+        v -> {
+          createProject();
+        });
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.
@@ -123,6 +152,31 @@ public class ProjectManagerActivity extends BaseActivity {
   public void showError(String errorText) {
     switchSection(ERROR_SECTION);
     binding.errorText.setText(errorText);
+  }
+
+  /*
+   * Method for creating new project.
+   * Only proceed for creating project when storage permission is granted.
+   * Ask for storage permission when not granted.
+   */
+  public void createProject() {
+    if (!PermissionUtils.isStoagePermissionGranted(this)) {
+      /*
+       * Storage permission is not granted.
+       * Requesting for storage permission.
+       * Aborting new project task.
+       */
+      PermissionUtils.showStoragePermissionDialog(this);
+      return;
+    }
+    /*
+     * Go to ProjectModelConfigrationActivity to create new project.
+     */
+
+    Intent createNewProject = new Intent();
+    createNewProject.setClass(this, ProjectModelConfigrationActivity.class);
+    createNewProject.putExtra("isNewProject", true);
+    createNewProjectActivityResultLauncher.launch(createNewProject);
   }
 
   @Override

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_configration">App Configration</string>
     <string name="app_name">Android AppStudio</string>
+    <string name="app_setup">App Setup</string>
     <string name="create_new_project">Create new project</string>
     <string name="discord">Discord</string>
+    <string name="done">Done</string>
+    <string name="minimum_sdk_version">Minimum SDK version</string>
+    <string name="next">Next</string>
     <string name="no_projects_yet">No projects yet.</string>
     <string name="no_thanks">No thanks</string>
+    <string name="package_name">Package name</string>
+    <string name="previous">Previous</string>
+    <string name="project_name">Project name</string>
     <string name="setting">Setting</string>
     <string name="social_links">Social Links</string>
     <string name="source_license">License and Attribution</string>
@@ -13,4 +21,7 @@
     <string name="storage_permission_is_required_please_allow_app_to_use_storage_in_next_page">Storage permission is required please allow app to use storage in next page.</string>
     <string name="storage_permission_required">Storage permission required</string>
     <string name="str_continue">Continue</string>
+    <string name="target_sdk_version">Target SDK Version</string>
+    <string name="version_code">Version code</string>
+    <string name="version_name">Version name</string>
 </resources>

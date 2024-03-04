@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity"
             android:exported="true">
@@ -28,11 +29,18 @@
                     android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.LicenseActivity"
             android:exported="true" />
+
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.LicenseReaderActivity"
             android:exported="true" />
+
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity"
+            android:exported="true" />
+
     </application>
 </manifest>
