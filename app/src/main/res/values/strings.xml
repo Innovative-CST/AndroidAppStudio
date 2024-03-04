@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="an_error_occured">An error occured</string>
     <string name="app_configration">App Configration</string>
     <string name="app_name">Android AppStudio</string>
     <string name="app_setup">App Setup</string>
     <string name="create_new_project">Create new project</string>
     <string name="discord">Discord</string>
     <string name="done">Done</string>
+    <string name="fields_not_filled_properly">Look like you have not filled the fields properly or skipped them that are required. Please correct the details of fields.</string>
     <string name="minimum_sdk_version">Minimum SDK version</string>
     <string name="next">Next</string>
     <string name="no_projects_yet">No projects yet.</string>

@@ -19,6 +19,7 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.ProjectModelConfigAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectModelConfigrationBinding;
@@ -91,11 +92,16 @@ public class ProjectModelConfigrationActivity extends BaseActivity {
   }
 
   public void saveProject() {
-    boolean isRequiredFieldsSkipped = false;
+    boolean isRequiredFieldsProperlyFilled = true;
     for (int position = 0; position < mProjectModelConfigAdapter.fragments.size(); ++position) {
-      if (mProjectModelConfigAdapter.fragments.get(position).getIsRequiredFieldsProperlyFilled()) {
-        isRequiredFieldsSkipped = true;
+      if (!mProjectModelConfigAdapter.fragments.get(position).getIsRequiredFieldsProperlyFilled()) {
+        isRequiredFieldsProperlyFilled = false;
       }
     }
+    MaterialAlertDialogBuilder fieldsNotProperlyField = new MaterialAlertDialogBuilder(this);
+    fieldsNotProperlyField.setTitle(R.string.an_error_occured);
+    fieldsNotProperlyField.setMessage(R.string.fields_not_filled_properly);
+    fieldsNotProperlyField.setPositiveButton(R.string.done, (arg0, arg1) -> {});
+    fieldsNotProperlyField.create().show();
   }
 }
