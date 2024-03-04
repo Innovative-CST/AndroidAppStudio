@@ -20,14 +20,7 @@ package com.tscodeeditor.android.appstudio.fragments.projectmodelconfig;
 import androidx.fragment.app.Fragment;
 
 public class ProjectModelConfigBaseFragment extends Fragment {
-
-  private boolean isRequiredFieldsProperlyFilled;
-
   public boolean getIsRequiredFieldsProperlyFilled() {
-    return this.isRequiredFieldsProperlyFilled;
-  }
-
-  public void setIsRequiredFieldsProperlyFilled(boolean isRequiredFieldsProperlyFilled) {
-    this.isRequiredFieldsProperlyFilled = isRequiredFieldsProperlyFilled;
+    return false;
   }
 }
