@@ -62,6 +62,12 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
     packageNameValidator.setIsRequired(true);
     packageNameValidator.setPattern("^[a-zA-Z]+[a-zA-Z0-9_]*(\\.[a-zA-Z]+[a-zA-Z0-9_]*)*$");
 
+    /*
+     * Setting all the fields to work in single line.
+     */
+    binding.projectName.setSingleLine(true);
+    binding.packageName.setSingleLine(true);
+
     /*************************************************************************************************
      * Adding a TextWatcher to all TextFields to update the error status of fields while editing.    *
      *************************************************************************************************/
