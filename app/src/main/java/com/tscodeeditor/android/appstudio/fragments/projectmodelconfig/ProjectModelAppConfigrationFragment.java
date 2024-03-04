@@ -18,4 +18,9 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
     binding = FragmentProjectModelAppConfigrationLayoutBinding.inflate(layoutInflater);
     return binding.getRoot();
   }
+
+  @Override
+  public boolean getIsRequiredFieldsProperlyFilled() {
+    return true;
+  }
 }
