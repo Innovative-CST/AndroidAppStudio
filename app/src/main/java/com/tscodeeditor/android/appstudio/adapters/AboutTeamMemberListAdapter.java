@@ -31,7 +31,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.tscodeeditor.android.appstudio.R;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.json.*;
 
 public class AboutTeamMemberListAdapter
     extends RecyclerView.Adapter<AboutTeamMemberListAdapter.ViewHolder> {
