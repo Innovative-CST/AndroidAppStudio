@@ -82,10 +82,6 @@ public class AboutTeamActivity extends BaseActivity {
                   _item.put("Image", contributors.getJSONObject(count).getString("Image"));
                   _item.put(
                       "Description", contributors.getJSONObject(count).getString("Description"));
-                  if (!contributors.getJSONObject(count).isNull("markdownUrl")) {
-                    _item.put(
-                        "markdownUrl", contributors.getJSONObject(count).getString("markdownUrl"));
-                  }
                   contributorsList.add(_item);
                 }
               }
