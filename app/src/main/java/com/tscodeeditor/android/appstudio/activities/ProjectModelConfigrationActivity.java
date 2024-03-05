@@ -64,6 +64,11 @@ public class ProjectModelConfigrationActivity extends BaseActivity {
                     + mProjectModelConfigAdapter.fragments.size());
           }
         });
+    binding.pageStatus.setText(
+        "Step "
+            + String.valueOf(binding.viewpager.getCurrentItem() + 1)
+            + " out of "
+            + mProjectModelConfigAdapter.fragments.size());
   }
 
   public void updateButtonConfigration() {
