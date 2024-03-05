@@ -98,10 +98,12 @@ public class ProjectModelConfigrationActivity extends BaseActivity {
         isRequiredFieldsProperlyFilled = false;
       }
     }
-    MaterialAlertDialogBuilder fieldsNotProperlyField = new MaterialAlertDialogBuilder(this);
-    fieldsNotProperlyField.setTitle(R.string.an_error_occured);
-    fieldsNotProperlyField.setMessage(R.string.fields_not_filled_properly);
-    fieldsNotProperlyField.setPositiveButton(R.string.done, (arg0, arg1) -> {});
-    fieldsNotProperlyField.create().show();
+    if (isRequiredFieldsProperlyFilled) {
+      MaterialAlertDialogBuilder fieldsNotProperlyField = new MaterialAlertDialogBuilder(this);
+      fieldsNotProperlyField.setTitle(R.string.an_error_occured);
+      fieldsNotProperlyField.setMessage(R.string.fields_not_filled_properly);
+      fieldsNotProperlyField.setPositiveButton(R.string.done, (arg0, arg1) -> {});
+      fieldsNotProperlyField.create().show();
+    }
   }
 }
