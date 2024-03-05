@@ -85,7 +85,8 @@ public class AboutTeamActivity extends BaseActivity {
                   contributorsList.add(_item);
                 }
               }
-              list.setAdapter(new AboutTeamMemberListAdapter(contributorsList, AboutTeamActivity.this));
+              list.setAdapter(
+                  new AboutTeamMemberListAdapter(contributorsList, AboutTeamActivity.this));
               list.setLayoutManager(new LinearLayoutManager(AboutTeamActivity.this));
             } catch (JSONException e) {
               Toast.makeText(AboutTeamActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
