@@ -85,6 +85,32 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
           @Override
           public void afterTextChanged(Editable s) {}
         });
+    binding.minimumSdkVersion.addTextChangedListener(
+        new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+            validateMinimumSdkVersionField();
+          }
+
+          @Override
+          public void afterTextChanged(Editable s) {}
+        });
+    binding.targetSdkVersion.addTextChangedListener(
+        new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+            validateTagetSdkVersionField();
+          }
+
+          @Override
+          public void afterTextChanged(Editable s) {}
+        });
     return binding.getRoot();
   }
 
@@ -101,6 +127,14 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
     }
     if (!versionNameValidator.isValid(binding.versionName.getText().toString())) {
       validateVersionNameField();
+      isRequiredFieldsProperlyFilled = false;
+    }
+    if (!isValidMinimumSdkVersion()) {
+      validateMinimumSdkVersionField();
+      isRequiredFieldsProperlyFilled = false;
+    }
+    if (!isValidTargetSdkVersion()) {
+      validateTagetSdkVersionField();
       isRequiredFieldsProperlyFilled = false;
     }
     return isRequiredFieldsProperlyFilled;
@@ -140,5 +174,95 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
           versionNameValidator.getInValidError(binding.versionName.getText().toString()));
       binding.versionNameTextInputLayout.setErrorEnabled(true);
     }
+  }
+
+  /*
+   * Method to update the error UI of text fields whenever called.
+   * Remove the error is it the field is valid.
+   * Show error if it is not valid.
+   */
+  public void validateMinimumSdkVersionField() {
+    if (binding.minimumSdkVersion.getText().toString().length() == 0) {
+      binding.minimumSdkVersionTextInputLayout.setError("Field is required");
+      binding.minimumSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    if (binding.minimumSdkVersion.getText().toString().length() > 2) {
+      binding.minimumSdkVersionTextInputLayout.setError("Out of range value!");
+      binding.minimumSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    if (Integer.parseInt(binding.minimumSdkVersion.getText().toString()) < 21) {
+      binding.minimumSdkVersionTextInputLayout.setError("Minimum supported version is 21");
+      binding.minimumSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    if (Integer.parseInt(binding.minimumSdkVersion.getText().toString()) > 33) {
+      binding.minimumSdkVersionTextInputLayout.setError("You cannot exceed this value above 33");
+      binding.minimumSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    binding.minimumSdkVersionTextInputLayout.setErrorEnabled(false);
+  }
+
+  /*
+   * Method to update the error UI of text fields whenever called.
+   * Remove the error is it the field is valid.
+   * Show error if it is not valid.
+   */
+  public void validateTagetSdkVersionField() {
+    if (binding.targetSdkVersion.getText().toString().length() == 0) {
+      binding.targetSdkVersionTextInputLayout.setError("Field is required");
+      binding.targetSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    if (binding.targetSdkVersion.getText().toString().length() > 2) {
+      binding.targetSdkVersionTextInputLayout.setError("Out of range value!");
+      binding.targetSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    if (Integer.parseInt(binding.targetSdkVersion.getText().toString()) < 21) {
+      binding.targetSdkVersionTextInputLayout.setError("Minimum supported version is 21");
+      binding.targetSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    if (Integer.parseInt(binding.targetSdkVersion.getText().toString()) > 33) {
+      binding.targetSdkVersionTextInputLayout.setError("You cannot exceed this value above 33");
+      binding.targetSdkVersionTextInputLayout.setErrorEnabled(true);
+      return;
+    }
+    binding.targetSdkVersionTextInputLayout.setErrorEnabled(false);
+  }
+
+  /*
+   * Method to check wheather the minimum sdk version is correct
+   * and lies under specified range.
+   */
+  public boolean isValidMinimumSdkVersion() {
+    if (binding.minimumSdkVersion.getText().toString().length() == 0) return false;
+
+    if (binding.minimumSdkVersion.getText().toString().length() > 2) return false;
+
+    if (Integer.parseInt(binding.minimumSdkVersion.getText().toString()) < 21) return false;
+
+    if (Integer.parseInt(binding.minimumSdkVersion.getText().toString()) > 33) return false;
+
+    return true;
+  }
+
+  /*
+   * Method to check wheather the target sdk version is correct
+   * and lies under specified range.
+   */
+  public boolean isValidTargetSdkVersion() {
+    if (binding.targetSdkVersion.getText().toString().length() == 0) return false;
+
+    if (binding.targetSdkVersion.getText().toString().length() > 2) return false;
+
+    if (Integer.parseInt(binding.targetSdkVersion.getText().toString()) < 21) return false;
+
+    if (Integer.parseInt(binding.targetSdkVersion.getText().toString()) > 33) return false;
+
+    return true;
   }
 }
