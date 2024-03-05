@@ -41,6 +41,10 @@
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity"
             android:exported="true" />
+        
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.AboutTeamActivity"
+            android:exported="true" />
 
     </application>
 </manifest>

@@ -8,6 +8,11 @@
         android:icon="@drawable/file_document"
         android:title="License and Attribution"
         app:showAsAction="ifRoom" />
+     <item
+        android:id="@+id/about_team"
+        android:icon="@drawable/ic_team"
+        android:title="@string/about_team"
+        app:showAsAction="ifRoom" />
     <item
         android:title="@string/social_links">
         <menu>

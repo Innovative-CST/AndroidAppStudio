@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="about_team">About Team</string>
     <string name="an_error_occured">An error occured</string>
     <string name="app_configration">App Configration</string>
     <string name="app_name">Android AppStudio</string>
@@ -13,6 +14,7 @@
     <string name="no_projects_yet">No projects yet.</string>
     <string name="no_thanks">No thanks</string>
     <string name="package_name">Package name</string>
+    <string name="please_wait">Please wait...</string>
     <string name="previous">Previous</string>
     <string name="project_name">Project name</string>
     <string name="setting">Setting</string>

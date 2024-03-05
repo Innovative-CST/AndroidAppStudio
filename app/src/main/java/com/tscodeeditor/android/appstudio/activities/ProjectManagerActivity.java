@@ -111,6 +111,11 @@ public class ProjectManagerActivity extends BaseActivity {
             discord.setData(Uri.parse(DISCORD));
             startActivity(discord);
           }
+          if (menuItem.getItemId() == R.id.about_team) {
+            Intent aboutTeam = new Intent();
+            aboutTeam.setClass(this, AboutTeamActivity.class);
+            startActivity(aboutTeam);
+          }
           return true;
         });
     /*
