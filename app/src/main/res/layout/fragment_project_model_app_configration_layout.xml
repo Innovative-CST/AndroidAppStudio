@@ -31,11 +31,12 @@
                 android:layout_width="match_parent"
                 android:hint="@string/version_code"
                 android:layout_margin="8dp"
-                android:id="@+id/versionCode">
+                android:id="@+id/versionCodeTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:id="@+id/versionCode" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,11 +45,12 @@
                 android:layout_width="match_parent"
                 android:hint="@string/version_name"
                 android:layout_margin="8dp"
-                android:id="@+id/versionName">
+                android:id="@+id/versionNameTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:id="@+id/versionName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,11 +59,12 @@
                 android:layout_width="match_parent"
                 android:hint="@string/minimum_sdk_version"
                 android:layout_margin="8dp"
-                android:id="@+id/minimumSdkVersion">
+                android:id="@+id/minimumSdkVersionTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:id="@+id/minimumSdkVersion" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,11 +73,12 @@
                 android:layout_width="match_parent"
                 android:hint="@string/target_sdk_version"
                 android:layout_margin="8dp"
-                android:id="@+id/targetSdkVersion">
+                android:id="@+id/targetSdkVersionTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:id="@+id/targetSdkVersion" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

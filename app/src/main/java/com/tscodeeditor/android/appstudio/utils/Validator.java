@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
  */
 public class Validator {
   private String pattern;
+  private boolean enablePatternValidator;
   private int minimumCharacterRequired;
   private boolean enableMinimumCharacterRequired;
   private int maxmumCharacterLimit;
@@ -79,7 +80,6 @@ public class Validator {
   }
 
   public String getInValidError(String text) {
-    Pattern compiledPattern = Pattern.compile(pattern);
     String trimmedText = text.trim();
     if (getIsRequired()) {
       if (trimmedText.length() == 0) {
@@ -100,14 +100,26 @@ public class Validator {
         return "Too many characters entered! Maximum length is " + getMaxmumCharacterLimit();
       }
     }
-    if (compiledPattern.matcher(trimmedText).matches()) {
+    if (getEnablePatternValidator()) {
+      Pattern compiledPattern = Pattern.compile(pattern);
+      if (compiledPattern.matcher(trimmedText).matches()) {
+        return null;
+      }
+    } else {
       return null;
     }
     return "Invalid data entered!";
   }
 
+  public boolean getEnablePatternValidator() {
+    return this.enablePatternValidator;
+  }
+
+  public void setEnablePatternValidator(boolean enablePatternValidator) {
+    this.enablePatternValidator = enablePatternValidator;
+  }
+
   public boolean isValid(String text) {
-    Pattern compiledPattern = Pattern.compile(pattern);
     String trimmedText = text.trim();
     if (getIsRequired()) {
       if (trimmedText.length() == 0) {
@@ -128,7 +140,12 @@ public class Validator {
         return false;
       }
     }
-    if (compiledPattern.matcher(trimmedText).matches()) {
+    if (getEnablePatternValidator()) {
+      Pattern compiledPattern = Pattern.compile(pattern);
+      if (compiledPattern.matcher(trimmedText).matches()) {
+        return true;
+      }
+    } else {
       return true;
     }
     return false;

@@ -52,6 +52,7 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
     projectNameValidator.setEnableMaximumCharacterLimit(true);
     projectNameValidator.setMaxmumCharacterLimit(50);
     projectNameValidator.setIsRequired(true);
+    projectNameValidator.setEnablePatternValidator(true);
     projectNameValidator.setPattern("^[a-zA-Z0-9\\s-]{1,50}$");
 
     packageNameValidator = new Validator();
@@ -60,6 +61,7 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
     packageNameValidator.setEnableMaximumCharacterLimit(true);
     packageNameValidator.setMaxmumCharacterLimit(255);
     packageNameValidator.setIsRequired(true);
+    packageNameValidator.setEnablePatternValidator(true);
     packageNameValidator.setPattern("^[a-zA-Z]+[a-zA-Z0-9_]*(\\.[a-zA-Z]+[a-zA-Z0-9_]*)*$");
 
     /*
