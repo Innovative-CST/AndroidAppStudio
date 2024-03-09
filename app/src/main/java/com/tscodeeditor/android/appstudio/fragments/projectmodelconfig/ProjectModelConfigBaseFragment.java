@@ -18,9 +18,44 @@
 package com.tscodeeditor.android.appstudio.fragments.projectmodelconfig;
 
 import androidx.fragment.app.Fragment;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 
 public class ProjectModelConfigBaseFragment extends Fragment {
+  private boolean isNewProject;
+  private ProjectModel mProjectModel;
+
+  public ProjectModelConfigBaseFragment(boolean isNewProject, ProjectModel mProjectModel) {
+    this.isNewProject = isNewProject;
+    this.mProjectModel = mProjectModel;
+  }
+
   public boolean getIsRequiredFieldsProperlyFilled() {
     return false;
   }
+
+  public boolean getIsNewProject() {
+    return this.isNewProject;
+  }
+
+  public void setIsNewProject(boolean isNewProject) {
+    this.isNewProject = isNewProject;
+  }
+
+  public ProjectModel getMProjectModel() {
+    return this.mProjectModel;
+  }
+
+  public void setMProjectModel(ProjectModel mProjectModel) {
+    this.mProjectModel = mProjectModel;
+  }
+
+  /*
+   * Method to update the mProjectModel with data in current fragment.
+   */
+  public void addValueInProjectModelOfFragment() {}
+
+  /*
+   * Method to set the mProjectModel data into fields of current fragment.
+   */
+  public void setProjectModelValueIntoFields() {}
 }

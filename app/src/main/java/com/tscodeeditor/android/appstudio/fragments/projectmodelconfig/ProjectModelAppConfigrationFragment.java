@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import com.tscodeeditor.android.appstudio.databinding.FragmentProjectModelAppConfigrationLayoutBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.Validator;
 
 public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseFragment {
@@ -18,6 +19,10 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
   // Validators
   private Validator versionNameValidator;
   private Validator versionCodeValidator;
+
+  public ProjectModelAppConfigrationFragment(boolean isNewProject, ProjectModel mProjectModel) {
+    super(isNewProject, mProjectModel);
+  }
 
   @Override
   @MainThread
@@ -111,6 +116,14 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
           @Override
           public void afterTextChanged(Editable s) {}
         });
+    /*
+     * Load project model data in fields
+     */
+    if (!getIsNewProject()) {
+      if (getMProjectModel() != null) {
+        setProjectModelValueIntoFields();
+      }
+    }
     return binding.getRoot();
   }
 
@@ -264,5 +277,21 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
     if (Integer.parseInt(binding.targetSdkVersion.getText().toString()) > 33) return false;
 
     return true;
+  }
+
+  @Override
+  public void addValueInProjectModelOfFragment() {
+    getMProjectModel().setVersionCode(Integer.parseInt(binding.versionCode.getText().toString()));
+    getMProjectModel().setProjectVersionName(binding.versionName.getText().toString());
+    getMProjectModel().setMinimumSdkVersion(binding.minimumSdkVersion.getText().toString());
+    getMProjectModel().setTargetSdkVersion(binding.targetSdkVersion.getText().toString());
+  }
+
+  @Override
+  public void setProjectModelValueIntoFields() {
+    binding.versionCode.setText(String.valueOf(getMProjectModel().getVersionCode()));
+    binding.versionName.setText(String.valueOf(getMProjectModel().getProjectVersionName()));
+    binding.minimumSdkVersion.setText(String.valueOf(getMProjectModel().getMinimumSdkVersion()));
+    binding.targetSdkVersion.setText(String.valueOf(getMProjectModel().getTargetSdkVersion()));
   }
 }

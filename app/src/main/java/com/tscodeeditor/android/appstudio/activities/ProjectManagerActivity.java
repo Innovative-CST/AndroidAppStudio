@@ -56,14 +56,14 @@ public class ProjectManagerActivity extends BaseActivity {
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
 
   // Result launcher
-  ActivityResultLauncher<Intent> createNewProjectActivityResultLauncher;
+  public ActivityResultLauncher<Intent> projectListUpdateActivityResultLauncher;
 
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     // Initializing
     binding = ActivityProjectManagerBinding.inflate(getLayoutInflater());
-    createNewProjectActivityResultLauncher =
+    projectListUpdateActivityResultLauncher =
         registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -181,7 +181,7 @@ public class ProjectManagerActivity extends BaseActivity {
     Intent createNewProject = new Intent();
     createNewProject.setClass(this, ProjectModelConfigrationActivity.class);
     createNewProject.putExtra("isNewProject", true);
-    createNewProjectActivityResultLauncher.launch(createNewProject);
+    projectListUpdateActivityResultLauncher.launch(createNewProject);
   }
 
   @Override
@@ -219,6 +219,7 @@ public class ProjectManagerActivity extends BaseActivity {
                * And check all the paths and add ProjectModel to projectModelList when confirmed that it is a project directory.
                */
               ArrayList<ProjectModel> projectModelList = new ArrayList<ProjectModel>();
+              ArrayList<File> projectModelFileList = new ArrayList<File>();
               for (File file : EnvironmentUtils.PROJECTS.listFiles()) {
                 /*
                  * Only check further if the file is a directory.
@@ -235,7 +236,7 @@ public class ProjectManagerActivity extends BaseActivity {
                  * Add ProjectModel to list once Deserialized
                  */
                 ProjectModelSerializationUtils.deserialize(
-                    file,
+                    new File(file, EnvironmentUtils.PROJECT_CONFIGRATION),
                     new ProjectModelSerializationUtils.DeserializerListener() {
 
                       @Override
@@ -244,6 +245,7 @@ public class ProjectManagerActivity extends BaseActivity {
                          * Add the ProjectModel to ArrayList as it is project
                          */
                         projectModelList.add(mProjectModel);
+                        projectModelFileList.add(file);
                       }
 
                       @Override
@@ -262,7 +264,8 @@ public class ProjectManagerActivity extends BaseActivity {
                             ? PROJECT_LIST_SECTION
                             : NO_PROJECTS_YET_SECTION);
                     binding.list.setAdapter(
-                        new ProjectListAdapter(projectModelList, ProjectManagerActivity.this));
+                        new ProjectListAdapter(
+                            projectModelList, projectModelFileList, ProjectManagerActivity.this));
                     binding.list.setLayoutManager(
                         new LinearLayoutManager(ProjectManagerActivity.this));
                   });

@@ -23,7 +23,7 @@ import java.io.ObjectOutputStream;
 import java.util.concurrent.Executors;
 
 public class SerializerUtil {
-  public void serialize(Object object, File path, SerializerCompletionListener listener) {
+  public static void serialize(Object object, File path, SerializerCompletionListener listener) {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {

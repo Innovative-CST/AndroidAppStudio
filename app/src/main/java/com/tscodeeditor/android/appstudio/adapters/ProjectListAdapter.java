@@ -17,21 +17,29 @@
 
 package com.tscodeeditor.android.appstudio.adapters;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity;
+import com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity;
 import com.tscodeeditor.android.appstudio.databinding.AdapterProjectBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
+import java.io.File;
 import java.util.ArrayList;
 
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.ViewHolder> {
   private ArrayList<ProjectModel> projectList;
-  private Activity activity;
+  private ArrayList<File> projectFileList;
+  private ProjectManagerActivity mProjectManagerActivity;
 
-  public ProjectListAdapter(ArrayList<ProjectModel> projectList, Activity activity) {
+  public ProjectListAdapter(
+      ArrayList<ProjectModel> projectList,
+      ArrayList<File> projectFileList,
+      ProjectManagerActivity mProjectManagerActivity) {
     this.projectList = projectList;
-    this.activity = activity;
+    this.projectFileList = projectFileList;
+    this.mProjectManagerActivity = mProjectManagerActivity;
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,7 +50,8 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterProjectBinding binding = AdapterProjectBinding.inflate(activity.getLayoutInflater());
+    AdapterProjectBinding binding =
+        AdapterProjectBinding.inflate(mProjectManagerActivity.getLayoutInflater());
     RecyclerView.LayoutParams mLayoutParams =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -55,6 +64,19 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     AdapterProjectBinding binding = AdapterProjectBinding.bind(holder.itemView);
     binding.projectName.setText(projectList.get(position).getProjectName());
     binding.packageName.setText(projectList.get(position).getPackageName());
+    binding
+        .getRoot()
+        .setOnLongClickListener(
+            (view) -> {
+              Intent modifyProject = new Intent();
+              modifyProject.setClass(
+                  mProjectManagerActivity, ProjectModelConfigrationActivity.class);
+              modifyProject.putExtra("isNewProject", false);
+              modifyProject.putExtra(
+                  "projectRootDirectory", projectFileList.get(position).getAbsolutePath());
+              mProjectManagerActivity.projectListUpdateActivityResultLauncher.launch(modifyProject);
+              return false;
+            });
   }
 
   @Override

@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import com.tscodeeditor.android.appstudio.databinding.FragmentProjectModelAppsetupLayoutBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.Validator;
 
 public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment {
@@ -34,6 +35,10 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
   // Validators
   private Validator projectNameValidator;
   private Validator packageNameValidator;
+
+  public ProjectModelAppSetupFragment(boolean isNewProject, ProjectModel mProjectModel) {
+    super(isNewProject, mProjectModel);
+  }
 
   @Override
   @MainThread
@@ -100,6 +105,14 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
           @Override
           public void afterTextChanged(Editable s) {}
         });
+    /*
+     * Load project model data in fields
+     */
+    if (!getIsNewProject()) {
+      if (getMProjectModel() != null) {
+        setProjectModelValueIntoFields();
+      }
+    }
     return binding.getRoot();
   }
 
@@ -149,5 +162,17 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
           packageNameValidator.getInValidError(binding.packageName.getText().toString()));
       binding.packageNameTextInputLayout.setErrorEnabled(true);
     }
+  }
+
+  @Override
+  public void addValueInProjectModelOfFragment() {
+    getMProjectModel().setProjectName(binding.projectName.getText().toString());
+    getMProjectModel().setPackageName(binding.packageName.getText().toString());
+  }
+
+  @Override
+  public void setProjectModelValueIntoFields() {
+    binding.projectName.setText(getMProjectModel().getProjectName());
+    binding.packageName.setText(getMProjectModel().getPackageName());
   }
 }
