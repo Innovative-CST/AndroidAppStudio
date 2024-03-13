@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity;
 import com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity;
+import com.tscodeeditor.android.appstudio.activities.ProjectNavigationActivity;
 import com.tscodeeditor.android.appstudio.databinding.AdapterProjectBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import java.io.File;
@@ -64,6 +65,14 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     AdapterProjectBinding binding = AdapterProjectBinding.bind(holder.itemView);
     binding.projectName.setText(projectList.get(position).getProjectName());
     binding.packageName.setText(projectList.get(position).getPackageName());
+    binding
+        .getRoot()
+        .setOnClickListener(
+            v -> {
+              Intent projectNavigation =
+                  new Intent(mProjectManagerActivity, ProjectNavigationActivity.class);
+              mProjectManagerActivity.startActivity(projectNavigation);
+            });
     binding
         .getRoot()
         .setOnLongClickListener(
