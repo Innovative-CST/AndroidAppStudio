@@ -34,3 +34,4 @@ dependencyResolutionManagement {
 rootProject.name = "Android AppStudio"
 
 include(":app")
+include(":block")
