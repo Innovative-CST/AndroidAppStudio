@@ -53,5 +53,13 @@
             android:name="com.tscodeeditor.android.appstudio.activities.ProjectNavigationActivity"
             android:exported="true" />
 
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.ProjectNavigationActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.GradleEditorActivity"
+            android:exported="true" />
+
     </application>
 </manifest>

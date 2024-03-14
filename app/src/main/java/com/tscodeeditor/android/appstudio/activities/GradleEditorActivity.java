@@ -17,35 +17,32 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import androidx.activity.OnBackPressedCallback;
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.databinding.ActivityProjectNavigationBinding;
+import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBinding;
 
-public class ProjectNavigationActivity extends BaseActivity {
+public class GradleEditorActivity extends BaseActivity {
 
-  private ActivityProjectNavigationBinding binding;
+  private ActivityGradleEditorBinding binding;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    binding = ActivityProjectNavigationBinding.inflate(getLayoutInflater());
+    binding = ActivityGradleEditorBinding.inflate(getLayoutInflater());
 
     setContentView(binding.getRoot());
 
+    // SetUp the toolbar
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+  }
 
-    binding.projectConfig.setOnClickListener(
-        v -> {
-          Intent gradleEditorActivity =
-              new Intent(ProjectNavigationActivity.this, GradleEditorActivity.class);
-          startActivity(gradleEditorActivity);
-        });
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    binding = null;
   }
 }
