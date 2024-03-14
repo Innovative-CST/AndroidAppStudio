@@ -20,7 +20,11 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.builtin.GradleFilesInitializer;
+import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 
 public class GradleEditorActivity extends BaseActivity {
@@ -45,14 +49,40 @@ public class GradleEditorActivity extends BaseActivity {
 
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
 
-    /*
-     * Creates app module gradle file if it doesn't seems to exists
-     */
-    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
-      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().exists()) {
-        EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
-      }
-    }
+    ProjectModelSerializationUtils.deserialize(
+        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new ProjectModelSerializationUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+            /*
+             * Creates app module gradle file if it doesn't seems to exists
+             */
+            if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
+              if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory)
+                  .getParentFile()
+                  .exists()) {
+                EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
+                SerializerUtil.serialize(
+                    GradleFilesInitializer.getAppModuleGradleFileModule(mProjectModel),
+                    EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+                    new SerializerUtil.SerializerCompletionListener() {
+
+                      @Override
+                      public void onSerializeComplete() {}
+
+                      @Override
+                      public void onFailedToSerialize(Exception exception) {}
+                    });
+              }
+            }
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {
+            finish();
+          }
+        });
   }
 
   @Override
