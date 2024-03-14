@@ -28,7 +28,7 @@ public final class EnvironmentUtils {
   public static File IDEDIR;
   public static File PROJECTS;
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
-  private static final String APP_MODULE_GRADLE = "app" + File.separator + "build.gradle";
+  private static final String APP_MODULE_GRADLE = "gradle" + File.separator + "app" + File.separator + "build.gradle";
 
   public static void init(Context context) {
     IDEDIR =
