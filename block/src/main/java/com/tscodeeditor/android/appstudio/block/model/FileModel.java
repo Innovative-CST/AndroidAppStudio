@@ -26,6 +26,7 @@ public class FileModel implements Serializable {
   private String fileName;
   private String fileExtension;
   private String rawCode;
+  private ArrayList<Event> defaultBuiltInEvents;
 
   public String getFileName() {
     return this.fileName;
@@ -49,5 +50,13 @@ public class FileModel implements Serializable {
 
   public void setRawCode(String rawCode) {
     this.rawCode = rawCode;
+  }
+
+  public ArrayList<Event> getDefaultBuiltInEvents() {
+    return this.defaultBuiltInEvents;
+  }
+
+  public void setDefaultBuiltInEvents(ArrayList<Event> defaultBuiltInEvents) {
+    this.defaultBuiltInEvents = defaultBuiltInEvents;
   }
 }
