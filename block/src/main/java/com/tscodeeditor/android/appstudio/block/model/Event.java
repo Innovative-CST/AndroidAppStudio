@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 public class Event implements Serializable, Cloneable {
   private String name;
+  private String title;
 
   @Override
   public Event clone() throws CloneNotSupportedException {
     Event event = new Event();
     event.setName(new String(getName()));
+    event.setTitle(new String(getTitle()));
     return event;
   }
 
@@ -18,5 +20,13 @@ public class Event implements Serializable, Cloneable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getTitle() {
+    return this.title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 }
