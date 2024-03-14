@@ -23,7 +23,7 @@ import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import java.util.ArrayList;
 
-public class GradleFilesInitializer {
+public class GradleFilesUtils {
   public static FileModel getAppModuleGradleFileModule(ProjectModel project) {
     FileModel appModuleGradleFile = new FileModel();
     appModuleGradleFile.setFileName("build");

@@ -22,7 +22,7 @@ import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
-import com.tscodeeditor.android.appstudio.utils.builtin.GradleFilesInitializer;
+import com.tscodeeditor.android.appstudio.utils.builtin.GradleFilesUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
@@ -64,7 +64,7 @@ public class GradleEditorActivity extends BaseActivity {
                   .exists()) {
                 EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
                 SerializerUtil.serialize(
-                    GradleFilesInitializer.getAppModuleGradleFileModule(mProjectModel),
+                    GradleFilesUtils.getAppModuleGradleFileModule(mProjectModel),
                     EnvironmentUtils.getAppGradleFile(projectRootDirectory),
                     new SerializerUtil.SerializerCompletionListener() {
 
