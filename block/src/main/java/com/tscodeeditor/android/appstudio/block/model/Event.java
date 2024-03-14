@@ -32,7 +32,7 @@ public class Event implements Serializable, Cloneable {
     Event event = new Event();
     event.setName(new String(getName()));
     event.setTitle(new String(getTitle()));
-    event.setDescription(new astring(getDescription()));
+    event.setDescription(new String(getDescription()));
     return event;
   }
 
