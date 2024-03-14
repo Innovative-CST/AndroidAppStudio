@@ -23,6 +23,8 @@ public class Event implements Serializable, Cloneable {
   private String name;
   private String title;
   private String description;
+  private String rawCode;
+  private String eventReplacer;
   private int icon;
 
   @Override
@@ -56,6 +58,22 @@ public class Event implements Serializable, Cloneable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getRawCode() {
+    return this.rawCode;
+  }
+
+  public void setRawCode(String rawCode) {
+    this.rawCode = rawCode;
+  }
+
+  public String getEventReplacer() {
+    return this.eventReplacer;
+  }
+
+  public void setEventReplacer(String eventReplacer) {
+    this.eventReplacer = eventReplacer;
   }
 
   public int getIcon() {
