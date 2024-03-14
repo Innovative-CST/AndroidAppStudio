@@ -71,6 +71,8 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             v -> {
               Intent projectNavigation =
                   new Intent(mProjectManagerActivity, ProjectNavigationActivity.class);
+              projectNavigation.putExtra(
+                  "projectRootDirectory", projectFileList.get(position).getAbsolutePath());
               mProjectManagerActivity.startActivity(projectNavigation);
             });
     binding

@@ -46,14 +46,6 @@
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.AboutTeamActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.ProjectNavigationActivity"
-            android:exported="true" />
-
-        <activity
             android:name="com.tscodeeditor.android.appstudio.activities.ProjectNavigationActivity"
             android:exported="true" />
 

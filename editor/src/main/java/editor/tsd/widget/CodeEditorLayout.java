@@ -39,25 +39,12 @@ public class CodeEditorLayout extends CodeEditor {
   public CodeEditorLayout(Context context) {
     super(context);
     this.context = context;
-
-    FileProviderRegistry.getInstance().addFileProvider(new AssetsFileResolver(context.getAssets()));
-    try {
-      TextMateProvider.loadGrammars();
-    } catch (Exception e) {
-      Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-    }
     init();
   }
 
   public CodeEditorLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    FileProviderRegistry.getInstance().addFileProvider(new AssetsFileResolver(context.getAssets()));
-    try {
-      TextMateProvider.loadGrammars();
-    } catch (Exception e) {
-      Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-    }
     init();
   }
 

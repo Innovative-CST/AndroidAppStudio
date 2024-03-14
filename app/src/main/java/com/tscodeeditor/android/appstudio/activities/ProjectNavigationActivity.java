@@ -27,6 +27,8 @@ public class ProjectNavigationActivity extends BaseActivity {
 
   private ActivityProjectNavigationBinding binding;
 
+  private String projectRootDirectory;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -41,10 +43,13 @@ public class ProjectNavigationActivity extends BaseActivity {
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
+    projectRootDirectory = getIntent().getStringExtra("projectRootDirectory");
+
     binding.projectConfig.setOnClickListener(
         v -> {
           Intent gradleEditorActivity =
               new Intent(ProjectNavigationActivity.this, GradleEditorActivity.class);
+          gradleEditorActivity.putExtra("projectRootDirectory", projectRootDirectory);
           startActivity(gradleEditorActivity);
         });
   }

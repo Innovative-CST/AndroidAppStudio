@@ -20,10 +20,14 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBinding;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import java.io.File;
 
 public class GradleEditorActivity extends BaseActivity {
 
   private ActivityGradleEditorBinding binding;
+
+  private File projectRootDirectory;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,13 @@ public class GradleEditorActivity extends BaseActivity {
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
+
+    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+
+    /*
+     * Creates app module gradle file if it doesn't seems to exists
+     */
+    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {}
   }
 
   @Override

@@ -1,98 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:fitsSystemWindows="true">
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent">
 
     <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/content">
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:orientation="vertical"
+         android:id="@+id/content">
 
         <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:id="@+id/loading">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:visibility="gone"
+             android:gravity="center"
+             android:id="@+id/loading">
 
             <ProgressBar
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:indeterminate="true"
-                android:id="@+id/progressbar" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:indeterminate="true"
+                 android:id="@+id/progressbar" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:id="@+id/info">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:visibility="gone"
+             android:gravity="center"
+             android:id="@+id/info">
 
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="?attr/colorOnSurface"
-                android:id="@+id/tv_info" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textColor="?attr/colorOnSurface"
+                 android:id="@+id/tv_info" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:id="@+id/valueEditorSection">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:visibility="gone"
+             android:gravity="center"
+             android:orientation="vertical"
+             android:id="@+id/valueEditorSection">
 
             <editor.tsd.widget.CodeEditorLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:id="@+id/codeEditor" />
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent"
+                 android:id="@+id/codeEditor" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:id="@+id/editorSection">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:visibility="gone"
+             android:id="@+id/editorSection">
 
-            <com.block.web.builder.ui.view.editor.Editor
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:foregroundGravity="top"
-                android:padding="8dp"
-                android:orientation="vertical" />
+            <com.tscodeeditor.android.appstudio.block.editor.EditorCanva
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent"
+                 android:foregroundGravity="top"
+                 android:padding="8dp"
+                 android:orientation="vertical" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_height="0dp"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:background="?attr/colorSurfaceVariant"
-            android:orientation="horizontal"
-            android:layout_weight="40"
-            android:id="@+id/blockArea">
+             android:layout_height="0dp"
+             android:layout_width="match_parent"
+             android:visibility="gone"
+             android:background="?attr/colorSurfaceVariant"
+             android:orientation="horizontal"
+             android:layout_weight="40"
+             android:id="@+id/blockArea">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:background="?attr/colorSurface"
-                android:layout_weight="35"
-                android:id="@+id/blocksHolderList" />
+                 android:layout_height="match_parent"
+                 android:layout_width="0dp"
+                 android:background="?attr/colorSurface"
+                 android:layout_weight="35"
+                 android:id="@+id/blocksHolderList" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="65"
-                android:id="@+id/blockList" />
+                 android:layout_height="match_parent"
+                 android:layout_width="0dp"
+                 android:layout_weight="65"
+                 android:id="@+id/blockList" />
 
         </LinearLayout>
 

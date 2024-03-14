@@ -58,6 +58,5 @@ dependencies {
     implementation platform("$editorGroupId:bom:0.22.0")
     implementation("$editorGroupId:editor")
     implementation("$editorGroupId:language-textmate")
-    implementation("$editorGroupId:language-java")
     implementation project(":editor")
 }
