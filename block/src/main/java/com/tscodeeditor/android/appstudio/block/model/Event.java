@@ -15,7 +15,7 @@
  *   along with Android AppStudio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package  com.tscodeeditor.android.appstudio.block.model;
+package com.tscodeeditor.android.appstudio.block.model;
 
 import java.io.Serializable;
 
@@ -23,6 +23,7 @@ public class Event implements Serializable, Cloneable {
   private String name;
   private String title;
   private String description;
+  private int icon;
 
   @Override
   public Event clone() throws CloneNotSupportedException {
@@ -55,5 +56,13 @@ public class Event implements Serializable, Cloneable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public int getIcon() {
+    return this.icon;
+  }
+
+  public void setIcon(int icon) {
+    this.icon = icon;
   }
 }
