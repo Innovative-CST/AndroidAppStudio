@@ -48,7 +48,11 @@ public class GradleEditorActivity extends BaseActivity {
     /*
      * Creates app module gradle file if it doesn't seems to exists
      */
-    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {}
+    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
+      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().exists()) {
+        EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
+      }
+    }
   }
 
   @Override
