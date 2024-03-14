@@ -5,12 +5,14 @@ import java.io.Serializable;
 public class Event implements Serializable, Cloneable {
   private String name;
   private String title;
+  private String description;
 
   @Override
   public Event clone() throws CloneNotSupportedException {
     Event event = new Event();
     event.setName(new String(getName()));
     event.setTitle(new String(getTitle()));
+    event.setDescription(new astring(getDescription()));
     return event;
   }
 
@@ -28,5 +30,13 @@ public class Event implements Serializable, Cloneable {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 }
