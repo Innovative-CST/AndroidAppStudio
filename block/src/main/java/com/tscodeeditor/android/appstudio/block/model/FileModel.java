@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class FileModel implements Serializable {
-  private static final long serialVersionUID = 021173504L;
+  private static final long serialVersionUID = 021173503L;
 
   private String fileName;
   private String fileExtension;
