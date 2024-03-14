@@ -1,0 +1,63 @@
+{
+  "languages": [
+    {
+      "grammar": "Editor/SoraEditor/css/syntaxes/css.tmLanguage.json",
+      "name": "css",
+      "scopeName": "source.css",
+      "languageConfiguration": "Editor/SoraEditor/css/language-configuration.json"
+    },
+    {
+      "grammar": "Editor/SoraEditor/html/syntaxes/html.tmLanguage.json",
+      "name": "html",
+      "scopeName": "text.html.basic",
+      "languageConfiguration": "Editor/SoraEditor/html/language-configuration.json",
+      "embeddedLanguages": {
+        "source.css": "css",
+        "source.js": "javascript"
+      }
+    },
+    {
+      "grammar": "Editor/SoraEditor/java/syntaxes/java.tmLanguage.json",
+      "name": "java",
+      "scopeName": "source.java",
+      "languageConfiguration": "Editor/SoraEditor/java/language-configuration.json"
+    },
+    {
+      "grammar": "Editor/SoraEditor/kotlin/syntaxes/Kotlin.tmLanguage",
+      "name": "kotlin",
+      "scopeName": "source.kotlin",
+      "languageConfiguration": "Editor/SoraEditor/kotlin/language-configuration.json"
+    }, 
+    {
+      "grammar": "Editor/SoraEditor/javascript/syntaxes/JavaScript.tmLanguage.json",
+      "name": "javascript",
+      "scopeName": "source.js",
+      "languageConfiguration": "Editor/SoraEditor/javascript/language-configuration.json"
+    },
+    {
+      "name": "markdown",
+      "scopeName": "text.html.markdown",
+      "grammar": "Editor/SoraEditor/markdown/syntaxes/markdown.tmLanguage.json",
+      "languageConfiguration": "Editor/SoraEditor/markdown/language-configuration.json",
+      "embeddedLanguages": {
+        "meta.embedded.block.html": "html",
+        "source.js": "javascript",
+        "meta.embedded.block.java": "java",
+        "meta.embedded.block.xml": "xml"
+        // "meta.embedded.block.python": "python"
+      }
+    },
+    {
+      "grammar": "Editor/SoraEditor/xml/syntaxes/xml.tmLanguage.json",
+      "name": "xml",
+      "scopeName": "text.xml",
+      "languageConfiguration": "Editor/SoraEditor/xml/language-configuration.json"
+    },
+    {
+      "grammar": "Editor/SoraEditor/json/syntaxes/json.tmLanguage.json",
+      "name": "json",
+      "scopeName": "source.json", 
+      "languageConfiguration": "Editor/SoraEditor/json/language-configuration.json"
+    }
+  ]
+}

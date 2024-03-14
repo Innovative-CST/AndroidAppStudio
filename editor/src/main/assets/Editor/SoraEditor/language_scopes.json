@@ -1,0 +1,11 @@
+{
+  "js": "source.js",
+  "json": "source.json",
+  "java": "source.java",
+  "md": "text.html.markdown",
+  "css": "source.css",
+  "htm": "text.html.basic",
+  "kt": "source.kotlin",
+  "html": "text.html.basic",
+  "xml": "text.xml"
+}
