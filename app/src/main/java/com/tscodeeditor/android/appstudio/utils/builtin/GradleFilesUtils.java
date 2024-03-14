@@ -20,11 +20,10 @@ package com.tscodeeditor.android.appstudio.utils.builtin;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
-import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import java.util.ArrayList;
 
 public class GradleFilesUtils {
-  public static FileModel getAppModuleGradleFileModule(ProjectModel project) {
+  public static FileModel getAppModuleGradleFileModule() {
     FileModel appModuleGradleFile = new FileModel();
     appModuleGradleFile.setFileName("build");
     appModuleGradleFile.setFileExtension("gradle");

@@ -64,7 +64,7 @@ public class GradleEditorActivity extends BaseActivity {
                   .exists()) {
                 EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
                 SerializerUtil.serialize(
-                    GradleFilesUtils.getAppModuleGradleFileModule(mProjectModel),
+                    GradleFilesUtils.getAppModuleGradleFileModule(),
                     EnvironmentUtils.getAppGradleFile(projectRootDirectory),
                     new SerializerUtil.SerializerCompletionListener() {
 
