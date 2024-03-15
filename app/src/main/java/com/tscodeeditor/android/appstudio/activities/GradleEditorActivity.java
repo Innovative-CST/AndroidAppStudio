@@ -63,18 +63,18 @@ public class GradleEditorActivity extends BaseActivity {
                   .getParentFile()
                   .exists()) {
                 EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
-                SerializerUtil.serialize(
-                    GradleFilesUtils.getAppModuleGradleFileModule(),
-                    EnvironmentUtils.getAppGradleFile(projectRootDirectory),
-                    new SerializerUtil.SerializerCompletionListener() {
-
-                      @Override
-                      public void onSerializeComplete() {}
-
-                      @Override
-                      public void onFailedToSerialize(Exception exception) {}
-                    });
               }
+              SerializerUtil.serialize(
+                  GradleFilesUtils.getAppModuleGradleFileModule(),
+                  EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+                  new SerializerUtil.SerializerCompletionListener() {
+
+                    @Override
+                    public void onSerializeComplete() {}
+
+                    @Override
+                    public void onFailedToSerialize(Exception exception) {}
+                  });
             }
           }
 
