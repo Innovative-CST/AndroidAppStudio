@@ -20,7 +20,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class FileModel implements Serializable {
+public class FileModel implements Serializable, Cloneable {
   private static final long serialVersionUID = 021173503L;
 
   private String fileName;
@@ -67,5 +67,16 @@ public class FileModel implements Serializable {
 
   public void setFolder(boolean isFolder) {
     this.isFolder = isFolder;
+  }
+
+  @Override
+  protected FileModel clone() {
+    FileModel fileModel = new FileModel();
+    fileModel.setFileName(new String(getFileName()));
+    fileModel.setFileExtension(new String(getFileExtension()));
+    fileModel.setDefaultBuiltInEvents(getDefaultBuiltInEvents());
+    fileModel.setRawCode(new String(getRawCode()));
+    fileModel.setFolder(new Boolean(isFolder()));
+    return fileModel;
   }
 }
