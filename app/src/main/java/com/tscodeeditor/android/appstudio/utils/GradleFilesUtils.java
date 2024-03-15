@@ -15,7 +15,7 @@
  *   along with Android AppStudio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.tscodeeditor.android.appstudio.utils.builtin;
+package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
