@@ -74,7 +74,13 @@ public class FileModel implements Serializable, Cloneable {
     FileModel fileModel = new FileModel();
     fileModel.setFileName(new String(getFileName()));
     fileModel.setFileExtension(new String(getFileExtension()));
-    fileModel.setDefaultBuiltInEvents(getDefaultBuiltInEvents());
+
+    ArrayList<Event> clonedBuildInEvents = new ArrayList<Event>();
+    for (int position = 0; position < getDefaultBuiltInEvents().size(); ++position) {
+      clonedBuildInEvents.add(getDefaultBuiltInEvents().get(position).clone());
+    }
+
+    fileModel.setDefaultBuiltInEvents(clonedBuildInEvents);
     fileModel.setRawCode(new String(getRawCode()));
     fileModel.setFolder(new Boolean(isFolder()));
     return fileModel;
