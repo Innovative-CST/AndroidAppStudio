@@ -69,7 +69,7 @@ public class GradleEditorActivity extends BaseActivity {
                       /*
                        * Creates app module gradle file if it doesn't seems to exists
                        */
-                      createGradleFilesIfDoNotExists();
+                      GradleFilesUtils.createGradleFilesIfDoNotExists(projectRootDirectory);
                       runOnUiThread(
                           () -> {
                             switchSection(GRADLE_FILE_LIST_SECTION);
@@ -94,52 +94,5 @@ public class GradleEditorActivity extends BaseActivity {
     binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.gradleFileListSection.setVisibility(
         section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
-  }
-
-  public void createGradleFilesIfDoNotExists() {
-    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
-      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().exists()) {
-        EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
-      }
-
-      /*
-       * Generates app folder to store app/build.gradle.
-       */
-      SerializerUtil.serialize(
-          FileModelUtils.getFolderModel("app"),
-          new File(
-              EnvironmentUtils.getAppGradleFile(projectRootDirectory)
-                  .getParentFile()
-                  .getParentFile(),
-              EnvironmentUtils.FILE_MODEL),
-          new SerializerUtil.SerializerCompletionListener() {
-
-            @Override
-            public void onSerializeComplete() {}
-
-            @Override
-            public void onFailedToSerialize(Exception exception) {}
-          });
-
-      /*
-       * Generate app module build.gradle file.
-       */
-      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
-        EnvironmentUtils.getAppGradleFile(projectRootDirectory).mkdirs();
-      }
-
-      SerializerUtil.serialize(
-          GradleFilesUtils.getAppModuleGradleFileModule(),
-          new File(
-              EnvironmentUtils.getAppGradleFile(projectRootDirectory), EnvironmentUtils.FILE_MODEL),
-          new SerializerUtil.SerializerCompletionListener() {
-
-            @Override
-            public void onSerializeComplete() {}
-
-            @Override
-            public void onFailedToSerialize(Exception exception) {}
-          });
-    }
   }
 }
