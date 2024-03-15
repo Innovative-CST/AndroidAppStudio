@@ -27,6 +27,7 @@ public class FileModel implements Serializable {
   private String fileExtension;
   private String rawCode;
   private ArrayList<Event> defaultBuiltInEvents;
+  private boolean isFolder;
 
   public String getFileName() {
     return this.fileName;
@@ -58,5 +59,13 @@ public class FileModel implements Serializable {
 
   public void setDefaultBuiltInEvents(ArrayList<Event> defaultBuiltInEvents) {
     this.defaultBuiltInEvents = defaultBuiltInEvents;
+  }
+
+  public boolean getIsFolder() {
+    return this.isFolder;
+  }
+
+  public void setIsFolder(boolean isFolder) {
+    this.isFolder = isFolder;
   }
 }
