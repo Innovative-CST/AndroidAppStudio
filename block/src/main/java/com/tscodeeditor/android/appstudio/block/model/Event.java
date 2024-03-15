@@ -78,7 +78,7 @@ public class Event implements Serializable, Cloneable {
   }
 
   @Override
-  public Event clone() throws CloneNotSupportedException {
+  public Event clone() {
     Event event = new Event();
     event.setName(new String(getName()));
     event.setTitle(new String(getTitle()));
