@@ -61,11 +61,11 @@ public class FileModel implements Serializable {
     this.defaultBuiltInEvents = defaultBuiltInEvents;
   }
 
-  public boolean getIsFolder() {
+  public boolean isFolder() {
     return this.isFolder;
   }
 
-  public void setIsFolder(boolean isFolder) {
+  public void setFolder(boolean isFolder) {
     this.isFolder = isFolder;
   }
 }

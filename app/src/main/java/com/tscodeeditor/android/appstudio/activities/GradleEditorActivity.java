@@ -18,20 +18,26 @@
 package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.builtin.FileModelUtils;
 import com.tscodeeditor.android.appstudio.utils.builtin.GradleFilesUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
+import java.util.concurrent.Executors;
 
 public class GradleEditorActivity extends BaseActivity {
 
   private ActivityGradleEditorBinding binding;
 
   private File projectRootDirectory;
+
+  private static final int LOADING_SECTION = 0;
+  private static final int GRADLE_FILE_LIST_SECTION = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,45 +55,86 @@ public class GradleEditorActivity extends BaseActivity {
 
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
 
-    ProjectModelSerializationUtils.deserialize(
-        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
-        new ProjectModelSerializationUtils.DeserializerListener() {
+    switchSection(LOADING_SECTION);
 
-          @Override
-          public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
-            /*
-             * Creates app module gradle file if it doesn't seems to exists
-             */
-            if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
-              if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory)
-                  .getParentFile()
-                  .exists()) {
-                EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
-              }
-              SerializerUtil.serialize(
-                  GradleFilesUtils.getAppModuleGradleFileModule(),
-                  EnvironmentUtils.getAppGradleFile(projectRootDirectory),
-                  new SerializerUtil.SerializerCompletionListener() {
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              ProjectModelSerializationUtils.deserialize(
+                  new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+                  new ProjectModelSerializationUtils.DeserializerListener() {
 
                     @Override
-                    public void onSerializeComplete() {}
+                    public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+                      /*
+                       * Creates app module gradle file if it doesn't seems to exists
+                       */
+                      createGradleFilesIfDoNotExists();
+                      runOnUiThread(
+                          () -> {
+                            switchSection(GRADLE_FILE_LIST_SECTION);
+                          });
+                    }
 
                     @Override
-                    public void onFailedToSerialize(Exception exception) {}
+                    public void onFailed(int errorCode, Exception e) {
+                      finish();
+                    }
                   });
-            }
-          }
-
-          @Override
-          public void onFailed(int errorCode, Exception e) {
-            finish();
-          }
-        });
+            });
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
     binding = null;
+  }
+
+  private void switchSection(int section) {
+    binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+    binding.gradleFileListSection.setVisibility(
+        section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
+  }
+
+  public void createGradleFilesIfDoNotExists() {
+    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
+      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().exists()) {
+        EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
+      }
+
+      /*
+       * Generates app folder to store app/build.gradle.
+       */
+      SerializerUtil.serialize(
+          FileModelUtils.getFolderModel("app"),
+          new File(
+              EnvironmentUtils.getAppGradleFile(projectRootDirectory)
+                  .getParentFile()
+                  .getParentFile(),
+              EnvironmentUtils.FILE_MODEL),
+          new SerializerUtil.SerializerCompletionListener() {
+
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+
+      /*
+       * Generate app module build.gradle file.
+       */
+      SerializerUtil.serialize(
+          GradleFilesUtils.getAppModuleGradleFileModule(),
+          EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+          new SerializerUtil.SerializerCompletionListener() {
+
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+    }
   }
 }
