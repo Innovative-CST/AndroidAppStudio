@@ -124,9 +124,14 @@ public class GradleEditorActivity extends BaseActivity {
       /*
        * Generate app module build.gradle file.
        */
+      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
+        EnvironmentUtils.getAppGradleFile(projectRootDirectory).mkdirs();
+      }
+
       SerializerUtil.serialize(
           GradleFilesUtils.getAppModuleGradleFileModule(),
-          EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+          new File(
+              EnvironmentUtils.getAppGradleFile(projectRootDirectory), EnvironmentUtils.FILE_MODEL),
           new SerializerUtil.SerializerCompletionListener() {
 
             @Override
