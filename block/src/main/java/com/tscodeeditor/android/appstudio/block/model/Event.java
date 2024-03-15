@@ -29,15 +29,6 @@ public class Event implements Serializable, Cloneable {
   private String eventReplacer;
   private int icon;
 
-  @Override
-  public Event clone() throws CloneNotSupportedException {
-    Event event = new Event();
-    event.setName(new String(getName()));
-    event.setTitle(new String(getTitle()));
-    event.setDescription(new String(getDescription()));
-    return event;
-  }
-
   public String getName() {
     return this.name;
   }
@@ -84,5 +75,17 @@ public class Event implements Serializable, Cloneable {
 
   public void setIcon(int icon) {
     this.icon = icon;
+  }
+
+  @Override
+  public Event clone() throws CloneNotSupportedException {
+    Event event = new Event();
+    event.setName(new String(getName()));
+    event.setTitle(new String(getTitle()));
+    event.setDescription(new String(getDescription()));
+    event.setRawCode(new String(getRawCode()));
+    event.setEventReplacer(new String(getEventReplacer()));
+    event.setIcon(new Integer(getIcon()));
+    return event;
   }
 }
