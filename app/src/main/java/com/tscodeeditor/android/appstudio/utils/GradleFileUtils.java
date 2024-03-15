@@ -25,7 +25,7 @@ import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
 
-public class GradleFilesUtils {
+public class GradleFileUtils {
   private static FileModel getAppModuleGradleFileModule() {
     FileModel appModuleGradleFile = new FileModel();
     appModuleGradleFile.setFileName("build");
@@ -97,7 +97,7 @@ public class GradleFilesUtils {
       }
 
       SerializerUtil.serialize(
-          GradleFilesUtils.getAppModuleGradleFileModule(),
+          getAppModuleGradleFileModule(),
           new File(
               EnvironmentUtils.getAppGradleFile(projectRootDirectory), EnvironmentUtils.FILE_MODEL),
           new SerializerUtil.SerializerCompletionListener() {
