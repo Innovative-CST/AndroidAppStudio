@@ -80,11 +80,11 @@ public class Event implements Serializable, Cloneable {
   @Override
   public Event clone() {
     Event event = new Event();
-    event.setName(new String(getName()));
-    event.setTitle(new String(getTitle()));
-    event.setDescription(new String(getDescription()));
-    event.setRawCode(new String(getRawCode()));
-    event.setEventReplacer(new String(getEventReplacer()));
+    event.setName(getName() != null ? new String(getName()) : null);
+    event.setTitle(getTitle() != null ? new String(getTitle()) : null);
+    event.setDescription(getDescription() != null ? new String(getDescription()) : null);
+    event.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
+    event.setEventReplacer(getEventReplacer() != null ? new String(getEventReplacer()) : null);
     event.setIcon(new Integer(getIcon()));
     return event;
   }

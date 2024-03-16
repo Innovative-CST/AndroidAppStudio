@@ -72,8 +72,8 @@ public class FileModel implements Serializable, Cloneable {
   @Override
   protected FileModel clone() {
     FileModel fileModel = new FileModel();
-    fileModel.setFileName(new String(getFileName()));
-    fileModel.setFileExtension(new String(getFileExtension()));
+    fileModel.setFileName(getFileName() != null ? new String(getFileName()) : null);
+    fileModel.setFileExtension(getFileExtension() != null ? new String(getFileExtension()) : null);
 
     ArrayList<Event> clonedBuildInEvents = new ArrayList<Event>();
     for (int position = 0; position < getDefaultBuiltInEvents().size(); ++position) {
@@ -81,7 +81,7 @@ public class FileModel implements Serializable, Cloneable {
     }
 
     fileModel.setDefaultBuiltInEvents(clonedBuildInEvents);
-    fileModel.setRawCode(new String(getRawCode()));
+    fileModel.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     fileModel.setFolder(new Boolean(isFolder()));
     return fileModel;
   }
