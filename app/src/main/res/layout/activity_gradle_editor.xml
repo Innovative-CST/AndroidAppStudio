@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_height="match_parent"
@@ -15,26 +14,18 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
             android:id="@+id/appbar">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleCollapseMode="scale"
-                android:id="@+id/collapsingToolbar">
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_width="match_parent"
-                    app:layout_collapseMode="pin"
-                    android:id="@+id/toolbar" />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                app:layout_collapseMode="pin"
+                android:id="@+id/toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:visibility="gone"
@@ -46,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:id="@+id/list" />
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:layout_height="match_parent"
