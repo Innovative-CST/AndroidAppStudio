@@ -99,4 +99,11 @@ public class FileModel implements Serializable, Cloneable {
     fileModel.setFolder(new Boolean(isFolder()));
     return fileModel;
   }
+
+  public String getName() {
+    StringBuilder fileName = new StringBuilder();
+    if (getFileName() != null) fileName.append(getFileName());
+    if (!isFolder()) if (getFileExtension() != null) fileName.append("." + getFileExtension());
+    return fileName.toString();
+  }
 }

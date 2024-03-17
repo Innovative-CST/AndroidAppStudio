@@ -78,8 +78,8 @@ public class GradleFileModelListAdapter
   @Override
   public void onBindViewHolder(ViewHolder holder, final int position) {
     AdapterFileModelListItemBinding binding = AdapterFileModelListItemBinding.bind(holder.itemView);
+    binding.title.setText(fileList.get(position).getName());
     if (fileList.get(position).isFolder()) {
-      binding.title.setText(fileList.get(position).getFileName());
       binding.icon.setImageResource(R.drawable.ic_folder);
       binding
           .getRoot()
@@ -109,12 +109,6 @@ public class GradleFileModelListAdapter
                         });
               });
     } else {
-      binding.title.setText(
-          fileList
-              .get(position)
-              .getFileName()
-              .concat(".")
-              .concat(fileList.get(position).getFileExtension()));
       if (fileList.get(position).getFileExtension() != null) {
         if (fileList.get(position).getFileExtension().equals("gradle")) {
           binding.icon.setImageResource(R.drawable.ic_gradle);
