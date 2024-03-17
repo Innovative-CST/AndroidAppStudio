@@ -33,23 +33,29 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.adapters.GradleFileModelListAdapter;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
 import com.tscodeeditor.android.appstudio.utils.GradleFileUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 public class GradleEditorActivity extends BaseActivity {
 
-  private ActivityGradleEditorBinding binding;
+  public ActivityGradleEditorBinding binding;
 
-  private File projectRootDirectory;
+  public File projectRootDirectory;
+  public File currentDir;
 
-  private static final int LOADING_SECTION = 0;
-  private static final int GRADLE_FILE_LIST_SECTION = 1;
+  public static final int LOADING_SECTION = 0;
+  public static final int GRADLE_FILE_LIST_SECTION = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -69,31 +75,41 @@ public class GradleEditorActivity extends BaseActivity {
 
     switchSection(LOADING_SECTION);
 
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              ProjectModelSerializationUtils.deserialize(
-                  new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
-                  new ProjectModelSerializationUtils.DeserializerListener() {
+    ProjectModelSerializationUtils.deserialize(
+        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new ProjectModelSerializationUtils.DeserializerListener() {
 
-                    @Override
-                    public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+          @Override
+          public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+            Executors.newSingleThreadExecutor()
+                .execute(
+                    () -> {
                       /*
                        * Creates app module gradle file if it doesn't seems to exists
                        */
                       GradleFileUtils.createGradleFilesIfDoNotExists(projectRootDirectory);
+
+                      currentDir = EnvironmentUtils.getGradleDirectory(projectRootDirectory);
+
+                      ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
+
                       runOnUiThread(
                           () -> {
+                            binding.list.setAdapter(
+                                new GradleFileModelListAdapter(
+                                    fileList, GradleEditorActivity.this));
+                            binding.list.setLayoutManager(
+                                new LinearLayoutManager(GradleEditorActivity.this));
                             switchSection(GRADLE_FILE_LIST_SECTION);
                           });
-                    }
+                    });
+          }
 
-                    @Override
-                    public void onFailed(int errorCode, Exception e) {
-                      finish();
-                    }
-                  });
-            });
+          @Override
+          public void onFailed(int errorCode, Exception e) {
+            finish();
+          }
+        });
   }
 
   @Override
@@ -102,7 +118,7 @@ public class GradleEditorActivity extends BaseActivity {
     binding = null;
   }
 
-  private void switchSection(int section) {
+  public void switchSection(int section) {
     binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.gradleFileListSection.setVisibility(
         section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);

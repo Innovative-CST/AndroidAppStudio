@@ -43,8 +43,9 @@ public final class EnvironmentUtils {
   public static File PROJECTS;
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
   public static final String FILE_MODEL = "FileModel";
+  private static final String GRADLE_DIR = "gradle";
   private static final String APP_MODULE_GRADLE =
-      "gradle"
+      GRADLE_DIR
           + File.separator
           + "app"
           + File.separator
@@ -74,5 +75,9 @@ public final class EnvironmentUtils {
 
   public static File getAppGradleFile(File projectRootDirectory) {
     return new File(projectRootDirectory, APP_MODULE_GRADLE);
+  }
+
+  public static File getGradleDirectory(File projectRootDirectory) {
+    return new File(projectRootDirectory, GRADLE_DIR);
   }
 }

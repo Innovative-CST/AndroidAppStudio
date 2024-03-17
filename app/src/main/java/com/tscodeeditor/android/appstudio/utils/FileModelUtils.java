@@ -32,6 +32,9 @@
 package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import java.io.File;
+import java.util.ArrayList;
 
 public class FileModelUtils {
   public static FileModel getFolderModel(String folderName) {
@@ -39,5 +42,30 @@ public class FileModelUtils {
     folderModel.setFileName(folderName);
     folderModel.setFolder(true);
     return folderModel;
+  }
+
+  public static ArrayList<FileModel> getFileModelList(File path) {
+    ArrayList<FileModel> fileList = new ArrayList<FileModel>();
+    for (File file : path.listFiles()) {
+      if (file.isFile()) continue;
+
+      if (!new File(file, EnvironmentUtils.FILE_MODEL).exists()) continue;
+
+      DeserializerUtils.deserialize(
+          new File(file, EnvironmentUtils.FILE_MODEL),
+          new DeserializerUtils.DeserializerListener() {
+
+            @Override
+            public void onSuccessfullyDeserialized(Object object) {
+              if (object instanceof FileModel) {
+                fileList.add((FileModel) object);
+              }
+            }
+
+            @Override
+            public void onFailed(int errorCode, Exception e) {}
+          });
+    }
+    return fileList;
   }
 }

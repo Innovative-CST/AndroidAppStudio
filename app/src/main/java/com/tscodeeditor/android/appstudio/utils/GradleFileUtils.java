@@ -44,7 +44,7 @@ public class GradleFileUtils {
     FileModel appModuleGradleFile = new FileModel();
     appModuleGradleFile.setFileName("build");
     appModuleGradleFile.setFileExtension("gradle");
-    appModuleGradleFile.setFolder(true);
+    appModuleGradleFile.setFolder(false);
 
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
     appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");

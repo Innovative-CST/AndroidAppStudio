@@ -7,60 +7,61 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/appbar">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
-            android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleCollapseMode="scale"
-            android:id="@+id/collapsingToolbar">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                app:layout_collapseMode="pin"
-                android:id="@+id/toolbar" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/gradleFileListSection">
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/appbar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
+                android:layout_width="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleCollapseMode="scale"
+                android:id="@+id/collapsingToolbar">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    app:layout_collapseMode="pin"
+                    android:id="@+id/toolbar" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:id="@+id/gradleFileListSection">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:id="@+id/list" />
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/loadingSection">
 
-    <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:gravity="center"
-        android:id="@+id/loadingSection">
+            <ProgressBar
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:indeterminate="true"
+                android:id="@+id/progressbar" />
 
-        <ProgressBar
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:indeterminate="true"
-            android:id="@+id/progressbar" />
+        </LinearLayout>
 
     </LinearLayout>
 
