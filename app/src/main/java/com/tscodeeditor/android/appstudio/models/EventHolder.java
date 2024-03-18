@@ -38,7 +38,7 @@ public class EventHolder implements Serializable, Cloneable {
   private static final long serialVersionUID = 021173505L;
 
   private String holderName;
-  private String icon;
+  private int icon;
   private File filePath;
   private boolean isBuiltInEvents;
 
@@ -50,20 +50,12 @@ public class EventHolder implements Serializable, Cloneable {
     this.holderName = holderName;
   }
 
-  public String getIcon() {
+  public int getIcon() {
     return this.icon;
   }
 
-  public void setIcon(String icon) {
+  public void setIcon(int icon) {
     this.icon = icon;
-  }
-
-  @Override
-  protected Object clone() {
-    EventHolder eventHolder = new EventHolder();
-    eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
-    eventHolder.setHolderName(new String(getIcon()));
-    return eventHolder;
   }
 
   public boolean isBuiltInEvents() {
@@ -80,5 +72,13 @@ public class EventHolder implements Serializable, Cloneable {
 
   public void setFilePath(File filePath) {
     this.filePath = filePath;
+  }
+
+  @Override
+  protected Object clone() {
+    EventHolder eventHolder = new EventHolder();
+    eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
+    eventHolder.setIcon(new Integer(getIcon()));
+    return eventHolder;
   }
 }
