@@ -116,6 +116,7 @@ public class GradleFileModelListAdapter
           binding.icon.setImageResource(R.drawable.ic_gradle);
         }
       }
+
       binding
           .getRoot()
           .setOnClickListener(
@@ -125,13 +126,9 @@ public class GradleFileModelListAdapter
                     "projectRootDirectory",
                     gradleEditorActivity.projectRootDirectory.getAbsolutePath());
                 eventsActivity.putExtra(
-                    "eventsDir",
-                    new File(
-                            new File(
-                                gradleEditorActivity.currentDir, fileList.get(position).getName()),
-                            EnvironmentUtils.EVENTS_DIR)
+                    "fileModelDirectory",
+                    new File(gradleEditorActivity.currentDir, fileList.get(position).getName())
                         .getAbsolutePath());
-                eventsActivity.putExtra("eventType", "gradleEvents");
                 gradleEditorActivity.startActivity(eventsActivity);
               });
     }

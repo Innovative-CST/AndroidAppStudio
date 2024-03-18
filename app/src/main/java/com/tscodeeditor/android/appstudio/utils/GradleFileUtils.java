@@ -31,10 +31,11 @@
 
 package com.tscodeeditor.android.appstudio.utils;
 
+import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
-import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
@@ -78,6 +79,14 @@ public class GradleFileUtils {
     return appModuleGradleFile;
   }
 
+  private static EventHolder getGradleEventHolder() {
+    EventHolder eventHolder = new EventHolder();
+    eventHolder.setBuiltInEvents(true);
+    eventHolder.setHolderName("Config");
+    eventHolder.setIcon(R.drawable.ic_gradle);
+    return eventHolder;
+  }
+
   public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {
     if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
       if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().exists()) {
@@ -114,6 +123,51 @@ public class GradleFileUtils {
           getAppModuleGradleFileModule(),
           new File(
               EnvironmentUtils.getAppGradleFile(projectRootDirectory), EnvironmentUtils.FILE_MODEL),
+          new SerializerUtil.SerializerCompletionListener() {
+
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+    }
+
+    /*
+     * Install Gradle Config EventHolder for app module gradle file
+     */
+
+    if (!new File(
+            new File(
+                EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+                EnvironmentUtils.EVENTS_DIR),
+            EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER)
+        .exists()) {
+      new File(
+              new File(
+                  EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+                  EnvironmentUtils.EVENTS_DIR),
+              EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER)
+          .mkdirs();
+    }
+
+    if (!new File(
+            new File(
+                new File(
+                    EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+                    EnvironmentUtils.EVENTS_DIR),
+                EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER),
+            EnvironmentUtils.EVENTS_HOLDER)
+        .exists()) {
+      SerializerUtil.serialize(
+          getGradleEventHolder(),
+          new File(
+              new File(
+                  new File(
+                      EnvironmentUtils.getAppGradleFile(projectRootDirectory),
+                      EnvironmentUtils.EVENTS_DIR),
+                  EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER),
+              EnvironmentUtils.EVENTS_HOLDER),
           new SerializerUtil.SerializerCompletionListener() {
 
             @Override

@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventsBinding;
 import com.tscodeeditor.android.appstudio.fragments.events.EventListFragment;
@@ -46,15 +47,17 @@ import java.util.concurrent.Executors;
 public class EventsActivity extends BaseActivity {
 
   private ActivityEventsBinding binding;
-  private File eventsDir;
   private File projectRootDirectory;
+  private File fileModelDirectory;
+  private File eventsDir;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
-    eventsDir = new File(getIntent().getStringExtra("eventsDir"));
+    fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
+    eventsDir = new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR);
 
     binding = ActivityEventsBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
@@ -70,28 +73,7 @@ public class EventsActivity extends BaseActivity {
               ArrayList<EventHolder> eventHolderList = EventsHolderUtils.getEventHolder(eventsDir);
               runOnUiThread(
                   () -> {
-                    for (int position = 0; position < eventHolderList.size(); ++position) {
-                      Menu menu = binding.navigationRail.getMenu();
-                      menu.add(
-                          Menu.NONE,
-                          position,
-                          Menu.NONE,
-                          eventHolderList.get(position).getHolderName());
-                    }
-                    binding.navigationRail.setOnItemSelectedListener(
-                        (menuItem) -> {
-                          int position = menuItem.getItemId();
-                          getSupportFragmentManager()
-                              .beginTransaction()
-                              .replace(
-                                  R.id.fragment_container,
-                                  new EventListFragment(
-                                      new File(
-                                          eventHolderList.get(position).getFilePath(),
-                                          EnvironmentUtils.EVENTS_DIR)))
-                              .commit();
-                          return true;
-                        });
+                    loadEventData(eventHolderList);
                   });
             });
   }
@@ -100,5 +82,38 @@ public class EventsActivity extends BaseActivity {
   protected void onDestroy() {
     super.onDestroy();
     binding = null;
+  }
+
+  private void loadEventData(ArrayList<EventHolder> eventHolderList) {
+    for (int position = 0; position < eventHolderList.size(); ++position) {
+      Menu menu = binding.navigationRail.getMenu();
+      MenuItem item =
+          menu.add(Menu.NONE, position, Menu.NONE, eventHolderList.get(position).getHolderName());
+      item.setIcon(getResources().getDrawable(eventHolderList.get(position).getIcon()));
+      if (eventHolderList.get(position).isBuiltInEvents()) {
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(
+                R.id.fragment_container,
+                new EventListFragment(
+                    new File(
+                        eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR)))
+            .commit();
+      }
+    }
+    binding.navigationRail.setOnItemSelectedListener(
+        (menuItem) -> {
+          int position = menuItem.getItemId();
+          getSupportFragmentManager()
+              .beginTransaction()
+              .replace(
+                  R.id.fragment_container,
+                  new EventListFragment(
+                      new File(
+                          eventHolderList.get(position).getFilePath(),
+                          EnvironmentUtils.EVENTS_DIR)))
+              .commit();
+          return true;
+        });
   }
 }
