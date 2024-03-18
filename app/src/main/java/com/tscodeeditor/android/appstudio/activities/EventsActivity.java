@@ -47,25 +47,42 @@ import java.util.concurrent.Executors;
 public class EventsActivity extends BaseActivity {
 
   private ActivityEventsBinding binding;
+
+  /*
+   * Contains the location of project directory.
+   * For example: /../../Project/100
+   */
   private File projectRootDirectory;
+  /*
+   * Contains the location of currently selected file model.
+   * For example: /../../Project/100/../abc/FileModel
+   */
   private File fileModelDirectory;
+  /*
+   * Contains the location of currently loaded event list.
+   * For example: /../../Project/100/../abc/Events
+   */
   private File eventsDir;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    // Initialize the variables
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
     fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
     eventsDir = new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR);
-
     binding = ActivityEventsBinding.inflate(getLayoutInflater());
+
+    // Sets the layout of Activity
     setContentView(binding.getRoot());
 
+    // Handles Toolbar
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     Executors.newSingleThreadExecutor()
         .execute(
@@ -73,6 +90,7 @@ public class EventsActivity extends BaseActivity {
               ArrayList<EventHolder> eventHolderList = EventsHolderUtils.getEventHolder(eventsDir);
               runOnUiThread(
                   () -> {
+                    // Loading the events
                     loadEventData(eventHolderList);
                   });
             });
@@ -84,7 +102,16 @@ public class EventsActivity extends BaseActivity {
     binding = null;
   }
 
+  /*
+   * Loads the NavigationRail View and Events.
+   */
   private void loadEventData(ArrayList<EventHolder> eventHolderList) {
+    /*
+     * ** Loads the Navigation menu **
+     * Adds the MenuItem in NavigationRail.
+     * Retreviews the MenuItem Icon from EventHolder.
+     * Set the current fragment if EventList of a Fragment is attached to a FileModel.
+     */
     for (int position = 0; position < eventHolderList.size(); ++position) {
       Menu menu = binding.navigationRail.getMenu();
       MenuItem item =
@@ -101,6 +128,11 @@ public class EventsActivity extends BaseActivity {
             .commit();
       }
     }
+    /*
+     * Sets the click listener of NavigationRail.
+     * Treating the MenuItem Id as position of ArrayList
+     * Retreview the FilePath of EventList from EventHolder itself.
+     */
     binding.navigationRail.setOnItemSelectedListener(
         (menuItem) -> {
           int position = menuItem.getItemId();
