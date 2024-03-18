@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_team">About Team</string>
+    <string name="add_new_event">Add new event</string>
     <string name="an_error_occured">An error occured</string>
     <string name="app_configration">App Configration</string>
     <string name="app_name">Android AppStudio</string>

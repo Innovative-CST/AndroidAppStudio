@@ -52,6 +52,9 @@
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.GradleEditorActivity"
             android:exported="true" />
-
+        
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.EventsActivity"
+            android:exported="true" />
     </application>
 </manifest>

@@ -31,12 +31,14 @@
 
 package com.tscodeeditor.android.appstudio.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.activities.EventsActivity;
 import com.tscodeeditor.android.appstudio.activities.GradleEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
@@ -114,7 +116,24 @@ public class GradleFileModelListAdapter
           binding.icon.setImageResource(R.drawable.ic_gradle);
         }
       }
-      binding.getRoot().setOnClickListener(v -> {});
+      binding
+          .getRoot()
+          .setOnClickListener(
+              v -> {
+                Intent eventsActivity = new Intent(gradleEditorActivity, EventsActivity.class);
+                eventsActivity.putExtra(
+                    "projectRootDirectory",
+                    gradleEditorActivity.projectRootDirectory.getAbsolutePath());
+                eventsActivity.putExtra(
+                    "eventsDir",
+                    new File(
+                            new File(
+                                gradleEditorActivity.currentDir, fileList.get(position).getName()),
+                            EnvironmentUtils.EVENTS_DIR)
+                        .getAbsolutePath());
+                eventsActivity.putExtra("eventType", "gradleEvents");
+                gradleEditorActivity.startActivity(eventsActivity);
+              });
     }
   }
 

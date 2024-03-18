@@ -29,57 +29,48 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.utils;
+package com.tscodeeditor.android.appstudio.fragments.events;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Environment;
-import com.tscodeeditor.android.appstudio.BuildConfig;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.tscodeeditor.android.appstudio.adapters.EventAdapter;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.databinding.FragmentEventListBinding;
+import com.tscodeeditor.android.appstudio.utils.EventUtils;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
-public final class EnvironmentUtils {
-  public static File IDEDIR;
-  public static File PROJECTS;
-  public static final String PROJECT_CONFIGRATION = "ProjectConfig";
-  public static final String FILE_MODEL = "FileModel";
-  public static final String EVENTS_DIR = "Events";
-  public static final String EVENTS_HOLDER = "EventsHolder";
-  private static final String GRADLE_DIR = "gradle";
-  private static final String APP_MODULE_GRADLE =
-      GRADLE_DIR
-          + File.separator
-          + "app"
-          + File.separator
-          + "files"
-          + File.separator
-          + "build.gradle";
+public class EventListFragment extends Fragment {
+  private File path;
 
-  public static void init(Context context) {
-    IDEDIR =
-        BuildConfig.isDeveloperMode
-            ? new File(Environment.getExternalStorageDirectory(), ".AndroidAppBuilder")
-            : new File(getDataDir(context), "files" + File.separator + "home");
-    PROJECTS = new File(IDEDIR, "Projects");
+  public EventListFragment(File path) {
+    this.path = path;
   }
 
-  public static String getDataDir(Context context) {
-    PackageManager pm = context.getPackageManager();
-    String packageName = context.getPackageName();
-    PackageInfo packageInfo;
-    try {
-      packageInfo = pm.getPackageInfo(packageName, 0);
-      return packageInfo.applicationInfo.dataDir;
-    } catch (PackageManager.NameNotFoundException e) {
-      return "";
-    }
-  }
+  @Override
+  @MainThread
+  @Nullable
+  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+    FragmentEventListBinding binding = FragmentEventListBinding.inflate(inflator);
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              ArrayList<Event> events = EventUtils.getEvents(path);
+              getActivity()
+                  .runOnUiThread(
+                      () -> {
+                        binding.list.setAdapter(new EventAdapter(events));
+                        binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+                      });
+            });
 
-  public static File getAppGradleFile(File projectRootDirectory) {
-    return new File(projectRootDirectory, APP_MODULE_GRADLE);
-  }
-
-  public static File getGradleDirectory(File projectRootDirectory) {
-    return new File(projectRootDirectory, GRADLE_DIR);
+    return binding.getRoot();
   }
 }

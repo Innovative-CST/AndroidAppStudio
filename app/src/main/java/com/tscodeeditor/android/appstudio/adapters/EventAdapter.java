@@ -29,57 +29,55 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.utils;
+package com.tscodeeditor.android.appstudio.adapters;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Environment;
-import com.tscodeeditor.android.appstudio.BuildConfig;
-import java.io.File;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.databinding.AdapterEventBinding;
+import java.util.ArrayList;
 
-public final class EnvironmentUtils {
-  public static File IDEDIR;
-  public static File PROJECTS;
-  public static final String PROJECT_CONFIGRATION = "ProjectConfig";
-  public static final String FILE_MODEL = "FileModel";
-  public static final String EVENTS_DIR = "Events";
-  public static final String EVENTS_HOLDER = "EventsHolder";
-  private static final String GRADLE_DIR = "gradle";
-  private static final String APP_MODULE_GRADLE =
-      GRADLE_DIR
-          + File.separator
-          + "app"
-          + File.separator
-          + "files"
-          + File.separator
-          + "build.gradle";
-
-  public static void init(Context context) {
-    IDEDIR =
-        BuildConfig.isDeveloperMode
-            ? new File(Environment.getExternalStorageDirectory(), ".AndroidAppBuilder")
-            : new File(getDataDir(context), "files" + File.separator + "home");
-    PROJECTS = new File(IDEDIR, "Projects");
-  }
-
-  public static String getDataDir(Context context) {
-    PackageManager pm = context.getPackageManager();
-    String packageName = context.getPackageName();
-    PackageInfo packageInfo;
-    try {
-      packageInfo = pm.getPackageInfo(packageName, 0);
-      return packageInfo.applicationInfo.dataDir;
-    } catch (PackageManager.NameNotFoundException e) {
-      return "";
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
+  public class ViewHolder extends RecyclerView.ViewHolder {
+    public ViewHolder(View view) {
+      super(view);
     }
   }
 
-  public static File getAppGradleFile(File projectRootDirectory) {
-    return new File(projectRootDirectory, APP_MODULE_GRADLE);
+  private ArrayList<Event> events;
+
+  public EventAdapter(ArrayList<Event> events) {
+    this.events = events;
   }
 
-  public static File getGradleDirectory(File projectRootDirectory) {
-    return new File(projectRootDirectory, GRADLE_DIR);
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+    return new ViewHolder(
+        AdapterEventBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot());
+  }
+
+  @Override
+  public void onBindViewHolder(ViewHolder holder, int position) {
+    AdapterEventBinding binding = AdapterEventBinding.bind(holder.itemView);
+    binding.title.setText(getEvents().get(position).getTitle());
+    binding.description.setText(getEvents().get(position).getDescription());
+    binding.icon.setImageResource(getEvents().get(position).getIcon());
+  }
+
+  @Override
+  public int getItemCount() {
+    return events.size();
+  }
+
+  public ArrayList<Event> getEvents() {
+    return this.events;
+  }
+
+  public void setEvents(ArrayList<Event> events) {
+    this.events = events;
   }
 }

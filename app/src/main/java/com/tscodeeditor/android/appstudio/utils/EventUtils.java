@@ -31,55 +31,33 @@
 
 package com.tscodeeditor.android.appstudio.utils;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Environment;
-import com.tscodeeditor.android.appstudio.BuildConfig;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
+import java.util.ArrayList;
 
-public final class EnvironmentUtils {
-  public static File IDEDIR;
-  public static File PROJECTS;
-  public static final String PROJECT_CONFIGRATION = "ProjectConfig";
-  public static final String FILE_MODEL = "FileModel";
-  public static final String EVENTS_DIR = "Events";
-  public static final String EVENTS_HOLDER = "EventsHolder";
-  private static final String GRADLE_DIR = "gradle";
-  private static final String APP_MODULE_GRADLE =
-      GRADLE_DIR
-          + File.separator
-          + "app"
-          + File.separator
-          + "files"
-          + File.separator
-          + "build.gradle";
+public class EventUtils {
+  public static ArrayList<Event> getEvents(File file) {
+    ArrayList<Event> events = new ArrayList<Event>();
 
-  public static void init(Context context) {
-    IDEDIR =
-        BuildConfig.isDeveloperMode
-            ? new File(Environment.getExternalStorageDirectory(), ".AndroidAppBuilder")
-            : new File(getDataDir(context), "files" + File.separator + "home");
-    PROJECTS = new File(IDEDIR, "Projects");
-  }
+    if (!file.exists()) return events;
 
-  public static String getDataDir(Context context) {
-    PackageManager pm = context.getPackageManager();
-    String packageName = context.getPackageName();
-    PackageInfo packageInfo;
-    try {
-      packageInfo = pm.getPackageInfo(packageName, 0);
-      return packageInfo.applicationInfo.dataDir;
-    } catch (PackageManager.NameNotFoundException e) {
-      return "";
+    for (File path : file.listFiles()) {
+      DeserializerUtils.deserialize(
+          path,
+          new DeserializerUtils.DeserializerListener() {
+
+            @Override
+            public void onSuccessfullyDeserialized(Object object) {
+              if (object instanceof Event) {
+                events.add((Event) object);
+              }
+            }
+
+            @Override
+            public void onFailed(int errorCode, Exception e) {}
+          });
     }
-  }
-
-  public static File getAppGradleFile(File projectRootDirectory) {
-    return new File(projectRootDirectory, APP_MODULE_GRADLE);
-  }
-
-  public static File getGradleDirectory(File projectRootDirectory) {
-    return new File(projectRootDirectory, GRADLE_DIR);
+    return events;
   }
 }
