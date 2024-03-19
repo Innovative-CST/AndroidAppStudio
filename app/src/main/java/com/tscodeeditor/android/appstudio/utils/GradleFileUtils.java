@@ -97,18 +97,22 @@ public class GradleFileUtils {
     File appDirectoryFileModel =
         new File(appGradleFile.getParentFile().getParentFile(), EnvironmentUtils.FILE_MODEL);
 
-    SerializerUtil.serialize(
-        FileModelUtils.getFolderModel("app"),
-        appDirectoryFileModel,
-        new SerializerUtil.SerializerCompletionListener() {
+    if (!appDirectoryFileModel.exists()) {
+      if (!appDirectoryFileModel.getParentFile().exists()) {
+        appDirectoryFileModel.getParentFile().mkdirs();
+      }
+      SerializerUtil.serialize(
+          FileModelUtils.getFolderModel("app"),
+          appDirectoryFileModel,
+          new SerializerUtil.SerializerCompletionListener() {
 
-          @Override
-          public void onSerializeComplete() {}
+            @Override
+            public void onSerializeComplete() {}
 
-          @Override
-          public void onFailedToSerialize(Exception exception) {}
-        });
-
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+    }
     if (!appGradleFile.exists()) {
       /*
        * Generate app module build.gradle file.
