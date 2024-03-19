@@ -38,24 +38,21 @@ import java.util.concurrent.Executors;
 
 public class SerializerUtil {
   public static void serialize(Object object, File path, SerializerCompletionListener listener) {
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              try {
-                FileOutputStream fileOutputStream = new FileOutputStream(path);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(object);
-                fileOutputStream.close();
-                objectOutputStream.close();
-                listener.onSerializeComplete();
-              } catch (Exception e) {
-                listener.onFailedToSerialize(e);
-              }
-            });
+    try {
+      FileOutputStream fileOutputStream = new FileOutputStream(path);
+      ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+      objectOutputStream.writeObject(object);
+      fileOutputStream.close();
+      objectOutputStream.close();
+      listener.onSerializeComplete();
+    } catch (Exception e) {
+      listener.onFailedToSerialize(e);
+    }
   }
 
   public interface SerializerCompletionListener {
     void onSerializeComplete();
+
     void onFailedToSerialize(Exception exception);
   }
 }
