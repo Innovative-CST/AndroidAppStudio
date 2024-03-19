@@ -134,14 +134,14 @@ public class GradleFileUtils {
      */
 
     File appGradleFileEventDir = new File(appGradleFile, EnvironmentUtils.EVENTS_DIR);
-    File grafleConfigEventsDir =
+    File gradleConfigEventsDir =
         new File(appGradleFileEventDir, EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER);
 
-    if (!grafleConfigEventsDir.exists()) {
-      grafleConfigEventsDir.mkdirs();
+    if (!gradleConfigEventsDir.exists()) {
+      gradleConfigEventsDir.mkdirs();
     }
 
-    File gradleConfigEventsHolder = new File(grafleConfigEventsDir, EnvironmentUtils.EVENTS_HOLDER);
+    File gradleConfigEventsHolder = new File(gradleConfigEventsDir, EnvironmentUtils.EVENTS_HOLDER);
 
     if (!gradleConfigEventsHolder.exists()) {
       SerializerUtil.serialize(
@@ -155,5 +155,16 @@ public class GradleFileUtils {
             public void onFailedToSerialize(Exception exception) {}
           });
     }
+
+    /*
+     * Install Config Events that is built-in and unremoveable.
+     */
+    File appGradleFileConfigEventsDir =
+        new File(gradleConfigEventsDir, EnvironmentUtils.EVENTS_DIR);
+
+    if (!appGradleFileConfigEventsDir.exists()) appGradleFileConfigEventsDir.mkdirs();
+
+    EventUtils.installEvents(
+        getAppModuleGradleFileModule().getDefaultBuiltInEvents(), appGradleFileConfigEventsDir);
   }
 }

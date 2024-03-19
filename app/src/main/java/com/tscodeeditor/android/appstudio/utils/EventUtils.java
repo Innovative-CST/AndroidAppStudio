@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -59,5 +60,24 @@ public class EventUtils {
           });
     }
     return events;
+  }
+
+  public static void installEvents(ArrayList<Event> events, File directory) {
+    for (int position = 0; position < events.size(); ++position) {
+      Event event = events.get(position).clone();
+      File eventPath = new File(directory, event.getName());
+      if (eventPath.exists()) continue;
+      SerializerUtil.serialize(
+          event,
+          eventPath,
+          new SerializerUtil.SerializerCompletionListener() {
+
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+    }
   }
 }
