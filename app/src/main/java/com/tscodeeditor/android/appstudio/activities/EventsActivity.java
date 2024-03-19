@@ -124,7 +124,8 @@ public class EventsActivity extends BaseActivity {
                 R.id.fragment_container,
                 new EventListFragment(
                     new File(
-                        eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR)))
+                        eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
+                    eventHolderList.get(position).getDisableNewEvents()))
             .commit();
       }
     }
@@ -142,8 +143,8 @@ public class EventsActivity extends BaseActivity {
                   R.id.fragment_container,
                   new EventListFragment(
                       new File(
-                          eventHolderList.get(position).getFilePath(),
-                          EnvironmentUtils.EVENTS_DIR)))
+                          eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
+                      eventHolderList.get(position).getDisableNewEvents()))
               .commit();
           return true;
         });

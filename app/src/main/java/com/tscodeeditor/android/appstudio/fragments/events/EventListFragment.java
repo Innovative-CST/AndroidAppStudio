@@ -55,13 +55,15 @@ public class EventListFragment extends Fragment {
    * For example: /../../Project/100/../../Events/Config
    */
   private File path;
+  private boolean disableNewEvents;
 
   private static final int LOADING_SECTION = 0;
   private static final int LIST_SECTION = 1;
   private static final int INFO_SECTION = 2;
 
-  public EventListFragment(File path) {
+  public EventListFragment(File path, boolean disableNewEvents) {
     this.path = path;
+    this.disableNewEvents = disableNewEvents;
   }
 
   @Override
@@ -70,6 +72,9 @@ public class EventListFragment extends Fragment {
   public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
     binding = FragmentEventListBinding.inflate(inflator);
     switchSection(LOADING_SECTION);
+
+    if (disableNewEvents) binding.fab.setVisibility(View.GONE);
+
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {

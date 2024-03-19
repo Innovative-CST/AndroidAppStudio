@@ -41,6 +41,7 @@ public class EventHolder implements Serializable, Cloneable {
   private int icon;
   private File filePath;
   private boolean isBuiltInEvents;
+  private boolean disableNewEvents;
 
   public String getHolderName() {
     return this.holderName;
@@ -80,5 +81,13 @@ public class EventHolder implements Serializable, Cloneable {
     eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
     eventHolder.setIcon(new Integer(getIcon()));
     return eventHolder;
+  }
+
+  public boolean getDisableNewEvents() {
+    return this.disableNewEvents;
+  }
+
+  public void setDisableNewEvents(boolean disableNewEvents) {
+    this.disableNewEvents = disableNewEvents;
   }
 }
