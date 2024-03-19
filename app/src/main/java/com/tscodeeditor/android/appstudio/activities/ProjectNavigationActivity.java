@@ -33,9 +33,10 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.activity.OnBackPressedCallback;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectNavigationBinding;
+import com.tscodeeditor.android.appstudio.utils.GradleFileUtils;
+import java.io.File;
 
 public class ProjectNavigationActivity extends BaseActivity {
 
@@ -58,6 +59,11 @@ public class ProjectNavigationActivity extends BaseActivity {
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     projectRootDirectory = getIntent().getStringExtra("projectRootDirectory");
+
+    /*
+     * Creates app module gradle file if it doesn't seems to exists
+     */
+    GradleFileUtils.createGradleFilesIfDoNotExists(new File(projectRootDirectory));
 
     binding.projectConfig.setOnClickListener(
         v -> {

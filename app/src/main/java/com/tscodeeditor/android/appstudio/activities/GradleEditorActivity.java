@@ -43,7 +43,6 @@ import com.tscodeeditor.android.appstudio.databinding.ActivityGradleEditorBindin
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
-import com.tscodeeditor.android.appstudio.utils.GradleFileUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -86,11 +85,6 @@ public class GradleEditorActivity extends BaseActivity {
             Executors.newSingleThreadExecutor()
                 .execute(
                     () -> {
-                      /*
-                       * Creates app module gradle file if it doesn't seems to exists
-                       */
-                      GradleFileUtils.createGradleFilesIfDoNotExists(projectRootDirectory);
-
                       currentDir = EnvironmentUtils.getGradleDirectory(projectRootDirectory);
 
                       ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
