@@ -31,7 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.utils.serialization;
 
-import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
