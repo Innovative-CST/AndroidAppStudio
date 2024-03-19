@@ -56,8 +56,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    return new ViewHolder(
-        AdapterEventBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot());
+    View view = AdapterEventBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
+    RecyclerView.LayoutParams layoutParams =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    view.setLayoutParams(layoutParams);
+    return new ViewHolder(view);
   }
 
   @Override
