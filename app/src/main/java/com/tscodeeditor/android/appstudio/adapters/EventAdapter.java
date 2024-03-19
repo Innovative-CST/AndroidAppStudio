@@ -31,12 +31,15 @@
 
 package com.tscodeeditor.android.appstudio.adapters;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.activities.EventEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.databinding.AdapterEventBinding;
 import java.util.ArrayList;
@@ -49,9 +52,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
   }
 
   private ArrayList<Event> events;
+  private Activity activity;
 
-  public EventAdapter(ArrayList<Event> events) {
+  public EventAdapter(ArrayList<Event> events, Activity activity) {
     this.events = events;
+    this.activity = activity;
   }
 
   @Override
@@ -70,6 +75,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     binding.title.setText(getEvents().get(position).getTitle());
     binding.description.setText(getEvents().get(position).getDescription());
     binding.icon.setImageResource(getEvents().get(position).getIcon());
+    binding
+        .getRoot()
+        .setOnClickListener(
+            v -> {
+              Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
+              activity.startActivity(editor);
+            });
   }
 
   @Override

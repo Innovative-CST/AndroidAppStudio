@@ -86,7 +86,7 @@ public class EventListFragment extends Fragment {
                           showInfo(R.string.no_events_name);
                           return;
                         }
-                        binding.list.setAdapter(new EventAdapter(events));
+                        binding.list.setAdapter(new EventAdapter(events, getActivity()));
                         binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
                         switchSection(LIST_SECTION);
                       });

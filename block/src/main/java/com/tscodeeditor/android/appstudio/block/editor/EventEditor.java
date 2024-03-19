@@ -51,13 +51,19 @@ public class EventEditor extends LinearLayout {
   public EventEditor(final Context context, final AttributeSet set) {
     super(context, set);
 
-    binding =
-        EventEditorLayoutBinding.inflate(
-            LayoutInflater.from(context));
+    binding = EventEditorLayoutBinding.inflate(LayoutInflater.from(context));
 
     addView(binding.getRoot());
-
+    setMatchParent(binding.getRoot());
+    switchSection(EDITOR_SECTION);
     invalidate();
+  }
+
+  private void setMatchParent(View view) {
+    LinearLayout.LayoutParams layoutParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    view.setLayoutParams(layoutParams);
   }
 
   /*
@@ -72,7 +78,7 @@ public class EventEditor extends LinearLayout {
         section == VALUE_EDITOR_SECTION ? View.VISIBLE : View.GONE);
   }
 
-  private void showBlocksPallete(boolean show) {
+  public void showBlocksPallete(boolean show) {
     binding.blockArea.setVisibility(show ? View.VISIBLE : View.GONE);
   }
 }
