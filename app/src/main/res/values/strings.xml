@@ -12,6 +12,7 @@
     <string name="fields_not_filled_properly">Look like you have not filled the fields properly or skipped them that are required. Please correct the details of fields.</string>
     <string name="minimum_sdk_version">Minimum SDK version</string>
     <string name="next">Next</string>
+    <string name="no_events_name">No events yet.</string>
     <string name="no_projects_yet">No projects yet.</string>
     <string name="no_thanks">No thanks</string>
     <string name="package_name">Package name</string>

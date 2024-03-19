@@ -39,6 +39,7 @@ import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.EventAdapter;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.databinding.FragmentEventListBinding;
@@ -48,7 +49,16 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 public class EventListFragment extends Fragment {
+  private FragmentEventListBinding binding;
+  /*
+   * Contains the location of project directory.
+   * For example: /../../Project/100/../../Events/Config
+   */
   private File path;
+
+  private static final int LOADING_SECTION = 0;
+  private static final int LIST_SECTION = 1;
+  private static final int INFO_SECTION = 2;
 
   public EventListFragment(File path) {
     this.path = path;
@@ -58,7 +68,8 @@ public class EventListFragment extends Fragment {
   @MainThread
   @Nullable
   public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-    FragmentEventListBinding binding = FragmentEventListBinding.inflate(inflator);
+    binding = FragmentEventListBinding.inflate(inflator);
+    switchSection(LOADING_SECTION);
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
@@ -66,11 +77,27 @@ public class EventListFragment extends Fragment {
               getActivity()
                   .runOnUiThread(
                       () -> {
+                        if (events.size() == 0) {
+                          showInfo(R.string.no_events_name);
+                          return;
+                        }
                         binding.list.setAdapter(new EventAdapter(events));
                         binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        switchSection(LIST_SECTION);
                       });
             });
 
     return binding.getRoot();
+  }
+
+  private void switchSection(int section) {
+    binding.loadingSection.setVisibility(LOADING_SECTION == section ? View.VISIBLE : View.GONE);
+    binding.listSection.setVisibility(LIST_SECTION == section ? View.VISIBLE : View.GONE);
+    binding.infoSection.setVisibility(INFO_SECTION == section ? View.VISIBLE : View.GONE);
+  }
+
+  private void showInfo(int info) {
+    switchSection(INFO_SECTION);
+    binding.info.setText(info);
   }
 }
