@@ -62,6 +62,9 @@ public class GradleFileUtils {
     androidBlockEvent.setDescription("Contains basic defination of your app");
     androidBlockEvent.setEventReplacer("blockCode");
     androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    androidBlockEvent.setEnableEdit(true);
+    androidBlockEvent.setEnableRootBlocksDrag(false);
+    androidBlockEvent.setEnableRootBlocksValueEditing(false);
 
     Event dependenciesBlockEvent = new Event();
     dependenciesBlockEvent.setTitle("App Libraries");
@@ -70,6 +73,9 @@ public class GradleFileUtils {
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setRawCode(
         "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    dependenciesBlockEvent.setEnableEdit(true);
+    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
+    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
 
     builtinEvents.add(androidBlockEvent);
     builtinEvents.add(dependenciesBlockEvent);
