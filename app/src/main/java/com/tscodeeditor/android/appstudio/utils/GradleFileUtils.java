@@ -88,41 +88,37 @@ public class GradleFileUtils {
   }
 
   public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {
-    if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
-      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().exists()) {
-        EnvironmentUtils.getAppGradleFile(projectRootDirectory).getParentFile().mkdirs();
-      }
+    File appGradleFile = EnvironmentUtils.getAppGradleFile(projectRootDirectory);
 
-      /*
-       * Generates app folder to store app/build.gradle.
-       */
-      SerializerUtil.serialize(
-          FileModelUtils.getFolderModel("app"),
-          new File(
-              EnvironmentUtils.getAppGradleFile(projectRootDirectory)
-                  .getParentFile()
-                  .getParentFile(),
-              EnvironmentUtils.FILE_MODEL),
-          new SerializerUtil.SerializerCompletionListener() {
+    /*
+     * Generates app folder to store app/build.gradle.
+     */
+    File appDirectoryFileModel =
+        new File(appGradleFile.getParentFile().getParentFile(), EnvironmentUtils.FILE_MODEL);
 
-            @Override
-            public void onSerializeComplete() {}
+    SerializerUtil.serialize(
+        FileModelUtils.getFolderModel("app"),
+        appDirectoryFileModel,
+        new SerializerUtil.SerializerCompletionListener() {
 
-            @Override
-            public void onFailedToSerialize(Exception exception) {}
-          });
+          @Override
+          public void onSerializeComplete() {}
 
+          @Override
+          public void onFailedToSerialize(Exception exception) {}
+        });
+
+    if (!appGradleFile.exists()) {
       /*
        * Generate app module build.gradle file.
        */
-      if (!EnvironmentUtils.getAppGradleFile(projectRootDirectory).exists()) {
-        EnvironmentUtils.getAppGradleFile(projectRootDirectory).mkdirs();
+      if (!appGradleFile.exists()) {
+        appGradleFile.mkdirs();
       }
 
       SerializerUtil.serialize(
           getAppModuleGradleFileModule(),
-          new File(
-              EnvironmentUtils.getAppGradleFile(projectRootDirectory), EnvironmentUtils.FILE_MODEL),
+          new File(appGradleFile, EnvironmentUtils.FILE_MODEL),
           new SerializerUtil.SerializerCompletionListener() {
 
             @Override
@@ -137,39 +133,21 @@ public class GradleFileUtils {
      * Install Gradle Config EventHolder for app module gradle file
      */
 
-    if (!new File(
-            new File(
-                EnvironmentUtils.getAppGradleFile(projectRootDirectory),
-                EnvironmentUtils.EVENTS_DIR),
-            EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER)
-        .exists()) {
-      new File(
-              new File(
-                  EnvironmentUtils.getAppGradleFile(projectRootDirectory),
-                  EnvironmentUtils.EVENTS_DIR),
-              EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER)
-          .mkdirs();
+    File appGradleFileEventDir = new File(appGradleFile, EnvironmentUtils.EVENTS_DIR);
+    File grafleConfigEventsDir =
+        new File(appGradleFileEventDir, EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER);
+
+    if (!grafleConfigEventsDir.exists()) {
+      grafleConfigEventsDir.mkdirs();
     }
 
-    if (!new File(
-            new File(
-                new File(
-                    EnvironmentUtils.getAppGradleFile(projectRootDirectory),
-                    EnvironmentUtils.EVENTS_DIR),
-                EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER),
-            EnvironmentUtils.EVENTS_HOLDER)
-        .exists()) {
+    File gradleConfigEventsHolder = new File(grafleConfigEventsDir, EnvironmentUtils.EVENTS_HOLDER);
+
+    if (!gradleConfigEventsHolder.exists()) {
       SerializerUtil.serialize(
           getGradleEventHolder(),
-          new File(
-              new File(
-                  new File(
-                      EnvironmentUtils.getAppGradleFile(projectRootDirectory),
-                      EnvironmentUtils.EVENTS_DIR),
-                  EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER),
-              EnvironmentUtils.EVENTS_HOLDER),
+          gradleConfigEventsHolder,
           new SerializerUtil.SerializerCompletionListener() {
-
             @Override
             public void onSerializeComplete() {}
 
