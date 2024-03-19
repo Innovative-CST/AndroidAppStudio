@@ -1,14 +1,19 @@
 {
   "Contributors": [
     {
-      "Name": "Dev Kumar",
+      "Name": "DevKumar00001",
       "Image": "https://github.com/DevKumar00001.png",
-      "Description": "Main Developer"
+      "Description": "Dev Kumar"
     },
     {
       "Name": "CyberGlitch01",
       "Image": "https://github.com/CyberGlitch01.png",
-      "Description": "New Contributor"
+      "Description": "Rohan Trivedi"
+    },
+    {
+      "Name": "krishandroiddev",
+      "Image": "https://github.com/krishandroiddev.png",
+      "Description": "Krish Sharma"
     }
   ]
 }
