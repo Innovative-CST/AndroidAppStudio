@@ -42,6 +42,9 @@ public class Event implements Serializable, Cloneable {
   private String rawCode;
   private String eventReplacer;
   private int icon;
+  private boolean enableEdit;
+  private boolean enableRootBlocksDrag;
+  private boolean enableRootBlocksValueEditing;
 
   public String getName() {
     return this.name;
@@ -89,6 +92,30 @@ public class Event implements Serializable, Cloneable {
 
   public void setIcon(int icon) {
     this.icon = icon;
+  }
+
+  public boolean getEnableEdit() {
+    return this.enableEdit;
+  }
+
+  public void setEnableEdit(boolean enableEdit) {
+    this.enableEdit = enableEdit;
+  }
+
+  public boolean getEnableRootBlocksDrag() {
+    return this.enableRootBlocksDrag;
+  }
+
+  public void setEnableRootBlocksDrag(boolean enableRootBlocksDrag) {
+    this.enableRootBlocksDrag = enableRootBlocksDrag;
+  }
+
+  public boolean getEnableRootBlocksValueEditing() {
+    return this.enableRootBlocksValueEditing;
+  }
+
+  public void setEnableRootBlocksValueEditing(boolean enableRootBlocksValueEditing) {
+    this.enableRootBlocksValueEditing = enableRootBlocksValueEditing;
   }
 
   @Override
