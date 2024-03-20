@@ -75,19 +75,21 @@ public class EventHolder implements Serializable, Cloneable {
     this.filePath = filePath;
   }
 
-  @Override
-  protected EventHolder clone() {
-    EventHolder eventHolder = new EventHolder();
-    eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
-    eventHolder.setIcon(new Integer(getIcon()));
-    return eventHolder;
-  }
-
   public boolean getDisableNewEvents() {
     return this.disableNewEvents;
   }
 
   public void setDisableNewEvents(boolean disableNewEvents) {
     this.disableNewEvents = disableNewEvents;
+  }
+
+  @Override
+  protected EventHolder clone() {
+    EventHolder eventHolder = new EventHolder();
+    eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
+    eventHolder.setIcon(new Integer(getIcon()));
+    eventHolder.setBuiltInEvents(new Boolean(isBuiltInEvents()));
+    eventHolder.setDisableNewEvents(new Boolean(getDisableNewEvents()));
+    return eventHolder;
   }
 }
