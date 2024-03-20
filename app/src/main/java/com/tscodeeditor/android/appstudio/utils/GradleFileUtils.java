@@ -242,4 +242,21 @@ public class GradleFileUtils {
     moduleFolder.setAndroidLibrary(true);
     installNewModule(projectRootDirectory, moduleFolder, rootDirToInstall);
   }
+
+  public static boolean canCreateModule(File rootDir, String moduleName) {
+    if (!rootDir.exists()) return true;
+
+    File moduleDir = new File(rootDir, moduleName);
+
+    if (moduleDir.exists()) return false;
+
+    ArrayList<FileModel> files = FileModelUtils.getFileModelList(rootDir);
+    for (int position = 0; position < files.size(); ++position) {
+      if (files.get(position).isFolder()) {
+        if (files.get(position).getName().equals(moduleName)) return false;
+      }
+    }
+
+    return true;
+  }
 }
