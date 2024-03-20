@@ -42,6 +42,8 @@ public class FileModel implements Serializable, Cloneable {
   private String rawCode;
   private ArrayList<Event> defaultBuiltInEvents;
   private boolean isFolder;
+  private boolean isAndroidAppModule;
+  private boolean isAndroidLibrary;
 
   public String getFileName() {
     return this.fileName;
@@ -83,6 +85,22 @@ public class FileModel implements Serializable, Cloneable {
     this.isFolder = isFolder;
   }
 
+  public boolean isAndroidAppModule() {
+    return this.isAndroidAppModule;
+  }
+
+  public void setAndroidAppModule(boolean isAndroidAppModule) {
+    this.isAndroidAppModule = isAndroidAppModule;
+  }
+
+  public boolean isAndroidLibrary() {
+    return this.isAndroidLibrary;
+  }
+
+  public void setAndroidLibrary(boolean isAndroidLibrary) {
+    this.isAndroidLibrary = isAndroidLibrary;
+  }
+
   @Override
   protected FileModel clone() {
     FileModel fileModel = new FileModel();
@@ -97,6 +115,8 @@ public class FileModel implements Serializable, Cloneable {
     fileModel.setDefaultBuiltInEvents(clonedBuildInEvents);
     fileModel.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     fileModel.setFolder(new Boolean(isFolder()));
+    fileModel.setAndroidLibrary(new Boolean(isAndroidLibrary()));
+    fileModel.setAndroidAppModule(new Boolean(isAndroidAppModule));
     return fileModel;
   }
 

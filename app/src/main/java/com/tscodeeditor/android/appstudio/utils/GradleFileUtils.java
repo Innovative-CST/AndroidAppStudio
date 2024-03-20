@@ -107,8 +107,10 @@ public class GradleFileUtils {
       if (!appDirectoryFileModel.getParentFile().exists()) {
         appDirectoryFileModel.getParentFile().mkdirs();
       }
+      FileModel appModel = FileModelUtils.getFolderModel("app");
+      appModel.setAndroidAppModule(true);
       SerializerUtil.serialize(
-          FileModelUtils.getFolderModel("app"),
+          appModel,
           appDirectoryFileModel,
           new SerializerUtil.SerializerCompletionListener() {
 
