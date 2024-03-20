@@ -76,7 +76,7 @@ public class EventHolder implements Serializable, Cloneable {
   }
 
   @Override
-  protected Object clone() {
+  protected EventHolder clone() {
     EventHolder eventHolder = new EventHolder();
     eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
     eventHolder.setIcon(new Integer(getIcon()));
