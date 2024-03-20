@@ -235,4 +235,11 @@ public class GradleFileUtils {
         moduleFolder,
         EnvironmentUtils.getGradleDirectory(projectRootDirectory));
   }
+
+  public static void createLibraryModule(
+      File projectRootDirectory, File rootDirToInstall, String moduleName) {
+    FileModel moduleFolder = FileModelUtils.getFolderModel(moduleName);
+    moduleFolder.setAndroidLibrary(true);
+    installNewModule(projectRootDirectory, moduleFolder, rootDirToInstall);
+  }
 }
