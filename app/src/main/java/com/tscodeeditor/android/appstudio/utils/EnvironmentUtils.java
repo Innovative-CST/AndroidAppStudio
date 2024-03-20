@@ -49,14 +49,6 @@ public final class EnvironmentUtils {
   public static final String GRADLE_FILE = "build.gradle";
   public static final String APP_GRADLE_CONFIG_EVENT_HOLDER = "Config";
   private static final String GRADLE_DIR = "gradle";
-  private static final String APP_MODULE_GRADLE =
-      GRADLE_DIR
-          + File.separator
-          + "app"
-          + File.separator
-          + "files"
-          + File.separator
-          + "build.gradle";
 
   public static void init(Context context) {
     IDEDIR =
@@ -76,10 +68,6 @@ public final class EnvironmentUtils {
     } catch (PackageManager.NameNotFoundException e) {
       return "";
     }
-  }
-
-  public static File getAppGradleFile(File projectRootDirectory) {
-    return new File(projectRootDirectory, APP_MODULE_GRADLE);
   }
 
   public static File getGradleDirectory(File projectRootDirectory) {
