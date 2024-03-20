@@ -127,6 +127,9 @@ public class Event implements Serializable, Cloneable {
     event.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     event.setEventReplacer(getEventReplacer() != null ? new String(getEventReplacer()) : null);
     event.setIcon(new Integer(getIcon()));
+    event.setEnableEdit(new Boolean(getEnableEdit()));
+    event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
+    event.setEnableRootBlocksValueEditing(new Boolean(getEnableRootBlocksValueEditing()));
     return event;
   }
 }
