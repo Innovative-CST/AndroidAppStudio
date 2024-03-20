@@ -43,8 +43,10 @@ public final class EnvironmentUtils {
   public static File PROJECTS;
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
   public static final String FILE_MODEL = "FileModel";
+  public static final String FILES = "files";
   public static final String EVENTS_DIR = "Events";
   public static final String EVENTS_HOLDER = "EventsHolder";
+  public static final String GRADLE_FILE = "build.gradle";
   public static final String APP_GRADLE_CONFIG_EVENT_HOLDER = "Config";
   private static final String GRADLE_DIR = "gradle";
   private static final String APP_MODULE_GRADLE =

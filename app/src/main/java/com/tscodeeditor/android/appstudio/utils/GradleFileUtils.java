@@ -85,6 +85,50 @@ public class GradleFileUtils {
     return appModuleGradleFile;
   }
 
+  private static FileModel getLibraryModuleGradleFileModule() {
+    FileModel libraryModuleGradleFile = new FileModel();
+    libraryModuleGradleFile.setFileName("build");
+    libraryModuleGradleFile.setFileExtension("gradle");
+    libraryModuleGradleFile.setFolder(false);
+
+    StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
+    libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
+    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("androidBlock"));
+    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("dependenciesBlock"));
+
+    libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
+
+    ArrayList<Event> builtinEvents = new ArrayList<Event>();
+
+    Event androidBlockEvent = new Event();
+    androidBlockEvent.setTitle("Library Configration");
+    androidBlockEvent.setName("androidBlock");
+    androidBlockEvent.setDescription("Contains basic defination of your library");
+    androidBlockEvent.setEventReplacer("blockCode");
+    androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    androidBlockEvent.setEnableEdit(true);
+    androidBlockEvent.setEnableRootBlocksDrag(false);
+    androidBlockEvent.setEnableRootBlocksValueEditing(false);
+
+    Event dependenciesBlockEvent = new Event();
+    dependenciesBlockEvent.setTitle("Library dependencies");
+    dependenciesBlockEvent.setName("dependenciesBlock");
+    dependenciesBlockEvent.setDescription("Contains library used by your app");
+    dependenciesBlockEvent.setEventReplacer("blockCode");
+    dependenciesBlockEvent.setRawCode(
+        "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    dependenciesBlockEvent.setEnableEdit(true);
+    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
+    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
+
+    builtinEvents.add(androidBlockEvent);
+    builtinEvents.add(dependenciesBlockEvent);
+
+    libraryModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
+
+    return libraryModuleGradleFile;
+  }
+
   private static EventHolder getGradleEventHolder() {
     EventHolder eventHolder = new EventHolder();
     eventHolder.setBuiltInEvents(true);
@@ -94,24 +138,54 @@ public class GradleFileUtils {
     return eventHolder;
   }
 
-  public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {
-    File appGradleFile = EnvironmentUtils.getAppGradleFile(projectRootDirectory);
+  public static void installNewModule(
+      File projectRootDirectory, FileModel module, File moduleFolderRootDir) {
+    File gradleDir = EnvironmentUtils.getGradleDirectory(projectRootDirectory);
 
-    /*
-     * Generates app folder to store app/build.gradle.
-     */
-    File appDirectoryFileModel =
-        new File(appGradleFile.getParentFile().getParentFile(), EnvironmentUtils.FILE_MODEL);
+    if (!gradleDir.exists()) gradleDir.mkdirs();
 
-    if (!appDirectoryFileModel.exists()) {
-      if (!appDirectoryFileModel.getParentFile().exists()) {
-        appDirectoryFileModel.getParentFile().mkdirs();
-      }
-      FileModel appModel = FileModelUtils.getFolderModel("app");
-      appModel.setAndroidAppModule(true);
+    if (!moduleFolderRootDir.exists()) moduleFolderRootDir.mkdirs();
+
+    File moduleFolderDir = new File(moduleFolderRootDir, module.getName());
+
+    if (!moduleFolderDir.exists()) moduleFolderDir.mkdirs();
+
+    File moduleFileModel = new File(moduleFolderDir, EnvironmentUtils.FILE_MODEL);
+
+    SerializerUtil.serialize(
+        module,
+        moduleFileModel,
+        new SerializerUtil.SerializerCompletionListener() {
+
+          @Override
+          public void onSerializeComplete() {}
+
+          @Override
+          public void onFailedToSerialize(Exception exception) {}
+        });
+
+    File moduleFolderFilesDir = new File(moduleFolderDir, EnvironmentUtils.FILES);
+
+    if (!moduleFolderFilesDir.exists()) moduleFolderFilesDir.mkdirs();
+
+    File buildGradleDir = new File(moduleFolderFilesDir, EnvironmentUtils.GRADLE_FILE);
+
+    if (!buildGradleDir.exists()) buildGradleDir.mkdirs();
+
+    File buildGradleFileModel = new File(buildGradleDir, EnvironmentUtils.FILE_MODEL);
+
+    FileModel buildGradleFile = null;
+
+    if (module.isAndroidAppModule()) {
+      buildGradleFile = getAppModuleGradleFileModule();
+    } else {
+      buildGradleFile = getLibraryModuleGradleFileModule();
+    }
+
+    if (!buildGradleFileModel.exists()) {
       SerializerUtil.serialize(
-          appModel,
-          appDirectoryFileModel,
+          buildGradleFile,
+          buildGradleFileModel,
           new SerializerUtil.SerializerCompletionListener() {
 
             @Override
@@ -121,45 +195,22 @@ public class GradleFileUtils {
             public void onFailedToSerialize(Exception exception) {}
           });
     }
-    if (!appGradleFile.exists()) {
-      /*
-       * Generate app module build.gradle file.
-       */
-      if (!appGradleFile.exists()) {
-        appGradleFile.mkdirs();
-      }
 
-      SerializerUtil.serialize(
-          getAppModuleGradleFileModule(),
-          new File(appGradleFile, EnvironmentUtils.FILE_MODEL),
-          new SerializerUtil.SerializerCompletionListener() {
+    File buildGradleFileEventsDir = new File(buildGradleDir, EnvironmentUtils.EVENTS_DIR);
+    if (buildGradleFileEventsDir.exists()) buildGradleFileEventsDir.mkdirs();
 
-            @Override
-            public void onSerializeComplete() {}
+    File buildGradleConfigEventsDir =
+        new File(buildGradleFileEventsDir, EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER);
 
-            @Override
-            public void onFailedToSerialize(Exception exception) {}
-          });
-    }
+    if (!buildGradleConfigEventsDir.exists()) buildGradleConfigEventsDir.mkdirs();
 
-    /*
-     * Install Gradle Config EventHolder for app module gradle file
-     */
+    File buildGradleConfigEventsHolder =
+        new File(buildGradleConfigEventsDir, EnvironmentUtils.EVENTS_HOLDER);
 
-    File appGradleFileEventDir = new File(appGradleFile, EnvironmentUtils.EVENTS_DIR);
-    File gradleConfigEventsDir =
-        new File(appGradleFileEventDir, EnvironmentUtils.APP_GRADLE_CONFIG_EVENT_HOLDER);
-
-    if (!gradleConfigEventsDir.exists()) {
-      gradleConfigEventsDir.mkdirs();
-    }
-
-    File gradleConfigEventsHolder = new File(gradleConfigEventsDir, EnvironmentUtils.EVENTS_HOLDER);
-
-    if (!gradleConfigEventsHolder.exists()) {
+    if (!buildGradleConfigEventsHolder.exists()) {
       SerializerUtil.serialize(
           getGradleEventHolder(),
-          gradleConfigEventsHolder,
+          buildGradleConfigEventsHolder,
           new SerializerUtil.SerializerCompletionListener() {
             @Override
             public void onSerializeComplete() {}
@@ -169,15 +220,19 @@ public class GradleFileUtils {
           });
     }
 
-    /*
-     * Install Config Events that is built-in and unremoveable.
-     */
-    File appGradleFileConfigEventsDir =
-        new File(gradleConfigEventsDir, EnvironmentUtils.EVENTS_DIR);
+    File configEventsDir = new File(buildGradleConfigEventsDir, EnvironmentUtils.EVENTS_DIR);
 
-    if (!appGradleFileConfigEventsDir.exists()) appGradleFileConfigEventsDir.mkdirs();
+    if (!configEventsDir.exists()) configEventsDir.mkdirs();
 
-    EventUtils.installEvents(
-        getAppModuleGradleFileModule().getDefaultBuiltInEvents(), appGradleFileConfigEventsDir);
+    EventUtils.installEvents(buildGradleFile.getDefaultBuiltInEvents(), configEventsDir);
+  }
+
+  public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {
+    FileModel moduleFolder = FileModelUtils.getFolderModel("app");
+    moduleFolder.setAndroidAppModule(true);
+    installNewModule(
+        projectRootDirectory,
+        moduleFolder,
+        EnvironmentUtils.getGradleDirectory(projectRootDirectory));
   }
 }
