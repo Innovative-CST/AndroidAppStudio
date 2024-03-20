@@ -33,8 +33,6 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import androidx.annotation.CallSuper;
-import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.GradleFileModelListAdapter;
@@ -57,6 +55,7 @@ public class GradleEditorActivity extends BaseActivity {
 
   public static final int LOADING_SECTION = 0;
   public static final int GRADLE_FILE_LIST_SECTION = 1;
+  public boolean isInsideModule = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,8 @@ public class GradleEditorActivity extends BaseActivity {
     getSupportActionBar().setHomeButtonEnabled(true);
 
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+    currentDir = new File(getIntent().getStringExtra("currentDir"));
+    isInsideModule = getIntent().getBooleanExtra("isInsideModule", false);
 
     switchSection(LOADING_SECTION);
 
@@ -85,8 +86,6 @@ public class GradleEditorActivity extends BaseActivity {
             Executors.newSingleThreadExecutor()
                 .execute(
                     () -> {
-                      currentDir = EnvironmentUtils.getGradleDirectory(projectRootDirectory);
-
                       ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
 
                       runOnUiThread(
@@ -118,38 +117,5 @@ public class GradleEditorActivity extends BaseActivity {
     binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.gradleFileListSection.setVisibility(
         section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
-  }
-
-  @Override
-  @Deprecated
-  @MainThread
-  @CallSuper
-  public void onBackPressed() {
-    if (currentDir != null) {
-      if (currentDir
-          .getAbsolutePath()
-          .equals(EnvironmentUtils.getGradleDirectory(projectRootDirectory).getAbsolutePath())) {
-        super.onBackPressed();
-        return;
-      }
-      switchSection(LOADING_SECTION);
-
-      currentDir = currentDir.getParentFile().getParentFile();
-
-      Executors.newSingleThreadExecutor()
-          .execute(
-              () -> {
-                ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
-
-                runOnUiThread(
-                    () -> {
-                      binding.list.setAdapter(
-                          new GradleFileModelListAdapter(fileList, GradleEditorActivity.this));
-                      binding.list.setLayoutManager(
-                          new LinearLayoutManager(GradleEditorActivity.this));
-                      switchSection(GRADLE_FILE_LIST_SECTION);
-                    });
-              });
-    } else super.onBackPressed();
   }
 }

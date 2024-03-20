@@ -35,7 +35,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventsActivity;
@@ -43,10 +42,8 @@ import com.tscodeeditor.android.appstudio.activities.GradleEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
-import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.Executors;
 
 public class GradleFileModelListAdapter
     extends RecyclerView.Adapter<GradleFileModelListAdapter.ViewHolder> {
@@ -90,28 +87,24 @@ public class GradleFileModelListAdapter
           .getRoot()
           .setOnClickListener(
               v -> {
-                Executors.newSingleThreadExecutor()
-                    .execute(
-                        () -> {
-                          gradleEditorActivity.currentDir =
-                              new File(
-                                  gradleEditorActivity.currentDir,
-                                  new File(fileList.get(position).getFileName(), "files")
-                                      .getAbsolutePath());
-
-                          ArrayList<FileModel> files =
-                              FileModelUtils.getFileModelList(gradleEditorActivity.currentDir);
-
-                          gradleEditorActivity.runOnUiThread(
-                              () -> {
-                                gradleEditorActivity.binding.list.setAdapter(
-                                    new GradleFileModelListAdapter(files, gradleEditorActivity));
-                                gradleEditorActivity.binding.list.setLayoutManager(
-                                    new LinearLayoutManager(gradleEditorActivity));
-                                gradleEditorActivity.switchSection(
-                                    GradleEditorActivity.GRADLE_FILE_LIST_SECTION);
-                              });
-                        });
+                Intent gradleEditor = new Intent(gradleEditorActivity, GradleEditorActivity.class);
+                gradleEditor.putExtra(
+                    "projectRootDirectory",
+                    gradleEditorActivity.projectRootDirectory.getAbsolutePath());
+                gradleEditor.putExtra(
+                    "currentDir",
+                    new File(
+                            gradleEditorActivity.currentDir,
+                            new File(
+                                    new File(fileList.get(position).getName()),
+                                    EnvironmentUtils.FILES)
+                                .getAbsolutePath())
+                        .getAbsolutePath());
+                gradleEditor.putExtra(
+                    "isInsideModule",
+                    fileList.get(position).isAndroidAppModule()
+                        || fileList.get(position).isAndroidLibrary());
+                gradleEditorActivity.startActivity(gradleEditor);
               });
     } else {
       if (fileList.get(position).getFileExtension() != null) {

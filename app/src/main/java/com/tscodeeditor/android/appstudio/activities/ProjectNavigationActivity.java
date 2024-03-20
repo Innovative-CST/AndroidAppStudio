@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectNavigationBinding;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.GradleFileUtils;
 import java.io.File;
 
@@ -70,6 +71,11 @@ public class ProjectNavigationActivity extends BaseActivity {
           Intent gradleEditorActivity =
               new Intent(ProjectNavigationActivity.this, GradleEditorActivity.class);
           gradleEditorActivity.putExtra("projectRootDirectory", projectRootDirectory);
+          gradleEditorActivity.putExtra(
+              "currentDir",
+              EnvironmentUtils.getGradleDirectory(new File(projectRootDirectory))
+                  .getAbsolutePath());
+          gradleEditorActivity.putExtra("isInsideModule", false);
           startActivity(gradleEditorActivity);
         });
   }
