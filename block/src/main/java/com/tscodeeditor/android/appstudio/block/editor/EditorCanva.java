@@ -41,6 +41,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.tscodeeditor.android.appstudio.block.R;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.view.BlockView;
 
 public class EditorCanva extends EditorScrollView {
   private boolean b1 = false;
@@ -48,7 +50,6 @@ public class EditorCanva extends EditorScrollView {
   public EditorCanva(final Context context, final AttributeSet set) {
     super(context, set);
     setAllowScroll(true);
-    initEditor(Color.parseColor("#000000"), Color.parseColor("#ffffff"));
   }
 
   public void setUpDimension() {
@@ -124,36 +125,15 @@ public class EditorCanva extends EditorScrollView {
     return super.onTouchEvent(motion);
   }
 
-  public void initEditor(int defineEventColor, int textColor) {
+  public void initEditor(int defineEventColor, int textColor, BlockModel defineEvent) {
     LinearLayout blockListEditorArea = new LinearLayout(getContext());
     blockListEditorArea.setLayoutParams(
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     blockListEditorArea.setOrientation(LinearLayout.VERTICAL);
 
-    LinearLayout defineBlockLayout = new LinearLayout(getContext());
-    defineBlockLayout.setLayoutParams(
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-    defineBlockLayout.setBackgroundResource(R.drawable.define_block);
-    defineBlockLayout.setBackgroundTintList(ColorStateList.valueOf(defineEventColor));
-
-    LinearLayout innerLayout = new LinearLayout(getContext());
-    innerLayout.setLayoutParams(
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-    TextView defineTextView = new TextView(getContext());
-    defineTextView.setLayoutParams(
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-    defineTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-    defineTextView.setText("Define your event here");
-    defineTextView.setTextColor(textColor);
-
-    innerLayout.addView(defineTextView);
-    defineBlockLayout.addView(innerLayout);
-    blockListEditorArea.addView(defineBlockLayout);
+    BlockView defineBlock = new BlockView(null, getContext(), defineEvent);
+    blockListEditorArea.addView(defineBlock);
     addView(blockListEditorArea);
   }
 }
