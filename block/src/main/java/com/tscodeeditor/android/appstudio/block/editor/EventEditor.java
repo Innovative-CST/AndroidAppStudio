@@ -40,7 +40,7 @@ import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBin
 
 public class EventEditor extends LinearLayout {
 
-  private EventEditorLayoutBinding binding;
+  public EventEditorLayoutBinding binding;
 
   // Contants for showing the section easily
   public static final int LOADING_SECTION = 0;

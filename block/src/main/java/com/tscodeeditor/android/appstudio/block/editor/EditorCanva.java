@@ -32,16 +32,11 @@
 package com.tscodeeditor.android.appstudio.block.editor;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.tscodeeditor.android.appstudio.block.R;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 
 public class EditorCanva extends EditorScrollView {
@@ -125,14 +120,14 @@ public class EditorCanva extends EditorScrollView {
     return super.onTouchEvent(motion);
   }
 
-  public void initEditor(int defineEventColor, int textColor, BlockModel defineEvent) {
+  public void initEditor(int defineEventColor, int textColor, Event defineEvent) {
     LinearLayout blockListEditorArea = new LinearLayout(getContext());
     blockListEditorArea.setLayoutParams(
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     blockListEditorArea.setOrientation(LinearLayout.VERTICAL);
 
-    BlockView defineBlock = new BlockView(null, getContext(), defineEvent);
+    BlockView defineBlock = new BlockView(null, getContext(), defineEvent.getEventTopBlock());
     blockListEditorArea.addView(defineBlock);
     addView(blockListEditorArea);
   }

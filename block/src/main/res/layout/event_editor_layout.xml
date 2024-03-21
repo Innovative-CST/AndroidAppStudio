@@ -68,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:foregroundGravity="top"
                 android:padding="8dp"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:id="@+id/canva" />
 
         </LinearLayout>
 
