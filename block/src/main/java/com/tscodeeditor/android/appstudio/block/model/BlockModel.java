@@ -123,34 +123,41 @@ public class BlockModel implements Serializable, Cloneable {
     block.setFirstBlock(new Boolean(isFirstBlock()));
     block.setLastBlock(new Boolean(isLastBlock()));
 
-    String[] clonedTags = new String[] {};
-    for (int position = 0; position < getTags().length; ++position) {
-      clonedTags[position] = new String(getTags()[position] == null ? "" : getTags()[position]);
-    }
-
-    String[] clonedReturns = new String[] {};
-    for (int position = 0; position < getReturns().length; ++position) {
-      clonedReturns[position] =
-          new String(getReturns()[position] == null ? "" : getReturns()[position]);
-    }
-
-    ArrayList<ArrayList<BlockContentModel>> blockContentModel =
-        new ArrayList<ArrayList<BlockContentModel>>();
-
-    /*
-     * Complex algorithm to deep clone the ArrayList of ArrayList of BlockContentModel.
-     */
-    for (int layers = 0; layers < getBlockContentModel().size(); ++layers) {
-      ArrayList<BlockContentModel> layer = new ArrayList<BlockContentModel>();
-      for (int blockContentCount = 0;
-          blockContentCount < getBlockContentModel().get(layers).size();
-          ++blockContentCount) {
-        BlockContentModel clonedBlockContentModel =
-            getBlockContentModel().get(layers).get(blockContentCount).clone();
-        layer.add(clonedBlockContentModel);
+    if (getTags() != null) {
+      String[] clonedTags = new String[] {};
+      for (int position = 0; position < getTags().length; ++position) {
+        clonedTags[position] = new String(getTags()[position] == null ? "" : getTags()[position]);
       }
-      blockContentModel.add(layer);
     }
+
+    if (getReturns() != null) {
+      String[] clonedReturns = new String[] {};
+      for (int position = 0; position < getReturns().length; ++position) {
+        clonedReturns[position] =
+            new String(getReturns()[position] == null ? "" : getReturns()[position]);
+      }
+    }
+
+    if (getBlockContentModel() != null) {
+      ArrayList<ArrayList<BlockContentModel>> blockContentModel =
+          new ArrayList<ArrayList<BlockContentModel>>();
+
+      /*
+       * Complex algorithm to deep clone the ArrayList of ArrayList of BlockContentModel.
+       */
+      for (int layers = 0; layers < getBlockContentModel().size(); ++layers) {
+        ArrayList<BlockContentModel> layer = new ArrayList<BlockContentModel>();
+        for (int blockContentCount = 0;
+            blockContentCount < getBlockContentModel().get(layers).size();
+            ++blockContentCount) {
+          BlockContentModel clonedBlockContentModel =
+              getBlockContentModel().get(layers).get(blockContentCount).clone();
+          layer.add(clonedBlockContentModel);
+        }
+        blockContentModel.add(layer);
+      }
+      block.setBlockContentModel(blockContentModel);
+    } else block.setBlockContentModel(null);
 
     return block;
   }
