@@ -79,9 +79,13 @@ public class GradleFileModelListAdapter
     AdapterFileModelListItemBinding binding = AdapterFileModelListItemBinding.bind(holder.itemView);
     binding.title.setText(fileList.get(position).getName());
     if (fileList.get(position).isFolder()) {
-      if (fileList.get(position).isAndroidLibrary() || fileList.get(position).isAndroidAppModule())
-        binding.icon.setImageResource(R.drawable.ic_m_alpha);
-      else binding.icon.setImageResource(R.drawable.ic_folder);
+      if (fileList.get(position).isAndroidLibrary()
+          || fileList.get(position).isAndroidAppModule()) {
+        if (fileList.get(position).isAndroidLibrary())
+          binding.icon.setImageResource(R.drawable.ic_alpha_l);
+        else binding.icon.setImageResource(R.drawable.ic_alpha_a);
+
+      } else binding.icon.setImageResource(R.drawable.ic_folder);
 
       binding
           .getRoot()
