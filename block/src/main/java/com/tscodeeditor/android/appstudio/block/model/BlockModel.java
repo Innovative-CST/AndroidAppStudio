@@ -44,15 +44,7 @@ public class BlockModel implements Serializable, Cloneable {
   private int blockType;
   private boolean isLastBlock;
   private boolean isFirstBlock;
-  private ArrayList<ArrayList<BlockContentModel>> blockContentModel;
-
-  public ArrayList<ArrayList<BlockContentModel>> getBlockContentModel() {
-    return this.blockContentModel;
-  }
-
-  public void setBlockContentModel(ArrayList<ArrayList<BlockContentModel>> blockContentModel) {
-    this.blockContentModel = blockContentModel;
-  }
+  private ArrayList<BlockLayerModel> blockLayerModel;
 
   public String getColor() {
     return this.color;
@@ -114,6 +106,14 @@ public class BlockModel implements Serializable, Cloneable {
     this.isFirstBlock = isFirstBlock;
   }
 
+  public ArrayList<BlockLayerModel> getBlockLayerModel() {
+    return this.blockLayerModel;
+  }
+
+  public void setBlockLayerModel(ArrayList<BlockLayerModel> blockLayerModel) {
+    this.blockLayerModel = blockLayerModel;
+  }
+
   @Override
   public BlockModel clone() {
     BlockModel block = new BlockModel();
@@ -138,26 +138,15 @@ public class BlockModel implements Serializable, Cloneable {
       }
     }
 
-    if (getBlockContentModel() != null) {
-      ArrayList<ArrayList<BlockContentModel>> blockContentModel =
-          new ArrayList<ArrayList<BlockContentModel>>();
-
-      /*
-       * Complex algorithm to deep clone the ArrayList of ArrayList of BlockContentModel.
-       */
-      for (int layers = 0; layers < getBlockContentModel().size(); ++layers) {
-        ArrayList<BlockContentModel> layer = new ArrayList<BlockContentModel>();
-        for (int blockContentCount = 0;
-            blockContentCount < getBlockContentModel().get(layers).size();
-            ++blockContentCount) {
-          BlockContentModel clonedBlockContentModel =
-              getBlockContentModel().get(layers).get(blockContentCount).clone();
-          layer.add(clonedBlockContentModel);
-        }
-        blockContentModel.add(layer);
+    if (getBlockLayerModel() != null) {
+      ArrayList<BlockLayerModel> cloneBlockLayerModel = new ArrayList<BlockLayerModel>();
+      for (int layerCount = 0; layerCount < getBlockLayerModel().size(); ++layerCount) {
+        BlockLayerModel clonedBlockLayerModel = getBlockLayerModel().get(layerCount);
+        cloneBlockLayerModel.add(cloneBlockLayerModel);
       }
-      block.setBlockContentModel(blockContentModel);
-    } else block.setBlockContentModel(null);
+
+      block.setBlockLayerModel(cloneBlockLayerModel);
+    } else block.setBlockLayerModel(null);
 
     return block;
   }

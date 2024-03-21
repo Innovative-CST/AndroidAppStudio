@@ -31,6 +31,7 @@ public class BlockView extends LinearLayout {
 
   public void updateBlock() {
     removeAllViews();
+    setOrientation(LinearLayout.VERTICAL);
 
     if (getBlockModel() == null) return;
 
@@ -43,6 +44,20 @@ public class BlockView extends LinearLayout {
         firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
         firstBlockTop.setBackground(firstBlockTopDrawable);
         addView(firstBlockTop);
+      }
+
+      for (int layerCount = 0;
+          layerCount < getBlockModel().getBlockContentModel().size();
+          ++layerCount) {
+        LinearLayout layer = new LinearLayout(getContext());
+        if (getBlockModel().getBlockContentModel().size() == 1 && getBlockModel().isFirstBlock()) {
+          Drawable layerDrawable =
+              ContextCompat.getDrawable(getContext(), R.drawable.block_first_top);
+          layerDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+          layerDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+          layer.setBackground(layerDrawable);
+          addView(layer);
+        }
       }
     }
   }
