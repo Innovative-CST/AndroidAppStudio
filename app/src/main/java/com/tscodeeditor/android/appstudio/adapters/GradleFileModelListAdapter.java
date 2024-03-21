@@ -41,6 +41,7 @@ import com.tscodeeditor.android.appstudio.activities.EventsActivity;
 import com.tscodeeditor.android.appstudio.activities.GradleEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
+import com.tscodeeditor.android.appstudio.databinding.LayoutProjectEditorNavigationBinding;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -63,79 +64,113 @@ public class GradleFileModelListAdapter
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    AdapterFileModelListItemBinding item =
-        AdapterFileModelListItemBinding.inflate(LayoutInflater.from(arg0.getContext()));
-    View _v = item.getRoot();
-    RecyclerView.LayoutParams _lp =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    _v.setLayoutParams(_lp);
-    return new ViewHolder(_v);
+  public ViewHolder onCreateViewHolder(ViewGroup arg0, int viewType) {
+    if (viewType == 0) {
+      AdapterFileModelListItemBinding item =
+          AdapterFileModelListItemBinding.inflate(LayoutInflater.from(arg0.getContext()));
+      View _v = item.getRoot();
+      RecyclerView.LayoutParams _lp =
+          new RecyclerView.LayoutParams(
+              ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      _v.setLayoutParams(_lp);
+      return new ViewHolder(_v);
+    } else {
+      LayoutProjectEditorNavigationBinding item =
+          LayoutProjectEditorNavigationBinding.inflate(LayoutInflater.from(arg0.getContext()));
+      View _v = item.getRoot();
+      RecyclerView.LayoutParams _lp =
+          new RecyclerView.LayoutParams(
+              ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      _v.setLayoutParams(_lp);
+      return new ViewHolder(_v);
+    }
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder holder, final int position) {
-    AdapterFileModelListItemBinding binding = AdapterFileModelListItemBinding.bind(holder.itemView);
-    binding.title.setText(fileList.get(position).getName());
-    if (fileList.get(position).isFolder()) {
-      if (fileList.get(position).isAndroidLibrary()
-          || fileList.get(position).isAndroidAppModule()) {
-        if (fileList.get(position).isAndroidLibrary())
-          binding.icon.setImageResource(R.drawable.ic_alpha_l);
-        else binding.icon.setImageResource(R.drawable.ic_alpha_a);
+  public void onBindViewHolder(ViewHolder holder, final int pos) {
+    if (getExtraItemCount() == 0 || (getExtraItemCount() == 1 && pos == 1)) {
+      final int position = pos - getExtraItemCount();
+      AdapterFileModelListItemBinding binding =
+          AdapterFileModelListItemBinding.bind(holder.itemView);
+      binding.title.setText(fileList.get(position).getName());
+      if (fileList.get(position).isFolder()) {
+        if (fileList.get(position).isAndroidLibrary()
+            || fileList.get(position).isAndroidAppModule()) {
+          if (fileList.get(position).isAndroidLibrary())
+            binding.icon.setImageResource(R.drawable.ic_alpha_l);
+          else binding.icon.setImageResource(R.drawable.ic_alpha_a);
 
-      } else binding.icon.setImageResource(R.drawable.ic_folder);
+        } else binding.icon.setImageResource(R.drawable.ic_folder);
 
-      binding
-          .getRoot()
-          .setOnClickListener(
-              v -> {
-                Intent gradleEditor = new Intent(gradleEditorActivity, GradleEditorActivity.class);
-                gradleEditor.putExtra(
-                    "projectRootDirectory",
-                    gradleEditorActivity.projectRootDirectory.getAbsolutePath());
-                gradleEditor.putExtra(
-                    "currentDir",
-                    new File(
-                            gradleEditorActivity.currentDir,
-                            new File(
-                                    new File(fileList.get(position).getName()),
-                                    EnvironmentUtils.FILES)
-                                .getAbsolutePath())
-                        .getAbsolutePath());
-                gradleEditor.putExtra(
-                    "isInsideModule",
-                    fileList.get(position).isAndroidAppModule()
-                        || fileList.get(position).isAndroidLibrary());
-                gradleEditorActivity.startActivity(gradleEditor);
-              });
-    } else {
-      if (fileList.get(position).getFileExtension() != null) {
-        if (fileList.get(position).getFileExtension().equals("gradle")) {
-          binding.icon.setImageResource(R.drawable.ic_gradle);
+        binding
+            .getRoot()
+            .setOnClickListener(
+                v -> {
+                  Intent gradleEditor =
+                      new Intent(gradleEditorActivity, GradleEditorActivity.class);
+                  gradleEditor.putExtra(
+                      "projectRootDirectory",
+                      gradleEditorActivity.projectRootDirectory.getAbsolutePath());
+                  gradleEditor.putExtra(
+                      "currentDir",
+                      new File(
+                              gradleEditorActivity.currentDir,
+                              new File(
+                                      new File(fileList.get(position).getName()),
+                                      EnvironmentUtils.FILES)
+                                  .getAbsolutePath())
+                          .getAbsolutePath());
+                  gradleEditor.putExtra(
+                      "isInsideModule",
+                      fileList.get(position).isAndroidAppModule()
+                          || fileList.get(position).isAndroidLibrary());
+                  gradleEditorActivity.startActivity(gradleEditor);
+                });
+      } else {
+        if (fileList.get(position).getFileExtension() != null) {
+          if (fileList.get(position).getFileExtension().equals("gradle")) {
+            binding.icon.setImageResource(R.drawable.ic_gradle);
+          }
         }
-      }
 
-      binding
-          .getRoot()
-          .setOnClickListener(
-              v -> {
-                Intent eventsActivity = new Intent(gradleEditorActivity, EventsActivity.class);
-                eventsActivity.putExtra(
-                    "projectRootDirectory",
-                    gradleEditorActivity.projectRootDirectory.getAbsolutePath());
-                eventsActivity.putExtra(
-                    "fileModelDirectory",
-                    new File(gradleEditorActivity.currentDir, fileList.get(position).getName())
-                        .getAbsolutePath());
-                gradleEditorActivity.startActivity(eventsActivity);
-              });
+        binding
+            .getRoot()
+            .setOnClickListener(
+                v -> {
+                  Intent eventsActivity = new Intent(gradleEditorActivity, EventsActivity.class);
+                  eventsActivity.putExtra(
+                      "projectRootDirectory",
+                      gradleEditorActivity.projectRootDirectory.getAbsolutePath());
+                  eventsActivity.putExtra(
+                      "fileModelDirectory",
+                      new File(gradleEditorActivity.currentDir, fileList.get(position).getName())
+                          .getAbsolutePath());
+                  gradleEditorActivity.startActivity(eventsActivity);
+                });
+      }
+    } else {
+      LayoutProjectEditorNavigationBinding binding =
+          LayoutProjectEditorNavigationBinding.bind(holder.itemView);
+      binding.programEditor.setOnClickListener(v -> {});
+      binding.resourceEditor.setOnClickListener(v -> {});
     }
   }
 
   @Override
   public int getItemCount() {
-    return fileList.size();
+    return fileList.size() + getExtraItemCount();
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    if (getExtraItemCount() == 1) {
+      return position == 0 ? 1 : 0;
+    } else return 0;
+  }
+
+  public int getExtraItemCount() {
+    if (gradleEditorActivity.isInsideModule) {
+      return 1;
+    } else return 0;
   }
 }
