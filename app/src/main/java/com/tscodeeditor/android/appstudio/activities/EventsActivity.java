@@ -123,6 +123,8 @@ public class EventsActivity extends BaseActivity {
             .replace(
                 R.id.fragment_container,
                 new EventListFragment(
+                    projectRootDirectory,
+                    fileModelDirectory,
                     new File(
                         eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
                     eventHolderList.get(position).getDisableNewEvents()))
@@ -142,6 +144,8 @@ public class EventsActivity extends BaseActivity {
               .replace(
                   R.id.fragment_container,
                   new EventListFragment(
+                      projectRootDirectory,
+                      fileModelDirectory,
                       new File(
                           eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
                       eventHolderList.get(position).getDisableNewEvents()))

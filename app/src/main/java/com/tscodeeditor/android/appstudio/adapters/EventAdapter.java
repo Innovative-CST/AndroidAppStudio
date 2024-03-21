@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.EventEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.databinding.AdapterEventBinding;
+import java.io.File;
 import java.util.ArrayList;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
@@ -53,10 +54,33 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
   private ArrayList<Event> events;
   private Activity activity;
+  /*
+   * Contains the location of project directory.
+   * For example: /../../Project/100
+   */
+  private File projectRootDirectory;
+  /*
+   * Contains the location of currently selected file model.
+   * For example: /../../Project/100/../abc/FileModel
+   */
+  private File fileModelDirectory;
+  /*
+   * Contains the location of event list path.
+   * For example: /../../Project/100/../../Events/Config
+   */
+  private File eventListPath;
 
-  public EventAdapter(ArrayList<Event> events, Activity activity) {
+  public EventAdapter(
+      ArrayList<Event> events,
+      Activity activity,
+      File projectRootDirectory,
+      File fileModelDirectory,
+      File eventListPath) {
     this.events = events;
     this.activity = activity;
+    this.projectRootDirectory = projectRootDirectory;
+    this.fileModelDirectory = fileModelDirectory;
+    this.eventListPath = eventListPath;
   }
 
   @Override
@@ -79,7 +103,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         .getRoot()
         .setOnClickListener(
             v -> {
+              File eventFile = new File(eventListPath, getEvents().get(position).getName());
               Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
+              editor.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
+              editor.putExtra("fileModelDirectory", fileModelDirectory.getAbsolutePath());
+              editor.putExtra("eventListPath", eventListPath.getAbsolutePath());
+              editor.putExtra("eventFile", eventFile.getAbsolutePath());
               activity.startActivity(editor);
             });
   }
