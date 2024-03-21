@@ -142,7 +142,7 @@ public class BlockModel implements Serializable, Cloneable {
       ArrayList<BlockLayerModel> cloneBlockLayerModel = new ArrayList<BlockLayerModel>();
       for (int layerCount = 0; layerCount < getBlockLayerModel().size(); ++layerCount) {
         BlockLayerModel clonedBlockLayerModel = getBlockLayerModel().get(layerCount);
-        cloneBlockLayerModel.add(cloneBlockLayerModel);
+        cloneBlockLayerModel.add(clonedBlockLayerModel);
       }
 
       block.setBlockLayerModel(cloneBlockLayerModel);

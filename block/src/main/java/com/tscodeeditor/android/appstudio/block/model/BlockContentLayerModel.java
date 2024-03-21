@@ -33,7 +33,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 
 import java.io.Serializable;
 
-public class BlockContentModel extends BlockLayerModel implements Serializable, Cloneable {
+public class BlockContentLayerModel extends BlockLayerModel implements Serializable, Cloneable {
   private static final long serialVersionUID = 021173506L;
 
   private String text;
@@ -47,9 +47,9 @@ public class BlockContentModel extends BlockLayerModel implements Serializable, 
   }
 
   @Override
-  public BlockContentModel clone() {
-    BlockContentModel blockContent = new BlockContentModel();
-    blockContent.setText(getText() != null ? new String(getText()) : "");
-    return blockContent;
+  public BlockContentLayerModel clone() {
+    BlockContentLayerModel blockContentLayerModel = new BlockContentLayerModel();
+    blockContentLayerModel.setText(getText() != null ? new String(getText()) : "");
+    return blockContentLayerModel;
   }
 }
