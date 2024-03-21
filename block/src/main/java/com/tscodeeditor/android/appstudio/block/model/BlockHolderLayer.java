@@ -31,10 +31,33 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import java.util.ArrayList;
+
 public class BlockHolderLayer extends BlockLayerModel {
+  private ArrayList<BlockModel> blocks;
+
+  public ArrayList<BlockModel> getBlocks() {
+    return this.blocks;
+  }
+
+  public void setBlocks(ArrayList<BlockModel> blocks) {
+    this.blocks = blocks;
+  }
+
   @Override
-  public BlockLayerModel clone() {
-    BlockLayerModel clone = new BlockLayerModel();
+  public BlockHolderLayer clone() {
+    BlockHolderLayer clone = new BlockHolderLayer();
+
+    if (getBlocks() != null) {
+      ArrayList<BlockModel> cloneBlockHolderLayer = new ArrayList<BlockModel>();
+      for (int position = 0; position < cloneBlockHolderLayer.size(); ++position) {
+        cloneBlockHolderLayer.add(getBlocks().get(position).clone());
+      }
+      clone.setBlocks(cloneBlockHolderLayer);
+    } else {
+      clone.setBlocks(null);
+    }
+
     return clone;
   }
 }
