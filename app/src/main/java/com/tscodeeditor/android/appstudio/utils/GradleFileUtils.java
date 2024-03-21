@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
@@ -76,6 +77,13 @@ public class GradleFileUtils {
     ArrayList<BlockLayerModel> androidBlockEventBlockLayerModel = new ArrayList<BlockLayerModel>();
 
     BlockContentLayerModel androidBlockEventTextLayer = new BlockContentLayerModel();
+
+    ArrayList<BlockContentModel> defineTextLayerContent = new ArrayList<BlockContentModel>();
+    BlockContentModel defineEventText = new BlockContentModel();
+    defineEventText.setText("Your app configration");
+
+    defineTextLayerContent.add(defineEventText);
+    androidBlockEventTextLayer.setBlockContents(defineTextLayerContent);
 
     androidBlockEventBlockLayerModel.add(androidBlockEventTextLayer);
     androidBlockEventBlockModel.setBlockLayerModel(androidBlockEventBlockLayerModel);
