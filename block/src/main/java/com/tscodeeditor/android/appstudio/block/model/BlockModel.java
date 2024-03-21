@@ -41,6 +41,9 @@ public class BlockModel implements Serializable, Cloneable {
   private String rawCode;
   private String[] returns;
   private String[] tags;
+  private int blockType;
+  private boolean isLastBlock;
+  private boolean isFirstBlock;
   private ArrayList<ArrayList<BlockContentModel>> blockContentModel;
 
   public ArrayList<ArrayList<BlockContentModel>> getBlockContentModel() {
@@ -83,11 +86,42 @@ public class BlockModel implements Serializable, Cloneable {
     this.tags = tags;
   }
 
+  public final class Type {
+    public static final int defaultBlock = 0;
+  }
+
+  public int getBlockType() {
+    return this.blockType;
+  }
+
+  public void setBlockType(int blockType) {
+    this.blockType = blockType;
+  }
+
+  public boolean isLastBlock() {
+    return this.isLastBlock;
+  }
+
+  public void setLastBlock(boolean isLastBlock) {
+    this.isLastBlock = isLastBlock;
+  }
+
+  public boolean isFirstBlock() {
+    return this.isFirstBlock;
+  }
+
+  public void setFirstBlock(boolean isFirstBlock) {
+    this.isFirstBlock = isFirstBlock;
+  }
+
   @Override
-  protected BlockModel clone() {
+  public BlockModel clone() {
     BlockModel block = new BlockModel();
     block.setColor(new String(getColor() == null ? "" : getColor()));
     block.setRawCode(new String(getRawCode() == null ? "" : getRawCode()));
+    block.setBlockType(new Integer(getBlockType()));
+    block.setFirstBlock(new Boolean(isFirstBlock()));
+    block.setLastBlock(new Boolean(isLastBlock()));
 
     String[] clonedTags = new String[] {};
     for (int position = 0; position < getTags().length; ++position) {
