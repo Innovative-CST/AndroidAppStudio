@@ -41,6 +41,7 @@ public class Event implements Serializable, Cloneable {
   private String description;
   private String rawCode;
   private String eventReplacer;
+  private BlockModel eventTopBlock;
   private int icon;
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
@@ -118,6 +119,14 @@ public class Event implements Serializable, Cloneable {
     this.enableRootBlocksValueEditing = enableRootBlocksValueEditing;
   }
 
+  public BlockModel getEventTopBlock() {
+    return this.eventTopBlock;
+  }
+
+  public void setEventTopBlock(BlockModel eventTopBlock) {
+    this.eventTopBlock = eventTopBlock;
+  }
+
   @Override
   public Event clone() {
     Event event = new Event();
@@ -126,6 +135,7 @@ public class Event implements Serializable, Cloneable {
     event.setDescription(getDescription() != null ? new String(getDescription()) : null);
     event.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     event.setEventReplacer(getEventReplacer() != null ? new String(getEventReplacer()) : null);
+    event.setEventTopBlock(getEventTopBlock() != null ? getEventTopBlock().clone() : null);
     event.setIcon(new Integer(getIcon()));
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
