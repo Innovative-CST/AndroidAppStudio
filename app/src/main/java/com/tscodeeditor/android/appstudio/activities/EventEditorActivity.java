@@ -107,6 +107,8 @@ public class EventEditorActivity extends BaseActivity {
       finish();
       return;
     }
-    binding.eventEditor.binding.canva.initEditor(Color.BLACK, Color.WHITE, event);
+    if (event.getEventTopBlock() != null) {
+      binding.eventEditor.binding.canva.initEditor(Color.BLACK, Color.WHITE, event);
+    }
   }
 }
