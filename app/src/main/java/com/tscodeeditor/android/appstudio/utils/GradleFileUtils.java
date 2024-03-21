@@ -32,6 +32,8 @@
 package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
@@ -66,12 +68,19 @@ public class GradleFileUtils {
     androidBlockEvent.setEnableEdit(true);
     androidBlockEvent.setEnableRootBlocksDrag(false);
 
-    BlockModel defineBlock = new BlockModel();
-    defineBlock.setColor("#884400");
-    defineBlock.setFirstBlock(true);
-    defineBlock.setBlockType(BlockModel.Type.defaultBlock);
+    BlockModel androidBlockEventBlockModel = new BlockModel();
+    androidBlockEventBlockModel.setColor("#884400");
+    androidBlockEventBlockModel.setFirstBlock(true);
+    androidBlockEventBlockModel.setBlockType(BlockModel.Type.defaultBlock);
 
-    androidBlockEvent.setEventTopBlock(defineBlock);
+    ArrayList<BlockLayerModel> androidBlockEventBlockLayerModel = new ArrayList<BlockLayerModel>();
+
+    BlockContentLayerModel androidBlockEventTextLayer = new BlockContentLayerModel();
+
+    androidBlockEventBlockLayerModel.add(androidBlockEventTextLayer);
+    androidBlockEventBlockModel.setBlockLayerModel(androidBlockEventBlockLayerModel);
+
+    androidBlockEvent.setEventTopBlock(androidBlockEventBlockModel);
     androidBlockEvent.setEnableRootBlocksValueEditing(false);
 
     Event dependenciesBlockEvent = new Event();

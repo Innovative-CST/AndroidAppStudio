@@ -32,34 +32,24 @@
 package com.tscodeeditor.android.appstudio.block.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-public class BlockContentLayerModel extends BlockLayerModel implements Serializable, Cloneable {
+public class BlockContentModel extends BlockLayerModel implements Serializable, Cloneable {
   private static final long serialVersionUID = 021173506L;
 
-  private ArrayList<BlockContentModel> blockContents;
+  private String text;
 
-  public ArrayList<BlockContentModel> getBlockContents() {
-    return this.blockContents;
+  public String getText() {
+    return this.text;
   }
 
-  public void setBlockContents(ArrayList<BlockContentModel> blockContents) {
-    this.blockContents = blockContents;
+  public void setText(String text) {
+    this.text = text;
   }
 
   @Override
-  public BlockContentLayerModel clone() {
-    BlockContentLayerModel blockContentLayerModel = new BlockContentLayerModel();
-
-    if (getBlockContents() != null) {
-      ArrayList<BlockContentModel> clonedBlockContentModel = new ArrayList<BlockContentModel>();
-      for (int pos = 0; pos < getBlockContents().size(); ++pos) {
-        clonedBlockContentModel.add(getBlockContents().get(pos).clone());
-      }
-      blockContentLayerModel.setBlockContents(clonedBlockContentModel);
-    } else {
-      blockContentLayerModel.setBlockContents(null);
-    }
-    return blockContentLayerModel;
+  public BlockContentModel clone() {
+    BlockContentModel blockContentModel = new BlockContentModel();
+    blockContentModel.setText(getText() != null ? new String(getText()) : "");
+    return blockContentModel;
   }
 }
