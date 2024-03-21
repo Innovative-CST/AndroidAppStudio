@@ -32,6 +32,7 @@
 package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
@@ -64,6 +65,13 @@ public class GradleFileUtils {
     androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
     androidBlockEvent.setEnableEdit(true);
     androidBlockEvent.setEnableRootBlocksDrag(false);
+
+    BlockModel defineBlock = new BlockModel();
+    defineBlock.setColor("#884400");
+    defineBlock.setFirstBlock(true);
+    defineBlock.setBlockType(BlockModel.Type.defaultBlock);
+
+    androidBlockEvent.setEventTopBlock(defineBlock);
     androidBlockEvent.setEnableRootBlocksValueEditing(false);
 
     Event dependenciesBlockEvent = new Event();
