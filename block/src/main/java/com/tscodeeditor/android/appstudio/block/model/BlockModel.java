@@ -35,7 +35,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BlockModel implements Serializable, Cloneable {
-  private static final long serialVersionUID = 021173507L;
+  public static final long serialVersionUID = 3L;
 
   private String color;
   private String rawCode;

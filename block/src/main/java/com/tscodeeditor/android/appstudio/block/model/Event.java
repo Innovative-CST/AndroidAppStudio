@@ -34,7 +34,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 import java.io.Serializable;
 
 public class Event implements Serializable, Cloneable {
-  private static final long serialVersionUID = 021173504L;
+  public static final long serialVersionUID = 1L;
 
   private String name;
   private String title;

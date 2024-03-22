@@ -31,9 +31,12 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BlockHolderLayer extends BlockLayerModel {
+public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Serializable {
+    public static final long serialVersionUID = 6L;
+
   private ArrayList<BlockModel> blocks;
 
   public ArrayList<BlockModel> getBlocks() {

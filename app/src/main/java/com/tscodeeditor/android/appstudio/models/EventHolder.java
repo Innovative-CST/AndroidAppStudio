@@ -35,7 +35,7 @@ import java.io.File;
 import java.io.Serializable;
 
 public class EventHolder implements Serializable, Cloneable {
-  private static final long serialVersionUID = 021173505L;
+  public static final long serialVersionUID = 8L;
 
   private String holderName;
   private int icon;

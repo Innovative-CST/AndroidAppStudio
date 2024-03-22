@@ -35,7 +35,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ProjectModel implements Serializable {
-  private static final long serialVersionUID = 021173501L;
+  public static final long serialVersionUID = 9L;
 
   private String packageName;
   private String projectName;

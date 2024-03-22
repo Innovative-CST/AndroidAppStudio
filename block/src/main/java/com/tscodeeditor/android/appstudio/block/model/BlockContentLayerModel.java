@@ -35,7 +35,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BlockContentLayerModel extends BlockLayerModel implements Serializable, Cloneable {
-  private static final long serialVersionUID = 021173506L;
+  public static final long serialVersionUID = 5L;
 
   private ArrayList<BlockContentModel> blockContents;
 

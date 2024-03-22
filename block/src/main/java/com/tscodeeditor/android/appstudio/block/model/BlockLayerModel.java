@@ -31,7 +31,11 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
-public class BlockLayerModel implements Cloneable {
+import java.io.Serializable;
+
+public class BlockLayerModel implements Cloneable, Serializable {
+  public static final long serialVersionUID = 4L;
+
   @Override
   public BlockLayerModel clone() {
     BlockLayerModel clone = new BlockLayerModel();

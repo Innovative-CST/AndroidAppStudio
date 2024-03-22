@@ -34,7 +34,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 import java.io.Serializable;
 
 public class BlockContentModel extends BlockLayerModel implements Serializable, Cloneable {
-  private static final long serialVersionUID = 021173506L;
+  public static final long serialVersionUID = 7L;
 
   private String text;
 

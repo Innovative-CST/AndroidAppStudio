@@ -35,7 +35,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class FileModel implements Serializable, Cloneable {
-  private static final long serialVersionUID = 021173503L;
+  public static final long serialVersionUID = 2L;
 
   private String fileName;
   private String fileExtension;
