@@ -32,17 +32,26 @@
 package com.tscodeeditor.android.appstudio.block.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.widget.TextView;
 import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.utils.ColorPalleteUtils;
 
 public class BlockContentView extends TextView {
   private Context context;
   private BlockContentModel blockContentModel;
+  private BlockModel blockModel;
 
-  public BlockContentView(Context context, BlockContentModel blockContentModel) {
+  public BlockContentView(
+      Context context, BlockContentModel blockContentModel, BlockModel blockModel) {
     super(context);
+    this.context = context;
+    this.blockContentModel = blockContentModel;
+    this.blockModel = blockModel;
     setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+    setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
     setText(blockContentModel.getText());
   }
 
@@ -52,6 +61,17 @@ public class BlockContentView extends TextView {
 
   public void setBlockContentModel(BlockContentModel blockContentModel) {
     this.blockContentModel = blockContentModel;
+    setText(blockContentModel.getText());
+  }
+
+  public BlockModel getBlockModel() {
+    return this.blockModel;
+  }
+
+  public void setBlockModel(BlockModel blockModel) {
+    this.blockModel = blockModel;
+    setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+    setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
     setText(blockContentModel.getText());
   }
 }

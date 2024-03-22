@@ -120,7 +120,8 @@ public class BlockView extends LinearLayout {
               BlockContentLayerHandler.getBlockContentLayerView(
                   context,
                   (BlockContentLayerModel) getBlockModel().getBlockLayerModel().get(layerCount),
-                  editor));
+                  editor,
+                  getBlockModel()));
         }
 
         addView(layerLayout);

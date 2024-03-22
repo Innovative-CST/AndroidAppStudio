@@ -31,37 +31,12 @@
 
 package com.tscodeeditor.android.appstudio.block.utils;
 
-import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.view.BlockContentView;
+import android.graphics.Color;
+import androidx.core.graphics.ColorUtils;
 
-public class BlockContentLayerHandler {
-  public static ViewGroup getBlockContentLayerView(
-      Context context,
-      BlockContentLayerModel blockContentLayerModel,
-      EventEditor editor,
-      BlockModel blockModel) {
-    LinearLayout root = new LinearLayout(context);
-
-    for (int position = 0;
-        position < blockContentLayerModel.getBlockContents().size();
-        ++position) {
-      BlockContentModel content = blockContentLayerModel.getBlockContents().get(position);
-      if (content instanceof BlockContentModel) {
-        /*
-         * BlockContentModel just contains text to display.
-         * Using BlockContentView for displaying text.
-         */
-        BlockContentView textContent = new BlockContentView(context, content, blockModel);
-        textContent.setPadding(UnitUtils.dpToPx(context, 4), 0, UnitUtils.dpToPx(context, 4), 0);
-        root.addView(textContent);
-      }
-    }
-    return root;
+public final class ColorPalleteUtils {
+  public static int getTextColorForColor(int color) {
+    double brightness = ColorUtils.calculateLuminance(color);
+    return brightness > 0.5 ? Color.BLACK : Color.WHITE;
   }
 }
