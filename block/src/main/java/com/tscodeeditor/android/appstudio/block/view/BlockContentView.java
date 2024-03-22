@@ -32,6 +32,7 @@
 package com.tscodeeditor.android.appstudio.block.view;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.widget.TextView;
 import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
 
@@ -41,6 +42,7 @@ public class BlockContentView extends TextView {
 
   public BlockContentView(Context context, BlockContentModel blockContentModel) {
     super(context);
+    setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
     setText(blockContentModel.getText());
   }
 
