@@ -59,7 +59,15 @@ public class GradleFileUtils {
     appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
 
     ArrayList<Event> builtinEvents = new ArrayList<Event>();
+    builtinEvents.add(getAppModuleAndroidBlockEvent());
+    builtinEvents.add(getAppModuleDependenciesBlockEvent());
 
+    appModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
+
+    return appModuleGradleFile;
+  }
+
+  public static Event getAppModuleAndroidBlockEvent() {
     Event androidBlockEvent = new Event();
     androidBlockEvent.setTitle("App Configration");
     androidBlockEvent.setName("androidBlock");
@@ -90,7 +98,10 @@ public class GradleFileUtils {
 
     androidBlockEvent.setEventTopBlock(androidBlockEventBlockModel);
     androidBlockEvent.setEnableRootBlocksValueEditing(false);
+    return androidBlockEvent;
+  }
 
+  public static Event getAppModuleDependenciesBlockEvent() {
     Event dependenciesBlockEvent = new Event();
     dependenciesBlockEvent.setTitle("App Libraries");
     dependenciesBlockEvent.setName("dependenciesBlock");
@@ -102,12 +113,7 @@ public class GradleFileUtils {
     dependenciesBlockEvent.setEnableRootBlocksDrag(false);
     dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
 
-    builtinEvents.add(androidBlockEvent);
-    builtinEvents.add(dependenciesBlockEvent);
-
-    appModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
-
-    return appModuleGradleFile;
+    return dependenciesBlockEvent;
   }
 
   private static FileModel getLibraryModuleGradleFileModule() {
