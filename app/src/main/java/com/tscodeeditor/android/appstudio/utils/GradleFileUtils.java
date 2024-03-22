@@ -32,13 +32,10 @@
 package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
+import com.tscodeeditor.android.appstudio.builtin.events.GradleBuiltInEvents;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
@@ -59,61 +56,12 @@ public class GradleFileUtils {
     appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
 
     ArrayList<Event> builtinEvents = new ArrayList<Event>();
-    builtinEvents.add(getAppModuleAndroidBlockEvent());
-    builtinEvents.add(getAppModuleDependenciesBlockEvent());
+    builtinEvents.add(GradleBuiltInEvents.getAppModuleAndroidBlockEvent());
+    builtinEvents.add(GradleBuiltInEvents.getAppModuleDependenciesBlockEvent());
 
     appModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
 
     return appModuleGradleFile;
-  }
-
-  public static Event getAppModuleAndroidBlockEvent() {
-    Event androidBlockEvent = new Event();
-    androidBlockEvent.setTitle("App Configration");
-    androidBlockEvent.setName("androidBlock");
-    androidBlockEvent.setDescription("Contains basic defination of your app");
-    androidBlockEvent.setEventReplacer("blockCode");
-    androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
-    androidBlockEvent.setEnableEdit(true);
-    androidBlockEvent.setEnableRootBlocksDrag(false);
-
-    BlockModel androidBlockEventBlockModel = new BlockModel();
-    androidBlockEventBlockModel.setColor("#884400");
-    androidBlockEventBlockModel.setFirstBlock(true);
-    androidBlockEventBlockModel.setBlockType(BlockModel.Type.defaultBlock);
-
-    ArrayList<BlockLayerModel> androidBlockEventBlockLayerModel = new ArrayList<BlockLayerModel>();
-
-    BlockContentLayerModel androidBlockEventTextLayer = new BlockContentLayerModel();
-
-    ArrayList<BlockContentModel> defineTextLayerContent = new ArrayList<BlockContentModel>();
-    BlockContentModel defineEventText = new BlockContentModel();
-    defineEventText.setText("Your app configration");
-
-    defineTextLayerContent.add(defineEventText);
-    androidBlockEventTextLayer.setBlockContents(defineTextLayerContent);
-
-    androidBlockEventBlockLayerModel.add(androidBlockEventTextLayer);
-    androidBlockEventBlockModel.setBlockLayerModel(androidBlockEventBlockLayerModel);
-
-    androidBlockEvent.setEventTopBlock(androidBlockEventBlockModel);
-    androidBlockEvent.setEnableRootBlocksValueEditing(false);
-    return androidBlockEvent;
-  }
-
-  public static Event getAppModuleDependenciesBlockEvent() {
-    Event dependenciesBlockEvent = new Event();
-    dependenciesBlockEvent.setTitle("App Libraries");
-    dependenciesBlockEvent.setName("dependenciesBlock");
-    dependenciesBlockEvent.setDescription("Contains library used by your app");
-    dependenciesBlockEvent.setEventReplacer("blockCode");
-    dependenciesBlockEvent.setRawCode(
-        "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
-    dependenciesBlockEvent.setEnableEdit(true);
-    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
-    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
-
-    return dependenciesBlockEvent;
   }
 
   private static FileModel getLibraryModuleGradleFileModule() {

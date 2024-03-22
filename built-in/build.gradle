@@ -30,48 +30,18 @@
  */
 
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
 }
 
-def localPropsFile = rootProject.file("local.properties")
-def properties = new Properties()
-if (localPropsFile.exists()) {
-    localPropsFile.withInputStream { inputStream ->
-        properties.load(inputStream)
-    }
-}
 
 android {
-    namespace 'com.tscodeeditor.android.appstudio'
+    namespace 'com.tscodeeditor.android.appstudio.builtin'
     compileSdk 34
 
-    def getCommitHash = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-parse", "--short", "HEAD"
-            standardOutput = stdout
-        }
-        return stdout.toString().trim()
-    }
-
-    def getCommitSha = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-parse", "HEAD"
-            standardOutput = stdout
-        }
-        return "\"" + stdout.toString().trim() + "\""
-    }
-
     defaultConfig {
-        applicationId "com.tscodeeditor.android.appstudio"
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
-        buildConfigField "String", "commitSha", getCommitSha()
-        buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
-
         vectorDrawables { 
             useSupportLibrary true
         }
@@ -97,12 +67,5 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.12.0-alpha03")
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    implementation("com.google.code.gson:gson:2.8.7")
-    implementation("com.squareup.okhttp3:okhttp:3.9.1")
     implementation project(":block")
-    implementation project(":built-in")
 }

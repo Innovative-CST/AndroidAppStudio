@@ -50,3 +50,4 @@ rootProject.name = "Android AppStudio"
 include(":app")
 include(":block")
 include(":editor")
+include(":built-in")
