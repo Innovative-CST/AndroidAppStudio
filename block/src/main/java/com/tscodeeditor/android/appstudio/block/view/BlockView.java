@@ -126,6 +126,20 @@ public class BlockView extends LinearLayout {
 
         addView(layerLayout);
       }
+
+      if (!getBlockModel().isLastBlock()) {
+        LinearLayout blockBottomJoint = new LinearLayout(getContext());
+        ViewGroup.LayoutParams layoutParams =
+            new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        blockBottomJoint.setLayoutParams(layoutParams);
+        Drawable blockBottomJointDrawable =
+            ContextCompat.getDrawable(getContext(), R.drawable.block_default_bottom_joint);
+        blockBottomJointDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+        blockBottomJointDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+        blockBottomJoint.setBackground(blockBottomJointDrawable);
+        addView(blockBottomJoint);
+      }
     }
   }
 
