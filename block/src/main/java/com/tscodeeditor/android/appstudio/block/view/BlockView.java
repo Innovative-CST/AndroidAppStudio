@@ -43,6 +43,7 @@ import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.utils.BlockContentLayerHandler;
 
 public class BlockView extends LinearLayout {
   private EventEditor editor;
@@ -114,7 +115,14 @@ public class BlockView extends LinearLayout {
                 R.drawable.block_default_cut_rt_bl_br,
                 Color.parseColor(getBlockModel().getColor()));
           }
+          // Load block content layer...
+          layerLayout.addView(
+              BlockContentLayerHandler.getBlockContentLayerView(
+                  context,
+                  (BlockContentLayerModel) getBlockModel().getBlockLayerModel().get(layerCount),
+                  editor));
         }
+
         addView(layerLayout);
       }
     }
