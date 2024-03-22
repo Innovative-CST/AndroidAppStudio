@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
@@ -43,6 +44,10 @@ public class BlockView extends LinearLayout {
        */
       if (getBlockModel().isFirstBlock()) {
         LinearLayout firstBlockTop = new LinearLayout(getContext());
+        ViewGroup.LayoutParams layoutParams =
+            new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        firstBlockTop.setLayoutParams(layoutParams);
         Drawable firstBlockTopDrawable =
             ContextCompat.getDrawable(getContext(), R.drawable.block_first_top);
         firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
@@ -68,6 +73,10 @@ public class BlockView extends LinearLayout {
            */
           if (getBlockModel().getBlockLayerModel().size() == 1 && getBlockModel().isFirstBlock()) {
             LinearLayout layerLayout = new LinearLayout(getContext());
+            ViewGroup.LayoutParams layoutParams =
+                new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layerLayout.setLayoutParams(layoutParams);
             Drawable layerLayoutDrawable =
                 ContextCompat.getDrawable(getContext(), R.drawable.block_default_cut_rt_bl_br);
             layerLayoutDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
