@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
@@ -62,6 +63,11 @@ public class BlockView extends LinearLayout {
       for (int layerCount = 0;
           layerCount < getBlockModel().getBlockLayerModel().size();
           ++layerCount) {
+        LinearLayout layerLayout = new LinearLayout(getContext());
+        ViewGroup.LayoutParams layoutParams =
+            new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layerLayout.setLayoutParams(layoutParams);
         /*
          * Check if current(LOOP) layer is BlockContentLayerModel
          */
@@ -72,21 +78,22 @@ public class BlockView extends LinearLayout {
            * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
            */
           if (getBlockModel().getBlockLayerModel().size() == 1 && getBlockModel().isFirstBlock()) {
-            LinearLayout layerLayout = new LinearLayout(getContext());
-            ViewGroup.LayoutParams layoutParams =
-                new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layerLayout.setLayoutParams(layoutParams);
-            Drawable layerLayoutDrawable =
-                ContextCompat.getDrawable(getContext(), R.drawable.block_default_cut_rt_bl_br);
-            layerLayoutDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
-            layerLayoutDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-            layerLayout.setBackground(layerLayoutDrawable);
-            addView(layerLayout);
+            setDrawable(
+                layerLayout,
+                R.drawable.block_default_cut_rt_bl_br,
+                Color.parseColor(getBlockModel().getColor()));
           }
         }
+        addView(layerLayout);
       }
     }
+  }
+
+  private void setDrawable(View view, int res, int color) {
+    Drawable drawable = ContextCompat.getDrawable(getContext(), res);
+    drawable.setTint(color);
+    drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+    view.setBackground(drawable);
   }
 
   public EventEditor getEditor() {
