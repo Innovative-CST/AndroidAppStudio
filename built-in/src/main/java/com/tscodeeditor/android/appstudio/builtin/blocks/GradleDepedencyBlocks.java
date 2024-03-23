@@ -31,7 +31,11 @@
 
 package com.tscodeeditor.android.appstudio.builtin.blocks;
 
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import java.util.ArrayList;
 
 public class GradleDepedencyBlocks {
@@ -40,7 +44,40 @@ public class GradleDepedencyBlocks {
     BlockHolderModel holder = new BlockHolderModel();
     holder.setColor("#E27625");
     holder.setName("dependency");
+
+    ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
+
+    dependencyBlocksList.add(getImplementationBlock());
+
+    holder.setList(dependencyBlocksList);
+
     holders.add(holder);
     return holders;
+  }
+
+  public static BlockModel getImplementationBlock() {
+    BlockModel implementationBlock = new BlockModel();
+    implementationBlock.setBlockType(BlockModel.Type.defaultBlock);
+    implementationBlock.setColor("#E27625");
+    implementationBlock.setRawCode("implementation");
+
+    ArrayList<BlockLayerModel> implementationBlockLayers = new ArrayList<BlockLayerModel>();
+
+    BlockFieldLayerModel implementationBlockLayer1 = new BlockFieldLayerModel();
+
+    ArrayList<BlockFieldModel> implementationBlockLayer1Fields = new ArrayList<BlockFieldModel>();
+
+    BlockFieldModel implementationText = new BlockFieldModel();
+    implementationText.setValue("implementation");
+
+    implementationBlockLayer1Fields.add(implementationText);
+
+    implementationBlockLayer1.setBlockFields(implementationBlockLayer1Fields);
+
+    implementationBlockLayers.add(implementationBlockLayer1);
+
+    implementationBlock.setBlockLayerModel(implementationBlockLayers);
+
+    return implementationBlock;
   }
 }
