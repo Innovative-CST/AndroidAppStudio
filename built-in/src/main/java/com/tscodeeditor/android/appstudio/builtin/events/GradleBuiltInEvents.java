@@ -31,8 +31,8 @@
 
 package com.tscodeeditor.android.appstudio.builtin.events;
 
-import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
@@ -60,14 +60,14 @@ public class GradleBuiltInEvents {
 
     ArrayList<BlockLayerModel> androidBlockEventBlockLayerModel = new ArrayList<BlockLayerModel>();
 
-    BlockContentLayerModel androidBlockEventTextLayer = new BlockContentLayerModel();
+    BlockFieldLayerModel androidBlockEventTextLayer = new BlockFieldLayerModel();
 
-    ArrayList<BlockContentModel> defineTextLayerContent = new ArrayList<BlockContentModel>();
-    BlockContentModel defineEventText = new BlockContentModel();
-    defineEventText.setText("Your app configration");
+    ArrayList<BlockFieldModel> defineTextLayerContent = new ArrayList<BlockFieldModel>();
+    BlockFieldModel defineEventText = new BlockFieldModel();
+    defineEventText.setValue("Your app configration");
 
     defineTextLayerContent.add(defineEventText);
-    androidBlockEventTextLayer.setBlockContents(defineTextLayerContent);
+    androidBlockEventTextLayer.setBlockFields(defineTextLayerContent);
 
     androidBlockEventBlockLayerModel.add(androidBlockEventTextLayer);
     androidBlockEventBlockModel.setBlockLayerModel(androidBlockEventBlockLayerModel);

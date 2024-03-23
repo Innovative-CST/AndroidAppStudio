@@ -29,27 +29,39 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.model;
+package com.tscodeeditor.android.appstudio.block.utils;
 
-import java.io.Serializable;
+import android.content.Context;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.view.BlockFieldView;
 
-public class BlockContentModel extends BlockLayerModel implements Serializable, Cloneable {
-  public static final long serialVersionUID = 7L;
+public class BlockFieldLayerHandler {
+  public static ViewGroup getBlockFieldLayerView(
+      Context context,
+      BlockFieldLayerModel blockFieldLayerModel,
+      EventEditor editor,
+      BlockModel blockModel) {
+    LinearLayout root = new LinearLayout(context);
 
-  private String text;
-
-  public String getText() {
-    return this.text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  @Override
-  public BlockContentModel clone() {
-    BlockContentModel blockContentModel = new BlockContentModel();
-    blockContentModel.setText(getText() != null ? new String(getText()) : "");
-    return blockContentModel;
+    for (int position = 0;
+        position < blockFieldLayerModel.getBlockFields().size();
+        ++position) {
+      BlockFieldModel content = blockFieldLayerModel.getBlockFields().get(position);
+      if (content instanceof BlockFieldModel) {
+        /*
+         * BlockFieldModel just contains text to display.
+         * Using BlockContentView for displaying text.
+         */
+        BlockFieldView textField = new BlockFieldView(context, content, blockModel);
+        textField.setPadding(UnitUtils.dpToPx(context, 4), 0, UnitUtils.dpToPx(context, 4), 0);
+        root.addView(textField);
+      }
+    }
+    return root;
   }
 }

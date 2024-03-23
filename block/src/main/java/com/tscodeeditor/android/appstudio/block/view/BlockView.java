@@ -41,9 +41,9 @@ import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.utils.BlockContentLayerHandler;
+import com.tscodeeditor.android.appstudio.block.utils.BlockFieldLayerHandler;
 
 public class BlockView extends LinearLayout {
   private EventEditor editor;
@@ -103,8 +103,7 @@ public class BlockView extends LinearLayout {
         /*
          * Check if current(LOOP) layer is BlockContentLayerModel
          */
-        if (getBlockModel().getBlockLayerModel().get(layerCount)
-            instanceof BlockContentLayerModel) {
+        if (getBlockModel().getBlockLayerModel().get(layerCount) instanceof BlockFieldLayerModel) {
           /*
            * If the block is for defining event then and number of Layout is 1 then:
            * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
@@ -117,9 +116,9 @@ public class BlockView extends LinearLayout {
           }
           // Load block content layer...
           layerLayout.addView(
-              BlockContentLayerHandler.getBlockContentLayerView(
+              BlockFieldLayerHandler.getBlockFieldLayerView(
                   context,
-                  (BlockContentLayerModel) getBlockModel().getBlockLayerModel().get(layerCount),
+                  (BlockFieldLayerModel) getBlockModel().getBlockLayerModel().get(layerCount),
                   editor,
                   getBlockModel()));
         }

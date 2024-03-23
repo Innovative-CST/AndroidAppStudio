@@ -35,33 +35,32 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.widget.TextView;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.utils.ColorPalleteUtils;
 
-public class BlockContentView extends TextView {
+public class BlockFieldView extends TextView {
   private Context context;
-  private BlockContentModel blockContentModel;
+  private BlockFieldModel blockFieldModel;
   private BlockModel blockModel;
 
-  public BlockContentView(
-      Context context, BlockContentModel blockContentModel, BlockModel blockModel) {
+  public BlockFieldView(Context context, BlockFieldModel blockFieldModel, BlockModel blockModel) {
     super(context);
     this.context = context;
-    this.blockContentModel = blockContentModel;
+    this.blockFieldModel = blockFieldModel;
     this.blockModel = blockModel;
     setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
     setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
-    setText(blockContentModel.getText());
+    setText(blockFieldModel.getValue());
   }
 
-  public BlockContentModel getBlockContentModel() {
-    return this.blockContentModel;
+  public BlockFieldModel getBlockFieldModel() {
+    return this.blockFieldModel;
   }
 
-  public void setBlockContentModel(BlockContentModel blockContentModel) {
-    this.blockContentModel = blockContentModel;
-    setText(blockContentModel.getText());
+  public void setBlockContentModel(BlockFieldModel blockFieldModel) {
+    this.blockFieldModel = blockFieldModel;
+    setText(blockFieldModel.getValue());
   }
 
   public BlockModel getBlockModel() {
@@ -72,6 +71,6 @@ public class BlockContentView extends TextView {
     this.blockModel = blockModel;
     setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
     setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
-    setText(blockContentModel.getText());
+    setText(blockFieldModel.getValue());
   }
 }

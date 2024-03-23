@@ -29,39 +29,27 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.block.model;
 
-import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentLayerModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockContentModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.view.BlockContentView;
+import java.io.Serializable;
 
-public class BlockContentLayerHandler {
-  public static ViewGroup getBlockContentLayerView(
-      Context context,
-      BlockContentLayerModel blockContentLayerModel,
-      EventEditor editor,
-      BlockModel blockModel) {
-    LinearLayout root = new LinearLayout(context);
+public class BlockFieldModel extends BlockLayerModel implements Serializable, Cloneable {
+  public static final long serialVersionUID = 7L;
 
-    for (int position = 0;
-        position < blockContentLayerModel.getBlockContents().size();
-        ++position) {
-      BlockContentModel content = blockContentLayerModel.getBlockContents().get(position);
-      if (content instanceof BlockContentModel) {
-        /*
-         * BlockContentModel just contains text to display.
-         * Using BlockContentView for displaying text.
-         */
-        BlockContentView textContent = new BlockContentView(context, content, blockModel);
-        textContent.setPadding(UnitUtils.dpToPx(context, 4), 0, UnitUtils.dpToPx(context, 4), 0);
-        root.addView(textContent);
-      }
-    }
-    return root;
+  private String value;
+
+  public String getValue() {
+    return this.value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public BlockFieldModel clone() {
+    BlockFieldModel blockFieldModel = new BlockFieldModel();
+    blockFieldModel.setValue(getValue() != null ? new String(getValue()) : "");
+    return blockFieldModel;
   }
 }

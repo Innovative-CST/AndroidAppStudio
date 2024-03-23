@@ -34,32 +34,32 @@ package com.tscodeeditor.android.appstudio.block.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BlockContentLayerModel extends BlockLayerModel implements Serializable, Cloneable {
+public class BlockFieldLayerModel extends BlockLayerModel implements Serializable, Cloneable {
   public static final long serialVersionUID = 5L;
 
-  private ArrayList<BlockContentModel> blockContents;
+  private ArrayList<BlockFieldModel> blockFields;
 
-  public ArrayList<BlockContentModel> getBlockContents() {
-    return this.blockContents;
+  public ArrayList<BlockFieldModel> getBlockFields() {
+    return this.blockFields;
   }
 
-  public void setBlockContents(ArrayList<BlockContentModel> blockContents) {
-    this.blockContents = blockContents;
+  public void setBlockFields(ArrayList<BlockFieldModel> blockFields) {
+    this.blockFields = blockFields;
   }
 
   @Override
-  public BlockContentLayerModel clone() {
-    BlockContentLayerModel blockContentLayerModel = new BlockContentLayerModel();
+  public BlockFieldLayerModel clone() {
+    BlockFieldLayerModel blockFieldLayerModel = new BlockFieldLayerModel();
 
-    if (getBlockContents() != null) {
-      ArrayList<BlockContentModel> clonedBlockContentModel = new ArrayList<BlockContentModel>();
-      for (int pos = 0; pos < getBlockContents().size(); ++pos) {
-        clonedBlockContentModel.add(getBlockContents().get(pos).clone());
+    if (getBlockFields() != null) {
+      ArrayList<BlockFieldModel> clonedBlockFieldModel = new ArrayList<BlockFieldModel>();
+      for (int pos = 0; pos < getBlockFields().size(); ++pos) {
+        clonedBlockFieldModel.add(getBlockFields().get(pos).clone());
       }
-      blockContentLayerModel.setBlockContents(clonedBlockContentModel);
+      blockFieldLayerModel.setBlockFields(clonedBlockFieldModel);
     } else {
-      blockContentLayerModel.setBlockContents(null);
+      blockFieldLayerModel.setBlockFields(null);
     }
-    return blockContentLayerModel;
+    return blockFieldLayerModel;
   }
 }
