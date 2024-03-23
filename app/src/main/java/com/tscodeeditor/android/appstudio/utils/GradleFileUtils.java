@@ -32,60 +32,14 @@
 package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
-import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
-import com.tscodeeditor.android.appstudio.builtin.events.GradleBuiltInEvents;
+import com.tscodeeditor.android.appstudio.builtin.filemodels.BuiltInGradleFileModel;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
 
 public class GradleFileUtils {
-  private static FileModel getAppModuleGradleFileModule() {
-    FileModel appModuleGradleFile = new FileModel();
-    appModuleGradleFile.setFileName("build");
-    appModuleGradleFile.setFileExtension("gradle");
-    appModuleGradleFile.setFolder(false);
-
-    StringBuilder appModuleGradleFileRawCode = new StringBuilder();
-    appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");
-    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("androidBlock"));
-    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("dependenciesBlock"));
-
-    appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
-
-    ArrayList<Event> builtinEvents = new ArrayList<Event>();
-    builtinEvents.add(GradleBuiltInEvents.getAppModuleAndroidBlockEvent());
-    builtinEvents.add(GradleBuiltInEvents.getAppModuleDependenciesBlockEvent());
-
-    appModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
-
-    return appModuleGradleFile;
-  }
-
-  private static FileModel getLibraryModuleGradleFileModule() {
-    FileModel libraryModuleGradleFile = new FileModel();
-    libraryModuleGradleFile.setFileName("build");
-    libraryModuleGradleFile.setFileExtension("gradle");
-    libraryModuleGradleFile.setFolder(false);
-
-    StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
-    libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
-    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("androidBlock"));
-    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("dependenciesBlock"));
-
-    libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
-
-    ArrayList<Event> builtinEvents = new ArrayList<Event>();
-
-    builtinEvents.add(GradleBuiltInEvents.getLibraryModuleAndroidBlockEvent());
-    builtinEvents.add(GradleBuiltInEvents.getLibraryModuleDependenciesBlockEvent());
-
-    libraryModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
-
-    return libraryModuleGradleFile;
-  }
 
   private static EventHolder getGradleEventHolder() {
     EventHolder eventHolder = new EventHolder();
@@ -135,9 +89,9 @@ public class GradleFileUtils {
     FileModel buildGradleFile = null;
 
     if (module.isAndroidAppModule()) {
-      buildGradleFile = getAppModuleGradleFileModule();
+      buildGradleFile = BuiltInGradleFileModel.getAppModuleGradleFileModule();
     } else {
-      buildGradleFile = getLibraryModuleGradleFileModule();
+      buildGradleFile = BuiltInGradleFileModel.getLibraryModuleGradleFileModule();
     }
 
     if (!buildGradleFileModel.exists()) {
