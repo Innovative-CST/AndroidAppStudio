@@ -37,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
+import com.tscodeeditor.android.appstudio.block.model.Event;
 
 public class EventEditor extends LinearLayout {
 
@@ -70,7 +71,7 @@ public class EventEditor extends LinearLayout {
    * Method for switching the section quickly.
    * All other section will be GONE except the section of which the section code is provided
    */
-  private void switchSection(int section) {
+  public void switchSection(int section) {
     binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.info.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
     binding.editorSection.setVisibility(section == EDITOR_SECTION ? View.VISIBLE : View.GONE);
@@ -80,5 +81,9 @@ public class EventEditor extends LinearLayout {
 
   public void showBlocksPallete(boolean show) {
     binding.blockArea.setVisibility(show ? View.VISIBLE : View.GONE);
+  }
+
+  public void initEditor(Event event) {
+    binding.canva.initEditor(event);
   }
 }

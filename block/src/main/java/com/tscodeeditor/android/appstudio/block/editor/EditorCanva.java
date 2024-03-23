@@ -120,7 +120,7 @@ public class EditorCanva extends EditorScrollView {
     return super.onTouchEvent(motion);
   }
 
-  public void initEditor(int defineEventColor, int textColor, Event defineEvent) {
+  public void initEditor(Event defineEvent) {
     LinearLayout blockListEditorArea = new LinearLayout(getContext());
     blockListEditorArea.setLayoutParams(
         new LinearLayout.LayoutParams(

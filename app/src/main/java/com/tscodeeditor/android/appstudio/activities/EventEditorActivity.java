@@ -31,7 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
@@ -108,7 +107,7 @@ public class EventEditorActivity extends BaseActivity {
       return;
     }
     if (event.getEventTopBlock() != null) {
-      binding.eventEditor.binding.canva.initEditor(Color.BLACK, Color.WHITE, event);
+      binding.eventEditor.initEditor(event);
     }
   }
 }
