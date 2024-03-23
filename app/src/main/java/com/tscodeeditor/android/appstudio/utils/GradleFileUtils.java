@@ -79,29 +79,8 @@ public class GradleFileUtils {
 
     ArrayList<Event> builtinEvents = new ArrayList<Event>();
 
-    Event androidBlockEvent = new Event();
-    androidBlockEvent.setTitle("Library Configration");
-    androidBlockEvent.setName("androidBlock");
-    androidBlockEvent.setDescription("Contains basic defination of your library");
-    androidBlockEvent.setEventReplacer("blockCode");
-    androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
-    androidBlockEvent.setEnableEdit(true);
-    androidBlockEvent.setEnableRootBlocksDrag(false);
-    androidBlockEvent.setEnableRootBlocksValueEditing(false);
-
-    Event dependenciesBlockEvent = new Event();
-    dependenciesBlockEvent.setTitle("Library dependencies");
-    dependenciesBlockEvent.setName("dependenciesBlock");
-    dependenciesBlockEvent.setDescription("Contains library used by your app");
-    dependenciesBlockEvent.setEventReplacer("blockCode");
-    dependenciesBlockEvent.setRawCode(
-        "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
-    dependenciesBlockEvent.setEnableEdit(true);
-    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
-    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
-
-    builtinEvents.add(androidBlockEvent);
-    builtinEvents.add(dependenciesBlockEvent);
+    builtinEvents.add(GradleBuiltInEvents.getLibraryModuleAndroidBlockEvent());
+    builtinEvents.add(GradleBuiltInEvents.getLibraryModuleDependenciesBlockEvent());
 
     libraryModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
 

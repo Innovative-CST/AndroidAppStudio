@@ -1,4 +1,3 @@
-
 /*
  * This file is part of Android AppStudio [https://github.com/TS-Code-Editor/AndroidAppStudio].
  *
@@ -41,7 +40,10 @@ import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.util.ArrayList;
 
 public class GradleBuiltInEvents {
-    public static Event getAppModuleAndroidBlockEvent() {
+  /*
+   * App configration event of app module build.gradle file.
+   */
+  public static Event getAppModuleAndroidBlockEvent() {
     Event androidBlockEvent = new Event();
     androidBlockEvent.setTitle("App Configration");
     androidBlockEvent.setName("androidBlock");
@@ -75,9 +77,47 @@ public class GradleBuiltInEvents {
     return androidBlockEvent;
   }
 
+  /*
+   * App Libraries event of app module build.gradle file.
+   */
   public static Event getAppModuleDependenciesBlockEvent() {
     Event dependenciesBlockEvent = new Event();
     dependenciesBlockEvent.setTitle("App Libraries");
+    dependenciesBlockEvent.setName("dependenciesBlock");
+    dependenciesBlockEvent.setDescription("Contains library used by your app");
+    dependenciesBlockEvent.setEventReplacer("blockCode");
+    dependenciesBlockEvent.setRawCode(
+        "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    dependenciesBlockEvent.setEnableEdit(true);
+    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
+    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
+
+    return dependenciesBlockEvent;
+  }
+
+  /*
+   * Library Configration event of library module build.gradle file.
+   */
+  public static Event getLibraryModuleAndroidBlockEvent() {
+    Event androidBlockEvent = new Event();
+    androidBlockEvent.setTitle("Library Configration");
+    androidBlockEvent.setName("androidBlock");
+    androidBlockEvent.setDescription("Contains basic defination of your library");
+    androidBlockEvent.setEventReplacer("blockCode");
+    androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    androidBlockEvent.setEnableEdit(true);
+    androidBlockEvent.setEnableRootBlocksDrag(false);
+    androidBlockEvent.setEnableRootBlocksValueEditing(false);
+
+    return androidBlockEvent;
+  }
+
+  /*
+   * Dependencies event of library module build.gradle file.
+   */
+  public static Event getLibraryModuleDependenciesBlockEvent() {
+    Event dependenciesBlockEvent = new Event();
+    dependenciesBlockEvent.setTitle("Library dependencies");
     dependenciesBlockEvent.setName("dependenciesBlock");
     dependenciesBlockEvent.setDescription("Contains library used by your app");
     dependenciesBlockEvent.setEventReplacer("blockCode");
