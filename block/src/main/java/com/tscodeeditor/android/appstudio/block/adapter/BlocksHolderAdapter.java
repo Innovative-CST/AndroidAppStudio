@@ -29,70 +29,54 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.editor;
+package com.tscodeeditor.android.appstudio.block.adapter;
 
-import android.content.Context;
-import android.util.AttributeSet;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
-import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
+import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.block.databinding.AdapterEventEditorBlockHolderBinding;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
-import com.tscodeeditor.android.appstudio.block.model.Event;
 import java.util.ArrayList;
 
-public class EventEditor extends LinearLayout {
+public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapter.ViewHolder> {
 
-  public EventEditorLayoutBinding binding;
+  public ArrayList<BlockHolderModel> list;
 
-  // Contants for showing the section easily
-  public static final int LOADING_SECTION = 0;
-  public static final int INFO_SECTION = 1;
-  public static final int EDITOR_SECTION = 2;
-  public static final int VALUE_EDITOR_SECTION = 3;
-
-  public EventEditor(final Context context, final AttributeSet set) {
-    super(context, set);
-
-    binding = EventEditorLayoutBinding.inflate(LayoutInflater.from(context));
-
-    addView(binding.getRoot());
-    setMatchParent(binding.getRoot());
-    switchSection(EDITOR_SECTION);
-    invalidate();
+  public BlocksHolderAdapter(ArrayList<BlockHolderModel> _arr) {
+    list = _arr;
   }
 
-  private void setMatchParent(View view) {
-    LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-    view.setLayoutParams(layoutParams);
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    AdapterEventEditorBlockHolderBinding item =
+        AdapterEventEditorBlockHolderBinding.inflate(LayoutInflater.from(parent.getContext()));
+    View _v = item.getRoot();
+    RecyclerView.LayoutParams _lp =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    _v.setLayoutParams(_lp);
+    return new ViewHolder(_v);
   }
 
-  /*
-   * Method for switching the section quickly.
-   * All other section will be GONE except the section of which the section code is provided
-   */
-  public void switchSection(int section) {
-    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
-    binding.info.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
-    binding.editorSection.setVisibility(section == EDITOR_SECTION ? View.VISIBLE : View.GONE);
-    binding.valueEditorSection.setVisibility(
-        section == VALUE_EDITOR_SECTION ? View.VISIBLE : View.GONE);
+  @Override
+  public void onBindViewHolder(ViewHolder _holder, int _position) {
+    AdapterEventEditorBlockHolderBinding binding =
+        AdapterEventEditorBlockHolderBinding.bind(_holder.itemView);
+    binding.holderName.setText(list.get(_position).getName());
+    binding.color.setBackgroundColor(Color.parseColor(list.get(_position).getColor()));
+    binding.getRoot().setOnClickListener((view) -> {});
   }
 
-  public void showBlocksPallete(boolean show) {
-    binding.blockArea.setVisibility(show ? View.VISIBLE : View.GONE);
+  @Override
+  public int getItemCount() {
+    return list.size();
   }
 
-  public void initEditor(Event event) {
-    binding.canva.initEditor(event);
-  }
-
-  public void setHolder(ArrayList<BlockHolderModel> holderList) {
-    binding.blocksHolderList.setAdapter(new BlocksHolderAdapter(holderList));
-    binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
+  public class ViewHolder extends RecyclerView.ViewHolder {
+    public ViewHolder(View v) {
+      super(v);
+    }
   }
 }

@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
@@ -108,6 +109,12 @@ public class EventEditorActivity extends BaseActivity {
     }
     if (event.getEventTopBlock() != null) {
       binding.eventEditor.initEditor(event);
+    }
+
+    if (event.getName() != null) {
+      if (event.getName().equals("dependenciesBlock")) {
+        binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleDepedencyBlocks());
+      }
     }
   }
 }

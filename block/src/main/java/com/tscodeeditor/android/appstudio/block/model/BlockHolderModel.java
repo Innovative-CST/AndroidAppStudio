@@ -29,70 +29,39 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.editor;
+package com.tscodeeditor.android.appstudio.block.model;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
-import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
-import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
-import com.tscodeeditor.android.appstudio.block.model.Event;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class EventEditor extends LinearLayout {
+public class BlockHolderModel implements Serializable {
+  public static final long serialVersionUID = 10L;
 
-  public EventEditorLayoutBinding binding;
+  private String name;
+  private String color;
+  private ArrayList<Object> list;
 
-  // Contants for showing the section easily
-  public static final int LOADING_SECTION = 0;
-  public static final int INFO_SECTION = 1;
-  public static final int EDITOR_SECTION = 2;
-  public static final int VALUE_EDITOR_SECTION = 3;
-
-  public EventEditor(final Context context, final AttributeSet set) {
-    super(context, set);
-
-    binding = EventEditorLayoutBinding.inflate(LayoutInflater.from(context));
-
-    addView(binding.getRoot());
-    setMatchParent(binding.getRoot());
-    switchSection(EDITOR_SECTION);
-    invalidate();
+  public ArrayList<Object> getList() {
+    return this.list;
   }
 
-  private void setMatchParent(View view) {
-    LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-    view.setLayoutParams(layoutParams);
+  public void setList(ArrayList<Object> list) {
+    this.list = list;
   }
 
-  /*
-   * Method for switching the section quickly.
-   * All other section will be GONE except the section of which the section code is provided
-   */
-  public void switchSection(int section) {
-    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
-    binding.info.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
-    binding.editorSection.setVisibility(section == EDITOR_SECTION ? View.VISIBLE : View.GONE);
-    binding.valueEditorSection.setVisibility(
-        section == VALUE_EDITOR_SECTION ? View.VISIBLE : View.GONE);
+  public String getColor() {
+    return this.color;
   }
 
-  public void showBlocksPallete(boolean show) {
-    binding.blockArea.setVisibility(show ? View.VISIBLE : View.GONE);
+  public void setColor(String color) {
+    this.color = color;
   }
 
-  public void initEditor(Event event) {
-    binding.canva.initEditor(event);
+  public String getName() {
+    return this.name;
   }
 
-  public void setHolder(ArrayList<BlockHolderModel> holderList) {
-    binding.blocksHolderList.setAdapter(new BlocksHolderAdapter(holderList));
-    binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
+  public void setName(String name) {
+    this.name = name;
   }
 }
