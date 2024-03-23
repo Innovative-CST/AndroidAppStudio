@@ -92,6 +92,26 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setEnableRootBlocksDrag(false);
     dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
 
+    BlockModel defineEvent = new BlockModel();
+    defineEvent.setBlockType(BlockModel.Type.defaultBlock);
+    defineEvent.setColor("#CCEDA4");
+    defineEvent.setFirstBlock(true);
+
+    ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
+
+    BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
+
+    ArrayList<BlockFieldModel> defineDependenciesTextLayer = new ArrayList<BlockFieldModel>();
+
+    BlockFieldModel defineDependenciesText = new BlockFieldModel();
+    defineDependenciesText.setValue("Define the libraries of your app");
+
+    defineDependenciesTextLayer.add(defineDependenciesText);
+    eventDefinationLayer.setBlockFields(defineDependenciesTextLayer);
+
+    blockLayerModels.add(eventDefinationLayer);
+    defineEvent.setBlockLayerModel(blockLayerModels);
+    dependenciesBlockEvent.setEventTopBlock(defineEvent);
     return dependenciesBlockEvent;
   }
 
