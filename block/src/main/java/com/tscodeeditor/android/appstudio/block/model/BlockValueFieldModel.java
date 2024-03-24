@@ -37,7 +37,6 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
   public static final long serialVersionUID = 11L;
 
   private boolean enableEdit;
-  private String rawCode;
   private String acceptors[];
   private BlockModel blockModel;
   private int editorType;
@@ -57,14 +56,6 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
 
   public void setEnableEdit(boolean enableEdit) {
     this.enableEdit = enableEdit;
-  }
-
-  public String getRawCode() {
-    return this.rawCode;
-  }
-
-  public void setRawCode(String rawCode) {
-    this.rawCode = rawCode;
   }
 
   public BlockModel getBlockModel() {
@@ -96,7 +87,6 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
     blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : "");
     blockValueFieldModel.setEnableEdit(new Boolean(isEnabledEdit()));
-    blockValueFieldModel.setRawCode(getRawCode() != null ? new String(getRawCode()) : "");
     blockValueFieldModel.setBlockModel(getBlockModel().clone() != null ? getBlockModel() : null);
     blockValueFieldModel.setEditorType(new Integer(getEditorType()));
     blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : "");
