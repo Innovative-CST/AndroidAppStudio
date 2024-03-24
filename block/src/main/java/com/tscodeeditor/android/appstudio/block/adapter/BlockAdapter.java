@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import java.util.ArrayList;
 
@@ -68,6 +69,11 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
     LinearLayout parent = (LinearLayout) arg0.itemView;
     if (list.get(pos) instanceof BlockModel) {
       HorizontalScrollView horizontalScrollView = new HorizontalScrollView(editor.getContext());
+      horizontalScrollView.setPadding(
+          UnitUtils.dpToPx(editor.getContext(), 8),
+          UnitUtils.dpToPx(editor.getContext(), 8),
+          UnitUtils.dpToPx(editor.getContext(), 8),
+          UnitUtils.dpToPx(editor.getContext(), 8));
       BlockView block = new BlockView(editor, editor.getContext(), (BlockModel) list.get(pos));
       horizontalScrollView.addView(block);
       parent.addView(horizontalScrollView);
