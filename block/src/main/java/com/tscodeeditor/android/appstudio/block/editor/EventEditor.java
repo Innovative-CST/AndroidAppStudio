@@ -92,7 +92,7 @@ public class EventEditor extends LinearLayout {
   }
 
   public void setHolder(ArrayList<BlockHolderModel> holderList) {
-    binding.blocksHolderList.setAdapter(new BlocksHolderAdapter(holderList));
+    binding.blocksHolderList.setAdapter(new BlocksHolderAdapter(holderList, this));
     binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
   }
 }

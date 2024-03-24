@@ -87,6 +87,18 @@ public class BlockView extends LinearLayout {
         firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
         firstBlockTop.setBackground(firstBlockTopDrawable);
         addView(firstBlockTop);
+      } else {
+        LinearLayout firstBlockTop = new LinearLayout(getContext());
+        ViewGroup.LayoutParams layoutParams =
+            new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        firstBlockTop.setLayoutParams(layoutParams);
+        Drawable firstBlockTopDrawable =
+            ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
+        firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+        firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+        firstBlockTop.setBackground(firstBlockTopDrawable);
+        addView(firstBlockTop);
       }
 
       /*
@@ -114,6 +126,13 @@ public class BlockView extends LinearLayout {
                 R.drawable.block_default_cut_rt_bl_br,
                 Color.parseColor(getBlockModel().getColor()));
           }
+          if (getBlockModel().getBlockLayerModel().size() == 1 && !getBlockModel().isFirstBlock()) {
+            setDrawable(
+                layerLayout,
+                R.drawable.block_default_cut_bl_br,
+                Color.parseColor(getBlockModel().getColor()));
+          }
+
           // Load block content layer...
           layerLayout.addView(
               BlockFieldLayerHandler.getBlockFieldLayerView(

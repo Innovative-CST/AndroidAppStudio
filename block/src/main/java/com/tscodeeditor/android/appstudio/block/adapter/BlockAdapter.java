@@ -31,54 +31,47 @@
 
 package com.tscodeeditor.android.appstudio.block.adapter;
 
-import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import com.tscodeeditor.android.appstudio.block.databinding.AdapterEventEditorBlockHolderBinding;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import java.util.ArrayList;
 
-public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapter.ViewHolder> {
+public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> {
 
-  public ArrayList<BlockHolderModel> list;
-  public EventEditor editor;
+  private ArrayList<Object> list;
+  private EventEditor editor;
 
-  public BlocksHolderAdapter(ArrayList<BlockHolderModel> _arr, EventEditor editor) {
-    list = _arr;
+  public BlockAdapter(ArrayList<Object> list, EventEditor editor) {
+    this.list = list;
     this.editor = editor;
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    AdapterEventEditorBlockHolderBinding item =
-        AdapterEventEditorBlockHolderBinding.inflate(LayoutInflater.from(parent.getContext()));
-    View _v = item.getRoot();
-    RecyclerView.LayoutParams _lp =
+  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+    LinearLayout linearLayout = new LinearLayout(arg0.getContext());
+
+    RecyclerView.LayoutParams lp =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    _v.setLayoutParams(_lp);
-    return new ViewHolder(_v);
+    linearLayout.setLayoutParams(lp);
+    return new ViewHolder(linearLayout);
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder _holder, final int position) {
-    AdapterEventEditorBlockHolderBinding binding =
-        AdapterEventEditorBlockHolderBinding.bind(_holder.itemView);
-    binding.holderName.setText(list.get(position).getName());
-    binding.color.setBackgroundColor(Color.parseColor(list.get(position).getColor()));
-    binding
-        .getRoot()
-        .setOnClickListener(
-            (view) -> {
-              editor.binding.blockList.setAdapter(
-                  new BlockAdapter(list.get(position).getList(), editor));
-              editor.binding.blockList.setLayoutManager(
-                  new LinearLayoutManager(editor.getContext()));
-            });
+  public void onBindViewHolder(ViewHolder arg0, final int pos) {
+    LinearLayout parent = (LinearLayout) arg0.itemView;
+    if (list.get(pos) instanceof BlockModel) {
+      HorizontalScrollView horizontalScrollView = new HorizontalScrollView(editor.getContext());
+      BlockView block = new BlockView(editor, editor.getContext(), (BlockModel) list.get(pos));
+      horizontalScrollView.addView(block);
+      parent.addView(horizontalScrollView);
+    }
   }
 
   @Override
@@ -87,8 +80,8 @@ public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapte
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
+    public ViewHolder(View view) {
+      super(view);
     }
   }
 }
