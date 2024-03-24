@@ -114,6 +114,12 @@ public class BlockModel implements Serializable, Cloneable {
     this.blockLayerModel = blockLayerModel;
   }
 
+  public String getCode() {
+    String generatedCode = new String(getRawCode());
+    // Process code
+    return generatedCode;
+  }
+
   @Override
   public BlockModel clone() {
     BlockModel block = new BlockModel();

@@ -93,6 +93,10 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     }
   }
 
+  public String getCode() {
+    return getBlockModel() != null ? getBlockModel().getCode() : getValue();
+  }
+
   @Override
   public BlockValueFieldModel clone() {
     BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
