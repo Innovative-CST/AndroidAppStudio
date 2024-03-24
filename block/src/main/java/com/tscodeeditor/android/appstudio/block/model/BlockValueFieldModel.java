@@ -63,6 +63,9 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
   }
 
   public void setBlockModel(BlockModel blockModel) {
+    if (blockModel != null) {
+      setValue(null);
+    }
     this.blockModel = blockModel;
   }
 
@@ -80,6 +83,14 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
 
   public void setPattern(String pattern) {
     this.pattern = pattern;
+  }
+
+  @Override
+  public void setValue(String value) {
+    super.setValue(value);
+    if (value != null) {
+      setBlockModel(null);
+    }
   }
 
   @Override
