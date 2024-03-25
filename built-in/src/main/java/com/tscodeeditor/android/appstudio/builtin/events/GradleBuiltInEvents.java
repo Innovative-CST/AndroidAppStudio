@@ -49,7 +49,8 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setName("androidBlock");
     androidBlockEvent.setDescription("Contains basic defination of your app");
     androidBlockEvent.setEventReplacer("blockCode");
-    androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    androidBlockEvent.setRawCode(
+        "android {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     androidBlockEvent.setEnableEdit(true);
     androidBlockEvent.setEnableRootBlocksDrag(false);
 
@@ -87,7 +88,7 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setDescription("Contains library used by your app");
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setRawCode(
-        "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+        "dependencies {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     dependenciesBlockEvent.setEnableEdit(true);
     dependenciesBlockEvent.setEnableRootBlocksDrag(false);
     dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
@@ -124,7 +125,8 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setName("androidBlock");
     androidBlockEvent.setDescription("Contains basic defination of your library");
     androidBlockEvent.setEventReplacer("blockCode");
-    androidBlockEvent.setRawCode("android {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+    androidBlockEvent.setRawCode(
+        "android {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     androidBlockEvent.setEnableEdit(true);
     androidBlockEvent.setEnableRootBlocksDrag(false);
     androidBlockEvent.setEnableRootBlocksValueEditing(false);
@@ -142,7 +144,7 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setDescription("Contains library used by your app");
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setRawCode(
-        "dependencies {\n" + RawCodeReplacer.getReplacer("blockCode") + "\n}");
+        "dependencies {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     dependenciesBlockEvent.setEnableEdit(true);
     dependenciesBlockEvent.setEnableRootBlocksDrag(false);
     dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);

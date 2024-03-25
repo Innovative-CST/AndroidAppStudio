@@ -49,8 +49,8 @@ public class BuiltInGradleFileModel {
 
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
     appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");
-    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("androidBlock"));
-    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("dependenciesBlock"));
+    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "androidBlock"));
+    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "dependenciesBlock"));
 
     appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
 
@@ -74,8 +74,9 @@ public class BuiltInGradleFileModel {
 
     StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
     libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
-    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("androidBlock"));
-    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("dependenciesBlock"));
+    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "androidBlock"));
+    libraryModuleGradleFileRawCode.append(
+        RawCodeReplacer.getReplacer("event", "dependenciesBlock"));
 
     libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
 
