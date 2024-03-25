@@ -36,6 +36,7 @@ import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 import java.util.ArrayList;
 
 public class GradleDepedencyBlocks {
@@ -70,7 +71,13 @@ public class GradleDepedencyBlocks {
     BlockFieldModel implementationText = new BlockFieldModel();
     implementationText.setValue("implementation");
 
+    BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
+    inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+    inputDependencyField.setValue(
+        "com.google.android.material:material:1.12.0-alpha03"); // For testing purpose only
+
     implementationBlockLayer1Fields.add(implementationText);
+    implementationBlockLayer1Fields.add(inputDependencyField);
 
     implementationBlockLayer1.setBlockFields(implementationBlockLayer1Fields);
 

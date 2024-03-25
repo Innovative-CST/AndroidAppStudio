@@ -39,8 +39,13 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
   private boolean enableEdit;
   private String acceptors[];
   private BlockModel blockModel;
-  private int editorType;
-  private String pattern; // Only works if onClick is pattern validator editor
+  private int fieldType;
+  private String pattern; // Only works if fieldType is pattern validator.
+
+  public final class FieldType {
+    public static final int FIELD_TYPE_NOT_SET = 0;
+	public static final int FIELD_INPUT_ONLY = 1;
+  }
 
   public String[] getAcceptors() {
     return this.acceptors;
@@ -69,20 +74,20 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     this.blockModel = blockModel;
   }
 
-  public int getEditorType() {
-    return this.editorType;
-  }
-
-  public void setEditorType(int editorType) {
-    this.editorType = editorType;
-  }
-
   public String getPattern() {
     return this.pattern;
   }
 
   public void setPattern(String pattern) {
     this.pattern = pattern;
+  }
+
+  public int getFieldType() {
+    return this.fieldType;
+  }
+
+  public void setFieldType(int fieldType) {
+    this.fieldType = fieldType;
   }
 
   @Override
@@ -103,7 +108,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : "");
     blockValueFieldModel.setEnableEdit(new Boolean(isEnabledEdit()));
     blockValueFieldModel.setBlockModel(getBlockModel().clone() != null ? getBlockModel() : null);
-    blockValueFieldModel.setEditorType(new Integer(getEditorType()));
+    blockValueFieldModel.setFieldType(new Integer(getFieldType()));
     blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : "");
     if (getAcceptors() != null) {
       String[] acceptors = new String[] {};

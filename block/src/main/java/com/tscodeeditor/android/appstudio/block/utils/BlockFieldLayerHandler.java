@@ -38,6 +38,8 @@ import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
+import com.tscodeeditor.android.appstudio.block.view.BlockFieldInputOnlyView;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldView;
 
 public class BlockFieldLayerHandler {
@@ -48,11 +50,18 @@ public class BlockFieldLayerHandler {
       BlockModel blockModel) {
     LinearLayout root = new LinearLayout(context);
 
-    for (int position = 0;
-        position < blockFieldLayerModel.getBlockFields().size();
-        ++position) {
+    for (int position = 0; position < blockFieldLayerModel.getBlockFields().size(); ++position) {
       BlockFieldModel content = blockFieldLayerModel.getBlockFields().get(position);
-      if (content instanceof BlockFieldModel) {
+
+      if (content instanceof BlockValueFieldModel) {
+        BlockValueFieldModel blockValueFieldModel = (BlockValueFieldModel) content;
+        if (blockValueFieldModel.getFieldType()
+            == BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY) {
+          BlockFieldInputOnlyView inputField =
+              new BlockFieldInputOnlyView(context, blockValueFieldModel, blockModel);
+          root.addView(inputField);
+        }
+      } else if (content instanceof BlockFieldModel) {
         /*
          * BlockFieldModel just contains text to display.
          * Using BlockContentView for displaying text.

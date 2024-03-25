@@ -35,6 +35,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
@@ -43,15 +44,18 @@ import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 
 public class BlockFieldInputOnlyView extends LinearLayout {
-  public BlockFieldInputOnlyView(Context context, BlockValueFieldModel blockFieldModel, BlockModel blockModel) {
+  public BlockFieldInputOnlyView(
+      Context context, BlockValueFieldModel blockFieldModel, BlockModel blockModel) {
     super(context);
-	
-	Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_field_input_only);
+
+    Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_field_input_only);
     drawable.setTint(Color.parseColor("#ffffff"));
     drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
     setBackground(drawable);
-	
-	TextView text = new TextView(context);
-	text.setText("com.google.android.material:material:1.12.0-alpha03"); // For testing purpose only
+
+    TextView text = new TextView(context);
+    text.setText(blockFieldModel.getValue());
+    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+    addView(text);
   }
 }
