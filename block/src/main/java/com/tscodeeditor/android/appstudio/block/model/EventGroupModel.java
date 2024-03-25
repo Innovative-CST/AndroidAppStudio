@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 
 import java.io.Serializable;
 import java.io.SerializablePermission;
+import java.util.ArrayList;
 
 public class EventGroupModel implements Serializable, Cloneable {
   public static final long serialVersionUID = 12L;
@@ -42,6 +43,7 @@ public class EventGroupModel implements Serializable, Cloneable {
   private String description;
   private String rawCode;
   private String replacer;
+  private ArrayList<Event> events;
 
   public String getName() {
     return this.name;
@@ -83,6 +85,14 @@ public class EventGroupModel implements Serializable, Cloneable {
     this.replacer = replacer;
   }
 
+  public ArrayList<Event> getEvents() {
+    return this.events;
+  }
+
+  public void setEvents(ArrayList<Event> events) {
+    this.events = events;
+  }
+
   @Override
   public EventGroupModel clone() {
     EventGroupModel eventGroupModel = new EventGroupModel();
@@ -91,6 +101,11 @@ public class EventGroupModel implements Serializable, Cloneable {
     eventGroupModel.setDescription(this.description != null ? new String(this.description) : null);
     eventGroupModel.setRawCode(this.rawCode != null ? new String(this.rawCode) : null);
     eventGroupModel.setReplacer(this.replacer != null ? new String(this.replacer) : null);
+    ArrayList<Event> clonedEvents = new ArrayList<Event>();
+    for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
+      clonedEvents.add(events.get(eventCount));
+    }
+    eventGroupModel.setEvents(clonedEvents);
     return eventGroupModel;
   }
 }
