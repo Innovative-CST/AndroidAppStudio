@@ -68,6 +68,8 @@ public class ProjectManagerActivity extends BaseActivity {
 
   // Social links
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
+  public static final String INSTAGRAM =
+      "https://www.instagram.com/tscode_editor?igsh=MXBkOG1va2FwZzN6dw==";
 
   // Result launcher
   public ActivityResultLauncher<Intent> projectListUpdateActivityResultLauncher;
@@ -118,6 +120,12 @@ public class ProjectManagerActivity extends BaseActivity {
             Intent licenseActivity = new Intent();
             licenseActivity.setClass(this, LicenseActivity.class);
             startActivity(licenseActivity);
+          }
+          if (menuItem.getItemId() == R.id.instagram) {
+            Intent instagram = new Intent();
+            instagram.setAction(Intent.ACTION_VIEW);
+            instagram.setData(Uri.parse(INSTAGRAM));
+            startActivity(instagram);
           }
           if (menuItem.getItemId() == R.id.discord) {
             Intent discord = new Intent();

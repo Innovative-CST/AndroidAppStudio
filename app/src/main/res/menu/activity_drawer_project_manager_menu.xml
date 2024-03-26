@@ -8,7 +8,7 @@
         android:icon="@drawable/file_document"
         android:title="License and Attribution"
         app:showAsAction="ifRoom" />
-     <item
+    <item
         android:id="@+id/about_team"
         android:icon="@drawable/ic_team"
         android:title="@string/about_team"
@@ -16,6 +16,11 @@
     <item
         android:title="@string/social_links">
         <menu>
+            <item
+                android:id="@+id/instagram"
+                android:icon="@drawable/ic_instagram"
+                android:title="@string/instagram"
+                app:showAsAction="ifRoom" />
             <item
                 android:id="@+id/discord"
                 android:icon="@drawable/discord"
