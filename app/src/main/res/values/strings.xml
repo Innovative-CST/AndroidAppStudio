@@ -31,4 +31,5 @@
     <string name="target_sdk_version">Target SDK Version</string>
     <string name="version_code">Version code</string>
     <string name="version_name">Version name</string>
+    <string name="youtube">Youtube</string>
 </resources>

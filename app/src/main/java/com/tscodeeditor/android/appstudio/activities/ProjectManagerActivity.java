@@ -67,6 +67,7 @@ public class ProjectManagerActivity extends BaseActivity {
   public static final int ERROR_SECTION = 3;
 
   // Social links
+  public static final String YOUTUBE = "https://youtube.com/@tscodeeditor?feature=shared";
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
   public static final String INSTAGRAM =
       "https://www.instagram.com/tscode_editor?igsh=MXBkOG1va2FwZzN6dw==";
@@ -126,6 +127,12 @@ public class ProjectManagerActivity extends BaseActivity {
             instagram.setAction(Intent.ACTION_VIEW);
             instagram.setData(Uri.parse(INSTAGRAM));
             startActivity(instagram);
+          }
+          if (menuItem.getItemId() == R.id.youtube) {
+            Intent youtube = new Intent();
+            youtube.setAction(Intent.ACTION_VIEW);
+            youtube.setData(Uri.parse(YOUTUBE));
+            startActivity(youtube);
           }
           if (menuItem.getItemId() == R.id.discord) {
             Intent discord = new Intent();

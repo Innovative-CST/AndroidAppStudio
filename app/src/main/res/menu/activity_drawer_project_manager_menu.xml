@@ -22,6 +22,11 @@
                 android:title="@string/instagram"
                 app:showAsAction="ifRoom" />
             <item
+                android:id="@+id/youtube"
+                android:icon="@drawable/ic_youtube"
+                android:title="@string/youtube"
+                app:showAsAction="ifRoom" />
+            <item
                 android:id="@+id/discord"
                 android:icon="@drawable/discord"
                 android:title="@string/discord"
