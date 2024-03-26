@@ -37,6 +37,7 @@ import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 
 public class EventEditorActivity extends BaseActivity {
@@ -116,5 +117,21 @@ public class EventEditorActivity extends BaseActivity {
         binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleDepedencyBlocks());
       }
     }
+  }
+
+  @Override
+  protected void onPause() {
+    SerializerUtil.serialize(
+        event,
+        eventFile,
+        new SerializerUtil.SerializerCompletionListener() {
+
+          @Override
+          public void onSerializeComplete() {}
+
+          @Override
+          public void onFailedToSerialize(Exception exception) {}
+        });
+    super.onPause();
   }
 }
