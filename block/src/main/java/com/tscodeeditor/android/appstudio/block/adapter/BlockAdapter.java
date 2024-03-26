@@ -75,6 +75,8 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
           UnitUtils.dpToPx(editor.getContext(), 8),
           UnitUtils.dpToPx(editor.getContext(), 8));
       BlockView block = new BlockView(editor, editor.getContext(), (BlockModel) list.get(pos));
+      block.setEnableDragDrop(true);
+      block.setEnableEdting(false);
       horizontalScrollView.addView(block);
       parent.addView(horizontalScrollView);
     }
