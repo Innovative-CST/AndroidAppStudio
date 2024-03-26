@@ -41,13 +41,15 @@ import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldInputOnlyView;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldView;
+import com.tscodeeditor.android.appstudio.block.view.BlockView;
 
 public class BlockFieldLayerHandler {
   public static ViewGroup getBlockFieldLayerView(
       Context context,
       BlockFieldLayerModel blockFieldLayerModel,
       EventEditor editor,
-      BlockModel blockModel) {
+      BlockModel blockModel,
+      BlockView blockView) {
     LinearLayout root = new LinearLayout(context);
 
     for (int position = 0; position < blockFieldLayerModel.getBlockFields().size(); ++position) {
@@ -58,7 +60,7 @@ public class BlockFieldLayerHandler {
         if (blockValueFieldModel.getFieldType()
             == BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY) {
           BlockFieldInputOnlyView inputField =
-              new BlockFieldInputOnlyView(context, blockValueFieldModel, blockModel);
+              new BlockFieldInputOnlyView(context, blockValueFieldModel, blockView);
           root.addView(inputField);
         }
       } else if (content instanceof BlockFieldModel) {

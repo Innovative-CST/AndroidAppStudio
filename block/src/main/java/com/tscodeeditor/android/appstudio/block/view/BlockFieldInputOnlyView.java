@@ -40,12 +40,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 
 public class BlockFieldInputOnlyView extends LinearLayout {
   public BlockFieldInputOnlyView(
-      Context context, BlockValueFieldModel blockFieldModel, BlockModel blockModel) {
+      Context context, BlockValueFieldModel blockFieldModel, BlockView blockView) {
     super(context);
 
     Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_field_input_only);
