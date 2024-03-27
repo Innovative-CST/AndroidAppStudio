@@ -73,8 +73,6 @@ public class GradleDepedencyBlocks {
 
     BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
     inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
-    inputDependencyField.setValue(
-        "com.google.android.material:material:1.12.0-alpha03"); // For testing purpose only
 
     implementationBlockLayer1Fields.add(implementationText);
     implementationBlockLayer1Fields.add(inputDependencyField);
