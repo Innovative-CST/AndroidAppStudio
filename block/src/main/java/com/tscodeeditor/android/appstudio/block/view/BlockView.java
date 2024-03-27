@@ -54,7 +54,7 @@ public class BlockView extends LinearLayout {
   private Context context;
   private BlockModel blockModel;
   private boolean enableDragDrop;
-  private boolean enableEdting;
+  private boolean enableEditing;
   private float x, y;
 
   public BlockView(EventEditor editor, Context context, BlockModel blockModel) {
@@ -272,11 +272,11 @@ public class BlockView extends LinearLayout {
     this.enableDragDrop = enableDragDrop;
   }
 
-  public boolean getEnableEdting() {
-    return this.enableEdting;
+  public boolean getEnableEditing() {
+    return this.enableEditing;
   }
 
-  public void setEnableEdting(boolean enableEdting) {
-    this.enableEdting = enableEdting;
+  public void setEnableEditing(boolean enableEditing) {
+    this.enableEditing = enableEditing;
   }
 }
