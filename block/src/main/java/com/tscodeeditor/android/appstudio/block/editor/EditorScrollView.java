@@ -83,7 +83,7 @@ public class EditorScrollView extends FrameLayout {
       initialX = event.getX();
       initialY = event.getY();
     }
-    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+    if (event.getAction() == MotionEvent.ACTION_UP) {
       initialX = -1.0f;
       initialY = -1.0f;
       isMinimumScrollValueAcheived = false;
@@ -100,7 +100,7 @@ public class EditorScrollView extends FrameLayout {
        * Checks whether minimum drag is performed on screen that can be considered as scroll.
        * It check the minimum scroll value is acheived on Y axis or not.
        */
-      if (Math.abs(event.getX() - initialX) > validScroll) {
+      if (Math.abs(event.getY() - initialY) > validScroll) {
         isMinimumScrollValueAcheived = true;
       }
     }
@@ -126,7 +126,7 @@ public class EditorScrollView extends FrameLayout {
       initialXScrollTouch = event.getX();
       initialYScrollTouch = event.getY();
     }
-    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+    if (event.getAction() == MotionEvent.ACTION_UP) {
       initialXScrollTouch = -1.0f;
       initialYScrollTouch = -1.0f;
     }

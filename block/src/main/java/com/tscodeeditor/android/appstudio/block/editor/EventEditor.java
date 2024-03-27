@@ -35,17 +35,23 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
 import java.util.ArrayList;
 
-public class EventEditor extends LinearLayout {
+public class EventEditor extends RelativeLayout {
 
   public EventEditorLayoutBinding binding;
+  public BlockDragView blockFloatingView;
+
+  public boolean isDragging = false;
 
   // Contants for showing the section easily
   public static final int LOADING_SECTION = 0;
@@ -57,7 +63,8 @@ public class EventEditor extends LinearLayout {
     super(context, set);
 
     binding = EventEditorLayoutBinding.inflate(LayoutInflater.from(context));
-
+    blockFloatingView = new BlockDragView(context, null);
+    binding.getRoot().setClipChildren(true);
     addView(binding.getRoot());
     setMatchParent(binding.getRoot());
     switchSection(EDITOR_SECTION);
@@ -65,9 +72,9 @@ public class EventEditor extends LinearLayout {
   }
 
   private void setMatchParent(View view) {
-    LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    RelativeLayout.LayoutParams layoutParams =
+        new RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
     view.setLayoutParams(layoutParams);
   }
 
@@ -94,5 +101,31 @@ public class EventEditor extends LinearLayout {
   public void setHolder(ArrayList<BlockHolderModel> holderList) {
     binding.blocksHolderList.setAdapter(new BlocksHolderAdapter(holderList, this));
     binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
+  }
+
+  public void startBlockDrag(BlockModel block, float x, float y) {
+    binding.canva.setAllowScroll(false);
+    binding.blockList.requestDisallowInterceptTouchEvent(true);
+    isDragging = true;
+    blockFloatingView.setBlock(block);
+    addView(blockFloatingView);
+    RelativeLayout.LayoutParams blockFloatingViewParam =
+        new RelativeLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    blockFloatingView.setLayoutParams(blockFloatingViewParam);
+	blockFloatingView.setX(x);
+	blockFloatingView.setY(y);
+  }
+
+  public void stopDrag() {
+    isDragging = false;
+    binding.canva.setAllowScroll(true);
+    binding.blockList.requestDisallowInterceptTouchEvent(false);
+    removeView(blockFloatingView);
+  }
+
+  public void moveFloatingBlockView(float x, float y) {
+	blockFloatingView.setX(x);
+	blockFloatingView.setY(y);
   }
 }

@@ -31,13 +31,13 @@
 
 package com.tscodeeditor.android.appstudio.block.adapter;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
-import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
@@ -68,8 +68,18 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
   public void onBindViewHolder(ViewHolder arg0, final int pos) {
     LinearLayout parent = (LinearLayout) arg0.itemView;
     if (list.get(pos) instanceof BlockModel) {
-      HorizontalScrollView horizontalScrollView = new HorizontalScrollView(editor.getContext());
-      horizontalScrollView.setPadding(
+      HorizontalScrollView hslayout =
+          new HorizontalScrollView(parent.getContext()) {
+            @Override
+            public boolean onInterceptTouchEvent(MotionEvent arg0) {
+              return !editor.isDragging && super.onInterceptTouchEvent(arg0);
+            }
+          };
+      LinearLayout.LayoutParams lp =
+          new LinearLayout.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      hslayout.setLayoutParams(lp);
+      hslayout.setPadding(
           UnitUtils.dpToPx(editor.getContext(), 8),
           UnitUtils.dpToPx(editor.getContext(), 8),
           UnitUtils.dpToPx(editor.getContext(), 8),
@@ -77,8 +87,8 @@ public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> 
       BlockView block = new BlockView(editor, editor.getContext(), (BlockModel) list.get(pos));
       block.setEnableDragDrop(true);
       block.setEnableEdting(false);
-      horizontalScrollView.addView(block);
-      parent.addView(horizontalScrollView);
+      hslayout.addView(block);
+      parent.addView(hslayout);
     }
   }
 
