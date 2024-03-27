@@ -53,7 +53,7 @@ public class BlockFieldInputOnlyView extends LinearLayout {
     setBackground(drawable);
 
     TextView text = new TextView(context);
-    text.setText(blockFieldModel.getValue());
+    text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
     text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
     text.setSingleLine(true);
     addView(text);
