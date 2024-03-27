@@ -43,6 +43,8 @@ import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBin
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
+import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
 import java.util.ArrayList;
 
@@ -113,8 +115,9 @@ public class EventEditor extends RelativeLayout {
         new RelativeLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     blockFloatingView.setLayoutParams(blockFloatingViewParam);
-	blockFloatingView.setX(x);
-	blockFloatingView.setY(y);
+    blockFloatingView.setX(x);
+    blockFloatingView.setY(y);
+    blockFloatingView.setAllowed(isBlockFloatingViewInsideCanva(x, y));
   }
 
   public void stopDrag() {
@@ -125,7 +128,25 @@ public class EventEditor extends RelativeLayout {
   }
 
   public void moveFloatingBlockView(float x, float y) {
-	blockFloatingView.setX(x);
-	blockFloatingView.setY(y);
+    blockFloatingView.setX(x);
+    blockFloatingView.setY(y);
+    blockFloatingView.setAllowed(isBlockFloatingViewInsideCanva(x, y));
+  }
+
+  public boolean isBlockFloatingViewInsideCanva(float x, float y) {
+    int notAllowedIconWidth = 0;
+    if (blockFloatingView.notAllowed != null) {
+      if (blockFloatingView.notAllowed.getParent() != null) {
+        notAllowedIconWidth = blockFloatingView.notAllowed.getWidth();
+      }
+    }
+
+    return TargetUtils.isPointInsideRectangle(
+        (int) x + notAllowedIconWidth,
+        (int) y,
+        0,
+        0,
+        binding.editorSection.getWidth(),
+        binding.editorSection.getHeight());
   }
 }

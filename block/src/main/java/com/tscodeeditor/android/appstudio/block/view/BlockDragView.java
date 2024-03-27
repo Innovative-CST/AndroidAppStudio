@@ -35,7 +35,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
@@ -44,6 +46,8 @@ import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 
 public class BlockDragView extends LinearLayout {
   private Context context;
+  private LinearLayout blockPreview;
+  public ImageView notAllowed;
 
   public BlockDragView(Context context, BlockModel block) {
     super(context);
@@ -51,10 +55,22 @@ public class BlockDragView extends LinearLayout {
     setBlock(block);
   }
 
-  public void setBlock(BlockModel block) {
-    removeAllViews();
-    LinearLayout blockPreview = new LinearLayout(context);
+  public void setAllowed(boolean isAllowed) {
+    if (notAllowed == null) {
+      notAllowed = new ImageView(context);
+      notAllowed.setImageResource(R.drawable.ic_not_allowed);
+      addView(notAllowed, 0);
+    }
+    notAllowed.setVisibility(isAllowed ? View.INVISIBLE : View.VISIBLE);
+  }
 
+  public void setBlock(BlockModel block) {
+    if (blockPreview == null) {
+      blockPreview = new LinearLayout(context);
+      addView(blockPreview);
+    } else {
+      blockPreview.removeAllViews();
+    }
     blockPreview.setOrientation(LinearLayout.VERTICAL);
 
     if (block == null) return;
@@ -138,7 +154,5 @@ public class BlockDragView extends LinearLayout {
         blockPreview.addView(blockBottomJoint);
       }
     }
-
-    addView(blockPreview);
   }
 }

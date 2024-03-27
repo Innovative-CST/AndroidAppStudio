@@ -29,77 +29,20 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.adapter;
+package com.tscodeeditor.android.appstudio.block.utils;
 
-import android.view.MotionEvent;
+import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-import androidx.recyclerview.widget.RecyclerView;
-import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
-import com.tscodeeditor.android.appstudio.block.view.BlockView;
-import java.util.ArrayList;
 
-public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> {
+public class TargetUtils {
+  public static boolean isPointInsideRectangle(
+      float x, float y, float a, float b, float c, float d) {
+    float left = Math.min(a, c);
+    float right = Math.max(a, c);
+    float top = Math.min(b, d);
+    float bottom = Math.max(b, d);
 
-  private ArrayList<Object> list;
-  private EventEditor editor;
-
-  public BlockAdapter(ArrayList<Object> list, EventEditor editor) {
-    this.list = list;
-    this.editor = editor;
-  }
-
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    LinearLayout linearLayout = new LinearLayout(arg0.getContext());
-
-    RecyclerView.LayoutParams lp =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    linearLayout.setLayoutParams(lp);
-    return new ViewHolder(linearLayout);
-  }
-
-  @Override
-  public void onBindViewHolder(ViewHolder arg0, final int pos) {
-    LinearLayout parent = (LinearLayout) arg0.itemView;
-    if (list.get(pos) instanceof BlockModel) {
-      HorizontalScrollView hslayout =
-          new HorizontalScrollView(parent.getContext()) {
-            @Override
-            public boolean onInterceptTouchEvent(MotionEvent arg0) {
-              return !editor.isDragging && super.onInterceptTouchEvent(arg0);
-            }
-          };
-      LinearLayout.LayoutParams lp =
-          new LinearLayout.LayoutParams(
-              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-      hslayout.setLayoutParams(lp);
-      hslayout.setPadding(
-          UnitUtils.dpToPx(editor.getContext(), 8),
-          UnitUtils.dpToPx(editor.getContext(), 8),
-          UnitUtils.dpToPx(editor.getContext(), 8),
-          UnitUtils.dpToPx(editor.getContext(), 8));
-      BlockView block = new BlockView(editor, editor.getContext(), (BlockModel) list.get(pos));
-      block.setEnableDragDrop(true);
-      block.setEnableEditing(false);
-      hslayout.addView(block);
-      parent.addView(hslayout);
-    }
-  }
-
-  @Override
-  public int getItemCount() {
-    return list.size();
-  }
-
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View view) {
-      super(view);
-    }
+    return x >= left && x <= right && y >= top && y <= bottom;
   }
 }
