@@ -52,7 +52,7 @@ public class BlockFieldView extends TextView {
     setSingleLine(true);
     setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
     setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
-    setText(blockFieldModel.getValue());
+    setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
   }
 
   public BlockFieldModel getBlockFieldModel() {
