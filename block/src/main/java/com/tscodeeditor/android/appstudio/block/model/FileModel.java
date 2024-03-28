@@ -111,16 +111,20 @@ public class FileModel implements Serializable, Cloneable {
     this.replacerKey = replacerKey;
   }
 
-  public void getCode(ArrayList<Event> builtInEvents, ArrayList<Object> events) {
+  public String getCode(ArrayList<Event> builtInEvents, ArrayList<Object> events) {
     String resultCode = new String(getRawCode());
 
-    for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
-      resultCode =
-          resultCode.replace(
-              RawCodeReplacer.getReplacer(
-                  getReplacerKey(), builtInEvents.get(eventCount).getEventReplacer()),
-              builtInEvents.get(eventCount).getCode());
+    if (builtInEvents != null) {
+
+      for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
+        resultCode =
+            resultCode.replace(
+                RawCodeReplacer.getReplacer(
+                    getReplacerKey(), builtInEvents.get(eventCount).getEventReplacer()),
+                builtInEvents.get(eventCount).getCode());
+      }
     }
+	return resultCode;
   }
 
   @Override

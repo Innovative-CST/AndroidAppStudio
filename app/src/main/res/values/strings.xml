@@ -8,9 +8,11 @@
     <string name="app_setup">App Setup</string>
     <string name="create_new_project">Create new project</string>
     <string name="discord">Discord</string>
+    <string name="dismiss">Dismiss</string>
     <string name="done">Done</string>
-    <string name="instagram">Instagram</string>
     <string name="fields_not_filled_properly">Look like you have not filled the fields properly or skipped them that are required. Please correct the details of fields.</string>
+    <string name="failed_to_deserialize_file_model">Failed to deserialize FileModel.</string>
+    <string name="instagram">Instagram</string>
     <string name="minimum_sdk_version">Minimum SDK version</string>
     <string name="next">Next</string>
     <string name="no_events_name">No events yet.</string>
@@ -22,6 +24,7 @@
     <string name="project_name">Project name</string>
     <string name="setting">Setting</string>
     <string name="social_links">Social Links</string>
+    <string name="source_code">Source Code</string>
     <string name="source_license">License and Attribution</string>
     <string name="storage_permission_denied">Storage permission denied</string>
     <string name="storage_permission_is_highly_recommend_for_storing_and_reading_files_in_device_without_this_permission_you_cannot_be_able_to_use_this_app">Storage permission is required for storing and reading files in device without this permission you cannot be able touse this app.</string>

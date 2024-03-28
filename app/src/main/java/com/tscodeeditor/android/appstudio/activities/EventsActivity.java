@@ -34,12 +34,16 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventsBinding;
+import com.tscodeeditor.android.appstudio.dialogs.SourceCodeViewerDialog;
 import com.tscodeeditor.android.appstudio.fragments.events.EventListFragment;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.EventsHolderUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -64,6 +68,9 @@ public class EventsActivity extends BaseActivity {
    */
   private File eventsDir;
 
+  private MenuItem showSourceCode;
+  private FileModel fileModel;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -83,6 +90,26 @@ public class EventsActivity extends BaseActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+    DeserializerUtils.deserialize(
+        new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL),
+        new DeserializerUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(Object object) {
+            if (object instanceof FileModel) {
+              fileModel = (FileModel) object;
+            }
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {}
+        });
+
+    if (fileModel == null) {
+      Toast.makeText(this, R.string.failed_to_deserialize_file_model, Toast.LENGTH_SHORT).show();
+      finish();
+    }
 
     Executors.newSingleThreadExecutor()
         .execute(
@@ -152,5 +179,39 @@ public class EventsActivity extends BaseActivity {
               .commit();
           return true;
         });
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    getMenuInflater().inflate(R.menu.menu_show_code, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    showSourceCode = menu.findItem(R.id.show_source_code);
+    if (fileModel == null) {
+      if (showSourceCode != null) {
+        showSourceCode.setVisible(false);
+      }
+    } else {
+      if (showSourceCode != null) {
+        showSourceCode.setVisible(true);
+      }
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem menuItem) {
+    if (menuItem.getItemId() == R.id.show_source_code) {
+      if (fileModel != null) {
+        SourceCodeViewerDialog sourceCodeDialog = new SourceCodeViewerDialog(this, fileModel);
+        sourceCodeDialog.create().show();
+      }
+    }
+
+    return super.onOptionsItemSelected(menuItem);
   }
 }

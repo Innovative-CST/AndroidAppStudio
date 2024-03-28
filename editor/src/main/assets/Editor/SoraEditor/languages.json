@@ -8,7 +8,7 @@
     },
     {
       "grammar": "Editor/SoraEditor/groovy/syntaxes/groovy.tmLanguage.json",
-      "name": "css",
+      "name": "groovy",
       "scopeName": "source.groovy",
       "languageConfiguration": "Editor/SoraEditor/groovy/language-configuration.json"
     },

@@ -29,86 +29,56 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-    id 'com.android.application'
-}
+package com.tscodeeditor.android.appstudio.dialogs;
 
-def localPropsFile = rootProject.file("local.properties")
-def properties = new Properties()
-if (localPropsFile.exists()) {
-    localPropsFile.withInputStream { inputStream ->
-        properties.load(inputStream)
+import android.app.Activity;
+import android.widget.Toast;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
+import editor.tsd.tools.Language;
+import editor.tsd.tools.Themes;
+import editor.tsd.widget.CodeEditorLayout;
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
+
+public class SourceCodeViewerDialog extends MaterialAlertDialogBuilder {
+  private Activity activity;
+  private CodeEditorLayout editor;
+  private FileModel file;
+
+  public SourceCodeViewerDialog(Activity activity, FileModel file) {
+    super(activity);
+    this.activity = activity;
+    this.file = file;
+    FileProviderRegistry.getInstance()
+        .addFileProvider(new AssetsFileResolver(activity.getAssets()));
+    try {
+      TextMateProvider.loadGrammars();
+    } catch (Exception e) {
+      Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
     }
-}
-
-android {
-    namespace 'com.tscodeeditor.android.appstudio'
-    compileSdk 34
-
-    def getCommitHash = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-parse", "--short", "HEAD"
-            standardOutput = stdout
-        }
-        return stdout.toString().trim()
+    editor = new CodeEditorLayout(activity);
+    editor.setEditable(false);
+    editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+    if (file != null) {
+      editor.setLanguageMode(file.getFileExtension());
+		editor.setText(file.getCode(null, null));
     }
+    setView(editor);
+    setTitle(R.string.source_code);
+    setPositiveButton(R.string.dismiss, (arg0, arg1) -> {});
+  }
 
-    def getCommitSha = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-parse", "HEAD"
-            standardOutput = stdout
-        }
-        return "\"" + stdout.toString().trim() + "\""
+  public FileModel getFileModel() {
+    return this.file;
+  }
+
+  public void setFileModel(FileModel file) {
+    this.file = file;
+    if (file != null) {
+      editor.setLanguageMode(file.getFileExtension());
     }
-
-    defaultConfig {
-        applicationId "com.tscodeeditor.android.appstudio"
-        minSdk 21
-        targetSdk 33
-        versionCode 1
-        versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
-        buildConfigField "String", "commitSha", getCommitSha()
-        buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
-
-        vectorDrawables { 
-            useSupportLibrary true
-        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        viewBinding true
-        buildConfig true
-    }
-    
-}
-
-dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.12.0-alpha03")
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    implementation("com.google.code.gson:gson:2.8.7")
-    implementation("com.squareup.okhttp3:okhttp:3.9.1")
-	implementation("com.google.android.material:material:1.12.0-alpha03")
-    def editorGroupId = "io.github.Rosemoe.sora-editor"
-    implementation platform("$editorGroupId:bom:0.22.0")
-    implementation("$editorGroupId:editor")
-    implementation("$editorGroupId:language-textmate")
-    implementation project(":block")
-    implementation project(":built-in")
-	implementation project(":editor")
+  }
 }
