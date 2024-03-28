@@ -7,6 +7,12 @@
       "languageConfiguration": "Editor/SoraEditor/css/language-configuration.json"
     },
     {
+      "grammar": "Editor/SoraEditor/groovy/syntaxes/groovy.tmLanguage.json",
+      "name": "css",
+      "scopeName": "source.groovy",
+      "languageConfiguration": "Editor/SoraEditor/groovy/language-configuration.json"
+    },
+    {
       "grammar": "Editor/SoraEditor/html/syntaxes/html.tmLanguage.json",
       "name": "html",
       "scopeName": "text.html.basic",

@@ -7,5 +7,6 @@
   "htm": "text.html.basic",
   "kt": "source.kotlin",
   "html": "text.html.basic",
-  "xml": "text.xml"
+  "xml": "text.xml",
+  "gradle": "source.groovy"
 }
