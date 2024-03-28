@@ -78,8 +78,10 @@ public class BuiltInGradleFileModel {
     StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
     libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
     libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "androidBlock"));
+    libraryModuleGradleFileRawCode.append("\n\n");
     libraryModuleGradleFileRawCode.append(
         RawCodeReplacer.getReplacer("event", "dependenciesBlock"));
+    libraryModuleGradleFileRawCode.append("\n");
 
     libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
 
