@@ -51,7 +51,9 @@ public class BuiltInGradleFileModel {
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
     appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");
     appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "androidBlock"));
+    appModuleGradleFileRawCode.append("\n\n");
     appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "dependenciesBlock"));
+    appModuleGradleFileRawCode.append("\n");
 
     appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
 
