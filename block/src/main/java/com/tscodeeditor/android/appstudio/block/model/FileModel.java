@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -39,6 +40,7 @@ public class FileModel implements Serializable, Cloneable {
 
   private String fileName;
   private String fileExtension;
+  private String replacerKey;
   private String rawCode;
   private ArrayList<Event> defaultBuiltInEvents;
   private boolean isFolder;
@@ -99,6 +101,26 @@ public class FileModel implements Serializable, Cloneable {
 
   public void setAndroidLibrary(boolean isAndroidLibrary) {
     this.isAndroidLibrary = isAndroidLibrary;
+  }
+
+  public String getReplacerKey() {
+    return this.replacerKey;
+  }
+
+  public void setReplacerKey(String replacerKey) {
+    this.replacerKey = replacerKey;
+  }
+
+  public void getCode(ArrayList<Event> builtInEvents, ArrayList<Object> events) {
+    String resultCode = new String(getRawCode());
+
+    for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
+      resultCode =
+          resultCode.replace(
+              RawCodeReplacer.getReplacer(
+                  getReplacerKey(), builtInEvents.get(eventCount).getEventReplacer()),
+              builtInEvents.get(eventCount).getCode());
+    }
   }
 
   @Override

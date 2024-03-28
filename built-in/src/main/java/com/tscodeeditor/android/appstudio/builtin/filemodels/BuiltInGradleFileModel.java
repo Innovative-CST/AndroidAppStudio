@@ -46,6 +46,7 @@ public class BuiltInGradleFileModel {
     appModuleGradleFile.setFileName("build");
     appModuleGradleFile.setFileExtension("gradle");
     appModuleGradleFile.setFolder(false);
+    appModuleGradleFile.setReplacerKey("event");
 
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
     appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");

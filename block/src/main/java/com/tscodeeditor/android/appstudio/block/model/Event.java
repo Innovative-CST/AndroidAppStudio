@@ -127,6 +127,10 @@ public class Event implements Serializable, Cloneable {
     this.eventTopBlock = eventTopBlock;
   }
 
+  public String getCode() {
+    return new String(getRawCode() != null ? getRawCode() : "");
+  }
+
   @Override
   public Event clone() {
     Event event = new Event();
