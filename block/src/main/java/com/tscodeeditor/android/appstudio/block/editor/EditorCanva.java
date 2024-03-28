@@ -36,6 +36,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 
@@ -121,14 +122,15 @@ public class EditorCanva extends EditorScrollView {
   }
 
   public void initEditor(Event defineEvent) {
-    LinearLayout blockListEditorArea = new LinearLayout(getContext());
-    blockListEditorArea.setLayoutParams(
+    LinearLayout attachedBlockLayout = new LinearLayout(getContext());
+    attachedBlockLayout.setLayoutParams(
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-    blockListEditorArea.setOrientation(LinearLayout.VERTICAL);
+    attachedBlockLayout.setOrientation(LinearLayout.VERTICAL);
+    attachedBlockLayout.setId(R.id.attachedBlockLayout);
 
     BlockView defineBlock = new BlockView(null, getContext(), defineEvent.getEventTopBlock());
-    blockListEditorArea.addView(defineBlock);
-    addView(blockListEditorArea);
+    attachedBlockLayout.addView(defineBlock);
+    addView(attachedBlockLayout);
   }
 }

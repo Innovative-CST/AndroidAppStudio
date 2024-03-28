@@ -1,0 +1,5 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <item
+        type="id"
+        name="attachedBlockLayout" />
+</resources>
