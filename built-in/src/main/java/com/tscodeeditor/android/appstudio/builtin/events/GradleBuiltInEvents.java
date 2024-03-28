@@ -52,7 +52,8 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setRawCode(
         "android {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     androidBlockEvent.setEnableEdit(true);
-    androidBlockEvent.setEnableRootBlocksDrag(false);
+    androidBlockEvent.setEnableRootBlocksDrag(true);
+    androidBlockEvent.setEnableRootBlocksValueEditing(true);
 
     BlockModel androidBlockEventBlockModel = new BlockModel();
     androidBlockEventBlockModel.setColor("#884400");
@@ -90,8 +91,8 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setRawCode(
         "dependencies {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     dependenciesBlockEvent.setEnableEdit(true);
-    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
-    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
+    dependenciesBlockEvent.setEnableRootBlocksDrag(true);
+    dependenciesBlockEvent.setEnableRootBlocksValueEditing(true);
 
     BlockModel defineEvent = new BlockModel();
     defineEvent.setBlockType(BlockModel.Type.defaultBlock);
@@ -128,8 +129,8 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setRawCode(
         "android {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     androidBlockEvent.setEnableEdit(true);
-    androidBlockEvent.setEnableRootBlocksDrag(false);
-    androidBlockEvent.setEnableRootBlocksValueEditing(false);
+    androidBlockEvent.setEnableRootBlocksDrag(true);
+    androidBlockEvent.setEnableRootBlocksValueEditing(true);
 
     return androidBlockEvent;
   }
@@ -146,8 +147,8 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setRawCode(
         "dependencies {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
     dependenciesBlockEvent.setEnableEdit(true);
-    dependenciesBlockEvent.setEnableRootBlocksDrag(false);
-    dependenciesBlockEvent.setEnableRootBlocksValueEditing(false);
+    dependenciesBlockEvent.setEnableRootBlocksDrag(true);
+    dependenciesBlockEvent.setEnableRootBlocksValueEditing(true);
 
     return dependenciesBlockEvent;
   }

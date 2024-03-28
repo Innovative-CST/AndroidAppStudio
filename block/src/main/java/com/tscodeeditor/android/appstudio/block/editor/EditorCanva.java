@@ -43,9 +43,13 @@ import com.tscodeeditor.android.appstudio.block.view.BlockView;
 public class EditorCanva extends EditorScrollView {
   private boolean b1 = false;
 
+  private Event event;
+  public LinearLayout attachedBlockLayout;
+
   public EditorCanva(final Context context, final AttributeSet set) {
     super(context, set);
     setAllowScroll(true);
+	setClipChildren(true);
   }
 
   public void setUpDimension() {
@@ -121,16 +125,21 @@ public class EditorCanva extends EditorScrollView {
     return super.onTouchEvent(motion);
   }
 
-  public void initEditor(Event defineEvent) {
-    LinearLayout attachedBlockLayout = new LinearLayout(getContext());
+  public void initEditor(Event event) {
+    this.event = event;
+    attachedBlockLayout = new LinearLayout(getContext());
     attachedBlockLayout.setLayoutParams(
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     attachedBlockLayout.setOrientation(LinearLayout.VERTICAL);
     attachedBlockLayout.setId(R.id.attachedBlockLayout);
 
-    BlockView defineBlock = new BlockView(null, getContext(), defineEvent.getEventTopBlock());
+    BlockView defineBlock = new BlockView(null, getContext(), event.getEventTopBlock());
     attachedBlockLayout.addView(defineBlock);
     addView(attachedBlockLayout);
+  }
+
+  public Event getEvent() {
+    return this.event;
   }
 }

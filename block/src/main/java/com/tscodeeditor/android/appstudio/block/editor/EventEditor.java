@@ -46,12 +46,14 @@ import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
+import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import java.util.ArrayList;
 
 public class EventEditor extends RelativeLayout {
 
   public EventEditorLayoutBinding binding;
   public BlockDragView blockFloatingView;
+  public BlockView draggingBlock;
 
   public boolean isDragging = false;
 
@@ -105,10 +107,11 @@ public class EventEditor extends RelativeLayout {
     binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
   }
 
-  public void startBlockDrag(BlockModel block, float x, float y) {
+  public void startBlockDrag(BlockView draggingBlock, BlockModel block, float x, float y) {
     binding.canva.setAllowScroll(false);
     binding.blockList.requestDisallowInterceptTouchEvent(true);
     isDragging = true;
+    this.draggingBlock = draggingBlock;
     blockFloatingView.setBlock(block);
     addView(blockFloatingView);
     RelativeLayout.LayoutParams blockFloatingViewParam =
@@ -120,11 +123,44 @@ public class EventEditor extends RelativeLayout {
     blockFloatingView.setAllowed(isBlockFloatingViewInsideCanva(x, y));
   }
 
-  public void stopDrag() {
+  public void stopDrag(float x, float y) {
     isDragging = false;
     binding.canva.setAllowScroll(true);
     binding.blockList.requestDisallowInterceptTouchEvent(false);
+    drop(x, y);
     removeView(blockFloatingView);
+  }
+
+  public void drop(float x, float y) {
+    if (isBlockFloatingViewInsideCanva(x, y)) {
+      if (binding.canva.getEvent().getEnableEdit()) {
+        if (binding.canva.attachedBlockLayout != null) {
+
+          if (TargetUtils.isPointInsideRectangle(
+              (int) x,
+              (int) y,
+              0,
+              0,
+              binding.canva.attachedBlockLayout.getWidth(),
+              binding.canva.attachedBlockLayout.getHeight())) {
+          } else {
+            BlockView block =
+                new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
+            block.setEnableDragDrop(true);
+            block.setEnableEditing(true);
+            block.setInsideEditor(true);
+            binding.canva.addView(block);
+            block.setX(x);
+            block.setY(y);
+            block.requestLayout();
+            if (draggingBlock.isInsideEditor()) {
+              ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
+            }
+          }
+        }
+      }
+    }
+    draggingBlock = null;
   }
 
   public void moveFloatingBlockView(float x, float y) {
