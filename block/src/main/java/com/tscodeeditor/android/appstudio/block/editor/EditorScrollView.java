@@ -46,6 +46,7 @@ public class EditorScrollView extends FrameLayout {
   private float initialXScrollTouch;
   private float initialYScrollTouch;
   private boolean allowScroll;
+  private boolean forceDisableScroll;
 
   public EditorScrollView(final Context context, final AttributeSet set) {
     super(context, set);
@@ -66,13 +67,18 @@ public class EditorScrollView extends FrameLayout {
   @Override
   public boolean onInterceptTouchEvent(MotionEvent event) {
     /*
+     * Force disable scroll
+     */
+    if (getForceDisableScroll()) return false;
+
+    /*
      * Checks if scroll is allowed or not.
      * It scroll is not allowed then check if view is not scrolled.
      * If view is scrolled and scroll is not allowed then allow to scroll
      * to go back at 0 in X and Y direction.
      */
     if (!getAllowScroll()) {
-      if ((getScrollX() == 0) || !(getScrollY() == 0)) return false;
+      if ((getScrollX() == 0) || (getScrollY() == 0)) return false;
     }
 
     if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -112,7 +118,7 @@ public class EditorScrollView extends FrameLayout {
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (!getAllowScroll()) {
-      if ((getScrollX() == 0) || !(getScrollY() == 0)) return false;
+      if ((getScrollX() == 0) || (getScrollY() == 0)) return false;
     }
     if (event.getAction() == MotionEvent.ACTION_DOWN) {
       /*
@@ -195,5 +201,13 @@ public class EditorScrollView extends FrameLayout {
 
   public void setAllowScroll(boolean allowScroll) {
     this.allowScroll = allowScroll;
+  }
+
+  public boolean getForceDisableScroll() {
+    return this.forceDisableScroll;
+  }
+
+  public void setForceDisableScroll(boolean forceDisableScroll) {
+    this.forceDisableScroll = forceDisableScroll;
   }
 }
