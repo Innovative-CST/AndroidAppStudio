@@ -29,81 +29,63 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.activities;
+package com.tscodeeditor.android.appstudio.models;
 
-import android.code.editor.utils.RequestNetwork;
-import android.code.editor.utils.RequestNetworkController;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.utils.TeamMemberDataParser;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class AboutTeamActivity extends BaseActivity {
-  private LinearLayout main;
+public class TeamMember {
+  private String name;
+  private String profilePhotoUrl;
+  private String description;
+  private String tag;
+  private String tagColor;
+  private ArrayList<SocialProfile> socialProfiles;
 
-  private LinearLayout loading;
-
-  private RecyclerView list;
-  public String contributorsData =
-      "https://raw.githubusercontent.com/TS-Code-Editor/AndroidAppStudio/main/assets/contributors.json";
-
-  public RequestNetwork reqNetwork;
-
-  public RequestNetwork.RequestListener reqListener;
-
-  public ArrayList<HashMap<String, Object>> contributorsList = new ArrayList<>();
-
-  @Override
-  protected void onCreate(Bundle arg0) {
-    super.onCreate(arg0);
-    setContentView(R.layout.activity_about_team);
-    initActivity();
+  public String getProfilePhotoUrl() {
+    return this.profilePhotoUrl;
   }
 
-  public void initActivity() {
-    // Initialze views in layout
-    init();
-    main.setVisibility(View.GONE);
-    loading.setVisibility(View.VISIBLE);
-
-    reqNetwork = new RequestNetwork(this);
-
-    reqListener =
-        new RequestNetwork.RequestListener() {
-          @Override
-          public void onResponse(
-              String tag, String response, HashMap<String, Object> responseHeaders) {
-            loading.setVisibility(View.GONE);
-            main.setVisibility(View.VISIBLE);
-            list.setAdapter(
-                new AboutTeamMemberListAdapter(
-                    TeamMemberDataParser.getMembers(response), AboutTeamActivity.this));
-            list.setLayoutManager(new LinearLayoutManager(AboutTeamActivity.this));
-          }
-
-          @Override
-          public void onErrorResponse(String tag, String message) {}
-        };
-
-    reqNetwork.startRequestNetwork(
-        RequestNetworkController.GET, contributorsData, "Contributors", reqListener);
+  public void setProfilePhotoUrl(String profilePhotoUrl) {
+    this.profilePhotoUrl = profilePhotoUrl;
   }
 
-  public void init() {
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    toolbar.setTitle(R.string.about_team);
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    list = findViewById(R.id.list);
-    main = findViewById(R.id.main);
-    loading = findViewById(R.id.loading);
+  public String getName() {
+    return this.name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getTag() {
+    return this.tag;
+  }
+
+  public void setTag(String tag) {
+    this.tag = tag;
+  }
+
+  public String getTagColor() {
+    return this.tagColor;
+  }
+
+  public void setTagColor(String tagColor) {
+    this.tagColor = tagColor;
+  }
+
+  public ArrayList<SocialProfile> getSocialProfiles() {
+    return this.socialProfiles;
+  }
+
+  public void setSocialProfiles(ArrayList<SocialProfile> socialProfiles) {
+    this.socialProfiles = socialProfiles;
   }
 }

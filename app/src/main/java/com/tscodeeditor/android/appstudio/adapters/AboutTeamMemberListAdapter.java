@@ -36,66 +36,55 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.databinding.AdapterAboutTeamMemberBinding;
+import com.tscodeeditor.android.appstudio.models.TeamMember;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AboutTeamMemberListAdapter
     extends RecyclerView.Adapter<AboutTeamMemberListAdapter.ViewHolder> {
 
-  ArrayList<HashMap<String, Object>> _data;
-  public ImageView profile;
-  public TextView name;
-  public TextView description;
+  public ArrayList<TeamMember> members;
   public AboutTeamActivity mAboutTeamActivity;
 
   public AboutTeamMemberListAdapter(
-      ArrayList<HashMap<String, Object>> _arr, AboutTeamActivity mAboutTeamActivity) {
-    _data = _arr;
+      ArrayList<TeamMember> members, AboutTeamActivity mAboutTeamActivity) {
+    this.members = members;
     this.mAboutTeamActivity = mAboutTeamActivity;
   }
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    LayoutInflater _inflater = mAboutTeamActivity.getLayoutInflater();
-    View _v = _inflater.inflate(R.layout.adapter_about_team_member, null);
-    RecyclerView.LayoutParams _lp =
+    AdapterAboutTeamMemberBinding binding =
+        AdapterAboutTeamMemberBinding.inflate(LayoutInflater.from(parent.getContext()));
+    RecyclerView.LayoutParams layoutParam =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    _v.setLayoutParams(_lp);
-    return new ViewHolder(_v);
+    binding.getRoot().setLayoutParams(layoutParam);
+    return new ViewHolder(binding.getRoot());
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder _holder, final int _position) {
-    View _view = _holder.itemView;
-    profile = _view.findViewById(R.id.profile);
-    if (_data.get(_position).containsKey("Image")) {
+  public void onBindViewHolder(ViewHolder holder, final int position) {
+    TeamMember member = members.get(position);
+    AdapterAboutTeamMemberBinding binding = AdapterAboutTeamMemberBinding.bind(holder.itemView);
+    binding.name.setText(member.getName() != null ? member.getName() : "");
+    binding.description.setText(member.getDescription() != null ? member.getDescription() : "");
+    if (member.getProfilePhotoUrl() != null) {
       MultiTransformation multi = new MultiTransformation<Bitmap>(new CircleCrop());
       Glide.with(mAboutTeamActivity)
-          .load(Uri.parse(_data.get(_position).get("Image").toString()))
+          .load(Uri.parse(member.getProfilePhotoUrl()))
           .thumbnail(0.10F)
-          .into(profile);
-    }
-    name = _view.findViewById(R.id.name);
-    description = _view.findViewById(R.id.description);
-    if (_data.get(_position).containsKey("Name")) {
-      name.setText(_data.get(_position).get("Name").toString());
-    }
-    if (_data.get(_position).containsKey("Description")) {
-      description.setText(_data.get(_position).get("Description").toString());
+          .into(binding.profile);
     }
   }
 
   @Override
   public int getItemCount() {
-    return _data.size();
+    return members.size();
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {

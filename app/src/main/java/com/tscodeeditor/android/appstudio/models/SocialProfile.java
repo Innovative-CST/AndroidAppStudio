@@ -29,81 +29,34 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.activities;
+package com.tscodeeditor.android.appstudio.models;
 
-import android.code.editor.utils.RequestNetwork;
-import android.code.editor.utils.RequestNetworkController;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.utils.TeamMemberDataParser;
-import java.util.ArrayList;
-import java.util.HashMap;
+public class SocialProfile {
+  private String platformName;
+  private String platformIconUrl;
+  private String url;
 
-public class AboutTeamActivity extends BaseActivity {
-  private LinearLayout main;
-
-  private LinearLayout loading;
-
-  private RecyclerView list;
-  public String contributorsData =
-      "https://raw.githubusercontent.com/TS-Code-Editor/AndroidAppStudio/main/assets/contributors.json";
-
-  public RequestNetwork reqNetwork;
-
-  public RequestNetwork.RequestListener reqListener;
-
-  public ArrayList<HashMap<String, Object>> contributorsList = new ArrayList<>();
-
-  @Override
-  protected void onCreate(Bundle arg0) {
-    super.onCreate(arg0);
-    setContentView(R.layout.activity_about_team);
-    initActivity();
+  public String getPlatformName() {
+    return this.platformName;
   }
 
-  public void initActivity() {
-    // Initialze views in layout
-    init();
-    main.setVisibility(View.GONE);
-    loading.setVisibility(View.VISIBLE);
-
-    reqNetwork = new RequestNetwork(this);
-
-    reqListener =
-        new RequestNetwork.RequestListener() {
-          @Override
-          public void onResponse(
-              String tag, String response, HashMap<String, Object> responseHeaders) {
-            loading.setVisibility(View.GONE);
-            main.setVisibility(View.VISIBLE);
-            list.setAdapter(
-                new AboutTeamMemberListAdapter(
-                    TeamMemberDataParser.getMembers(response), AboutTeamActivity.this));
-            list.setLayoutManager(new LinearLayoutManager(AboutTeamActivity.this));
-          }
-
-          @Override
-          public void onErrorResponse(String tag, String message) {}
-        };
-
-    reqNetwork.startRequestNetwork(
-        RequestNetworkController.GET, contributorsData, "Contributors", reqListener);
+  public void setPlatformName(String platformName) {
+    this.platformName = platformName;
   }
 
-  public void init() {
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    toolbar.setTitle(R.string.about_team);
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    list = findViewById(R.id.list);
-    main = findViewById(R.id.main);
-    loading = findViewById(R.id.loading);
+  public String getPlatformIconUrl() {
+    return this.platformIconUrl;
+  }
+
+  public void setPlatformIconUrl(String platformIconUrl) {
+    this.platformIconUrl = platformIconUrl;
+  }
+
+  public String getUrl() {
+    return this.url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 }

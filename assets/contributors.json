@@ -3,7 +3,14 @@
     {
       "Name": "DevKumar00001",
       "Image": "https://github.com/DevKumar00001.png",
-      "Description": "Dev Kumar"
+      "Description": "Dev Kumar",
+      "Social": [
+        {
+          "platform_name": "Discord",
+          "platform_icon_url": "",
+          "url": "https://discord.com/invite/vSeCT2u9"
+        }
+      ]
     },
     {
       "Name": "CyberGlitch01",
