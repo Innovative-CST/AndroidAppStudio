@@ -72,7 +72,7 @@ public class EditorScrollView extends FrameLayout {
      * to go back at 0 in X and Y direction.
      */
     if (!getAllowScroll()) {
-      return (!(getScrollX() == 0) || !(getScrollY() == 0)) ? true : false;
+      if ((getScrollX() == 0) || !(getScrollY() == 0)) return false;
     }
 
     if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -82,6 +82,7 @@ public class EditorScrollView extends FrameLayout {
        */
       initialX = event.getX();
       initialY = event.getY();
+      isMinimumScrollValueAcheived = false;
     }
     if (event.getAction() == MotionEvent.ACTION_UP) {
       initialX = -1.0f;
@@ -111,12 +112,7 @@ public class EditorScrollView extends FrameLayout {
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (!getAllowScroll()) {
-      if (!(getScrollX() == 0) || !(getScrollY() == 0)) {
-        // Allow back scroll only
-        return true;
-      } else {
-        return false;
-      }
+      if ((getScrollX() == 0) || !(getScrollY() == 0)) return false;
     }
     if (event.getAction() == MotionEvent.ACTION_DOWN) {
       /*
