@@ -273,11 +273,10 @@ public class BlockView extends LinearLayout {
                           - editorViewCoordinate[1]
                           - UnitUtils.dpToPx(getContext(), 80));
                 }
-                return false;
               }
+              return true;
             }
-
-            return true;
+            return false;
           }
         });
   }

@@ -132,6 +132,7 @@ public class EventEditor extends RelativeLayout {
     binding.blockList.requestDisallowInterceptTouchEvent(false);
     drop(x, y);
     removeView(blockFloatingView);
+    draggingBlock = null;
   }
 
   public void drop(float x, float y) {
@@ -162,8 +163,11 @@ public class EventEditor extends RelativeLayout {
           }
         }
       }
+    } else {
+      if (draggingBlock.isInsideEditor()) {
+        draggingBlock.setVisibility(View.VISIBLE);
+      }
     }
-    draggingBlock = null;
   }
 
   public void moveFloatingBlockView(float x, float y) {
