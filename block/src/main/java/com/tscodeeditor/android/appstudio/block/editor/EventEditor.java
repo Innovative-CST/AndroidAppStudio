@@ -36,6 +36,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
@@ -111,7 +112,7 @@ public class EventEditor extends RelativeLayout {
     if (draggingBlock.isInsideEditor()) {
       draggingBlock.setVisibility(View.GONE);
     }
-    binding.canva.setAllowScroll(false);
+    binding.canva.setDisableScrollForcefully(true);
     binding.blockList.requestDisallowInterceptTouchEvent(true);
     isDragging = true;
     this.draggingBlock = draggingBlock;
@@ -128,7 +129,7 @@ public class EventEditor extends RelativeLayout {
 
   public void stopDrag(float x, float y) {
     isDragging = false;
-    binding.canva.setAllowScroll(true);
+    binding.canva.setDisableScrollForcefully(false);
     binding.blockList.requestDisallowInterceptTouchEvent(false);
     drop(x, y);
     removeView(blockFloatingView);
@@ -150,13 +151,19 @@ public class EventEditor extends RelativeLayout {
           } else {
             BlockView block =
                 new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
+
+            FrameLayout.LayoutParams blockParams =
+                new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+
+            blockParams.setMargins(
+                (int) x + binding.canva.getScrollX(), (int) y + binding.canva.getScrollY(), 0, 0);
+
             block.setEnableDragDrop(true);
             block.setEnableEditing(true);
             block.setInsideEditor(true);
             binding.canva.addView(block);
-            block.setX(x);
-            block.setY(y);
-            block.requestLayout();
+            block.setLayoutParams(blockParams);
             if (draggingBlock.isInsideEditor()) {
               ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
             }

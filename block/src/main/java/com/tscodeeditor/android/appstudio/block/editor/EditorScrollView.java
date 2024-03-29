@@ -69,7 +69,7 @@ public class EditorScrollView extends FrameLayout {
     /*
      * Force disable scroll
      */
-    if (getForceDisableScroll()) return false;
+    if (isDisabledScrollForcefully()) return false;
 
     /*
      * Checks if scroll is allowed or not.
@@ -203,11 +203,11 @@ public class EditorScrollView extends FrameLayout {
     this.allowScroll = allowScroll;
   }
 
-  public boolean getForceDisableScroll() {
+  public boolean isDisabledScrollForcefully() {
     return this.forceDisableScroll;
   }
 
-  public void setForceDisableScroll(boolean forceDisableScroll) {
+  public void setDisableScrollForcefully(boolean forceDisableScroll) {
     this.forceDisableScroll = forceDisableScroll;
   }
 }
