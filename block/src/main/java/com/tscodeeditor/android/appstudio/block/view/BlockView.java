@@ -274,9 +274,8 @@ public class BlockView extends LinearLayout {
                           - UnitUtils.dpToPx(getContext(), 80));
                 }
               }
-              return true;
             }
-            return false;
+            return true;
           }
         });
   }
