@@ -108,6 +108,9 @@ public class EventEditor extends RelativeLayout {
   }
 
   public void startBlockDrag(BlockView draggingBlock, BlockModel block, float x, float y) {
+    if (draggingBlock.isInsideEditor()) {
+      draggingBlock.setVisibility(View.GONE);
+    }
     binding.canva.setAllowScroll(false);
     binding.blockList.requestDisallowInterceptTouchEvent(true);
     isDragging = true;
