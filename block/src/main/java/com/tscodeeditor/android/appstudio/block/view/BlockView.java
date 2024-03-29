@@ -129,6 +129,30 @@ public class BlockView extends LinearLayout {
                 Color.parseColor(getBlockModel().getColor()));
           }
 
+          if (layerCount == 0) {
+            if (!getBlockModel().isFirstBlock()) {
+              LinearLayout firstBlockTop = new LinearLayout(getContext());
+              ViewGroup.LayoutParams _lp =
+                  new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              firstBlockTop.setLayoutParams(_lp);
+              Drawable firstBlockTopDrawable =
+                  ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
+              firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+              firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+              firstBlockTop.setBackground(firstBlockTopDrawable);
+              addView(firstBlockTop, 0);
+              layerLayout
+                  .getViewTreeObserver()
+                  .addOnGlobalLayoutListener(
+                      () -> {
+                        ViewGroup.LayoutParams lp = firstBlockTop.getLayoutParams();
+                        lp.width = layerLayout.getWidth();
+                        firstBlockTop.setLayoutParams(lp);
+                      });
+            }
+          }
+
           // Load block content layer...
           layerLayout.addView(
               BlockFieldLayerHandler.getBlockFieldLayerView(
@@ -154,20 +178,6 @@ public class BlockView extends LinearLayout {
         blockBottomJointDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
         blockBottomJoint.setBackground(blockBottomJointDrawable);
         addView(blockBottomJoint);
-      }
-
-      if (!getBlockModel().isFirstBlock()) {
-        LinearLayout firstBlockTop = new LinearLayout(getContext());
-        ViewGroup.LayoutParams layoutParams =
-            new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        firstBlockTop.setLayoutParams(layoutParams);
-        Drawable firstBlockTopDrawable =
-            ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
-        firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
-        firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-        firstBlockTop.setBackground(firstBlockTopDrawable);
-        addView(firstBlockTop, 0);
       }
     }
 
