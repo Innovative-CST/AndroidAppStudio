@@ -61,9 +61,6 @@ public class TeamMemberDataParser {
         if (!contributors.getJSONObject(memberCount).isNull("Tag")) {
           member.setTag(contributors.getJSONObject(memberCount).getString("Tag"));
         }
-        if (!contributors.getJSONObject(memberCount).isNull("TagColor")) {
-          member.setTagColor(contributors.getJSONObject(memberCount).getString("TagColor"));
-        }
         if (!contributors.getJSONObject(memberCount).isNull("Social")) {
           ArrayList<SocialProfile> profiles = new ArrayList<SocialProfile>();
 
@@ -76,13 +73,13 @@ public class TeamMemberDataParser {
                 .getJSONObject(memberCount)
                 .getJSONArray("Social")
                 .getJSONObject(socialProfileCount)
-                .isNull("PlatformName")) {
+                .isNull("platformName")) {
               profile.setPlatformName(
                   contributors
                       .getJSONObject(memberCount)
                       .getJSONArray("Social")
                       .getJSONObject(socialProfileCount)
-                      .getString("PlatformName"));
+                      .getString("platformName"));
             }
             if (!contributors
                 .getJSONObject(memberCount)

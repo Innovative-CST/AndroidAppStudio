@@ -52,6 +52,32 @@
 
         </LinearLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:cardUseCompatPadding="true"
+            style="?attr/materialCardViewElevatedStyle"
+            app:cardCornerRadius="20dp"
+            android:id="@+id/tagContainer"
+            app:cardPreventCornerOverlap="false">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="?attr/colorPrimaryContainer"
+                android:padding="4dp">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:id="@+id/tag" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
 </LinearLayout>

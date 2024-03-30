@@ -29,54 +29,24 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.models;
+package com.tscodeeditor.android.appstudio.bottomsheet;
 
+import android.app.Activity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.tscodeeditor.android.appstudio.adapters.SocialProfileAdapter;
+import com.tscodeeditor.android.appstudio.databinding.BottomsheetSocialProfileBottomSheetBinding;
+import com.tscodeeditor.android.appstudio.models.SocialProfile;
 import java.util.ArrayList;
 
-public class TeamMember {
-  private String name;
-  private String profilePhotoUrl;
-  private String description;
-  private String tag;
-  private ArrayList<SocialProfile> socialProfiles;
-
-  public String getProfilePhotoUrl() {
-    return this.profilePhotoUrl;
-  }
-
-  public void setProfilePhotoUrl(String profilePhotoUrl) {
-    this.profilePhotoUrl = profilePhotoUrl;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return this.description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getTag() {
-    return this.tag;
-  }
-
-  public void setTag(String tag) {
-    this.tag = tag;
-  }
-
-  public ArrayList<SocialProfile> getSocialProfiles() {
-    return this.socialProfiles;
-  }
-
-  public void setSocialProfiles(ArrayList<SocialProfile> socialProfiles) {
-    this.socialProfiles = socialProfiles;
+public class SocialProfileBottomSheet extends BottomSheetDialog {
+  public SocialProfileBottomSheet(ArrayList<SocialProfile> socialProfiles, Activity activity) {
+    super(activity);
+	
+	BottomsheetSocialProfileBottomSheetBinding binding = BottomsheetSocialProfileBottomSheetBinding.inflate(activity.getLayoutInflater());
+	setContentView(binding.getRoot());
+	
+	binding.profilesList.setAdapter(new SocialProfileAdapter(socialProfiles,activity));
+	binding.profilesList.setLayoutManager(new LinearLayoutManager(activity));
   }
 }

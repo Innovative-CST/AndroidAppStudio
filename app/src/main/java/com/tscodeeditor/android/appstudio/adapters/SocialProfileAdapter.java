@@ -29,8 +29,10 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.activities;
+package com.tscodeeditor.android.appstudio.adapters;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -40,27 +42,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.tscodeeditor.android.appstudio.bottomsheet.SocialProfileBottomSheet;
-import com.tscodeeditor.android.appstudio.databinding.AdapterAboutTeamMemberBinding;
-import com.tscodeeditor.android.appstudio.models.TeamMember;
+import com.tscodeeditor.android.appstudio.databinding.AdapterSocialProfileBinding;
+import com.tscodeeditor.android.appstudio.models.SocialProfile;
 import java.util.ArrayList;
 
-public class AboutTeamMemberListAdapter
-    extends RecyclerView.Adapter<AboutTeamMemberListAdapter.ViewHolder> {
+public class SocialProfileAdapter extends RecyclerView.Adapter<SocialProfileAdapter.ViewHolder> {
 
-  public ArrayList<TeamMember> members;
-  public AboutTeamActivity mAboutTeamActivity;
+  public ArrayList<SocialProfile> profiles;
+  public Activity activity;
 
-  public AboutTeamMemberListAdapter(
-      ArrayList<TeamMember> members, AboutTeamActivity mAboutTeamActivity) {
-    this.members = members;
-    this.mAboutTeamActivity = mAboutTeamActivity;
+  public SocialProfileAdapter(ArrayList<SocialProfile> profiles, Activity activity) {
+    this.profiles = profiles;
+    this.activity = activity;
   }
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    AdapterAboutTeamMemberBinding binding =
-        AdapterAboutTeamMemberBinding.inflate(LayoutInflater.from(parent.getContext()));
+    AdapterSocialProfileBinding binding =
+        AdapterSocialProfileBinding.inflate(LayoutInflater.from(parent.getContext()));
     RecyclerView.LayoutParams layoutParam =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -70,38 +69,33 @@ public class AboutTeamMemberListAdapter
 
   @Override
   public void onBindViewHolder(ViewHolder holder, final int position) {
-    TeamMember member = members.get(position);
-    AdapterAboutTeamMemberBinding binding = AdapterAboutTeamMemberBinding.bind(holder.itemView);
-    binding.name.setText(member.getName() != null ? member.getName() : "");
-    binding.description.setText(member.getDescription() != null ? member.getDescription() : "");
-    if (member.getProfilePhotoUrl() != null) {
+    SocialProfile profile = profiles.get(position);
+    AdapterSocialProfileBinding binding = AdapterSocialProfileBinding.bind(holder.itemView);
+    binding.platformName.setText(
+        profile.getPlatformName() != null ? profile.getPlatformName() : "");
+    if (profile.getPlatformIconUrl() != null) {
       MultiTransformation multi = new MultiTransformation<Bitmap>(new CircleCrop());
-      Glide.with(mAboutTeamActivity)
-          .load(Uri.parse(member.getProfilePhotoUrl()))
+      Glide.with(activity)
+          .load(Uri.parse(profile.getPlatformIconUrl()))
           .thumbnail(0.10F)
-          .into(binding.profile);
+          .into(binding.platformIcon);
     }
-    if (member.getTag() == null) {
-      binding.tagContainer.setVisibility(View.GONE);
-    } else {
-      binding.tagContainer.setVisibility(View.VISIBLE);
-      binding.tag.setText(member.getTag());
-    }
-    if (member.getSocialProfiles() != null) {
+    if (profile.getUrl() != null) {
       binding
           .getRoot()
           .setOnClickListener(
               v -> {
-                SocialProfileBottomSheet profilesBottomSheet =
-                    new SocialProfileBottomSheet(member.getSocialProfiles(), mAboutTeamActivity);
-                profilesBottomSheet.show();
+                Intent profileOpener = new Intent();
+                profileOpener.setAction(Intent.ACTION_VIEW);
+                profileOpener.setData(Uri.parse(profile.getUrl()));
+                activity.startActivity(profileOpener);
               });
     }
   }
 
   @Override
   public int getItemCount() {
-    return members.size();
+    return profiles.size();
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
