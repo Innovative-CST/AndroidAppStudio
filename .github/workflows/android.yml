@@ -1,9 +1,7 @@
 name: Android CI
 
 on:
-  push:
-    paths-ignore:
-      - .gitignore
+  workflow_dispatch:
 
 jobs:
   buildApkFile:
