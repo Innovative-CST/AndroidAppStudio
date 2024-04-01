@@ -42,6 +42,7 @@ public class FileModel implements Serializable, Cloneable {
   private String fileExtension;
   private String replacerKey;
   private String rawCode;
+  private String builtInEventsName;
   private ArrayList<Event> defaultBuiltInEvents;
   private boolean isFolder;
   private boolean isAndroidAppModule;
@@ -73,6 +74,14 @@ public class FileModel implements Serializable, Cloneable {
 
   public ArrayList<Event> getDefaultBuiltInEvents() {
     return this.defaultBuiltInEvents;
+  }
+
+  public String getBuiltInEventsName() {
+    return this.builtInEventsName;
+  }
+
+  public void setBuiltInEventsName(String builtInEventsName) {
+    this.builtInEventsName = builtInEventsName;
   }
 
   public void setDefaultBuiltInEvents(ArrayList<Event> defaultBuiltInEvents) {
@@ -145,6 +154,8 @@ public class FileModel implements Serializable, Cloneable {
     FileModel fileModel = new FileModel();
     fileModel.setFileName(getFileName() != null ? new String(getFileName()) : null);
     fileModel.setFileExtension(getFileExtension() != null ? new String(getFileExtension()) : null);
+    fileModel.setBuiltInEventsName(
+        getBuiltInEventsName() != null ? new String(getBuiltInEventsName()) : null);
 
     ArrayList<Event> clonedBuildInEvents = new ArrayList<Event>();
     for (int position = 0; position < getDefaultBuiltInEvents().size(); ++position) {
