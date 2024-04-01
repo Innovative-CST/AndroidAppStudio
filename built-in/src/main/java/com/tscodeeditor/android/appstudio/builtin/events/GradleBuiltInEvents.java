@@ -49,8 +49,12 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setName("androidBlock");
     androidBlockEvent.setDescription("Contains basic defination of your app");
     androidBlockEvent.setEventReplacer("blockCode");
+    androidBlockEvent.setEventReplacerKey("AppModuleAndroidBlockEventCode");
     androidBlockEvent.setRawCode(
-        "android {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
+        "android {\n"
+            + RawCodeReplacer.getReplacer(
+                androidBlockEvent.getEventReplacerKey(), androidBlockEvent.getEventReplacer())
+            + "\n}");
     androidBlockEvent.setEnableEdit(true);
     androidBlockEvent.setEnableRootBlocksDrag(true);
     androidBlockEvent.setEnableRootBlocksValueEditing(true);
@@ -88,8 +92,13 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setName("dependenciesBlock");
     dependenciesBlockEvent.setDescription("Contains library used by your app");
     dependenciesBlockEvent.setEventReplacer("blockCode");
+    dependenciesBlockEvent.setEventReplacerKey("AppModuleDependenciesBlockEventCode");
     dependenciesBlockEvent.setRawCode(
-        "dependencies {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
+        "dependencies {\n"
+            + RawCodeReplacer.getReplacer(
+                dependenciesBlockEvent.getEventReplacerKey(),
+                dependenciesBlockEvent.getEventReplacer())
+            + "\n}");
     dependenciesBlockEvent.setEnableEdit(true);
     dependenciesBlockEvent.setEnableRootBlocksDrag(true);
     dependenciesBlockEvent.setEnableRootBlocksValueEditing(true);
@@ -126,8 +135,12 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setName("androidBlock");
     androidBlockEvent.setDescription("Contains basic defination of your library");
     androidBlockEvent.setEventReplacer("blockCode");
+    androidBlockEvent.setEventReplacerKey("LibraryModuleAndroidBlockEventCode");
     androidBlockEvent.setRawCode(
-        "android {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
+        "android {\n"
+            + RawCodeReplacer.getReplacer(
+                androidBlockEvent.getEventReplacerKey(), androidBlockEvent.getEventReplacer())
+            + "\n}");
     androidBlockEvent.setEnableEdit(true);
     androidBlockEvent.setEnableRootBlocksDrag(true);
     androidBlockEvent.setEnableRootBlocksValueEditing(true);
@@ -144,8 +157,13 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setName("dependenciesBlock");
     dependenciesBlockEvent.setDescription("Contains library used by your app");
     dependenciesBlockEvent.setEventReplacer("blockCode");
+    dependenciesBlockEvent.setEventReplacerKey("LibraryModuleDependenciesBlockEventCode");
     dependenciesBlockEvent.setRawCode(
-        "dependencies {\n" + RawCodeReplacer.getReplacer("eventCode", "blockCode") + "\n}");
+        "dependencies {\n"
+            + RawCodeReplacer.getReplacer(
+                dependenciesBlockEvent.getEventReplacerKey(),
+                dependenciesBlockEvent.getEventReplacer())
+            + "\n}");
     dependenciesBlockEvent.setEnableEdit(true);
     dependenciesBlockEvent.setEnableRootBlocksDrag(true);
     dependenciesBlockEvent.setEnableRootBlocksValueEditing(true);
