@@ -124,7 +124,7 @@ public class FileModel implements Serializable, Cloneable {
                 builtInEvents.get(eventCount).getCode());
       }
     }
-	return resultCode;
+    return resultCode;
   }
 
   @Override
@@ -137,7 +137,7 @@ public class FileModel implements Serializable, Cloneable {
     for (int position = 0; position < getDefaultBuiltInEvents().size(); ++position) {
       clonedBuildInEvents.add(getDefaultBuiltInEvents().get(position).clone());
     }
-
+    fileModel.setReplacerKey(getReplacerKey() != null ? new String(getReplacerKey()) : null);
     fileModel.setDefaultBuiltInEvents(clonedBuildInEvents);
     fileModel.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     fileModel.setFolder(new Boolean(isFolder()));
