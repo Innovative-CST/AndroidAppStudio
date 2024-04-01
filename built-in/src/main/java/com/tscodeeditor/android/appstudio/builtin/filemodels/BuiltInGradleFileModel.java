@@ -49,7 +49,7 @@ public class BuiltInGradleFileModel {
     appModuleGradleFile.setReplacerKey("applicationModuleGradleEvent");
 
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
-    appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");
+    appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n\n");
     appModuleGradleFileRawCode.append(
         RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "androidBlock"));
     appModuleGradleFileRawCode.append("\n\n");
