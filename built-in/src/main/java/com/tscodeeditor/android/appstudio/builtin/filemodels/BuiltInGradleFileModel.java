@@ -46,13 +46,15 @@ public class BuiltInGradleFileModel {
     appModuleGradleFile.setFileName("build");
     appModuleGradleFile.setFileExtension("gradle");
     appModuleGradleFile.setFolder(false);
-    appModuleGradleFile.setReplacerKey("event");
+    appModuleGradleFile.setReplacerKey("applicationModuleGradleEvent");
 
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
     appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n");
-    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "androidBlock"));
+    appModuleGradleFileRawCode.append(
+        RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "androidBlock"));
     appModuleGradleFileRawCode.append("\n\n");
-    appModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "dependenciesBlock"));
+    appModuleGradleFileRawCode.append(
+        RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "dependenciesBlock"));
     appModuleGradleFileRawCode.append("\n");
 
     appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
@@ -74,13 +76,15 @@ public class BuiltInGradleFileModel {
     libraryModuleGradleFile.setFileName("build");
     libraryModuleGradleFile.setFileExtension("gradle");
     libraryModuleGradleFile.setFolder(false);
+    libraryModuleGradleFile.setReplacerKey("libraryModuleGradleEvent");
 
     StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
     libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
-    libraryModuleGradleFileRawCode.append(RawCodeReplacer.getReplacer("event", "androidBlock"));
+    libraryModuleGradleFileRawCode.append(
+        RawCodeReplacer.getReplacer(libraryModuleGradleFile.getReplacerKey(), "androidBlock"));
     libraryModuleGradleFileRawCode.append("\n\n");
     libraryModuleGradleFileRawCode.append(
-        RawCodeReplacer.getReplacer("event", "dependenciesBlock"));
+        RawCodeReplacer.getReplacer(libraryModuleGradleFile.getReplacerKey(), "dependenciesBlock"));
     libraryModuleGradleFileRawCode.append("\n");
 
     libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
