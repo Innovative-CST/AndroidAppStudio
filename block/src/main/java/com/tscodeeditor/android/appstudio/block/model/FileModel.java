@@ -124,6 +124,19 @@ public class FileModel implements Serializable, Cloneable {
                 builtInEvents.get(eventCount).getCode());
       }
     }
+
+    if (events != null) {
+      for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
+        if (events.get(eventCount) instanceof Event) {
+          Event event = (Event) events.get(eventCount);
+          resultCode =
+              resultCode.replace(
+                  RawCodeReplacer.getReplacer(
+                      event.getEventReplacerKey(), event.getEventReplacer()),
+                  event.getCode());
+        }
+      }
+    }
     return resultCode;
   }
 
