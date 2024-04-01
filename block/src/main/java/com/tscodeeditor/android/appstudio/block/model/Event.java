@@ -41,6 +41,7 @@ public class Event implements Serializable, Cloneable {
   private String description;
   private String rawCode;
   private String eventReplacer;
+  private String eventReplacerKey;
   private BlockModel eventTopBlock;
   private int icon;
   private boolean enableEdit;
@@ -85,6 +86,14 @@ public class Event implements Serializable, Cloneable {
 
   public void setEventReplacer(String eventReplacer) {
     this.eventReplacer = eventReplacer;
+  }
+
+  public String getEventReplacerKey() {
+    return this.eventReplacerKey;
+  }
+
+  public void setEventReplacerKey(String eventReplacerKey) {
+    this.eventReplacerKey = eventReplacerKey;
   }
 
   public int getIcon() {
@@ -139,6 +148,8 @@ public class Event implements Serializable, Cloneable {
     event.setDescription(getDescription() != null ? new String(getDescription()) : null);
     event.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     event.setEventReplacer(getEventReplacer() != null ? new String(getEventReplacer()) : null);
+    event.setEventReplacerKey(
+        getEventReplacerKey() != null ? new String(getEventReplacerKey()) : null);
     event.setEventTopBlock(getEventTopBlock() != null ? getEventTopBlock().clone() : null);
     event.setIcon(new Integer(getIcon()));
     event.setEnableEdit(new Boolean(getEnableEdit()));
