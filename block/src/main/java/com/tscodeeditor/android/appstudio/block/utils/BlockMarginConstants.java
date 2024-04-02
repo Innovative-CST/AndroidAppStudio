@@ -32,5 +32,5 @@
 package com.tscodeeditor.android.appstudio.block.utils;
 
 public final class BlockMarginConstants {
-  public static final byte regularBlockMargin = -5;
+  public static final byte regularBlockMargin = -3;
 }
