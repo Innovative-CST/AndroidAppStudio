@@ -43,7 +43,7 @@ public class FileModel implements Serializable, Cloneable {
   private String replacerKey;
   private String rawCode;
   private String builtInEventsName;
-  private ArrayList<Event> defaultBuiltInEvents;
+  private ArrayList<Object> defaultBuiltInEvents;
   private boolean isFolder;
   private boolean isAndroidAppModule;
   private boolean isAndroidLibrary;
@@ -72,8 +72,12 @@ public class FileModel implements Serializable, Cloneable {
     this.rawCode = rawCode;
   }
 
-  public ArrayList<Event> getDefaultBuiltInEvents() {
+  public ArrayList<Object> getDefaultBuiltInEvents() {
     return this.defaultBuiltInEvents;
+  }
+
+  public void setDefaultBuiltInEvents(ArrayList<Object> defaultBuiltInEvents) {
+    this.defaultBuiltInEvents = defaultBuiltInEvents;
   }
 
   public String getBuiltInEventsName() {
@@ -82,10 +86,6 @@ public class FileModel implements Serializable, Cloneable {
 
   public void setBuiltInEventsName(String builtInEventsName) {
     this.builtInEventsName = builtInEventsName;
-  }
-
-  public void setDefaultBuiltInEvents(ArrayList<Event> defaultBuiltInEvents) {
-    this.defaultBuiltInEvents = defaultBuiltInEvents;
   }
 
   public boolean isFolder() {
@@ -120,17 +120,19 @@ public class FileModel implements Serializable, Cloneable {
     this.replacerKey = replacerKey;
   }
 
-  public String getCode(ArrayList<Event> builtInEvents, ArrayList<Object> events) {
+  public String getCode(ArrayList<Object> builtInEvents, ArrayList<Object> events) {
     String resultCode = new String(getRawCode());
 
     if (builtInEvents != null) {
 
       for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
-        resultCode =
-            resultCode.replace(
-                RawCodeReplacer.getReplacer(
-                    getReplacerKey(), builtInEvents.get(eventCount).getEventReplacer()),
-                builtInEvents.get(eventCount).getCode());
+        if (builtInEvents.get(eventCount) instanceof Event) {
+          Event event = (Event) builtInEvents.get(eventCount);
+          resultCode =
+              resultCode.replace(
+                  RawCodeReplacer.getReplacer(getReplacerKey(), event.getEventReplacer()),
+                  event.getCode());
+        }
       }
     }
 
@@ -157,9 +159,14 @@ public class FileModel implements Serializable, Cloneable {
     fileModel.setBuiltInEventsName(
         getBuiltInEventsName() != null ? new String(getBuiltInEventsName()) : null);
 
-    ArrayList<Event> clonedBuildInEvents = new ArrayList<Event>();
+    ArrayList<Object> clonedBuildInEvents = new ArrayList<Object>();
     for (int position = 0; position < getDefaultBuiltInEvents().size(); ++position) {
-      clonedBuildInEvents.add(getDefaultBuiltInEvents().get(position).clone());
+      if (getDefaultBuiltInEvents().get(position) instanceof Event) {
+        clonedBuildInEvents.add(((Event) getDefaultBuiltInEvents().get(position)).clone());
+      } else if (getDefaultBuiltInEvents().get(position) instanceof Event) {
+        clonedBuildInEvents.add(
+            ((EventGroupModel) getDefaultBuiltInEvents().get(position)).clone());
+      }
     }
     fileModel.setReplacerKey(getReplacerKey() != null ? new String(getReplacerKey()) : null);
     fileModel.setDefaultBuiltInEvents(clonedBuildInEvents);
