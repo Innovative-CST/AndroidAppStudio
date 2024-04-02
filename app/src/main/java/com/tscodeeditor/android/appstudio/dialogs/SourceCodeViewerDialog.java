@@ -48,7 +48,7 @@ public class SourceCodeViewerDialog extends MaterialAlertDialogBuilder {
   private CodeEditorLayout editor;
   private FileModel file;
 
-  public SourceCodeViewerDialog(Activity activity, FileModel file) {
+  public SourceCodeViewerDialog(Activity activity, FileModel file, String code) {
     super(activity);
     this.activity = activity;
     this.file = file;
@@ -64,7 +64,7 @@ public class SourceCodeViewerDialog extends MaterialAlertDialogBuilder {
     editor.setTheme(Themes.SoraEditorTheme.Light.Default);
     if (file != null) {
       editor.setLanguageMode(file.getFileExtension());
-		editor.setText(file.getCode(null, null));
+      editor.setText(code);
     }
     setView(editor);
     setTitle(R.string.source_code);

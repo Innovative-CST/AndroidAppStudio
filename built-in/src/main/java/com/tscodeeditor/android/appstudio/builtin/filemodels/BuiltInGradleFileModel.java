@@ -47,6 +47,7 @@ public class BuiltInGradleFileModel {
     appModuleGradleFile.setFileExtension("gradle");
     appModuleGradleFile.setFolder(false);
     appModuleGradleFile.setReplacerKey("applicationModuleGradleEvent");
+    appModuleGradleFile.setBuiltInEventsName("Config");
 
     StringBuilder appModuleGradleFileRawCode = new StringBuilder();
     appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n\n");
@@ -59,7 +60,7 @@ public class BuiltInGradleFileModel {
 
     appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
 
-    ArrayList<Event> builtinEvents = new ArrayList<Event>();
+    ArrayList<Object> builtinEvents = new ArrayList<Object>();
     builtinEvents.add(GradleBuiltInEvents.getAppModuleAndroidBlockEvent());
     builtinEvents.add(GradleBuiltInEvents.getAppModuleDependenciesBlockEvent());
 
@@ -77,6 +78,7 @@ public class BuiltInGradleFileModel {
     libraryModuleGradleFile.setFileExtension("gradle");
     libraryModuleGradleFile.setFolder(false);
     libraryModuleGradleFile.setReplacerKey("libraryModuleGradleEvent");
+    libraryModuleGradleFile.setBuiltInEventsName("Config");
 
     StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
     libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
@@ -89,7 +91,7 @@ public class BuiltInGradleFileModel {
 
     libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
 
-    ArrayList<Event> builtinEvents = new ArrayList<Event>();
+    ArrayList<Object> builtinEvents = new ArrayList<Object>();
 
     builtinEvents.add(GradleBuiltInEvents.getLibraryModuleAndroidBlockEvent());
     builtinEvents.add(GradleBuiltInEvents.getLibraryModuleDependenciesBlockEvent());

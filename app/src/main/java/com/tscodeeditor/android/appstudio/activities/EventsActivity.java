@@ -40,6 +40,7 @@ import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventsBinding;
 import com.tscodeeditor.android.appstudio.dialogs.SourceCodeViewerDialog;
 import com.tscodeeditor.android.appstudio.fragments.events.EventListFragment;
+import com.tscodeeditor.android.appstudio.helper.FileModelCodeHelper;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.EventsHolderUtils;
@@ -207,7 +208,11 @@ public class EventsActivity extends BaseActivity {
   public boolean onOptionsItemSelected(MenuItem menuItem) {
     if (menuItem.getItemId() == R.id.show_source_code) {
       if (fileModel != null) {
-        SourceCodeViewerDialog sourceCodeDialog = new SourceCodeViewerDialog(this, fileModel);
+        FileModelCodeHelper helper = new FileModelCodeHelper();
+        helper.setFileModel(fileModel);
+        helper.setEventsDirectory(eventsDir);
+        SourceCodeViewerDialog sourceCodeDialog =
+            new SourceCodeViewerDialog(this, fileModel, helper.getCode());
         sourceCodeDialog.create().show();
       }
     }

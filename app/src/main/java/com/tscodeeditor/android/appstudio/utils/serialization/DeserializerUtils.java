@@ -93,6 +93,23 @@ public class DeserializerUtils {
     }
   }
 
+  public static Object deserialize(File path) {
+    if (!path.exists()) return null;
+
+    if (path.isDirectory()) return null;
+
+    try {
+      FileInputStream mFileInputStream = new FileInputStream(path);
+      ObjectInputStream mObjectInputStream = new ObjectInputStream(mFileInputStream);
+      Object mObject = mObjectInputStream.readObject();
+      mFileInputStream.close();
+      mObjectInputStream.close();
+      return mObject;
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   public interface DeserializerListener {
     void onSuccessfullyDeserialized(Object object);
 

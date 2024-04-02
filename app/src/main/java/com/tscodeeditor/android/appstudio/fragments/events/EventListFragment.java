@@ -94,7 +94,7 @@ public class EventListFragment extends Fragment {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
-              ArrayList<Event> events = EventUtils.getEvents(eventListPath);
+              ArrayList<Object> events = EventUtils.getEvents(eventListPath);
               getActivity()
                   .runOnUiThread(
                       () -> {

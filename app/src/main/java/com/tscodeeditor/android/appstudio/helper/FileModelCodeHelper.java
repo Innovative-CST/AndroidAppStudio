@@ -29,94 +29,79 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.utils;
+package com.tscodeeditor.android.appstudio.helper;
 
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.models.EventHolder;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.EventUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
-import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
 
-public class EventUtils {
-  public static ArrayList<Object> getEvents(File file) {
-    ArrayList<Object> events = new ArrayList<Object>();
+public class FileModelCodeHelper {
+  private File eventsDirectory;
+  private FileModel fileModel;
 
-    if (!file.exists()) return events;
-
-    for (File path : file.listFiles()) {
-      DeserializerUtils.deserialize(
-          path,
-          new DeserializerUtils.DeserializerListener() {
-
-            @Override
-            public void onSuccessfullyDeserialized(Object object) {
-              if (object instanceof Event) {
-                events.add((Event) object);
-              } else if (object instanceof EventGroupModel) {
-                events.add((EventGroupModel) object);
-              }
-            }
-
-            @Override
-            public void onFailed(int errorCode, Exception e) {}
-          });
-    }
-    return events;
+  public File getEventsDirectory() {
+    return this.eventsDirectory;
   }
 
-  public static ArrayList<Object> getEventsObject(File file) {
-    ArrayList<Object> events = new ArrayList<Object>();
-
-    if (!file.exists()) return events;
-
-    for (File path : file.listFiles()) {
-      DeserializerUtils.deserialize(
-          path,
-          new DeserializerUtils.DeserializerListener() {
-
-            @Override
-            public void onSuccessfullyDeserialized(Object object) {
-              if (object instanceof Event) {
-                events.add((Event) object);
-              } else if (object instanceof EventGroupModel) {
-                events.add((EventGroupModel) object);
-              }
-            }
-
-            @Override
-            public void onFailed(int errorCode, Exception e) {}
-          });
-    }
-    return events;
+  public void setEventsDirectory(File eventsDirectory) {
+    this.eventsDirectory = eventsDirectory;
   }
 
-  public static void installEvents(ArrayList<Object> events, File directory) {
-    for (int position = 0; position < events.size(); ++position) {
-      Object event = null;
-      File eventPath = null;
-      if (events.get(position) instanceof Event) {
-        event = ((Event) events.get(position)).clone();
-        eventPath = new File(directory, ((Event) events.get(position)).getName());
-      } else if (events.get(position) instanceof EventGroupModel) {
-        event = ((EventGroupModel) events.get(position)).clone();
-        eventPath = new File(directory, ((EventGroupModel) events.get(position)).getTitle());
+  public FileModel getFileModel() {
+    return this.fileModel;
+  }
+
+  public void setFileModel(FileModel fileModel) {
+    this.fileModel = fileModel;
+  }
+
+  public String getCode() {
+    ArrayList<Object> builtInEvents = null;
+    ArrayList<Object> dirEvents = new ArrayList<Object>();
+
+    if (fileModel == null) return null;
+    if (eventsDirectory == null) return null;
+    if (eventsDirectory.isFile()) return null;
+
+    for (File file : eventsDirectory.listFiles()) {
+      if (file.isFile()) continue;
+
+      File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+
+      if (!eventsHolderFile.exists()) continue;
+
+      EventHolder holder = null;
+
+      Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+
+      if (deserializedObject == null) continue;
+
+      if (!(deserializedObject instanceof EventHolder)) continue;
+
+      holder = (EventHolder) deserializedObject;
+
+      if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+        builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+      } else {
+        ArrayList<Object> extraEvents =
+            EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+
+        for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+          if (extraEvents.get(extraEventCount) instanceof Event) {
+            dirEvents.add((Event) extraEvents.get(extraEventCount));
+          } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+            dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+          }
+        }
       }
-      if (event == null) continue;
-      if (eventPath == null) continue;
-
-      if (eventPath.exists()) continue;
-      SerializerUtil.serialize(
-          event,
-          eventPath,
-          new SerializerUtil.SerializerCompletionListener() {
-
-            @Override
-            public void onSerializeComplete() {}
-
-            @Override
-            public void onFailedToSerialize(Exception exception) {}
-          });
     }
+
+    return fileModel.getCode(builtInEvents, dirEvents);
   }
 }

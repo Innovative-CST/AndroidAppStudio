@@ -130,8 +130,7 @@ public class FileModel implements Serializable, Cloneable {
           Event event = (Event) builtInEvents.get(eventCount);
           resultCode =
               resultCode.replace(
-                  RawCodeReplacer.getReplacer(getReplacerKey(), event.getEventReplacer()),
-                  event.getCode());
+                  RawCodeReplacer.getReplacer(getReplacerKey(), event.getName()), event.getCode());
         }
       }
     }
@@ -142,12 +141,13 @@ public class FileModel implements Serializable, Cloneable {
           Event event = (Event) events.get(eventCount);
           resultCode =
               resultCode.replace(
-                  RawCodeReplacer.getReplacer(
-                      event.getEventReplacerKey(), event.getEventReplacer()),
+                  RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getName()),
                   event.getCode());
         }
       }
     }
+
+    resultCode = resultCode.replaceAll(RawCodeReplacer.getReplacer(getReplacerKey(), "*"), "");
     return resultCode;
   }
 

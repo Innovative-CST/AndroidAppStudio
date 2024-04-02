@@ -52,7 +52,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
   }
 
-  private ArrayList<Event> events;
+  private ArrayList<Object> events;
   private Activity activity;
   /*
    * Contains the location of project directory.
@@ -71,7 +71,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
   private File eventListPath;
 
   public EventAdapter(
-      ArrayList<Event> events,
+      ArrayList<Object> events,
       Activity activity,
       File projectRootDirectory,
       File fileModelDirectory,
@@ -95,22 +95,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    AdapterEventBinding binding = AdapterEventBinding.bind(holder.itemView);
-    binding.title.setText(getEvents().get(position).getTitle());
-    binding.description.setText(getEvents().get(position).getDescription());
-    binding.icon.setImageResource(getEvents().get(position).getIcon());
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              File eventFile = new File(eventListPath, getEvents().get(position).getName());
-              Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
-              editor.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
-              editor.putExtra("fileModelDirectory", fileModelDirectory.getAbsolutePath());
-              editor.putExtra("eventListPath", eventListPath.getAbsolutePath());
-              editor.putExtra("eventFile", eventFile.getAbsolutePath());
-              activity.startActivity(editor);
-            });
+    if (getEvents().get(position) instanceof Event) {
+      Event event = (Event) getEvents().get(position);
+      AdapterEventBinding binding = AdapterEventBinding.bind(holder.itemView);
+      binding.title.setText(event.getTitle());
+      binding.description.setText(event.getDescription());
+      binding.icon.setImageResource(event.getIcon());
+      binding
+          .getRoot()
+          .setOnClickListener(
+              v -> {
+                File eventFile = new File(eventListPath, event.getName());
+                Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
+                editor.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
+                editor.putExtra("fileModelDirectory", fileModelDirectory.getAbsolutePath());
+                editor.putExtra("eventListPath", eventListPath.getAbsolutePath());
+                editor.putExtra("eventFile", eventFile.getAbsolutePath());
+                activity.startActivity(editor);
+              });
+    }
   }
 
   @Override
@@ -118,11 +121,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     return events.size();
   }
 
-  public ArrayList<Event> getEvents() {
+  public ArrayList<Object> getEvents() {
     return this.events;
   }
 
-  public void setEvents(ArrayList<Event> events) {
+  public void setEvents(ArrayList<Object> events) {
     this.events = events;
   }
 }
