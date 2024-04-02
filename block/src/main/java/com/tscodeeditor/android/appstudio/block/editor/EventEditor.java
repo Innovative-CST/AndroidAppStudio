@@ -37,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
@@ -44,6 +45,7 @@ import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBin
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
@@ -148,6 +150,34 @@ public class EventEditor extends RelativeLayout {
               0,
               binding.canva.attachedBlockLayout.getWidth(),
               binding.canva.attachedBlockLayout.getHeight())) {
+
+            int index = 0;
+            for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); i++) {
+              View child = binding.canva.attachedBlockLayout.getChildAt(i);
+              if (x > child.getX() + child.getWidth() / 2) {
+                index = i + 1;
+              } else {
+                break;
+              }
+            }
+
+            if (index == 0) index = index + 1;
+
+            BlockView block =
+                new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
+
+            LinearLayout.LayoutParams blockParams =
+                new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            blockParams.setMargins(
+                0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+
+            block.setEnableDragDrop(true);
+            block.setEnableEditing(true);
+            block.setInsideEditor(true);
+            binding.canva.attachedBlockLayout.addView(block, index);
+            block.setLayoutParams(blockParams);
           } else {
             BlockView block =
                 new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
