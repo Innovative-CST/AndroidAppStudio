@@ -121,6 +121,7 @@ public class EventEditorActivity extends BaseActivity {
 
   @Override
   protected void onPause() {
+    binding.eventEditor.loadBlocksInEvent();
     SerializerUtil.serialize(
         event,
         eventFile,

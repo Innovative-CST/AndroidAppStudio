@@ -32,6 +32,7 @@
 package com.tscodeeditor.android.appstudio.block.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Event implements Serializable, Cloneable {
   public static final long serialVersionUID = 1L;
@@ -43,6 +44,7 @@ public class Event implements Serializable, Cloneable {
   private String eventReplacer;
   private String eventReplacerKey;
   private BlockModel eventTopBlock;
+  private ArrayList<BlockModel> blockModels;
   private int icon;
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
@@ -136,6 +138,14 @@ public class Event implements Serializable, Cloneable {
     this.eventTopBlock = eventTopBlock;
   }
 
+  public ArrayList<BlockModel> getBlockModels() {
+    return this.blockModels;
+  }
+
+  public void setBlockModels(ArrayList<BlockModel> blockModels) {
+    this.blockModels = blockModels;
+  }
+
   public String getCode() {
     return new String(getRawCode() != null ? getRawCode() : "");
   }
@@ -155,6 +165,16 @@ public class Event implements Serializable, Cloneable {
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
     event.setEnableRootBlocksValueEditing(new Boolean(getEnableRootBlocksValueEditing()));
+
+    if (getBlockModels() != null) {
+      ArrayList<BlockModel> clonedBlockModels = new ArrayList<BlockModel>();
+      for (int i = 0; i < getBlockModels().size(); ++i) {
+        clonedBlockModels.add(getBlockModels().get(i).clone());
+      }
+
+      event.setBlockModels(clonedBlockModels);
+    } else event.setBlockModels(null);
+
     return event;
   }
 }

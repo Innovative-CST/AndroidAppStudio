@@ -38,6 +38,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
+import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 
 public class EditorCanva extends EditorScrollView {
@@ -125,7 +127,7 @@ public class EditorCanva extends EditorScrollView {
     return super.onTouchEvent(motion);
   }
 
-  public void initEditor(Event event) {
+  public void initEditor(Event event, EventEditor editor) {
     this.event = event;
     attachedBlockLayout = new LinearLayout(getContext());
     attachedBlockLayout.setLayoutParams(
@@ -140,6 +142,28 @@ public class EditorCanva extends EditorScrollView {
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     attachedBlockLayout.addView(defineBlock);
     addView(attachedBlockLayout);
+    loadBlock(editor);
+  }
+
+  public void loadBlock(EventEditor editor) {
+    if (event.getBlockModels() == null) return;
+    if (attachedBlockLayout == null) return;
+
+    for (int i = 0; i < event.getBlockModels().size(); ++i) {
+      BlockView blockView = new BlockView(editor, getContext(), event.getBlockModels().get(i));
+      LinearLayout.LayoutParams blockParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+      blockParams.setMargins(
+          0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+
+      blockView.setLayoutParams(blockParams);
+      blockView.setEnableDragDrop(true);
+      blockView.setEnableEditing(true);
+      blockView.setInsideEditor(true);
+      attachedBlockLayout.addView(blockView);
+    }
   }
 
   public Event getEvent() {

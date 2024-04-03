@@ -103,7 +103,7 @@ public class EventEditor extends RelativeLayout {
   }
 
   public void initEditor(Event event) {
-    binding.canva.initEditor(event);
+    binding.canva.initEditor(event, this);
   }
 
   public void setHolder(ArrayList<BlockHolderModel> holderList) {
@@ -231,5 +231,23 @@ public class EventEditor extends RelativeLayout {
         0,
         binding.editorSection.getWidth(),
         binding.editorSection.getHeight());
+  }
+
+  public void loadBlocksInEvent() {
+    if (binding.canva.attachedBlockLayout == null) return;
+    if (binding.canva.getEvent() == null) return;
+
+    ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
+    for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); ++i) {
+      if (i == 0) continue;
+      if (binding.canva.attachedBlockLayout.getChildAt(i) instanceof BlockView) {
+        blocks.add(((BlockView) binding.canva.attachedBlockLayout.getChildAt(i)).getBlockModel());
+      }
+    }
+    binding.canva.getEvent().setBlockModels(blocks);
+  }
+
+  public Event getEvent() {
+    return binding.canva.getEvent();
   }
 }
