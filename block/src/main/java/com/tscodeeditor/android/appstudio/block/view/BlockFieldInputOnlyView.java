@@ -62,25 +62,27 @@ public class BlockFieldInputOnlyView extends LinearLayout {
     text.setSingleLine(true);
     addView(text);
 
-    if (editor != null) {
-      setOnClickListener(
-          v -> {
-            editor.switchSection(EventEditor.VALUE_EDITOR_SECTION);
-            editor.binding.codeEditor.setText(
-                blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
-            editor.binding.done.setOnClickListener(
-                view -> {
-                  blockFieldModel.setValue(editor.binding.codeEditor.getText().toString());
-                  editor.switchSection(EventEditor.EDITOR_SECTION);
-                  text.setText(
-                      blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
-                });
+    if (blockView.isInsideEditor()) {
+      if (editor != null) {
+        setOnClickListener(
+            v -> {
+              editor.switchSection(EventEditor.VALUE_EDITOR_SECTION);
+              editor.binding.codeEditor.setText(
+                  blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+              editor.binding.done.setOnClickListener(
+                  view -> {
+                    blockFieldModel.setValue(editor.binding.codeEditor.getText().toString());
+                    editor.switchSection(EventEditor.EDITOR_SECTION);
+                    text.setText(
+                        blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+                  });
 
-            editor.binding.cancel.setOnClickListener(
-                view -> {
-                  editor.switchSection(EventEditor.EDITOR_SECTION);
-                });
-          });
+              editor.binding.cancel.setOnClickListener(
+                  view -> {
+                    editor.switchSection(EventEditor.EDITOR_SECTION);
+                  });
+            });
+      }
     }
   }
 }
