@@ -147,8 +147,14 @@ public class BlockModel implements Serializable, Cloneable {
     if (getBlockLayerModel() != null) {
       ArrayList<BlockLayerModel> cloneBlockLayerModel = new ArrayList<BlockLayerModel>();
       for (int layerCount = 0; layerCount < getBlockLayerModel().size(); ++layerCount) {
-        BlockLayerModel clonedBlockLayerModel = getBlockLayerModel().get(layerCount);
-        cloneBlockLayerModel.add(clonedBlockLayerModel);
+        if (getBlockLayerModel().get(layerCount) instanceof BlockFieldLayerModel) {
+          cloneBlockLayerModel.add(
+              ((BlockFieldLayerModel) getBlockLayerModel().get(layerCount)).clone());
+        }
+        if (getBlockLayerModel().get(layerCount) instanceof BlockHolderLayer) {
+          cloneBlockLayerModel.add(
+              ((BlockHolderLayer) getBlockLayerModel().get(layerCount)).clone());
+        }
       }
 
       block.setBlockLayerModel(cloneBlockLayerModel);

@@ -54,7 +54,11 @@ public class BlockFieldLayerModel extends BlockLayerModel implements Serializabl
     if (getBlockFields() != null) {
       ArrayList<BlockFieldModel> clonedBlockFieldModel = new ArrayList<BlockFieldModel>();
       for (int pos = 0; pos < getBlockFields().size(); ++pos) {
-        clonedBlockFieldModel.add(getBlockFields().get(pos).clone());
+        if (getBlockFields().get(pos) instanceof BlockValueFieldModel) {
+          clonedBlockFieldModel.add(((BlockValueFieldModel) getBlockFields().get(pos)).clone());
+        } else {
+          clonedBlockFieldModel.add(getBlockFields().get(pos).clone());
+        }
       }
       blockFieldLayerModel.setBlockFields(clonedBlockFieldModel);
     } else {
