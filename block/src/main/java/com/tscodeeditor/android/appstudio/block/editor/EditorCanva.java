@@ -49,7 +49,7 @@ public class EditorCanva extends EditorScrollView {
   public EditorCanva(final Context context, final AttributeSet set) {
     super(context, set);
     setAllowScroll(true);
-	setClipChildren(true);
+    setClipChildren(true);
   }
 
   public void setUpDimension() {
@@ -135,6 +135,9 @@ public class EditorCanva extends EditorScrollView {
     attachedBlockLayout.setId(R.id.attachedBlockLayout);
 
     BlockView defineBlock = new BlockView(null, getContext(), event.getEventTopBlock());
+    defineBlock.setLayoutParams(
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     attachedBlockLayout.addView(defineBlock);
     addView(attachedBlockLayout);
   }
