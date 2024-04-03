@@ -40,11 +40,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
+import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 
 public class BlockFieldInputOnlyView extends LinearLayout {
   public BlockFieldInputOnlyView(
-      Context context, BlockValueFieldModel blockFieldModel, BlockView blockView) {
+      Context context,
+      BlockValueFieldModel blockFieldModel,
+      BlockView blockView,
+      EventEditor editor) {
     super(context);
 
     Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_field_input_only);
@@ -57,5 +61,26 @@ public class BlockFieldInputOnlyView extends LinearLayout {
     text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
     text.setSingleLine(true);
     addView(text);
+
+    if (editor != null) {
+      setOnClickListener(
+          v -> {
+            editor.switchSection(EventEditor.VALUE_EDITOR_SECTION);
+            editor.binding.codeEditor.setText(
+                blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+            editor.binding.done.setOnClickListener(
+                view -> {
+                  blockFieldModel.setValue(editor.binding.codeEditor.getText().toString());
+                  editor.switchSection(EventEditor.EDITOR_SECTION);
+                  text.setText(
+                      blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+                });
+
+            editor.binding.cancel.setOnClickListener(
+                view -> {
+                  editor.switchSection(EventEditor.EDITOR_SECTION);
+                });
+          });
+    }
   }
 }

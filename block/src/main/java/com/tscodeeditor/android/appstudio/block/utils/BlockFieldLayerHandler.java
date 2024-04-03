@@ -60,7 +60,7 @@ public class BlockFieldLayerHandler {
         if (blockValueFieldModel.getFieldType()
             == BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY) {
           BlockFieldInputOnlyView inputField =
-              new BlockFieldInputOnlyView(context, blockValueFieldModel, blockView);
+              new BlockFieldInputOnlyView(context, blockValueFieldModel, blockView, editor);
           root.addView(inputField);
         }
       } else if (content instanceof BlockFieldModel) {

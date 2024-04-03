@@ -50,9 +50,31 @@
             android:id="@+id/valueEditorSection">
 
             <editor.tsd.widget.CodeEditorLayout
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:id="@+id/codeEditor" />
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2">
+
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:id="@+id/cancel" />
+
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:id="@+id/done" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
