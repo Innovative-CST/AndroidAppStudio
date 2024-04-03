@@ -62,10 +62,10 @@ public class BlockFieldInputOnlyView extends LinearLayout {
     text.setSingleLine(true);
     addView(text);
 
-    if (blockView.isInsideEditor()) {
-      if (editor != null) {
-        setOnClickListener(
-            v -> {
+    setOnClickListener(
+        v -> {
+          if (blockView.isInsideEditor()) {
+            if (editor != null) {
               editor.switchSection(EventEditor.VALUE_EDITOR_SECTION);
               editor.binding.codeEditor.setText(
                   blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
@@ -81,8 +81,8 @@ public class BlockFieldInputOnlyView extends LinearLayout {
                   view -> {
                     editor.switchSection(EventEditor.EDITOR_SECTION);
                   });
-            });
-      }
-    }
+            }
+          }
+        });
   }
 }
