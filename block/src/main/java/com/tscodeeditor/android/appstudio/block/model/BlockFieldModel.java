@@ -49,7 +49,7 @@ public class BlockFieldModel extends BlockLayerModel implements Serializable, Cl
   @Override
   public BlockFieldModel clone() {
     BlockFieldModel blockFieldModel = new BlockFieldModel();
-    blockFieldModel.setValue(getValue() != null ? new String(getValue()) : "");
+    blockFieldModel.setValue(getValue() != null ? new String(getValue()) : null);
     return blockFieldModel;
   }
 }
