@@ -107,7 +107,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
     blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : "");
     blockValueFieldModel.setEnableEdit(new Boolean(isEnabledEdit()));
-    blockValueFieldModel.setBlockModel(getBlockModel().clone() != null ? getBlockModel() : null);
+    blockValueFieldModel.setBlockModel(getBlockModel() != null ? getBlockModel() : null);
     blockValueFieldModel.setFieldType(new Integer(getFieldType()));
     blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : "");
     if (getAcceptors() != null) {
