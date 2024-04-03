@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
@@ -154,14 +155,16 @@ public class EventEditor extends RelativeLayout {
             int index = 0;
             for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); i++) {
               View child = binding.canva.attachedBlockLayout.getChildAt(i);
-              if (x > child.getX() + child.getWidth() / 2) {
+              if (y > child.getY() + (child.getHeight() / 2)) {
                 index = i + 1;
               } else {
                 break;
               }
             }
 
-            if (index == 0) index = index + 1;
+            if (index == 0) {
+              index = 1;
+            }
 
             BlockView block =
                 new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
