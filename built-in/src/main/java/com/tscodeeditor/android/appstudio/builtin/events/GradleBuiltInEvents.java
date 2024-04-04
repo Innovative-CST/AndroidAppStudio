@@ -51,7 +51,7 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setEventReplacer("blockCode");
     androidBlockEvent.setEventReplacerKey("AppModuleAndroidBlockEventCode");
     androidBlockEvent.setRawCode(
-        "android {\n"
+        "android {\n\t"
             + RawCodeReplacer.getReplacer(
                 androidBlockEvent.getEventReplacerKey(), androidBlockEvent.getEventReplacer())
             + "\n}");
@@ -94,7 +94,7 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setEventReplacerKey("AppModuleDependenciesBlockEventCode");
     dependenciesBlockEvent.setRawCode(
-        "dependencies {\n"
+        "dependencies {\n\t"
             + RawCodeReplacer.getReplacer(
                 dependenciesBlockEvent.getEventReplacerKey(),
                 dependenciesBlockEvent.getEventReplacer())
@@ -137,7 +137,7 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setEventReplacer("blockCode");
     androidBlockEvent.setEventReplacerKey("LibraryModuleAndroidBlockEventCode");
     androidBlockEvent.setRawCode(
-        "android {\n"
+        "android {\n\t"
             + RawCodeReplacer.getReplacer(
                 androidBlockEvent.getEventReplacerKey(), androidBlockEvent.getEventReplacer())
             + "\n}");
@@ -159,7 +159,7 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setEventReplacerKey("LibraryModuleDependenciesBlockEventCode");
     dependenciesBlockEvent.setRawCode(
-        "dependencies {\n"
+        "dependencies {\n\t"
             + RawCodeReplacer.getReplacer(
                 dependenciesBlockEvent.getEventReplacerKey(),
                 dependenciesBlockEvent.getEventReplacer())

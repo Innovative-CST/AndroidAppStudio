@@ -38,13 +38,14 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
 
   private boolean enableEdit;
   private String acceptors[];
+  private String replacer;
   private BlockModel blockModel;
   private int fieldType;
   private String pattern; // Only works if fieldType is pattern validator.
 
   public final class FieldType {
     public static final int FIELD_TYPE_NOT_SET = 0;
-	public static final int FIELD_INPUT_ONLY = 1;
+    public static final int FIELD_INPUT_ONLY = 1;
   }
 
   public String[] getAcceptors() {
@@ -82,6 +83,14 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     this.pattern = pattern;
   }
 
+  public String getReplacer() {
+    return this.replacer;
+  }
+
+  public void setReplacer(String replacer) {
+    this.replacer = replacer;
+  }
+
   public int getFieldType() {
     return this.fieldType;
   }
@@ -105,11 +114,12 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
   @Override
   public BlockValueFieldModel clone() {
     BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
-    blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : "");
+    blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : null);
+    blockValueFieldModel.setReplacer(getReplacer() != null ? getReplacer() : null);
     blockValueFieldModel.setEnableEdit(new Boolean(isEnabledEdit()));
     blockValueFieldModel.setBlockModel(getBlockModel() != null ? getBlockModel() : null);
     blockValueFieldModel.setFieldType(new Integer(getFieldType()));
-    blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : "");
+    blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : null);
     if (getAcceptors() != null) {
       String[] acceptors = new String[] {};
 

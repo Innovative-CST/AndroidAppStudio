@@ -39,7 +39,7 @@ public class BlockFieldModel extends BlockLayerModel implements Serializable, Cl
   private String value;
 
   public String getValue() {
-    return this.value;
+    return this.value == null ? "" : this.value;
   }
 
   public void setValue(String value) {

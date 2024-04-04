@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -125,7 +126,36 @@ public class BlockModel implements Serializable, Cloneable {
 
   public String getCode() {
     String generatedCode = new String(getRawCode());
-    // Process code
+
+    for (int layerCount = 0; layerCount < getBlockLayerModel().size(); ++layerCount) {
+      if (getBlockLayerModel().get(layerCount) instanceof BlockFieldLayerModel) {
+        BlockFieldLayerModel layer = (BlockFieldLayerModel) getBlockLayerModel().get(layerCount);
+        for (int blockFieldCount = 0;
+            blockFieldCount < layer.getBlockFields().size();
+            ++blockFieldCount) {
+          if (!(layer.getBlockFields().get(blockFieldCount) instanceof BlockValueFieldModel))
+            continue;
+
+          generatedCode =
+              generatedCode.replace(
+                  RawCodeReplacer.getReplacer(
+                      getReplacerKey(),
+                      ((BlockValueFieldModel) layer.getBlockFields().get(blockFieldCount))
+                          .getReplacer()),
+                  ((BlockValueFieldModel) layer.getBlockFields().get(blockFieldCount)).getValue());
+        }
+      }
+
+      if (getBlockLayerModel().get(layerCount) instanceof BlockHolderLayer) {
+        BlockHolderLayer layer = (BlockHolderLayer) getBlockLayerModel().get(layerCount);
+
+        generatedCode =
+            generatedCode.replace(
+                RawCodeReplacer.getReplacer(getReplacerKey(), layer.getReplacer()),
+                layer.getCode());
+      }
+    }
+
     return generatedCode;
   }
 

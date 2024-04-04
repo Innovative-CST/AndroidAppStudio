@@ -37,6 +37,7 @@ import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.util.ArrayList;
 
 public class GradleDepedencyBlocks {
@@ -63,6 +64,13 @@ public class GradleDepedencyBlocks {
     implementationBlock.setRawCode("implementation");
     implementationBlock.setReplacerKey("implementationBlock");
 
+    StringBuilder rawCode = new StringBuilder();
+    rawCode.append("implementation \"");
+    rawCode.append(RawCodeReplacer.getReplacer(implementationBlock.getReplacerKey(), "library"));
+    rawCode.append("\"");
+
+    implementationBlock.setRawCode(rawCode.toString());
+
     ArrayList<BlockLayerModel> implementationBlockLayers = new ArrayList<BlockLayerModel>();
 
     BlockFieldLayerModel implementationBlockLayer1 = new BlockFieldLayerModel();
@@ -74,6 +82,7 @@ public class GradleDepedencyBlocks {
 
     BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
     inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+    inputDependencyField.setReplacer("library");
 
     implementationBlockLayer1Fields.add(implementationText);
     implementationBlockLayer1Fields.add(inputDependencyField);

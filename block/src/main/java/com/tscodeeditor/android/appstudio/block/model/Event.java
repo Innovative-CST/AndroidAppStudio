@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -147,7 +148,25 @@ public class Event implements Serializable, Cloneable {
   }
 
   public String getCode() {
-    return new String(getRawCode() != null ? getRawCode() : "");
+    StringBuilder generatedCode = new StringBuilder();
+    if (getBlockModels() == null) {
+      String returnEmptyEventCode = new String(getRawCode());
+      returnEmptyEventCode =
+          RawCodeReplacer.removeAndroidAppStudioString(getEventReplacerKey(), returnEmptyEventCode);
+      return returnEmptyEventCode;
+    }
+    for (int blocksCount = 0; blocksCount < getBlockModels().size(); ++blocksCount) {
+      if (blocksCount != 0) generatedCode.append("\n");
+      generatedCode.append(getBlockModels().get(blocksCount).getCode());
+    }
+
+    String eventCode = new String(getRawCode());
+    eventCode =
+        eventCode.replace(
+            RawCodeReplacer.getReplacer(getEventReplacerKey(), getEventReplacer()),
+            generatedCode.toString());
+
+    return eventCode;
   }
 
   @Override

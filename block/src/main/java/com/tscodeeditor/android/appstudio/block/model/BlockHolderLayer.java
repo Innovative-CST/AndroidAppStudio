@@ -35,9 +35,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Serializable {
-    public static final long serialVersionUID = 6L;
+  public static final long serialVersionUID = 6L;
 
   private ArrayList<BlockModel> blocks;
+  private String replacer;
 
   public ArrayList<BlockModel> getBlocks() {
     return this.blocks;
@@ -45,6 +46,24 @@ public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Seri
 
   public void setBlocks(ArrayList<BlockModel> blocks) {
     this.blocks = blocks;
+  }
+
+  public String getReplacer() {
+    return this.replacer;
+  }
+
+  public void setReplacer(String replacer) {
+    this.replacer = replacer;
+  }
+
+  public String getCode() {
+    if (getBlocks() == null) return "";
+    StringBuilder code = new StringBuilder();
+    for (int blocksCount = 0; blocksCount < getBlocks().size(); ++blocksCount) {
+      if (blocksCount != 0) code.append("\n");
+      code.append(getBlocks().get(blocksCount).getCode());
+    }
+    return code.toString();
   }
 
   @Override
@@ -60,6 +79,8 @@ public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Seri
     } else {
       clone.setBlocks(null);
     }
+
+    clone.setReplacer(getReplacer() != null ? new String(getReplacer()) : null);
 
     return clone;
   }
