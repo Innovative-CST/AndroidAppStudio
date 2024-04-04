@@ -61,6 +61,7 @@ public class GradleDepedencyBlocks {
     implementationBlock.setBlockType(BlockModel.Type.defaultBlock);
     implementationBlock.setColor("#E27625");
     implementationBlock.setRawCode("implementation");
+    implementationBlock.setReplacerKey("implementationBlock");
 
     ArrayList<BlockLayerModel> implementationBlockLayers = new ArrayList<BlockLayerModel>();
 

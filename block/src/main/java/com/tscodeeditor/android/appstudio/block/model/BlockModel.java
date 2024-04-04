@@ -39,6 +39,7 @@ public class BlockModel implements Serializable, Cloneable {
 
   private String color;
   private String rawCode;
+  private String replacerKey;
   private String[] returns;
   private String[] tags;
   private int blockType;
@@ -60,6 +61,14 @@ public class BlockModel implements Serializable, Cloneable {
 
   public void setRawCode(String rawCode) {
     this.rawCode = rawCode;
+  }
+
+  public String getReplacerKey() {
+    return this.replacerKey;
+  }
+
+  public void setReplacerKey(String replacerKey) {
+    this.replacerKey = replacerKey;
   }
 
   public String[] getReturns() {
@@ -125,6 +134,7 @@ public class BlockModel implements Serializable, Cloneable {
     BlockModel block = new BlockModel();
     block.setColor(new String(getColor() == null ? "" : getColor()));
     block.setRawCode(new String(getRawCode() == null ? "" : getRawCode()));
+    block.setReplacerKey(new String(getReplacerKey() == null ? "" : getReplacerKey()));
     block.setBlockType(new Integer(getBlockType()));
     block.setFirstBlock(new Boolean(isFirstBlock()));
     block.setLastBlock(new Boolean(isLastBlock()));
