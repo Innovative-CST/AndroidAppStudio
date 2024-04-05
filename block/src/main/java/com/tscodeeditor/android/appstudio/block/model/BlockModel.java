@@ -46,6 +46,7 @@ public class BlockModel implements Serializable, Cloneable {
   private int blockType;
   private boolean isLastBlock;
   private boolean isFirstBlock;
+  private boolean isDragAllowed;
   private ArrayList<BlockLayerModel> blockLayerModel;
 
   public String getColor() {
@@ -159,6 +160,14 @@ public class BlockModel implements Serializable, Cloneable {
     return generatedCode;
   }
 
+  public boolean isDragAllowed() {
+    return this.isDragAllowed;
+  }
+
+  public void setDragAllowed(boolean isDragAllowed) {
+    this.isDragAllowed = isDragAllowed;
+  }
+
   @Override
   public BlockModel clone() {
     BlockModel block = new BlockModel();
@@ -166,6 +175,7 @@ public class BlockModel implements Serializable, Cloneable {
     block.setRawCode(new String(getRawCode() == null ? "" : getRawCode()));
     block.setReplacerKey(new String(getReplacerKey() == null ? "" : getReplacerKey()));
     block.setBlockType(new Integer(getBlockType()));
+    block.setDragAllowed(new Boolean(isDragAllowed()));
     block.setFirstBlock(new Boolean(isFirstBlock()));
     block.setLastBlock(new Boolean(isLastBlock()));
 

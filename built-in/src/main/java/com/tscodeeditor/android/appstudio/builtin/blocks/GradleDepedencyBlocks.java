@@ -63,6 +63,7 @@ public class GradleDepedencyBlocks {
     implementationBlock.setColor("#E27625");
     implementationBlock.setRawCode("implementation");
     implementationBlock.setReplacerKey("implementationBlock");
+    implementationBlock.setDragAllowed(true);
 
     StringBuilder rawCode = new StringBuilder();
     rawCode.append("implementation \"");

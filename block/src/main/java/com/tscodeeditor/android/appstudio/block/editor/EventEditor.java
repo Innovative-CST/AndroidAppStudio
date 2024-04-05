@@ -51,6 +51,7 @@ import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import java.util.ArrayList;
 
 public class EventEditor extends RelativeLayout {

@@ -212,7 +212,7 @@ public class BlockView extends LinearLayout {
           public boolean onTouch(View view, MotionEvent event) {
             x = event.getX();
             y = event.getY();
-            if (getEnableDragDrop()) {
+            if (getEnableDragDrop() && getBlockModel().isDragAllowed()) {
               if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 if (!editor.isDragging) {
                   dragHandler.postDelayed(
