@@ -39,7 +39,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
@@ -51,7 +50,6 @@ import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import java.util.ArrayList;
 
 public class EventEditor extends RelativeLayout {
