@@ -64,7 +64,9 @@
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_margin="4dp"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_weight="1"
+                    android:text="@string/cancel"
                     android:id="@+id/cancel" />
 
                 <Button
@@ -72,6 +74,7 @@
                     android:layout_width="0dp"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
+                    android:text="@string/done"
                     android:id="@+id/done" />
 
             </LinearLayout>
