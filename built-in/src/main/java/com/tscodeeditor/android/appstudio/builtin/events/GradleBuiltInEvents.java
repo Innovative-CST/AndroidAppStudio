@@ -133,6 +133,11 @@ public class GradleBuiltInEvents {
                 .getBlockFields()
                 .get(1))
         .setValue("com.google.android.material:material:1.12.0-alpha03");
+    ((BlockValueFieldModel)
+            ((BlockFieldLayerModel) materialLibraryImplementationBlock.getBlockLayerModel().get(0))
+                .getBlockFields()
+                .get(1))
+        .setEnableEdit(false);
 
     BlockModel appCompatImplementationBlock = GradleDepedencyBlocks.getImplementationBlock();
     appCompatImplementationBlock.setDragAllowed(false);
@@ -141,6 +146,11 @@ public class GradleBuiltInEvents {
                 .getBlockFields()
                 .get(1))
         .setValue("androidx.appcompat:appcompat:1.6.1");
+    ((BlockValueFieldModel)
+            ((BlockFieldLayerModel) appCompatImplementationBlock.getBlockLayerModel().get(0))
+                .getBlockFields()
+                .get(1))
+        .setEnableEdit(false);
 
     ArrayList<BlockModel> builtInDepedency = new ArrayList<BlockModel>();
     builtInDepedency.add(materialLibraryImplementationBlock);
