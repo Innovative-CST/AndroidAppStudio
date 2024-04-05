@@ -35,8 +35,10 @@ import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
+import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import java.util.ArrayList;
 
 public class GradleBuiltInEvents {
@@ -123,6 +125,27 @@ public class GradleBuiltInEvents {
     blockLayerModels.add(eventDefinationLayer);
     defineEvent.setBlockLayerModel(blockLayerModels);
     dependenciesBlockEvent.setEventTopBlock(defineEvent);
+
+    BlockModel materialLibraryImplementationBlock = GradleDepedencyBlocks.getImplementationBlock();
+    materialLibraryImplementationBlock.setDragAllowed(false);
+    ((BlockValueFieldModel)
+            ((BlockFieldLayerModel) materialLibraryImplementationBlock.getBlockLayerModel().get(0))
+                .getBlockFields()
+                .get(1))
+        .setValue("com.google.android.material:material:1.12.0-alpha03");
+
+    BlockModel appCompatImplementationBlock = GradleDepedencyBlocks.getImplementationBlock();
+    appCompatImplementationBlock.setDragAllowed(false);
+    ((BlockValueFieldModel)
+            ((BlockFieldLayerModel) appCompatImplementationBlock.getBlockLayerModel().get(0))
+                .getBlockFields()
+                .get(1))
+        .setValue("androidx.appcompat:appcompat:1.6.1");
+
+    ArrayList<BlockModel> builtInDepedency = new ArrayList<BlockModel>();
+    builtInDepedency.add(materialLibraryImplementationBlock);
+    builtInDepedency.add(appCompatImplementationBlock);
+    dependenciesBlockEvent.setBlockModels(builtInDepedency);
     return dependenciesBlockEvent;
   }
 

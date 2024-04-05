@@ -84,6 +84,7 @@ public class GradleDepedencyBlocks {
     BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
     inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
     inputDependencyField.setReplacer("library");
+    inputDependencyField.setEnableEdit(true);
 
     implementationBlockLayer1Fields.add(implementationText);
     implementationBlockLayer1Fields.add(inputDependencyField);
