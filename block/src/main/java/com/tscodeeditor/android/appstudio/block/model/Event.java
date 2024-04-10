@@ -50,6 +50,7 @@ public class Event implements Serializable, Cloneable {
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
   private boolean enableRootBlocksValueEditing;
+  private boolean enableRootBlocksSubBlockEditing;
 
   public String getName() {
     return this.name;
@@ -147,6 +148,14 @@ public class Event implements Serializable, Cloneable {
     this.blockModels = blockModels;
   }
 
+  public boolean getEnableRootBlocksSubBlockEditing() {
+    return this.enableRootBlocksSubBlockEditing;
+  }
+
+  public void setEnableRootBlocksSubBlockEditing(boolean enableRootBlocksSubBlockEditing) {
+    this.enableRootBlocksSubBlockEditing = enableRootBlocksSubBlockEditing;
+  }
+
   public String getCode() {
     StringBuilder generatedCode = new StringBuilder();
     if (getBlockModels() == null) {
@@ -184,6 +193,7 @@ public class Event implements Serializable, Cloneable {
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
     event.setEnableRootBlocksValueEditing(new Boolean(getEnableRootBlocksValueEditing()));
+    event.setEnableRootBlocksSubBlockEditing(new Boolean(getEnableRootBlocksSubBlockEditing()));
 
     if (getBlockModels() != null) {
       ArrayList<BlockModel> clonedBlockModels = new ArrayList<BlockModel>();
