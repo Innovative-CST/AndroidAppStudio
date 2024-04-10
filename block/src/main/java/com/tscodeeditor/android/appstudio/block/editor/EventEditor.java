@@ -202,6 +202,11 @@ public class EventEditor extends RelativeLayout {
           }
         }
       }
+      if (draggingBlock.isInsideEditor()) {
+        if (((ViewGroup) draggingBlock.getParent()) != null) {
+          ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
+        }
+      }
     } else {
       if (draggingBlock.isInsideEditor()) {
         draggingBlock.setVisibility(View.VISIBLE);
