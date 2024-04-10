@@ -42,7 +42,7 @@ public class BlockModel implements Serializable, Cloneable {
   private String rawCode;
   private String replacerKey;
   private String[] returns;
-  private String[] tags;
+  private Object[] tags;
   private int blockType;
   private boolean isLastBlock;
   private boolean isFirstBlock;
@@ -81,11 +81,11 @@ public class BlockModel implements Serializable, Cloneable {
     this.returns = returns;
   }
 
-  public String[] getTags() {
+  public Object[] getTags() {
     return this.tags;
   }
 
-  public void setTags(String[] tags) {
+  public void setTags(Object[] tags) {
     this.tags = tags;
   }
 
@@ -180,9 +180,9 @@ public class BlockModel implements Serializable, Cloneable {
     block.setLastBlock(new Boolean(isLastBlock()));
 
     if (getTags() != null) {
-      String[] clonedTags = new String[] {};
+      Object[] clonedTags = new Object[] {};
       for (int position = 0; position < getTags().length; ++position) {
-        clonedTags[position] = new String(getTags()[position] == null ? "" : getTags()[position]);
+        clonedTags[position] = getTags()[position] == null ? null : getTags()[position];
       }
     }
 
