@@ -56,6 +56,7 @@ public class BlockView extends LinearLayout {
   private boolean enableDragDrop;
   private boolean enableEditing;
   private boolean isInsideEditor;
+  private boolean isRootBlock;
   private float x, y;
 
   public BlockView(EventEditor editor, Context context, BlockModel blockModel) {
@@ -332,5 +333,13 @@ public class BlockView extends LinearLayout {
 
   public void setInsideEditor(boolean isInsideEditor) {
     this.isInsideEditor = isInsideEditor;
+  }
+
+  public boolean isRootBlock() {
+    return this.isRootBlock;
+  }
+
+  public void setRootBlock(boolean isRootBlock) {
+    this.isRootBlock = isRootBlock;
   }
 }

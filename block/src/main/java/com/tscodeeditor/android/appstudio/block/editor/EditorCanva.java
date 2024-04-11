@@ -162,6 +162,7 @@ public class EditorCanva extends EditorScrollView {
       blockView.setEnableDragDrop(true);
       blockView.setEnableEditing(true);
       blockView.setInsideEditor(true);
+      blockView.setRootBlock(true);
       attachedBlockLayout.addView(blockView);
     }
   }

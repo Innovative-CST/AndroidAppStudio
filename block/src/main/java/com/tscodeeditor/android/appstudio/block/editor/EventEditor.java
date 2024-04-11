@@ -178,6 +178,7 @@ public class EventEditor extends RelativeLayout {
             block.setEnableDragDrop(true);
             block.setEnableEditing(true);
             block.setInsideEditor(true);
+            block.setRootBlock(true);
             binding.canva.attachedBlockLayout.addView(block, index);
             block.setLayoutParams(blockParams);
           } else {
