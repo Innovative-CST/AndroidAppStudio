@@ -170,10 +170,42 @@ public class Event implements Serializable, Cloneable {
     }
 
     String eventCode = new String(getRawCode());
+
+    // Get space for formatting....
+    String formatter = null;
+    String[] lines = eventCode.split("\n");
+    for (String line : lines) {
+      if (line.contains(RawCodeReplacer.getReplacer(getEventReplacerKey(), getEventReplacer()))) {
+        formatter =
+            line.substring(
+                0,
+                line.indexOf(
+                    RawCodeReplacer.getReplacer(getEventReplacerKey(), getEventReplacer())));
+      }
+    }
+
+    StringBuilder formattedGeneratedCode = new StringBuilder();
+
+    String[] generatedCodeLines = generatedCode.toString().split("\n");
+
+    for (int generatedCodeLinePosition = 0;
+        generatedCodeLinePosition < generatedCodeLines.length;
+        ++generatedCodeLinePosition) {
+
+      if (formatter != null) {
+        if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
+      }
+
+      formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
+      if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
+        formattedGeneratedCode.append("\n");
+      }
+    }
+
     eventCode =
         eventCode.replace(
             RawCodeReplacer.getReplacer(getEventReplacerKey(), getEventReplacer()),
-            generatedCode.toString());
+            formattedGeneratedCode.toString());
 
     return eventCode;
   }
