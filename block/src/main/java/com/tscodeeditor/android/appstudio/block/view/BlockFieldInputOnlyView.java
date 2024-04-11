@@ -68,6 +68,9 @@ public class BlockFieldInputOnlyView extends LinearLayout {
           if (!blockFieldModel.isEnabledEdit()) return;
           if (editor == null) return;
           if (editor.getEvent() != null && !editor.getEvent().getEnableEdit()) return;
+          if (editor.getEvent() != null
+              && !editor.getEvent().getEnableRootBlocksValueEditing()
+              && blockView.isRootBlock()) return;
 
           editor.switchSection(EventEditor.VALUE_EDITOR_SECTION);
           editor.binding.codeEditor.setText(
