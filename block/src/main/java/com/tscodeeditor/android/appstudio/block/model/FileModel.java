@@ -147,6 +147,8 @@ public class FileModel implements Serializable, Cloneable {
       }
     }
 
+    resultCode = resultCode.replace(RawCodeReplacer.getReplacer("$FileName"), getFileName());
+
     resultCode = RawCodeReplacer.removeAndroidAppStudioString(getReplacerKey(), resultCode);
     return resultCode;
   }

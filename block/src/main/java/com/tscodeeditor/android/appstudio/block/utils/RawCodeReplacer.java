@@ -32,6 +32,14 @@
 package com.tscodeeditor.android.appstudio.block.utils;
 
 public class RawCodeReplacer {
+  public static String getReplacer(String key) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("%%%%DevKumar AndroidAppStudio ");
+    builder.append(key);
+    builder.append(" DevKumar%%%%");
+    return builder.toString();
+  }
+
   public static String getReplacer(String key, String name) {
     StringBuilder builder = new StringBuilder();
     builder.append("%%%%DevKumar AndroidAppStudio ");
