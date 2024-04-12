@@ -99,7 +99,7 @@ public final class ProjectCodeBuilder {
     buildProjectCode(rootDestination, model, activity, null, shouldCleanBeforeBuild);
   }
 
-  public void cleanFile(File file) {
+  private void cleanFile(File file) {
     // TODO: Clean file
   }
 }
