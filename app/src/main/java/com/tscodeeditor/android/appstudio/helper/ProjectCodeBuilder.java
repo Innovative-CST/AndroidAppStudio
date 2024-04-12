@@ -31,8 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.helper;
 
-import android.code.editor.common.interfaces.FileDeleteListener;
-import android.code.editor.common.utils.FileDeleteUtils;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.exception.ProjectCodeBuildException;
