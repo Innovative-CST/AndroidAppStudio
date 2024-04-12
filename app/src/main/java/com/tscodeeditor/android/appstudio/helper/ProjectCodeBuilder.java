@@ -35,6 +35,7 @@ import android.code.editor.common.interfaces.FileDeleteListener;
 import android.code.editor.common.utils.FileDeleteUtils;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.exception.ProjectCodeBuildException;
 import com.tscodeeditor.android.appstudio.listener.ProjectCodeBuildListener;
 import java.io.File;
 import java.util.concurrent.Executors;
@@ -54,7 +55,20 @@ public final class ProjectCodeBuilder {
 
               if (rootDestination.exists()) {
                 if (rootDestination.isDirectory()) {
-                  // TODO: Clean Dir if not empty
+
+                  if (shouldCleanBeforeBuild) {
+                    if (listener != null) {
+                      listener.onBuildProgressLog("Cleaning destination folder...");
+                    }
+                    if (cleanFile(rootDestination)) {
+                      if (listener != null) {
+                        ProjectCodeBuildException exception = new ProjectCodeBuildException();
+                        exception.setMessage("Failed to clean destination folder");
+                        listener.onBuildFailed(exception);
+                      }
+                    }
+                  }
+
                 } else {
 
                   if (listener != null) {
