@@ -99,7 +99,24 @@ public final class ProjectCodeBuilder {
     buildProjectCode(rootDestination, model, activity, null, shouldCleanBeforeBuild);
   }
 
-  private void cleanFile(File file) {
-    // TODO: Clean file
+  private boolean cleanFile(File file) {
+    if (!file.exists()) {
+      file.mkdirs();
+      return true;
+    }
+    if (file.isFile()) {
+      return file.delete();
+    } else {
+      if (file.listFiles().length == 0) {
+        return true;
+      } else {
+        for (File subFile : file.listFiles()) {
+          if (!cleanFile(subFile)) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
   }
 }
