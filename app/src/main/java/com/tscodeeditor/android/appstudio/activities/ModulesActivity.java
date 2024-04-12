@@ -31,52 +31,95 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.databinding.ActivityProjectNavigationBinding;
+import com.tscodeeditor.android.appstudio.adapters.GradleFileModelListAdapter;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.databinding.ActivityModulesBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
 import com.tscodeeditor.android.appstudio.utils.GradleFileUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
-public class ProjectNavigationActivity extends BaseActivity {
+public class ModulesActivity extends BaseActivity {
+  public ActivityModulesBinding binding;
 
-  private ActivityProjectNavigationBinding binding;
+  public File projectRootDirectory;
+  public File currentDir;
 
-  private String projectRootDirectory;
+  public static final int LOADING_SECTION = 0;
+  public static final int GRADLE_FILE_LIST_SECTION = 1;
+  public boolean isInsideModule = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    binding = ActivityProjectNavigationBinding.inflate(getLayoutInflater());
+    binding = ActivityModulesBinding.inflate(getLayoutInflater());
 
     setContentView(binding.getRoot());
 
+    // SetUp the toolbar
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    projectRootDirectory = getIntent().getStringExtra("projectRootDirectory");
+    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+    currentDir = new File(getIntent().getStringExtra("currentDir"));
+    isInsideModule = getIntent().getBooleanExtra("isInsideModule", false);
+
+    switchSection(LOADING_SECTION);
 
     /*
      * Creates app module gradle file if it doesn't seems to exists
      */
-    GradleFileUtils.createGradleFilesIfDoNotExists(new File(projectRootDirectory));
+    GradleFileUtils.createGradleFilesIfDoNotExists(projectRootDirectory);
 
-    binding.projectConfig.setOnClickListener(
-        v -> {
-          Intent gradleEditorActivity =
-              new Intent(ProjectNavigationActivity.this, GradleEditorActivity.class);
-          gradleEditorActivity.putExtra("projectRootDirectory", projectRootDirectory);
-          gradleEditorActivity.putExtra(
-              "currentDir",
-              EnvironmentUtils.getGradleDirectory(new File(projectRootDirectory))
-                  .getAbsolutePath());
-          gradleEditorActivity.putExtra("isInsideModule", false);
-          startActivity(gradleEditorActivity);
+    ProjectModelSerializationUtils.deserialize(
+        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new ProjectModelSerializationUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+            Executors.newSingleThreadExecutor()
+                .execute(
+                    () -> {
+                      ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
+
+                      runOnUiThread(
+                          () -> {
+                            binding.list.setAdapter(
+                                new GradleFileModelListAdapter(fileList, ModulesActivity.this));
+                            binding.list.setLayoutManager(
+                                new LinearLayoutManager(ModulesActivity.this));
+                            switchSection(GRADLE_FILE_LIST_SECTION);
+                          });
+                    });
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {
+            finish();
+          }
         });
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    binding = null;
+  }
+
+  public void switchSection(int section) {
+    binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+    binding.gradleFileListSection.setVisibility(
+        section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
   }
 }

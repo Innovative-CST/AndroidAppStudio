@@ -35,11 +35,12 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.activities.ModulesActivity;
 import com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity;
 import com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity;
-import com.tscodeeditor.android.appstudio.activities.ProjectNavigationActivity;
 import com.tscodeeditor.android.appstudio.databinding.AdapterProjectBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -83,11 +84,15 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         .getRoot()
         .setOnClickListener(
             v -> {
-              Intent projectNavigation =
-                  new Intent(mProjectManagerActivity, ProjectNavigationActivity.class);
-              projectNavigation.putExtra(
+              Intent modules = new Intent(mProjectManagerActivity, ModulesActivity.class);
+              modules.putExtra(
                   "projectRootDirectory", projectFileList.get(position).getAbsolutePath());
-              mProjectManagerActivity.startActivity(projectNavigation);
+              modules.putExtra(
+                  "currentDir",
+                  EnvironmentUtils.getGradleDirectory(projectFileList.get(position))
+                      .getAbsolutePath());
+              modules.putExtra("isInsideModule", false);
+              mProjectManagerActivity.startActivity(modules);
             });
     binding
         .getRoot()

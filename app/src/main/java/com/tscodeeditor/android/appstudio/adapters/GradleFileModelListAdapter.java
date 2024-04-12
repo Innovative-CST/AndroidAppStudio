@@ -38,7 +38,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventsActivity;
-import com.tscodeeditor.android.appstudio.activities.GradleEditorActivity;
+import com.tscodeeditor.android.appstudio.activities.ModulesActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
 import com.tscodeeditor.android.appstudio.databinding.LayoutProjectEditorNavigationBinding;
@@ -49,12 +49,12 @@ import java.util.ArrayList;
 public class GradleFileModelListAdapter
     extends RecyclerView.Adapter<GradleFileModelListAdapter.ViewHolder> {
   private ArrayList<FileModel> fileList;
-  private GradleEditorActivity gradleEditorActivity;
+  private ModulesActivity modulesActivity;
 
   public GradleFileModelListAdapter(
-      ArrayList<FileModel> fileList, GradleEditorActivity gradleEditorActivity) {
+      ArrayList<FileModel> fileList, ModulesActivity modulesActivity) {
     this.fileList = fileList;
-    this.gradleEditorActivity = gradleEditorActivity;
+    this.modulesActivity = modulesActivity;
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
@@ -106,25 +106,24 @@ public class GradleFileModelListAdapter
             .getRoot()
             .setOnClickListener(
                 v -> {
-                  Intent gradleEditor =
-                      new Intent(gradleEditorActivity, GradleEditorActivity.class);
-                  gradleEditor.putExtra(
+                  Intent modules = new Intent(modulesActivity, ModulesActivity.class);
+                  modules.putExtra(
                       "projectRootDirectory",
-                      gradleEditorActivity.projectRootDirectory.getAbsolutePath());
-                  gradleEditor.putExtra(
+                      modulesActivity.projectRootDirectory.getAbsolutePath());
+                  modules.putExtra(
                       "currentDir",
                       new File(
-                              gradleEditorActivity.currentDir,
+                              modulesActivity.currentDir,
                               new File(
                                       new File(fileList.get(position).getName()),
                                       EnvironmentUtils.FILES)
                                   .getAbsolutePath())
                           .getAbsolutePath());
-                  gradleEditor.putExtra(
+                  modules.putExtra(
                       "isInsideModule",
                       fileList.get(position).isAndroidAppModule()
                           || fileList.get(position).isAndroidLibrary());
-                  gradleEditorActivity.startActivity(gradleEditor);
+                  modulesActivity.startActivity(modules);
                 });
       } else {
         if (fileList.get(position).getFileExtension() != null) {
@@ -137,15 +136,15 @@ public class GradleFileModelListAdapter
             .getRoot()
             .setOnClickListener(
                 v -> {
-                  Intent eventsActivity = new Intent(gradleEditorActivity, EventsActivity.class);
+                  Intent eventsActivity = new Intent(modulesActivity, EventsActivity.class);
                   eventsActivity.putExtra(
                       "projectRootDirectory",
-                      gradleEditorActivity.projectRootDirectory.getAbsolutePath());
+                      modulesActivity.projectRootDirectory.getAbsolutePath());
                   eventsActivity.putExtra(
                       "fileModelDirectory",
-                      new File(gradleEditorActivity.currentDir, fileList.get(position).getName())
+                      new File(modulesActivity.currentDir, fileList.get(position).getName())
                           .getAbsolutePath());
-                  gradleEditorActivity.startActivity(eventsActivity);
+                  modulesActivity.startActivity(eventsActivity);
                 });
       }
     } else {
@@ -169,7 +168,7 @@ public class GradleFileModelListAdapter
   }
 
   public int getExtraItemCount() {
-    if (gradleEditorActivity.isInsideModule) {
+    if (modulesActivity.isInsideModule) {
       return 1;
     } else return 0;
   }
