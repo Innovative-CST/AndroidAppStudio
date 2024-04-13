@@ -62,7 +62,7 @@ public final class ProjectCodeBuilder {
                     if (listener != null) {
                       listener.onBuildProgressLog("Cleaning destination folder...");
                     }
-                    if (cleanFile(rootDestination, listener, cancelToken)) {
+                    if (!cleanFile(rootDestination, listener, cancelToken)) {
                       if (listener != null) {
                         ProjectCodeBuildException exception = new ProjectCodeBuildException();
                         exception.setMessage("Failed to clean destination folder");
