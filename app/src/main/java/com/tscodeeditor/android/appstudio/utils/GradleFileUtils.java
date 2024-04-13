@@ -52,9 +52,9 @@ public class GradleFileUtils {
 
   public static void installNewModule(
       File projectRootDirectory, FileModel module, File moduleFolderRootDir) {
-    File gradleDir = EnvironmentUtils.getGradleDirectory(projectRootDirectory);
+    File projectDataDir = EnvironmentUtils.getProjectDataDir(projectRootDirectory);
 
-    if (!gradleDir.exists()) gradleDir.mkdirs();
+    if (!projectDataDir.exists()) projectDataDir.mkdirs();
 
     if (!moduleFolderRootDir.exists()) moduleFolderRootDir.mkdirs();
 
@@ -145,7 +145,7 @@ public class GradleFileUtils {
     installNewModule(
         projectRootDirectory,
         moduleFolder,
-        EnvironmentUtils.getGradleDirectory(projectRootDirectory));
+        EnvironmentUtils.getProjectDataDir(projectRootDirectory));
   }
 
   public static void createLibraryModule(

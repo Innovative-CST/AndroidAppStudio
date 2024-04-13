@@ -89,7 +89,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
                   "projectRootDirectory", projectFileList.get(position).getAbsolutePath());
               modules.putExtra(
                   "currentDir",
-                  EnvironmentUtils.getGradleDirectory(projectFileList.get(position))
+                  EnvironmentUtils.getProjectDataDir(projectFileList.get(position))
                       .getAbsolutePath());
               modules.putExtra("isInsideModule", false);
               mProjectManagerActivity.startActivity(modules);

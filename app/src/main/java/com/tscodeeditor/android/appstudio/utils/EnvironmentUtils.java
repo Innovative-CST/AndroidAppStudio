@@ -48,7 +48,7 @@ public final class EnvironmentUtils {
   public static final String EVENTS_HOLDER = "EventsHolder";
   public static final String GRADLE_FILE = "build.gradle";
   public static final String APP_GRADLE_CONFIG_EVENT_HOLDER = "Config";
-  private static final String GRADLE_DIR = "gradle";
+  private static final String PROJECT_DATA_DIR = "data";
 
   public static void init(Context context) {
     IDEDIR =
@@ -70,7 +70,7 @@ public final class EnvironmentUtils {
     }
   }
 
-  public static File getGradleDirectory(File projectRootDirectory) {
-    return new File(projectRootDirectory, GRADLE_DIR);
+  public static File getProjectDataDir(File projectRootDirectory) {
+    return new File(projectRootDirectory, PROJECT_DATA_DIR);
   }
 }
