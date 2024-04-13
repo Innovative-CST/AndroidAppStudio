@@ -73,4 +73,8 @@ public final class EnvironmentUtils {
   public static File getProjectDataDir(File projectRootDirectory) {
     return new File(projectRootDirectory, PROJECT_DATA_DIR);
   }
+
+  public static File getBuildDir(File projectRootDirectory) {
+    return new File(projectRootDirectory, "build");
+  }
 }

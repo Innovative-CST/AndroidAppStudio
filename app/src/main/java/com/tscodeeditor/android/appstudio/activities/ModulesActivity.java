@@ -32,12 +32,15 @@
 package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.GradleFileModelListAdapter;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityModulesBinding;
+import com.tscodeeditor.android.appstudio.dialogs.ProjectBuilderDialog;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
@@ -121,5 +124,23 @@ public class ModulesActivity extends BaseActivity {
     binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.gradleFileListSection.setVisibility(
         section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    getMenuInflater().inflate(R.menu.menu_modules_activity, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem menuItem) {
+    if (menuItem.getItemId() == R.id.run) {
+      ProjectBuilderDialog buildDialog =
+          new ProjectBuilderDialog(
+              this, EnvironmentUtils.getBuildDir(projectRootDirectory), currentDir);
+      buildDialog.create().show();
+    }
+    return super.onOptionsItemSelected(menuItem);
   }
 }

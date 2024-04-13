@@ -12,6 +12,7 @@
     <string name="done">Done</string>
     <string name="fields_not_filled_properly">Look like you have not filled the fields properly or skipped them that are required. Please correct the details of fields.</string>
     <string name="failed_to_deserialize_file_model">Failed to deserialize FileModel.</string>
+    <string name="generste_code">Generate code</string>
     <string name="instagram">Instagram</string>
     <string name="minimum_sdk_version">Minimum SDK version</string>
     <string name="next">Next</string>

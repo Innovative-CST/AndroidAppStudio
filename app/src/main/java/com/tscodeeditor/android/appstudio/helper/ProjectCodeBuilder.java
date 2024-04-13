@@ -43,7 +43,7 @@ import java.util.concurrent.Executors;
 
 public final class ProjectCodeBuilder {
 
-  public void buildProjectCode(
+  public static void buildProjectCode(
       File rootDestination,
       File data,
       BaseActivity activity,
@@ -135,7 +135,7 @@ public final class ProjectCodeBuilder {
             });
   }
 
-  public File generateFileModelOutput(
+  public static File generateFileModelOutput(
       File destination,
       File fileModelDirectory,
       ProjectCodeBuildListener listener,
@@ -166,7 +166,7 @@ public final class ProjectCodeBuilder {
     return output;
   }
 
-  public void buildProjectCode(
+  public static void buildProjectCode(
       File rootDestination,
       File data,
       BaseActivity activity,
@@ -175,7 +175,7 @@ public final class ProjectCodeBuilder {
     buildProjectCode(rootDestination, data, activity, null, cancelToken, shouldCleanBeforeBuild);
   }
 
-  private boolean cleanFile(
+  private static boolean cleanFile(
       File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
     if (!file.exists()) {
       if (listener != null) {
