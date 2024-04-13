@@ -31,10 +31,13 @@
 
 package com.tscodeeditor.android.appstudio.helper;
 
+import android.code.editor.common.utils.FileUtils;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.exception.ProjectCodeBuildException;
 import com.tscodeeditor.android.appstudio.listener.ProjectCodeBuildListener;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.concurrent.Executors;
 
@@ -42,9 +45,10 @@ public final class ProjectCodeBuilder {
 
   public void buildProjectCode(
       File rootDestination,
-      FileModel model,
+      File data,
       BaseActivity activity,
       ProjectCodeBuildListener listener,
+      ProjectCodeBuilderCancelToken cancelToken,
       boolean shouldCleanBeforeBuild) {
     Executors.newSingleThreadExecutor()
         .execute(
@@ -58,11 +62,12 @@ public final class ProjectCodeBuilder {
                     if (listener != null) {
                       listener.onBuildProgressLog("Cleaning destination folder...");
                     }
-                    if (cleanFile(rootDestination)) {
+                    if (cleanFile(rootDestination, listener, cancelToken)) {
                       if (listener != null) {
                         ProjectCodeBuildException exception = new ProjectCodeBuildException();
                         exception.setMessage("Failed to clean destination folder");
                         listener.onBuildFailed(exception);
+                        return;
                       }
                     }
                   }
@@ -99,33 +104,113 @@ public final class ProjectCodeBuilder {
                 }
               }
 
-              // TODO: Generate Code...
+              if (!data.exists()) {
+                if (listener != null) {
+                  ProjectCodeBuildException exception = new ProjectCodeBuildException();
+                  exception.setMessage(
+                      "File of which code the app was about to generate doesn't exists.");
+                  listener.onBuildFailed(exception);
+                  return;
+                }
+              }
+
+              File fileModel = new File(data, EnvironmentUtils.FILE_MODEL);
+              if (fileModel.exists()) {
+                // TODO: Generate a single file || Generate a whole folder
+              } else {
+                File[] files = data.listFiles();
+                if (files.length == 0) {
+                  if (listener != null) {
+                    ProjectCodeBuildException exception = new ProjectCodeBuildException();
+                    exception.setMessage("Data directory is empty.");
+                    listener.onBuildFailed(exception);
+                    return;
+                  }
+                }
+
+                for (File file : files) {
+                  File generatedFile = generateFileModelOutput(data, file, listener, cancelToken);
+                }
+              }
             });
+  }
+
+  public File generateFileModelOutput(
+      File destination,
+      File fileModelDirectory,
+      ProjectCodeBuildListener listener,
+      ProjectCodeBuilderCancelToken cencelToken) {
+    FileModel fileModel =
+        (FileModel)
+            DeserializerUtils.deserialize(
+                new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL));
+
+    File output = new File(destination, fileModel.getName());
+
+    if (fileModel.isFolder()) {
+      output.mkdirs();
+      if (new File(fileModelDirectory, EnvironmentUtils.FILES).exists()) {
+        for (File file : new File(fileModelDirectory, EnvironmentUtils.FILES).listFiles()) {
+          File generatedFile = generateFileModelOutput(output, file, listener, cencelToken);
+        }
+      }
+
+    } else {
+      FileModelCodeHelper codeGeneratorHelper = new FileModelCodeHelper();
+      codeGeneratorHelper.setFileModel(fileModel);
+      codeGeneratorHelper.setEventsDirectory(
+          new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR));
+
+      FileUtils.writeFile(output.getAbsolutePath(), codeGeneratorHelper.getCode());
+    }
+    return output;
   }
 
   public void buildProjectCode(
       File rootDestination,
-      FileModel model,
+      File data,
       BaseActivity activity,
+      ProjectCodeBuilderCancelToken cancelToken,
       boolean shouldCleanBeforeBuild) {
-    buildProjectCode(rootDestination, model, activity, null, shouldCleanBeforeBuild);
+    buildProjectCode(rootDestination, data, activity, null, cancelToken, shouldCleanBeforeBuild);
   }
 
-  private boolean cleanFile(File file) {
+  private boolean cleanFile(
+      File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
     if (!file.exists()) {
+      if (listener != null) {
+        listener.onBuildProgressLog("Directory does not exists, no need to clean");
+      }
       file.mkdirs();
       return true;
     }
     if (file.isFile()) {
+      if (listener != null) {
+        listener.onBuildProgressLog("Cleaning " + file.getAbsolutePath());
+      }
       return file.delete();
     } else {
       if (file.listFiles().length == 0) {
+        if (listener != null) {
+          listener.onBuildProgressLog(
+              "Directory is already clean, no need to clean " + file.getAbsolutePath());
+        }
         return true;
       } else {
+        if (listener != null) {
+          listener.onBuildProgressLog(
+              "Cleaning sub files and folders of " + file.getAbsolutePath());
+        }
         for (File subFile : file.listFiles()) {
-          if (!cleanFile(subFile)) {
+          if (listener != null) {
+            listener.onBuildProgressLog("Deleting " + file.getAbsolutePath());
+          }
+          if (!cleanFile(subFile, listener, cancelToken)) {
             return false;
           }
+        }
+        if (listener != null) {
+          listener.onBuildProgressLog("Cleaned sub files and folders of " + file.getAbsolutePath());
         }
         return true;
       }
