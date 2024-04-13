@@ -69,7 +69,7 @@ public final class ProjectCodeBuilder {
                         listener.onBuildFailed(exception);
                         return;
                       }
-                    }
+                    } else rootDestination.mkdirs();
                   }
 
                 } else {
@@ -117,6 +117,12 @@ public final class ProjectCodeBuilder {
               File fileModel = new File(data, EnvironmentUtils.FILE_MODEL);
               if (fileModel.exists()) {
                 // TODO: Generate a single file || Generate a whole folder
+                if (listener != null) {
+                  ProjectCodeBuildException exception = new ProjectCodeBuildException();
+                  exception.setMessage("Stage not defined Error 1");
+                  listener.onBuildFailed(exception);
+                  return;
+                }
               } else {
                 File[] files = data.listFiles();
                 if (files.length == 0) {
@@ -129,8 +135,13 @@ public final class ProjectCodeBuilder {
                 }
 
                 for (File file : files) {
-                  File generatedFile = generateFileModelOutput(data, file, listener, cancelToken);
+                  File generatedFile =
+                      generateFileModelOutput(rootDestination, file, listener, cancelToken);
                 }
+              }
+
+              if (listener != null) {
+                listener.onBuildComplete();
               }
             });
   }
@@ -140,28 +151,90 @@ public final class ProjectCodeBuilder {
       File fileModelDirectory,
       ProjectCodeBuildListener listener,
       ProjectCodeBuilderCancelToken cencelToken) {
-    FileModel fileModel =
-        (FileModel)
-            DeserializerUtils.deserialize(
-                new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL));
+
+    FileModel fileModel = null;
+
+    if (!new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).exists()) {
+
+      listener.onBuildProgressLog(
+          "Error: "
+              + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
+              + " is expected a file but not found");
+
+      return null;
+    }
+
+    Object deserializedObject =
+        DeserializerUtils.deserialize(new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL));
+
+    if (deserializedObject != null) {
+      if (deserializedObject instanceof FileModel) {
+        fileModel = (FileModel) deserializedObject;
+      } else {
+        if (listener != null) {
+
+          listener.onBuildProgressLog(
+              "Error: "
+                  + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
+                  + " is not a file model.");
+        }
+        return null;
+      }
+    } else {
+      if (listener != null) {
+
+        listener.onBuildProgressLog(
+            "Error: "
+                + "Failed to deserialize file model at "
+                + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath());
+      }
+      return null;
+    }
 
     File output = new File(destination, fileModel.getName());
-
     if (fileModel.isFolder()) {
+      if (listener != null) {
+        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
+        progress.setOutputPath(output);
+        progress.setProgressingFileModel(fileModel);
+        progress.setMessage("Generating " + output.getAbsolutePath());
+        listener.onBuildProgress(progress);
+      }
       output.mkdirs();
+      if (listener != null) {
+        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
+        progress.setOutputPath(output);
+        progress.setProgressingFileModel(fileModel);
+        progress.setMessage("Generated " + output.getAbsolutePath());
+        listener.onBuildProgress(progress);
+      }
       if (new File(fileModelDirectory, EnvironmentUtils.FILES).exists()) {
         for (File file : new File(fileModelDirectory, EnvironmentUtils.FILES).listFiles()) {
           File generatedFile = generateFileModelOutput(output, file, listener, cencelToken);
         }
       }
-
     } else {
+      if (listener != null) {
+        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
+        progress.setOutputPath(output);
+        progress.setProgressingFileModel(fileModel);
+        progress.setMessage("Generating " + output.getAbsolutePath());
+        listener.onBuildProgress(progress);
+      }
       FileModelCodeHelper codeGeneratorHelper = new FileModelCodeHelper();
       codeGeneratorHelper.setFileModel(fileModel);
       codeGeneratorHelper.setEventsDirectory(
           new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR));
 
       FileUtils.writeFile(output.getAbsolutePath(), codeGeneratorHelper.getCode());
+
+      if (listener != null) {
+        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
+        progress.setOutputPath(output);
+        progress.setProgressingFileModel(fileModel);
+        progress.setMessage("Generated " + output.getAbsolutePath());
+        listener.onBuildProgress(progress);
+      }
     }
     return output;
   }
@@ -181,12 +254,11 @@ public final class ProjectCodeBuilder {
       if (listener != null) {
         listener.onBuildProgressLog("Directory does not exists, no need to clean");
       }
-      file.mkdirs();
       return true;
     }
     if (file.isFile()) {
       if (listener != null) {
-        listener.onBuildProgressLog("Cleaning " + file.getAbsolutePath());
+        listener.onBuildProgressLog("Deleting " + file.getAbsolutePath());
       }
       return file.delete();
     } else {
@@ -197,21 +269,15 @@ public final class ProjectCodeBuilder {
         }
         return true;
       } else {
-        if (listener != null) {
-          listener.onBuildProgressLog(
-              "Cleaning sub files and folders of " + file.getAbsolutePath());
-        }
         for (File subFile : file.listFiles()) {
-          if (listener != null) {
-            listener.onBuildProgressLog("Deleting " + file.getAbsolutePath());
-          }
           if (!cleanFile(subFile, listener, cancelToken)) {
             return false;
           }
         }
         if (listener != null) {
-          listener.onBuildProgressLog("Cleaned sub files and folders of " + file.getAbsolutePath());
+          listener.onBuildProgressLog("Deleting " + file.getAbsolutePath());
         }
+        file.delete();
         return true;
       }
     }

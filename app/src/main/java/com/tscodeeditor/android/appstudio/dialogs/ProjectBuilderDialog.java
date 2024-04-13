@@ -88,7 +88,6 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.VISIBLE);
-                  setPositiveButton("Done", (p1, p2) -> {});
                 });
           }
 
@@ -97,8 +96,8 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
-                  setPositiveButton("Done", (p1, p2) -> {});
-                  log.append("Code generated successfully");
+                  log.append("\n");
+                  log.append("====== Code generated successfully ======");
                   log.append("\n");
                   editor.setText(log.toString());
                 });
@@ -111,7 +110,6 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
-                  setPositiveButton("Done", (p1, p2) -> {});
                   editor.setText(log.toString());
                 });
           }
@@ -123,7 +121,6 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
-                  setPositiveButton("Done", (p1, p2) -> {});
                   editor.setText(log.toString());
                 });
           }
@@ -133,7 +130,6 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
-                  setPositiveButton("Done", (p1, p2) -> {});
                   editor.setText(log.toString());
                 });
           }
@@ -145,12 +141,13 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
-                  setPositiveButton("Done", (p1, p2) -> {});
                   editor.setText(log.toString());
                 });
           }
         };
+    setTitle("Build Project");
     setCancelable(false);
+    setPositiveButton("Cancel", (p1, p2) -> {});
     ProjectCodeBuilder.buildProjectCode(outpurDir, file, activity, listener, cancelToken, true);
   }
 }
