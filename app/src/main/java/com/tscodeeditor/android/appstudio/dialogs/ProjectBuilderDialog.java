@@ -85,9 +85,16 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
 
           @Override
           public void onBuildStart() {
+            try {
+              Thread.sleep(1000);
+            } catch (Exception e) {
+
+            }
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.VISIBLE);
+                  binding.currentLog.setVisibility(View.VISIBLE);
+                  binding.editor.setVisibility(View.GONE);
                 });
           }
 
@@ -95,10 +102,12 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
           public void onBuildComplete() {
             activity.runOnUiThread(
                 () -> {
-                  binding.indicator.setVisibility(View.GONE);
                   log.append("\n");
                   log.append("====== Code generated successfully ======");
                   log.append("\n");
+                  binding.indicator.setVisibility(View.GONE);
+                  binding.currentLog.setVisibility(View.GONE);
+                  binding.editor.setVisibility(View.VISIBLE);
                   editor.setText(log.toString());
                 });
           }
@@ -109,8 +118,7 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             log.append("\n");
             activity.runOnUiThread(
                 () -> {
-                  binding.indicator.setVisibility(View.GONE);
-                  editor.setText(log.toString());
+                  binding.currentLog.setText(progress.getMessage());
                 });
           }
 
@@ -120,8 +128,7 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             log.append("\n");
             activity.runOnUiThread(
                 () -> {
-                  binding.indicator.setVisibility(View.GONE);
-                  editor.setText(log.toString());
+                  binding.currentLog.setText(logMessage);
                 });
           }
 
@@ -130,6 +137,8 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
+                  binding.currentLog.setVisibility(View.GONE);
+                  binding.editor.setVisibility(View.VISIBLE);
                   editor.setText(log.toString());
                 });
           }
@@ -141,11 +150,12 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.GONE);
+                  binding.currentLog.setVisibility(View.GONE);
+                  binding.editor.setVisibility(View.VISIBLE);
                   editor.setText(log.toString());
                 });
           }
         };
-    setTitle("Build Project");
     setCancelable(false);
     setPositiveButton("Cancel", (p1, p2) -> {});
     ProjectCodeBuilder.buildProjectCode(outpurDir, file, activity, listener, cancelToken, true);

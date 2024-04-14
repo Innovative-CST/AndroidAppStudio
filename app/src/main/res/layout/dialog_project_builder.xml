@@ -9,11 +9,18 @@
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:indeterminate="true"
         android:id="@+id/indicator" />
+
+    <TextView
+        android:layout_height="300dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/currentLog" />
 
     <editor.tsd.widget.CodeEditorLayout
         android:layout_height="300dp"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:id="@+id/editor" />
 
 </LinearLayout>
