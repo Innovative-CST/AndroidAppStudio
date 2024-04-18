@@ -45,14 +45,18 @@ import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.utils.BlockFieldLayerHandler;
+import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
+import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 
 public class BlockView extends LinearLayout {
   private EventEditor editor;
   private Context context;
   private BlockModel blockModel;
+  private LinearLayout[] droppables;
   private boolean enableDragDrop;
   private boolean enableEditing;
   private boolean isInsideEditor;
@@ -105,6 +109,7 @@ public class BlockView extends LinearLayout {
           layerCount < getBlockModel().getBlockLayerModel().size();
           ++layerCount) {
         LinearLayout layerLayout = new LinearLayout(getContext());
+        layerLayout.setOrientation(LinearLayout.VERTICAL);
         ViewGroup.LayoutParams layoutParams =
             new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -128,6 +133,11 @@ public class BlockView extends LinearLayout {
                 layerLayout,
                 R.drawable.block_default_cut_bl_br,
                 Color.parseColor(getBlockModel().getColor()));
+          }
+          if (getBlockModel().getBlockLayerModel().size() != 1
+              && layerCount != (getBlockModel().getBlockLayerModel().size() - 1)) {
+            setDrawable(
+                layerLayout, R.drawable.block_no_cut, Color.parseColor(getBlockModel().getColor()));
           }
 
           if (layerCount == 0) {
@@ -162,6 +172,76 @@ public class BlockView extends LinearLayout {
                   editor,
                   getBlockModel(),
                   this));
+        } else if (getBlockModel().getBlockLayerModel().get(layerCount)
+            instanceof BlockHolderLayer) {
+          layerLayout.setTag(new String[] {"BlockHolderDropper"});
+
+          LinearLayout layerLayoutTop = new LinearLayout(getContext());
+          LinearLayout.LayoutParams layerLayoutTopParams =
+              new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          layerLayoutTop.setLayoutParams(layerLayoutTopParams);
+          setDrawable(
+              layerLayoutTop,
+              R.drawable.block_holder_layer_top,
+              Color.parseColor(getBlockModel().getColor()));
+
+          layerLayout.addView(layerLayoutTop);
+
+          LinearLayout jointLayout = new LinearLayout(getContext());
+          jointLayout.setOrientation(LinearLayout.VERTICAL);
+          LinearLayout.LayoutParams jointLayoutParams =
+              new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          jointLayoutParams.setMargins(
+              0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+          jointLayout.setLayoutParams(jointLayoutParams);
+          setDrawable(
+              jointLayout,
+              R.drawable.block_holder_joint,
+              Color.parseColor(getBlockModel().getColor()));
+
+          layerLayout.addView(jointLayout);
+
+          LinearLayout layerLayoutBottom = new LinearLayout(getContext());
+          LinearLayout.LayoutParams layerLayoutBottomParams =
+              new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+          layerLayoutBottomParams.setMargins(
+              0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+
+          layerLayoutBottom.setLayoutParams(layerLayoutBottomParams);
+          setDrawable(
+              layerLayoutBottom,
+              R.drawable.block_holder_layer_bottom,
+              Color.parseColor(getBlockModel().getColor()));
+
+          layerLayout.addView(layerLayoutBottom);
+
+          if (layerCount == 0) {
+            if (!getBlockModel().isFirstBlock()) {
+              LinearLayout firstBlockTop = new LinearLayout(getContext());
+              ViewGroup.LayoutParams _lp =
+                  new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              firstBlockTop.setLayoutParams(_lp);
+              Drawable firstBlockTopDrawable =
+                  ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
+              firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+              firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+              firstBlockTop.setBackground(firstBlockTopDrawable);
+              addView(firstBlockTop, 0);
+              layerLayout
+                  .getViewTreeObserver()
+                  .addOnGlobalLayoutListener(
+                      () -> {
+                        ViewGroup.LayoutParams lp = firstBlockTop.getLayoutParams();
+                        lp.width = layerLayout.getWidth();
+                        firstBlockTop.setLayoutParams(lp);
+                      });
+            }
+          }
         }
 
         addView(layerLayout);
@@ -186,21 +266,14 @@ public class BlockView extends LinearLayout {
         new Runnable() {
           @Override
           public void run() {
-            int[] blockViewCoordinate = new int[2];
-            int[] editorViewCoordinate = new int[2];
-            BlockView.this.getLocationInWindow(blockViewCoordinate);
-            editor.getLocationInWindow(editorViewCoordinate);
-
             editor.startBlockDrag(
                 BlockView.this,
                 BlockView.this.getBlockModel(),
                 x
-                    + blockViewCoordinate[0]
-                    - editorViewCoordinate[0]
+                    + TargetUtils.getRelativePosition(BlockView.this, editor)[0]
                     - UnitUtils.dpToPx(getContext(), 60),
                 y
-                    + blockViewCoordinate[1]
-                    - editorViewCoordinate[1]
+                    + TargetUtils.getRelativePosition(BlockView.this, editor)[1]
                     - UnitUtils.dpToPx(getContext(), 80));
           }
         };
@@ -226,55 +299,36 @@ public class BlockView extends LinearLayout {
               if (event.getAction() == MotionEvent.ACTION_UP) {
                 dragHandler.removeCallbacks(dragStartRunnable);
                 if (editor.isDragging) {
-                  int[] blockViewCoordinate = new int[2];
-                  int[] editorViewCoordinate = new int[2];
-                  getLocationInWindow(blockViewCoordinate);
-                  editor.getLocationInWindow(editorViewCoordinate);
                   editor.stopDrag(
                       x
-                          + blockViewCoordinate[0]
-                          - editorViewCoordinate[0]
+                          + TargetUtils.getRelativePosition(BlockView.this, editor)[0]
                           - UnitUtils.dpToPx(getContext(), 60),
                       y
-                          + blockViewCoordinate[1]
-                          - editorViewCoordinate[1]
+                          + TargetUtils.getRelativePosition(BlockView.this, editor)[1]
                           - UnitUtils.dpToPx(getContext(), 80));
                 }
               }
               if (event.getAction() == MotionEvent.ACTION_CANCEL) {
                 dragHandler.removeCallbacks(dragStartRunnable);
                 if (editor.isDragging) {
-                  int[] blockViewCoordinate = new int[2];
-                  int[] editorViewCoordinate = new int[2];
-                  getLocationInWindow(blockViewCoordinate);
-                  editor.getLocationInWindow(editorViewCoordinate);
                   editor.stopDrag(
                       x
-                          + blockViewCoordinate[0]
-                          - editorViewCoordinate[0]
+                          + TargetUtils.getRelativePosition(BlockView.this, editor)[0]
                           - UnitUtils.dpToPx(getContext(), 60),
                       y
-                          + blockViewCoordinate[1]
-                          - editorViewCoordinate[1]
+                          + TargetUtils.getRelativePosition(BlockView.this, editor)[1]
                           - UnitUtils.dpToPx(getContext(), 80));
                 }
               }
 
               if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 if (editor.isDragging) {
-                  int[] blockViewCoordinate = new int[2];
-                  int[] editorViewCoordinate = new int[2];
-                  getLocationInWindow(blockViewCoordinate);
-                  editor.getLocationInWindow(editorViewCoordinate);
-
                   editor.moveFloatingBlockView(
                       x
-                          + blockViewCoordinate[0]
-                          - editorViewCoordinate[0]
+                          + TargetUtils.getRelativePosition(BlockView.this, editor)[0]
                           - UnitUtils.dpToPx(getContext(), 60),
                       y
-                          + blockViewCoordinate[1]
-                          - editorViewCoordinate[1]
+                          + TargetUtils.getRelativePosition(BlockView.this, editor)[1]
                           - UnitUtils.dpToPx(getContext(), 80));
                 }
               }

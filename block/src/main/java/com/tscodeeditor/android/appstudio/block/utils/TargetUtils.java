@@ -45,4 +45,17 @@ public class TargetUtils {
 
     return x >= left && x <= right && y >= top && y <= bottom;
   }
+
+  public static int[] getRelativePosition(View view, View relativeOf) {
+    int[] location1 = new int[2];
+    int[] location2 = new int[2];
+
+    relativeOf.getLocationOnScreen(location1);
+    view.getLocationOnScreen(location2);
+
+    int relativeX = location2[0] - location1[0];
+    int relativeY = location2[1] - location1[1];
+
+    return new int[] {relativeX, relativeY};
+  }
 }

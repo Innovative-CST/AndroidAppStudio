@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.builtin.blocks;
 
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
@@ -50,6 +51,7 @@ public class GradleDepedencyBlocks {
     ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
 
     dependencyBlocksList.add(getImplementationBlock());
+    dependencyBlocksList.add(getDefaultConfigBlock());
 
     holder.setList(dependencyBlocksList);
 
@@ -96,5 +98,45 @@ public class GradleDepedencyBlocks {
     implementationBlock.setBlockLayerModel(implementationBlockLayers);
 
     return implementationBlock;
+  }
+
+  public static BlockModel getDefaultConfigBlock() {
+    BlockModel defaultConfigBlock = new BlockModel();
+    defaultConfigBlock.setBlockType(BlockModel.Type.defaultBlock);
+    defaultConfigBlock.setColor("#E27625");
+    defaultConfigBlock.setReplacerKey("defaultConfigBlock");
+    defaultConfigBlock.setDragAllowed(true);
+
+    StringBuilder rawCode = new StringBuilder();
+    rawCode.append("defaultConfig {\n\t");
+    rawCode.append(RawCodeReplacer.getReplacer(defaultConfigBlock.getReplacerKey(), "config"));
+    rawCode.append("\n}");
+
+    defaultConfigBlock.setRawCode(rawCode.toString());
+
+    ArrayList<BlockLayerModel> defaultConfigBlockLayers = new ArrayList<BlockLayerModel>();
+
+    // Layer 1st
+    BlockFieldLayerModel defaultConfigBlockLayer1 = new BlockFieldLayerModel();
+
+    ArrayList<BlockFieldModel> defaultConfigBlockLayer1Fields = new ArrayList<BlockFieldModel>();
+
+    BlockFieldModel defaultConfigText = new BlockFieldModel();
+    defaultConfigText.setValue("defaultConfig");
+
+    defaultConfigBlockLayer1Fields.add(defaultConfigText);
+
+    defaultConfigBlockLayer1.setBlockFields(defaultConfigBlockLayer1Fields);
+
+    // Layer 2nd
+    BlockHolderLayer defaultConfigBlockLayer2 = new BlockHolderLayer();
+    defaultConfigBlockLayer2.setReplacer("config");
+
+    defaultConfigBlockLayers.add(defaultConfigBlockLayer1);
+    defaultConfigBlockLayers.add(defaultConfigBlockLayer2);
+
+    defaultConfigBlock.setBlockLayerModel(defaultConfigBlockLayers);
+
+    return defaultConfigBlock;
   }
 }
