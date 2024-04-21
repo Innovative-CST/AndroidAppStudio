@@ -47,16 +47,18 @@ import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.utils.BlockFieldLayerHandler;
 import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
+import com.tscodeeditor.android.appstudio.block.utils.LayerBuilder;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
+import java.util.ArrayList;
 
 public class BlockView extends LinearLayout {
   private EventEditor editor;
   private Context context;
   private BlockModel blockModel;
-  private LinearLayout[] droppables;
+  private ArrayList<LinearLayout> droppables;
+  private LinearLayout blockTop;
   private boolean enableDragDrop;
   private boolean enableEditing;
   private boolean isInsideEditor;
@@ -80,31 +82,14 @@ public class BlockView extends LinearLayout {
   public void updateBlock() {
     removeAllViews();
     setOrientation(LinearLayout.VERTICAL);
+    droppables = new ArrayList<LinearLayout>();
 
     if (getBlockModel() == null) return;
 
     if (getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
 
-      /*
-       * Add top of blocks as it it define event block.
-       */
-      if (getBlockModel().isFirstBlock()) {
-        LinearLayout firstBlockTop = new LinearLayout(getContext());
-        ViewGroup.LayoutParams layoutParams =
-            new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        firstBlockTop.setLayoutParams(layoutParams);
-        Drawable firstBlockTopDrawable =
-            ContextCompat.getDrawable(getContext(), R.drawable.block_first_top);
-        firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
-        firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-        firstBlockTop.setBackground(firstBlockTopDrawable);
-        addView(firstBlockTop);
-      }
+      addBlockTopView();
 
-      /*
-       * Add all layers to BlockView.
-       */
       for (int layerCount = 0;
           layerCount < getBlockModel().getBlockLayerModel().size();
           ++layerCount) {
@@ -114,68 +99,29 @@ public class BlockView extends LinearLayout {
             new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layerLayout.setLayoutParams(layoutParams);
-        /*
-         * Check if current(LOOP) layer is BlockContentLayerModel
-         */
+
         if (getBlockModel().getBlockLayerModel().get(layerCount) instanceof BlockFieldLayerModel) {
-          /*
-           * If the block is for defining event then and number of Layout is 1 then:
-           * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
-           */
-          if (getBlockModel().getBlockLayerModel().size() == 1 && getBlockModel().isFirstBlock()) {
-            setDrawable(
-                layerLayout,
-                R.drawable.block_default_cut_rt_bl_br,
-                Color.parseColor(getBlockModel().getColor()));
-          }
-          if (getBlockModel().getBlockLayerModel().size() == 1 && !getBlockModel().isFirstBlock()) {
-            setDrawable(
-                layerLayout,
-                R.drawable.block_default_cut_bl_br,
-                Color.parseColor(getBlockModel().getColor()));
-          }
-          if (getBlockModel().getBlockLayerModel().size() != 1
-              && layerCount != (getBlockModel().getBlockLayerModel().size() - 1)) {
-            setDrawable(
-                layerLayout, R.drawable.block_no_cut, Color.parseColor(getBlockModel().getColor()));
+
+          LayerBuilder.buildBlockFieldLayer(
+              this,
+              ((BlockFieldLayerModel) getBlockModel().getBlockLayerModel().get(layerCount)),
+              getBlockModel(),
+              layerLayout,
+              layerCount);
+
+          if (blockTop != null) {
+            layerLayout
+                .getViewTreeObserver()
+                .addOnGlobalLayoutListener(
+                    () -> {
+                      ViewGroup.LayoutParams lp = blockTop.getLayoutParams();
+                      lp.width = layerLayout.getWidth();
+                      blockTop.setLayoutParams(lp);
+                    });
           }
 
-          if (layerCount == 0) {
-            if (!getBlockModel().isFirstBlock()) {
-              LinearLayout firstBlockTop = new LinearLayout(getContext());
-              ViewGroup.LayoutParams _lp =
-                  new ViewGroup.LayoutParams(
-                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-              firstBlockTop.setLayoutParams(_lp);
-              Drawable firstBlockTopDrawable =
-                  ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
-              firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
-              firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-              firstBlockTop.setBackground(firstBlockTopDrawable);
-              addView(firstBlockTop, 0);
-              layerLayout
-                  .getViewTreeObserver()
-                  .addOnGlobalLayoutListener(
-                      () -> {
-                        ViewGroup.LayoutParams lp = firstBlockTop.getLayoutParams();
-                        lp.width = layerLayout.getWidth();
-                        firstBlockTop.setLayoutParams(lp);
-                      });
-            }
-          }
-
-          // Load block content layer...
-          layerLayout.addView(
-              BlockFieldLayerHandler.getBlockFieldLayerView(
-                  context,
-                  (BlockFieldLayerModel) getBlockModel().getBlockLayerModel().get(layerCount),
-                  editor,
-                  getBlockModel(),
-                  this));
         } else if (getBlockModel().getBlockLayerModel().get(layerCount)
             instanceof BlockHolderLayer) {
-          layerLayout.setTag(new String[] {"BlockHolderDropper"});
-
           LinearLayout layerLayoutTop = new LinearLayout(getContext());
           LinearLayout.LayoutParams layerLayoutTopParams =
               new LinearLayout.LayoutParams(
@@ -190,6 +136,8 @@ public class BlockView extends LinearLayout {
 
           LinearLayout jointLayout = new LinearLayout(getContext());
           jointLayout.setOrientation(LinearLayout.VERTICAL);
+          jointLayout.setTag(new String[] {"BlockHolderDropper"});
+          droppables.add(jointLayout);
           LinearLayout.LayoutParams jointLayoutParams =
               new LinearLayout.LayoutParams(
                   LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -243,25 +191,62 @@ public class BlockView extends LinearLayout {
             }
           }
         }
-
         addView(layerLayout);
       }
 
-      if (!getBlockModel().isLastBlock()) {
-        LinearLayout blockBottomJoint = new LinearLayout(getContext());
-        ViewGroup.LayoutParams layoutParams =
-            new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        blockBottomJoint.setLayoutParams(layoutParams);
-        Drawable blockBottomJointDrawable =
-            ContextCompat.getDrawable(getContext(), R.drawable.block_default_bottom_joint);
-        blockBottomJointDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
-        blockBottomJointDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-        blockBottomJoint.setBackground(blockBottomJointDrawable);
-        addView(blockBottomJoint);
-      }
+      addBlockBottomView();
     }
 
+    setDragListener();
+  }
+
+  public void addBlockTopView() {
+    if (!(getBlockModel().getBlockType() == BlockModel.Type.defaultBlock)) return;
+    if (getBlockModel().isFirstBlock()) {
+      LinearLayout firstBlockTop = new LinearLayout(getContext());
+      ViewGroup.LayoutParams layoutParams =
+          new ViewGroup.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      firstBlockTop.setLayoutParams(layoutParams);
+      Drawable firstBlockTopDrawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_first_top);
+      firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+      firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      firstBlockTop.setBackground(firstBlockTopDrawable);
+      addView(firstBlockTop);
+    } else {
+      blockTop = new LinearLayout(getContext());
+      ViewGroup.LayoutParams _lp =
+          new ViewGroup.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      blockTop.setLayoutParams(_lp);
+      Drawable blockTopDrawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
+      blockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+      blockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      blockTop.setBackground(blockTopDrawable);
+      addView(blockTop);
+    }
+  }
+
+  public void addBlockBottomView() {
+    if (!(getBlockModel().getBlockType() == BlockModel.Type.defaultBlock)) return;
+    if (!getBlockModel().isLastBlock()) {
+      LinearLayout blockBottomJoint = new LinearLayout(getContext());
+      ViewGroup.LayoutParams layoutParams =
+          new ViewGroup.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      blockBottomJoint.setLayoutParams(layoutParams);
+      Drawable blockBottomJointDrawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_default_bottom_joint);
+      blockBottomJointDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+      blockBottomJointDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      blockBottomJoint.setBackground(blockBottomJointDrawable);
+      addView(blockBottomJoint);
+    }
+  }
+
+  public void setDragListener() {
     Runnable dragStartRunnable =
         new Runnable() {
           @Override
@@ -343,6 +328,180 @@ public class BlockView extends LinearLayout {
     drawable.setTint(color);
     drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
     view.setBackground(drawable);
+  }
+
+  public boolean drop(
+      float x, float y, BlockModel toDrop, LinearLayout.LayoutParams blockPreviewLayoutParams) {
+
+    for (int i = 0; i < droppables.size(); ++i) {
+      if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
+        if (droppables.get(i).getTag() != null) {
+          if (droppables.get(i).getTag() instanceof String[]) {
+            for (String tag : (String[]) droppables.get(i).getTag()) {
+              if (tag.equals("BlockHolderDropper")) {
+                if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
+
+                  int index = 0;
+                  for (int ind = 0; ind < droppables.get(i).getChildCount(); ind++) {
+                    View child = droppables.get(i).getChildAt(ind);
+                    int[] relativePos =
+                        TargetUtils.getRelativePosition(droppables.get(i).getChildAt(ind), editor);
+                    if (y > relativePos[1] + (child.getHeight() / 2)) {
+                      index = ind + 1;
+                    } else {
+                      break;
+                    }
+                  }
+                  dropBlockView(index, x, y, droppables.get(i), toDrop, blockPreviewLayoutParams);
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public void dropBlockView(
+      int index,
+      float x,
+      float y,
+      ViewGroup target,
+      BlockModel blockModel,
+      LinearLayout.LayoutParams blockPreviewLayoutParams) {
+    boolean isDropConsumed = false;
+    if (target.getChildCount() > index) {
+      if (target.getChildAt(index) instanceof BlockView) {
+        BlockView blockView = (BlockView) target.getChildAt(index);
+        if (blockView.drop(x, y, blockModel, blockPreviewLayoutParams)) {
+          isDropConsumed = true;
+        }
+      }
+    }
+
+    if (!isDropConsumed) {
+      if (target.getChildCount() > (index - 1)) {
+        if (target.getChildAt((index - 1)) instanceof BlockView) {
+          BlockView blockView = (BlockView) target.getChildAt((index - 1));
+          if (blockView.drop(x, y, blockModel, blockPreviewLayoutParams)) {
+            isDropConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isDropConsumed) {
+      if (target.getChildCount() > (index + 1)) {
+        if (target.getChildAt((index + 1)) instanceof BlockView) {
+          BlockView blockView = (BlockView) target.getChildAt((index + 1));
+          if (blockView.drop(x, y, blockModel, blockPreviewLayoutParams)) {
+            isDropConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isDropConsumed) {
+      BlockView block = new BlockView(editor, getContext(), blockModel.clone());
+
+      block.setEnableDragDrop(true);
+      block.setEnableEditing(true);
+      block.setInsideEditor(true);
+      if (index != 0) block.setLayoutParams(blockPreviewLayoutParams);
+      target.addView(block, index);
+      if (editor.draggingBlock.isInsideEditor()) {
+        ((ViewGroup) editor.draggingBlock.getParent()).removeView(editor.draggingBlock);
+      }
+    }
+  }
+
+  public boolean preview(
+      float x, float y, BlockModel toDrop, LinearLayout.LayoutParams blockPreviewLayoutParams) {
+    for (int i = 0; i < droppables.size(); ++i) {
+      if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
+        if (droppables.get(i).getTag() != null) {
+          if (droppables.get(i).getTag() instanceof String[]) {
+            for (String tag : (String[]) droppables.get(i).getTag()) {
+              if (tag.equals("BlockHolderDropper")) {
+                if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
+                  editor.blockPreview.removePreview();
+                  editor.blockPreview.setBlock(toDrop);
+
+                  int index = 0;
+                  for (int ind = 0; ind < droppables.get(i).getChildCount(); ind++) {
+                    View child = droppables.get(i).getChildAt(ind);
+                    int[] relativePos =
+                        TargetUtils.getRelativePosition(droppables.get(i).getChildAt(ind), editor);
+                    if (y > relativePos[1] + (child.getHeight() / 2)) {
+                      index = ind + 1;
+                    } else {
+                      break;
+                    }
+                  }
+
+                  setBlockPreview(index, x, y, droppables.get(i), toDrop, blockPreviewLayoutParams);
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public void setBlockPreview(
+      int index,
+      float x,
+      float y,
+      ViewGroup target,
+      BlockModel blockModel,
+      LinearLayout.LayoutParams blockPreviewLayoutParams) {
+    boolean isPreviewConsumed = false;
+    if (target.getChildCount() > index) {
+      if (target.getChildAt(index) instanceof BlockView) {
+        BlockView blockView = (BlockView) target.getChildAt(index);
+        if (blockView.preview(x, y, blockModel, blockPreviewLayoutParams)) {
+          isPreviewConsumed = true;
+        }
+      }
+    }
+
+    if (!isPreviewConsumed) {
+      if (target.getChildCount() > (index - 1)) {
+        if (target.getChildAt((index - 1)) instanceof BlockView) {
+          BlockView blockView = (BlockView) target.getChildAt((index - 1));
+          if (blockView.preview(x, y, blockModel, blockPreviewLayoutParams)) {
+            isPreviewConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isPreviewConsumed) {
+      if (target.getChildCount() > (index + 1)) {
+        if (target.getChildAt((index + 1)) instanceof BlockView) {
+          BlockView blockView = (BlockView) target.getChildAt((index + 1));
+          if (blockView.preview(x, y, blockModel, blockPreviewLayoutParams)) {
+            isPreviewConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isPreviewConsumed) {
+      editor.blockPreview.setLayoutParams(
+          index != 0
+              ? blockPreviewLayoutParams
+              : new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+      target.addView(editor.blockPreview, index);
+		
+    }
   }
 
   public EventEditor getEditor() {

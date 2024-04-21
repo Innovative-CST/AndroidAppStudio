@@ -29,45 +29,54 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.block.view;
 
-import android.graphics.Rect;
-import android.view.View;
+import android.content.Context;
+import android.graphics.Color;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import com.tscodeeditor.android.appstudio.block.R;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 
-public class TargetUtils {
-  public static boolean isPointInsideRectangle(
-      float x, float y, float a, float b, float c, float d) {
-    float left = Math.min(a, c);
-    float right = Math.max(a, c);
-    float top = Math.min(b, d);
-    float bottom = Math.max(b, d);
+public class BlockPreview extends LinearLayout {
+  private BlockModel block;
 
-    return x >= left && x <= right && y >= top && y <= bottom;
+  public BlockPreview(Context context) {
+    super(context);
   }
 
-  public static int[] getRelativePosition(View view, View relativeOf) {
-    int[] location1 = new int[2];
-    int[] location2 = new int[2];
-
-    relativeOf.getLocationOnScreen(location1);
-    view.getLocationOnScreen(location2);
-
-    int relativeX = location2[0] - location1[0];
-    int relativeY = location2[1] - location1[1];
-
-    return new int[] {relativeX, relativeY};
+  public void setBlock(BlockModel block) {
+    this.block = block;
+    drawPreview();
   }
 
-  public static boolean isDragInsideTargetView(View target, View relativeTo, float x, float y) {
-    int[] relativePosition = getRelativePosition(target, relativeTo);
+  public void drawPreview() {
+    removeAllViews();
+    setOrientation(LinearLayout.VERTICAL);
+    if (block.getBlockType() == BlockModel.Type.defaultBlock) {
+      LinearLayout.LayoutParams layoutParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-    return TargetUtils.isPointInsideRectangle(
-        x,
-        y,
-        relativePosition[0],
-        relativePosition[1],
-        relativePosition[0] + target.getWidth(),
-        relativePosition[1] + target.getHeight());
+      LinearLayout top = new LinearLayout(getContext());
+      BlockView.setDrawable(top, R.drawable.block_default_top, Color.parseColor("#000000"));
+      addView(top);
+      LinearLayout body = new LinearLayout(getContext());
+      BlockView.setDrawable(body, R.drawable.block_default_cut_bl_br, Color.parseColor("#000000"));
+      addView(body);
+      LinearLayout bottom = new LinearLayout(getContext());
+      BlockView.setDrawable(
+          bottom, R.drawable.block_default_bottom_joint, Color.parseColor("#000000"));
+      addView(bottom);
+      top.setLayoutParams(layoutParams);
+      body.setLayoutParams(layoutParams);
+      bottom.setLayoutParams(layoutParams);
+    }
+  }
+
+  public void removePreview() {
+    if (getParent() == null) return;
+    ((ViewGroup) getParent()).removeView(this);
   }
 }

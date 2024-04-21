@@ -31,43 +31,54 @@
 
 package com.tscodeeditor.android.appstudio.block.utils;
 
-import android.graphics.Rect;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import androidx.core.content.ContextCompat;
+import com.tscodeeditor.android.appstudio.block.R;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.view.BlockView;
 
-public class TargetUtils {
-  public static boolean isPointInsideRectangle(
-      float x, float y, float a, float b, float c, float d) {
-    float left = Math.min(a, c);
-    float right = Math.max(a, c);
-    float top = Math.min(b, d);
-    float bottom = Math.max(b, d);
+public class LayerBuilder {
 
-    return x >= left && x <= right && y >= top && y <= bottom;
+  public static void buildBlockFieldLayer(
+      BlockView blockView,
+      BlockFieldLayerModel layer,
+      BlockModel blockModel,
+      LinearLayout layerLayout,
+      int layerPosition) {
+    /*
+     * If the block is for defining event then and number of Layout is 1 then:
+     * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
+     */
+    if (blockModel.getBlockLayerModel().size() == 1 && blockModel.isFirstBlock()) {
+      setDrawable(
+          layerLayout,
+          R.drawable.block_default_cut_rt_bl_br,
+          Color.parseColor(blockModel.getColor()));
+    }
+    if (blockModel.getBlockLayerModel().size() == 1 && !blockModel.isFirstBlock()) {
+      setDrawable(
+          layerLayout, R.drawable.block_default_cut_bl_br, Color.parseColor(blockModel.getColor()));
+    }
+    if (blockModel.getBlockLayerModel().size() > 1
+        && layerPosition != (blockModel.getBlockLayerModel().size() - 1)) {
+      setDrawable(layerLayout, R.drawable.block_no_cut, Color.parseColor(blockModel.getColor()));
+    }
+
+    // Load block content layer...
+    layerLayout.addView(
+        BlockFieldLayerHandler.getBlockFieldLayerView(
+            layerLayout.getContext(), layer, blockView.getEditor(), blockModel, blockView));
   }
 
-  public static int[] getRelativePosition(View view, View relativeOf) {
-    int[] location1 = new int[2];
-    int[] location2 = new int[2];
-
-    relativeOf.getLocationOnScreen(location1);
-    view.getLocationOnScreen(location2);
-
-    int relativeX = location2[0] - location1[0];
-    int relativeY = location2[1] - location1[1];
-
-    return new int[] {relativeX, relativeY};
-  }
-
-  public static boolean isDragInsideTargetView(View target, View relativeTo, float x, float y) {
-    int[] relativePosition = getRelativePosition(target, relativeTo);
-
-    return TargetUtils.isPointInsideRectangle(
-        x,
-        y,
-        relativePosition[0],
-        relativePosition[1],
-        relativePosition[0] + target.getWidth(),
-        relativePosition[1] + target.getHeight());
+  public static void setDrawable(View view, int res, int color) {
+    Drawable drawable = ContextCompat.getDrawable(view.getContext(), res);
+    drawable.setTint(color);
+    drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+    view.setBackground(drawable);
   }
 }

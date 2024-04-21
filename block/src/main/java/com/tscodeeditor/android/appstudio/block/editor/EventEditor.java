@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
@@ -49,6 +50,7 @@ import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
 import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
+import com.tscodeeditor.android.appstudio.block.view.BlockPreview;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import java.util.ArrayList;
 
@@ -57,6 +59,7 @@ public class EventEditor extends RelativeLayout {
   public EventEditorLayoutBinding binding;
   public BlockDragView blockFloatingView;
   public BlockView draggingBlock;
+  public BlockPreview blockPreview;
 
   public boolean isDragging = false;
 
@@ -71,6 +74,7 @@ public class EventEditor extends RelativeLayout {
 
     binding = EventEditorLayoutBinding.inflate(LayoutInflater.from(context));
     blockFloatingView = new BlockDragView(context, null);
+    blockPreview = new BlockPreview(context);
     binding.getRoot().setClipChildren(true);
     addView(binding.getRoot());
     setMatchParent(binding.getRoot());
@@ -114,6 +118,13 @@ public class EventEditor extends RelativeLayout {
     if (draggingBlock.isInsideEditor()) {
       draggingBlock.setVisibility(View.GONE);
     }
+    int notAllowedIconWidth = 0;
+    if (blockFloatingView.notAllowed != null) {
+      if (blockFloatingView.notAllowed.getParent() != null) {
+        notAllowedIconWidth = blockFloatingView.notAllowed.getWidth();
+      }
+    }
+
     binding.canva.setDisableScrollForcefully(true);
     binding.blockList.requestDisallowInterceptTouchEvent(true);
     isDragging = true;
@@ -124,7 +135,7 @@ public class EventEditor extends RelativeLayout {
         new RelativeLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     blockFloatingView.setLayoutParams(blockFloatingViewParam);
-    blockFloatingView.setX(x);
+    blockFloatingView.setX(x - notAllowedIconWidth);
     blockFloatingView.setY(y);
     blockFloatingView.setAllowed(isBlockFloatingViewInsideCanva(x, y));
   }
@@ -133,8 +144,9 @@ public class EventEditor extends RelativeLayout {
     isDragging = false;
     binding.canva.setDisableScrollForcefully(false);
     binding.blockList.requestDisallowInterceptTouchEvent(false);
-    drop(x, y);
+    blockPreview.removePreview();
     removeView(blockFloatingView);
+    drop(x, y);
     draggingBlock = null;
   }
 
@@ -143,18 +155,13 @@ public class EventEditor extends RelativeLayout {
       if (binding.canva.getEvent().getEnableEdit()) {
         if (binding.canva.attachedBlockLayout != null) {
 
-          if (TargetUtils.isPointInsideRectangle(
-              (int) x,
-              (int) y,
-              0,
-              0,
-              binding.canva.attachedBlockLayout.getWidth(),
-              binding.canva.attachedBlockLayout.getHeight())) {
+          if (TargetUtils.isDragInsideTargetView(
+              binding.canva.attachedBlockLayout, binding.getRoot(), (int) x, (int) y)) {
 
             int index = 0;
             for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); i++) {
               View child = binding.canva.attachedBlockLayout.getChildAt(i);
-              if (y > child.getY() + (child.getHeight() / 2)) {
+              if (y + binding.canva.getScrollY() > child.getY() + (child.getHeight() / 2)) {
                 index = i + 1;
               } else {
                 break;
@@ -164,23 +171,7 @@ public class EventEditor extends RelativeLayout {
             if (index == 0) {
               index = 1;
             }
-
-            BlockView block =
-                new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
-
-            LinearLayout.LayoutParams blockParams =
-                new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            blockParams.setMargins(
-                0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
-
-            block.setEnableDragDrop(true);
-            block.setEnableEditing(true);
-            block.setInsideEditor(true);
-            block.setRootBlock(true);
-            binding.canva.attachedBlockLayout.addView(block, index);
-            block.setLayoutParams(blockParams);
+            dropBlockView(index, x, y);
           } else {
             BlockView block =
                 new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
@@ -190,7 +181,10 @@ public class EventEditor extends RelativeLayout {
                     FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 
             blockParams.setMargins(
-                (int) x + binding.canva.getScrollX(), (int) y + binding.canva.getScrollY(), 0, 0);
+                (int) x + binding.canva.getScrollX() - binding.codeEditor.getPaddingStart(),
+                (int) y + binding.canva.getScrollY() - binding.codeEditor.getPaddingTop(),
+                0,
+                0);
 
             block.setEnableDragDrop(true);
             block.setEnableEditing(true);
@@ -215,10 +209,153 @@ public class EventEditor extends RelativeLayout {
     }
   }
 
+  public void dropBlockView(int index, float x, float y) {
+    LinearLayout.LayoutParams blockParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    blockParams.setMargins(
+        0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+
+    boolean isDropConsumed = false;
+    if (binding.canva.attachedBlockLayout.getChildCount() > index) {
+      if (binding.canva.attachedBlockLayout.getChildAt(index) instanceof BlockView) {
+        BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index);
+        if (blockView.drop(x, y, draggingBlock.getBlockModel(), blockParams)) {
+          isDropConsumed = true;
+        }
+      }
+    }
+
+    if (!isDropConsumed) {
+      if (binding.canva.attachedBlockLayout.getChildCount() > (index - 1)) {
+        if (binding.canva.attachedBlockLayout.getChildAt(index - 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index - 1);
+          if (blockView.drop(x, y, draggingBlock.getBlockModel(), blockParams)) {
+            isDropConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isDropConsumed) {
+      if (binding.canva.attachedBlockLayout.getChildCount() > (index + 1)) {
+        if (binding.canva.attachedBlockLayout.getChildAt(index + 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index + 1);
+          if (blockView.drop(x, y, draggingBlock.getBlockModel(), blockParams)) {
+            isDropConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isDropConsumed) {
+      BlockView block = new BlockView(this, getContext(), draggingBlock.getBlockModel());
+
+      block.setEnableDragDrop(true);
+      block.setEnableEditing(true);
+      block.setInsideEditor(true);
+      if (index != 0) block.setLayoutParams(blockParams);
+      if (draggingBlock.isInsideEditor()) {
+        ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
+      }
+      binding.canva.attachedBlockLayout.addView(block, index);
+    }
+  }
+
   public void moveFloatingBlockView(float x, float y) {
-    blockFloatingView.setX(x);
+    int notAllowedIconWidth = 0;
+    if (blockFloatingView.notAllowed != null) {
+      if (blockFloatingView.notAllowed.getParent() != null) {
+        notAllowedIconWidth = blockFloatingView.notAllowed.getWidth();
+      }
+    }
+    blockFloatingView.setX(x - notAllowedIconWidth);
     blockFloatingView.setY(y);
     blockFloatingView.setAllowed(isBlockFloatingViewInsideCanva(x, y));
+
+    blockPreview.removePreview();
+    blockPreview.setBlock(draggingBlock.getBlockModel());
+    if (isBlockFloatingViewInsideCanva(x, y)) {
+      if (binding.canva.getEvent().getEnableEdit()) {
+        if (binding.canva.attachedBlockLayout != null) {
+
+          if (TargetUtils.isDragInsideTargetView(
+              binding.canva.attachedBlockLayout, binding.getRoot(), (int) x, (int) y)) {
+
+            int index = 0;
+            for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); i++) {
+              View child = binding.canva.attachedBlockLayout.getChildAt(i);
+              if (y + binding.canva.getScrollY() > child.getY() + (child.getHeight() / 2)) {
+                index = i + 1;
+              } else {
+                break;
+              }
+            }
+
+            if (index == 0) {
+              index = 1;
+            }
+
+            setBlockPreview(index, x, y);
+          } else {
+            blockPreview.removePreview();
+          }
+        } else {
+          blockPreview.removePreview();
+        }
+      } else {
+        blockPreview.removePreview();
+      }
+    } else {
+      blockPreview.removePreview();
+    }
+  }
+
+  public void setBlockPreview(int index, float x, float y) {
+    LinearLayout.LayoutParams blockPreviewParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    blockPreviewParams.setMargins(
+        0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+
+    boolean isPreviewConsumed = false;
+    if (binding.canva.attachedBlockLayout.getChildCount() > index) {
+      if (binding.canva.attachedBlockLayout.getChildAt(index) instanceof BlockView) {
+        BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index);
+        if (blockView.preview(x, y, draggingBlock.getBlockModel(), blockPreviewParams)) {
+          isPreviewConsumed = true;
+        }
+      }
+    }
+
+    if (!isPreviewConsumed) {
+      if (binding.canva.attachedBlockLayout.getChildCount() > (index - 1)) {
+        if (binding.canva.attachedBlockLayout.getChildAt(index - 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index - 1);
+          if (blockView.preview(x, y, draggingBlock.getBlockModel(), blockPreviewParams)) {
+            isPreviewConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isPreviewConsumed) {
+      if (binding.canva.attachedBlockLayout.getChildCount() > (index + 1)) {
+        if (binding.canva.attachedBlockLayout.getChildAt(index + 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index + 1);
+          if (blockView.preview(x, y, draggingBlock.getBlockModel(), blockPreviewParams)) {
+            isPreviewConsumed = true;
+          }
+        }
+      }
+    }
+
+    if (!isPreviewConsumed) {
+      binding.canva.attachedBlockLayout.addView(blockPreview, index);
+      blockPreview.setLayoutParams(blockPreviewParams);
+    }
   }
 
   public boolean isBlockFloatingViewInsideCanva(float x, float y) {
@@ -229,13 +366,8 @@ public class EventEditor extends RelativeLayout {
       }
     }
 
-    return TargetUtils.isPointInsideRectangle(
-        (int) x + notAllowedIconWidth,
-        (int) y,
-        0,
-        0,
-        binding.editorSection.getWidth(),
-        binding.editorSection.getHeight());
+    return TargetUtils.isDragInsideTargetView(
+        binding.editorSection, this, (int) x + notAllowedIconWidth, (int) y);
   }
 
   public void loadBlocksInEvent() {
