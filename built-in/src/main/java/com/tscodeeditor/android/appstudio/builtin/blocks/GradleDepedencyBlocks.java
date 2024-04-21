@@ -51,7 +51,6 @@ public class GradleDepedencyBlocks {
     ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
 
     dependencyBlocksList.add(getImplementationBlock());
-    dependencyBlocksList.add(getDefaultConfigBlock());
 
     holder.setList(dependencyBlocksList);
 
@@ -103,9 +102,9 @@ public class GradleDepedencyBlocks {
   public static BlockModel getDefaultConfigBlock() {
     BlockModel defaultConfigBlock = new BlockModel();
     defaultConfigBlock.setBlockType(BlockModel.Type.defaultBlock);
-    defaultConfigBlock.setColor("#E27625");
+    defaultConfigBlock.setColor("#4759B8");
     defaultConfigBlock.setReplacerKey("defaultConfigBlock");
-    defaultConfigBlock.setDragAllowed(true);
+    defaultConfigBlock.setDragAllowed(false);
 
     StringBuilder rawCode = new StringBuilder();
     rawCode.append("defaultConfig {\n\t");

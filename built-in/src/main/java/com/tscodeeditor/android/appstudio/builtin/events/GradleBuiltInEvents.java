@@ -82,6 +82,10 @@ public class GradleBuiltInEvents {
 
     androidBlockEvent.setEventTopBlock(androidBlockEventBlockModel);
     androidBlockEvent.setEnableRootBlocksValueEditing(false);
+
+    ArrayList<BlockModel> defaultInstalledBlocks = new ArrayList<BlockModel>();
+    defaultInstalledBlocks.add(GradleDepedencyBlocks.getDefaultConfigBlock());
+    androidBlockEvent.setBlockModels(defaultInstalledBlocks);
     return androidBlockEvent;
   }
 
