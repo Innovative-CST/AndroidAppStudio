@@ -35,12 +35,15 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
+import java.util.ArrayList;
 
 public class LayerBuilder {
 
@@ -73,6 +76,77 @@ public class LayerBuilder {
     layerLayout.addView(
         BlockFieldLayerHandler.getBlockFieldLayerView(
             layerLayout.getContext(), layer, blockView.getEditor(), blockModel, blockView));
+  }
+
+  public static void buildBlockHolderLayer(
+      BlockView blockView,
+      BlockHolderLayer layer,
+      BlockModel blockModel,
+      LinearLayout layerLayout,
+      ArrayList<LinearLayout> droppables,
+      int layerPosition) {
+    LinearLayout layerLayoutTop = new LinearLayout(layerLayout.getContext());
+    LinearLayout.LayoutParams layerLayoutTopParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    layerLayoutTop.setLayoutParams(layerLayoutTopParams);
+    setDrawable(
+        layerLayoutTop, R.drawable.block_holder_layer_top, Color.parseColor(blockModel.getColor()));
+
+    layerLayout.addView(layerLayoutTop);
+
+    LinearLayout jointLayout = new LinearLayout(layerLayout.getContext());
+    jointLayout.setOrientation(LinearLayout.VERTICAL);
+    jointLayout.setTag(new String[] {"BlockHolderDropper"});
+    droppables.add(jointLayout);
+    LinearLayout.LayoutParams jointLayoutParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    jointLayoutParams.setMargins(
+        0,
+        UnitUtils.dpToPx(layerLayout.getContext(), BlockMarginConstants.regularBlockMargin),
+        0,
+        0);
+    jointLayout.setLayoutParams(jointLayoutParams);
+    setDrawable(
+        jointLayout, R.drawable.block_holder_joint, Color.parseColor(blockModel.getColor()));
+
+    layerLayout.addView(jointLayout);
+
+    LinearLayout layerLayoutBottom = new LinearLayout(layerLayout.getContext());
+    LinearLayout.LayoutParams layerLayoutBottomParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    layerLayoutBottomParams.setMargins(
+        0,
+        UnitUtils.dpToPx(layerLayout.getContext(), BlockMarginConstants.regularBlockMargin),
+        0,
+        0);
+
+    layerLayoutBottom.setLayoutParams(layerLayoutBottomParams);
+    setDrawable(
+        layerLayoutBottom,
+        R.drawable.block_holder_layer_bottom,
+        Color.parseColor(blockModel.getColor()));
+
+    layerLayout.addView(layerLayoutBottom);
+
+    if (layerPosition == 0) {
+      if (!blockModel.isFirstBlock()) {
+        LinearLayout firstBlockTop = new LinearLayout(layerLayout.getContext());
+        ViewGroup.LayoutParams _lp =
+            new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        firstBlockTop.setLayoutParams(_lp);
+        Drawable firstBlockTopDrawable =
+            ContextCompat.getDrawable(layerLayout.getContext(), R.drawable.block_default_top);
+        firstBlockTopDrawable.setTint(Color.parseColor(blockModel.getColor()));
+        firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+        firstBlockTop.setBackground(firstBlockTopDrawable);
+        blockView.addView(firstBlockTop, 0);
+      }
+    }
   }
 
   public static void setDrawable(View view, int res, int color) {

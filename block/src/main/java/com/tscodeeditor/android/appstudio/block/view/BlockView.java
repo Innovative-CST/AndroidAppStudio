@@ -122,73 +122,22 @@ public class BlockView extends LinearLayout {
 
         } else if (getBlockModel().getBlockLayerModel().get(layerCount)
             instanceof BlockHolderLayer) {
-          LinearLayout layerLayoutTop = new LinearLayout(getContext());
-          LinearLayout.LayoutParams layerLayoutTopParams =
-              new LinearLayout.LayoutParams(
-                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-          layerLayoutTop.setLayoutParams(layerLayoutTopParams);
-          setDrawable(
-              layerLayoutTop,
-              R.drawable.block_holder_layer_top,
-              Color.parseColor(getBlockModel().getColor()));
-
-          layerLayout.addView(layerLayoutTop);
-
-          LinearLayout jointLayout = new LinearLayout(getContext());
-          jointLayout.setOrientation(LinearLayout.VERTICAL);
-          jointLayout.setTag(new String[] {"BlockHolderDropper"});
-          droppables.add(jointLayout);
-          LinearLayout.LayoutParams jointLayoutParams =
-              new LinearLayout.LayoutParams(
-                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-          jointLayoutParams.setMargins(
-              0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
-          jointLayout.setLayoutParams(jointLayoutParams);
-          setDrawable(
-              jointLayout,
-              R.drawable.block_holder_joint,
-              Color.parseColor(getBlockModel().getColor()));
-
-          layerLayout.addView(jointLayout);
-
-          LinearLayout layerLayoutBottom = new LinearLayout(getContext());
-          LinearLayout.LayoutParams layerLayoutBottomParams =
-              new LinearLayout.LayoutParams(
-                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-          layerLayoutBottomParams.setMargins(
-              0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
-
-          layerLayoutBottom.setLayoutParams(layerLayoutBottomParams);
-          setDrawable(
-              layerLayoutBottom,
-              R.drawable.block_holder_layer_bottom,
-              Color.parseColor(getBlockModel().getColor()));
-
-          layerLayout.addView(layerLayoutBottom);
-
-          if (layerCount == 0) {
-            if (!getBlockModel().isFirstBlock()) {
-              LinearLayout firstBlockTop = new LinearLayout(getContext());
-              ViewGroup.LayoutParams _lp =
-                  new ViewGroup.LayoutParams(
-                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-              firstBlockTop.setLayoutParams(_lp);
-              Drawable firstBlockTopDrawable =
-                  ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
-              firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
-              firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-              firstBlockTop.setBackground(firstBlockTopDrawable);
-              addView(firstBlockTop, 0);
-              layerLayout
-                  .getViewTreeObserver()
-                  .addOnGlobalLayoutListener(
-                      () -> {
-                        ViewGroup.LayoutParams lp = firstBlockTop.getLayoutParams();
-                        lp.width = layerLayout.getWidth();
-                        firstBlockTop.setLayoutParams(lp);
-                      });
-            }
+          LayerBuilder.buildBlockHolderLayer(
+              this,
+              ((BlockHolderLayer) getBlockModel().getBlockLayerModel().get(layerCount)),
+              getBlockModel(),
+              layerLayout,
+              droppables,
+              layerCount);
+          if (blockTop != null) {
+            layerLayout
+                .getViewTreeObserver()
+                .addOnGlobalLayoutListener(
+                    () -> {
+                      ViewGroup.LayoutParams lp = blockTop.getLayoutParams();
+                      lp.width = layerLayout.getWidth();
+                      blockTop.setLayoutParams(lp);
+                    });
           }
         }
         addView(layerLayout);
@@ -500,7 +449,6 @@ public class BlockView extends LinearLayout {
               : new LinearLayout.LayoutParams(
                   LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       target.addView(editor.blockPreview, index);
-		
     }
   }
 
