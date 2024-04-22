@@ -129,8 +129,24 @@ public class LayerBuilder {
         layerLayoutBottom,
         R.drawable.block_holder_layer_bottom,
         Color.parseColor(blockModel.getColor()));
-
     layerLayout.addView(layerLayoutBottom);
+
+    /*
+     * Add bottom 2 corner cut if current lyer is last layer of BlockModel
+     */
+    if (blockModel.getBlockLayerModel().size() == (layerPosition + 1)) {
+      LinearLayout bottom2CornerCut = new LinearLayout(layerLayout.getContext());
+      LinearLayout.LayoutParams bottom2CornerCutParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+      bottom2CornerCut.setLayoutParams(bottom2CornerCutParams);
+      setDrawable(
+          bottom2CornerCut,
+          R.drawable.block_holder_last_layer,
+          Color.parseColor(blockModel.getColor()));
+      layerLayout.addView(bottom2CornerCut);
+    }
 
     if (layerPosition == 0) {
       if (!blockModel.isFirstBlock()) {
