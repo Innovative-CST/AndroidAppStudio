@@ -35,7 +35,6 @@ import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
@@ -84,7 +83,7 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setEnableRootBlocksValueEditing(false);
 
     ArrayList<BlockModel> defaultInstalledBlocks = new ArrayList<BlockModel>();
-    defaultInstalledBlocks.add(GradleDepedencyBlocks.getDefaultConfigBlock());
+    defaultInstalledBlocks.add(GradleDepedencyBlocks.getDefaultConfigBlock(false));
     androidBlockEvent.setBlockModels(defaultInstalledBlocks);
     return androidBlockEvent;
   }
@@ -130,31 +129,12 @@ public class GradleBuiltInEvents {
     defineEvent.setBlockLayerModel(blockLayerModels);
     dependenciesBlockEvent.setEventTopBlock(defineEvent);
 
-    BlockModel materialLibraryImplementationBlock = GradleDepedencyBlocks.getImplementationBlock();
-    materialLibraryImplementationBlock.setDragAllowed(false);
-    ((BlockValueFieldModel)
-            ((BlockFieldLayerModel) materialLibraryImplementationBlock.getBlockLayerModel().get(0))
-                .getBlockFields()
-                .get(1))
-        .setValue("com.google.android.material:material:1.12.0-alpha03");
-    ((BlockValueFieldModel)
-            ((BlockFieldLayerModel) materialLibraryImplementationBlock.getBlockLayerModel().get(0))
-                .getBlockFields()
-                .get(1))
-        .setEnableEdit(false);
-
-    BlockModel appCompatImplementationBlock = GradleDepedencyBlocks.getImplementationBlock();
-    appCompatImplementationBlock.setDragAllowed(false);
-    ((BlockValueFieldModel)
-            ((BlockFieldLayerModel) appCompatImplementationBlock.getBlockLayerModel().get(0))
-                .getBlockFields()
-                .get(1))
-        .setValue("androidx.appcompat:appcompat:1.6.1");
-    ((BlockValueFieldModel)
-            ((BlockFieldLayerModel) appCompatImplementationBlock.getBlockLayerModel().get(0))
-                .getBlockFields()
-                .get(1))
-        .setEnableEdit(false);
+    BlockModel materialLibraryImplementationBlock =
+        GradleDepedencyBlocks.getImplementationBlock(
+            false, false, "com.google.android.material:material:1.12.0-alpha03");
+    BlockModel appCompatImplementationBlock =
+        GradleDepedencyBlocks.getImplementationBlock(
+            false, false, "androidx.appcompat:appcompat:1.6.1");
 
     ArrayList<BlockModel> builtInDepedency = new ArrayList<BlockModel>();
     builtInDepedency.add(materialLibraryImplementationBlock);

@@ -50,7 +50,7 @@ public class GradleDepedencyBlocks {
 
     ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
 
-    dependencyBlocksList.add(getImplementationBlock());
+    dependencyBlocksList.add(getImplementationBlock(true, true, null));
 
     holder.setList(dependencyBlocksList);
 
@@ -58,13 +58,14 @@ public class GradleDepedencyBlocks {
     return holders;
   }
 
-  public static BlockModel getImplementationBlock() {
+  public static BlockModel getImplementationBlock(
+      boolean allowDrag, boolean allowLibraryChange, String libraryValue) {
     BlockModel implementationBlock = new BlockModel();
     implementationBlock.setBlockType(BlockModel.Type.defaultBlock);
     implementationBlock.setColor("#E27625");
     implementationBlock.setRawCode("implementation");
     implementationBlock.setReplacerKey("implementationBlock");
-    implementationBlock.setDragAllowed(true);
+    implementationBlock.setDragAllowed(allowDrag);
 
     StringBuilder rawCode = new StringBuilder();
     rawCode.append("implementation \"");
@@ -85,7 +86,10 @@ public class GradleDepedencyBlocks {
     BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
     inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
     inputDependencyField.setReplacer("library");
-    inputDependencyField.setEnableEdit(true);
+    inputDependencyField.setEnableEdit(allowLibraryChange);
+    if (libraryValue != null) {
+      inputDependencyField.setValue(libraryValue);
+    }
 
     implementationBlockLayer1Fields.add(implementationText);
     implementationBlockLayer1Fields.add(inputDependencyField);
@@ -99,12 +103,12 @@ public class GradleDepedencyBlocks {
     return implementationBlock;
   }
 
-  public static BlockModel getDefaultConfigBlock() {
+  public static BlockModel getDefaultConfigBlock(boolean allowDrag) {
     BlockModel defaultConfigBlock = new BlockModel();
     defaultConfigBlock.setBlockType(BlockModel.Type.defaultBlock);
     defaultConfigBlock.setColor("#4759B8");
     defaultConfigBlock.setReplacerKey("defaultConfigBlock");
-    defaultConfigBlock.setDragAllowed(false);
+    defaultConfigBlock.setDragAllowed(allowDrag);
 
     StringBuilder rawCode = new StringBuilder();
     rawCode.append("defaultConfig {\n\t");
