@@ -129,16 +129,6 @@ public class BlockView extends LinearLayout {
               layerLayout,
               droppables,
               layerCount);
-          if (blockTop != null) {
-            layerLayout
-                .getViewTreeObserver()
-                .addOnGlobalLayoutListener(
-                    () -> {
-                      ViewGroup.LayoutParams lp = blockTop.getLayoutParams();
-                      lp.width = layerLayout.getWidth();
-                      blockTop.setLayoutParams(lp);
-                    });
-          }
         }
         addView(layerLayout);
       }
