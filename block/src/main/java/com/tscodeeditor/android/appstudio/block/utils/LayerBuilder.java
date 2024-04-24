@@ -42,6 +42,7 @@ import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import java.util.ArrayList;
 
@@ -97,7 +98,12 @@ public class LayerBuilder {
 
     LinearLayout jointLayout = new LinearLayout(layerLayout.getContext());
     jointLayout.setOrientation(LinearLayout.VERTICAL);
-    jointLayout.setTag(new String[] {"BlockHolderDropper"});
+
+    BlockDroppableTag tag = new BlockDroppableTag();
+    tag.setDropProperty(layer);
+    tag.setBlockDroppableType(BlockDroppableTag.DEFAULT_BLOCK_DROPPER);
+
+    jointLayout.setTag(tag);
     droppables.add(jointLayout);
     LinearLayout.LayoutParams jointLayoutParams =
         new LinearLayout.LayoutParams(

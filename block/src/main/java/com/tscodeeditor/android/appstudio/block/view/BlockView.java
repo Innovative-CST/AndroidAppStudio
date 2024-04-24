@@ -47,7 +47,7 @@ import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
-import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
+import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
 import com.tscodeeditor.android.appstudio.block.utils.LayerBuilder;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
@@ -275,9 +275,12 @@ public class BlockView extends LinearLayout {
     for (int i = 0; i < droppables.size(); ++i) {
       if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
         if (droppables.get(i).getTag() != null) {
-          if (droppables.get(i).getTag() instanceof String[]) {
-            for (String tag : (String[]) droppables.get(i).getTag()) {
-              if (tag.equals("BlockHolderDropper")) {
+          if (droppables.get(i).getTag() instanceof BlockDroppableTag) {
+
+            BlockDroppableTag tag = (BlockDroppableTag) droppables.get(i).getTag();
+
+            if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER) {
+              if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
                 if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
 
                   int index = 0;
@@ -362,9 +365,12 @@ public class BlockView extends LinearLayout {
     for (int i = 0; i < droppables.size(); ++i) {
       if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
         if (droppables.get(i).getTag() != null) {
-          if (droppables.get(i).getTag() instanceof String[]) {
-            for (String tag : (String[]) droppables.get(i).getTag()) {
-              if (tag.equals("BlockHolderDropper")) {
+          if (droppables.get(i).getTag() instanceof BlockDroppableTag) {
+
+            BlockDroppableTag tag = (BlockDroppableTag) droppables.get(i).getTag();
+
+            if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER) {
+              if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
                 if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
                   editor.blockPreview.removePreview();
                   editor.blockPreview.setBlock(toDrop);
