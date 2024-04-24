@@ -8,100 +8,122 @@
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/content">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_height="match_parent"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:id="@+id/loading">
-
-            <ProgressBar
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:indeterminate="true"
-                android:id="@+id/progressbar" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:id="@+id/info">
-
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="?attr/colorOnSurface"
-                android:id="@+id/tv_info" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:id="@+id/valueEditorSection">
-
-            <editor.tsd.widget.CodeEditorLayout
-                android:layout_height="0dp"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/codeEditor" />
+            android:layout_weight="60">
 
             <LinearLayout
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:weightSum="2">
+                android:orientation="vertical"
+                android:id="@+id/content">
 
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_margin="4dp"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
-                    android:text="@string/cancel"
-                    android:id="@+id/cancel" />
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:id="@+id/loading">
 
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:text="@string/done"
-                    android:id="@+id/done" />
+                    <ProgressBar
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:indeterminate="true"
+                        android:id="@+id/progressbar" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:id="@+id/info">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="?attr/colorOnSurface"
+                        android:id="@+id/tv_info" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:id="@+id/valueEditorSection">
+
+                    <editor.tsd.widget.CodeEditorLayout
+                        android:layout_height="0dp"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/codeEditor" />
+
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:weightSum="2">
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_margin="4dp"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_weight="1"
+                            android:text="@string/cancel"
+                            android:id="@+id/cancel" />
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:text="@string/done"
+                            android:id="@+id/done" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:visibility="visible"
+                    android:layout_weight="60"
+                    android:id="@+id/editorSection">
+
+                    <com.tscodeeditor.android.appstudio.block.editor.EditorCanva
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:foregroundGravity="top"
+                        android:padding="8dp"
+                        android:orientation="vertical"
+                        android:id="@+id/canva" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/block"
+                android:layout_margin="16dp"
+                android:id="@+id/fab"
+                android:layout_gravity="end|bottom" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <LinearLayout
             android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:visibility="visible"
-            android:layout_weight="60"
-            android:id="@+id/editorSection">
-
-            <com.tscodeeditor.android.appstudio.block.editor.EditorCanva
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:foregroundGravity="top"
-                android:padding="8dp"
-                android:orientation="vertical"
-                android:id="@+id/canva" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="0dp"
-            android:layout_width="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="?attr/colorSurfaceVariant"
             android:orientation="horizontal"
             android:layout_weight="40"

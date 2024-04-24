@@ -62,6 +62,7 @@ public class EventEditor extends RelativeLayout {
   public BlockPreview blockPreview;
 
   public boolean isDragging = false;
+  private boolean isBlockPallateVisible = false;
 
   // Contants for showing the section easily
   public static final int LOADING_SECTION = 0;
@@ -79,6 +80,11 @@ public class EventEditor extends RelativeLayout {
     addView(binding.getRoot());
     setMatchParent(binding.getRoot());
     switchSection(EDITOR_SECTION);
+    binding.fab.setOnClickListener(
+        v -> {
+          isBlockPallateVisible = !isBlockPallateVisible;
+          showBlocksPallete(isBlockPallateVisible);
+        });
     invalidate();
   }
 
@@ -91,7 +97,6 @@ public class EventEditor extends RelativeLayout {
 
   /*
    * Method for switching the section quickly.
-   * All other section will be GONE except the section of which the section code is provided
    */
   public void switchSection(int section) {
     binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
@@ -99,6 +104,13 @@ public class EventEditor extends RelativeLayout {
     binding.editorSection.setVisibility(section == EDITOR_SECTION ? View.VISIBLE : View.GONE);
     binding.valueEditorSection.setVisibility(
         section == VALUE_EDITOR_SECTION ? View.VISIBLE : View.GONE);
+    if (section == VALUE_EDITOR_SECTION) {
+      showBlocksPallete(false);
+      binding.fab.setVisibility(View.GONE);
+    } else {
+      showBlocksPallete(isBlockPallateVisible);
+      binding.fab.setVisibility(View.VISIBLE);
+    }
   }
 
   public void showBlocksPallete(boolean show) {
