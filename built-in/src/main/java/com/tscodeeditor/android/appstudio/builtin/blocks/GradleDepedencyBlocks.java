@@ -49,7 +49,6 @@ public class GradleDepedencyBlocks {
     holder.setName("dependency");
 
     ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
-    dependencyBlocksList.add(getDefaultConfigBlock(true));
     dependencyBlocksList.add(getImplementationBlock(true, true, null));
 
     holder.setList(dependencyBlocksList);
