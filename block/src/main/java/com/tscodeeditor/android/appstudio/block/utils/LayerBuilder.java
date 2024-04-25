@@ -169,6 +169,27 @@ public class LayerBuilder {
         blockView.addView(firstBlockTop, 0);
       }
     }
+
+    if (layer.getBlocks() == null) return;
+    for (int blockPosition = 0; blockPosition < layer.getBlocks().size(); ++blockPosition) {
+      BlockView block =
+          new BlockView(
+              blockView.getEditor(), blockView.getContext(), layer.getBlocks().get(blockPosition));
+
+      block.setEnableDragDrop(true);
+      block.setEnableEditing(true);
+      block.setInsideEditor(true);
+
+      LinearLayout.LayoutParams blockParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+      if (blockPosition != 0) {
+        block.setLayoutParams(blockParams);
+      }
+
+      jointLayout.addView(block);
+    }
   }
 
   public static void setDrawable(View view, int res, int color) {

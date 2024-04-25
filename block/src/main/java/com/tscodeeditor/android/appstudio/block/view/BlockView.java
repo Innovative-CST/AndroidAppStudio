@@ -41,6 +41,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
@@ -69,7 +70,7 @@ public class BlockView extends LinearLayout {
     super(context);
     this.editor = editor;
     this.context = context;
-    this.blockModel = blockModel.clone();
+    this.blockModel = blockModel;
     updateBlock();
   }
 
@@ -294,7 +295,8 @@ public class BlockView extends LinearLayout {
                       break;
                     }
                   }
-                  dropBlockView(index, x, y, droppables.get(i), toDrop, blockPreviewLayoutParams);
+                  dropBlockView(
+                      index, x, y, droppables.get(i), tag, toDrop, blockPreviewLayoutParams);
                   return true;
                 }
               }
@@ -312,6 +314,7 @@ public class BlockView extends LinearLayout {
       float x,
       float y,
       ViewGroup target,
+      BlockDroppableTag targetTag,
       BlockModel blockModel,
       LinearLayout.LayoutParams blockPreviewLayoutParams) {
     boolean isDropConsumed = false;
@@ -353,7 +356,32 @@ public class BlockView extends LinearLayout {
       block.setEnableEditing(true);
       block.setInsideEditor(true);
       if (index != 0) block.setLayoutParams(blockPreviewLayoutParams);
+      if (targetTag.getDropProperty(BlockHolderLayer.class).getBlocks() == null) {
+        ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
+        targetTag.getDropProperty(BlockHolderLayer.class).setBlocks(blocks);
+      }
       target.addView(block, index);
+      targetTag
+          .getDropProperty(BlockHolderLayer.class)
+          .getBlocks()
+          .add(index, block.getBlockModel());
+      if (editor.draggingBlock.isInsideEditor()) {
+        if (((ViewGroup) editor.draggingBlock.getParent()).getTag() != null) {
+          if (((ViewGroup) editor.draggingBlock.getParent()).getTag()
+              instanceof BlockDroppableTag) {
+            if (((BlockDroppableTag) ((ViewGroup) editor.draggingBlock.getParent()).getTag())
+                    .getBlockDroppableType()
+                == BlockDroppableTag.DEFAULT_BLOCK_DROPPER) {
+              ((BlockDroppableTag) ((ViewGroup) editor.draggingBlock.getParent()).getTag())
+                  .getDropProperty(BlockHolderLayer.class)
+                  .getBlocks()
+                  .remove(
+                      ((ViewGroup) editor.draggingBlock.getParent())
+                          .indexOfChild(editor.draggingBlock));
+            }
+          }
+        }
+      }
       if (editor.draggingBlock.isInsideEditor()) {
         ((ViewGroup) editor.draggingBlock.getParent()).removeView(editor.draggingBlock);
       }

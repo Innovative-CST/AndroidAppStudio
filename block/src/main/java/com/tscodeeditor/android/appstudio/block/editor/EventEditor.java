@@ -43,9 +43,12 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
+import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
 import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
@@ -268,10 +271,24 @@ public class EventEditor extends RelativeLayout {
       block.setEnableEditing(true);
       block.setInsideEditor(true);
       if (index != 0) block.setLayoutParams(blockParams);
+      if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
+        if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
+          BlockDroppableTag tag =
+              ((BlockDroppableTag) ((ViewGroup) draggingBlock.getParent()).getTag());
+
+          if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER
+              && block.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
+            tag.getDropProperty(BlockHolderLayer.class)
+                .getBlocks()
+                .remove(((ViewGroup) draggingBlock.getParent()).indexOfChild(draggingBlock));
+          }
+        }
+      }
+
+      binding.canva.attachedBlockLayout.addView(block, index);
       if (draggingBlock.isInsideEditor()) {
         ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
       }
-      binding.canva.attachedBlockLayout.addView(block, index);
     }
   }
 
