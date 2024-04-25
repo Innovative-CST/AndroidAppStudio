@@ -206,6 +206,21 @@ public class EventEditor extends RelativeLayout {
             block.setInsideEditor(true);
             binding.canva.addView(block);
             block.setLayoutParams(blockParams);
+
+            if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
+              if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
+                BlockDroppableTag tag =
+                    ((BlockDroppableTag) ((ViewGroup) draggingBlock.getParent()).getTag());
+
+                if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER
+                    && block.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
+                  tag.getDropProperty(BlockHolderLayer.class)
+                      .getBlocks()
+                      .remove(((ViewGroup) draggingBlock.getParent()).indexOfChild(draggingBlock));
+                }
+              }
+            }
+
             if (draggingBlock.isInsideEditor()) {
               ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
             }
