@@ -150,10 +150,34 @@ public class BlockModel implements Serializable, Cloneable {
       if (getBlockLayerModel().get(layerCount) instanceof BlockHolderLayer) {
         BlockHolderLayer layer = (BlockHolderLayer) getBlockLayerModel().get(layerCount);
 
+        // Get space for formatting....
+        String formatter = null;
+        String[] lines = getRawCode().split("\n");
+        for (String line : lines) {
+          if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), layer.getReplacer()))) {
+            formatter =
+                line.substring(
+                    0,
+                    line.indexOf(
+                        RawCodeReplacer.getReplacer(getReplacerKey(), layer.getReplacer())));
+          }
+        }
+
+        StringBuilder layerCode = new StringBuilder();
+
+        String[] layerCodeLines = layer.getCode().split("\n");
+        for (int layerCodeLinePosition = 0;
+            layerCodeLinePosition < layerCodeLines.length;
+            ++layerCodeLinePosition) {
+          if (layerCodeLinePosition != 0) layerCode.append("\n");
+          if (layerCodeLinePosition != 0) layerCode.append(formatter);
+          layerCode.append(layerCodeLines[layerCodeLinePosition]);
+        }
+
         generatedCode =
             generatedCode.replace(
                 RawCodeReplacer.getReplacer(getReplacerKey(), layer.getReplacer()),
-                layer.getCode());
+                layerCode.toString());
       }
     }
 
