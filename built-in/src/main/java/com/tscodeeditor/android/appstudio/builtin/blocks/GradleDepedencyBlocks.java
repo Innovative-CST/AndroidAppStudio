@@ -57,6 +57,63 @@ public class GradleDepedencyBlocks {
     return holders;
   }
 
+  public static ArrayList<BlockHolderModel> getGradleAndroidBlocks() {
+    ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
+    BlockHolderModel holder = new BlockHolderModel();
+    holder.setColor("#1B0B54");
+    holder.setName("Android");
+
+    ArrayList<Object> androidBlocksList = new ArrayList<Object>();
+
+    androidBlocksList.add(getNameSpaceBlock(true, true, "com.test"));
+
+    holder.setList(androidBlocksList);
+
+    holders.add(holder);
+    return holders;
+  }
+
+  public static BlockModel getNameSpaceBlock(
+      boolean allowDrag, boolean allowNameSpaceChange, String nameSpace) {
+    BlockModel block = new BlockModel();
+    block.setBlockType(BlockModel.Type.defaultBlock);
+    block.setColor("#0061FE");
+    block.setReplacerKey("namespaceBlock");
+    block.setDragAllowed(allowDrag);
+
+    StringBuilder rawCode = new StringBuilder();
+    rawCode.append("namespace \"");
+    rawCode.append(RawCodeReplacer.getReplacer(block.getReplacerKey(), "namespace"));
+    rawCode.append("\"");
+
+    block.setRawCode(rawCode.toString());
+
+    ArrayList<BlockLayerModel> blockLayers = new ArrayList<BlockLayerModel>();
+
+    BlockFieldLayerModel layer1 = new BlockFieldLayerModel();
+
+    ArrayList<BlockFieldModel> layer1Fields = new ArrayList<BlockFieldModel>();
+
+    BlockFieldModel nameSpaceText = new BlockFieldModel();
+    nameSpaceText.setValue("namespace");
+
+    BlockValueFieldModel inputNameSpaceField = new BlockValueFieldModel();
+    inputNameSpaceField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+    inputNameSpaceField.setReplacer("namespace");
+    inputNameSpaceField.setEnableEdit(allowNameSpaceChange);
+    if (nameSpace != null) {
+      inputNameSpaceField.setValue(nameSpace);
+    }
+
+    layer1Fields.add(nameSpaceText);
+    layer1Fields.add(inputNameSpaceField);
+
+    layer1.setBlockFields(layer1Fields);
+    blockLayers.add(layer1);
+    block.setBlockLayerModel(blockLayers);
+    return block;
+  }
+
   public static BlockModel getImplementationBlock(
       boolean allowDrag, boolean allowLibraryChange, String libraryValue) {
     BlockModel implementationBlock = new BlockModel();

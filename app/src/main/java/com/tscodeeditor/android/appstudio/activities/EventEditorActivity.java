@@ -116,6 +116,9 @@ public class EventEditorActivity extends BaseActivity {
       if (event.getName().equals("dependenciesBlock")) {
         binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleDepedencyBlocks());
       }
+      if (event.getName().equals("androidBlock")) {
+        binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleAndroidBlocks());
+      }
     }
   }
 
