@@ -109,6 +109,5 @@ dependencies {
     implementation("$editorGroupId:editor")
     implementation("$editorGroupId:language-textmate")
     implementation project(":block")
-    implementation project(":built-in")
 	implementation project(":editor")
 }
