@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="about_app">About App</string>
     <string name="about_team">About Team</string>
     <string name="add_new_event">Add new event</string>
     <string name="an_error_occured">An error occured</string>
     <string name="app_configration">App Configration</string>
     <string name="app_name">Android AppStudio</string>
     <string name="app_setup">App Setup</string>
+    <string name="by">by</string>
+    <string name="commitSha">Commit SHA</string>
     <string name="create_new_project">Create new project</string>
     <string name="discord">Discord</string>
     <string name="dismiss">Dismiss</string>
@@ -33,6 +36,7 @@
     <string name="storage_permission_required">Storage permission required</string>
     <string name="str_continue">Continue</string>
     <string name="target_sdk_version">Target SDK Version</string>
+    <string name="ts_code_editor">TS Code Editor</string>
     <string name="version_code">Version code</string>
     <string name="version_name">Version name</string>
     <string name="youtube">Youtube</string>

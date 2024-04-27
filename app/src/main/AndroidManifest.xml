@@ -60,5 +60,9 @@
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.EventEditorActivity"
             android:exported="true" />
+
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.AboutAppActivity"
+            android:exported="true" />
     </application>
 </manifest>

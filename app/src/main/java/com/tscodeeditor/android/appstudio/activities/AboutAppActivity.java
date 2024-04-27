@@ -29,31 +29,55 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio;
+package com.tscodeeditor.android.appstudio.activities;
 
-import android.app.Application;
-import android.content.Context;
-import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import com.tscodeeditor.android.appstudio.BuildConfig;
+import com.tscodeeditor.android.appstudio.MyApplication;
+import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.databinding.ActivityAboutAppBinding;
 
-public class MyApplication extends Application {
-  private static Context mApplicationContext;
+public class AboutAppActivity extends BaseActivity {
 
-  // Social links
-  public static final String YOUTUBE = "https://youtube.com/@tscodeeditor?feature=shared";
-  public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
-  public static final String INSTAGRAM =
-      "https://www.instagram.com/tscode_editor?igsh=MXBkOG1va2FwZzN6dw==";
-  public static final String GITHUB_APP = "https://github.com/TS-Code-Editor/AndroidAppStudio";
-  public static final String GITHUB_ORG = "https://github.com/TS-Code-Editor";
+  private ActivityAboutAppBinding binding;
 
-  public static Context getContext() {
-    return mApplicationContext;
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    binding = ActivityAboutAppBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+
+    binding.toolbar.setTitle(R.string.app_name);
+    setSupportActionBar(binding.toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+    binding.versionName.setText(BuildConfig.VERSION_NAME);
+    binding.commitSha.setText(BuildConfig.commitSha);
+
+    binding.appName.setOnClickListener(
+        v -> {
+          Intent appGithub = new Intent();
+          appGithub.setAction(Intent.ACTION_VIEW);
+          appGithub.setData(Uri.parse(MyApplication.GITHUB_APP));
+          startActivity(appGithub);
+        });
+
+    binding.orgName.setOnClickListener(
+        v -> {
+          Intent orgGithub = new Intent();
+          orgGithub.setAction(Intent.ACTION_VIEW);
+          orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
+          startActivity(orgGithub);
+        });
   }
 
   @Override
-  public void onCreate() {
-    mApplicationContext = getApplicationContext();
-    EnvironmentUtils.init(this);
-    super.onCreate();
+  protected void onDestroy() {
+    super.onDestroy();
+    binding = null;
   }
 }

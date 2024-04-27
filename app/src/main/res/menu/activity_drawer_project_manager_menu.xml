@@ -14,6 +14,11 @@
         android:title="@string/about_team"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/about_app"
+        android:icon="@drawable/ic_info"
+        android:title="@string/about_app"
+        app:showAsAction="ifRoom" />
+    <item
         android:title="@string/social_links">
         <menu>
             <item

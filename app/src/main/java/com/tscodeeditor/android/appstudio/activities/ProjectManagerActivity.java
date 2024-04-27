@@ -46,6 +46,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.ProjectListAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityProjectManagerBinding;
@@ -65,12 +66,6 @@ public class ProjectManagerActivity extends BaseActivity {
   public static final int NO_PROJECTS_YET_SECTION = 1;
   public static final int PROJECT_LIST_SECTION = 2;
   public static final int ERROR_SECTION = 3;
-
-  // Social links
-  public static final String YOUTUBE = "https://youtube.com/@tscodeeditor?feature=shared";
-  public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
-  public static final String INSTAGRAM =
-      "https://www.instagram.com/tscode_editor?igsh=MXBkOG1va2FwZzN6dw==";
 
   // Result launcher
   public ActivityResultLauncher<Intent> projectListUpdateActivityResultLauncher;
@@ -122,22 +117,27 @@ public class ProjectManagerActivity extends BaseActivity {
             licenseActivity.setClass(this, LicenseActivity.class);
             startActivity(licenseActivity);
           }
+          if (menuItem.getItemId() == R.id.about_app) {
+            Intent appInfo = new Intent();
+            appInfo.setClass(this, AboutAppActivity.class);
+            startActivity(appInfo);
+          }
           if (menuItem.getItemId() == R.id.instagram) {
             Intent instagram = new Intent();
             instagram.setAction(Intent.ACTION_VIEW);
-            instagram.setData(Uri.parse(INSTAGRAM));
+            instagram.setData(Uri.parse(MyApplication.INSTAGRAM));
             startActivity(instagram);
           }
           if (menuItem.getItemId() == R.id.youtube) {
             Intent youtube = new Intent();
             youtube.setAction(Intent.ACTION_VIEW);
-            youtube.setData(Uri.parse(YOUTUBE));
+            youtube.setData(Uri.parse(MyApplication.YOUTUBE));
             startActivity(youtube);
           }
           if (menuItem.getItemId() == R.id.discord) {
             Intent discord = new Intent();
             discord.setAction(Intent.ACTION_VIEW);
-            discord.setData(Uri.parse(DISCORD));
+            discord.setData(Uri.parse(MyApplication.DISCORD));
             startActivity(discord);
           }
           if (menuItem.getItemId() == R.id.about_team) {
