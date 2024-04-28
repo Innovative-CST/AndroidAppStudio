@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Event implements Serializable, Cloneable {
   public static final long serialVersionUID = 1L;
@@ -156,7 +157,7 @@ public class Event implements Serializable, Cloneable {
     this.enableRootBlocksSubBlockEditing = enableRootBlocksSubBlockEditing;
   }
 
-  public String getCode() {
+  public String getCode(HashMap<String, Object> variables) {
     StringBuilder generatedCode = new StringBuilder();
     if (getBlockModels() == null) {
       String returnEmptyEventCode = new String(getRawCode());
@@ -166,7 +167,7 @@ public class Event implements Serializable, Cloneable {
     }
     for (int blocksCount = 0; blocksCount < getBlockModels().size(); ++blocksCount) {
       if (blocksCount != 0) generatedCode.append("\n");
-      generatedCode.append(getBlockModels().get(blocksCount).getCode());
+      generatedCode.append(getBlockModels().get(blocksCount).getCode(variables));
     }
 
     String eventCode = new String(getRawCode());

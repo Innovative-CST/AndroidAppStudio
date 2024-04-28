@@ -56,6 +56,7 @@ import com.tscodeeditor.android.appstudio.block.view.BlockDragView;
 import com.tscodeeditor.android.appstudio.block.view.BlockPreview;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EventEditor extends RelativeLayout {
 
@@ -63,6 +64,7 @@ public class EventEditor extends RelativeLayout {
   public BlockDragView blockFloatingView;
   public BlockView draggingBlock;
   public BlockPreview blockPreview;
+  public HashMap<String, Object> variables;
 
   public boolean isDragging = false;
   private boolean isBlockPallateVisible = false;
@@ -120,7 +122,8 @@ public class EventEditor extends RelativeLayout {
     binding.blockArea.setVisibility(show ? View.VISIBLE : View.GONE);
   }
 
-  public void initEditor(Event event) {
+  public void initEditor(Event event, HashMap<String, Object> variables) {
+    setVariables(variables);
     binding.canva.initEditor(event, this);
   }
 
@@ -430,5 +433,13 @@ public class EventEditor extends RelativeLayout {
 
   public Event getEvent() {
     return binding.canva.getEvent();
+  }
+
+  public HashMap<String, Object> getVariables() {
+    return this.variables;
+  }
+
+  public void setVariables(HashMap<String, Object> variables) {
+    this.variables = variables;
   }
 }

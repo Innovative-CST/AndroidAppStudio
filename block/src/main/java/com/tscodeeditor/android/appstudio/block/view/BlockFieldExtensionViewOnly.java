@@ -29,60 +29,42 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.model;
+package com.tscodeeditor.android.appstudio.block.view;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+import com.tscodeeditor.android.appstudio.block.R;
+import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
+import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 import java.util.HashMap;
 
-public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Serializable {
-  public static final long serialVersionUID = 6L;
+public class BlockFieldExtensionViewOnly extends LinearLayout {
+  public BlockFieldExtensionViewOnly(
+      Context context,
+      BlockView blockView,
+      BlockValueFieldModel blockFieldModel,
+      EventEditor editor) {
+    super(context);
 
-  private ArrayList<BlockModel> blocks;
-  private String replacer;
+    Drawable drawable =
+        ContextCompat.getDrawable(getContext(), R.drawable.block_field_extension_view_only);
+    drawable.setTint(Color.parseColor("#ffffff"));
+    drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+    setBackground(drawable);
 
-  public ArrayList<BlockModel> getBlocks() {
-    return this.blocks;
-  }
+    TextView text = new TextView(context);
 
-  public void setBlocks(ArrayList<BlockModel> blocks) {
-    this.blocks = blocks;
-  }
+    HashMap<String, Object> variables = editor.getVariables();
 
-  public String getReplacer() {
-    return this.replacer;
-  }
-
-  public void setReplacer(String replacer) {
-    this.replacer = replacer;
-  }
-
-  public String getCode(HashMap<String, Object> variables) {
-    if (getBlocks() == null) return "";
-    StringBuilder code = new StringBuilder();
-    for (int blocksCount = 0; blocksCount < getBlocks().size(); ++blocksCount) {
-      if (blocksCount != 0) code.append("\n");
-      code.append(getBlocks().get(blocksCount).getCode(variables));
-    }
-    return code.toString();
-  }
-
-  @Override
-  public BlockHolderLayer clone() {
-    BlockHolderLayer clone = new BlockHolderLayer();
-
-    if (getBlocks() != null) {
-      ArrayList<BlockModel> cloneBlockHolderLayer = new ArrayList<BlockModel>();
-      for (int position = 0; position < cloneBlockHolderLayer.size(); ++position) {
-        cloneBlockHolderLayer.add(getBlocks().get(position).clone());
-      }
-      clone.setBlocks(cloneBlockHolderLayer);
-    } else {
-      clone.setBlocks(null);
-    }
-
-    clone.setReplacer(getReplacer() != null ? new String(getReplacer()) : null);
-
-    return clone;
+    text.setText(blockFieldModel.getCode(variables));
+    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+    text.setSingleLine(true);
+    addView(text);
   }
 }

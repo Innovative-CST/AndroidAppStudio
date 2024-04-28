@@ -31,19 +31,23 @@
 
 package com.tscodeeditor.android.appstudio.helper;
 
+import com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.EventUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FileModelCodeHelper {
   private File eventsDirectory;
   private FileModel fileModel;
+  private File projectRootDirectory;
 
   public File getEventsDirectory() {
     return this.eventsDirectory;
@@ -59,6 +63,14 @@ public class FileModelCodeHelper {
 
   public void setFileModel(FileModel fileModel) {
     this.fileModel = fileModel;
+  }
+
+  public File getProjectRootDirectory() {
+    return this.projectRootDirectory;
+  }
+
+  public void setProjectRootDirectory(File projectRootDirectory) {
+    this.projectRootDirectory = projectRootDirectory;
   }
 
   public String getCode() {
@@ -101,7 +113,24 @@ public class FileModelCodeHelper {
         }
       }
     }
+    HashMap<String, Object> variables = new HashMap<String, Object>();
 
-    return fileModel.getCode(builtInEvents, dirEvents);
+    File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
+    DeserializerUtils.deserialize(
+        projectConfig,
+        new DeserializerUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(Object deserializedObject) {
+            if (deserializedObject instanceof ProjectModel) {
+              variables.put("ProjectModel", (ProjectModel) deserializedObject);
+            }
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {}
+        });
+
+    return fileModel.getCode(builtInEvents, dirEvents, variables);
   }
 }

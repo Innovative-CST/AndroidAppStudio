@@ -211,6 +211,7 @@ public class EventsActivity extends BaseActivity {
         FileModelCodeHelper helper = new FileModelCodeHelper();
         helper.setFileModel(fileModel);
         helper.setEventsDirectory(eventsDir);
+        helper.setProjectRootDirectory(projectRootDirectory);
         SourceCodeViewerDialog sourceCodeDialog =
             new SourceCodeViewerDialog(this, fileModel, helper.getCode());
         sourceCodeDialog.create().show();

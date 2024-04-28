@@ -39,6 +39,7 @@ import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
+import com.tscodeeditor.android.appstudio.builtin.blockfield.PackageNameBlockField;
 import java.util.ArrayList;
 
 public class GradleDepedencyBlocks {
@@ -65,7 +66,7 @@ public class GradleDepedencyBlocks {
 
     ArrayList<Object> androidBlocksList = new ArrayList<Object>();
 
-    androidBlocksList.add(getNameSpaceBlock(true, true, "com.test"));
+    androidBlocksList.add(getNameSpaceBlock(true, null));
 
     holder.setList(androidBlocksList);
 
@@ -73,8 +74,7 @@ public class GradleDepedencyBlocks {
     return holders;
   }
 
-  public static BlockModel getNameSpaceBlock(
-      boolean allowDrag, boolean allowNameSpaceChange, String nameSpace) {
+  public static BlockModel getNameSpaceBlock(boolean allowDrag, String nameSpace) {
     BlockModel block = new BlockModel();
     block.setBlockType(BlockModel.Type.defaultBlock);
     block.setColor("#0061FE");
@@ -97,10 +97,8 @@ public class GradleDepedencyBlocks {
     BlockFieldModel nameSpaceText = new BlockFieldModel();
     nameSpaceText.setValue("namespace");
 
-    BlockValueFieldModel inputNameSpaceField = new BlockValueFieldModel();
-    inputNameSpaceField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+    PackageNameBlockField inputNameSpaceField = new PackageNameBlockField();
     inputNameSpaceField.setReplacer("namespace");
-    inputNameSpaceField.setEnableEdit(allowNameSpaceChange);
     if (nameSpace != null) {
       inputNameSpaceField.setValue(nameSpace);
     }

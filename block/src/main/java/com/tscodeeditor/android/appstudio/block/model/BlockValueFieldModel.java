@@ -32,6 +32,7 @@
 package com.tscodeeditor.android.appstudio.block.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class BlockValueFieldModel extends BlockFieldModel implements Serializable, Cloneable {
   public static final long serialVersionUID = 11L;
@@ -46,6 +47,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
   public final class FieldType {
     public static final int FIELD_TYPE_NOT_SET = 0;
     public static final int FIELD_INPUT_ONLY = 1;
+    public static final int FIELD_EXTENSION_VIEW_ONLY = 2;
   }
 
   public String[] getAcceptors() {
@@ -107,8 +109,8 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     }
   }
 
-  public String getCode() {
-    return getBlockModel() != null ? getBlockModel().getCode() : getValue();
+  public String getCode(HashMap<String, Object> variables) {
+    return getBlockModel() != null ? getBlockModel().getCode(variables) : getValue();
   }
 
   @Override

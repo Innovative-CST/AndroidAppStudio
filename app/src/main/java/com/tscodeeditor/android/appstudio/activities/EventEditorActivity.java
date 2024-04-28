@@ -36,31 +36,35 @@ import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
+import java.util.HashMap;
 
 public class EventEditorActivity extends BaseActivity {
   private ActivityEventEditorBinding binding;
 
+  private ProjectModel projectModel;
   /*
    * Contains the location of project directory.
-   * For example: /../../Project/100
+   * For example: /../../Projects/100
    */
   private File projectRootDirectory;
   /*
    * Contains the location of currently selected file model.
-   * For example: /../../Project/100/../abc/FileModel
+   * For example: /../../Projects/100/../abc/FileModel
    */
   private File fileModelDirectory;
   /*
    * Contains the location of event list path.
-   * For example: /../../Project/100/../../Events/Config
+   * For example: /../../Projects/100/../../Events/Config
    */
   private File eventListPath;
   /*
    * Contains the location of event file path.
-   * For example: /../../Project/100/../../Events/Config/ActivityBasics
+   * For example: /../../Projects/100/../../Events/Config/ActivityBasics
    */
   private File eventFile;
   /*
@@ -103,13 +107,34 @@ public class EventEditorActivity extends BaseActivity {
           @Override
           public void onFailed(int errorCode, Exception e) {}
         });
+    DeserializerUtils.deserialize(
+        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new DeserializerUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(Object deserializedObject) {
+            if (deserializedObject instanceof ProjectModel) {
+              projectModel = (ProjectModel) deserializedObject;
+            }
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {}
+        });
 
     if (event == null) {
       finish();
       return;
     }
     if (event.getEventTopBlock() != null) {
-      binding.eventEditor.initEditor(event);
+      HashMap<String, Object> variables = new HashMap<String, Object>();
+      if (projectModel != null) {
+        variables.put("ProjectModel", projectModel);
+      }
+      if (event != null) {
+        variables.put("Event", event);
+      }
+      binding.eventEditor.initEditor(event, variables);
     }
 
     if (event.getName() != null) {

@@ -29,60 +29,31 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.model;
+package com.tscodeeditor.android.appstudio.builtin.blockfield;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import java.util.HashMap;
 
-public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Serializable {
-  public static final long serialVersionUID = 6L;
-
-  private ArrayList<BlockModel> blocks;
-  private String replacer;
-
-  public ArrayList<BlockModel> getBlocks() {
-    return this.blocks;
-  }
-
-  public void setBlocks(ArrayList<BlockModel> blocks) {
-    this.blocks = blocks;
-  }
-
-  public String getReplacer() {
-    return this.replacer;
-  }
-
-  public void setReplacer(String replacer) {
-    this.replacer = replacer;
-  }
-
-  public String getCode(HashMap<String, Object> variables) {
-    if (getBlocks() == null) return "";
-    StringBuilder code = new StringBuilder();
-    for (int blocksCount = 0; blocksCount < getBlocks().size(); ++blocksCount) {
-      if (blocksCount != 0) code.append("\n");
-      code.append(getBlocks().get(blocksCount).getCode(variables));
-    }
-    return code.toString();
+public class PackageNameBlockField extends BlockValueFieldModel {
+  public PackageNameBlockField() {
+    setFieldType(BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY);
+    setEnableEdit(false);
   }
 
   @Override
-  public BlockHolderLayer clone() {
-    BlockHolderLayer clone = new BlockHolderLayer();
-
-    if (getBlocks() != null) {
-      ArrayList<BlockModel> cloneBlockHolderLayer = new ArrayList<BlockModel>();
-      for (int position = 0; position < cloneBlockHolderLayer.size(); ++position) {
-        cloneBlockHolderLayer.add(getBlocks().get(position).clone());
-      }
-      clone.setBlocks(cloneBlockHolderLayer);
-    } else {
-      clone.setBlocks(null);
+  public String getCode(HashMap<String, Object> variables) {
+    if (variables.containsKey("ProjectModel")) {
+      return ((ProjectModel) variables.get("ProjectModel")).getPackageName();
     }
 
-    clone.setReplacer(getReplacer() != null ? new String(getReplacer()) : null);
+    return "null";
+  }
 
+  @Override
+  public PackageNameBlockField clone() {
+    PackageNameBlockField clone = new PackageNameBlockField();
+    clone.setReplacer(getReplacer() != null ? getReplacer() : null);
     return clone;
   }
 }

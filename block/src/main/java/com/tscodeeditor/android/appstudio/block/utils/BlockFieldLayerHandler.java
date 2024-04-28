@@ -39,6 +39,7 @@ import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
+import com.tscodeeditor.android.appstudio.block.view.BlockFieldExtensionViewOnly;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldInputOnlyView;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldView;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
@@ -62,6 +63,12 @@ public class BlockFieldLayerHandler {
           BlockFieldInputOnlyView inputField =
               new BlockFieldInputOnlyView(context, blockValueFieldModel, blockView, editor);
           root.addView(inputField);
+        }
+        if (blockValueFieldModel.getFieldType()
+            == BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY) {
+          BlockFieldExtensionViewOnly extensionFieldViewOnly =
+              new BlockFieldExtensionViewOnly(context, blockView, blockValueFieldModel, editor);
+          root.addView(extensionFieldViewOnly);
         }
       } else if (content instanceof BlockFieldModel) {
         /*

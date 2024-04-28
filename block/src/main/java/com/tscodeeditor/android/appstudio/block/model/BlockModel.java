@@ -31,9 +31,11 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import android.widget.Toast;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BlockModel implements Serializable, Cloneable {
   public static final long serialVersionUID = 3L;
@@ -125,7 +127,7 @@ public class BlockModel implements Serializable, Cloneable {
     this.blockLayerModel = blockLayerModel;
   }
 
-  public String getCode() {
+  public String getCode(HashMap<String, Object> variables) {
     String generatedCode = new String(getRawCode());
 
     for (int layerCount = 0; layerCount < getBlockLayerModel().size(); ++layerCount) {
@@ -134,16 +136,16 @@ public class BlockModel implements Serializable, Cloneable {
         for (int blockFieldCount = 0;
             blockFieldCount < layer.getBlockFields().size();
             ++blockFieldCount) {
-          if (!(layer.getBlockFields().get(blockFieldCount) instanceof BlockValueFieldModel))
-            continue;
-
-          generatedCode =
-              generatedCode.replace(
-                  RawCodeReplacer.getReplacer(
-                      getReplacerKey(),
-                      ((BlockValueFieldModel) layer.getBlockFields().get(blockFieldCount))
-                          .getReplacer()),
-                  ((BlockValueFieldModel) layer.getBlockFields().get(blockFieldCount)).getValue());
+          if ((layer.getBlockFields().get(blockFieldCount) instanceof BlockValueFieldModel)) {
+            generatedCode =
+                generatedCode.replace(
+                    RawCodeReplacer.getReplacer(
+                        getReplacerKey(),
+                        ((BlockValueFieldModel) layer.getBlockFields().get(blockFieldCount))
+                            .getReplacer()),
+                    ((BlockValueFieldModel) layer.getBlockFields().get(blockFieldCount))
+                        .getCode(variables));
+          }
         }
       }
 
@@ -165,7 +167,7 @@ public class BlockModel implements Serializable, Cloneable {
 
         StringBuilder layerCode = new StringBuilder();
 
-        String[] layerCodeLines = layer.getCode().split("\n");
+        String[] layerCodeLines = layer.getCode(variables).split("\n");
         for (int layerCodeLinePosition = 0;
             layerCodeLinePosition < layerCodeLines.length;
             ++layerCodeLinePosition) {

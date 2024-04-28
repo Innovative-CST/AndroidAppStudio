@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.block.model;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FileModel implements Serializable, Cloneable {
   public static final long serialVersionUID = 2L;
@@ -120,7 +121,10 @@ public class FileModel implements Serializable, Cloneable {
     this.replacerKey = replacerKey;
   }
 
-  public String getCode(ArrayList<Object> builtInEvents, ArrayList<Object> events) {
+  public String getCode(
+      ArrayList<Object> builtInEvents,
+      ArrayList<Object> events,
+      HashMap<String, Object> variables) {
     String resultCode = new String(getRawCode());
 
     if (builtInEvents != null) {
@@ -130,7 +134,8 @@ public class FileModel implements Serializable, Cloneable {
           Event event = (Event) builtInEvents.get(eventCount);
           resultCode =
               resultCode.replace(
-                  RawCodeReplacer.getReplacer(getReplacerKey(), event.getName()), event.getCode());
+                  RawCodeReplacer.getReplacer(getReplacerKey(), event.getName()),
+                  event.getCode(variables));
         }
       }
     }
@@ -142,7 +147,7 @@ public class FileModel implements Serializable, Cloneable {
           resultCode =
               resultCode.replace(
                   RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getName()),
-                  event.getCode());
+                  event.getCode(variables));
         }
       }
     }
