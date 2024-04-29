@@ -1,9 +1,7 @@
 {
   "Contributors": [
     {
-      "Name": "DevKumar00001",
-      "Image": "https://github.com/DevKumar00001.png",
-      "Description": "Dev Kumar",
+      "id": 96680248,
       "Tag": "Core Developer",
       "Social": [
         {
@@ -19,9 +17,7 @@
       ]
     },
     {
-      "Name": "CyberGlitch01",
-      "Image": "https://github.com/CyberGlitch01.png",
-      "Description": "Rohan Trivedi",
+      "id": 131598486,
       "Social": [
         {
           "platformName": "GitHub",
@@ -31,9 +27,7 @@
       ]
     },
     {
-      "Name": "krishandroiddev",
-      "Image": "https://github.com/krishandroiddev.png",
-      "Description": "Krish Sharma",
+      "id": 139035650,
       "Social": [
         {
           "platformName": "GitHub",
@@ -43,9 +37,7 @@
       ]
     },
     {
-      "Name": "mohammad-samiullah",
-      "Image": "https://github.com/mohammad-samiullah.png",
-      "Description": "Mohammad Samiullah",
+      "id": 149061095,
       "Social": [
         {
           "platformName": "GitHub",

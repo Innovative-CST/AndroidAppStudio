@@ -35,75 +35,138 @@ import android.code.editor.utils.RequestNetwork;
 import android.code.editor.utils.RequestNetworkController;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.databinding.ActivityAboutTeamBinding;
 import com.tscodeeditor.android.appstudio.utils.TeamMemberDataParser;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AboutTeamActivity extends BaseActivity {
-  private LinearLayout main;
+  private ActivityAboutTeamBinding binding;
 
-  private LinearLayout loading;
+  public static final int SECTION_LOADING = 0;
+  public static final int SECTION_MEMBERS_LIST = 1;
+  public static final int SECTION_ERROR = 3;
 
-  private RecyclerView list;
-  public String contributorsData =
+  private String contributorsData;
+  private String contributorsAdditionalData;
+
+  private boolean isContributorsDataLoaded;
+  private boolean isContributorsAdditionalDataLoaded;
+
+  public static final String contributorsDataUrl =
+      "https://api.github.com/repos/TS-Code-Editor/AndroidAppStudio/contributors";
+  public String contributorsAdditionalDataUrl =
       "https://raw.githubusercontent.com/TS-Code-Editor/AndroidAppStudio/main/assets/contributors.json";
 
-  public RequestNetwork reqNetwork;
+  public RequestNetwork contributorsDataReqNetwork;
+  public RequestNetwork contributorsAdditionalDataReqNetwork;
 
-  public RequestNetwork.RequestListener reqListener;
-
-  public ArrayList<HashMap<String, Object>> contributorsList = new ArrayList<>();
+  public RequestNetwork.RequestListener contributorsDataReqListener;
+  public RequestNetwork.RequestListener contributorsAdditionalDataReqListener;
 
   @Override
   protected void onCreate(Bundle arg0) {
     super.onCreate(arg0);
-    setContentView(R.layout.activity_about_team);
-    initActivity();
-  }
 
-  public void initActivity() {
-    // Initialze views in layout
-    init();
-    main.setVisibility(View.GONE);
-    loading.setVisibility(View.VISIBLE);
+    binding = ActivityAboutTeamBinding.inflate(getLayoutInflater());
 
-    reqNetwork = new RequestNetwork(this);
+    setContentView(binding.getRoot());
 
-    reqListener =
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    binding.toolbar.setTitle(R.string.about_team);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+    binding.main.setVisibility(View.GONE);
+    binding.loading.setVisibility(View.VISIBLE);
+
+    contributorsDataReqNetwork = new RequestNetwork(this);
+    contributorsAdditionalDataReqNetwork = new RequestNetwork(this);
+
+    contributorsDataReqListener =
         new RequestNetwork.RequestListener() {
           @Override
           public void onResponse(
               String tag, String response, HashMap<String, Object> responseHeaders) {
-            loading.setVisibility(View.GONE);
-            main.setVisibility(View.VISIBLE);
-            list.setAdapter(
-                new AboutTeamMemberListAdapter(
-                    TeamMemberDataParser.getMembers(response), AboutTeamActivity.this));
-            list.setLayoutManager(new LinearLayoutManager(AboutTeamActivity.this));
+            isContributorsDataLoaded = true;
+            contributorsData = response;
+            mergeResponseIfLoaded();
           }
 
           @Override
-          public void onErrorResponse(String tag, String message) {}
+          public void onErrorResponse(String tag, String message) {
+            handleRequestFailed();
+          }
         };
 
-    reqNetwork.startRequestNetwork(
-        RequestNetworkController.GET, contributorsData, "Contributors", reqListener);
+    contributorsAdditionalDataReqListener =
+        new RequestNetwork.RequestListener() {
+          @Override
+          public void onResponse(
+              String tag, String response, HashMap<String, Object> responseHeaders) {
+            isContributorsAdditionalDataLoaded = true;
+            contributorsAdditionalData = response;
+            mergeResponseIfLoaded();
+          }
+
+          @Override
+          public void onErrorResponse(String tag, String message) {
+            handleRequestFailed();
+          }
+        };
+
+    fetchTeamData();
   }
 
-  public void init() {
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    toolbar.setTitle(R.string.about_team);
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    list = findViewById(R.id.list);
-    main = findViewById(R.id.main);
-    loading = findViewById(R.id.loading);
+  public void fetchTeamData() {
+    switchSection(SECTION_LOADING);
+    contributorsDataReqNetwork.startRequestNetwork(
+        RequestNetworkController.GET,
+        contributorsDataUrl,
+        "Contributors",
+        contributorsDataReqListener);
+
+    contributorsAdditionalDataReqNetwork.startRequestNetwork(
+        RequestNetworkController.GET,
+        contributorsAdditionalDataUrl,
+        "Contributors",
+        contributorsAdditionalDataReqListener);
+  }
+
+  private void mergeResponseIfLoaded() {
+    if (isContributorsDataLoaded && isContributorsAdditionalDataLoaded) {
+      binding.loading.setVisibility(View.GONE);
+      binding.main.setVisibility(View.VISIBLE);
+      binding.list.setAdapter(
+          new AboutTeamMemberListAdapter(
+              TeamMemberDataParser.getMembers(contributorsData, contributorsAdditionalData),
+              AboutTeamActivity.this));
+      binding.list.setLayoutManager(new LinearLayoutManager(AboutTeamActivity.this));
+    }
+  }
+
+  public void switchSection(int section) {
+    binding.loading.setVisibility(section == SECTION_LOADING ? View.VISIBLE : View.GONE);
+    binding.main.setVisibility(section == SECTION_MEMBERS_LIST ? View.VISIBLE : View.GONE);
+    binding.error.setVisibility(section == SECTION_ERROR ? View.VISIBLE : View.GONE);
+  }
+
+  public void setError(String error) {
+    switchSection(SECTION_ERROR);
+    binding.errorText.setText(error);
+  }
+
+  public void handleRequestFailed() {
+    setError("Failed to load team data");
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    binding = null;
   }
 }

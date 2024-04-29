@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.models;
 import java.util.ArrayList;
 
 public class TeamMember {
+  private long id;
   private String name;
   private String profilePhotoUrl;
   private String description;
@@ -78,5 +79,13 @@ public class TeamMember {
 
   public void setSocialProfiles(ArrayList<SocialProfile> socialProfiles) {
     this.socialProfiles = socialProfiles;
+  }
+
+  public long getId() {
+    return this.id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 }

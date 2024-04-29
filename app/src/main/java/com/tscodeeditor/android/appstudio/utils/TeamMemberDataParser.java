@@ -31,7 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.utils;
 
-import android.widget.Toast;
 import com.tscodeeditor.android.appstudio.models.SocialProfile;
 import com.tscodeeditor.android.appstudio.models.TeamMember;
 import java.util.ArrayList;
@@ -40,79 +39,104 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TeamMemberDataParser {
-  public static ArrayList<TeamMember> getMembers(String json) {
-    ArrayList<TeamMember> members = new ArrayList<TeamMember>();
+  public static ArrayList<TeamMember> getMembers(
+      String contributorsData, String contributorsAdditionalData) {
+    ArrayList<TeamMember> teamMembers = new ArrayList<TeamMember>();
 
     try {
-      JSONObject object = new JSONObject(json);
-      JSONArray contributors = object.getJSONArray("Contributors");
-
-      for (int memberCount = 0; memberCount < contributors.length(); ++memberCount) {
+      JSONArray members = new JSONArray(contributorsData);
+      for (int membersPosition = 0; membersPosition < members.length(); ++membersPosition) {
+        JSONObject memberData = members.getJSONObject(membersPosition);
         TeamMember member = new TeamMember();
-        if (!contributors.getJSONObject(memberCount).isNull("Name")) {
-          member.setName(contributors.getJSONObject(memberCount).getString("Name"));
-        }
-        if (!contributors.getJSONObject(memberCount).isNull("Description")) {
-          member.setDescription(contributors.getJSONObject(memberCount).getString("Description"));
-        }
-        if (!contributors.getJSONObject(memberCount).isNull("Image")) {
-          member.setProfilePhotoUrl(contributors.getJSONObject(memberCount).getString("Image"));
-        }
-        if (!contributors.getJSONObject(memberCount).isNull("Tag")) {
-          member.setTag(contributors.getJSONObject(memberCount).getString("Tag"));
-        }
-        if (!contributors.getJSONObject(memberCount).isNull("Social")) {
-          ArrayList<SocialProfile> profiles = new ArrayList<SocialProfile>();
+        member.setName(memberData.getString("login"));
+        member.setProfilePhotoUrl(memberData.getString("avatar_url"));
+        member.setDescription(memberData.getString("contributions").concat(" commits"));
+        member.setId(memberData.getLong("id"));
+        teamMembers.add(member);
+      }
 
-          for (int socialProfileCount = 0;
-              socialProfileCount
-                  < contributors.getJSONObject(memberCount).getJSONArray("Social").length();
-              ++socialProfileCount) {
-            SocialProfile profile = new SocialProfile();
-            if (!contributors
-                .getJSONObject(memberCount)
-                .getJSONArray("Social")
-                .getJSONObject(socialProfileCount)
-                .isNull("platformName")) {
-              profile.setPlatformName(
-                  contributors
+      /*
+       * Merge additional properties of Members
+       */
+      JSONObject additionalData = new JSONObject(contributorsAdditionalData);
+      JSONArray contributorsAdditionalObject = additionalData.getJSONArray("Contributors");
+      for (int memberCount = 0;
+          memberCount < contributorsAdditionalObject.length();
+          ++memberCount) {
+        if (!contributorsAdditionalObject.getJSONObject(memberCount).isNull("id")) {
+
+          long id = contributorsAdditionalObject.getJSONObject(memberCount).getLong("id");
+
+          for (int teamMembersCount = 0;
+              teamMembersCount < teamMembers.size();
+              ++teamMembersCount) {
+
+            TeamMember member = teamMembers.get(teamMembersCount);
+            if (member.getId() == id) {
+
+              if (!contributorsAdditionalObject.getJSONObject(memberCount).isNull("Tag")) {
+                member.setTag(
+                    contributorsAdditionalObject.getJSONObject(memberCount).getString("Tag"));
+              }
+
+              if (!contributorsAdditionalObject.getJSONObject(memberCount).isNull("Social")) {
+
+                ArrayList<SocialProfile> profiles = new ArrayList<SocialProfile>();
+
+                for (int socialProfileCount = 0;
+                    socialProfileCount
+                        < contributorsAdditionalObject
+                            .getJSONObject(memberCount)
+                            .getJSONArray("Social")
+                            .length();
+                    ++socialProfileCount) {
+                  SocialProfile profile = new SocialProfile();
+                  if (!contributorsAdditionalObject
                       .getJSONObject(memberCount)
                       .getJSONArray("Social")
                       .getJSONObject(socialProfileCount)
-                      .getString("platformName"));
-            }
-            if (!contributors
-                .getJSONObject(memberCount)
-                .getJSONArray("Social")
-                .getJSONObject(socialProfileCount)
-                .isNull("url")) {
-              profile.setUrl(
-                  contributors
+                      .isNull("platformName")) {
+                    profile.setPlatformName(
+                        contributorsAdditionalObject
+                            .getJSONObject(memberCount)
+                            .getJSONArray("Social")
+                            .getJSONObject(socialProfileCount)
+                            .getString("platformName"));
+                  }
+                  if (!contributorsAdditionalObject
                       .getJSONObject(memberCount)
                       .getJSONArray("Social")
                       .getJSONObject(socialProfileCount)
-                      .getString("url"));
-            }
-            if (!contributors
-                .getJSONObject(memberCount)
-                .getJSONArray("Social")
-                .getJSONObject(socialProfileCount)
-                .isNull("platformIconUrl")) {
-              profile.setPlatformIconUrl(
-                  contributors
+                      .isNull("url")) {
+                    profile.setUrl(
+                        contributorsAdditionalObject
+                            .getJSONObject(memberCount)
+                            .getJSONArray("Social")
+                            .getJSONObject(socialProfileCount)
+                            .getString("url"));
+                  }
+                  if (!contributorsAdditionalObject
                       .getJSONObject(memberCount)
                       .getJSONArray("Social")
                       .getJSONObject(socialProfileCount)
-                      .getString("platformIconUrl"));
+                      .isNull("platformIconUrl")) {
+                    profile.setPlatformIconUrl(
+                        contributorsAdditionalObject
+                            .getJSONObject(memberCount)
+                            .getJSONArray("Social")
+                            .getJSONObject(socialProfileCount)
+                            .getString("platformIconUrl"));
+                  }
+                  profiles.add(profile);
+                }
+                member.setSocialProfiles(profiles);
+              }
             }
-            profiles.add(profile);
           }
-          member.setSocialProfiles(profiles);
         }
-        members.add(member);
       }
     } catch (JSONException e) {
     }
-    return members;
+    return teamMembers;
   }
 }
