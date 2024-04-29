@@ -7,6 +7,11 @@
       "Tag": "Core Developer",
       "Social": [
         {
+          "platformName": "GitHub",
+          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
+          "url": "https://github.com/DevKumar00001"
+        },
+        {
           "platformName": "Instagram",
           "platformIconUrl": "https://dl.dropbox.com/scl/fi/f5e38v0fx7vydxwqf965h/Instagram.png?rlkey=1j2asxafyb3892mnfftukhxna&dl=0",
           "url": "https://www.instagram.com/dev7578_?igsh=ZnByaTl4MXdsYmMz"
@@ -16,17 +21,38 @@
     {
       "Name": "CyberGlitch01",
       "Image": "https://github.com/CyberGlitch01.png",
-      "Description": "Rohan Trivedi"
+      "Description": "Rohan Trivedi",
+      "Social": [
+        {
+          "platformName": "GitHub",
+          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
+          "url": "https://github.com/CyberGlitch01"
+        }
+      ]
     },
     {
       "Name": "krishandroiddev",
       "Image": "https://github.com/krishandroiddev.png",
-      "Description": "Krish Sharma"
+      "Description": "Krish Sharma",
+      "Social": [
+        {
+          "platformName": "GitHub",
+          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
+          "url": "https://github.com/krishandroiddev"
+        }
+      ]
     },
     {
       "Name": "mohammad-samiullah",
       "Image": "https://github.com/mohammad-samiullah.png",
-      "Description": "Mohammad Samiullah"
+      "Description": "Mohammad Samiullah",
+      "Social": [
+        {
+          "platformName": "GitHub",
+          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
+          "url": "https://github.com/krishandroiddev"
+        }
+      ]
     }
   ]
 }
