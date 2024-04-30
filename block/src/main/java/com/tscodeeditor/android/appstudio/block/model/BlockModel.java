@@ -32,6 +32,8 @@
 package com.tscodeeditor.android.appstudio.block.model;
 
 import android.widget.Toast;
+import com.tscodeeditor.android.appstudio.block.tag.BlockModelTag;
+import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class BlockModel implements Serializable, Cloneable {
   private String rawCode;
   private String replacerKey;
   private String[] returns;
-  private Object[] tags;
+  private BlockModelTag tags;
   private int blockType;
   private boolean isLastBlock;
   private boolean isFirstBlock;
@@ -83,11 +85,11 @@ public class BlockModel implements Serializable, Cloneable {
     this.returns = returns;
   }
 
-  public Object[] getTags() {
+  public BlockModelTag getTags() {
     return this.tags;
   }
 
-  public void setTags(Object[] tags) {
+  public void setTags(BlockModelTag tags) {
     this.tags = tags;
   }
 
@@ -197,28 +199,15 @@ public class BlockModel implements Serializable, Cloneable {
   @Override
   public BlockModel clone() {
     BlockModel block = new BlockModel();
-    block.setColor(new String(getColor() == null ? "" : getColor()));
-    block.setRawCode(new String(getRawCode() == null ? "" : getRawCode()));
-    block.setReplacerKey(new String(getReplacerKey() == null ? "" : getReplacerKey()));
+    block.setColor(getColor() == null ? null : new String(getColor()));
+    block.setRawCode(getRawCode() == null ? null : new String(getRawCode()));
+    block.setReplacerKey(getReplacerKey() == null ? null : new String(getReplacerKey()));
     block.setBlockType(new Integer(getBlockType()));
     block.setDragAllowed(new Boolean(isDragAllowed()));
     block.setFirstBlock(new Boolean(isFirstBlock()));
     block.setLastBlock(new Boolean(isLastBlock()));
-
-    if (getTags() != null) {
-      Object[] clonedTags = new Object[] {};
-      for (int position = 0; position < getTags().length; ++position) {
-        clonedTags[position] = getTags()[position] == null ? null : getTags()[position];
-      }
-    }
-
-    if (getReturns() != null) {
-      String[] clonedReturns = new String[] {};
-      for (int position = 0; position < getReturns().length; ++position) {
-        clonedReturns[position] =
-            new String(getReturns()[position] == null ? "" : getReturns()[position]);
-      }
-    }
+    block.setTags(getTags() == null ? null : getTags().clone());
+    block.setReturns(ArrayUtils.clone(getReturns()));
 
     if (getBlockLayerModel() != null) {
       ArrayList<BlockLayerModel> cloneBlockLayerModel = new ArrayList<BlockLayerModel>();
