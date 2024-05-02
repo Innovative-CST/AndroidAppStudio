@@ -41,7 +41,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
@@ -49,6 +48,7 @@ import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
+import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
 import com.tscodeeditor.android.appstudio.block.utils.LayerBuilder;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
@@ -270,8 +270,7 @@ public class BlockView extends LinearLayout {
     view.setBackground(drawable);
   }
 
-  public boolean drop(
-      float x, float y, BlockModel toDrop, LinearLayout.LayoutParams blockPreviewLayoutParams) {
+  public boolean drop(float x, float y, BlockModel toDrop) {
 
     for (int i = 0; i < droppables.size(); ++i) {
       if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
@@ -295,8 +294,7 @@ public class BlockView extends LinearLayout {
                       break;
                     }
                   }
-                  dropBlockView(
-                      index, x, y, droppables.get(i), tag, toDrop, blockPreviewLayoutParams);
+                  dropBlockView(index, x, y, droppables.get(i), tag, toDrop);
                   return true;
                 }
               }
@@ -315,13 +313,12 @@ public class BlockView extends LinearLayout {
       float y,
       ViewGroup target,
       BlockDroppableTag targetTag,
-      BlockModel blockModel,
-      LinearLayout.LayoutParams blockPreviewLayoutParams) {
+      BlockModel blockModel) {
     boolean isDropConsumed = false;
     if (target.getChildCount() > index) {
       if (target.getChildAt(index) instanceof BlockView) {
         BlockView blockView = (BlockView) target.getChildAt(index);
-        if (blockView.drop(x, y, blockModel, blockPreviewLayoutParams)) {
+        if (blockView.drop(x, y, blockModel)) {
           isDropConsumed = true;
         }
       }
@@ -331,7 +328,7 @@ public class BlockView extends LinearLayout {
       if (target.getChildCount() > (index - 1)) {
         if (target.getChildAt((index - 1)) instanceof BlockView) {
           BlockView blockView = (BlockView) target.getChildAt((index - 1));
-          if (blockView.drop(x, y, blockModel, blockPreviewLayoutParams)) {
+          if (blockView.drop(x, y, blockModel)) {
             isDropConsumed = true;
           }
         }
@@ -342,7 +339,7 @@ public class BlockView extends LinearLayout {
       if (target.getChildCount() > (index + 1)) {
         if (target.getChildAt((index + 1)) instanceof BlockView) {
           BlockView blockView = (BlockView) target.getChildAt((index + 1));
-          if (blockView.drop(x, y, blockModel, blockPreviewLayoutParams)) {
+          if (blockView.drop(x, y, blockModel)) {
             isDropConsumed = true;
           }
         }
@@ -355,7 +352,6 @@ public class BlockView extends LinearLayout {
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);
       block.setInsideEditor(true);
-      if (index != 0) block.setLayoutParams(blockPreviewLayoutParams);
       if (targetTag.getDropProperty(BlockHolderLayer.class).getBlocks() == null) {
         ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
         targetTag.getDropProperty(BlockHolderLayer.class).setBlocks(blocks);
@@ -388,8 +384,7 @@ public class BlockView extends LinearLayout {
     }
   }
 
-  public boolean preview(
-      float x, float y, BlockModel toDrop, LinearLayout.LayoutParams blockPreviewLayoutParams) {
+  public boolean preview(float x, float y, BlockModel toDrop) {
     for (int i = 0; i < droppables.size(); ++i) {
       if (toDrop.getBlockType() == BlockModel.Type.defaultBlock) {
         if (droppables.get(i).getTag() != null) {
@@ -415,7 +410,7 @@ public class BlockView extends LinearLayout {
                     }
                   }
 
-                  setBlockPreview(index, x, y, droppables.get(i), toDrop, blockPreviewLayoutParams);
+                  setBlockPreview(index, x, y, droppables.get(i), toDrop);
                   return true;
                 }
               }
@@ -428,17 +423,12 @@ public class BlockView extends LinearLayout {
   }
 
   public void setBlockPreview(
-      int index,
-      float x,
-      float y,
-      ViewGroup target,
-      BlockModel blockModel,
-      LinearLayout.LayoutParams blockPreviewLayoutParams) {
+      int index, float x, float y, ViewGroup target, BlockModel blockModel) {
     boolean isPreviewConsumed = false;
     if (target.getChildCount() > index) {
       if (target.getChildAt(index) instanceof BlockView) {
         BlockView blockView = (BlockView) target.getChildAt(index);
-        if (blockView.preview(x, y, blockModel, blockPreviewLayoutParams)) {
+        if (blockView.preview(x, y, blockModel)) {
           isPreviewConsumed = true;
         }
       }
@@ -448,7 +438,7 @@ public class BlockView extends LinearLayout {
       if (target.getChildCount() > (index - 1)) {
         if (target.getChildAt((index - 1)) instanceof BlockView) {
           BlockView blockView = (BlockView) target.getChildAt((index - 1));
-          if (blockView.preview(x, y, blockModel, blockPreviewLayoutParams)) {
+          if (blockView.preview(x, y, blockModel)) {
             isPreviewConsumed = true;
           }
         }
@@ -459,7 +449,7 @@ public class BlockView extends LinearLayout {
       if (target.getChildCount() > (index + 1)) {
         if (target.getChildAt((index + 1)) instanceof BlockView) {
           BlockView blockView = (BlockView) target.getChildAt((index + 1));
-          if (blockView.preview(x, y, blockModel, blockPreviewLayoutParams)) {
+          if (blockView.preview(x, y, blockModel)) {
             isPreviewConsumed = true;
           }
         }
@@ -467,12 +457,36 @@ public class BlockView extends LinearLayout {
     }
 
     if (!isPreviewConsumed) {
-      editor.blockPreview.setLayoutParams(
-          index != 0
-              ? blockPreviewLayoutParams
-              : new LinearLayout.LayoutParams(
-                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       target.addView(editor.blockPreview, index);
+    }
+  }
+
+  @Override
+  public void setVisibility(int arg) {
+    super.setVisibility(arg);
+    if (getParent() == null) return;
+    if (!(getParent() instanceof LinearLayout)) return;
+    LinearLayout parent = ((LinearLayout) getParent());
+    if (parent.indexOfChild(this) != 0) return;
+    if (parent.getTag() == null) return;
+    if (!(parent.getTag() instanceof BlockDroppableTag)) return;
+    BlockDroppableTag tag = ((BlockDroppableTag) parent.getTag());
+    if (tag.getBlockDroppableType() != BlockDroppableTag.DEFAULT_BLOCK_DROPPER) return;
+    if (parent.getChildAt(1) == null) return;
+    if (arg == View.GONE) {
+      parent
+          .getChildAt(1)
+          .setLayoutParams(
+              new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+    } else if (arg == View.VISIBLE) {
+      LinearLayout.LayoutParams blockParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+      blockParams.setMargins(
+          0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+      parent.getChildAt(1).setLayoutParams(blockParams);
     }
   }
 

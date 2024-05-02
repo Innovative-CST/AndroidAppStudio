@@ -37,15 +37,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.tscodeeditor.android.appstudio.block.databinding.EventEditorLayoutBinding;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
-import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
@@ -243,18 +240,11 @@ public class EventEditor extends RelativeLayout {
   }
 
   public void dropBlockView(int index, float x, float y) {
-    LinearLayout.LayoutParams blockParams =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-    blockParams.setMargins(
-        0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
-
     boolean isDropConsumed = false;
     if (binding.canva.attachedBlockLayout.getChildCount() > index) {
       if (binding.canva.attachedBlockLayout.getChildAt(index) instanceof BlockView) {
         BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index);
-        if (blockView.drop(x, y, draggingBlock.getBlockModel(), blockParams)) {
+        if (blockView.drop(x, y, draggingBlock.getBlockModel())) {
           isDropConsumed = true;
         }
       }
@@ -264,7 +254,7 @@ public class EventEditor extends RelativeLayout {
       if (binding.canva.attachedBlockLayout.getChildCount() > (index - 1)) {
         if (binding.canva.attachedBlockLayout.getChildAt(index - 1) instanceof BlockView) {
           BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index - 1);
-          if (blockView.drop(x, y, draggingBlock.getBlockModel(), blockParams)) {
+          if (blockView.drop(x, y, draggingBlock.getBlockModel())) {
             isDropConsumed = true;
           }
         }
@@ -275,7 +265,7 @@ public class EventEditor extends RelativeLayout {
       if (binding.canva.attachedBlockLayout.getChildCount() > (index + 1)) {
         if (binding.canva.attachedBlockLayout.getChildAt(index + 1) instanceof BlockView) {
           BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index + 1);
-          if (blockView.drop(x, y, draggingBlock.getBlockModel(), blockParams)) {
+          if (blockView.drop(x, y, draggingBlock.getBlockModel())) {
             isDropConsumed = true;
           }
         }
@@ -288,7 +278,6 @@ public class EventEditor extends RelativeLayout {
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);
       block.setInsideEditor(true);
-      if (index != 0) block.setLayoutParams(blockParams);
       if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
         if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
           BlockDroppableTag tag =
@@ -360,18 +349,11 @@ public class EventEditor extends RelativeLayout {
   }
 
   public void setBlockPreview(int index, float x, float y) {
-    LinearLayout.LayoutParams blockPreviewParams =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-    blockPreviewParams.setMargins(
-        0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
-
     boolean isPreviewConsumed = false;
     if (binding.canva.attachedBlockLayout.getChildCount() > index) {
       if (binding.canva.attachedBlockLayout.getChildAt(index) instanceof BlockView) {
         BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index);
-        if (blockView.preview(x, y, draggingBlock.getBlockModel(), blockPreviewParams)) {
+        if (blockView.preview(x, y, draggingBlock.getBlockModel())) {
           isPreviewConsumed = true;
         }
       }
@@ -381,7 +363,7 @@ public class EventEditor extends RelativeLayout {
       if (binding.canva.attachedBlockLayout.getChildCount() > (index - 1)) {
         if (binding.canva.attachedBlockLayout.getChildAt(index - 1) instanceof BlockView) {
           BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index - 1);
-          if (blockView.preview(x, y, draggingBlock.getBlockModel(), blockPreviewParams)) {
+          if (blockView.preview(x, y, draggingBlock.getBlockModel())) {
             isPreviewConsumed = true;
           }
         }
@@ -392,7 +374,7 @@ public class EventEditor extends RelativeLayout {
       if (binding.canva.attachedBlockLayout.getChildCount() > (index + 1)) {
         if (binding.canva.attachedBlockLayout.getChildAt(index + 1) instanceof BlockView) {
           BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index + 1);
-          if (blockView.preview(x, y, draggingBlock.getBlockModel(), blockPreviewParams)) {
+          if (blockView.preview(x, y, draggingBlock.getBlockModel())) {
             isPreviewConsumed = true;
           }
         }
@@ -401,7 +383,6 @@ public class EventEditor extends RelativeLayout {
 
     if (!isPreviewConsumed) {
       binding.canva.attachedBlockLayout.addView(blockPreview, index);
-      blockPreview.setLayoutParams(blockPreviewParams);
     }
   }
 

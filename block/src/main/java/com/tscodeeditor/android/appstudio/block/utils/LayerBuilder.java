@@ -96,7 +96,78 @@ public class LayerBuilder {
 
     layerLayout.addView(layerLayoutTop);
 
-    LinearLayout jointLayout = new LinearLayout(layerLayout.getContext());
+    LinearLayout jointLayout =
+        new LinearLayout(layerLayout.getContext()) {
+
+          @Override
+          public void removeView(View view) {
+            if (this.indexOfChild(view) == 0) {
+              if (super.getChildAt(1) != null) {
+                LinearLayout.LayoutParams blockParams =
+                    new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                super.getChildAt(1).setLayoutParams(blockParams);
+              }
+            }
+            super.removeView(view);
+          }
+
+          @Override
+          public void addView(View view) {
+            super.addView(view);
+            if (super.getChildCount() > 1) {
+              LinearLayout.LayoutParams blockParams =
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT);
+
+              blockParams.setMargins(
+                  0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+              view.setLayoutParams(blockParams);
+            } else {
+              view.setLayoutParams(
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT));
+            }
+          }
+
+          @Override
+          public void addView(View view, int index) {
+            super.addView(view, index);
+            if (index != 0) {
+              LinearLayout.LayoutParams blockParams =
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT);
+
+              blockParams.setMargins(
+                  0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+              view.setLayoutParams(blockParams);
+            } else {
+              view.setLayoutParams(
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT));
+
+              if (super.getChildCount() > 1) {
+                LinearLayout.LayoutParams blockParams =
+                    new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                blockParams.setMargins(
+                    0,
+                    UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin),
+                    0,
+                    0);
+                super.getChildAt(1).setLayoutParams(blockParams);
+              }
+            }
+          }
+        };
     jointLayout.setOrientation(LinearLayout.VERTICAL);
 
     BlockDroppableTag tag = new BlockDroppableTag();
@@ -179,15 +250,6 @@ public class LayerBuilder {
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);
       block.setInsideEditor(true);
-
-      LinearLayout.LayoutParams blockParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-      if (blockPosition != 0) {
-        block.setLayoutParams(blockParams);
-      }
-
       jointLayout.addView(block);
     }
   }

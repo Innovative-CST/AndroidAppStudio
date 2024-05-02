@@ -129,7 +129,78 @@ public class EditorCanva extends EditorScrollView {
 
   public void initEditor(Event event, EventEditor editor) {
     this.event = event;
-    attachedBlockLayout = new LinearLayout(getContext());
+    attachedBlockLayout =
+        new LinearLayout(getContext()) {
+
+          @Override
+          public void removeView(View view) {
+            if (this.indexOfChild(view) == 0) {
+              if (super.getChildAt(1) != null) {
+                LinearLayout.LayoutParams blockParams =
+                    new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                super.getChildAt(1).setLayoutParams(blockParams);
+              }
+            }
+            super.removeView(view);
+          }
+
+          @Override
+          public void addView(View view) {
+            super.addView(view);
+            if (super.getChildCount() > 1) {
+              LinearLayout.LayoutParams blockParams =
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT);
+
+              blockParams.setMargins(
+                  0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+              view.setLayoutParams(blockParams);
+            } else {
+              view.setLayoutParams(
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT));
+            }
+          }
+
+          @Override
+          public void addView(View view, int index) {
+            super.addView(view, index);
+            if (index != 0) {
+              LinearLayout.LayoutParams blockParams =
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT);
+
+              blockParams.setMargins(
+                  0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+              view.setLayoutParams(blockParams);
+            } else {
+              view.setLayoutParams(
+                  new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.WRAP_CONTENT,
+                      LinearLayout.LayoutParams.WRAP_CONTENT));
+
+              if (super.getChildCount() > 1) {
+                LinearLayout.LayoutParams blockParams =
+                    new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                blockParams.setMargins(
+                    0,
+                    UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin),
+                    0,
+                    0);
+                super.getChildAt(1).setLayoutParams(blockParams);
+              }
+            }
+          }
+        };
     attachedBlockLayout.setLayoutParams(
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
