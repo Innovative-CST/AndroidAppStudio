@@ -29,25 +29,47 @@
  * Copyright © 2024 Dev Kumar
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
+plugins {
+    id 'com.android.library'
 }
 
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
+android {
+    namespace 'com.tscodeeditor.android.appstudio.vieweditor'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        vectorDrawables { 
+            useSupportLibrary true
+        }
     }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+    
 }
 
-rootProject.name = "Android AppStudio"
-
-include(":app")
-include(":block")
-include(":editor")
-include(":vieweditor")
+dependencies {
+    implementation("com.google.android.material:material:1.12.0-alpha03")
+    def editorGroupId = "io.github.Rosemoe.sora-editor"
+    implementation platform("$editorGroupId:bom:0.22.0")
+    implementation("$editorGroupId:editor")
+    implementation("$editorGroupId:language-textmate")
+    implementation project(":editor")
+}
