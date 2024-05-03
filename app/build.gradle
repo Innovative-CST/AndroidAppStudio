@@ -71,6 +71,7 @@ android {
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         buildConfigField "String", "commitSha", getCommitSha()
         buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
+		buildConfigField "java.io.File", "STORAGE", "new java.io.File(\"" + properties.getProperty("STORAGE", "NOT_PROVIDED") + "\")"
 
         vectorDrawables { 
             useSupportLibrary true

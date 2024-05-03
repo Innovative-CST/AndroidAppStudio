@@ -39,6 +39,7 @@ import com.tscodeeditor.android.appstudio.BuildConfig;
 import java.io.File;
 
 public final class EnvironmentUtils {
+  public static File STORAGE;
   public static File IDEDIR;
   public static File PROJECTS;
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
@@ -51,10 +52,19 @@ public final class EnvironmentUtils {
   private static final String PROJECT_DATA_DIR = "data";
 
   public static void init(Context context) {
-    IDEDIR =
-        BuildConfig.isDeveloperMode
-            ? new File(Environment.getExternalStorageDirectory(), ".AndroidAppBuilder")
-            : new File(getDataDir(context), "files" + File.separator + "home");
+    String IDEDIRECTORY;
+    if (BuildConfig.isDeveloperMode) {
+      STORAGE =
+          BuildConfig.STORAGE.getAbsolutePath().equals("NOT_PROVIDED")
+              ? Environment.getExternalStorageDirectory()
+              : BuildConfig.STORAGE;
+      IDEDIRECTORY = ".AndroidAppBuilder";
+    } else {
+      STORAGE = new File(getDataDir(context), "files");
+      IDEDIRECTORY = "home";
+    }
+
+    IDEDIR = new File(STORAGE, IDEDIRECTORY);
     PROJECTS = new File(IDEDIR, "Projects");
   }
 
