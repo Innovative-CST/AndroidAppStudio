@@ -34,19 +34,19 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import android.view.View;
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.databinding.ActivityResourceEditorBinding;
+import com.tscodeeditor.android.appstudio.databinding.ActivityResourceManagerBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import java.io.File;
 
-public class ResourceEditorActivity extends BaseActivity {
+public class ResourceManagerActivity extends BaseActivity {
   // SECTION Constants
   public static final int RESOURCES_SECTION = 0;
   public static final int NO_RESOURCE_SECTION = 1;
   public static final int LOADING_SECTION = 2;
 
-  private ActivityResourceEditorBinding binding;
+  private ActivityResourceManagerBinding binding;
 
   /*
    * Contains the location of project directory.
@@ -64,7 +64,7 @@ public class ResourceEditorActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    binding = ActivityResourceEditorBinding.inflate(getLayoutInflater());
+    binding = ActivityResourceManagerBinding.inflate(getLayoutInflater());
 
     setContentView(binding.getRoot());
 
