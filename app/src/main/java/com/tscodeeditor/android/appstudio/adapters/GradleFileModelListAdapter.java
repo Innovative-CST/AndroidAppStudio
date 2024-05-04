@@ -159,7 +159,7 @@ public class GradleFileModelListAdapter
             resourceEditor.putExtra(
                 "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
             if (getResourceDirectory() != null) {
-              resourceEditor.putExtra("currentDir", getResourceDirectory().getAbsolutePath());
+              resourceEditor.putExtra("resourceDir", getResourceDirectory().getAbsolutePath());
             }
             modulesActivity.startActivity(resourceEditor);
           });
