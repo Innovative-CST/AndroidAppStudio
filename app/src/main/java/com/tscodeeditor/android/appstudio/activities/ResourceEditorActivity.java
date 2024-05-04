@@ -32,24 +32,78 @@
 package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivityResourceEditorBinding;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
+import java.io.File;
 
 public class ResourceEditorActivity extends BaseActivity {
+  // SECTION Constants
+  public static final int RESOURCES_SECTION = 0;
+  public static final int NO_RESOURCE_SECTION = 1;
+  public static final int LOADING_SECTION = 2;
+
   private ActivityResourceEditorBinding binding;
+
+  /*
+   * Contains the location of project directory.
+   * For example: /../../Project/100
+   */
+  private File projectRootDirectory;
+
+  /*
+   * Contains the location of project directory.
+   * For example: /../../Project/100/../src/main/res
+   */
+  private File resourceDirectory;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-	
+
     binding = ActivityResourceEditorBinding.inflate(getLayoutInflater());
-	
-	setContentView(binding.getRoot());
-	
-	binding.toolbar.setTitle(R.string.app_name);
+
+    setContentView(binding.getRoot());
+
+    binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
+
+    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+
+    switchSection(LOADING_SECTION);
+
+    ProjectModelSerializationUtils.deserialize(
+        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new ProjectModelSerializationUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(ProjectModel object) {
+            if (getIntent().hasExtra("resourceDir")) {
+              resourceDirectory = new File(getIntent().getStringExtra("resourceDir"));
+              switchSection(RESOURCES_SECTION);
+            } else {
+              switchSection(NO_RESOURCE_SECTION);
+            }
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {
+            switchSection(NO_RESOURCE_SECTION);
+          }
+        });
+  }
+
+  public void switchSection(int section) {
+    binding.resourceView.setVisibility(section == RESOURCES_SECTION ? View.VISIBLE : View.GONE);
+    binding.noResourceSection.setVisibility(
+        section == NO_RESOURCE_SECTION ? View.VISIBLE : View.GONE);
+    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
   }
 
   @Override

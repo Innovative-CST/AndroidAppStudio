@@ -17,10 +17,12 @@
     <string name="failed_to_deserialize_file_model">Failed to deserialize FileModel.</string>
     <string name="generste_code">Generate code</string>
     <string name="instagram">Instagram</string>
+    <string name="loading">Loading</string>
     <string name="minimum_sdk_version">Minimum SDK version</string>
     <string name="next">Next</string>
     <string name="no_events_name">No events yet.</string>
     <string name="no_projects_yet">No projects yet.</string>
+    <string name="no_resource_yet">No resource yet.</string>
     <string name="no_thanks">No thanks</string>
     <string name="package_name">Package name</string>
     <string name="please_wait">Please wait...</string>

@@ -5,30 +5,74 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
-        android:fitsSystemWindows="true"
-        android:id="@+id/appbar">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_height="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:id="@+id/toolbar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/nested_scroll_view">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+            android:fitsSystemWindows="true"
+            android:id="@+id/appbar">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:id="@+id/toolbar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_height="match_parent"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:id="@+id/resourceView">
 
-    </androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/no_resource_section">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/no_resource_yet" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/loading">
+
+            <ProgressBar
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:indeterminate="true"
+                android:id="@+id/progressbar" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/loading" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
