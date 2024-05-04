@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventsActivity;
 import com.tscodeeditor.android.appstudio.activities.ModulesActivity;
+import com.tscodeeditor.android.appstudio.activities.ResourceEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
 import com.tscodeeditor.android.appstudio.databinding.LayoutProjectEditorNavigationBinding;
@@ -88,7 +89,7 @@ public class GradleFileModelListAdapter
 
   @Override
   public void onBindViewHolder(ViewHolder holder, final int pos) {
-    if (getExtraItemCount() == 0 || (getExtraItemCount() == 1 && pos == 1)) {
+    if (getItemViewType(pos) == 0) {
       final int position = pos - getExtraItemCount();
       AdapterFileModelListItemBinding binding =
           AdapterFileModelListItemBinding.bind(holder.itemView);
@@ -151,7 +152,13 @@ public class GradleFileModelListAdapter
       LayoutProjectEditorNavigationBinding binding =
           LayoutProjectEditorNavigationBinding.bind(holder.itemView);
       binding.programEditor.setOnClickListener(v -> {});
-      binding.resourceEditor.setOnClickListener(v -> {});
+      binding.resourceEditor.setOnClickListener(
+          v -> {
+            Intent resourceEditor = new Intent(modulesActivity, ResourceEditorActivity.class);
+            resourceEditor.putExtra(
+                "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
+            modulesActivity.startActivity(resourceEditor);
+          });
     }
   }
 
