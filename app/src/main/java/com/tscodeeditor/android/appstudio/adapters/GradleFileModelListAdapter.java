@@ -44,6 +44,7 @@ import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
 import com.tscodeeditor.android.appstudio.databinding.LayoutProjectEditorNavigationBinding;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -157,9 +158,72 @@ public class GradleFileModelListAdapter
             Intent resourceEditor = new Intent(modulesActivity, ResourceEditorActivity.class);
             resourceEditor.putExtra(
                 "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
+            if (getResourceDirectory() != null) {
+              resourceEditor.putExtra("currentDir", getResourceDirectory().getAbsolutePath());
+            }
             modulesActivity.startActivity(resourceEditor);
           });
     }
+  }
+
+  private File getResourceDirectory() {
+    if (!modulesActivity.isInsideModule) return null;
+    File SRC_DIRECTORY = new File(modulesActivity.currentDir, EnvironmentUtils.SOURCE_DIR);
+    if (!SRC_DIRECTORY.exists()) return null;
+
+    File SRC_DIRECTORY_FILEMODEL_FILE = new File(SRC_DIRECTORY, EnvironmentUtils.FILE_MODEL);
+
+    FileModel srcFileModel =
+        DeserializerUtils.deserialize(SRC_DIRECTORY_FILEMODEL_FILE, FileModel.class);
+
+    if (srcFileModel == null) return null;
+
+    if (!(srcFileModel.isFolder() && srcFileModel.getName().equals(EnvironmentUtils.SOURCE_DIR)))
+      return null;
+
+    File MAIN_DIRECTORY =
+        new File(new File(SRC_DIRECTORY, EnvironmentUtils.FILES), EnvironmentUtils.MAIN_DIR);
+    if (!MAIN_DIRECTORY.exists()) return null;
+
+    File MAIN_DIRECTORY_FILEMODEL_FILE = new File(MAIN_DIRECTORY, EnvironmentUtils.FILE_MODEL);
+
+    FileModel mainFileModel =
+        DeserializerUtils.deserialize(MAIN_DIRECTORY_FILEMODEL_FILE, FileModel.class);
+
+    if (mainFileModel == null) return null;
+
+    if (!(mainFileModel.isFolder() && mainFileModel.getName().equals(EnvironmentUtils.MAIN_DIR)))
+      return null;
+
+    File JAVA_DIRECTORY =
+        new File(new File(MAIN_DIRECTORY, EnvironmentUtils.FILES), EnvironmentUtils.JAVA_DIR);
+    if (!JAVA_DIRECTORY.exists()) return null;
+
+    File JAVA_DIRECTORY_FILEMODEL_FILE = new File(JAVA_DIRECTORY, EnvironmentUtils.FILE_MODEL);
+
+    FileModel javaFileModel =
+        DeserializerUtils.deserialize(JAVA_DIRECTORY_FILEMODEL_FILE, FileModel.class);
+
+    if (javaFileModel == null) return null;
+
+    if (!(javaFileModel.isFolder() && javaFileModel.getName().equals(EnvironmentUtils.JAVA_DIR)))
+      return null;
+
+    File RES_DIRECTORY =
+        new File(new File(JAVA_DIRECTORY, EnvironmentUtils.FILES), EnvironmentUtils.RES_DIR);
+    if (!RES_DIRECTORY.exists()) return null;
+
+    File RES_DIRECTORY_FILEMODEL_FILE = new File(RES_DIRECTORY, EnvironmentUtils.FILE_MODEL);
+
+    FileModel resFileModel =
+        DeserializerUtils.deserialize(RES_DIRECTORY_FILEMODEL_FILE, FileModel.class);
+
+    if (resFileModel == null) return null;
+
+    if (!(resFileModel.isFolder() && resFileModel.getName().equals(EnvironmentUtils.RES_DIR)))
+      return null;
+
+    return new File(RES_DIRECTORY, EnvironmentUtils.FILES);
   }
 
   @Override

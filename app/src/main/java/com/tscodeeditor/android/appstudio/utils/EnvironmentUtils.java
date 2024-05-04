@@ -47,6 +47,10 @@ public final class EnvironmentUtils {
   public static final String FILES = "files";
   public static final String EVENTS_DIR = "Events";
   public static final String EVENTS_HOLDER = "EventsHolder";
+  public static final String SOURCE_DIR = "src";
+  public static final String MAIN_DIR = "main";
+  public static final String JAVA_DIR = "java";
+  public static final String RES_DIR = "res";
   public static final String GRADLE_FILE = "build.gradle";
   public static final String APP_GRADLE_CONFIG_EVENT_HOLDER = "Config";
   private static final String PROJECT_DATA_DIR = "data";
