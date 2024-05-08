@@ -43,7 +43,7 @@ import java.io.File;
 public class ResourceManagerActivity extends BaseActivity {
   // SECTION Constants
   public static final int RESOURCES_SECTION = 0;
-  public static final int NO_RESOURCE_SECTION = 1;
+  public static final int INFO_SECTION = 1;
   public static final int LOADING_SECTION = 2;
 
   private ActivityResourceManagerBinding binding;
@@ -87,22 +87,26 @@ public class ResourceManagerActivity extends BaseActivity {
               resourceDirectory = new File(getIntent().getStringExtra("resourceDir"));
               switchSection(RESOURCES_SECTION);
             } else {
-              switchSection(NO_RESOURCE_SECTION);
+              setError(getString(R.string.no_resource_yet));
             }
           }
 
           @Override
           public void onFailed(int errorCode, Exception e) {
-            switchSection(NO_RESOURCE_SECTION);
+            setError(e.getMessage());
           }
         });
   }
 
   public void switchSection(int section) {
     binding.resourceView.setVisibility(section == RESOURCES_SECTION ? View.VISIBLE : View.GONE);
-    binding.noResourceSection.setVisibility(
-        section == NO_RESOURCE_SECTION ? View.VISIBLE : View.GONE);
+    binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
     binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+  }
+
+  public void setError(String error) {
+    switchSection(INFO_SECTION);
+    binding.infoText.setText(error);
   }
 
   @Override

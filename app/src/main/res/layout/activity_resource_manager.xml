@@ -42,12 +42,12 @@
             android:layout_width="match_parent"
             android:visibility="gone"
             android:gravity="center"
-            android:id="@+id/no_resource_section">
+            android:id="@+id/info_section">
 
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="@string/no_resource_yet" />
+                android:id="@+id/info_text" />
 
         </LinearLayout>
 
