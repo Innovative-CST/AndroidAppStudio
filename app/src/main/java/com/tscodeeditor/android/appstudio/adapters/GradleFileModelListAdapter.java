@@ -167,7 +167,6 @@ public class GradleFileModelListAdapter
   }
 
   private File getResourceDirectory() {
-    if (!modulesActivity.isInsideModule) return null;
     File SRC_DIRECTORY = new File(modulesActivity.currentDir, EnvironmentUtils.SOURCE_DIR);
     if (!SRC_DIRECTORY.exists()) return null;
 
@@ -210,7 +209,7 @@ public class GradleFileModelListAdapter
       return null;
 
     File RES_DIRECTORY =
-        new File(new File(JAVA_DIRECTORY, EnvironmentUtils.FILES), EnvironmentUtils.RES_DIR);
+        new File(new File(MAIN_DIRECTORY, EnvironmentUtils.FILES), EnvironmentUtils.RES_DIR);
     if (!RES_DIRECTORY.exists()) return null;
 
     File RES_DIRECTORY_FILEMODEL_FILE = new File(RES_DIRECTORY, EnvironmentUtils.FILE_MODEL);
