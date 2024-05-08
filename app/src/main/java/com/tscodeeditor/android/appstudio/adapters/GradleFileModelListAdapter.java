@@ -57,6 +57,12 @@ public class GradleFileModelListAdapter
       ArrayList<FileModel> fileList, ModulesActivity modulesActivity) {
     this.fileList = fileList;
     this.modulesActivity = modulesActivity;
+    for (int i = 0; i < fileList.size(); ++i) {
+      FileModel file = fileList.get(i);
+      if (file.getName().equals(EnvironmentUtils.SOURCE_DIR) && file.isFolder()) {
+        fileList.remove(i);
+      }
+    }
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
