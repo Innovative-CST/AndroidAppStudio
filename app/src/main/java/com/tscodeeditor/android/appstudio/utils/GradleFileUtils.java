@@ -137,6 +137,13 @@ public class GradleFileUtils {
     if (!configEventsDir.exists()) configEventsDir.mkdirs();
 
     EventUtils.installEvents(buildGradleFile.getDefaultBuiltInEvents(), configEventsDir);
+
+    File mainFileDir =
+        FileModelUtils.generateFoldersIfNotExists(
+            new String[] {"src", "main"}, moduleFolderFilesDir);
+
+    FileModelUtils.generateFoldersIfNotExists(new String[] {"java"}, mainFileDir);
+    FileModelUtils.generateFoldersIfNotExists(new String[] {"res"}, mainFileDir);
   }
 
   public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {

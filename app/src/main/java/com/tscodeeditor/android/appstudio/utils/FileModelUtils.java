@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -67,5 +68,40 @@ public class FileModelUtils {
           });
     }
     return fileList;
+  }
+
+  public static File generateFoldersIfNotExists(String[] foldersQuery, File path) {
+    if (!path.exists()) path.mkdirs();
+    File destination = path;
+
+    for (int i = 0; i < foldersQuery.length; ++i) {
+
+      File folderDir = new File(destination, foldersQuery[i]);
+      File fileModelPath = new File(folderDir, EnvironmentUtils.FILE_MODEL);
+      File folderFileDir = new File(folderDir, EnvironmentUtils.FILES);
+
+      if (!folderDir.exists()) folderDir.mkdirs();
+      if (!folderFileDir.exists()) folderFileDir.mkdirs();
+
+      FileModel folder = getFolderModel(foldersQuery[i]);
+
+      if (!fileModelPath.exists()) {
+        SerializerUtil.serialize(
+            folder,
+            fileModelPath,
+            new SerializerUtil.SerializerCompletionListener() {
+
+              @Override
+              public void onSerializeComplete() {}
+
+              @Override
+              public void onFailedToSerialize(Exception exception) {}
+            });
+      }
+
+      destination = folderFileDir;
+    }
+
+    return destination;
   }
 }
