@@ -273,7 +273,7 @@ public class EventEditor extends RelativeLayout {
     }
 
     if (!isDropConsumed) {
-      BlockView block = new BlockView(this, getContext(), draggingBlock.getBlockModel());
+      BlockView block = new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
 
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);
