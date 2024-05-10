@@ -37,8 +37,13 @@ import com.tscodeeditor.android.appstudio.block.model.FileModel;
 public class IconUtils {
   public static int getResourceManagerFileModelIcon(FileModel file) {
     switch (file.getName()) {
-      case "drawable":
+      case "drawable", "drawable-hdpi", "drawable-xhdpi", "drawable-xxhdpi", "drawable-xxxhdpi":
         return R.drawable.ic_imageview;
+      case "layout", "layout-land":
+        return R.drawable.ic_layout;
+      case "menu":
+        return R.drawable.ic_menu;
+      //case "mipmap", "mipmap-hdpi", "mipmap-xhdpi", "mipmap-xxhdpi", "mipmap-xxxhdpi":
     }
     return 0;
   }
