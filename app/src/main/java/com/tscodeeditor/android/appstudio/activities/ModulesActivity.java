@@ -55,6 +55,7 @@ public class ModulesActivity extends BaseActivity {
 
   public File projectRootDirectory;
   public File currentDir;
+  public File outputDir;
 
   public static final int LOADING_SECTION = 0;
   public static final int GRADLE_FILE_LIST_SECTION = 1;
@@ -77,6 +78,11 @@ public class ModulesActivity extends BaseActivity {
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
     currentDir = new File(getIntent().getStringExtra("currentDir"));
     isInsideModule = getIntent().getBooleanExtra("isInsideModule", false);
+    if (getIntent().hasExtra("outputPath")) {
+      outputDir = new File(getIntent().getStringExtra("outputPath"));
+    } else {
+      outputDir = EnvironmentUtils.getBuildDir(projectRootDirectory);
+    }
 
     switchSection(LOADING_SECTION);
 
@@ -136,9 +142,7 @@ public class ModulesActivity extends BaseActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem menuItem) {
     if (menuItem.getItemId() == R.id.run) {
-      ProjectBuilderDialog buildDialog =
-          new ProjectBuilderDialog(
-              this, EnvironmentUtils.getBuildDir(projectRootDirectory), currentDir);
+      ProjectBuilderDialog buildDialog = new ProjectBuilderDialog(this, outputDir, currentDir);
       buildDialog.create().show();
     }
     return super.onOptionsItemSelected(menuItem);

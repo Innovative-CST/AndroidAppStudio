@@ -131,6 +131,10 @@ public class GradleFileModelListAdapter
                       "isInsideModule",
                       fileList.get(position).isAndroidAppModule()
                           || fileList.get(position).isAndroidLibrary());
+                  modules.putExtra(
+                      "outputPath",
+                      new File(modulesActivity.outputDir, fileList.get(position).getName())
+                          .getAbsolutePath());
                   modulesActivity.startActivity(modules);
                 });
       } else {
