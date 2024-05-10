@@ -86,11 +86,6 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
 
           @Override
           public void onBuildStart() {
-            try {
-              Thread.sleep(1000);
-            } catch (Exception e) {
-
-            }
             activity.runOnUiThread(
                 () -> {
                   binding.indicator.setVisibility(View.VISIBLE);
