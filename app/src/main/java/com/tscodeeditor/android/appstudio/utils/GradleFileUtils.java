@@ -139,11 +139,28 @@ public class GradleFileUtils {
     EventUtils.installEvents(buildGradleFile.getDefaultBuiltInEvents(), configEventsDir);
 
     File mainFileDir =
-        FileModelUtils.generateFoldersIfNotExists(
+        FileModelUtils.generateFolderTreeIfNotExists(
             new String[] {"src", "main"}, moduleFolderFilesDir);
 
-    FileModelUtils.generateFoldersIfNotExists(new String[] {"java"}, mainFileDir);
-    FileModelUtils.generateFoldersIfNotExists(new String[] {"res"}, mainFileDir);
+    FileModelUtils.generateFolderTreeIfNotExists(new String[] {"java"}, mainFileDir);
+    File resFilesDire = FileModelUtils.generateFolderTreeIfNotExists(new String[] {"res"}, mainFileDir);
+    FileModelUtils.generateFolders(
+        new String[] {
+          "drawable",
+          "drawable-hdpi",
+          "drawable-xhdpi",
+          "drawable-xxhdpi",
+          "drawable-xxxhdpi",
+          "layout",
+          "layout-land",
+          "menu",
+          "mipmap",
+          "mipmap-hdpi",
+          "mipmap-xhdpi",
+          "mipmap-xxhdpi",
+          "mipmap-xxxhdpi"
+        },
+        resFilesDire);
   }
 
   public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {

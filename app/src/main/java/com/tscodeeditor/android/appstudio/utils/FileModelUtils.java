@@ -70,7 +70,36 @@ public class FileModelUtils {
     return fileList;
   }
 
-  public static File generateFoldersIfNotExists(String[] foldersQuery, File path) {
+  public static boolean generateFolders(String[] foldersQuery, File path) {
+    int foldersGenerated = 0;
+    for (int i = 0; i < foldersQuery.length; ++i) {
+      File folderDir = new File(path, foldersQuery[i]);
+      File fileModelPath = new File(folderDir, EnvironmentUtils.FILE_MODEL);
+      File folderFileDir = new File(folderDir, EnvironmentUtils.FILES);
+
+      if (!folderDir.exists()) folderDir.mkdirs();
+      if (!folderFileDir.exists()) folderFileDir.mkdirs();
+
+      if (!fileModelPath.exists()) {
+        FileModel folder = getFolderModel(foldersQuery[i]);
+        SerializerUtil.serialize(
+            folder,
+            fileModelPath,
+            new SerializerUtil.SerializerCompletionListener() {
+
+              @Override
+              public void onSerializeComplete() {}
+
+              @Override
+              public void onFailedToSerialize(Exception exception) {}
+            });
+        foldersGenerated = foldersGenerated + 1;
+      }
+    }
+    return foldersGenerated != 0;
+  }
+
+  public static File generateFolderTreeIfNotExists(String[] foldersQuery, File path) {
     if (!path.exists()) path.mkdirs();
     File destination = path;
 
