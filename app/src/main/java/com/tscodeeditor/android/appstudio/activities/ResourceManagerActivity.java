@@ -33,10 +33,13 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.adapters.resourcemanager.ResourceManagerAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityResourceManagerBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import java.io.File;
 
@@ -86,6 +89,10 @@ public class ResourceManagerActivity extends BaseActivity {
             if (getIntent().hasExtra("resourceDir")) {
               resourceDirectory = new File(getIntent().getStringExtra("resourceDir"));
               switchSection(RESOURCES_SECTION);
+              binding.resList.setAdapter(
+                  new ResourceManagerAdapter(FileModelUtils.getFileModelList(resourceDirectory)));
+              binding.resList.setLayoutManager(
+                  new LinearLayoutManager(ResourceManagerActivity.this));
             } else {
               setError(getString(R.string.no_resource_yet));
             }
