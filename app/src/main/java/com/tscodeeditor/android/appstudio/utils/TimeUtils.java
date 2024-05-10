@@ -29,22 +29,32 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.listener;
+package com.tscodeeditor.android.appstudio.utils;
 
-import com.tscodeeditor.android.appstudio.exception.ProjectCodeBuildException;
-import com.tscodeeditor.android.appstudio.helper.ProjectCodeBuildProgress;
+public class TimeUtils {
+  public static String convertTime(long milliseconds) {
+    long minutes = milliseconds / (60 * 1000);
+    milliseconds %= (60 * 1000);
 
-public interface ProjectCodeBuildListener {
+    long seconds = milliseconds / 1000;
+    milliseconds %= 1000;
 
-  void onBuildStart();
+    StringBuilder result = new StringBuilder();
+    if (minutes > 0) {
+      result.append(minutes).append(" minute");
+      if (minutes > 1) result.append("s");
+      result.append(" ");
+    }
+    if (seconds > 0) {
+      result.append(seconds).append(" second");
+      if (seconds > 1) result.append("s");
+      result.append(" ");
+    }
+    if (milliseconds > 0) {
+      result.append(milliseconds).append(" millisecond");
+      if (milliseconds > 1) result.append("s");
+    }
 
-  void onBuildComplete(long buildTime);
-
-  void onBuildProgress(ProjectCodeBuildProgress progress);
-
-  void onBuildProgressLog(String log);
-
-  void onBuildCancelled();
-
-  void onBuildFailed(ProjectCodeBuildException e);
+    return result.toString();
+  }
 }

@@ -53,6 +53,7 @@ public final class ProjectCodeBuilder {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
+              long executionStartTime = System.currentTimeMillis();
               if (listener != null) listener.onBuildStart();
 
               if (rootDestination.exists()) {
@@ -140,8 +141,10 @@ public final class ProjectCodeBuilder {
                 }
               }
 
+              long endExectionTime = System.currentTimeMillis();
+              long executionTime = endExectionTime - executionStartTime;
               if (listener != null) {
-                listener.onBuildComplete();
+                listener.onBuildComplete(executionTime);
               }
             });
   }

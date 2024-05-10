@@ -42,6 +42,7 @@ import com.tscodeeditor.android.appstudio.exception.ProjectCodeBuildException;
 import com.tscodeeditor.android.appstudio.helper.ProjectCodeBuilder;
 import com.tscodeeditor.android.appstudio.helper.ProjectCodeBuilderCancelToken;
 import com.tscodeeditor.android.appstudio.listener.ProjectCodeBuildListener;
+import com.tscodeeditor.android.appstudio.utils.TimeUtils;
 import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
 import editor.tsd.tools.Themes;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
@@ -99,11 +100,14 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
           }
 
           @Override
-          public void onBuildComplete() {
+          public void onBuildComplete(long buildTime) {
             activity.runOnUiThread(
                 () -> {
                   log.append("\n");
-                  log.append("====== Code generated successfully ======");
+                  log.append(
+                      "====== Code generated successfully in "
+                          .concat(TimeUtils.convertTime(buildTime))
+                          .concat(" ======"));
                   log.append("\n");
                   binding.indicator.setVisibility(View.GONE);
                   binding.currentLog.setVisibility(View.GONE);
