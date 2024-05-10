@@ -267,6 +267,7 @@ public final class ProjectCodeBuilder {
     } else {
       if (file.listFiles().length == 0) {
         if (listener != null) {
+          file.delete();
           listener.onBuildProgressLog(
               "Directory is already clean, no need to clean " + file.getAbsolutePath());
         }
