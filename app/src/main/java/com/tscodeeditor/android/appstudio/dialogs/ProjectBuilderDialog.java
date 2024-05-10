@@ -100,9 +100,7 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
                 () -> {
                   log.append("\n");
                   log.append(
-                      "====== Code generated successfully in "
-                          .concat(TimeUtils.convertTime(buildTime))
-                          .concat(" ======"));
+                      "Code generated successfully in ".concat(TimeUtils.convertTime(buildTime)));
                   log.append("\n");
                   binding.indicator.setVisibility(View.GONE);
                   binding.currentLog.setVisibility(View.GONE);
