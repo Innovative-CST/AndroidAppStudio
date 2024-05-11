@@ -90,7 +90,10 @@ public class ResourceManagerActivity extends BaseActivity {
               resourceDirectory = new File(getIntent().getStringExtra("resourceDir"));
               switchSection(RESOURCES_SECTION);
               binding.resList.setAdapter(
-                  new ResourceManagerAdapter(FileModelUtils.getFileModelList(resourceDirectory)));
+                  new ResourceManagerAdapter(
+                      FileModelUtils.getFileModelList(resourceDirectory),
+                      ResourceManagerActivity.this,
+                      projectRootDirectory));
               binding.resList.setLayoutManager(
                   new LinearLayoutManager(ResourceManagerActivity.this));
             } else {

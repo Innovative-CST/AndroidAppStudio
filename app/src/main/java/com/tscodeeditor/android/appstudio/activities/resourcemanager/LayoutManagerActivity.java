@@ -29,81 +29,66 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.adapters.resourcemanager;
+package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.activities.ResourceManagerActivity;
-import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
-import com.tscodeeditor.android.appstudio.block.model.FileModel;
-import com.tscodeeditor.android.appstudio.databinding.AdapterResourceManagerBinding;
-import com.tscodeeditor.android.appstudio.utils.IconUtils;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
+import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutManagerBinding;
 import java.io.File;
-import java.util.ArrayList;
 
-public class ResourceManagerAdapter
-    extends RecyclerView.Adapter<ResourceManagerAdapter.ViewHolder> {
+public class LayoutManagerActivity extends BaseActivity {
+  // SECTION Constants
+  public static final int LAYOUT_SECTION = 0;
+  public static final int INFO_SECTION = 1;
+  public static final int LOADING_SECTION = 2;
+
+  private ActivityLayoutManagerBinding binding;
+
   /*
    * Contains the location of project directory.
    * For example: /../../Project/100
    */
   private File projectRootDirectory;
 
-  private ArrayList<FileModel> files;
-  private ResourceManagerActivity activity;
+  /*
+   * Contains the location of project directory.
+   * For example: /../../Project/100/../res/files/layout
+   */
+  private File layoutDirectory;
 
-  public ResourceManagerAdapter(
-      ArrayList<FileModel> files, ResourceManagerActivity activity, File projectRootDirectory) {
-    this.files = files;
-    this.activity = activity;
-    this.projectRootDirectory = projectRootDirectory;
+  @Override
+  protected void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+
+    binding = ActivityLayoutManagerBinding.inflate(getLayoutInflater());
+
+    setContentView(binding.getRoot());
+
+    binding.toolbar.setTitle(R.string.app_name);
+    setSupportActionBar(binding.toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+
+    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+    switchSection(LOADING_SECTION);
+  }
+
+  public void switchSection(int section) {
+    binding.resourceView.setVisibility(section == LAYOUT_SECTION ? View.VISIBLE : View.GONE);
+    binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
+    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+  }
+
+  public void setError(String error) {
+    switchSection(INFO_SECTION);
+    binding.infoText.setText(error);
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterResourceManagerBinding binding =
-        AdapterResourceManagerBinding.inflate(activity.getLayoutInflater());
-    RecyclerView.LayoutParams layoutParam =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(layoutParam);
-    return new ViewHolder(binding.getRoot());
-  }
-
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    AdapterResourceManagerBinding binding = AdapterResourceManagerBinding.bind(holder.itemView);
-    binding.title.setText(files.get(position).getName());
-    int icon = IconUtils.getResourceManagerFileModelIcon(files.get(position));
-    binding.icon.setImageResource(icon != 0 ? icon : R.drawable.ic_folder);
-
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              switch (files.get(position).getName()) {
-                case "layout", "layout-land":
-                  Intent layoutManager = new Intent(activity, LayoutManagerActivity.class);
-                  layoutManager.putExtra(
-                      "projectRootDirectory", projectRootDirectory.getAbsolutePath());
-                  activity.startActivity(layoutManager);
-                  break;
-              }
-            });
-  }
-
-  @Override
-  public int getItemCount() {
-    return files.size();
-  }
-
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
+  protected void onDestroy() {
+    super.onDestroy();
+    binding = null;
   }
 }
