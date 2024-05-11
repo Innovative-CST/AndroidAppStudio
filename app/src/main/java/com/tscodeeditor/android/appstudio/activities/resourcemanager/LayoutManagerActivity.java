@@ -57,6 +57,7 @@ public class LayoutManagerActivity extends BaseActivity {
    * For example: /../../Project/100/../res/files/layout
    */
   private File layoutDirectory;
+  private File outputPath;
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -72,6 +73,8 @@ public class LayoutManagerActivity extends BaseActivity {
     getSupportActionBar().setHomeButtonEnabled(true);
 
     projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+    layoutDirectory = new File(getIntent().getStringExtra("layoutDirectory"));
+    outputPath = new File(getIntent().getStringExtra("outputPath"));
     switchSection(LOADING_SECTION);
   }
 

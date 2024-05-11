@@ -52,15 +52,23 @@ public class ResourceManagerAdapter
    * For example: /../../Project/100
    */
   private File projectRootDirectory;
+  private File resourceDirectory;
+  private File outputPath;
 
   private ArrayList<FileModel> files;
   private ResourceManagerActivity activity;
 
   public ResourceManagerAdapter(
-      ArrayList<FileModel> files, ResourceManagerActivity activity, File projectRootDirectory) {
+      ArrayList<FileModel> files,
+      ResourceManagerActivity activity,
+      File projectRootDirectory,
+      File resourceDirectory,
+      File outputPath) {
     this.files = files;
     this.activity = activity;
     this.projectRootDirectory = projectRootDirectory;
+    this.resourceDirectory = resourceDirectory;
+    this.outputPath = outputPath;
   }
 
   @Override
@@ -90,6 +98,10 @@ public class ResourceManagerAdapter
                   Intent layoutManager = new Intent(activity, LayoutManagerActivity.class);
                   layoutManager.putExtra(
                       "projectRootDirectory", projectRootDirectory.getAbsolutePath());
+                  layoutManager.putExtra(
+                      "layoutDirectory",
+                      new File(resourceDirectory, files.get(position).getName()).getAbsolutePath());
+                  layoutManager.putExtra("outputPath", outputPath.getAbsolutePath());
                   activity.startActivity(layoutManager);
                   break;
               }

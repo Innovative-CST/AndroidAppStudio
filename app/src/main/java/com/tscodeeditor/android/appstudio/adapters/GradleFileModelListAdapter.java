@@ -165,13 +165,21 @@ public class GradleFileModelListAdapter
       binding.programEditor.setOnClickListener(v -> {});
       binding.resourceEditor.setOnClickListener(
           v -> {
-            Intent resourceEditor = new Intent(modulesActivity, ResourceManagerActivity.class);
-            resourceEditor.putExtra(
+            Intent resourceManager = new Intent(modulesActivity, ResourceManagerActivity.class);
+            resourceManager.putExtra(
                 "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
             if (getResourceDirectory() != null) {
-              resourceEditor.putExtra("resourceDir", getResourceDirectory().getAbsolutePath());
+              resourceManager.putExtra("resourceDir", getResourceDirectory().getAbsolutePath());
             }
-            modulesActivity.startActivity(resourceEditor);
+            resourceManager.putExtra(
+                "outputPath",
+                new File(
+                        new File(
+                            new File(modulesActivity.outputDir, EnvironmentUtils.SOURCE_DIR),
+                            EnvironmentUtils.MAIN_DIR),
+                        EnvironmentUtils.RES_DIR)
+                    .getAbsolutePath());
+            modulesActivity.startActivity(resourceManager);
           });
     }
   }

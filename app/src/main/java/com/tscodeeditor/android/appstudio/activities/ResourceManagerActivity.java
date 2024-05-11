@@ -62,6 +62,7 @@ public class ResourceManagerActivity extends BaseActivity {
    * For example: /../../Project/100/../src/main/res
    */
   private File resourceDirectory;
+  private File outputPath;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +89,16 @@ public class ResourceManagerActivity extends BaseActivity {
           public void onSuccessfullyDeserialized(ProjectModel object) {
             if (getIntent().hasExtra("resourceDir")) {
               resourceDirectory = new File(getIntent().getStringExtra("resourceDir"));
+              outputPath = new File(getIntent().getStringExtra("outputPath"));
+
               switchSection(RESOURCES_SECTION);
               binding.resList.setAdapter(
                   new ResourceManagerAdapter(
                       FileModelUtils.getFileModelList(resourceDirectory),
                       ResourceManagerActivity.this,
-                      projectRootDirectory));
+                      projectRootDirectory,
+                      resourceDirectory,
+                      outputPath));
               binding.resList.setLayoutManager(
                   new LinearLayoutManager(ResourceManagerActivity.this));
             } else {
