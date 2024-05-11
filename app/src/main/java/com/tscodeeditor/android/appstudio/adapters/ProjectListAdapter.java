@@ -37,7 +37,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.ModulesActivity;
 import com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity;
-import com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity;
+import com.tscodeeditor.android.appstudio.bottomsheet.ProjectOptionsSheet;
 import com.tscodeeditor.android.appstudio.databinding.AdapterProjectBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
@@ -98,13 +98,9 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         .getRoot()
         .setOnLongClickListener(
             (view) -> {
-              Intent modifyProject = new Intent();
-              modifyProject.setClass(
-                  mProjectManagerActivity, ProjectModelConfigrationActivity.class);
-              modifyProject.putExtra("isNewProject", false);
-              modifyProject.putExtra(
-                  "projectRootDirectory", projectFileList.get(position).getAbsolutePath());
-              mProjectManagerActivity.projectListUpdateActivityResultLauncher.launch(modifyProject);
+              ProjectOptionsSheet sheet =
+                  new ProjectOptionsSheet(mProjectManagerActivity, projectFileList.get(position));
+              sheet.show();
               return false;
             });
   }
