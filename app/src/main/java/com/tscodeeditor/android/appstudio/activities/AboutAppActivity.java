@@ -31,9 +31,13 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.tscodeeditor.android.appstudio.BuildConfig;
 import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.R;
@@ -56,7 +60,30 @@ public class AboutAppActivity extends BaseActivity {
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     binding.versionName.setText(BuildConfig.VERSION_NAME);
+
+    binding.versionName.setOnLongClickListener(
+        v -> {
+          ClipboardManager clipboard =
+              (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+          ClipData clip = ClipData.newPlainText("label", BuildConfig.VERSION_NAME);
+          clipboard.setPrimaryClip(clip);
+          Toast.makeText(AboutAppActivity.this, R.string.version_name_copied, Toast.LENGTH_SHORT)
+              .show();
+          return true;
+        });
+
     binding.commitSha.setText(BuildConfig.commitSha);
+
+    binding.commitSha.setOnLongClickListener(
+        v -> {
+          ClipboardManager clipboard =
+              (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+          ClipData clip = ClipData.newPlainText("label", BuildConfig.commitSha);
+          clipboard.setPrimaryClip(clip);
+          Toast.makeText(AboutAppActivity.this, R.string.commit_sha_copied, Toast.LENGTH_SHORT)
+              .show();
+          return true;
+        });
 
     binding.appName.setOnClickListener(
         v -> {
