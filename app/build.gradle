@@ -114,4 +114,5 @@ dependencies {
     implementation("$editorGroupId:language-textmate")
     implementation project(":block")
 	implementation project(":editor")
+	implementation project(":vieweditor")
 }
