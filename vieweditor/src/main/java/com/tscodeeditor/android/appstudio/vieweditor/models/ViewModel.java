@@ -38,6 +38,8 @@ abstract class ViewModel implements Serializable {
 
   private String viewClass;
   private String viewName;
+  private int width;
+  private int height;
 
   abstract String getCode();
 
@@ -57,5 +59,21 @@ abstract class ViewModel implements Serializable {
 
   public void setViewName(String viewName) {
     this.viewName = viewName;
+  }
+
+  public int getWidth() {
+    return this.width;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  public int getHeight() {
+    return this.height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
   }
 }

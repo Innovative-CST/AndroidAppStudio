@@ -76,7 +76,6 @@ public class LayoutManagerActivity extends BaseActivity {
     layoutDirectory = new File(getIntent().getStringExtra("layoutDirectory"));
     outputPath = new File(getIntent().getStringExtra("outputPath"));
     switchSection(LOADING_SECTION);
-	
   }
 
   public void switchSection(int section) {
