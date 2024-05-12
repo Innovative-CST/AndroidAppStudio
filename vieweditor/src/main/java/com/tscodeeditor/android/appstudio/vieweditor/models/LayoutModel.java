@@ -40,7 +40,7 @@ public class LayoutModel implements Serializable {
 
   public LayoutModel clone() {
     LayoutModel clone = new LayoutModel();
-    clone.setView(getView() == null ? null : getView().clone());
+    clone.setView(getView() == null ? null : getView().cloneViewModel());
     return clone;
   }
 
