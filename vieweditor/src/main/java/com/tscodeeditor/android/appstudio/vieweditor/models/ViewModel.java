@@ -38,7 +38,6 @@ abstract class ViewModel implements Serializable {
 
   private String viewClass;
   private String viewName;
-  private boolean isSelected;
 
   abstract String getCode();
 
@@ -48,14 +47,6 @@ abstract class ViewModel implements Serializable {
 
   public void setClass(String viewClass) {
     this.viewClass = viewClass;
-  }
-
-  public boolean isSelected() {
-    return this.isSelected;
-  }
-
-  public void setSelected(boolean isSelected) {
-    this.isSelected = isSelected;
   }
 
   abstract ViewModel cloneViewModel();
