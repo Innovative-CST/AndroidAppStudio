@@ -31,7 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.vieweditor.models;
 
-import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 abstract class ViewGroupModel extends ViewModel {
