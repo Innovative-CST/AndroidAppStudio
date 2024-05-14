@@ -24,6 +24,7 @@
     <string name="minimum_sdk_version">Minimum SDK version</string>
     <string name="next">Next</string>
     <string name="no_events_name">No events yet.</string>
+    <string name="no_layouts_yet">No layouts yet.</string>
     <string name="no_projects_yet">No projects yet.</string>
     <string name="no_resource_yet">No resource yet.</string>
     <string name="no_thanks">No thanks</string>

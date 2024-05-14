@@ -33,7 +33,7 @@ package com.tscodeeditor.android.appstudio.vieweditor.models;
 
 import java.io.Serializable;
 
-abstract class ViewModel implements Serializable {
+abstract public class ViewModel implements Serializable {
   public static final long serialVersionUID = 15L;
 
   private String viewClass;

@@ -31,10 +31,14 @@
 
 package com.tscodeeditor.android.appstudio.vieweditor.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-abstract class ViewGroupModel extends ViewModel {
+abstract class ViewGroupModel extends ViewModel implements Serializable {
+  public static final long serialVersionUID = 16L;
+
   private ArrayList<ViewModel> viewModels;
+  private int maxElementsLimit;
 
   public ArrayList<ViewModel> getViewModels() {
     return this.viewModels;
@@ -42,5 +46,13 @@ abstract class ViewGroupModel extends ViewModel {
 
   public void setViewModels(ArrayList<ViewModel> viewModels) {
     this.viewModels = viewModels;
+  }
+
+  public int getMaxElementsLimit() {
+    return this.maxElementsLimit;
+  }
+
+  public void setMaxElementsLimit(int maxElementsLimit) {
+    this.maxElementsLimit = maxElementsLimit;
   }
 }

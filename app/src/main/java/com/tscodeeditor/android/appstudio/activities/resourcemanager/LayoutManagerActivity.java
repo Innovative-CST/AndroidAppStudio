@@ -33,10 +33,16 @@ package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
+import com.tscodeeditor.android.appstudio.adapters.resourcemanager.LayoutManagerAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutManagerBinding;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 public class LayoutManagerActivity extends BaseActivity {
   // SECTION Constants
@@ -76,6 +82,45 @@ public class LayoutManagerActivity extends BaseActivity {
     layoutDirectory = new File(getIntent().getStringExtra("layoutDirectory"));
     outputPath = new File(getIntent().getStringExtra("outputPath"));
     switchSection(LOADING_SECTION);
+    loadLayouts();
+  }
+
+  private void loadLayouts() {
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              ArrayList<LayoutModel> layouts = loadLayoutModelsList();
+              runOnUiThread(
+                  () -> {
+                    if (layouts.size() == 0) {
+                      setInfo(getString(R.string.no_layouts_yet));
+                    } else {
+                      LayoutManagerAdapter layoutsAdapter =
+                          new LayoutManagerAdapter(LayoutManagerActivity.this, layouts);
+                      binding.layoutList.setAdapter(layoutsAdapter);
+                      binding.layoutList.setLayoutManager(
+                          new LinearLayoutManager(LayoutManagerActivity.this));
+                      switchSection(LAYOUT_SECTION);
+                    }
+                  });
+            });
+  }
+
+  public ArrayList<LayoutModel> loadLayoutModelsList() {
+    ArrayList<LayoutModel> list = new ArrayList<LayoutModel>();
+
+    if (layoutDirectory.exists()) {
+      File[] layoutsFilePath = layoutDirectory.listFiles();
+      for (int layouts = 0; layouts < layoutsFilePath.length; ++layouts) {
+        LayoutModel layout =
+            DeserializerUtils.deserialize(layoutsFilePath[layouts], LayoutModel.class);
+        if (layout != null) {
+          list.add(layout);
+        }
+      }
+    }
+
+    return list;
   }
 
   public void switchSection(int section) {
@@ -84,7 +129,7 @@ public class LayoutManagerActivity extends BaseActivity {
     binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
   }
 
-  public void setError(String error) {
+  public void setInfo(String error) {
     switchSection(INFO_SECTION);
     binding.infoText.setText(error);
   }

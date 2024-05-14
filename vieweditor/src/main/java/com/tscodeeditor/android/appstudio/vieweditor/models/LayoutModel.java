@@ -32,15 +32,29 @@
 package com.tscodeeditor.android.appstudio.vieweditor.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class LayoutModel implements Serializable {
   public static final long serialVersionUID = 14L;
 
   private ViewModel view;
+  private String layoutName;
+  private ArrayList<String> viewIds;
 
   public LayoutModel clone() {
     LayoutModel clone = new LayoutModel();
     clone.setView(getView() == null ? null : getView().cloneViewModel());
+    clone.setLayoutName(getLayoutName() == null ? null : new String(getLayoutName()));
+
+    if (getViewIds() != null) {
+      ArrayList<String> clonedViewIds = new ArrayList<String>();
+
+      for (int ids = 0; ids < getViewIds().size(); ++ids) {
+        clonedViewIds.add(getViewIds().get(ids) == null ? null : new String(getViewIds().get(ids)));
+      }
+
+      clone.setViewIds(clonedViewIds);
+    }
     return clone;
   }
 
@@ -50,5 +64,21 @@ public class LayoutModel implements Serializable {
 
   public void setView(ViewModel view) {
     this.view = view;
+  }
+
+  public String getLayoutName() {
+    return this.layoutName;
+  }
+
+  public void setLayoutName(String layoutName) {
+    this.layoutName = layoutName;
+  }
+
+  public ArrayList<String> getViewIds() {
+    return this.viewIds;
+  }
+
+  public void setViewIds(ArrayList<String> viewIds) {
+    this.viewIds = viewIds;
   }
 }

@@ -29,38 +29,35 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.vieweditor.models;
+package com.tscodeeditor.android.appstudio.vieweditor.view;
 
-import java.io.Serializable;
+import android.content.Context;
+import android.widget.LinearLayout;
+import com.tscodeeditor.android.appstudio.vieweditor.models.ViewModel;
 
-public class AttributesModel implements Serializable {
-  public static final long serialVersionUID = 17L;
+public class ViewModelRendererView extends LinearLayout {
 
-  private String nameSpace;
-  private String attributeName;
-  private String attributeValue;
+  private Context context;
+  private ViewModel viewModel;
+  private boolean isBluePrintMode;
 
-  public String getNameSpace() {
-    return this.nameSpace;
+  public ViewModelRendererView(Context context) {
+    super(context);
   }
 
-  public void setNameSpace(String nameSpace) {
-    this.nameSpace = nameSpace;
+  public ViewModel getViewModel() {
+    return this.viewModel;
   }
 
-  public String getAttributeName() {
-    return this.attributeName;
+  public void setViewModel(ViewModel viewModel) {
+    this.viewModel = viewModel;
   }
 
-  public void setAttributeName(String attributeName) {
-    this.attributeName = attributeName;
+  public boolean getIsBluePrintMode() {
+    return this.isBluePrintMode;
   }
 
-  public String getAttributeValue() {
-    return this.attributeValue;
-  }
-
-  public void setAttributeValue(String attributeValue) {
-    this.attributeValue = attributeValue;
+  public void setBluePrintMode(boolean isBluePrintMode) {
+    this.isBluePrintMode = isBluePrintMode;
   }
 }

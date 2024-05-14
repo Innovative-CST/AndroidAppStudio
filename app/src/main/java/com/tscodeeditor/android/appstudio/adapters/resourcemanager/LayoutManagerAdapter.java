@@ -29,38 +29,52 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.vieweditor.models;
+package com.tscodeeditor.android.appstudio.adapters.resourcemanager;
 
-import java.io.Serializable;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
+import com.tscodeeditor.android.appstudio.databinding.AdapterManagerLayoutBinding;
+import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
+import java.util.ArrayList;
 
-public class AttributesModel implements Serializable {
-  public static final long serialVersionUID = 17L;
+public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdapter.ViewHolder> {
 
-  private String nameSpace;
-  private String attributeName;
-  private String attributeValue;
+  private LayoutManagerActivity activity;
+  private ArrayList<LayoutModel> layoutList;
 
-  public String getNameSpace() {
-    return this.nameSpace;
+  public LayoutManagerAdapter(LayoutManagerActivity activity, ArrayList<LayoutModel> layoutList) {
+    this.activity = activity;
+    this.layoutList = layoutList;
   }
 
-  public void setNameSpace(String nameSpace) {
-    this.nameSpace = nameSpace;
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+    AdapterManagerLayoutBinding binding =
+        AdapterManagerLayoutBinding.inflate(activity.getLayoutInflater());
+    RecyclerView.LayoutParams layoutParam =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    binding.getRoot().setLayoutParams(layoutParam);
+    return new ViewHolder(binding.getRoot());
   }
 
-  public String getAttributeName() {
-    return this.attributeName;
+  @Override
+  public void onBindViewHolder(ViewHolder holder, int position) {
+    AdapterManagerLayoutBinding binding = AdapterManagerLayoutBinding.bind(holder.itemView);
+    binding.title.setText(layoutList.get(position).getLayoutName());
+    binding.getRoot().setOnClickListener(v -> {});
   }
 
-  public void setAttributeName(String attributeName) {
-    this.attributeName = attributeName;
+  @Override
+  public int getItemCount() {
+    return layoutList.size();
   }
 
-  public String getAttributeValue() {
-    return this.attributeValue;
-  }
-
-  public void setAttributeValue(String attributeValue) {
-    this.attributeValue = attributeValue;
+  public class ViewHolder extends RecyclerView.ViewHolder {
+    public ViewHolder(View v) {
+      super(v);
+    }
   }
 }
