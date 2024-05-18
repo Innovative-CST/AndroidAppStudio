@@ -11,6 +11,7 @@
     <string name="cancel">Cancel</string>
     <string name="commitSha">Commit SHA</string>
     <string name="commit_sha_copied">Commit SHA copied to clipboard</string>
+    <string name="create_new_layout">Create new layout</string>
     <string name="create_new_project">Create new project</string>
     <string name="delete">Delete</string>
     <string name="discord">Discord</string>

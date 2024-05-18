@@ -38,6 +38,7 @@ import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.adapters.resourcemanager.LayoutManagerAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutManagerBinding;
+import com.tscodeeditor.android.appstudio.dialogs.resourcemanager.ManageLayoutDialog;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
@@ -64,6 +65,8 @@ public class LayoutManagerActivity extends BaseActivity {
    */
   private File layoutDirectory;
   private File outputPath;
+  private ArrayList<LayoutModel> layoutsList;
+  private ArrayList<File> filesList;
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -83,20 +86,28 @@ public class LayoutManagerActivity extends BaseActivity {
     outputPath = new File(getIntent().getStringExtra("outputPath"));
     switchSection(LOADING_SECTION);
     loadLayouts();
+    binding.fab.setOnClickListener(
+        v -> {
+          loadLayoutModelsList();
+          ManageLayoutDialog createLayoutDialog =
+              new ManageLayoutDialog(LayoutManagerActivity.this, layoutsList, filesList);
+          createLayoutDialog.create().show();
+        });
   }
 
   private void loadLayouts() {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
-              ArrayList<LayoutModel> layouts = loadLayoutModelsList();
+              loadProjectList();
               runOnUiThread(
                   () -> {
-                    if (layouts.size() == 0) {
+                    if (layoutsList.size() == 0) {
                       setInfo(getString(R.string.no_layouts_yet));
                     } else {
                       LayoutManagerAdapter layoutsAdapter =
-                          new LayoutManagerAdapter(LayoutManagerActivity.this, layouts);
+                          new LayoutManagerAdapter(
+                              LayoutManagerActivity.this, layoutsList, filesList);
                       binding.layoutList.setAdapter(layoutsAdapter);
                       binding.layoutList.setLayoutManager(
                           new LinearLayoutManager(LayoutManagerActivity.this));
@@ -106,8 +117,31 @@ public class LayoutManagerActivity extends BaseActivity {
             });
   }
 
-  public ArrayList<LayoutModel> loadLayoutModelsList() {
-    ArrayList<LayoutModel> list = new ArrayList<LayoutModel>();
+  private void loadProjectList() {
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              loadLayoutModelsList();
+              runOnUiThread(
+                  () -> {
+                    if (layoutsList.size() == 0) {
+                      setInfo(getString(R.string.no_layouts_yet));
+                    } else {
+                      LayoutManagerAdapter layoutsAdapter =
+                          new LayoutManagerAdapter(
+                              LayoutManagerActivity.this, layoutsList, filesList);
+                      binding.layoutList.setAdapter(layoutsAdapter);
+                      binding.layoutList.setLayoutManager(
+                          new LinearLayoutManager(LayoutManagerActivity.this));
+                      switchSection(LAYOUT_SECTION);
+                    }
+                  });
+            });
+  }
+
+  private void loadLayoutModelsList() {
+    layoutsList = new ArrayList<LayoutModel>();
+    filesList = new ArrayList<File>();
 
     if (layoutDirectory.exists()) {
       File[] layoutsFilePath = layoutDirectory.listFiles();
@@ -115,16 +149,16 @@ public class LayoutManagerActivity extends BaseActivity {
         LayoutModel layout =
             DeserializerUtils.deserialize(layoutsFilePath[layouts], LayoutModel.class);
         if (layout != null) {
-          list.add(layout);
+          layoutsList.add(layout);
+          filesList.add(layoutsFilePath[layouts]);
         }
       }
     }
-
-    return list;
   }
 
   public void switchSection(int section) {
     binding.resourceView.setVisibility(section == LAYOUT_SECTION ? View.VISIBLE : View.GONE);
+    binding.fab.setVisibility(section != LOADING_SECTION ? View.VISIBLE : View.GONE);
     binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
     binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
   }

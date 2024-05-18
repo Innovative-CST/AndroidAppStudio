@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="16dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Enter layout name"
+        android:layout_margin="8dp"
+        android:id="@+id/layoutNameInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/layoutName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:singleSelection="true"
+        android:padding="8dp"
+        app:selectionRequired="true"
+        app:checkedButton="@+id/activity"
+        android:id="@+id/layoutTypeChooser">
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Empty Layout"
+            android:id="@+id/emtpty_layout" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Activity"
+            android:id="@+id/activity" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+</LinearLayout>

@@ -37,16 +37,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.tscodeeditor.android.appstudio.databinding.AdapterManagerLayoutBinding;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
+import java.io.File;
 import java.util.ArrayList;
 
 public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdapter.ViewHolder> {
 
   private LayoutManagerActivity activity;
   private ArrayList<LayoutModel> layoutList;
+  private ArrayList<File> fileList;
 
-  public LayoutManagerAdapter(LayoutManagerActivity activity, ArrayList<LayoutModel> layoutList) {
+  public LayoutManagerAdapter(
+      LayoutManagerActivity activity, ArrayList<LayoutModel> layoutList, ArrayList<File> fileList) {
     this.activity = activity;
     this.layoutList = layoutList;
+    this.fileList = fileList;
   }
 
   @Override

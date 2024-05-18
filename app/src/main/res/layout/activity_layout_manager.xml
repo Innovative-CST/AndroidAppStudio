@@ -76,4 +76,13 @@
 
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:icon="@drawable/plus"
+        android:layout_margin="16dp"
+        android:text="@string/create_new_layout"
+        android:id="@+id/fab"
+        android:layout_gravity="end|bottom" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
