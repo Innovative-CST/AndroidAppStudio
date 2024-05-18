@@ -39,6 +39,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.tscodeeditor.android.appstudio.databinding.DialogCreateLayoutBinding;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +55,8 @@ public class ManageLayoutDialog extends MaterialAlertDialogBuilder {
   public ManageLayoutDialog(
       LayoutManagerActivity activity,
       ArrayList<LayoutModel> layoutsList,
-      ArrayList<File> filesList) {
+      ArrayList<File> filesList,
+      File layoutDirectory) {
     super(activity);
 
     this.layoutsList = layoutsList;
@@ -91,6 +93,21 @@ public class ManageLayoutDialog extends MaterialAlertDialogBuilder {
             Toast.makeText(activity, "Please enter another name...", Toast.LENGTH_SHORT).show();
           } else {
             binding.layoutNameInputLayout.setErrorEnabled(false);
+            LayoutModel layout = new LayoutModel();
+            layout.setLayoutName(binding.layoutName.getText().toString());
+            SerializerUtil.serialize(
+                layout,
+                new File(layoutDirectory, binding.layoutName.getText().toString()),
+                new SerializerUtil.SerializerCompletionListener() {
+
+                  @Override
+                  public void onSerializeComplete() {
+                    activity.loadLayouts();
+                  }
+
+                  @Override
+                  public void onFailedToSerialize(Exception exception) {}
+                });
           }
         });
     setNegativeButton(R.string.cancel, (param1, param2) -> {});

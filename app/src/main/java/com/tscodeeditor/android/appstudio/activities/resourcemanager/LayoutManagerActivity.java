@@ -90,12 +90,13 @@ public class LayoutManagerActivity extends BaseActivity {
         v -> {
           loadLayoutModelsList();
           ManageLayoutDialog createLayoutDialog =
-              new ManageLayoutDialog(LayoutManagerActivity.this, layoutsList, filesList);
+              new ManageLayoutDialog(
+                  LayoutManagerActivity.this, layoutsList, filesList, layoutDirectory);
           createLayoutDialog.create().show();
         });
   }
 
-  private void loadLayouts() {
+  public void loadLayouts() {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
