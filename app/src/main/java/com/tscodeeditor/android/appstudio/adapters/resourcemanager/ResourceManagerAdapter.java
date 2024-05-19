@@ -41,6 +41,7 @@ import com.tscodeeditor.android.appstudio.activities.ResourceManagerActivity;
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterResourceManagerBinding;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.IconUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +101,10 @@ public class ResourceManagerAdapter
                       "projectRootDirectory", projectRootDirectory.getAbsolutePath());
                   layoutManager.putExtra(
                       "layoutDirectory",
-                      new File(resourceDirectory, files.get(position).getName()).getAbsolutePath());
+                      new File(
+                              new File(resourceDirectory, files.get(position).getName()),
+                              EnvironmentUtils.FILES)
+                          .getAbsolutePath());
                   layoutManager.putExtra("outputPath", outputPath.getAbsolutePath());
                   activity.startActivity(layoutManager);
                   break;

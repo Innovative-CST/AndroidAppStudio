@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+	android:orientation="vertical"
     android:padding="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -26,20 +27,15 @@
         app:singleSelection="true"
         android:padding="8dp"
         app:selectionRequired="true"
-        app:checkedButton="@+id/activity"
+        app:checkedButton="@+id/empty_layout"
         android:id="@+id/layoutTypeChooser">
 
         <Button
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Empty Layout"
-            android:id="@+id/emtpty_layout" />
-
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Activity"
-            android:id="@+id/activity" />
+			style="@style/Widget.Material3.Button.OutlinedButton"
+            android:id="@+id/empty_layout" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 </LinearLayout>

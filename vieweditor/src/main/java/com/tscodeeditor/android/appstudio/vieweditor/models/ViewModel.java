@@ -32,14 +32,17 @@
 package com.tscodeeditor.android.appstudio.vieweditor.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-abstract public class ViewModel implements Serializable {
+public abstract class ViewModel implements Serializable {
   public static final long serialVersionUID = 15L;
 
   private String viewClass;
   private String viewName;
   private int width;
   private int height;
+  private boolean isRootElement;
+  private ArrayList<AttributesModel> attributes;
 
   abstract String getCode();
 
@@ -75,5 +78,21 @@ abstract public class ViewModel implements Serializable {
 
   public void setHeight(int height) {
     this.height = height;
+  }
+
+  public boolean getIsRootElement() {
+    return this.isRootElement;
+  }
+
+  public void setIsRootElement(boolean isRootElement) {
+    this.isRootElement = isRootElement;
+  }
+
+  public ArrayList<AttributesModel> getAttributes() {
+    return this.attributes;
+  }
+
+  public void setAttributes(ArrayList<AttributesModel> attributes) {
+    this.attributes = attributes;
   }
 }

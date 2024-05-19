@@ -61,7 +61,7 @@ public class LayoutManagerActivity extends BaseActivity {
 
   /*
    * Contains the location of project directory.
-   * For example: /../../Project/100/../res/files/layout
+   * For example: /../../Project/100/../res/files/layout/files
    */
   private File layoutDirectory;
   private File outputPath;
