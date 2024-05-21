@@ -29,62 +29,47 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio;
+package com.tscodeeditor.android.appstudio.activities;
 
-import android.app.AlarmManager;
-import android.app.Application;
-import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Process;
-import android.util.Log;
-import com.tscodeeditor.android.appstudio.activities.CrashHandlerActivity;
-import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import android.os.Bundle;
+import android.widget.Toast;
+import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.databinding.ActivityCrashHandlerBinding;
 
-public class MyApplication extends Application {
-  private static Context mApplicationContext;
+public class CrashHandlerActivity extends BaseActivity {
+  private ActivityCrashHandlerBinding binding;
 
-  // Social links
-  public static final String YOUTUBE = "https://youtube.com/@tscodeeditor?feature=shared";
-  public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
-  public static final String INSTAGRAM =
-      "https://www.instagram.com/tscode_editor?igsh=MXBkOG1va2FwZzN6dw==";
-  public static final String GITHUB_APP = "https://github.com/TS-Code-Editor/AndroidAppStudio";
-  public static final String GITHUB_ORG = "https://github.com/TS-Code-Editor";
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String error = getIntent().getStringExtra("error");
 
-  private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+    binding = ActivityCrashHandlerBinding.inflate(getLayoutInflater());
+    // set content view to binding's root.
+    setContentView(binding.getRoot());
 
-  public static Context getContext() {
-    return mApplicationContext;
+    binding.toolbar.setTitle(R.string.app_name);
+    setSupportActionBar(binding.toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+	binding.errorText.setText(error);
+	binding.errorText.setOnLongClickListener(
+        v -> {
+          ClipboardManager clipboard =
+              (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+          ClipData clip = ClipData.newPlainText("label", error);
+          clipboard.setPrimaryClip(clip);
+          return true;
+        });
   }
 
   @Override
-  public void onCreate() {
-    mApplicationContext = getApplicationContext();
-    EnvironmentUtils.init(this);
-
-    this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-    Thread.setDefaultUncaughtExceptionHandler(
-        new Thread.UncaughtExceptionHandler() {
-          @Override
-          public void uncaughtException(Thread thread, Throwable throwable) {
-            Intent intent = new Intent(getApplicationContext(), CrashHandlerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("error", Log.getStackTraceString(throwable));
-            PendingIntent pendingIntent =
-                PendingIntent.getActivity(
-                    getApplicationContext(), 11111, intent, PendingIntent.FLAG_ONE_SHOT);
-
-            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, pendingIntent);
-
-            Process.killProcess(Process.myPid());
-            System.exit(1);
-
-            uncaughtExceptionHandler.uncaughtException(thread, throwable);
-          }
-        });
-    super.onCreate();
+  protected void onDestroy() {
+    super.onDestroy();
+    binding = null;
   }
 }
