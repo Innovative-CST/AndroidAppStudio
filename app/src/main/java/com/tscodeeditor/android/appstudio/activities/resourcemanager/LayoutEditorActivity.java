@@ -29,29 +29,64 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.vieweditor.editor;
+package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.LinearLayout;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
-import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
+import android.os.Bundle;
+import android.view.View;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
+import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutEditorBinding;
 
-public class ViewEditor extends LinearLayout {
+public class LayoutEditorActivity extends BaseActivity {
+  // Contants for showing the section easily
+  public static final int LOADING_SECTION = 0;
+  public static final int EDITOR_SECTION = 1;
+  public static final int ERROR_SECTION = 2;
 
-  private LayoutModel layoutModel;
+  private ActivityLayoutEditorBinding binding;
 
-  public ViewEditor(Context context, AttributeSet attrs) {
-    super(context, attrs);
+  @Override
+  protected void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
 
-    setBackgroundResource(R.drawable.border_frame);
+    binding = ActivityLayoutEditorBinding.inflate(getLayoutInflater());
+
+    setContentView(binding.getRoot());
+    // SetUp the toolbar
+    binding.toolbar.setTitle(R.string.app_name);
+    setSupportActionBar(binding.toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    ActionBarDrawerToggle toggle =
+        new ActionBarDrawerToggle(
+            this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
+    binding.toolbar.setNavigationOnClickListener(
+        v -> {
+          if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+          } else {
+            binding.drawerLayout.openDrawer(GravityCompat.START);
+          }
+        });
+    binding.drawerLayout.addDrawerListener(toggle);
+    toggle.syncState();
+    switchSection(EDITOR_SECTION);
   }
 
-  public LayoutModel getLayoutModel() {
-    return this.layoutModel;
+  /*
+   * Method for switching the section quickly.
+   * All other section will be GONE except the section of which the section code is provided
+   */
+  public void switchSection(int section) {
+    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+    binding.layoutEditorSection.setVisibility(section == EDITOR_SECTION ? View.VISIBLE : View.GONE);
+    binding.errorSection.setVisibility(section == ERROR_SECTION ? View.VISIBLE : View.GONE);
   }
 
-  public void setLayoutModel(LayoutModel layoutModel) {
-    this.layoutModel = layoutModel;
+  public void showError(String errorText) {
+    switchSection(ERROR_SECTION);
+    binding.errorText.setText(errorText);
   }
 }

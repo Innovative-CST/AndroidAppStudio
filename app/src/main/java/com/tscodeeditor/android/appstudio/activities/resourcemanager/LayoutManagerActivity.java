@@ -100,28 +100,6 @@ public class LayoutManagerActivity extends BaseActivity {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
-              loadProjectList();
-              runOnUiThread(
-                  () -> {
-                    if (layoutsList.size() == 0) {
-                      setInfo(getString(R.string.no_layouts_yet));
-                    } else {
-                      LayoutManagerAdapter layoutsAdapter =
-                          new LayoutManagerAdapter(
-                              LayoutManagerActivity.this, layoutsList, filesList);
-                      binding.layoutList.setAdapter(layoutsAdapter);
-                      binding.layoutList.setLayoutManager(
-                          new LinearLayoutManager(LayoutManagerActivity.this));
-                      switchSection(LAYOUT_SECTION);
-                    }
-                  });
-            });
-  }
-
-  private void loadProjectList() {
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
               loadLayoutModelsList();
               runOnUiThread(
                   () -> {
@@ -130,7 +108,12 @@ public class LayoutManagerActivity extends BaseActivity {
                     } else {
                       LayoutManagerAdapter layoutsAdapter =
                           new LayoutManagerAdapter(
-                              LayoutManagerActivity.this, layoutsList, filesList);
+                              LayoutManagerActivity.this,
+                              layoutsList,
+                              filesList,
+                              projectRootDirectory,
+                              layoutDirectory,
+                              outputPath);
                       binding.layoutList.setAdapter(layoutsAdapter);
                       binding.layoutList.setLayoutManager(
                           new LinearLayoutManager(LayoutManagerActivity.this));

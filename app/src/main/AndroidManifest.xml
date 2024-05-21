@@ -72,5 +72,9 @@
         <activity
             android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity"
             android:exported="true" />
+
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutEditorActivity"
+            android:exported="true" />
     </application>
 </manifest>
