@@ -32,12 +32,5 @@
 package com.tscodeeditor.android.appstudio.block.tag;
 
 public interface AdditionalCodeHelperTag {
-  public <T> T get(Class<T> additionalTagClass);
-
-  default <T> T clone(Class<T> additionTagClass) {
-    if (additionTagClass.getCanonicalName().equals(DependencyTag.class.getCanonicalName())) {
-      return (T) DependencyTag.class.cast(this).clone();
-    }
-    return null;
-  }
+  abstract AdditionalCodeHelperTag clone();
 }

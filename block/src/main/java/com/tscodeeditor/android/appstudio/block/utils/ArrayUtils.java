@@ -64,7 +64,7 @@ public final class ArrayUtils {
         clone[position] =
             additionalCodeHelperTagArr[position] == null
                 ? null
-                : additionalCodeHelperTagArr[position].clone(DependencyTag.class);
+                : additionalCodeHelperTagArr[position].clone();
       }
     }
 

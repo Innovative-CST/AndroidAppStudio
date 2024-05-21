@@ -63,12 +63,7 @@ public class DependencyTag implements AdditionalCodeHelperTag, Serializable {
   }
 
   @Override
-  public <T> T get(Class<T> additionalTagClass) {
-    return (T) this;
-  }
-
-  @Override
-  protected DependencyTag clone() {
+  public AdditionalCodeHelperTag clone() {
     DependencyTag clone = new DependencyTag();
     clone.setDependencyGroup(
         getDependencyGroup() == null ? null : new String(getDependencyGroup()));
