@@ -33,44 +33,23 @@ package com.tscodeeditor.android.appstudio.block.tag;
 
 import java.io.Serializable;
 
-public class DependencyTag implements AdditionalCodeHelperTag, Serializable {
-  public static final long serialVersionUID = 19L;
+public class ImportTag implements AdditionalCodeHelperTag, Serializable {
+  public static final long serialVersionUID = 18L;
 
-  public String dependencyGroup;
-  public String dependencyName;
-  public String version;
-
-  public String getDependencyGroup() {
-    return this.dependencyGroup;
-  }
-
-  public void setDependencyGroup(String dependencyGroup) {
-    this.dependencyGroup = dependencyGroup;
-  }
-
-  public String getDependencyName() {
-    return this.dependencyName;
-  }
-
-  public void setDependencyName(String dependencyName) {
-    this.dependencyName = dependencyName;
-  }
-
-  public String getVersion() {
-    return this.version;
-  }
-
-  public void setVersion(String version) {
-    this.version = version;
-  }
+  private String importClass;
 
   @Override
   public AdditionalCodeHelperTag clone() {
-    DependencyTag clone = new DependencyTag();
-    clone.setDependencyGroup(
-        getDependencyGroup() == null ? null : new String(getDependencyGroup()));
-    clone.setVersion(getVersion() == null ? null : new String(getVersion()));
-    clone.setDependencyName(getDependencyName() == null ? null : new String(getDependencyName()));
+    ImportTag clone = new ImportTag();
+    clone.setImportClass(getImportClass() == null ? null : new String(getImportClass()));
     return clone;
+  }
+
+  public String getImportClass() {
+    return this.importClass;
+  }
+
+  public void setImportClass(String importClass) {
+    this.importClass = importClass;
   }
 }
