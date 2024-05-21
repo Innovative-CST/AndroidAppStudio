@@ -29,12 +29,13 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.activities;
+package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
 import android.os.Bundle;
 import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.adapters.resourcemanager.ResourceManagerAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityResourceManagerBinding;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;

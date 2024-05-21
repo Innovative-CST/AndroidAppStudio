@@ -39,7 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventsActivity;
 import com.tscodeeditor.android.appstudio.activities.ModulesActivity;
-import com.tscodeeditor.android.appstudio.activities.ResourceManagerActivity;
+import com.tscodeeditor.android.appstudio.activities.resourcemanager.ResourceManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterFileModelListItemBinding;
 import com.tscodeeditor.android.appstudio.databinding.LayoutProjectEditorNavigationBinding;
