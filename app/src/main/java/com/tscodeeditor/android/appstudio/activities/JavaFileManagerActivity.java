@@ -87,8 +87,8 @@ public class JavaFileManagerActivity extends BaseActivity {
     filesList = new ArrayList<JavaFileModel>();
     pathList = new ArrayList<File>();
 
-    if (layoutDirectory.exists()) {
-      File[] layoutsFilePath = layoutDirectory.listFiles();
+    if (filesDirectory.exists()) {
+      File[] layoutsFilePath = filesDirectory.listFiles();
       for (int layouts = 0; layouts < layoutsFilePath.length; ++layouts) {
         JavaFileModel layout =
             DeserializerUtils.deserialize(layoutsFilePath[layouts], JavaFileModel.class);
