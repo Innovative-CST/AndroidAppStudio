@@ -35,7 +35,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 import com.tscodeeditor.android.appstudio.R;
 
 public class SplashActivity extends BaseActivity {
@@ -45,7 +44,6 @@ public class SplashActivity extends BaseActivity {
 
     setContentView(R.layout.activity_splash);
     getWindow().setNavigationBarColor(Color.parseColor("#E3F1FE"));
-
     new Handler(getMainLooper())
         .postDelayed(
             () -> {
