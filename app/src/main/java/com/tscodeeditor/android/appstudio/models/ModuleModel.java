@@ -31,47 +31,47 @@
 
 package com.tscodeeditor.android.appstudio.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
-import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
-import java.io.Serializable;
 
-public class ModuleModel implements Serializable, Cloneable {
-  public static final long serialVersionUID = 21L;
-
+public class ModuleModel implements Parcelable, Cloneable {
   /*
    * Example: :module:submodule
    */
   public String module;
   public File moduleDirectory;
   public File moduleOutputDirectory;
-
   public File projectRootDirectory;
-
-  public ProjectModel projectModel;
-
   public File javaSourceDirectory;
   public File javaSourceOutputDirectory;
-  public String currentSelectedJavaSourceDirectory;
-  public String currentSelectedJavaSourceFile;
-
   public File resourceDirectory;
   public File resourceOutputDirectory;
-  public String currentSelectedResourceDirectory;
-  public String currentSelectedResourceFile;
-
   public File gradleFileDirectory;
   public File gradleOutputFile;
+
+  public ModuleModel() {}
+
+  protected ModuleModel(Parcel in) {
+    module = in.readString();
+    moduleDirectory = new File(in.readString());
+    moduleOutputDirectory = new File(in.readString());
+    projectRootDirectory = new File(in.readString());
+    javaSourceDirectory = new File(in.readString());
+    javaSourceOutputDirectory = new File(in.readString());
+    resourceDirectory = new File(in.readString());
+    resourceOutputDirectory = new File(in.readString());
+    gradleFileDirectory = new File(in.readString());
+    gradleOutputFile = new File(in.readString());
+  }
 
   public void init(String module, File projectRootDirectory) {
     this.module = module;
     this.projectRootDirectory = projectRootDirectory;
     this.moduleDirectory = EnvironmentUtils.getModuleDirectory(projectRootDirectory, module);
     moduleOutputDirectory = EnvironmentUtils.getModuleOutputDirectory(module);
-    projectModel =
-        DeserializerUtils.deserialize(
-            new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
-            ProjectModel.class);
+
     javaSourceDirectory = getJavaDirectory();
     javaSourceOutputDirectory = getJavaOutputDirectory();
 
@@ -146,4 +146,36 @@ public class ModuleModel implements Serializable, Cloneable {
     return new File(
         EnvironmentUtils.getModuleOutputDirectory(module), EnvironmentUtils.GRADLE_FILE);
   }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flag) {
+    dest.writeString(module);
+    dest.writeString(moduleDirectory.getAbsolutePath());
+    dest.writeString(moduleOutputDirectory.getAbsolutePath());
+    dest.writeString(projectRootDirectory.getAbsolutePath());
+    dest.writeString(javaSourceDirectory.getAbsolutePath());
+    dest.writeString(javaSourceOutputDirectory.getAbsolutePath());
+    dest.writeString(resourceDirectory.getAbsolutePath());
+    dest.writeString(resourceOutputDirectory.getAbsolutePath());
+    dest.writeString(gradleFileDirectory.getAbsolutePath());
+    dest.writeString(gradleOutputFile.getAbsolutePath());
+  }
+
+  public static final Creator<ModuleModel> CREATOR =
+      new Creator<ModuleModel>() {
+        @Override
+        public ModuleModel createFromParcel(Parcel in) {
+          return new ModuleModel(in);
+        }
+
+        @Override
+        public ModuleModel[] newArray(int size) {
+          return new ModuleModel[size];
+        }
+      };
 }
