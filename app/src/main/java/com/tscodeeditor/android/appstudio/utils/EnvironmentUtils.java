@@ -107,4 +107,24 @@ public final class EnvironmentUtils {
 
     return modulePath;
   }
+
+  public static File getModuleOutputDirectory(String modules) {
+    if (modules == null) return null;
+
+    String[] module = modules.split(":");
+    File modulePath = null;
+    for (int i = 0; i < module.length; ++i) {
+      if (i == 0) continue;
+      if (modulePath == null) {
+        modulePath = new File(module[i]);
+      } else {
+        modulePath = new File(modulePath, module[i]);
+      }
+      if (i != (module.length - 1)) {
+        modulePath = new File(modulePath, FILES);
+      }
+    }
+
+    return modulePath;
+  }
 }
