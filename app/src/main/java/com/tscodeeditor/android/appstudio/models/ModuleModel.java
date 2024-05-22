@@ -44,6 +44,7 @@ public class ModuleModel implements Serializable, Cloneable {
    */
   public String module;
   public File moduleDirectory;
+  public File moduleOutputDirectory;
 
   public File projectRootDirectory;
 
@@ -66,6 +67,7 @@ public class ModuleModel implements Serializable, Cloneable {
     this.module = module;
     this.projectRootDirectory = projectRootDirectory;
     this.moduleDirectory = EnvironmentUtils.getModuleDirectory(projectRootDirectory, module);
+    moduleOutputDirectory = EnvironmentUtils.getModuleOutputDirectory(module);
     projectModel =
         DeserializerUtils.deserialize(
             new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
