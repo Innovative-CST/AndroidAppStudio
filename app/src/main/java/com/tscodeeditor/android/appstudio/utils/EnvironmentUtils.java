@@ -91,4 +91,20 @@ public final class EnvironmentUtils {
   public static File getBuildDir(File projectRootDirectory) {
     return new File(projectRootDirectory, "build");
   }
+
+  public static File getModuleDirectory(File dataDirectory, String modules) {
+    if (modules == null) return null;
+
+    String[] module = modules.split(":");
+    File modulePath = dataDirectory;
+    for (int i = 0; i < module.length; ++i) {
+      if (i == 0) continue;
+      modulePath = new File(modulePath, module[i]);
+      if (i != (module.length - 1)) {
+        modulePath = new File(modulePath, FILES);
+      }
+    }
+
+    return modulePath;
+  }
 }
