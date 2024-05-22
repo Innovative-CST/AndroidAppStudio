@@ -42,6 +42,7 @@ import com.tscodeeditor.android.appstudio.dialogs.SourceCodeViewerDialog;
 import com.tscodeeditor.android.appstudio.fragments.events.EventListFragment;
 import com.tscodeeditor.android.appstudio.helper.FileModelCodeHelper;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.EventsHolderUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
@@ -52,12 +53,6 @@ import java.util.concurrent.Executors;
 public class EventsActivity extends BaseActivity {
 
   private ActivityEventsBinding binding;
-
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100
-   */
-  private File projectRootDirectory;
   /*
    * Contains the location of currently selected file model.
    * For example: /../../Project/100/../abc/FileModel
@@ -69,6 +64,8 @@ public class EventsActivity extends BaseActivity {
    */
   private File eventsDir;
 
+  private ModuleModel module;
+
   private MenuItem showSourceCode;
   private FileModel fileModel;
 
@@ -77,7 +74,10 @@ public class EventsActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
 
     // Initialize the variables
-    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+    module = new ModuleModel();
+    module.init(
+        getIntent().getStringExtra("module"),
+        new File(getIntent().getStringExtra("projectRootDirectory")));
     fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
     eventsDir = new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR);
     binding = ActivityEventsBinding.inflate(getLayoutInflater());
@@ -151,7 +151,7 @@ public class EventsActivity extends BaseActivity {
             .replace(
                 R.id.fragment_container,
                 new EventListFragment(
-                    projectRootDirectory,
+                    module,
                     fileModelDirectory,
                     new File(
                         eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
@@ -172,7 +172,7 @@ public class EventsActivity extends BaseActivity {
               .replace(
                   R.id.fragment_container,
                   new EventListFragment(
-                      projectRootDirectory,
+                      module,
                       fileModelDirectory,
                       new File(
                           eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
@@ -211,7 +211,7 @@ public class EventsActivity extends BaseActivity {
         FileModelCodeHelper helper = new FileModelCodeHelper();
         helper.setFileModel(fileModel);
         helper.setEventsDirectory(eventsDir);
-        helper.setProjectRootDirectory(projectRootDirectory);
+        helper.setProjectRootDirectory(module.projectRootDirectory);
         SourceCodeViewerDialog sourceCodeDialog =
             new SourceCodeViewerDialog(this, fileModel, helper.getCode());
         sourceCodeDialog.create().show();

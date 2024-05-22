@@ -31,11 +31,13 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
@@ -47,11 +49,7 @@ public class EventEditorActivity extends BaseActivity {
   private ActivityEventEditorBinding binding;
 
   private ProjectModel projectModel;
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Projects/100
-   */
-  private File projectRootDirectory;
+  private ModuleModel module;
   /*
    * Contains the location of currently selected file model.
    * For example: /../../Projects/100/../abc/FileModel
@@ -73,6 +71,7 @@ public class EventEditorActivity extends BaseActivity {
   private Event event;
 
   @Override
+  @SuppressWarnings("deprecation")
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -80,7 +79,12 @@ public class EventEditorActivity extends BaseActivity {
 
     // Initialize the files paths
 
-    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      module = getIntent().getParcelableExtra("module", ModuleModel.class);
+    } else {
+      module = (ModuleModel) getIntent().getParcelableExtra("module");
+    }
+
     fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
     eventListPath = new File(getIntent().getStringExtra("eventListPath"));
     eventFile = new File(getIntent().getStringExtra("eventFile"));
@@ -108,7 +112,7 @@ public class EventEditorActivity extends BaseActivity {
           public void onFailed(int errorCode, Exception e) {}
         });
     DeserializerUtils.deserialize(
-        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new File(module.projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
         new DeserializerUtils.DeserializerListener() {
 
           @Override

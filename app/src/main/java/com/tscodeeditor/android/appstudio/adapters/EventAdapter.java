@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.EventEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.databinding.AdapterEventBinding;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -54,11 +55,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
   private ArrayList<Object> events;
   private Activity activity;
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100
-   */
-  private File projectRootDirectory;
+  private ModuleModel module;
   /*
    * Contains the location of currently selected file model.
    * For example: /../../Project/100/../abc/FileModel
@@ -73,12 +70,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
   public EventAdapter(
       ArrayList<Object> events,
       Activity activity,
-      File projectRootDirectory,
+      ModuleModel module,
       File fileModelDirectory,
       File eventListPath) {
     this.events = events;
     this.activity = activity;
-    this.projectRootDirectory = projectRootDirectory;
+    this.module = module;
     this.fileModelDirectory = fileModelDirectory;
     this.eventListPath = eventListPath;
   }
@@ -107,7 +104,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
               v -> {
                 File eventFile = new File(eventListPath, event.getName());
                 Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
-                editor.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
+                editor.putExtra("module", module);
                 editor.putExtra("fileModelDirectory", fileModelDirectory.getAbsolutePath());
                 editor.putExtra("eventListPath", eventListPath.getAbsolutePath());
                 editor.putExtra("eventFile", eventFile.getAbsolutePath());

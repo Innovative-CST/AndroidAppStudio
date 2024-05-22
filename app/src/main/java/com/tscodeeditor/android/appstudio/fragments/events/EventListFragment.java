@@ -41,8 +41,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.EventAdapter;
-import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.databinding.FragmentEventListBinding;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EventUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -50,11 +50,7 @@ import java.util.concurrent.Executors;
 
 public class EventListFragment extends Fragment {
   private FragmentEventListBinding binding;
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100
-   */
-  private File projectRootDirectory;
+  private ModuleModel module;
   /*
    * Contains the location of currently selected file model.
    * For example: /../../Project/100/../abc/FileModel
@@ -72,11 +68,8 @@ public class EventListFragment extends Fragment {
   private static final int INFO_SECTION = 2;
 
   public EventListFragment(
-      File projectRootDirectory,
-      File fileModelDirectory,
-      File eventListPath,
-      boolean disableNewEvents) {
-    this.projectRootDirectory = projectRootDirectory;
+      ModuleModel module, File fileModelDirectory, File eventListPath, boolean disableNewEvents) {
+    this.module = module;
     this.eventListPath = eventListPath;
     this.fileModelDirectory = fileModelDirectory;
     this.disableNewEvents = disableNewEvents;
@@ -104,11 +97,7 @@ public class EventListFragment extends Fragment {
                         }
                         binding.list.setAdapter(
                             new EventAdapter(
-                                events,
-                                getActivity(),
-                                projectRootDirectory,
-                                fileModelDirectory,
-                                eventListPath));
+                                events, getActivity(), module, fileModelDirectory, eventListPath));
                         binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
                         switchSection(LIST_SECTION);
                       });

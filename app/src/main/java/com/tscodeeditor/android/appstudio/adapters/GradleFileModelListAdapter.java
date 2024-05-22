@@ -135,6 +135,9 @@ public class GradleFileModelListAdapter
                       "outputPath",
                       new File(modulesActivity.outputDir, fileList.get(position).getName())
                           .getAbsolutePath());
+                  modules.putExtra(
+                      "module",
+                      modulesActivity.module.concat(":").concat(fileList.get(position).getName()));
                   modulesActivity.startActivity(modules);
                 });
       } else {
@@ -156,6 +159,7 @@ public class GradleFileModelListAdapter
                       "fileModelDirectory",
                       new File(modulesActivity.currentDir, fileList.get(position).getName())
                           .getAbsolutePath());
+                  eventsActivity.putExtra("module", modulesActivity.module);
                   modulesActivity.startActivity(eventsActivity);
                 });
       }
@@ -179,6 +183,7 @@ public class GradleFileModelListAdapter
                             EnvironmentUtils.MAIN_DIR),
                         EnvironmentUtils.RES_DIR)
                     .getAbsolutePath());
+            resourceManager.putExtra("module", modulesActivity.module);
             modulesActivity.startActivity(resourceManager);
           });
     }
