@@ -92,11 +92,11 @@ public final class EnvironmentUtils {
     return new File(projectRootDirectory, "build");
   }
 
-  public static File getModuleDirectory(File dataDirectory, String modules) {
+  public static File getModuleDirectory(File projectRootDirectory, String modules) {
     if (modules == null) return null;
 
     String[] module = modules.split(":");
-    File modulePath = dataDirectory;
+    File modulePath = getProjectDataDir(projectRootDirectory);
     for (int i = 0; i < module.length; ++i) {
       if (i == 0) continue;
       modulePath = new File(modulePath, module[i]);
