@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventsActivity;
+import com.tscodeeditor.android.appstudio.activities.JavaFileManagerActivity;
 import com.tscodeeditor.android.appstudio.activities.ModulesActivity;
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.ResourceManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
@@ -165,7 +166,14 @@ public class GradleFileModelListAdapter
     } else {
       LayoutProjectEditorNavigationBinding binding =
           LayoutProjectEditorNavigationBinding.bind(holder.itemView);
-      binding.programEditor.setOnClickListener(v -> {});
+      binding.programEditor.setOnClickListener(
+          v -> {
+            Intent javaManager = new Intent(modulesActivity, JavaFileManagerActivity.class);
+            javaManager.putExtra("module", modulesActivity.module);
+            javaManager.putExtra(
+                "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
+            modulesActivity.startActivity(javaManager);
+          });
       binding.resourceEditor.setOnClickListener(
           v -> {
             Intent resourceManager = new Intent(modulesActivity, ResourceManagerActivity.class);

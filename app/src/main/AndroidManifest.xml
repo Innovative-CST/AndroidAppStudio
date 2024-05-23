@@ -72,6 +72,14 @@
             android:exported="true" />
 
         <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.JavaFileManagerActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.SettingActivity"
+            android:exported="true" />
+
+        <activity
             android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
             android:exported="true" />
 

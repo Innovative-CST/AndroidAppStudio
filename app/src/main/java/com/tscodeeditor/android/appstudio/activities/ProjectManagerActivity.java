@@ -140,6 +140,10 @@ public class ProjectManagerActivity extends BaseActivity {
             discord.setData(Uri.parse(MyApplication.DISCORD));
             startActivity(discord);
           }
+          if (menuItem.getItemId() == R.id.settings) {
+            Intent settings = new Intent(ProjectManagerActivity.this, SettingActivity.class);
+            startActivity(settings);
+          }
           if (menuItem.getItemId() == R.id.about_team) {
             Intent aboutTeam = new Intent();
             aboutTeam.setClass(this, AboutTeamActivity.class);

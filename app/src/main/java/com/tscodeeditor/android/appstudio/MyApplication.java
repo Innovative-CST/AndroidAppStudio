@@ -38,8 +38,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Process;
 import android.util.Log;
+import androidx.appcompat.app.AppCompatDelegate;
 import com.tscodeeditor.android.appstudio.activities.CrashHandlerActivity;
+import com.tscodeeditor.android.appstudio.models.SettingModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.SettingUtils;
 
 public class MyApplication extends Application {
   private static Context mApplicationContext;
@@ -85,6 +88,22 @@ public class MyApplication extends Application {
             uncaughtExceptionHandler.uncaughtException(thread, throwable);
           }
         });
+
+    SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+    if (settings.isEnabledDarkMode()) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    } else {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
     super.onCreate();
+  }
+
+  public void onThemeChange() {
+    SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+    if (settings.isEnabledDarkMode()) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    } else {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
   }
 }

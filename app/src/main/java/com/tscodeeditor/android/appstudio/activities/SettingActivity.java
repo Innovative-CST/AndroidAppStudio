@@ -31,96 +31,96 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.databinding.ActivityJavaFileManagerBinding;
-import com.tscodeeditor.android.appstudio.models.JavaFileModel;
-import com.tscodeeditor.android.appstudio.models.ModuleModel;
+import com.tscodeeditor.android.appstudio.databinding.ActivitySettingBinding;
+import com.tscodeeditor.android.appstudio.databinding.LayoutPreferenceSwitchBinding;
+import com.tscodeeditor.android.appstudio.models.SettingModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
-import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
-import java.util.ArrayList;
+import com.tscodeeditor.android.appstudio.utils.SettingUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 
-public class JavaFileManagerActivity extends BaseActivity {
-  // SECTION Constants
-  public static final int FILES_SECTION = 0;
-  public static final int INFO_SECTION = 1;
-  public static final int LOADING_SECTION = 2;
+public class SettingActivity extends BaseActivity {
 
-  private ActivityJavaFileManagerBinding binding;
-
-  private ModuleModel module;
-  private String packageName;
-  private ArrayList<JavaFileModel> filesList;
-  private ArrayList<File> pathList;
+  private ActivitySettingBinding binding;
+  private SettingModel settings;
 
   @Override
-  protected void onCreate(Bundle bundle) {
-    super.onCreate(bundle);
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-    binding = ActivityJavaFileManagerBinding.inflate(getLayoutInflater());
-
+    binding = ActivitySettingBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
+    binding.toolbar.setTitle(R.string.settings);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+    if (settings == null) {
+      settings = new SettingModel();
+    }
 
-    if (getIntent().hasExtra("projectRootDirectory")) {
-      module = new ModuleModel();
-      module.init(
-          getIntent().getStringExtra("module"),
-          new File(getIntent().getStringExtra("projectRootDirectory")));
+    addBooleanPreference("Dark Mode", null, R.drawable.ic_light_dark, SettingUtils.DARK_MODE);
+  }
+
+  private void addBooleanPreference(String title, String desc, int icon, String key) {
+    LayoutPreferenceSwitchBinding preferenceLayout =
+        LayoutPreferenceSwitchBinding.inflate(getLayoutInflater());
+    if (icon == 0) {
+      preferenceLayout.preferenceIcon.setVisibility(View.GONE);
     } else {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        module = getIntent().getParcelableExtra("module", ModuleModel.class);
-      } else {
-        module = (ModuleModel) getIntent().getParcelableExtra("module");
-      }
+      preferenceLayout.preferenceIcon.setImageResource(icon);
     }
-
-    if (getIntent().hasExtra("packageName")) {
-      packageName = getIntent().getStringExtra("packageName");
+    preferenceLayout.primaryText.setText(title);
+    if (desc != null) {
+      preferenceLayout.secondaryText.setVisibility(View.GONE);
     } else {
-      packageName = new String();
+      preferenceLayout.secondaryText.setText(desc);
     }
-
-    switchSection(LOADING_SECTION);
-    binding.fab.setOnClickListener(v -> {});
+    preferenceLayout.check.setChecked(
+        SettingUtils.getBooleanPreference(SettingUtils.DARK_MODE, settings));
+    preferenceLayout
+        .getRoot()
+        .setOnClickListener(
+            (v) -> {
+              preferenceLayout.check.setChecked(!preferenceLayout.check.isChecked());
+            });
+    preferenceLayout.check.setOnCheckedChangeListener(
+        (button, state) -> {
+          SettingUtils.setBooleanPreference(key, preferenceLayout.check.isChecked(), settings);
+          saveSettings();
+          onSettingChange(key);
+        });
+    binding.content.addView(preferenceLayout.getRoot());
   }
 
-  private void loadFilesList() {
-    filesList = new ArrayList<JavaFileModel>();
-    pathList = new ArrayList<File>();
-
-    File javaFilesDir = EnvironmentUtils.getJavaDirectory(module, packageName);
-
-    if (javaFilesDir.exists()) {
-      File[] layoutsFilePath = javaFilesDir.listFiles();
-      for (int layouts = 0; layouts < layoutsFilePath.length; ++layouts) {
-        JavaFileModel layout =
-            DeserializerUtils.deserialize(layoutsFilePath[layouts], JavaFileModel.class);
-        if (layout != null) {
-          filesList.add(layout);
-          pathList.add(layoutsFilePath[layouts]);
-        }
-      }
+  public void onSettingChange(String key) {
+    switch (key) {
+      case SettingUtils.DARK_MODE:
+        ((MyApplication) getApplicationContext()).onThemeChange();
+        break;
     }
   }
 
-  public void switchSection(int section) {
-    binding.resourceView.setVisibility(section == FILES_SECTION ? View.VISIBLE : View.GONE);
-    binding.fab.setVisibility(section != LOADING_SECTION ? View.VISIBLE : View.GONE);
-    binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
-    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
-  }
+  public void saveSettings() {
+    if (!EnvironmentUtils.SETTING_FILE.getParentFile().exists()) {
+      EnvironmentUtils.SETTING_FILE.getParentFile().mkdirs();
+    }
+    SerializerUtil.serialize(
+        settings,
+        EnvironmentUtils.SETTING_FILE,
+        new SerializerUtil.SerializerCompletionListener() {
 
-  public void setInfo(String error) {
-    switchSection(INFO_SECTION);
-    binding.infoText.setText(error);
+          @Override
+          public void onSerializeComplete() {}
+
+          @Override
+          public void onFailedToSerialize(Exception exception) {}
+        });
   }
 
   @Override

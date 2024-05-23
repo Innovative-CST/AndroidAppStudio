@@ -36,12 +36,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import com.tscodeeditor.android.appstudio.BuildConfig;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import java.io.File;
 
 public final class EnvironmentUtils {
   public static File STORAGE;
   public static File IDEDIR;
   public static File PROJECTS;
+  public static File SETTING_FILE;
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
   public static final String FILE_MODEL = "FileModel";
   public static final String FILES = "files";
@@ -54,6 +56,8 @@ public final class EnvironmentUtils {
   public static final String GRADLE_FILE = "build.gradle";
   public static final String APP_GRADLE_CONFIG_EVENT_HOLDER = "Config";
   private static final String PROJECT_DATA_DIR = "data";
+  private static final String CONFIG = "config";
+  private static final String SETTING = "setting";
 
   public static void init(Context context) {
     String IDEDIRECTORY;
@@ -70,6 +74,7 @@ public final class EnvironmentUtils {
 
     IDEDIR = new File(STORAGE, IDEDIRECTORY);
     PROJECTS = new File(IDEDIR, "Projects");
+    SETTING_FILE = new File(new File(IDEDIR, CONFIG), SETTING);
   }
 
   public static String getDataDir(Context context) {
@@ -126,5 +131,34 @@ public final class EnvironmentUtils {
     }
 
     return modulePath;
+  }
+
+  public static File getJavaDirectory(ModuleModel module, String packageName) {
+    if (module.projectRootDirectory != null && module.module != null) {
+      File javaDir = new File(module.javaSourceDirectory, FILES);
+
+      String[] packageBreakdown = packageName.split(".");
+      for (String packagePart : packageBreakdown) {
+        javaDir = new File(javaDir, packagePart);
+        javaDir = new File(javaDir, FILES);
+      }
+
+      return javaDir;
+    }
+    return null;
+  }
+
+  public static File getJavaOutputDirectory(ModuleModel module, String packageName) {
+    if (module.projectRootDirectory != null && module.module != null) {
+      File javaDir = module.javaSourceOutputDirectory;
+
+      String[] packageBreakdown = packageName.split(".");
+      for (String packagePart : packageBreakdown) {
+        javaDir = new File(javaDir, packagePart);
+      }
+
+      return javaDir;
+    }
+    return null;
   }
 }
