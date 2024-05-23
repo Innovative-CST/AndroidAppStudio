@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +40,8 @@ import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.adapters.resourcemanager.LayoutManagerAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutManagerBinding;
 import com.tscodeeditor.android.appstudio.dialogs.resourcemanager.ManageLayoutDialog;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
@@ -53,22 +56,15 @@ public class LayoutManagerActivity extends BaseActivity {
 
   private ActivityLayoutManagerBinding binding;
 
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100
-   */
-  private File projectRootDirectory;
-
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100/../res/files/layout/files
-   */
+  private ModuleModel module;
   private File layoutDirectory;
-  private File outputPath;
+  private File layoutDirectoryOutput;
+  private String layoutDirectoryName;
   private ArrayList<LayoutModel> layoutsList;
   private ArrayList<File> filesList;
 
   @Override
+  @SuppressWarnings("deprecation")
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
@@ -81,9 +77,20 @@ public class LayoutManagerActivity extends BaseActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
 
-    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
-    layoutDirectory = new File(getIntent().getStringExtra("layoutDirectory"));
-    outputPath = new File(getIntent().getStringExtra("outputPath"));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      module = getIntent().getParcelableExtra("module", ModuleModel.class);
+    } else {
+      module = (ModuleModel) getIntent().getParcelableExtra("module");
+    }
+
+    layoutDirectoryName = getIntent().getStringExtra("layoutDirectoryName");
+    layoutDirectory =
+        new File(
+            new File(
+                new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirectoryName),
+            EnvironmentUtils.FILES);
+    layoutDirectoryOutput = new File(module.resourceOutputDirectory, layoutDirectoryName);
+
     switchSection(LOADING_SECTION);
     loadLayouts();
     binding.fab.setOnClickListener(
@@ -111,9 +118,8 @@ public class LayoutManagerActivity extends BaseActivity {
                               LayoutManagerActivity.this,
                               layoutsList,
                               filesList,
-                              projectRootDirectory,
-                              layoutDirectory,
-                              outputPath);
+                              module,
+                              layoutDirectoryName);
                       binding.layoutList.setAdapter(layoutsAdapter);
                       binding.layoutList.setLayoutManager(
                           new LinearLayoutManager(LayoutManagerActivity.this));

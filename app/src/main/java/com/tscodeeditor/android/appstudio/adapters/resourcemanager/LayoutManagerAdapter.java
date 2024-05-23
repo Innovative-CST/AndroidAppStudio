@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutEditorActivity;
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.tscodeeditor.android.appstudio.databinding.AdapterManagerLayoutBinding;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
 import java.util.ArrayList;
@@ -47,28 +48,20 @@ public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdap
   private LayoutManagerActivity activity;
   private ArrayList<LayoutModel> layoutList;
   private ArrayList<File> fileList;
-  private File projectRootDirectory;
-
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100/../res/files/layout/files
-   */
-  private File layoutDirectory;
-  private File outputPath;
+  private ModuleModel module;
+  private String layoutDirectoryName;
 
   public LayoutManagerAdapter(
       LayoutManagerActivity activity,
       ArrayList<LayoutModel> layoutList,
       ArrayList<File> fileList,
-      File projectRootDirectory,
-      File layoutDirectory,
-      File outputPath) {
+      ModuleModel module,
+      String layoutDirectoryName) {
     this.activity = activity;
     this.layoutList = layoutList;
     this.fileList = fileList;
-    this.projectRootDirectory = projectRootDirectory;
-    this.layoutDirectory = layoutDirectory;
-    this.outputPath = outputPath;
+    this.module = module;
+    this.layoutDirectoryName = layoutDirectoryName;
   }
 
   @Override
@@ -91,11 +84,8 @@ public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdap
         .setOnClickListener(
             v -> {
               Intent layoutEditor = new Intent(activity, LayoutEditorActivity.class);
-              layoutEditor.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
-              layoutEditor.putExtra(
-                  "outputPath",
-                  new File(outputPath, layoutList.get(position).getLayoutName()).getAbsolutePath());
-              layoutEditor.putExtra("layoutDirectory", layoutDirectory.getAbsolutePath());
+              layoutEditor.putExtra("module", module);
+              layoutEditor.putExtra("layoutDirectoryName", layoutDirectoryName);
               layoutEditor.putExtra("layoutFilePath", fileList.get(position).getAbsolutePath());
               activity.startActivity(layoutEditor);
             });

@@ -83,7 +83,7 @@ public class ModulesActivity extends BaseActivity {
     if (getIntent().hasExtra("module")) {
       module = getIntent().getStringExtra("module");
     } else {
-      module = ":";
+      module = "";
     }
 
     if (getIntent().hasExtra("outputPath")) {

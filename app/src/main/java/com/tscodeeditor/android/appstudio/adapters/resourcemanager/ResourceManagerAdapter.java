@@ -32,7 +32,6 @@
 package com.tscodeeditor.android.appstudio.adapters.resourcemanager;
 
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,35 +40,22 @@ import com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManag
 import com.tscodeeditor.android.appstudio.activities.resourcemanager.ResourceManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterResourceManagerBinding;
-import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.IconUtils;
-import java.io.File;
 import java.util.ArrayList;
 
 public class ResourceManagerAdapter
     extends RecyclerView.Adapter<ResourceManagerAdapter.ViewHolder> {
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100
-   */
-  private File projectRootDirectory;
-  private File resourceDirectory;
-  private File outputPath;
+  private ModuleModel module;
 
   private ArrayList<FileModel> files;
   private ResourceManagerActivity activity;
 
   public ResourceManagerAdapter(
-      ArrayList<FileModel> files,
-      ResourceManagerActivity activity,
-      File projectRootDirectory,
-      File resourceDirectory,
-      File outputPath) {
+      ArrayList<FileModel> files, ResourceManagerActivity activity, ModuleModel module) {
     this.files = files;
     this.activity = activity;
-    this.projectRootDirectory = projectRootDirectory;
-    this.resourceDirectory = resourceDirectory;
-    this.outputPath = outputPath;
+    this.module = module;
   }
 
   @Override
@@ -97,15 +83,8 @@ public class ResourceManagerAdapter
               switch (files.get(position).getName()) {
                 case "layout", "layout-land":
                   Intent layoutManager = new Intent(activity, LayoutManagerActivity.class);
-                  layoutManager.putExtra(
-                      "projectRootDirectory", projectRootDirectory.getAbsolutePath());
-                  layoutManager.putExtra(
-                      "layoutDirectory",
-                      new File(
-                              new File(resourceDirectory, files.get(position).getName()),
-                              EnvironmentUtils.FILES)
-                          .getAbsolutePath());
-                  layoutManager.putExtra("outputPath", outputPath.getAbsolutePath());
+                  layoutManager.putExtra("module", module);
+                  layoutManager.putExtra("layoutDirectoryName", files.get(position).getName());
                   activity.startActivity(layoutManager);
                   break;
               }

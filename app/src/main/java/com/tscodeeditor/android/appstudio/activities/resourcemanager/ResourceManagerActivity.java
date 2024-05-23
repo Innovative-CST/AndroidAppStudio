@@ -38,6 +38,7 @@ import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.adapters.resourcemanager.ResourceManagerAdapter;
 import com.tscodeeditor.android.appstudio.databinding.ActivityResourceManagerBinding;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
@@ -52,18 +53,7 @@ public class ResourceManagerActivity extends BaseActivity {
 
   private ActivityResourceManagerBinding binding;
 
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100
-   */
-  private File projectRootDirectory;
-
-  /*
-   * Contains the location of project directory.
-   * For example: /../../Project/100/../src/main/res
-   */
-  private File resourceDirectory;
-  private File outputPath;
+  private ModuleModel module;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -78,33 +68,26 @@ public class ResourceManagerActivity extends BaseActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
 
-    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
-
+    module = new ModuleModel();
+    module.init(
+        getIntent().getStringExtra("module"),
+        new File(getIntent().getStringExtra("projectRootDirectory")));
     switchSection(LOADING_SECTION);
 
     ProjectModelSerializationUtils.deserialize(
-        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+        new File(module.projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
         new ProjectModelSerializationUtils.DeserializerListener() {
 
           @Override
           public void onSuccessfullyDeserialized(ProjectModel object) {
-            if (getIntent().hasExtra("resourceDir")) {
-              resourceDirectory = new File(getIntent().getStringExtra("resourceDir"));
-              outputPath = new File(getIntent().getStringExtra("outputPath"));
-
-              switchSection(RESOURCES_SECTION);
-              binding.resList.setAdapter(
-                  new ResourceManagerAdapter(
-                      FileModelUtils.getFileModelList(resourceDirectory),
-                      ResourceManagerActivity.this,
-                      projectRootDirectory,
-                      resourceDirectory,
-                      outputPath));
-              binding.resList.setLayoutManager(
-                  new LinearLayoutManager(ResourceManagerActivity.this));
-            } else {
-              setError(getString(R.string.no_resource_yet));
-            }
+            switchSection(RESOURCES_SECTION);
+            binding.resList.setAdapter(
+                new ResourceManagerAdapter(
+                    FileModelUtils.getFileModelList(
+                        new File(module.resourceDirectory, EnvironmentUtils.FILES)),
+                    ResourceManagerActivity.this,
+                    module));
+            binding.resList.setLayoutManager(new LinearLayoutManager(ResourceManagerActivity.this));
           }
 
           @Override
