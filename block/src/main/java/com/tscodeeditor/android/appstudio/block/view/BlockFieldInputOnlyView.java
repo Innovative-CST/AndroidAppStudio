@@ -60,6 +60,7 @@ public class BlockFieldInputOnlyView extends LinearLayout {
     text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
     text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
     text.setSingleLine(true);
+    text.setTextColor(Color.BLACK);
     addView(text);
 
     setOnClickListener(
