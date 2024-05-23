@@ -64,7 +64,7 @@ public class SettingActivity extends BaseActivity {
       settings = new SettingModel();
     }
 
-    addBooleanPreference("Dark Mode", null, R.drawable.ic_light_dark, SettingUtils.DARK_MODE);
+    addBooleanPreference("Dark Mode", "Choose dark mode if you eye feels comfort.", R.drawable.ic_light_dark, SettingUtils.DARK_MODE);
   }
 
   private void addBooleanPreference(String title, String desc, int icon, String key) {
@@ -76,7 +76,7 @@ public class SettingActivity extends BaseActivity {
       preferenceLayout.preferenceIcon.setImageResource(icon);
     }
     preferenceLayout.primaryText.setText(title);
-    if (desc != null) {
+    if (desc == null) {
       preferenceLayout.secondaryText.setVisibility(View.GONE);
     } else {
       preferenceLayout.secondaryText.setText(desc);
