@@ -90,6 +90,9 @@ public class MyApplication extends Application {
         });
 
     SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+    if (settings == null) {
+      settings = new SettingModel();
+    }
     if (settings.isEnabledDarkMode()) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     } else {
