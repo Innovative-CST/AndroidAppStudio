@@ -25,8 +25,9 @@
             <ImageView
                 android:layout_height="40dp"
                 android:layout_width="40dp"
+                android:src="@drawable/ic_layout"
                 android:padding="4dp"
-                android:src="@drawable/ic_layout" />
+                android:tint="?attr/colorOnSurface" />
 
             <TextView
                 android:layout_height="wrap_content"
