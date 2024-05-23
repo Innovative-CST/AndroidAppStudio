@@ -112,6 +112,7 @@ dependencies {
     implementation platform("$editorGroupId:bom:0.22.0")
     implementation("$editorGroupId:editor")
     implementation("$editorGroupId:language-textmate")
+    implementation("com.airbnb.android:lottie:6.4.0")
     implementation project(":block")
 	implementation project(":editor")
 	implementation project(":vieweditor")
