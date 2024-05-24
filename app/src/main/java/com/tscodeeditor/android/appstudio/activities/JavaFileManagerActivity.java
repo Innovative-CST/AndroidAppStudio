@@ -57,6 +57,7 @@ public class JavaFileManagerActivity extends BaseActivity {
   private ArrayList<File> pathList;
 
   @Override
+  @SuppressWarnings("deprecation")
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
