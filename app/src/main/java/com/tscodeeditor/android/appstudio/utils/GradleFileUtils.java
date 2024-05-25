@@ -35,6 +35,8 @@ import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.builtin.filemodels.BuiltInGradleFileModel;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
+import com.tscodeeditor.android.appstudio.models.ProjectModel;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
@@ -142,8 +144,21 @@ public class GradleFileUtils {
         FileModelUtils.generateFolderTreeIfNotExists(
             new String[] {"src", "main"}, moduleFolderFilesDir);
 
-    FileModelUtils.generateFolderTreeIfNotExists(new String[] {"java"}, mainFileDir);
-    File resFilesDire = FileModelUtils.generateFolderTreeIfNotExists(new String[] {"res"}, mainFileDir);
+    File javaFileDir =
+        FileModelUtils.generateFolderTreeIfNotExists(new String[] {"java"}, mainFileDir);
+
+    ProjectModel projectModel =
+        DeserializerUtils.deserialize(
+            new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+            ProjectModel.class);
+
+    if (projectModel != null) {
+      FileModelUtils.generateFolderTreeIfNotExists(
+          projectModel.getPackageName().split("\\."), javaFileDir);
+    }
+
+    File resFilesDire =
+        FileModelUtils.generateFolderTreeIfNotExists(new String[] {"res"}, mainFileDir);
     FileModelUtils.generateFolders(
         new String[] {
           "drawable",
