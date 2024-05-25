@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.models;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +43,8 @@ public class JavaFileModel extends FileModel implements Serializable {
   public static final long serialVersionUID = 20L;
 
   private int classType;
+  private String extendingClass;
+  private String[] implementingInterface;
 
   public static final int SIMPLE_JAVA_CLASS = 0;
   public static final int JAVA_ACTIVITY = 1;
@@ -78,6 +81,9 @@ public class JavaFileModel extends FileModel implements Serializable {
     fileModel.setAndroidLibrary(new Boolean(isAndroidLibrary()));
     fileModel.setAndroidAppModule(new Boolean(isAndroidAppModule()));
     fileModel.setClassType(new Integer(getClassType()));
+    fileModel.setExtendingClass(
+        getExtendingClass() != null ? new String(getExtendingClass()) : null);
+    fileModel.setImplementingInterface(ArrayUtils.clone(getImplementingInterface()));
     return fileModel;
   }
 
@@ -87,5 +93,21 @@ public class JavaFileModel extends FileModel implements Serializable {
 
   public void setClassType(int classType) {
     this.classType = classType;
+  }
+
+  public String getExtendingClass() {
+    return this.extendingClass;
+  }
+
+  public void setExtendingClass(String extendingClass) {
+    this.extendingClass = extendingClass;
+  }
+
+  public String[] getImplementingInterface() {
+    return this.implementingInterface;
+  }
+
+  public void setImplementingInterface(String[] implementingInterface) {
+    this.implementingInterface = implementingInterface;
   }
 }

@@ -78,7 +78,7 @@ public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
 
     binding = DialogJavaManagerBinding.inflate(activity.getLayoutInflater());
     if (packageName.equals("")) {
-      binding.javaClass.setVisibility(View.GONE);
+      binding.activity.setVisibility(View.GONE);
     }
     setView(binding.getRoot());
     binding.fileName.setSingleLine(true);
@@ -106,12 +106,13 @@ public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
     setPositiveButton(
         R.string.done,
         (param1, param2) -> {
-          if (binding.fileTypeChooser.getCheckedButtonId() == R.id.javaClass) {
+          if (binding.fileTypeChooser.getCheckedButtonId() == R.id.activity) {
             if (validateClassNameAndExistance(binding.fileName.getText().toString())) {
               binding.fileNameInputLayout.setErrorEnabled(false);
               JavaFileModel javaClass = new JavaFileModel();
               javaClass.setFileName(binding.fileName.getText().toString());
               javaClass.setFileExtension("java");
+			  javaClass.setExtendingClass("androidx.appcompat.app.AppCompatActivity");
               javaClass.setClassType(JavaFileModel.SIMPLE_JAVA_CLASS);
               File classPath =
                   new File(
@@ -176,7 +177,7 @@ public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
   }
 
   public void syncError() {
-    if (binding.fileTypeChooser.getCheckedButtonId() == R.id.javaClass) {
+    if (binding.fileTypeChooser.getCheckedButtonId() == R.id.activity) {
       if (validateClassNameAndExistance(binding.fileName.getText().toString())) {
         binding.fileNameInputLayout.setErrorEnabled(false);
       } else {

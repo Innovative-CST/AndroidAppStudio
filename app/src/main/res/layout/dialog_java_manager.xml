@@ -40,9 +40,9 @@
         <Button
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Java Class"
+            android:text="Activity"
             style="@style/Widget.Material3.Button.OutlinedButton"
-            android:id="@+id/javaClass" />
+            android:id="@+id/activity" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 </LinearLayout>
