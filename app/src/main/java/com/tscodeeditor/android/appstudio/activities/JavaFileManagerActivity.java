@@ -34,14 +34,19 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.adapters.JavaFileManagerAdpater;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityJavaFileManagerBinding;
+import com.tscodeeditor.android.appstudio.dialogs.JavaFileManagerDialog;
 import com.tscodeeditor.android.appstudio.models.JavaFileModel;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 public class JavaFileManagerActivity extends BaseActivity {
   // SECTION Constants
@@ -53,7 +58,8 @@ public class JavaFileManagerActivity extends BaseActivity {
 
   private ModuleModel module;
   private String packageName;
-  private ArrayList<JavaFileModel> filesList;
+  private ArrayList<FileModel> folderList;
+  private ArrayList<JavaFileModel> javaFilesList;
   private ArrayList<File> pathList;
 
   @Override
@@ -86,29 +92,96 @@ public class JavaFileManagerActivity extends BaseActivity {
     if (getIntent().hasExtra("packageName")) {
       packageName = getIntent().getStringExtra("packageName");
     } else {
-      packageName = new String();
+      packageName = new String("");
     }
+    loadFiles();
+    binding.fab.setOnClickListener(
+        v -> {
+          JavaFileManagerDialog dialog =
+              new JavaFileManagerDialog(
+                  JavaFileManagerActivity.this,
+                  folderList,
+                  javaFilesList,
+                  pathList,
+                  module,
+                  packageName);
+          dialog.show();
+        });
+  }
 
+  public void loadFiles() {
     switchSection(LOADING_SECTION);
-    binding.fab.setOnClickListener(v -> {});
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              loadFilesList();
+              runOnUiThread(
+                  () -> {
+                    JavaFileManagerAdpater adapter =
+                        new JavaFileManagerAdpater(
+                            JavaFileManagerActivity.this,
+                            folderList,
+                            javaFilesList,
+                            pathList,
+                            module,
+                            packageName);
+                    binding.filesList.setAdapter(adapter);
+                    binding.filesList.setLayoutManager(
+                        new LinearLayoutManager(JavaFileManagerActivity.this));
+                    switchSection(FILES_SECTION);
+                  });
+            });
   }
 
   private void loadFilesList() {
-    filesList = new ArrayList<JavaFileModel>();
     pathList = new ArrayList<File>();
-
     File javaFilesDir = EnvironmentUtils.getJavaDirectory(module, packageName);
 
-    if (javaFilesDir.exists()) {
-      File[] layoutsFilePath = javaFilesDir.listFiles();
-      for (int layouts = 0; layouts < layoutsFilePath.length; ++layouts) {
-        JavaFileModel layout =
-            DeserializerUtils.deserialize(layoutsFilePath[layouts], JavaFileModel.class);
-        if (layout != null) {
-          filesList.add(layout);
-          pathList.add(layoutsFilePath[layouts]);
-        }
-      }
+    javaFilesList = new ArrayList<JavaFileModel>();
+    folderList = new ArrayList<FileModel>();
+    if (!javaFilesDir.exists()) return;
+    for (File file : javaFilesDir.listFiles()) {
+      if (file.isFile()) continue;
+
+      if (!new File(file, EnvironmentUtils.JAVA_FILE_MODEL).exists()) continue;
+
+      DeserializerUtils.deserialize(
+          new File(file, EnvironmentUtils.JAVA_FILE_MODEL),
+          new DeserializerUtils.DeserializerListener() {
+
+            @Override
+            public void onSuccessfullyDeserialized(Object object) {
+              if (object instanceof JavaFileModel) {
+                javaFilesList.add((JavaFileModel) object);
+                pathList.add(file);
+              }
+            }
+
+            @Override
+            public void onFailed(int errorCode, Exception e) {}
+          });
+    }
+
+    for (File file : javaFilesDir.listFiles()) {
+      if (file.isFile()) continue;
+
+      if (!new File(file, EnvironmentUtils.FILE_MODEL).exists()) continue;
+
+      DeserializerUtils.deserialize(
+          new File(file, EnvironmentUtils.FILE_MODEL),
+          new DeserializerUtils.DeserializerListener() {
+
+            @Override
+            public void onSuccessfullyDeserialized(Object object) {
+              if (object instanceof FileModel) {
+                folderList.add((FileModel) object);
+                pathList.add(file);
+              }
+            }
+
+            @Override
+            public void onFailed(int errorCode, Exception e) {}
+          });
     }
   }
 

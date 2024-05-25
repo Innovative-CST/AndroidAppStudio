@@ -41,7 +41,6 @@ import java.util.HashMap;
 public class JavaFileModel extends FileModel implements Serializable {
   public static final long serialVersionUID = 20L;
 
-  private String packageName;
   private int classType;
 
   public static final int SIMPLE_JAVA_CLASS = 0;
@@ -78,17 +77,8 @@ public class JavaFileModel extends FileModel implements Serializable {
     fileModel.setFolder(new Boolean(isFolder()));
     fileModel.setAndroidLibrary(new Boolean(isAndroidLibrary()));
     fileModel.setAndroidAppModule(new Boolean(isAndroidAppModule()));
-    fileModel.setPackageName(getPackageName() == null ? null : new String(getPackageName()));
     fileModel.setClassType(new Integer(getClassType()));
     return fileModel;
-  }
-
-  public String getPackageName() {
-    return this.packageName;
-  }
-
-  public void setPackageName(String packageName) {
-    this.packageName = packageName;
   }
 
   public int getClassType() {

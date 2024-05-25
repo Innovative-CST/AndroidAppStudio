@@ -35,7 +35,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.widget.Toast;
 import com.tscodeeditor.android.appstudio.BuildConfig;
+import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import java.io.File;
 
@@ -46,6 +48,7 @@ public final class EnvironmentUtils {
   public static File SETTING_FILE;
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
   public static final String FILE_MODEL = "FileModel";
+  public static final String JAVA_FILE_MODEL = "JavaFileModel";
   public static final String FILES = "files";
   public static final String EVENTS_DIR = "Events";
   public static final String EVENTS_HOLDER = "EventsHolder";
@@ -137,10 +140,18 @@ public final class EnvironmentUtils {
     if (module.projectRootDirectory != null && module.module != null) {
       File javaDir = new File(module.javaSourceDirectory, FILES);
 
-      String[] packageBreakdown = packageName.split(".");
-      for (String packagePart : packageBreakdown) {
-        javaDir = new File(javaDir, packagePart);
-        javaDir = new File(javaDir, FILES);
+      String[] packageBreakdown = packageName.split("\\.");
+      for (int i = 0; i < packageBreakdown.length; ++i) {
+        if (packageBreakdown[i].length() != 0) {
+          javaDir = new File(javaDir, packageBreakdown[i]);
+          javaDir = new File(javaDir, FILES);
+        }
+      }
+      if (packageName.length() != 0) {
+        if (packageBreakdown.length == 0) {
+          javaDir = new File(javaDir, packageName);
+          javaDir = new File(javaDir, FILES);
+        }
       }
 
       return javaDir;
