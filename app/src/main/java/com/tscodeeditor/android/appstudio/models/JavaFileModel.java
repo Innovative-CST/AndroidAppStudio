@@ -35,6 +35,7 @@ import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,32 @@ public class JavaFileModel extends FileModel implements Serializable {
 
   public static final int SIMPLE_JAVA_CLASS = 0;
   public static final int JAVA_ACTIVITY = 1;
+
+  public JavaFileModel() {
+    StringBuilder rawCode = new StringBuilder();
+    rawCode.append("package ");
+    rawCode.append(RawCodeReplacer.getReplacer("filePackage name"));
+    rawCode.append(";");
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append(RawCodeReplacer.getReplacer("imports"));
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append("public class ");
+    rawCode.append(RawCodeReplacer.getReplacer("className"));
+	rawCode.append(" ");
+	rawCode.append(RawCodeReplacer.getReplacer("inheritence"));
+	rawCode.append(" {");
+	rawCode.append("\n");
+	rawCode.append("\n");
+	rawCode.append(RawCodeReplacer.getReplacer("variables"));
+	rawCode.append("\n");
+	rawCode.append("\n");
+	rawCode.append(RawCodeReplacer.getReplacer("events"));
+	rawCode.append("\n");
+	rawCode.append("\n");
+	rawCode.append("}");
+  }
 
   @Override
   public String getCode(

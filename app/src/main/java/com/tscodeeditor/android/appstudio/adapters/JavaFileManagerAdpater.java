@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.JavaFileManagerActivity;
+import com.tscodeeditor.android.appstudio.activities.JavaFileModelEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterJavaFileManagerBinding;
 import com.tscodeeditor.android.appstudio.models.JavaFileModel;
@@ -104,7 +105,17 @@ public class JavaFileManagerAdpater
       AdapterJavaFileManagerBinding binding = AdapterJavaFileManagerBinding.bind(holder.itemView);
       binding.title.setText(javaFilesList.get(position - folderList.size()).getFileName());
       binding.icon.setImageResource(R.drawable.ic_java);
-      binding.getRoot().setOnClickListener(v -> {});
+      binding
+          .getRoot()
+          .setOnClickListener(
+              v -> {
+                Intent editor = new Intent(activity, JavaFileModelEditorActivity.class);
+                editor.putExtra("module", module);
+                editor.putExtra(
+                    "fileName", javaFilesList.get(position - folderList.size()).getFileName());
+                editor.putExtra("packageName", packageName);
+                activity.startActivity(editor);
+              });
     }
   }
 

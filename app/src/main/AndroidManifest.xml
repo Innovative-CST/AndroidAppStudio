@@ -80,6 +80,10 @@
             android:exported="true" />
 
         <activity
+            android:name="com.tscodeeditor.android.appstudio.activities.JavaFileModelEditorActivity"
+            android:exported="true" />
+
+        <activity
             android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
             android:exported="true" />
 
