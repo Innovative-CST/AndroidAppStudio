@@ -4,34 +4,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:background="@drawable/ripple_on_color_surface"
-    android:gravity="center_vertical"
-    android:clickable="true"
     android:padding="8dp">
 
-    <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="8dp"
-        android:id="@+id/icon" />
-
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        style="?attr/materialCardViewElevatedStyle">
 
-        <TextView
+        <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="16sp"
-            android:id="@+id/title" />
+            android:layout_width="match_parent"
+            android:background="@drawable/ripple_on_color_surface"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:padding="8dp">
 
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="10dp"
-            android:id="@+id/description" />
+            <ImageView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:padding="8dp"
+                android:tint="?attr/colorOnSurface"
+                android:id="@+id/icon" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:id="@+id/title" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="10dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:id="@+id/description" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
