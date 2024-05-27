@@ -98,18 +98,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
       binding.title.setText(event.getTitle());
       binding.description.setText(event.getDescription());
       binding.icon.setImageResource(event.getIcon());
-      binding
-          .getRoot()
-          .setOnClickListener(
-              v -> {
-                File eventFile = new File(eventListPath, event.getName());
-                Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
-                editor.putExtra("module", module);
-                editor.putExtra("fileModelDirectory", fileModelDirectory.getAbsolutePath());
-                editor.putExtra("eventListPath", eventListPath.getAbsolutePath());
-                editor.putExtra("eventFile", eventFile.getAbsolutePath());
-                activity.startActivity(editor);
-              });
+      binding.cardView.setOnClickListener(
+          v -> {
+            File eventFile = new File(eventListPath, event.getName());
+            Intent editor = new Intent(holder.itemView.getContext(), EventEditorActivity.class);
+            editor.putExtra("module", module);
+            editor.putExtra("fileModelDirectory", fileModelDirectory.getAbsolutePath());
+            editor.putExtra("eventListPath", eventListPath.getAbsolutePath());
+            editor.putExtra("eventFile", eventFile.getAbsolutePath());
+            activity.startActivity(editor);
+          });
     }
   }
 
