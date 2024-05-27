@@ -31,10 +31,13 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventsBinding;
@@ -144,7 +147,7 @@ public class EventsActivity extends BaseActivity {
       Menu menu = binding.navigationRail.getMenu();
       MenuItem item =
           menu.add(Menu.NONE, position, Menu.NONE, eventHolderList.get(position).getHolderName());
-      item.setIcon(getResources().getDrawable(eventHolderList.get(position).getIcon()));
+      item.setIcon(getEventHolderIcon(this, eventHolderList.get(position)));
       if (eventHolderList.get(position).isBuiltInEvents()) {
         getSupportFragmentManager()
             .beginTransaction()
@@ -180,6 +183,17 @@ public class EventsActivity extends BaseActivity {
               .commit();
           return true;
         });
+  }
+
+  public static Drawable getEventHolderIcon(Context context, EventHolder holder) {
+    if (!holder.isExternalIcon()) {
+      return ContextCompat.getDrawable(
+          context,
+          context
+              .getResources()
+              .getIdentifier(holder.getIcon(), "drawable", context.getPackageName()));
+    }
+    return null;
   }
 
   @Override

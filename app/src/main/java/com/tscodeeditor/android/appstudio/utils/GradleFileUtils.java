@@ -47,7 +47,7 @@ public class GradleFileUtils {
     EventHolder eventHolder = new EventHolder();
     eventHolder.setBuiltInEvents(true);
     eventHolder.setHolderName("Config");
-    eventHolder.setIcon(R.drawable.ic_gradle);
+    eventHolder.setIcon("ic_gradle");
     eventHolder.setDisableNewEvents(true);
     return eventHolder;
   }
