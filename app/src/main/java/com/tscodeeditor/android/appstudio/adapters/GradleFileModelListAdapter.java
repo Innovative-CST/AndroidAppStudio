@@ -110,36 +110,33 @@ public class GradleFileModelListAdapter
 
         } else binding.icon.setImageResource(R.drawable.ic_folder);
 
-        binding
-            .getRoot()
-            .setOnClickListener(
-                v -> {
-                  Intent modules = new Intent(modulesActivity, ModulesActivity.class);
-                  modules.putExtra(
-                      "projectRootDirectory",
-                      modulesActivity.projectRootDirectory.getAbsolutePath());
-                  modules.putExtra(
-                      "currentDir",
-                      new File(
-                              modulesActivity.currentDir,
-                              new File(
-                                      new File(fileList.get(position).getName()),
-                                      EnvironmentUtils.FILES)
-                                  .getAbsolutePath())
-                          .getAbsolutePath());
-                  modules.putExtra(
-                      "isInsideModule",
-                      fileList.get(position).isAndroidAppModule()
-                          || fileList.get(position).isAndroidLibrary());
-                  modules.putExtra(
-                      "outputPath",
-                      new File(modulesActivity.outputDir, fileList.get(position).getName())
-                          .getAbsolutePath());
-                  modules.putExtra(
-                      "module",
-                      modulesActivity.module.concat(":").concat(fileList.get(position).getName()));
-                  modulesActivity.startActivity(modules);
-                });
+        binding.cardView.setOnClickListener(
+            v -> {
+              Intent modules = new Intent(modulesActivity, ModulesActivity.class);
+              modules.putExtra(
+                  "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
+              modules.putExtra(
+                  "currentDir",
+                  new File(
+                          modulesActivity.currentDir,
+                          new File(
+                                  new File(fileList.get(position).getName()),
+                                  EnvironmentUtils.FILES)
+                              .getAbsolutePath())
+                      .getAbsolutePath());
+              modules.putExtra(
+                  "isInsideModule",
+                  fileList.get(position).isAndroidAppModule()
+                      || fileList.get(position).isAndroidLibrary());
+              modules.putExtra(
+                  "outputPath",
+                  new File(modulesActivity.outputDir, fileList.get(position).getName())
+                      .getAbsolutePath());
+              modules.putExtra(
+                  "module",
+                  modulesActivity.module.concat(":").concat(fileList.get(position).getName()));
+              modulesActivity.startActivity(modules);
+            });
       } else {
         if (fileList.get(position).getFileExtension() != null) {
           if (fileList.get(position).getFileExtension().equals("gradle")) {
@@ -147,21 +144,18 @@ public class GradleFileModelListAdapter
           }
         }
 
-        binding
-            .getRoot()
-            .setOnClickListener(
-                v -> {
-                  Intent eventsActivity = new Intent(modulesActivity, EventsActivity.class);
-                  eventsActivity.putExtra(
-                      "projectRootDirectory",
-                      modulesActivity.projectRootDirectory.getAbsolutePath());
-                  eventsActivity.putExtra(
-                      "fileModelDirectory",
-                      new File(modulesActivity.currentDir, fileList.get(position).getName())
-                          .getAbsolutePath());
-                  eventsActivity.putExtra("module", modulesActivity.module);
-                  modulesActivity.startActivity(eventsActivity);
-                });
+        binding.cardView.setOnClickListener(
+            v -> {
+              Intent eventsActivity = new Intent(modulesActivity, EventsActivity.class);
+              eventsActivity.putExtra(
+                  "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
+              eventsActivity.putExtra(
+                  "fileModelDirectory",
+                  new File(modulesActivity.currentDir, fileList.get(position).getName())
+                      .getAbsolutePath());
+              eventsActivity.putExtra("module", modulesActivity.module);
+              modulesActivity.startActivity(eventsActivity);
+            });
       }
     } else {
       LayoutProjectEditorNavigationBinding binding =

@@ -66,6 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textSize="18sp"
+                        android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold"
                         android:id="@+id/appName"
                         android:text="@string/app_name" />
@@ -78,6 +79,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginEnd="2dp"
+                            android:textColor="?attr/colorOnSurface"
                             android:layout_marginStart="2dp"
                             android:text="@string/by" />
 
@@ -85,6 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginEnd="2dp"
+                            android:textColor="?attr/colorOnSurface"
                             android:layout_marginStart="2dp"
                             android:id="@+id/orgName"
                             android:text="@string/ts_code_editor" />
@@ -128,11 +131,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:textSize="18sp"
+                                android:textColor="?attr/colorOnSurface"
                                 android:text="@string/version_name" />
 
                             <TextView
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
+                                android:textColor="?attr/colorOnSurface"
                                 android:id="@+id/versionName" />
 
                         </LinearLayout>
@@ -161,11 +166,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:textSize="18sp"
+                                android:textColor="?attr/colorOnSurface"
                                 android:text="@string/commitSha" />
 
                             <TextView
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
+                                android:textColor="?attr/colorOnSurface"
                                 android:id="@+id/commitSha" />
 
                         </LinearLayout>

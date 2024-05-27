@@ -10,11 +10,13 @@
     <ImageView
         android:layout_height="30dp"
         android:layout_width="30dp"
+        android:tint="?attr/colorOnSurface"
         android:id="@+id/platformIcon" />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:textColor="?attr/colorOnSurface"
         android:paddingStart="8dp"
         android:textStyle="bold"
         android:id="@+id/platformName" />
