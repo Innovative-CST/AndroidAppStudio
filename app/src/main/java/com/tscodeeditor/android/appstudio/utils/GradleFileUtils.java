@@ -91,9 +91,9 @@ public class GradleFileUtils {
     FileModel buildGradleFile = null;
 
     if (module.isAndroidAppModule()) {
-      buildGradleFile = BuiltInGradleFileModel.getAppModuleGradleFileModule();
+      buildGradleFile = BuiltInGradleFileModel.getAppModuleGradleFileModel();
     } else {
-      buildGradleFile = BuiltInGradleFileModel.getLibraryModuleGradleFileModule();
+      buildGradleFile = BuiltInGradleFileModel.getLibraryModuleGradleFileModel();
     }
 
     if (!buildGradleFileModel.exists()) {

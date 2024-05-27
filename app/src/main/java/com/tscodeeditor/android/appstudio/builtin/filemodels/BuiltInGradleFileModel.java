@@ -41,7 +41,7 @@ public class BuiltInGradleFileModel {
   /*
    * Built-in file model of build.gradle of application module.
    */
-  public static FileModel getAppModuleGradleFileModule() {
+  public static FileModel getAppModuleGradleFileModel() {
     FileModel appModuleGradleFile = new FileModel();
     appModuleGradleFile.setFileName("build");
     appModuleGradleFile.setFileExtension("gradle");
@@ -72,7 +72,7 @@ public class BuiltInGradleFileModel {
   /*
    * Built-in file model of build.gradle of library module.
    */
-  public static FileModel getLibraryModuleGradleFileModule() {
+  public static FileModel getLibraryModuleGradleFileModel() {
     FileModel libraryModuleGradleFile = new FileModel();
     libraryModuleGradleFile.setFileName("build");
     libraryModuleGradleFile.setFileExtension("gradle");
