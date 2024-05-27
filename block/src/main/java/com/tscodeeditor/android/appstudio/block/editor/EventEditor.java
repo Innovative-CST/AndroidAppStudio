@@ -62,6 +62,7 @@ public class EventEditor extends RelativeLayout {
   public BlockView draggingBlock;
   public BlockPreview blockPreview;
   public HashMap<String, Object> variables;
+  private boolean isDarkMode;
 
   public boolean isDragging = false;
   private boolean isBlockPallateVisible = false;
@@ -77,7 +78,7 @@ public class EventEditor extends RelativeLayout {
 
     binding = EventEditorLayoutBinding.inflate(LayoutInflater.from(context));
     blockFloatingView = new BlockDragView(context, null);
-    blockPreview = new BlockPreview(context);
+    blockPreview = new BlockPreview(this);
     binding.getRoot().setClipChildren(true);
     addView(binding.getRoot());
     setMatchParent(binding.getRoot());
@@ -119,8 +120,9 @@ public class EventEditor extends RelativeLayout {
     binding.blockArea.setVisibility(show ? View.VISIBLE : View.GONE);
   }
 
-  public void initEditor(Event event, HashMap<String, Object> variables) {
+  public void initEditor(Event event, boolean darkMode, HashMap<String, Object> variables) {
     setVariables(variables);
+    setDarkMode(darkMode);
     binding.canva.initEditor(event, this);
   }
 
@@ -422,5 +424,13 @@ public class EventEditor extends RelativeLayout {
 
   public void setVariables(HashMap<String, Object> variables) {
     this.variables = variables;
+  }
+
+  public boolean isDarkMode() {
+    return this.isDarkMode;
+  }
+
+  public void setDarkMode(boolean isDarkMode) {
+    this.isDarkMode = isDarkMode;
   }
 }

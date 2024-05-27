@@ -39,7 +39,9 @@ import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
+import com.tscodeeditor.android.appstudio.models.SettingModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.SettingUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
@@ -138,7 +140,11 @@ public class EventEditorActivity extends BaseActivity {
       if (event != null) {
         variables.put("Event", event);
       }
-      binding.eventEditor.initEditor(event, variables);
+      SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+      if (settings == null) {
+        settings = new SettingModel();
+      }
+      binding.eventEditor.initEditor(event, settings.isEnabledDarkMode(), variables);
     }
 
     if (event.getName() != null) {

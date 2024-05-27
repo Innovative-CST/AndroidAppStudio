@@ -37,13 +37,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.tscodeeditor.android.appstudio.block.R;
+import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 
 public class BlockPreview extends LinearLayout {
   private BlockModel block;
+  private EventEditor editor;
 
-  public BlockPreview(Context context) {
-    super(context);
+  public BlockPreview(EventEditor editor) {
+    super(editor.getContext());
+    this.editor = editor;
   }
 
   public void setBlock(BlockModel block) {
@@ -52,6 +55,7 @@ public class BlockPreview extends LinearLayout {
   }
 
   public void drawPreview() {
+    String previewColor = editor.isDarkMode() ? "#FFFFFF" : "#000000";
     removeAllViews();
     setOrientation(LinearLayout.VERTICAL);
     if (block.getBlockType() == BlockModel.Type.defaultBlock) {
@@ -60,14 +64,15 @@ public class BlockPreview extends LinearLayout {
               LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
       LinearLayout top = new LinearLayout(getContext());
-      BlockView.setDrawable(top, R.drawable.block_default_top, Color.parseColor("#000000"));
+      BlockView.setDrawable(top, R.drawable.block_default_top, Color.parseColor(previewColor));
       addView(top);
       LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(body, R.drawable.block_default_cut_bl_br, Color.parseColor("#000000"));
+      BlockView.setDrawable(
+          body, R.drawable.block_default_cut_bl_br, Color.parseColor(previewColor));
       addView(body);
       LinearLayout bottom = new LinearLayout(getContext());
       BlockView.setDrawable(
-          bottom, R.drawable.block_default_bottom_joint, Color.parseColor("#000000"));
+          bottom, R.drawable.block_default_bottom_joint, Color.parseColor(previewColor));
       addView(bottom);
       top.setLayoutParams(layoutParams);
       body.setLayoutParams(layoutParams);
