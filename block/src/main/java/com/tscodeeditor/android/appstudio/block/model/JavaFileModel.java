@@ -29,7 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.models;
+package com.tscodeeditor.android.appstudio.block.model;
 
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
