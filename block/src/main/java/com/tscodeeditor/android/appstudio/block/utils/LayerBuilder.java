@@ -31,7 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.block.utils;
 
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -53,7 +52,8 @@ public class LayerBuilder {
       BlockFieldLayerModel layer,
       BlockModel blockModel,
       LinearLayout layerLayout,
-      int layerPosition) {
+      int layerPosition,
+      boolean darkMode) {
     /*
      * If the block is for defining event then and number of Layout is 1 then:
      * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
@@ -62,15 +62,20 @@ public class LayerBuilder {
       setDrawable(
           layerLayout,
           R.drawable.block_default_cut_rt_bl_br,
-          Color.parseColor(blockModel.getColor()));
+          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
     }
     if (blockModel.getBlockLayerModel().size() == 1 && !blockModel.isFirstBlock()) {
       setDrawable(
-          layerLayout, R.drawable.block_default_cut_bl_br, Color.parseColor(blockModel.getColor()));
+          layerLayout,
+          R.drawable.block_default_cut_bl_br,
+          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
     }
     if (blockModel.getBlockLayerModel().size() > 1
         && layerPosition != (blockModel.getBlockLayerModel().size() - 1)) {
-      setDrawable(layerLayout, R.drawable.block_no_cut, Color.parseColor(blockModel.getColor()));
+      setDrawable(
+          layerLayout,
+          R.drawable.block_no_cut,
+          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
     }
 
     // Load block content layer...
@@ -85,14 +90,17 @@ public class LayerBuilder {
       BlockModel blockModel,
       LinearLayout layerLayout,
       ArrayList<LinearLayout> droppables,
-      int layerPosition) {
+      int layerPosition,
+      boolean darkMode) {
     LinearLayout layerLayoutTop = new LinearLayout(layerLayout.getContext());
     LinearLayout.LayoutParams layerLayoutTopParams =
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     layerLayoutTop.setLayoutParams(layerLayoutTopParams);
     setDrawable(
-        layerLayoutTop, R.drawable.block_holder_layer_top, Color.parseColor(blockModel.getColor()));
+        layerLayoutTop,
+        R.drawable.block_holder_layer_top,
+        ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
 
     layerLayout.addView(layerLayoutTop);
 
@@ -186,7 +194,9 @@ public class LayerBuilder {
         0);
     jointLayout.setLayoutParams(jointLayoutParams);
     setDrawable(
-        jointLayout, R.drawable.block_holder_joint, Color.parseColor(blockModel.getColor()));
+        jointLayout,
+        R.drawable.block_holder_joint,
+        ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
 
     layerLayout.addView(jointLayout);
 
@@ -205,7 +215,7 @@ public class LayerBuilder {
     setDrawable(
         layerLayoutBottom,
         R.drawable.block_holder_layer_bottom,
-        Color.parseColor(blockModel.getColor()));
+        ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
     layerLayout.addView(layerLayoutBottom);
 
     /*
@@ -221,7 +231,7 @@ public class LayerBuilder {
       setDrawable(
           bottom2CornerCut,
           R.drawable.block_holder_last_layer,
-          Color.parseColor(blockModel.getColor()));
+          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
       layerLayout.addView(bottom2CornerCut);
     }
 
@@ -234,7 +244,8 @@ public class LayerBuilder {
         firstBlockTop.setLayoutParams(_lp);
         Drawable firstBlockTopDrawable =
             ContextCompat.getDrawable(layerLayout.getContext(), R.drawable.block_default_top);
-        firstBlockTopDrawable.setTint(Color.parseColor(blockModel.getColor()));
+        firstBlockTopDrawable.setTint(
+            ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
         firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
         firstBlockTop.setBackground(firstBlockTopDrawable);
         blockView.addView(firstBlockTop, 0);

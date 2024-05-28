@@ -207,7 +207,7 @@ public class EditorCanva extends EditorScrollView {
     attachedBlockLayout.setOrientation(LinearLayout.VERTICAL);
     attachedBlockLayout.setId(R.id.attachedBlockLayout);
 
-    BlockView defineBlock = new BlockView(null, getContext(), event.getEventTopBlock());
+    BlockView defineBlock = new BlockView(editor, getContext(), event.getEventTopBlock());
     defineBlock.setLayoutParams(
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

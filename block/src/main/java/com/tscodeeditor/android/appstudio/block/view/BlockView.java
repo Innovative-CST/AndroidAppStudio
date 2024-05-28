@@ -32,7 +32,6 @@
 package com.tscodeeditor.android.appstudio.block.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -49,6 +48,7 @@ import com.tscodeeditor.android.appstudio.block.model.BlockHolderLayer;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
 import com.tscodeeditor.android.appstudio.block.utils.BlockMarginConstants;
+import com.tscodeeditor.android.appstudio.block.utils.ColorPalleteUtils;
 import com.tscodeeditor.android.appstudio.block.utils.LayerBuilder;
 import com.tscodeeditor.android.appstudio.block.utils.TargetUtils;
 import com.tscodeeditor.android.appstudio.block.utils.UnitUtils;
@@ -108,7 +108,8 @@ public class BlockView extends LinearLayout {
               ((BlockFieldLayerModel) getBlockModel().getBlockLayerModel().get(layerCount)),
               getBlockModel(),
               layerLayout,
-              layerCount);
+              layerCount,
+              editor.isDarkMode());
 
           if (blockTop != null) {
             layerLayout
@@ -129,7 +130,8 @@ public class BlockView extends LinearLayout {
               getBlockModel(),
               layerLayout,
               droppables,
-              layerCount);
+              layerCount,
+              editor.isDarkMode());
         }
         addView(layerLayout);
       }
@@ -150,7 +152,8 @@ public class BlockView extends LinearLayout {
       firstBlockTop.setLayoutParams(layoutParams);
       Drawable firstBlockTopDrawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_first_top);
-      firstBlockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+      firstBlockTopDrawable.setTint(
+          ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
       firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       firstBlockTop.setBackground(firstBlockTopDrawable);
       addView(firstBlockTop);
@@ -162,7 +165,8 @@ public class BlockView extends LinearLayout {
       blockTop.setLayoutParams(_lp);
       Drawable blockTopDrawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
-      blockTopDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+      blockTopDrawable.setTint(
+          ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
       blockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       blockTop.setBackground(blockTopDrawable);
       addView(blockTop);
@@ -179,7 +183,8 @@ public class BlockView extends LinearLayout {
       blockBottomJoint.setLayoutParams(layoutParams);
       Drawable blockBottomJointDrawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_default_bottom_joint);
-      blockBottomJointDrawable.setTint(Color.parseColor(getBlockModel().getColor()));
+      blockBottomJointDrawable.setTint(
+          ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
       blockBottomJointDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       blockBottomJoint.setBackground(blockBottomJointDrawable);
       addView(blockBottomJoint);
