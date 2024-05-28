@@ -158,40 +158,33 @@ public final class ProjectCodeBuilder {
     FileModel fileModel = null;
 
     if (!new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).exists()) {
+      if (!new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR).exists()) {
+        listener.onBuildProgressLog(
+            "Error: "
+                + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
+                + " is expected a file but not found");
 
-      listener.onBuildProgressLog(
-          "Error: "
-              + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
-              + " is expected a file but not found");
-
-      return null;
+        return null;
+      }
     }
 
-    Object deserializedObject =
-        DeserializerUtils.deserialize(new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL));
+    fileModel =
+        DeserializerUtils.deserialize(
+            new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class);
 
-    if (deserializedObject != null) {
-      if (deserializedObject instanceof FileModel) {
-        fileModel = (FileModel) deserializedObject;
-      } else {
+    if (fileModel == null) {
+      fileModel =
+          DeserializerUtils.deserialize(
+              new File(fileModelDirectory, EnvironmentUtils.JAVA_FILE_MODEL), FileModel.class);
+      if (fileModel == null) {
         if (listener != null) {
-
           listener.onBuildProgressLog(
               "Error: "
                   + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
-                  + " is not a file model.");
+                  + " failed to deserialize...");
         }
         return null;
       }
-    } else {
-      if (listener != null) {
-
-        listener.onBuildProgressLog(
-            "Error: "
-                + "Failed to deserialize file model at "
-                + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath());
-      }
-      return null;
     }
 
     File output = new File(destination, fileModel.getName());
