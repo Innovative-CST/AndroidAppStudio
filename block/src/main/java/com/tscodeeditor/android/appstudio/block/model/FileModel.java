@@ -125,7 +125,10 @@ public class FileModel implements Serializable, Cloneable {
       ArrayList<Object> builtInEvents,
       ArrayList<Object> events,
       HashMap<String, Object> variables) {
-    String resultCode = new String(getRawCode());
+    String resultCode = getRawCode() != null ? new String(getRawCode()) : null;
+    if (resultCode == null) {
+      return "";
+    }
 
     if (builtInEvents != null) {
 
