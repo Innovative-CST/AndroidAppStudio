@@ -64,20 +64,23 @@ public class BlockView extends LinearLayout {
   private boolean enableEditing;
   private boolean isInsideEditor;
   private boolean isRootBlock;
+  private boolean darkMode;
   private float x, y;
 
-  public BlockView(EventEditor editor, Context context, BlockModel blockModel) {
+  public BlockView(EventEditor editor, Context context, BlockModel blockModel, boolean darkMode) {
     super(context);
     this.editor = editor;
     this.context = context;
     this.blockModel = blockModel;
+    this.darkMode = darkMode;
     updateBlock();
   }
 
-  public BlockView(EventEditor editor, Context context) {
+  public BlockView(EventEditor editor, Context context, boolean darkMode) {
     super(context);
     this.editor = editor;
     this.context = context;
+    this.darkMode = darkMode;
   }
 
   public void updateBlock() {
@@ -109,7 +112,7 @@ public class BlockView extends LinearLayout {
               getBlockModel(),
               layerLayout,
               layerCount,
-              editor.isDarkMode());
+              darkMode);
 
           if (blockTop != null) {
             layerLayout
@@ -131,7 +134,7 @@ public class BlockView extends LinearLayout {
               layerLayout,
               droppables,
               layerCount,
-              editor.isDarkMode());
+              darkMode);
         }
         addView(layerLayout);
       }
@@ -153,7 +156,7 @@ public class BlockView extends LinearLayout {
       Drawable firstBlockTopDrawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_first_top);
       firstBlockTopDrawable.setTint(
-          ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
+          ColorPalleteUtils.transformColor(getBlockModel().getColor(), darkMode));
       firstBlockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       firstBlockTop.setBackground(firstBlockTopDrawable);
       addView(firstBlockTop);
@@ -166,7 +169,7 @@ public class BlockView extends LinearLayout {
       Drawable blockTopDrawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_default_top);
       blockTopDrawable.setTint(
-          ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
+          ColorPalleteUtils.transformColor(getBlockModel().getColor(), darkMode));
       blockTopDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       blockTop.setBackground(blockTopDrawable);
       addView(blockTop);
@@ -184,7 +187,7 @@ public class BlockView extends LinearLayout {
       Drawable blockBottomJointDrawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_default_bottom_joint);
       blockBottomJointDrawable.setTint(
-          ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
+          ColorPalleteUtils.transformColor(getBlockModel().getColor(), darkMode));
       blockBottomJointDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       blockBottomJoint.setBackground(blockBottomJointDrawable);
       addView(blockBottomJoint);
@@ -352,7 +355,7 @@ public class BlockView extends LinearLayout {
     }
 
     if (!isDropConsumed) {
-      BlockView block = new BlockView(editor, getContext(), blockModel.clone());
+      BlockView block = new BlockView(editor, getContext(), blockModel.clone(), darkMode);
 
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);

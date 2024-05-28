@@ -191,7 +191,8 @@ public class EventEditor extends RelativeLayout {
             dropBlockView(index, x, y);
           } else {
             BlockView block =
-                new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
+                new BlockView(
+                    this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
 
             FrameLayout.LayoutParams blockParams =
                 new FrameLayout.LayoutParams(
@@ -275,7 +276,8 @@ public class EventEditor extends RelativeLayout {
     }
 
     if (!isDropConsumed) {
-      BlockView block = new BlockView(this, getContext(), draggingBlock.getBlockModel().clone());
+      BlockView block =
+          new BlockView(this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
 
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);

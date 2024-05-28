@@ -50,7 +50,8 @@ public class BlockFieldLayerHandler {
       BlockFieldLayerModel blockFieldLayerModel,
       EventEditor editor,
       BlockModel blockModel,
-      BlockView blockView) {
+      BlockView blockView,
+      boolean isDarkMode) {
     LinearLayout root = new LinearLayout(context);
 
     for (int position = 0; position < blockFieldLayerModel.getBlockFields().size(); ++position) {

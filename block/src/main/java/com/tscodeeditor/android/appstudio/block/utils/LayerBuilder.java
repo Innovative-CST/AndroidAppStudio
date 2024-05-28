@@ -81,7 +81,12 @@ public class LayerBuilder {
     // Load block content layer...
     layerLayout.addView(
         BlockFieldLayerHandler.getBlockFieldLayerView(
-            layerLayout.getContext(), layer, blockView.getEditor(), blockModel, blockView));
+            layerLayout.getContext(),
+            layer,
+            blockView.getEditor(),
+            blockModel,
+            blockView,
+            darkMode));
   }
 
   public static void buildBlockHolderLayer(
@@ -256,7 +261,10 @@ public class LayerBuilder {
     for (int blockPosition = 0; blockPosition < layer.getBlocks().size(); ++blockPosition) {
       BlockView block =
           new BlockView(
-              blockView.getEditor(), blockView.getContext(), layer.getBlocks().get(blockPosition));
+              blockView.getEditor(),
+              blockView.getContext(),
+              layer.getBlocks().get(blockPosition),
+              darkMode);
 
       block.setEnableDragDrop(true);
       block.setEnableEditing(true);
