@@ -81,38 +81,42 @@ public class FileModelCodeHelper {
     if (eventsDirectory == null) return null;
     if (eventsDirectory.isFile()) return null;
 
-    for (File file : eventsDirectory.listFiles()) {
-      if (file.isFile()) continue;
+    if (eventsDirectory.exists()) {
 
-      File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+      for (File file : eventsDirectory.listFiles()) {
+        if (file.isFile()) continue;
 
-      if (!eventsHolderFile.exists()) continue;
+        File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
 
-      EventHolder holder = null;
+        if (!eventsHolderFile.exists()) continue;
 
-      Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+        EventHolder holder = null;
 
-      if (deserializedObject == null) continue;
+        Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
 
-      if (!(deserializedObject instanceof EventHolder)) continue;
+        if (deserializedObject == null) continue;
 
-      holder = (EventHolder) deserializedObject;
+        if (!(deserializedObject instanceof EventHolder)) continue;
 
-      if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
-        builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
-      } else {
-        ArrayList<Object> extraEvents =
-            EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+        holder = (EventHolder) deserializedObject;
 
-        for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
-          if (extraEvents.get(extraEventCount) instanceof Event) {
-            dirEvents.add((Event) extraEvents.get(extraEventCount));
-          } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
-            dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+        if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+          builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+        } else {
+          ArrayList<Object> extraEvents =
+              EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+
+          for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+            if (extraEvents.get(extraEventCount) instanceof Event) {
+              dirEvents.add((Event) extraEvents.get(extraEventCount));
+            } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+              dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+            }
           }
         }
       }
     }
+
     HashMap<String, Object> variables = new HashMap<String, Object>();
 
     File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
