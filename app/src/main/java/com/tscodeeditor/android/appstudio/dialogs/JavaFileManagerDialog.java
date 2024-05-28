@@ -119,7 +119,7 @@ public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
                       EnvironmentUtils.getJavaDirectory(module, packageName),
                       binding.fileName.getText().toString().concat(".java"));
               classPath.mkdirs();
-              new File(classPath, EnvironmentUtils.FILES).mkdirs();
+              new File(classPath, EnvironmentUtils.EVENTS_DIR).mkdirs();
               SerializerUtil.serialize(
                   javaClass,
                   new File(classPath, EnvironmentUtils.JAVA_FILE_MODEL),
