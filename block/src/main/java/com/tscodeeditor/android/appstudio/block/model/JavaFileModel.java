@@ -62,9 +62,8 @@ public class JavaFileModel extends FileModel implements Serializable {
     rawCode.append("\n");
     rawCode.append("public class ");
     rawCode.append(RawCodeReplacer.getReplacer("className"));
-	rawCode.append(" ");
 	rawCode.append(RawCodeReplacer.getReplacer("inheritence"));
-	rawCode.append(" {");
+	rawCode.append("{");
 	rawCode.append("\n");
 	rawCode.append("\n");
 	rawCode.append(RawCodeReplacer.getReplacer("variables"));
@@ -74,6 +73,7 @@ public class JavaFileModel extends FileModel implements Serializable {
 	rawCode.append("\n");
 	rawCode.append("\n");
 	rawCode.append("}");
+	setRawCode(rawCode.toString());
   }
 
   @Override
