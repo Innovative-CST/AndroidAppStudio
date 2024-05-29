@@ -35,9 +35,9 @@ import android.app.Activity;
 import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
-import editor.tsd.tools.Language;
 import editor.tsd.tools.Themes;
 import editor.tsd.widget.CodeEditorLayout;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
@@ -48,7 +48,7 @@ public class SourceCodeViewerDialog extends MaterialAlertDialogBuilder {
   private CodeEditorLayout editor;
   private FileModel file;
 
-  public SourceCodeViewerDialog(Activity activity, FileModel file, String code) {
+  public SourceCodeViewerDialog(BaseActivity activity, FileModel file, String code) {
     super(activity);
     this.activity = activity;
     this.file = file;
@@ -61,7 +61,12 @@ public class SourceCodeViewerDialog extends MaterialAlertDialogBuilder {
     }
     editor = new CodeEditorLayout(activity);
     editor.setEditable(false);
-    editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+    if (activity.getSetting().isEnabledDarkMode()) {
+      editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+    } else {
+      editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+    }
+
     if (file != null) {
       editor.setLanguageMode(file.getFileExtension());
       editor.setText(code);

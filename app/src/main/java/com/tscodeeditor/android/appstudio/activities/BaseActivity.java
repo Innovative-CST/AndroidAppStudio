@@ -34,6 +34,9 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import com.tscodeeditor.android.appstudio.models.SettingModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.SettingUtils;
 
 public class BaseActivity extends AppCompatActivity {
   /*
@@ -43,5 +46,13 @@ public class BaseActivity extends AppCompatActivity {
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     EdgeToEdge.enable(this);
+  }
+
+  public SettingModel getSetting() {
+    SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+    if (settings == null) {
+      settings = new SettingModel();
+    }
+	return settings;
   }
 }
