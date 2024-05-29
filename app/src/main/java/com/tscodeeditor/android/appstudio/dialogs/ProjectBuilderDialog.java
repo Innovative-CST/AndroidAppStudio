@@ -77,7 +77,12 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
     }
     var editor = binding.editor;
     editor.setEditable(false);
-    editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+
+    if (activity.getSetting().isEnabledDarkMode()) {
+      editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+    } else {
+      editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+    }
     binding.indicator.setVisibility(View.GONE);
 
     StringBuilder log = new StringBuilder();
