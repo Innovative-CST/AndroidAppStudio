@@ -76,7 +76,7 @@ public class BlockFieldLayerHandler {
          * BlockFieldModel just contains text to display.
          * Using BlockContentView for displaying text.
          */
-        BlockFieldView textField = new BlockFieldView(context, content, blockModel);
+        BlockFieldView textField = new BlockFieldView(context, content, blockModel, isDarkMode);
         textField.setPadding(UnitUtils.dpToPx(context, 4), 0, UnitUtils.dpToPx(context, 4), 0);
         root.addView(textField);
       }

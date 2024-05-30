@@ -32,7 +32,6 @@
 package com.tscodeeditor.android.appstudio.block.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.TypedValue;
 import android.widget.TextView;
 import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
@@ -43,15 +42,20 @@ public class BlockFieldView extends TextView {
   private Context context;
   private BlockFieldModel blockFieldModel;
   private BlockModel blockModel;
+  private boolean isDarkMode;
 
-  public BlockFieldView(Context context, BlockFieldModel blockFieldModel, BlockModel blockModel) {
+  public BlockFieldView(
+      Context context, BlockFieldModel blockFieldModel, BlockModel blockModel, boolean isDarkMode) {
     super(context);
     this.context = context;
     this.blockFieldModel = blockFieldModel;
     this.blockModel = blockModel;
+    this.isDarkMode = isDarkMode;
     setSingleLine(true);
     setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-    setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
+    setTextColor(
+        ColorPalleteUtils.getTextColorForColor(
+            ColorPalleteUtils.transformColor(blockModel.getColor(), isDarkMode)));
     setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
   }
 
@@ -71,7 +75,9 @@ public class BlockFieldView extends TextView {
   public void setBlockModel(BlockModel blockModel) {
     this.blockModel = blockModel;
     setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-    setTextColor(ColorPalleteUtils.getTextColorForColor(Color.parseColor(blockModel.getColor())));
+    setTextColor(
+        ColorPalleteUtils.getTextColorForColor(
+            ColorPalleteUtils.transformColor(blockModel.getColor(), isDarkMode)));
     setText(blockFieldModel.getValue());
   }
 }
