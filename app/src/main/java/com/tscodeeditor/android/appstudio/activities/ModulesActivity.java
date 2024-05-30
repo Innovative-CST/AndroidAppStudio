@@ -150,7 +150,8 @@ public class ModulesActivity extends BaseActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem menuItem) {
     if (menuItem.getItemId() == R.id.run) {
-      ProjectBuilderDialog buildDialog = new ProjectBuilderDialog(this, outputDir, currentDir);
+      ProjectBuilderDialog buildDialog =
+          new ProjectBuilderDialog(this, projectRootDirectory, module);
       buildDialog.create().show();
     }
     return super.onOptionsItemSelected(menuItem);

@@ -48,6 +48,7 @@ import editor.tsd.tools.Themes;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import java.io.File;
+import java.util.concurrent.Executors;
 
 public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
   private BaseActivity activity;
@@ -57,7 +58,7 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
   private ProjectCodeBuilderCancelToken cancelToken;
   private DialogProjectBuilderBinding binding;
 
-  public ProjectBuilderDialog(BaseActivity activity, File outpurDir, File file) {
+  public ProjectBuilderDialog(BaseActivity activity, File projectRootDir, String module) {
     super(activity);
 
     this.activity = activity;
@@ -160,6 +161,11 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
         };
     setCancelable(false);
     setPositiveButton("Cancel", (p1, p2) -> {});
-    ProjectCodeBuilder.buildProjectCode(outpurDir, file, activity, listener, cancelToken, true);
+    Executors.newSingleThreadExecutor()
+        .execute(
+            () -> {
+              ProjectCodeBuilder.generateModulesCode(
+                  projectRootDir, module, true, listener, cancelToken);
+            });
   }
 }

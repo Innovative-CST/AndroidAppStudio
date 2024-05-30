@@ -70,7 +70,7 @@ public class ModuleModel implements Parcelable, Cloneable {
     this.module = module;
     this.projectRootDirectory = projectRootDirectory;
     this.moduleDirectory = EnvironmentUtils.getModuleDirectory(projectRootDirectory, module);
-    moduleOutputDirectory = EnvironmentUtils.getModuleOutputDirectory(module);
+    moduleOutputDirectory = EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module);
 
     javaSourceDirectory = getJavaDirectory();
     javaSourceOutputDirectory = getJavaOutputDirectory();
@@ -102,7 +102,8 @@ public class ModuleModel implements Parcelable, Cloneable {
             new File(
                 new File(
                     EnvironmentUtils.getBuildDir(projectRootDirectory),
-                    EnvironmentUtils.getModuleOutputDirectory(module).getAbsolutePath()),
+                    EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module)
+                        .getAbsolutePath()),
                 EnvironmentUtils.SOURCE_DIR),
             EnvironmentUtils.MAIN_DIR),
         EnvironmentUtils.JAVA_DIR);
@@ -126,9 +127,7 @@ public class ModuleModel implements Parcelable, Cloneable {
     return new File(
         new File(
             new File(
-                new File(
-                    EnvironmentUtils.getBuildDir(projectRootDirectory),
-                    EnvironmentUtils.getModuleOutputDirectory(module).getAbsolutePath()),
+                EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module),
                 EnvironmentUtils.SOURCE_DIR),
             EnvironmentUtils.MAIN_DIR),
         EnvironmentUtils.RES_DIR);
@@ -144,7 +143,8 @@ public class ModuleModel implements Parcelable, Cloneable {
 
   private File getGradleOutputDirectory() {
     return new File(
-        EnvironmentUtils.getModuleOutputDirectory(module), EnvironmentUtils.GRADLE_FILE);
+        EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module),
+        EnvironmentUtils.GRADLE_FILE);
   }
 
   @Override

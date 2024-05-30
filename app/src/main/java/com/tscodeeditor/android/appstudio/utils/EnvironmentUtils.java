@@ -116,19 +116,19 @@ public final class EnvironmentUtils {
     return modulePath;
   }
 
-  public static File getModuleOutputDirectory(String modules) {
-    if (modules == null) return null;
+  public static File getModuleOutputDirectory(File projectRootDirectory, String module) {
+    if (module == null) return null;
 
-    String[] module = modules.split(":");
-    File modulePath = null;
-    for (int i = 0; i < module.length; ++i) {
+    String[] modules = module.split(":");
+    File modulePath = getBuildDir(projectRootDirectory);
+    for (int i = 0; i < modules.length; ++i) {
       if (i == 0) continue;
       if (modulePath == null) {
-        modulePath = new File(module[i]);
+        modulePath = new File(modules[i]);
       } else {
-        modulePath = new File(modulePath, module[i]);
+        modulePath = new File(modulePath, modules[i]);
       }
-      if (i != (module.length - 1)) {
+      if (i != (modules.length - 1)) {
         modulePath = new File(modulePath, FILES);
       }
     }

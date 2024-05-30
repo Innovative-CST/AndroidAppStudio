@@ -32,237 +32,201 @@
 package com.tscodeeditor.android.appstudio.helper;
 
 import android.code.editor.common.utils.FileUtils;
-import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
-import com.tscodeeditor.android.appstudio.exception.ProjectCodeBuildException;
 import com.tscodeeditor.android.appstudio.listener.ProjectCodeBuildListener;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public final class ProjectCodeBuilder {
 
-  public static void buildProjectCode(
-      File rootDestination,
-      File data,
-      BaseActivity activity,
+  public static void generateModulesCode(
+      File projectRootDirectory,
+      String moduleName,
+      boolean rebuild,
       ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cancelToken,
-      boolean shouldCleanBeforeBuild) {
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              long executionStartTime = System.currentTimeMillis();
-              if (listener != null) listener.onBuildStart();
+      ProjectCodeBuilderCancelToken cancelToken) {
 
-              if (rootDestination.exists()) {
-                if (rootDestination.isDirectory()) {
+    FileModel folder =
+        DeserializerUtils.deserialize(
+            new File(
+                EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
+                EnvironmentUtils.FILE_MODEL),
+            FileModel.class);
+    if (folder != null) {
+      if (folder.isAndroidAppModule() || folder.isAndroidLibrary()) {
+        ModuleModel module = new ModuleModel();
+        module.init(moduleName, projectRootDirectory);
+        generateModuleCode(module, rebuild, listener, cancelToken);
+        return;
+      }
+    }
 
-                  if (shouldCleanBeforeBuild) {
-                    if (listener != null) {
-                      listener.onBuildProgressLog("Cleaning destination folder...");
-                    }
-                    if (!cleanFile(rootDestination, listener, cancelToken)) {
-                      if (listener != null) {
-                        ProjectCodeBuildException exception = new ProjectCodeBuildException();
-                        exception.setMessage("Failed to clean destination folder");
-                        listener.onBuildFailed(exception);
-                        return;
-                      }
-                    } else rootDestination.mkdirs();
-                  }
+    ArrayList<FileModel> files =
+        FileModelUtils.getFileModelList(
+            moduleName.equals("")
+                ? EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName)
+                : new File(
+                    EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
+                    EnvironmentUtils.FILES));
+    if (files == null) {
+      return;
+    } else if (files.size() == 0) {
+      return;
+    }
 
-                } else {
-
-                  if (listener != null) {
-                    StringBuilder log = new StringBuilder();
-                    log.append(
-                        "Destination directory in which file/folder was about to generate is an file but expected folder");
-                    log.append("\n");
-                    log.append("Removing the file...");
-                    listener.onBuildProgressLog(log.toString());
-                  }
-
-                  rootDestination.delete();
-
-                  if (listener != null) {
-                    listener.onBuildProgressLog("Creating destination folder...");
-                  }
-                  rootDestination.mkdirs();
-
-                  if (listener != null) {
-                    listener.onBuildProgressLog("Created destination folder...");
-                  }
-                }
-              } else {
-                if (listener != null) {
-                  listener.onBuildProgressLog("Destination folder doesn't exists, Creating new...");
-                }
-                rootDestination.mkdirs();
-                if (listener != null) {
-                  listener.onBuildProgressLog("Created Destination folder");
-                }
-              }
-
-              if (!data.exists()) {
-                if (listener != null) {
-                  ProjectCodeBuildException exception = new ProjectCodeBuildException();
-                  exception.setMessage(
-                      "File of which code the app was about to generate doesn't exists.");
-                  listener.onBuildFailed(exception);
-                  return;
-                }
-              }
-
-              File fileModel = new File(data, EnvironmentUtils.FILE_MODEL);
-              if (fileModel.exists()) {
-                // TODO: Generate a single file || Generate a whole folder
-                if (listener != null) {
-                  ProjectCodeBuildException exception = new ProjectCodeBuildException();
-                  exception.setMessage("Stage not defined Error 1");
-                  listener.onBuildFailed(exception);
-                  return;
-                }
-              } else {
-                File[] files = data.listFiles();
-                if (files.length == 0) {
-                  if (listener != null) {
-                    ProjectCodeBuildException exception = new ProjectCodeBuildException();
-                    exception.setMessage("Data directory is empty.");
-                    listener.onBuildFailed(exception);
-                    return;
-                  }
-                }
-
-                for (File file : files) {
-                  File generatedFile =
-                      generateFileModelOutput(rootDestination, file, listener, cancelToken);
-                }
-              }
-
-              long endExectionTime = System.currentTimeMillis();
-              long executionTime = endExectionTime - executionStartTime;
-              if (listener != null) {
-                listener.onBuildComplete(executionTime);
-              }
-            });
+    for (int i = 0; i < files.size(); ++i) {
+      if (files.get(i).isAndroidAppModule() || files.get(i).isAndroidLibrary()) {
+        ModuleModel module = new ModuleModel();
+        module.init(moduleName + ":" + files.get(i).getName(), projectRootDirectory);
+        generateModuleCode(module, rebuild, listener, cancelToken);
+      } else if (files.get(i).isFolder()) {
+        generateModulesCode(
+            projectRootDirectory,
+            moduleName + ":" + files.get(i).getName(),
+            rebuild,
+            listener,
+            cancelToken);
+      }
+    }
   }
 
-  public static File generateFileModelOutput(
-      File destination,
-      File fileModelDirectory,
+  public static void generateModuleCode(
+      ModuleModel module,
+      boolean rebuild,
       ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cencelToken) {
+      ProjectCodeBuilderCancelToken cancelToken) {
 
-    FileModel fileModel = null;
+    long executionStartTime = System.currentTimeMillis();
+    if (listener != null) listener.onBuildStart();
 
-    if (!new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).exists()) {
-      if (!new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR).exists()) {
-        listener.onBuildProgressLog(
-            "Error: "
-                + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
-                + " is expected a file but not found");
+    /************************************
+     * Generate Module Output Directory *
+     ************************************/
 
-        return null;
-      }
+    if (listener != null) {
+      listener.onBuildProgressLog("Run task : [" + module.module + ":generateCode]\n");
     }
 
-    fileModel =
-        DeserializerUtils.deserialize(
-            new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class);
-
-    if (fileModel == null) {
-      fileModel =
-          DeserializerUtils.deserialize(
-              new File(fileModelDirectory, EnvironmentUtils.JAVA_FILE_MODEL), FileModel.class);
-      if (fileModel == null) {
-        if (listener != null) {
-          listener.onBuildProgressLog(
-              "Error: "
-                  + new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL).getAbsolutePath()
-                  + " failed to deserialize...");
-        }
-        return null;
-      }
-    }
-
-    File output = new File(destination, fileModel.getName());
-    if (fileModel.isFolder()) {
+    if (rebuild) {
       if (listener != null) {
-        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
-        progress.setOutputPath(output);
-        progress.setProgressingFileModel(fileModel);
-        progress.setMessage("Generating " + output.getAbsolutePath());
-        listener.onBuildProgress(progress);
-      }
-      output.mkdirs();
-      if (listener != null) {
-        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
-        progress.setOutputPath(output);
-        progress.setProgressingFileModel(fileModel);
-        progress.setMessage("Generated " + output.getAbsolutePath());
-        listener.onBuildProgress(progress);
-      }
-      if (new File(fileModelDirectory, EnvironmentUtils.FILES).exists()) {
-        for (File file : new File(fileModelDirectory, EnvironmentUtils.FILES).listFiles()) {
-          File generatedFile = generateFileModelOutput(output, file, listener, cencelToken);
-        }
+        listener.onBuildProgressLog("Regenerating whole module code : [" + module.module + "]\n");
       }
     } else {
       if (listener != null) {
-        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
-        progress.setOutputPath(output);
-        progress.setProgressingFileModel(fileModel);
-        progress.setMessage("Generating " + output.getAbsolutePath());
-        listener.onBuildProgress(progress);
-      }
-      FileModelCodeHelper codeGeneratorHelper = new FileModelCodeHelper();
-      codeGeneratorHelper.setFileModel(fileModel);
-      codeGeneratorHelper.setEventsDirectory(
-          new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR));
-
-      FileUtils.writeFile(output.getAbsolutePath(), codeGeneratorHelper.getCode());
-
-      if (listener != null) {
-        ProjectCodeBuildProgress progress = new ProjectCodeBuildProgress();
-        progress.setOutputPath(output);
-        progress.setProgressingFileModel(fileModel);
-        progress.setMessage("Generated " + output.getAbsolutePath());
-        listener.onBuildProgress(progress);
+        listener.onBuildProgressLog(
+            "Generating partially code of module : [" + module.module + "]\n");
       }
     }
-    return output;
+    if (module.moduleOutputDirectory.exists()) {
+      if (rebuild) {
+        cleanFile(module.moduleOutputDirectory, listener, cancelToken);
+      }
+    } else {
+      module.moduleOutputDirectory.mkdirs();
+    }
+
+    /*******************************
+     * Generate Module Gradle File *
+     *******************************/
+
+    if (listener != null) {
+      listener.onBuildProgressLog("> Task " + module.module + ":generateGradleFile");
+    }
+
+    FileModelCodeHelper gradleFileGenerator = new FileModelCodeHelper();
+    gradleFileGenerator.setProjectRootDirectory(module.projectRootDirectory);
+    gradleFileGenerator.setFileModel(
+        DeserializerUtils.deserialize(
+            new File(module.gradleFileDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class));
+    gradleFileGenerator.setEventsDirectory(
+        new File(module.gradleFileDirectory, EnvironmentUtils.EVENTS_DIR));
+
+    if (!module.gradleOutputFile.exists()) {
+      FileUtils.writeFile(
+          module.gradleOutputFile.getAbsolutePath(),
+          gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
+    } else {
+      if (rebuild) {
+        FileUtils.writeFile(
+            module.gradleOutputFile.getAbsolutePath(),
+            gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
+      }
+    }
+
+    /*****************************
+     * Generate Resource Folders *
+     *****************************/
+
+    if (listener != null) {
+      listener.onBuildProgressLog("> Task " + module.module + ":generateResourceFolder");
+    }
+
+    if (module.resourceOutputDirectory.exists()) {
+      if (rebuild) {
+        cleanFile(module.resourceOutputDirectory, listener, cancelToken);
+      }
+    } else {
+      module.resourceOutputDirectory.mkdirs();
+    }
+
+    ArrayList<FileModel> resFolders =
+        FileModelUtils.getFileModelList(new File(module.resourceDirectory, EnvironmentUtils.FILES));
+
+    if (resFolders != null) {
+
+      for (int position = 0; position < resFolders.size(); ++position) {
+        new File(module.resourceOutputDirectory, resFolders.get(position).getName()).mkdirs();
+
+        if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
+            .matcher(resFolders.get(position).getName())
+            .matches()) {
+          generateLayoutResources(
+              module, rebuild, resFolders.get(position).getName(), listener, cancelToken);
+        }
+      }
+    }
+
+    /***********************
+     * Generate Java Files *
+     ***********************/
+
+    // Yet be to done
+
+    long endExectionTime = System.currentTimeMillis();
+    long executionTime = endExectionTime - executionStartTime;
+    if (listener != null) {
+      listener.onBuildComplete(executionTime);
+    }
   }
 
-  public static void buildProjectCode(
-      File rootDestination,
-      File data,
-      BaseActivity activity,
-      ProjectCodeBuilderCancelToken cancelToken,
-      boolean shouldCleanBeforeBuild) {
-    buildProjectCode(rootDestination, data, activity, null, cancelToken, shouldCleanBeforeBuild);
+  public static void generateLayoutResources(
+      ModuleModel module,
+      boolean rebuild,
+      String layoutDirName,
+      ProjectCodeBuildListener listener,
+      ProjectCodeBuilderCancelToken cancelToken) {
+    if (listener != null) {
+      listener.onBuildProgressLog(
+          "> Task " + module.module + ":generateLayoutsFile[" + layoutDirName + "]");
+    }
   }
 
   private static boolean cleanFile(
       File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
     if (!file.exists()) {
-      if (listener != null) {
-        listener.onBuildProgressLog("Directory does not exists, no need to clean");
-      }
       return true;
     }
     if (file.isFile()) {
-      if (listener != null) {
-        listener.onBuildProgressLog("Deleting " + file.getAbsolutePath());
-      }
       return file.delete();
     } else {
       if (file.listFiles().length == 0) {
         if (listener != null) {
           file.delete();
-          listener.onBuildProgressLog(
-              "Directory is already clean, no need to clean " + file.getAbsolutePath());
         }
         return true;
       } else {
@@ -270,9 +234,6 @@ public final class ProjectCodeBuilder {
           if (!cleanFile(subFile, listener, cancelToken)) {
             return false;
           }
-        }
-        if (listener != null) {
-          listener.onBuildProgressLog("Deleting " + file.getAbsolutePath());
         }
         file.delete();
         return true;
