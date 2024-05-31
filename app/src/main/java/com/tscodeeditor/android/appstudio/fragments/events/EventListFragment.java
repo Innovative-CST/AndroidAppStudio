@@ -92,7 +92,7 @@ public class EventListFragment extends Fragment {
                   .runOnUiThread(
                       () -> {
                         if (events.size() == 0) {
-                          showInfo(R.string.no_events_name);
+                          showInfo(R.string.no_events_yet);
                           return;
                         }
                         binding.list.setAdapter(
