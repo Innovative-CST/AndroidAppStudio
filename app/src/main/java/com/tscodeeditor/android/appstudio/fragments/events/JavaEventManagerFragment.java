@@ -47,6 +47,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.databinding.AdapterEventBinding;
@@ -104,7 +105,6 @@ public class JavaEventManagerFragment extends Fragment {
                       () -> {
                         // Loading the events
                         loadEventData(eventHolderList);
-                        switchSection(LIST_SECTION);
                       });
             });
 
@@ -115,6 +115,7 @@ public class JavaEventManagerFragment extends Fragment {
    * Loads the NavigationRail View and Events.
    */
   private void loadEventData(ArrayList<EventHolder> eventHolderList) {
+    binding.navigationRail.getMenu().clear();
     /*
      * ** Loads the Navigation menu **
      * Adds the MenuItem in NavigationRail.
@@ -132,17 +133,22 @@ public class JavaEventManagerFragment extends Fragment {
                 new File(
                     new File(eventsHolderDir, eventHolderList.get(position).getHolderName()),
                     EnvironmentUtils.EVENTS_DIR));
-        binding.list.setAdapter(
-            new EventListAdapter(
-                events,
-                getActivity(),
-                module,
-                packageName,
-                className,
-                new File(
-                    new File(eventsHolderDir, eventHolderList.get(position).getHolderName()),
-                    EnvironmentUtils.EVENTS_DIR)));
-        binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (events.size() == 0) {
+          showInfo(R.string.no_events_yet);
+        } else {
+          binding.list.setAdapter(
+              new EventListAdapter(
+                  events,
+                  getActivity(),
+                  module,
+                  packageName,
+                  className,
+                  new File(
+                      new File(eventsHolderDir, eventHolderList.get(position).getHolderName()),
+                      EnvironmentUtils.EVENTS_DIR)));
+          binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+          switchSection(LIST_SECTION);
+        }
       }
     }
     /*
@@ -158,19 +164,28 @@ public class JavaEventManagerFragment extends Fragment {
                   new File(
                       new File(eventsHolderDir, eventHolderList.get(position).getHolderName()),
                       EnvironmentUtils.EVENTS_DIR));
-          binding.list.setAdapter(
-              new EventListAdapter(
-                  events,
-                  getActivity(),
-                  module,
-                  packageName,
-                  className,
-                  new File(
-                      new File(eventsHolderDir, eventHolderList.get(position).getHolderName()),
-                      EnvironmentUtils.EVENTS_DIR)));
-          binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+          if (events.size() == 0) {
+            showInfo(R.string.no_events_yet);
+          } else {
+            binding.list.setAdapter(
+                new EventListAdapter(
+                    events,
+                    getActivity(),
+                    module,
+                    packageName,
+                    className,
+                    new File(
+                        new File(eventsHolderDir, eventHolderList.get(position).getHolderName()),
+                        EnvironmentUtils.EVENTS_DIR)));
+            binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+            switchSection(LIST_SECTION);
+          }
           return true;
         });
+
+    if (eventHolderList.size() == 0) {
+      showInfo(R.string.no_events_yet);
+    }
   }
 
   public static Drawable getEventHolderIcon(Context context, EventHolder holder) {
