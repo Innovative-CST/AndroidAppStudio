@@ -29,51 +29,46 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.activities;
+package com.tscodeeditor.android.appstudio.adapters;
 
-import android.os.Build;
-import android.os.Bundle;
-import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.adapters.JavaFileModelEditorTabAdapter;
-import com.tscodeeditor.android.appstudio.databinding.ActivityJavaFileModelEditorBinding;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
+import com.tscodeeditor.android.appstudio.fragments.events.JavaEventManagerFragment;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
+import java.util.ArrayList;
 
-public class JavaFileModelEditorActivity extends BaseActivity {
+public class JavaFileModelEditorTabAdapter extends FragmentStateAdapter {
 
-  private ActivityJavaFileModelEditorBinding binding;
+  private ArrayList<Fragment> fragments;
   private ModuleModel module;
   private String packageName;
-  private String fileName;
+  private String className;
+  private boolean disableNewEvents;
 
-  @Override
-  @SuppressWarnings("deprecation")
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  public JavaFileModelEditorTabAdapter(
+      BaseActivity activity,
+      ModuleModel module,
+      String packageName,
+      String className,
+      boolean disableNewEvents) {
+    super(activity);
+    this.module = module;
+    this.packageName = packageName;
+    this.className = className;
+    this.disableNewEvents = disableNewEvents;
 
-    binding = ActivityJavaFileModelEditorBinding.inflate(getLayoutInflater());
-
-    setContentView(binding.getRoot());
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      module = getIntent().getParcelableExtra("module", ModuleModel.class);
-    } else {
-      module = (ModuleModel) getIntent().getParcelableExtra("module");
-    }
-    packageName = getIntent().getStringExtra("packageName");
-    fileName = getIntent().getStringExtra("fileName");
-
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    binding.viewpager.setAdapter(
-        new JavaFileModelEditorTabAdapter(this, module, packageName, fileName, false));
+    fragments = new ArrayList<Fragment>();
+    fragments.add(new JavaEventManagerFragment(module, packageName, className, disableNewEvents));
   }
 
   @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
+  public int getItemCount() {
+    return fragments.size();
+  }
+
+  @Override
+  public Fragment createFragment(int position) {
+    return fragments.get(position);
   }
 }
