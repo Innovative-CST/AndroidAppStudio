@@ -31,6 +31,8 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
+import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,6 +49,9 @@ public class Event implements Serializable, Cloneable {
   private String eventReplacerKey;
   private BlockModel eventTopBlock;
   private ArrayList<BlockModel> blockModels;
+  private AdditionalCodeHelperTag[] additionalTags;
+  private String[] classes;
+  private String[] holderName;
   private int icon;
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
@@ -222,6 +227,9 @@ public class Event implements Serializable, Cloneable {
     event.setEventReplacerKey(
         getEventReplacerKey() != null ? new String(getEventReplacerKey()) : null);
     event.setEventTopBlock(getEventTopBlock() != null ? getEventTopBlock().clone() : null);
+    event.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
+    event.setClasses(ArrayUtils.clone(getClasses()));
+    event.setHolderName(ArrayUtils.clone(getHolderName()));
     event.setIcon(new Integer(getIcon()));
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
@@ -238,5 +246,29 @@ public class Event implements Serializable, Cloneable {
     } else event.setBlockModels(null);
 
     return event;
+  }
+
+  public AdditionalCodeHelperTag[] getAdditionalTags() {
+    return this.additionalTags;
+  }
+
+  public void setAdditionalTags(AdditionalCodeHelperTag[] additionalTags) {
+    this.additionalTags = additionalTags;
+  }
+
+  public String[] getClasses() {
+    return this.classes;
+  }
+
+  public void setClasses(String[] classes) {
+    this.classes = classes;
+  }
+
+  public String[] getHolderName() {
+    return this.holderName;
+  }
+
+  public void setHolderName(String[] holderName) {
+    this.holderName = holderName;
   }
 }
