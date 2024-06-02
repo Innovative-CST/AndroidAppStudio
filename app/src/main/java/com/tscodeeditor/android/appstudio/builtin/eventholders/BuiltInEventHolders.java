@@ -29,45 +29,23 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.builtin.eventholders;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.models.EventHolder;
+import java.util.ArrayList;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
-
-    if (stringArr == null) {
-      return null;
-    }
-
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
+public class BuiltInEventHolders {
+  public static ArrayList<EventHolder> getAllBuiltInEventHolders() {
+    ArrayList<EventHolder> holders = new ArrayList<EventHolder>();
+    holders.add(getActivityEventHolder());
+    return holders;
   }
 
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
-
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
-
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
-
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      }
-    }
-
-    return clone;
+  public static EventHolder getActivityEventHolder() {
+    EventHolder holder = new EventHolder();
+    holder.setHolderName("Activity");
+    holder.setIcon("android");
+    holder.setBuiltInEvents(true);
+    return holder;
   }
 }

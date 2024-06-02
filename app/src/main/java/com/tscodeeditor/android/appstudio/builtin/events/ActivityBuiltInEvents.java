@@ -29,45 +29,62 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.builtin.events;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockFieldModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockLayerModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
+import java.util.ArrayList;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+public class ActivityBuiltInEvents {
+  public static ArrayList<Event> getAllActivityEvents() {
+    ArrayList<Event> output = new ArrayList<Event>();
 
-    if (stringArr == null) {
-      return null;
-    }
+    output.add(getOnCreateEvent());
 
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
+    return output;
   }
 
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
+  public static Event getOnCreateEvent() {
+    Event event = new Event();
+    event.setTitle("onCreate");
+    event.setName("onCreate");
+    event.setDescription("Executes when activity is created");
+    event.setEventReplacer("onCreate");
+    event.setEventReplacerKey("onCreateEventCode");
+    event.setRawCode(
+        "@Override\npublic void onCreate(Bundle bundle) {"
+            + RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getEventReplacer())
+            + "\n}");
+    event.setEnableEdit(true);
+    event.setCreateInHolderName("Activity");
+    event.setClasses(new String[] {"androidx.appcompat.app.AppCompatActivity"});
+    event.setEnableRootBlocksDrag(true);
+    event.setEnableRootBlocksValueEditing(true);
 
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
+    BlockModel defineEvent = new BlockModel();
+    defineEvent.setBlockType(BlockModel.Type.defaultBlock);
+    defineEvent.setColor("#CCEDA4");
+    defineEvent.setFirstBlock(true);
 
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
+    ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
 
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      }
-    }
+    BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
 
-    return clone;
+    ArrayList<BlockFieldModel> defineDependenciesTextLayer = new ArrayList<BlockFieldModel>();
+
+    BlockFieldModel defineDependenciesText = new BlockFieldModel();
+    defineDependenciesText.setValue("onCreate");
+
+    defineDependenciesTextLayer.add(defineDependenciesText);
+    eventDefinationLayer.setBlockFields(defineDependenciesTextLayer);
+
+    blockLayerModels.add(eventDefinationLayer);
+    defineEvent.setBlockLayerModel(blockLayerModels);
+    event.setEventTopBlock(defineEvent);
+    return event;
   }
 }

@@ -33,6 +33,10 @@ package com.tscodeeditor.android.appstudio.utils;
 
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.builtin.events.ActivityBuiltInEvents;
+import com.tscodeeditor.android.appstudio.builtin.events.GradleBuiltInEvents;
+import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
@@ -118,5 +122,144 @@ public class EventUtils {
             public void onFailedToSerialize(Exception exception) {}
           });
     }
+  }
+
+  public static void installEvents(ArrayList<Event> events, File holdersDir, boolean createHolder) {
+    for (int position = 0; position < events.size(); ++position) {
+      Event event = (events.get(position)).clone();
+      File eventHolderDirectory =
+          new File(holdersDir, events.get(position).getCreateInHolderName());
+      if (event == null) continue;
+      if (!eventHolderDirectory.exists()) eventHolderDirectory.mkdirs();
+
+      EventHolder holder = EventsHolderUtils.getEventHolderByName(event.getCreateInHolderName());
+
+      if (holder == null) continue;
+
+      SerializerUtil.serialize(
+          holder,
+          new File(eventHolderDirectory, EnvironmentUtils.EVENTS_HOLDER),
+          new SerializerUtil.SerializerCompletionListener() {
+
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+      if (!new File(eventHolderDirectory, EnvironmentUtils.EVENTS_DIR).exists())
+        new File(eventHolderDirectory, EnvironmentUtils.EVENTS_DIR).mkdirs();
+
+      SerializerUtil.serialize(
+          event,
+          new File(new File(eventHolderDirectory, EnvironmentUtils.EVENTS_DIR), event.getName()),
+          new SerializerUtil.SerializerCompletionListener() {
+
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+    }
+  }
+
+  public static ArrayList<Event> getAllEvents(ArrayList<Event> additionalEvent) {
+    ArrayList<Event> output = new ArrayList<Event>();
+
+    if (additionalEvent != null) {
+      output.addAll(additionalEvent);
+    }
+    output.addAll(GradleBuiltInEvents.getAllGradleEvents());
+    output.addAll(ExtensionUtils.extractEventsFromExtensions());
+    output.addAll(ActivityBuiltInEvents.getAllActivityEvents());
+
+    return output;
+  }
+
+  public static ArrayList<Event> getAllEventsFromHolders(File eventsDir) {
+    ArrayList<Event> output = new ArrayList<Event>();
+
+    if (!eventsDir.exists()) {
+      return output;
+    }
+    if (!new File(eventsDir, EnvironmentUtils.EVENTS_DIR).exists()) {
+      return output;
+    }
+
+    for (File holderDir : new File(eventsDir, EnvironmentUtils.EVENTS_DIR).listFiles()) {
+      if (holderDir.isDirectory()) continue;
+
+      for (File eventFile : new File(holderDir, EnvironmentUtils.EVENTS_DIR).listFiles()) {
+        Event event = DeserializerUtils.deserialize(eventFile, Event.class);
+        if (event != null) {
+          output.add(event);
+        }
+      }
+    }
+
+    return output;
+  }
+
+  public static ArrayList<Event> filterEvents(
+      ArrayList<Event> additionalEvent,
+      ArrayList<Event> removeEvents,
+      ArrayList<String> superClasses,
+      FileModel file) {
+    ArrayList<Event> output = new ArrayList<Event>();
+
+    ArrayList<Event> allEvents = getAllEvents(additionalEvent);
+
+    for (int i = 0; i < allEvents.size(); ++i) {
+      Event event = allEvents.get(i);
+      if (event.getClasses() != null) {
+        if (!containsString(event.getClasses(), superClasses)) {
+          continue;
+        }
+      }
+
+      if (event.getExtension() != null) {
+        if (!containsString(event.getExtension(), file.getFileExtension())) {
+          continue;
+        }
+      }
+
+      boolean removeEvent = false;
+      if (removeEvents != null) {
+        for (int i2 = 0; i2 < removeEvents.size(); ++i2) {
+          if (removeEvents.get(i2).getName().equals(event.getName())) {
+            removeEvent = true;
+          }
+        }
+      }
+
+      if (removeEvent) {
+        continue;
+      }
+
+      output.add(event.clone());
+    }
+
+    return output;
+  }
+
+  public static boolean containsString(String[] array, ArrayList<String> arrayList) {
+    for (int i = 0; i < array.length; ++i) {
+      for (int i2 = 0; i2 < arrayList.size(); ++i2) {
+        if (array[i].equals(arrayList.get(i2))) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public static boolean containsString(String[] array, String str) {
+    for (int i = 0; i < array.length; ++i) {
+      if (str.equals(array[i])) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -29,45 +29,42 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.utils;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.models.ExtensionBundle;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import java.io.File;
+import java.util.ArrayList;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+public final class ExtensionUtils {
+  public static ArrayList<ExtensionBundle> getInstalledExtensions() {
+    ArrayList<ExtensionBundle> extensions = new ArrayList<ExtensionBundle>();
 
-    if (stringArr == null) {
-      return null;
+    if (!EnvironmentUtils.EXTENSION_DIR.exists()) {
+      return extensions;
     }
 
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
-  }
-
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
-
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
-
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
-
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
+    for (File file : EnvironmentUtils.EXTENSION_DIR.listFiles()) {
+      ExtensionBundle extension = DeserializerUtils.deserialize(file, ExtensionBundle.class);
+      if (extension != null) {
+        extensions.add(extension);
       }
     }
 
-    return clone;
+    return extensions;
+  }
+
+  public static ArrayList<Event> extractEventsFromExtensions() {
+    ArrayList<Event> events = new ArrayList<Event>();
+    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+
+    for (int i = 0; i < extensions.size(); ++i) {
+      if (extensions.get(i).getEvents() == null) {
+        events.addAll(extensions.get(i).getEvents());
+      }
+    }
+
+    return events;
   }
 }

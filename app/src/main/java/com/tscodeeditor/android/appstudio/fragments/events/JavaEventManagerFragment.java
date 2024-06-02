@@ -50,13 +50,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.activities.EventEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
 import com.tscodeeditor.android.appstudio.databinding.AdapterEventBinding;
 import com.tscodeeditor.android.appstudio.databinding.FragmentJavaEventManagerBinding;
+import com.tscodeeditor.android.appstudio.dialogs.AddEventDialog;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.EventUtils;
 import com.tscodeeditor.android.appstudio.utils.EventsHolderUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -67,6 +70,7 @@ public class JavaEventManagerFragment extends Fragment {
   private String packageName;
   private String className;
   private Activity activity;
+  private JavaFileModel file;
   private File eventsHolderDir;
   private boolean disableNewEvents;
 
@@ -85,6 +89,14 @@ public class JavaEventManagerFragment extends Fragment {
             new File(
                 EnvironmentUtils.getJavaDirectory(module, packageName), className.concat(".java")),
             EnvironmentUtils.EVENTS_DIR);
+    file =
+        DeserializerUtils.deserialize(
+            new File(
+                new File(
+                    EnvironmentUtils.getJavaDirectory(module, packageName),
+                    className.concat(".java")),
+                EnvironmentUtils.JAVA_FILE_MODEL),
+            JavaFileModel.class);
   }
 
   @Override
@@ -93,8 +105,23 @@ public class JavaEventManagerFragment extends Fragment {
   public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
     binding = FragmentJavaEventManagerBinding.inflate(inflator);
 
-    switchSection(LOADING_SECTION);
+    if (file != null) {
+      switchSection(LOADING_SECTION);
+      loadEvents();
+      binding.fab.setOnClickListener(
+          v -> {
+            AddEventDialog dialog =
+                new AddEventDialog(JavaEventManagerFragment.this, file, eventsHolderDir);
+          });
+    } else {
+      switchSection(INFO_SECTION);
+      binding.info.setText("Failed to load java file");
+    }
 
+    return binding.getRoot();
+  }
+
+  public void loadEvents() {
     Executors.newSingleThreadExecutor()
         .execute(
             () -> {
@@ -107,8 +134,6 @@ public class JavaEventManagerFragment extends Fragment {
                         loadEventData(eventHolderList);
                       });
             });
-
-    return binding.getRoot();
   }
 
   /*

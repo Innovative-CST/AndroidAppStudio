@@ -29,45 +29,73 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.dialogs;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import android.view.View;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.tscodeeditor.android.appstudio.adapters.AddEventsAdapter;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
+import com.tscodeeditor.android.appstudio.databinding.DialogAddEventBinding;
+import com.tscodeeditor.android.appstudio.fragments.events.JavaEventManagerFragment;
+import com.tscodeeditor.android.appstudio.utils.EventUtils;
+import java.io.File;
+import java.util.ArrayList;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+public class AddEventDialog extends MaterialAlertDialogBuilder {
+  private static final int INFO_SECTION = 0;
+  private static final int ADD_EVENT_SECTION = 0;
+  private AddEventsAdapter adapter;
+  private DialogAddEventBinding binding;
+  private AlertDialog dialog;
 
-    if (stringArr == null) {
-      return null;
+  public AddEventDialog(JavaEventManagerFragment fragment, JavaFileModel file, File holdersDir) {
+    super(fragment.getActivity());
+    binding = DialogAddEventBinding.inflate(fragment.getActivity().getLayoutInflater());
+    ArrayList<String> superClasses = new ArrayList<String>();
+
+    if (file.getExtendingClass() != null) {
+      superClasses.add(file.getExtendingClass());
     }
-
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
-  }
-
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
-
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
-
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
-
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
+    if (file.getImplementingInterface() != null) {
+      for (String interfaceClass : file.getImplementingInterface()) {
+        superClasses.add(interfaceClass);
       }
     }
+    ArrayList<Event> events =
+        EventUtils.filterEvents(
+            new ArrayList<Event>(),
+            EventUtils.getAllEventsFromHolders(holdersDir),
+            superClasses,
+            file);
 
-    return clone;
+    setView(binding.getRoot());
+
+    if (events.size() == 0) {
+      switchSection(INFO_SECTION);
+    } else {
+      switchSection(ADD_EVENT_SECTION);
+      adapter = new AddEventsAdapter(events);
+      binding.list.setAdapter(adapter);
+      binding.list.setLayoutManager(new LinearLayoutManager(fragment.getContext()));
+      binding.add.setOnClickListener(
+          v -> {
+            EventUtils.installEvents(adapter.getSelectedEvents(), holdersDir, true);
+            fragment.loadEvents();
+            dialog.dismiss();
+          });
+      binding.cancel.setOnClickListener(
+          v -> {
+            dialog.dismiss();
+          });
+    }
+    dialog = show();
+  }
+
+  public void switchSection(int section) {
+    binding.addEventSection.setVisibility(section == ADD_EVENT_SECTION ? View.VISIBLE : View.GONE);
+    binding.info.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
   }
 }

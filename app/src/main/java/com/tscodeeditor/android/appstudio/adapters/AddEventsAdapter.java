@@ -29,45 +29,84 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.adapters;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import androidx.recyclerview.widget.RecyclerView;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.databinding.AdapterEventAddBinding;
+import java.util.ArrayList;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+public class AddEventsAdapter extends RecyclerView.Adapter<AddEventsAdapter.ViewHolder> {
 
-    if (stringArr == null) {
-      return null;
+  public class ViewHolder extends RecyclerView.ViewHolder {
+    public ViewHolder(View view) {
+      super(view);
     }
-
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
   }
 
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
+  private ArrayList<Event> events;
+  public boolean[] selectedCheckboxes;
 
-    if (additionalCodeHelperTagArr == null) {
-      return null;
+  public AddEventsAdapter(ArrayList<Event> events) {
+    this.events = events;
+    selectedCheckboxes = new boolean[events.size()];
+  }
+
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+    View view = AdapterEventAddBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
+    RecyclerView.LayoutParams layoutParams =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    view.setLayoutParams(layoutParams);
+    return new ViewHolder(view);
+  }
+
+  @Override
+  public void onBindViewHolder(ViewHolder holder, int position) {
+    if (getEvents().get(position) instanceof Event) {
+      Event event = (Event) getEvents().get(position);
+      AdapterEventAddBinding binding = AdapterEventAddBinding.bind(holder.itemView);
+      binding.title.setText(event.getTitle());
+      binding.description.setText(event.getDescription());
+      binding.icon.setImageResource(event.getIcon());
+      binding.cardView.setOnClickListener(
+          v -> {
+            binding.addCheckbox.setChecked(!binding.addCheckbox.isChecked());
+          });
+      binding.addCheckbox.setOnCheckedChangeListener(
+          (button, isChecked) -> {
+            selectedCheckboxes[position] = isChecked;
+          });
     }
+  }
 
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
+  @Override
+  public int getItemCount() {
+    return events.size();
+  }
 
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
+  public ArrayList<Event> getEvents() {
+    return this.events;
+  }
+
+  public void setEvents(ArrayList<Event> events) {
+    this.events = events;
+  }
+
+  public ArrayList<Event> getSelectedEvents() {
+    ArrayList<Event> selectedEvents = new ArrayList<Event>();
+
+    for (int i = 0; i < events.size(); ++i) {
+      if (selectedCheckboxes[i]) {
+        selectedEvents.add(events.get(i));
       }
     }
 
-    return clone;
+    return selectedEvents;
   }
 }

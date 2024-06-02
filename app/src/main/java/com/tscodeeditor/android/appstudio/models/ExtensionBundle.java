@@ -29,45 +29,51 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.models;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.Event;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+public class ExtensionBundle implements Serializable {
 
-    if (stringArr == null) {
-      return null;
-    }
+  public static final long serialVersionUID = 23L;
 
-    String[] clone = new String[stringArr.length];
+  private String name;
+  private int version;
+  private ArrayList<Event> events;
+  private ArrayList<BlockModel> blocks;
 
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
+  public String getName() {
+    return this.name;
   }
 
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
+  public int getVersion() {
+    return this.version;
+  }
 
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      }
-    }
+  public ArrayList<Event> getEvents() {
+    return this.events;
+  }
 
-    return clone;
+  public void setEvents(ArrayList<Event> events) {
+    this.events = events;
+  }
+
+  public ArrayList<BlockModel> getBlocks() {
+    return this.blocks;
+  }
+
+  public void setBlocks(ArrayList<BlockModel> blocks) {
+    this.blocks = blocks;
   }
 }

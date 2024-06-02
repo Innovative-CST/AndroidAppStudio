@@ -41,6 +41,18 @@ import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import java.util.ArrayList;
 
 public class GradleBuiltInEvents {
+
+  public static ArrayList<Event> getAllGradleEvents() {
+    ArrayList<Event> output = new ArrayList<Event>();
+
+    output.add(getAppModuleAndroidBlockEvent());
+    output.add(getAppModuleDependenciesBlockEvent());
+    output.add(getLibraryModuleAndroidBlockEvent());
+    output.add(getLibraryModuleDependenciesBlockEvent());
+
+    return output;
+  }
+
   /*
    * App configration event of app module build.gradle file.
    */

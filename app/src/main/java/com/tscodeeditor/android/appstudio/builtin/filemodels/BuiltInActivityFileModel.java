@@ -29,45 +29,42 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.block.utils;
+package com.tscodeeditor.android.appstudio.builtin.filemodels;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
-
-    if (stringArr == null) {
-      return null;
-    }
-
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
-
-    return clone;
-  }
-
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
-
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
-
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
-
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      }
-    }
-
-    return clone;
+public final class BuiltInActivityFileModel {
+  public static JavaFileModel getActivityFileModel(String className) {
+    JavaFileModel javaClass = new JavaFileModel();
+    javaClass.setFileName(className);
+    javaClass.setFileExtension("java");
+    javaClass.setExtendingClass("androidx.appcompat.app.AppCompatActivity");
+    javaClass.setClassType(JavaFileModel.SIMPLE_JAVA_CLASS);
+    javaClass.setReplacerKey(className.concat(".file"));
+    StringBuilder rawCode = new StringBuilder();
+    rawCode.append("package ");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "filePackage name"));
+    rawCode.append(";");
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "imports"));
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append("public class ");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "className"));
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "inheritence"));
+    rawCode.append("{");
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "variables"));
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "events"));
+    rawCode.append("\n");
+    rawCode.append("\n");
+    rawCode.append("}");
+    javaClass.setRawCode(rawCode.toString());
+    return javaClass;
   }
 }

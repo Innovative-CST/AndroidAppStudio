@@ -2,6 +2,7 @@
 <resources>
     <string name="about_app">About App</string>
     <string name="about_team">About Team</string>
+	<string name="add">Add</string>
     <string name="add_new_event">Add new event</string>
     <string name="an_error_occured">An error occured</string>
     <string name="app_configration">App Configration</string>

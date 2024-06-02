@@ -41,6 +41,7 @@ import com.tscodeeditor.android.appstudio.activities.JavaFileManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
 import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
+import com.tscodeeditor.android.appstudio.builtin.filemodels.BuiltInActivityFileModel;
 import com.tscodeeditor.android.appstudio.databinding.DialogJavaManagerBinding;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
@@ -110,37 +111,6 @@ public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
           if (binding.fileTypeChooser.getCheckedButtonId() == R.id.activity) {
             if (validateClassNameAndExistance(binding.fileName.getText().toString())) {
               binding.fileNameInputLayout.setErrorEnabled(false);
-              JavaFileModel javaClass = new JavaFileModel();
-              javaClass.setFileName(binding.fileName.getText().toString());
-              javaClass.setFileExtension("java");
-              javaClass.setExtendingClass("androidx.appcompat.app.AppCompatActivity");
-              javaClass.setClassType(JavaFileModel.SIMPLE_JAVA_CLASS);
-              javaClass.setReplacerKey(binding.fileName.getText().toString().concat(".file"));
-              StringBuilder rawCode = new StringBuilder();
-              rawCode.append("package ");
-              rawCode.append(
-                  RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "filePackage name"));
-              rawCode.append(";");
-              rawCode.append("\n");
-              rawCode.append("\n");
-              rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "imports"));
-              rawCode.append("\n");
-              rawCode.append("\n");
-              rawCode.append("public class ");
-              rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "className"));
-              rawCode.append(
-                  RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "inheritence"));
-              rawCode.append("{");
-              rawCode.append("\n");
-              rawCode.append("\n");
-              rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "variables"));
-              rawCode.append("\n");
-              rawCode.append("\n");
-              rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "events"));
-              rawCode.append("\n");
-              rawCode.append("\n");
-              rawCode.append("}");
-              javaClass.setRawCode(rawCode.toString());
               File classPath =
                   new File(
                       EnvironmentUtils.getJavaDirectory(module, packageName),
@@ -148,7 +118,8 @@ public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
               classPath.mkdirs();
               new File(classPath, EnvironmentUtils.EVENTS_DIR).mkdirs();
               SerializerUtil.serialize(
-                  javaClass,
+                  BuiltInActivityFileModel.getActivityFileModel(
+                      binding.fileName.getText().toString()),
                   new File(classPath, EnvironmentUtils.JAVA_FILE_MODEL),
                   new SerializerUtil.SerializerCompletionListener() {
 

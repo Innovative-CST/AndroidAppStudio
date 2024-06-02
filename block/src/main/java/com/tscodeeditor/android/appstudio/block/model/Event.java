@@ -52,6 +52,8 @@ public class Event implements Serializable, Cloneable {
   private AdditionalCodeHelperTag[] additionalTags;
   private String[] classes;
   private String[] holderName;
+  private String[] extension;
+  private String createInHolderName;
   private int icon;
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
@@ -224,12 +226,15 @@ public class Event implements Serializable, Cloneable {
     event.setDescription(getDescription() != null ? new String(getDescription()) : null);
     event.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
     event.setEventReplacer(getEventReplacer() != null ? new String(getEventReplacer()) : null);
+    event.setCreateInHolderName(
+        getCreateInHolderName() != null ? new String(getCreateInHolderName()) : null);
     event.setEventReplacerKey(
         getEventReplacerKey() != null ? new String(getEventReplacerKey()) : null);
     event.setEventTopBlock(getEventTopBlock() != null ? getEventTopBlock().clone() : null);
     event.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
     event.setClasses(ArrayUtils.clone(getClasses()));
     event.setHolderName(ArrayUtils.clone(getHolderName()));
+    event.setExtension(ArrayUtils.clone(getExtension()));
     event.setIcon(new Integer(getIcon()));
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
@@ -270,5 +275,21 @@ public class Event implements Serializable, Cloneable {
 
   public void setHolderName(String[] holderName) {
     this.holderName = holderName;
+  }
+
+  public String[] getExtension() {
+    return this.extension;
+  }
+
+  public void setExtension(String[] extension) {
+    this.extension = extension;
+  }
+
+  public String getCreateInHolderName() {
+    return this.createInHolderName;
+  }
+
+  public void setCreateInHolderName(String createInHolderName) {
+    this.createInHolderName = createInHolderName;
   }
 }

@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.utils;
 
+import com.tscodeeditor.android.appstudio.builtin.eventholders.BuiltInEventHolders;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
@@ -60,5 +61,26 @@ public class EventsHolderUtils {
           });
     }
     return events;
+  }
+
+  public static final ArrayList<EventHolder> getAllEventHolders() {
+    ArrayList<EventHolder> holders = new ArrayList<EventHolder>();
+	
+	holders.addAll(BuiltInEventHolders.getAllBuiltInEventHolders());
+
+    return holders;
+  }
+
+  public static final EventHolder getEventHolderByName(String name) {
+    ArrayList<EventHolder> holders = getAllEventHolders();
+    for (int i = 0; i < holders.size(); ++i) {
+      if (holders.get(i) != null) {
+        if (holders.get(i).getHolderName().equals(name)) {
+          return holders.get(i);
+        }
+      }
+    }
+
+    return null;
   }
 }
