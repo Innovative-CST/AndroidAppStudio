@@ -61,6 +61,7 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setTitle("App Configration");
     androidBlockEvent.setName("androidBlock");
     androidBlockEvent.setDescription("Contains basic defination of your app");
+	androidBlockEvent.setExtension(new String[] {"gradle"});
     androidBlockEvent.setEventReplacer("blockCode");
     androidBlockEvent.setEventReplacerKey("AppModuleAndroidBlockEventCode");
     androidBlockEvent.setRawCode(
@@ -108,6 +109,7 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setTitle("App Libraries");
     dependenciesBlockEvent.setName("dependenciesBlock");
     dependenciesBlockEvent.setDescription("Contains library used by your app");
+	dependenciesBlockEvent.setExtension(new String[] {"gradle"});
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setEventReplacerKey("AppModuleDependenciesBlockEventCode");
     dependenciesBlockEvent.setRawCode(
@@ -163,6 +165,7 @@ public class GradleBuiltInEvents {
     androidBlockEvent.setTitle("Library Configration");
     androidBlockEvent.setName("androidBlock");
     androidBlockEvent.setDescription("Contains basic defination of your library");
+	androidBlockEvent.setExtension(new String[] {"gradle"});
     androidBlockEvent.setEventReplacer("blockCode");
     androidBlockEvent.setEventReplacerKey("LibraryModuleAndroidBlockEventCode");
     androidBlockEvent.setRawCode(
@@ -185,6 +188,7 @@ public class GradleBuiltInEvents {
     dependenciesBlockEvent.setTitle("Library dependencies");
     dependenciesBlockEvent.setName("dependenciesBlock");
     dependenciesBlockEvent.setDescription("Contains library used by your app");
+	dependenciesBlockEvent.setExtension(new String[] {"gradle"});
     dependenciesBlockEvent.setEventReplacer("blockCode");
     dependenciesBlockEvent.setEventReplacerKey("LibraryModuleDependenciesBlockEventCode");
     dependenciesBlockEvent.setRawCode(
