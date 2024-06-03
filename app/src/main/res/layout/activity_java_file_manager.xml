@@ -80,7 +80,6 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:icon="@drawable/plus"
-		android:text="Add events"
         android:layout_margin="16dp"
         android:id="@+id/fab"
         android:layout_gravity="end|bottom" />
