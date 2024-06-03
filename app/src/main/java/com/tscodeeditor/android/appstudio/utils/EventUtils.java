@@ -183,17 +183,15 @@ public class EventUtils {
     if (!eventsDir.exists()) {
       return output;
     }
-    if (!new File(eventsDir, EnvironmentUtils.EVENTS_DIR).exists()) {
-      return output;
-    }
 
-    for (File holderDir : new File(eventsDir, EnvironmentUtils.EVENTS_DIR).listFiles()) {
-      if (holderDir.isDirectory()) continue;
+    for (File holderDir : eventsDir.listFiles()) {
+      if (holderDir.isDirectory() && new File(holderDir, EnvironmentUtils.EVENTS_DIR).exists()) {
 
-      for (File eventFile : new File(holderDir, EnvironmentUtils.EVENTS_DIR).listFiles()) {
-        Event event = DeserializerUtils.deserialize(eventFile, Event.class);
-        if (event != null) {
-          output.add(event);
+        for (File eventFile : new File(holderDir, EnvironmentUtils.EVENTS_DIR).listFiles()) {
+          Event event = DeserializerUtils.deserialize(eventFile, Event.class);
+          if (event != null) {
+            output.add(event);
+          }
         }
       }
     }
