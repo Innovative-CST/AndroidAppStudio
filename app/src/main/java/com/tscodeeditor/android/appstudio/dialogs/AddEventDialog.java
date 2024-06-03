@@ -46,7 +46,7 @@ import java.util.ArrayList;
 
 public class AddEventDialog extends MaterialAlertDialogBuilder {
   private static final int INFO_SECTION = 0;
-  private static final int ADD_EVENT_SECTION = 0;
+  private static final int ADD_EVENT_SECTION = 1;
   private AddEventsAdapter adapter;
   private DialogAddEventBinding binding;
   private AlertDialog dialog;
@@ -75,6 +75,11 @@ public class AddEventDialog extends MaterialAlertDialogBuilder {
 
     if (events.size() == 0) {
       switchSection(INFO_SECTION);
+	  binding.add.setVisibility(View.GONE);
+	  binding.cancel.setOnClickListener(
+          v -> {
+            dialog.dismiss();
+          });
     } else {
       switchSection(ADD_EVENT_SECTION);
       adapter = new AddEventsAdapter(events);
