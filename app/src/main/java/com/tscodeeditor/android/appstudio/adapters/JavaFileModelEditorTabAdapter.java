@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.fragments.events.JavaEventManagerFragment;
+import com.tscodeeditor.android.appstudio.fragments.variablemanager.JavaVariableManagerFragment;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import java.util.ArrayList;
 
@@ -60,6 +61,7 @@ public class JavaFileModelEditorTabAdapter extends FragmentStateAdapter {
 
     fragments = new ArrayList<Fragment>();
     fragments.add(new JavaEventManagerFragment(module, packageName, className, disableNewEvents));
+	fragments.add(new JavaVariableManagerFragment(activity));
   }
 
   @Override

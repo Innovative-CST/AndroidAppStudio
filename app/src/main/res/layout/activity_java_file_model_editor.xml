@@ -32,19 +32,7 @@
             <com.google.android.material.tabs.TabLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/tab">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Events" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Variables" />
-
-            </com.google.android.material.tabs.TabLayout>
+                android:id="@+id/tab" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:layout_height="match_parent"

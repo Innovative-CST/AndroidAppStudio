@@ -29,64 +29,31 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.activities;
+package com.tscodeeditor.android.appstudio.fragments.variablemanager;
 
-import android.os.Build;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.tscodeeditor.android.appstudio.R;
-import com.tscodeeditor.android.appstudio.adapters.JavaFileModelEditorTabAdapter;
-import com.tscodeeditor.android.appstudio.databinding.ActivityJavaFileModelEditorBinding;
-import com.tscodeeditor.android.appstudio.models.ModuleModel;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
+import com.tscodeeditor.android.appstudio.databinding.FragmentJavaVariableManagerBinding;
 
-public class JavaFileModelEditorActivity extends BaseActivity {
+public class JavaVariableManagerFragment extends Fragment {
+  private BaseActivity activity;
+  private FragmentJavaVariableManagerBinding binding;
 
-  private ActivityJavaFileModelEditorBinding binding;
-  private ModuleModel module;
-  private String packageName;
-  private String fileName;
-
-  @Override
-  @SuppressWarnings("deprecation")
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    binding = ActivityJavaFileModelEditorBinding.inflate(getLayoutInflater());
-
-    setContentView(binding.getRoot());
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      module = getIntent().getParcelableExtra("module", ModuleModel.class);
-    } else {
-      module = (ModuleModel) getIntent().getParcelableExtra("module");
-    }
-    packageName = getIntent().getStringExtra("packageName");
-    fileName = getIntent().getStringExtra("fileName");
-
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    binding.viewpager.setAdapter(
-        new JavaFileModelEditorTabAdapter(this, module, packageName, fileName, false));
-    new TabLayoutMediator(
-            binding.tab,
-            binding.viewpager,
-            (tab, position) -> {
-              if (position == 0) {
-                tab.setText("Events");
-              } else if (position == 1) {
-                tab.setText("Variables");
-              }
-            })
-        .attach();
+  public JavaVariableManagerFragment(BaseActivity activity) {
+    this.activity = activity;
   }
 
   @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
+  @MainThread
+  @Nullable
+  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+    binding = FragmentJavaVariableManagerBinding.inflate(inflator);
+	return binding.getRoot();
   }
 }
