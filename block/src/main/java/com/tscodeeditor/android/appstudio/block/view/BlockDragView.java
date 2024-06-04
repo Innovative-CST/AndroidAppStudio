@@ -110,34 +110,112 @@ public class BlockDragView extends LinearLayout {
        * Add all layers to BlockView.
        */
       for (int layerCount = 0; layerCount < block.getBlockLayerModel().size(); ++layerCount) {
-        LinearLayout layerLayout = new LinearLayout(getContext());
-        ViewGroup.LayoutParams layoutParams =
-            new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layerLayout.setLayoutParams(layoutParams);
         /*
          * Check if current(LOOP) layer is BlockContentLayerModel
          */
+        boolean hasNextLayer = layerCount != (block.getBlockLayerModel().size() - 1);
+        boolean hasPreviousLayer = layerCount == 0;
+
         if (block.getBlockLayerModel().get(layerCount) instanceof BlockFieldLayerModel) {
-          /*
-           * If the block is for defining event then and number of Layout is 1 then:
-           * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
-           */
-          if (block.getBlockLayerModel().size() == 1 && block.isFirstBlock()) {
-            BlockView.setDrawable(
-                layerLayout,
-                R.drawable.block_default_cut_rt_bl_br,
-                Color.parseColor(block.getColor()));
+          if (layerCount == 0) {
+            if (hasNextLayer) {
+              LinearLayout layerLayout = new LinearLayout(getContext());
+              ViewGroup.LayoutParams layoutParams =
+                  new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              layerLayout.setLayoutParams(layoutParams);
+
+              BlockView.setDrawable(
+                  layerLayout, R.drawable.block_no_cut, Color.parseColor(block.getColor()));
+              blockPreview.addView(layerLayout);
+            } else {
+              LinearLayout layerLayout = new LinearLayout(getContext());
+              ViewGroup.LayoutParams layoutParams =
+                  new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              layerLayout.setLayoutParams(layoutParams);
+
+              BlockView.setDrawable(
+                  layerLayout,
+                  R.drawable.block_default_cut_rt_bl_br,
+                  Color.parseColor(block.getColor()));
+              blockPreview.addView(layerLayout);
+            }
+          } else {
+            if (hasNextLayer) {
+              LinearLayout layerLayout = new LinearLayout(getContext());
+              ViewGroup.LayoutParams layoutParams =
+                  new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              layerLayout.setLayoutParams(layoutParams);
+
+              BlockView.setDrawable(
+                  layerLayout, R.drawable.block_no_cut, Color.parseColor(block.getColor()));
+              blockPreview.addView(layerLayout);
+            } else {
+              LinearLayout layerLayout = new LinearLayout(getContext());
+              ViewGroup.LayoutParams layoutParams =
+                  new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              layerLayout.setLayoutParams(layoutParams);
+
+              BlockView.setDrawable(
+                  layerLayout,
+                  R.drawable.block_default_cut_bl_br,
+                  Color.parseColor(block.getColor()));
+              blockPreview.addView(layerLayout);
+            }
           }
-          if (block.getBlockLayerModel().size() == 1 && !block.isFirstBlock()) {
+        } else {
+
+          LinearLayout layerLayoutTop = new LinearLayout(getContext());
+          ViewGroup.LayoutParams layoutParamsTop =
+              new ViewGroup.LayoutParams(
+                  ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          layerLayoutTop.setLayoutParams(layoutParamsTop);
+
+          BlockView.setDrawable(
+              layerLayoutTop,
+              R.drawable.block_holder_layer_top,
+              Color.parseColor(block.getColor()));
+          blockPreview.addView(layerLayoutTop);
+
+          LinearLayout layerLayoutJoint = new LinearLayout(getContext());
+          ViewGroup.LayoutParams layoutParamsJoint =
+              new ViewGroup.LayoutParams(
+                  ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          layerLayoutJoint.setLayoutParams(layoutParamsJoint);
+
+          BlockView.setDrawable(
+              layerLayoutJoint, R.drawable.block_holder_joint, Color.parseColor(block.getColor()));
+          blockPreview.addView(layerLayoutJoint);
+
+          LinearLayout layerLayoutBottom = new LinearLayout(getContext());
+          ViewGroup.LayoutParams layoutParamsBottom =
+              new ViewGroup.LayoutParams(
+                  ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          layerLayoutBottom.setLayoutParams(layoutParamsBottom);
+
+          BlockView.setDrawable(
+              layerLayoutBottom,
+              R.drawable.block_holder_layer_bottom,
+              Color.parseColor(block.getColor()));
+          blockPreview.addView(layerLayoutBottom);
+
+          if (!hasNextLayer) {
+            LinearLayout blockBottomLayer = new LinearLayout(getContext());
+            ViewGroup.LayoutParams layoutParamsBottomLayer =
+                new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            blockBottomLayer.setLayoutParams(layoutParamsBottomLayer);
+
             BlockView.setDrawable(
-                layerLayout,
-                R.drawable.block_default_cut_bl_br,
+                blockBottomLayer,
+                R.drawable.block_holder_last_layer,
                 Color.parseColor(block.getColor()));
+            blockPreview.addView(blockBottomLayer);
           }
         }
-
-        blockPreview.addView(layerLayout);
       }
 
       if (!block.isLastBlock()) {
