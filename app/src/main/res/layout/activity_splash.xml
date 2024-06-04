@@ -5,14 +5,12 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="center"
-    android:background="#FFFFFF">
+    android:background="?attr/colorSurface">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_height="match_parent"
+    <ImageView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:lottie_rawRes="@raw/splash_animation"
-        android:id="@+id/animation_view"
-        app:lottie_autoPlay="false"
-        app:lottie_loop="false" />
+        android:src="@drawable/secondary_logo"
+        android:tint="?attr/colorOnSurface" />
 
 </LinearLayout>

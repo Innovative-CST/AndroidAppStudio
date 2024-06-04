@@ -31,48 +31,25 @@
 
 package com.tscodeeditor.android.appstudio.activities;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import com.tscodeeditor.android.appstudio.databinding.ActivitySplashBinding;
+import android.os.Handler;
+import android.widget.ImageView;
+import com.tscodeeditor.android.appstudio.R;
 
 public class SplashActivity extends BaseActivity {
-
-  private ActivitySplashBinding binding;
-
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
-    binding = ActivitySplashBinding.inflate(getLayoutInflater());
-
-    setContentView(binding.getRoot());
-    getWindow().setNavigationBarColor(Color.parseColor("#FFFFFF"));
-    binding.animationView.addAnimatorListener(
-        new Animator.AnimatorListener() {
-
-          @Override
-          public void onAnimationStart(Animator arg0) {}
-
-          @Override
-          public void onAnimationEnd(Animator arg0) {
-            startActivity(new Intent(SplashActivity.this, ProjectManagerActivity.class));
-            finish();
-          }
-
-          @Override
-          public void onAnimationCancel(Animator arg0) {}
-
-          @Override
-          public void onAnimationRepeat(Animator arg0) {}
-        });
-    binding.animationView.playAnimation();
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
+    setContentView(R.layout.activity_splash);
+    new Handler(getMainLooper())
+        .postDelayed(
+            () -> {
+              startActivity(new Intent(this, ProjectManagerActivity.class));
+              finish();
+            },
+            3000);
   }
 }
