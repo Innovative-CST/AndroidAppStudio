@@ -163,9 +163,7 @@ public class EventEditorActivity extends BaseActivity {
       } else if (event.getName().equals("androidBlock")) {
         binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleAndroidBlocks());
       } else {
-        if (file instanceof JavaFileModel) {
-          binding.eventEditor.setHolder(BlockUtils.loadBlockHolders(file, event));
-        }
+        binding.eventEditor.setHolder(BlockUtils.loadBlockHolders(file, event));
       }
     }
   }
