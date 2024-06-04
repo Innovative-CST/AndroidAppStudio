@@ -36,7 +36,6 @@ import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
-import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
 import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
