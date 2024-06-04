@@ -292,7 +292,11 @@ public class JavaEventManagerFragment extends Fragment {
                   "fileModelDirectory",
                   new File(
                           new File(
-                              EnvironmentUtils.getJavaDirectory(module, packageName), className),
+                              new File(
+                                      EnvironmentUtils.getJavaDirectory(module, packageName),
+                                      className)
+                                  .getAbsolutePath()
+                                  .concat(".java")),
                           EnvironmentUtils.JAVA_FILE_MODEL)
                       .getAbsolutePath());
               editor.putExtra("eventListPath", eventListPath.getAbsolutePath());

@@ -34,65 +34,97 @@ package com.tscodeeditor.android.appstudio.utils;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
-import com.tscodeeditor.android.appstudio.models.ExtensionBundle;
-import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.block.tag.BlockModelTag;
 import java.util.ArrayList;
 
-public final class ExtensionUtils {
-  public static ArrayList<ExtensionBundle> getInstalledExtensions() {
-    ArrayList<ExtensionBundle> extensions = new ArrayList<ExtensionBundle>();
+public final class BlockUtils {
+  public static ArrayList<BlockHolderModel> loadBlockHolders(FileModel file, Event event) {
+    ArrayList<BlockHolderModel> holders = ExtensionUtils.extractBlockHoldersFromExtensions();
+    ArrayList<BlockModel> blocks = ExtensionUtils.extractBlocksFromExtensions();
 
-    if (!EnvironmentUtils.EXTENSION_DIR.exists()) {
-      return extensions;
+    for (int i = 0; i < holders.size(); ++i) {
+      BlockHolderModel holder = holders.get(i);
+      ArrayList<Object> holderBlocks = new ArrayList<Object>();
+
+      for (int i2 = 0; i2 < blocks.size(); ++i2) {
+        BlockModel block = blocks.get(i2);
+
+        if (block.getHolderName() == null) {
+          continue;
+        }
+
+        if (!block.getHolderName().equals(holder.getName())) {
+          continue;
+        }
+
+        if (block.getTags() != null) {
+          BlockModelTag tag = block.getTags();
+
+          if (tag.getNotSupportedFileExtensions() != null) {
+            if (file.getFileExtension() == null) {
+              continue;
+            }
+
+            if (containsString(tag.getNotSupportedFileExtensions(), file.getFileExtension())) {
+              continue;
+            }
+          }
+
+          if (tag.getSupportedFileExtensions() != null) {
+            if (file.getFileExtension() == null) {
+              continue;
+            }
+
+            if (!containsString(tag.getSupportedFileExtensions(), file.getFileExtension())) {
+              continue;
+            }
+          }
+
+          if (tag.getNotSupportedEvents() != null) {
+            if (event.getName() == null) {
+              continue;
+            }
+
+            if (containsString(tag.getNotSupportedEvents(), event.getName())) {
+              continue;
+            }
+          }
+
+          if (tag.getSupportedEvents() != null) {
+            if (event.getName() == null) {
+              continue;
+            }
+
+            if (!containsString(tag.getSupportedEvents(), event.getName())) {
+              continue;
+            }
+          }
+        }
+
+        holderBlocks.add(block);
+      }
+      holder.setList(holderBlocks);
     }
 
-    for (File file : EnvironmentUtils.EXTENSION_DIR.listFiles()) {
-      ExtensionBundle extension = DeserializerUtils.deserialize(file, ExtensionBundle.class);
-      if (extension != null) {
-        extensions.add(extension);
+    ArrayList<BlockHolderModel> output = new ArrayList<BlockHolderModel>();
+    for (int i = 0; i < holders.size(); ++i) {
+      BlockHolderModel holder = holders.get(i);
+
+      if (holder.getList().size() > 0) {
+        output.add(holder);
       }
     }
 
-    return extensions;
+    return output;
   }
 
-  public static ArrayList<Event> extractEventsFromExtensions() {
-    ArrayList<Event> events = new ArrayList<Event>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
-
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getEvents() == null) {
-        events.addAll(extensions.get(i).getEvents());
+  private static boolean containsString(String[] array, String str) {
+    for (int i = 0; i < array.length; ++i) {
+      if (str.equals(array[i])) {
+        return true;
       }
     }
-
-    return events;
-  }
-
-  public static ArrayList<BlockHolderModel> extractBlockHoldersFromExtensions() {
-    ArrayList<BlockHolderModel> holder = new ArrayList<BlockHolderModel>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
-
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getHolders() == null) {
-        holder.addAll(extensions.get(i).getHolders());
-      }
-    }
-
-    return holder;
-  }
-
-  public static ArrayList<BlockModel> extractBlocksFromExtensions() {
-    ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
-
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getBlocks() == null) {
-        blocks.addAll(extensions.get(i).getBlocks());
-      }
-    }
-
-    return blocks;
+    return false;
   }
 }

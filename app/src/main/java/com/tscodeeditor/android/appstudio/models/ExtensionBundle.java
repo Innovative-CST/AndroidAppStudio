@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.models;
 
+import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import java.io.Serializable;
@@ -44,6 +45,7 @@ public class ExtensionBundle implements Serializable {
   private int version;
   private ArrayList<Event> events;
   private ArrayList<BlockModel> blocks;
+  private ArrayList<BlockHolderModel> holders;
 
   public String getName() {
     return this.name;
@@ -75,5 +77,13 @@ public class ExtensionBundle implements Serializable {
 
   public void setBlocks(ArrayList<BlockModel> blocks) {
     this.blocks = blocks;
+  }
+
+  public ArrayList<BlockHolderModel> getHolders() {
+    return this.holders;
+  }
+
+  public void setHolders(ArrayList<BlockHolderModel> holders) {
+    this.holders = holders;
   }
 }

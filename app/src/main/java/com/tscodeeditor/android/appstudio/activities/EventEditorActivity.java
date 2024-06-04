@@ -35,11 +35,14 @@ import android.os.Build;
 import android.os.Bundle;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.block.model.Event;
+import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
 import com.tscodeeditor.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
 import com.tscodeeditor.android.appstudio.databinding.ActivityEventEditorBinding;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.models.SettingModel;
+import com.tscodeeditor.android.appstudio.utils.BlockUtils;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.SettingUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
@@ -71,6 +74,7 @@ public class EventEditorActivity extends BaseActivity {
    * Main Event Object
    */
   private Event event;
+  private FileModel file;
 
   @Override
   @SuppressWarnings("deprecation")
@@ -128,7 +132,13 @@ public class EventEditorActivity extends BaseActivity {
           public void onFailed(int errorCode, Exception e) {}
         });
 
+    file = DeserializerUtils.deserialize(fileModelDirectory, FileModel.class);
+
     if (event == null) {
+      finish();
+      return;
+    }
+    if (file == null) {
       finish();
       return;
     }
@@ -150,9 +160,12 @@ public class EventEditorActivity extends BaseActivity {
     if (event.getName() != null) {
       if (event.getName().equals("dependenciesBlock")) {
         binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleDepedencyBlocks());
-      }
-      if (event.getName().equals("androidBlock")) {
+      } else if (event.getName().equals("androidBlock")) {
         binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleAndroidBlocks());
+      } else {
+        if (file instanceof JavaFileModel) {
+          binding.eventEditor.setHolder(BlockUtils.loadBlockHolders(file, event));
+        }
       }
     }
   }

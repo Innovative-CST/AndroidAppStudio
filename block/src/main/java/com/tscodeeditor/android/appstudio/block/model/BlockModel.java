@@ -45,6 +45,7 @@ public class BlockModel implements Serializable, Cloneable {
   private String color;
   private String rawCode;
   private String replacerKey;
+  private String holderName;
   private String[] returns;
   private BlockModelTag tags;
   private int blockType;
@@ -208,6 +209,7 @@ public class BlockModel implements Serializable, Cloneable {
     block.setLastBlock(new Boolean(isLastBlock()));
     block.setTags(getTags() == null ? null : getTags().clone());
     block.setReturns(ArrayUtils.clone(getReturns()));
+    block.setHolderName(getHolderName() == null ? null : new String(getHolderName()));
 
     if (getBlockLayerModel() != null) {
       ArrayList<BlockLayerModel> cloneBlockLayerModel = new ArrayList<BlockLayerModel>();
@@ -226,5 +228,13 @@ public class BlockModel implements Serializable, Cloneable {
     } else block.setBlockLayerModel(null);
 
     return block;
+  }
+
+  public String getHolderName() {
+    return this.holderName;
+  }
+
+  public void setHolderName(String holderName) {
+    this.holderName = holderName;
   }
 }
