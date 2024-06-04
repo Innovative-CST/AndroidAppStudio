@@ -62,7 +62,7 @@ public final class ExtensionUtils {
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
     for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getEvents() == null) {
+      if (extensions.get(i).getEvents() != null) {
         events.addAll(extensions.get(i).getEvents());
       }
     }
@@ -75,7 +75,7 @@ public final class ExtensionUtils {
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
     for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getHolders() == null) {
+      if (extensions.get(i).getHolders() != null) {
         holder.addAll(extensions.get(i).getHolders());
       }
     }
@@ -88,7 +88,7 @@ public final class ExtensionUtils {
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
     for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getBlocks() == null) {
+      if (extensions.get(i).getBlocks() != null) {
         blocks.addAll(extensions.get(i).getBlocks());
       }
     }
