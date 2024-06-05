@@ -48,6 +48,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     public static final int FIELD_TYPE_NOT_SET = 0;
     public static final int FIELD_INPUT_ONLY = 1;
     public static final int FIELD_EXTENSION_VIEW_ONLY = 2;
+	public static final int FIELD_BOOLEAN = 3;
   }
 
   public String[] getAcceptors() {
@@ -123,7 +124,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     blockValueFieldModel.setFieldType(new Integer(getFieldType()));
     blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : null);
     if (getAcceptors() != null) {
-      String[] acceptors = new String[] {};
+      String[] acceptors = new String[getAcceptors().length];
 
       for (int position = 0; position < getAcceptors().length; ++position) {
         acceptors[position] = new String(getAcceptors()[position]);

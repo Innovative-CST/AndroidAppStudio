@@ -33,64 +33,94 @@ package com.tscodeeditor.android.appstudio.block.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.LinearLayout;
+import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
-import com.tscodeeditor.android.appstudio.block.model.BlockModel;
+import com.tscodeeditor.android.appstudio.block.model.BlockValueFieldModel;
+import com.tscodeeditor.android.appstudio.block.tag.BlockDroppableTag;
+import java.util.ArrayList;
 
-public class BlockPreview extends LinearLayout {
-  private BlockModel block;
-  private EventEditor editor;
+public class BooleanView extends LinearLayout {
+  private BlockView booleanBlock;
+  private BlockValueFieldModel blockFieldModel;
 
-  public BlockPreview(EventEditor editor) {
-    super(editor.getContext());
-    this.editor = editor;
-  }
+  public BooleanView(
+      Context context,
+      BlockValueFieldModel blockFieldModel,
+      BlockView blockView,
+      ArrayList<LinearLayout> droppables,
+      EventEditor editor,
+      boolean darkMode) {
+    super(context);
+    this.blockFieldModel = blockFieldModel;
+    if (blockFieldModel.getBlockModel() == null) {
+      Drawable drawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_boolean_backdrop);
+      drawable.setTint(Color.parseColor("#000000"));
+      drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      setBackground(drawable);
+      setAlpha(0.3F);
+    } else {
+      setBackground(null);
+      booleanBlock = new BlockView(editor, context, blockFieldModel.getBlockModel(), darkMode);
+      booleanBlock.setInsideEditor(true);
+      booleanBlock.setEnableEditing(true);
+      booleanBlock.setEnableDragDrop(true);
+      addView(booleanBlock);
+      setAlpha(1F);
+    }
 
-  public void setBlock(BlockModel block) {
-    this.block = block;
-    drawPreview();
-  }
-
-  public void drawPreview() {
-    String previewColor = editor.isDarkMode() ? "#FFFFFF" : "#000000";
-    removeAllViews();
-    setOrientation(LinearLayout.VERTICAL);
-    if (block.getBlockType() == BlockModel.Type.defaultBlock) {
-      LinearLayout.LayoutParams layoutParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-      LinearLayout top = new LinearLayout(getContext());
-      BlockView.setDrawable(top, R.drawable.block_default_top, Color.parseColor(previewColor));
-      addView(top);
-      LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(
-          body, R.drawable.block_default_cut_bl_br, Color.parseColor(previewColor));
-      addView(body);
-      LinearLayout bottom = new LinearLayout(getContext());
-      BlockView.setDrawable(
-          bottom, R.drawable.block_default_bottom_joint, Color.parseColor(previewColor));
-      addView(bottom);
-      top.setLayoutParams(layoutParams);
-      body.setLayoutParams(layoutParams);
-      bottom.setLayoutParams(layoutParams);
-    } else if (block.getBlockType() == BlockModel.Type.defaultBoolean) {
-      LinearLayout.LayoutParams layoutParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-      LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(
-          body, R.drawable.block_boolean_backdrop, Color.parseColor(previewColor));
-      addView(body);
-      body.setLayoutParams(layoutParams);
+    if (blockFieldModel.isEnabledEdit()) {
+      BlockDroppableTag tag = new BlockDroppableTag();
+      tag.setDropProperty(blockFieldModel);
+      tag.setBlockDroppableType(BlockDroppableTag.BLOCK_BOOLEAN_DROPPER);
+      setTag(tag);
+      droppables.add(this);
     }
   }
 
-  public void removePreview() {
-    if (getParent() == null) return;
-    ((ViewGroup) getParent()).removeView(this);
+  @Override
+  public void addView(View view) {
+    super.addView(view);
+    if (getChildCount() > 0) {
+      setBackground(null);
+      setAlpha(1F);
+    }
+    if (view instanceof BlockView) {
+      setBooleanBlock((BlockView) view);
+    }
+  }
+
+  @Override
+  public void removeView(View view) {
+    super.removeView(view);
+    if (getChildCount() == 0) {
+      Drawable drawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_boolean_backdrop);
+      drawable.setTint(Color.parseColor("#000000"));
+      drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      setBackground(drawable);
+      setAlpha(0.3F);
+    }
+	if (view instanceof BlockView) {
+      setBooleanBlock(null);
+    }
+  }
+
+  public BlockView getBooleanBlock() {
+    return this.booleanBlock;
+  }
+
+  public void setBooleanBlock(BlockView booleanBlock) {
+    this.booleanBlock = booleanBlock;
+    if (booleanBlock != null) {
+      blockFieldModel.setBlockModel(booleanBlock.getBlockModel());
+    } else {
+      blockFieldModel.setBlockModel(null);
+    }
   }
 }

@@ -52,30 +52,33 @@ public class LayerBuilder {
       BlockFieldLayerModel layer,
       BlockModel blockModel,
       LinearLayout layerLayout,
+      ArrayList<LinearLayout> droppables,
       int layerPosition,
       boolean darkMode) {
     /*
      * If the block is for defining event then and number of Layout is 1 then:
      * Add LinearLayout with 3 corner cut drawable(Corner Cut: RT:BL:BR).
      */
-    if (blockModel.getBlockLayerModel().size() == 1 && blockModel.isFirstBlock()) {
-      setDrawable(
-          layerLayout,
-          R.drawable.block_default_cut_rt_bl_br,
-          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
-    }
-    if (blockModel.getBlockLayerModel().size() == 1 && !blockModel.isFirstBlock()) {
-      setDrawable(
-          layerLayout,
-          R.drawable.block_default_cut_bl_br,
-          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
-    }
-    if (blockModel.getBlockLayerModel().size() > 1
-        && layerPosition != (blockModel.getBlockLayerModel().size() - 1)) {
-      setDrawable(
-          layerLayout,
-          R.drawable.block_no_cut,
-          ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
+    if (blockModel.getBlockType() == BlockModel.Type.defaultBlock) {
+      if (blockModel.getBlockLayerModel().size() == 1 && blockModel.isFirstBlock()) {
+        setDrawable(
+            layerLayout,
+            R.drawable.block_default_cut_rt_bl_br,
+            ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
+      }
+      if (blockModel.getBlockLayerModel().size() == 1 && !blockModel.isFirstBlock()) {
+        setDrawable(
+            layerLayout,
+            R.drawable.block_default_cut_bl_br,
+            ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
+      }
+      if (blockModel.getBlockLayerModel().size() > 1
+          && layerPosition != (blockModel.getBlockLayerModel().size() - 1)) {
+        setDrawable(
+            layerLayout,
+            R.drawable.block_no_cut,
+            ColorPalleteUtils.transformColor(blockModel.getColor(), darkMode));
+      }
     }
 
     // Load block content layer...
@@ -86,6 +89,7 @@ public class LayerBuilder {
             blockView.getEditor(),
             blockModel,
             blockView,
+            droppables,
             darkMode));
   }
 

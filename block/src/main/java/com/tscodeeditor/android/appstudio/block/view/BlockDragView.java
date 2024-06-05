@@ -231,6 +231,18 @@ public class BlockDragView extends LinearLayout {
         blockBottomJoint.setBackground(blockBottomJointDrawable);
         blockPreview.addView(blockBottomJoint);
       }
+    } else if (block.getBlockType() == BlockModel.Type.defaultBoolean) {
+      LinearLayout booleanLayout = new LinearLayout(getContext());
+      ViewGroup.LayoutParams layoutParams =
+          new ViewGroup.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      booleanLayout.setLayoutParams(layoutParams);
+      Drawable booleanDrawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_boolean_backdrop);
+      booleanDrawable.setTint(Color.parseColor(block.getColor()));
+      booleanDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      booleanLayout.setBackground(booleanDrawable);
+      blockPreview.addView(booleanLayout);
     }
   }
 }

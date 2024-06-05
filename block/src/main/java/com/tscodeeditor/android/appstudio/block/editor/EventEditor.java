@@ -275,7 +275,8 @@ public class EventEditor extends RelativeLayout {
       }
     }
 
-    if (!isDropConsumed) {
+    if (!isDropConsumed
+        && draggingBlock.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
       BlockView block =
           new BlockView(this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
 
@@ -385,7 +386,8 @@ public class EventEditor extends RelativeLayout {
       }
     }
 
-    if (!isPreviewConsumed) {
+    if (!isPreviewConsumed
+        && draggingBlock.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
       binding.canva.attachedBlockLayout.addView(blockPreview, index);
     }
   }

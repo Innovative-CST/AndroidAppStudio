@@ -43,6 +43,8 @@ import com.tscodeeditor.android.appstudio.block.view.BlockFieldExtensionViewOnly
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldInputOnlyView;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldView;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
+import com.tscodeeditor.android.appstudio.block.view.BooleanView;
+import java.util.ArrayList;
 
 public class BlockFieldLayerHandler {
   public static ViewGroup getBlockFieldLayerView(
@@ -51,6 +53,7 @@ public class BlockFieldLayerHandler {
       EventEditor editor,
       BlockModel blockModel,
       BlockView blockView,
+      ArrayList<LinearLayout> droppables,
       boolean isDarkMode) {
     LinearLayout root = new LinearLayout(context);
 
@@ -64,12 +67,17 @@ public class BlockFieldLayerHandler {
           BlockFieldInputOnlyView inputField =
               new BlockFieldInputOnlyView(context, blockValueFieldModel, blockView, editor);
           root.addView(inputField);
-        }
-        if (blockValueFieldModel.getFieldType()
+        } else if (blockValueFieldModel.getFieldType()
             == BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY) {
           BlockFieldExtensionViewOnly extensionFieldViewOnly =
               new BlockFieldExtensionViewOnly(context, blockView, blockValueFieldModel, editor);
           root.addView(extensionFieldViewOnly);
+        } else if (blockValueFieldModel.getFieldType()
+            == BlockValueFieldModel.FieldType.FIELD_BOOLEAN) {
+          BooleanView booleanField =
+              new BooleanView(
+                  context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
+          root.addView(booleanField);
         }
       } else if (content instanceof BlockFieldModel) {
         /*

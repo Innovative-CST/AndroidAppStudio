@@ -96,6 +96,7 @@ public class BlockModel implements Serializable, Cloneable {
 
   public final class Type {
     public static final int defaultBlock = 0;
+	public static final int defaultBoolean = 1;
   }
 
   public int getBlockType() {
