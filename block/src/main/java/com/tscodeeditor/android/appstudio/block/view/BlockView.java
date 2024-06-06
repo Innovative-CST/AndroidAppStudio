@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
@@ -346,6 +347,21 @@ public class BlockView extends LinearLayout {
               dropBlockView(index, x, y, droppables.get(i), tag, toDrop);
               return true;
             }
+          } else if (toDrop.getBlockType() == BlockModel.Type.defaultBoolean) {
+            if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
+              for (int ind = 0; ind < droppables.get(i).getChildCount(); ind++) {
+                View child = droppables.get(i).getChildAt(ind);
+                if (TargetUtils.isDragInsideTargetView(child, editor, x, y)) {
+                  if (child instanceof BlockView) {
+                    BlockView blockView = (BlockView) child;
+                    return blockView.drop(x, y, toDrop);
+                  }
+                  break;
+                }
+              }
+            } else {
+              return false;
+            }
           }
         } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_BOOLEAN_DROPPER) {
           if (toDrop.getBlockType() == BlockModel.Type.defaultBoolean) {
@@ -503,6 +519,21 @@ public class BlockView extends LinearLayout {
                 setBlockPreview(index, x, y, droppables.get(i), toDrop);
                 return true;
               }
+            } else if (toDrop.getBlockType() == BlockModel.Type.defaultBoolean) {
+              if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
+                for (int ind = 0; ind < droppables.get(i).getChildCount(); ind++) {
+                  View child = droppables.get(i).getChildAt(ind);
+                  if (TargetUtils.isDragInsideTargetView(child, editor, x, y)) {
+                    if (child instanceof BlockView) {
+                      BlockView blockView = (BlockView) child;
+                      return blockView.preview(x, y, toDrop);
+                    }
+                    break;
+                  }
+                }
+              } else {
+                return false;
+              }
             }
           } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_BOOLEAN_DROPPER) {
             if (toDrop.getBlockType() == BlockModel.Type.defaultBoolean) {
@@ -578,22 +609,24 @@ public class BlockView extends LinearLayout {
     if (parent.getTag() == null) return;
     if (!(parent.getTag() instanceof BlockDroppableTag)) return;
     BlockDroppableTag tag = ((BlockDroppableTag) parent.getTag());
-    if (tag.getBlockDroppableType() != BlockDroppableTag.DEFAULT_BLOCK_DROPPER) return;
-    if (parent.getChildAt(1) == null) return;
-    if (arg == View.GONE) {
-      parent
-          .getChildAt(1)
-          .setLayoutParams(
-              new LinearLayout.LayoutParams(
-                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-    } else if (arg == View.VISIBLE) {
-      LinearLayout.LayoutParams blockParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER) {
+      if (parent.getChildAt(1) == null) return;
+      if (arg == View.GONE) {
+        parent
+            .getChildAt(1)
+            .setLayoutParams(
+                new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+      } else if (arg == View.VISIBLE) {
+        LinearLayout.LayoutParams blockParams =
+            new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-      blockParams.setMargins(
-          0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
-      parent.getChildAt(1).setLayoutParams(blockParams);
+        blockParams.setMargins(
+            0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
+        parent.getChildAt(1).setLayoutParams(blockParams);
+      }
     }
   }
 
