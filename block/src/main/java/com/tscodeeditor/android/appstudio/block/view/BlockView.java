@@ -32,6 +32,7 @@
 package com.tscodeeditor.android.appstudio.block.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -626,6 +627,10 @@ public class BlockView extends LinearLayout {
         blockParams.setMargins(
             0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.regularBlockMargin), 0, 0);
         parent.getChildAt(1).setLayoutParams(blockParams);
+      }
+    } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_BOOLEAN_DROPPER) {
+      if (parent instanceof BooleanView) {
+        ((BooleanView) parent).ensureFieldBackground();
       }
     }
   }

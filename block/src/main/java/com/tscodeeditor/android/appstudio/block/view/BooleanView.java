@@ -47,6 +47,7 @@ import java.util.ArrayList;
 public class BooleanView extends LinearLayout {
   private BlockView booleanBlock;
   private BlockValueFieldModel blockFieldModel;
+  private EventEditor editor;
 
   public BooleanView(
       Context context,
@@ -57,6 +58,7 @@ public class BooleanView extends LinearLayout {
       boolean darkMode) {
     super(context);
     this.blockFieldModel = blockFieldModel;
+    this.editor = editor;
     if (blockFieldModel.getBlockModel() == null) {
       Drawable drawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_boolean_backdrop);
@@ -85,11 +87,16 @@ public class BooleanView extends LinearLayout {
 
   @Override
   public void addView(View view) {
-    super.addView(view);
-    if (getChildCount() > 0) {
-      setBackground(null);
-      setAlpha(1F);
+    if (view instanceof BlockView) {
+      super.removeAllViews();
     }
+    if (view instanceof BlockPreview) {
+      if (getChildCount() == 1) {
+        getChildAt(0).setVisibility(View.GONE);
+      }
+    }
+    super.addView(view);
+    ensureFieldBackground();
     if (view instanceof BlockView) {
       setBooleanBlock((BlockView) view);
     }
@@ -98,16 +105,39 @@ public class BooleanView extends LinearLayout {
   @Override
   public void removeView(View view) {
     super.removeView(view);
-    if (getChildCount() == 0) {
+    if (view instanceof BlockPreview) {
+      if (getChildCount() == 1) {
+        getChildAt(0).setVisibility(View.VISIBLE);
+      }
+      if (editor != null) {
+        if (editor.draggingBlock != null) {
+          editor.draggingBlock.setVisibility(View.GONE);
+        }
+      }
+    }
+    ensureFieldBackground();
+    if (view instanceof BlockView) {
+      setBooleanBlock(null);
+    }
+  }
+
+  public void ensureFieldBackground() {
+    boolean hasVisibleChild = false;
+    for (int i = 0; i < getChildCount(); ++i) {
+      if (getChildAt(i).getVisibility() == View.VISIBLE) {
+        hasVisibleChild = true;
+      }
+    }
+    if (hasVisibleChild) {
+      setBackground(null);
+      setAlpha(1F);
+    } else {
       Drawable drawable =
           ContextCompat.getDrawable(getContext(), R.drawable.block_boolean_backdrop);
       drawable.setTint(Color.parseColor("#000000"));
       drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       setBackground(drawable);
       setAlpha(0.3F);
-    }
-	if (view instanceof BlockView) {
-      setBooleanBlock(null);
     }
   }
 
