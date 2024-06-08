@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
 import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -106,5 +107,26 @@ public class JavaFileModel extends FileModel implements Serializable {
 
   public void setImplementingInterface(String[] implementingInterface) {
     this.implementingInterface = implementingInterface;
+  }
+
+  public class JavaFileReturn {
+    private String code;
+    private ArrayList<DependencyTag> usedDependencies;
+
+    public String getCode() {
+      return this.code;
+    }
+
+    public void setCode(String code) {
+      this.code = code;
+    }
+
+    public ArrayList<DependencyTag> getUsedDependencies() {
+      return this.usedDependencies;
+    }
+
+    public void setUsedDependencies(ArrayList<DependencyTag> usedDependencies) {
+      this.usedDependencies = usedDependencies;
+    }
   }
 }
