@@ -111,7 +111,9 @@ public class BooleanView extends LinearLayout {
       }
       if (editor != null) {
         if (editor.draggingBlock != null) {
-          editor.draggingBlock.setVisibility(View.GONE);
+          if (editor.draggingBlock.isInsideEditor()) {
+            editor.draggingBlock.setVisibility(View.GONE);
+          }
         }
       }
     }
