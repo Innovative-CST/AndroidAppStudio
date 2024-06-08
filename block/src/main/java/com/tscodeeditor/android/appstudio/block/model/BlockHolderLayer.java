@@ -73,7 +73,7 @@ public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Seri
 
     if (getBlocks() != null) {
       ArrayList<BlockModel> cloneBlockHolderLayer = new ArrayList<BlockModel>();
-      for (int position = 0; position < cloneBlockHolderLayer.size(); ++position) {
+      for (int position = 0; position < getBlocks().size(); ++position) {
         cloneBlockHolderLayer.add(getBlocks().get(position).clone());
       }
       clone.setBlocks(cloneBlockHolderLayer);
