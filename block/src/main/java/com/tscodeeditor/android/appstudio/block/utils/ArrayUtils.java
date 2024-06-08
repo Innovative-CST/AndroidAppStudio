@@ -57,7 +57,8 @@ public final class ArrayUtils {
       return null;
     }
 
-    AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[] {};
+    AdditionalCodeHelperTag[] clone =
+        new AdditionalCodeHelperTag[additionalCodeHelperTagArr.length];
 
     for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
       if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
