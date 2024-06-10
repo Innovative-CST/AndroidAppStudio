@@ -34,7 +34,6 @@ package com.tscodeeditor.android.appstudio.utils;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
-import com.tscodeeditor.android.appstudio.builtin.events.ActivityBuiltInEvents;
 import com.tscodeeditor.android.appstudio.builtin.events.GradleBuiltInEvents;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
@@ -172,7 +171,6 @@ public class EventUtils {
     }
     output.addAll(GradleBuiltInEvents.getAllGradleEvents());
     output.addAll(ExtensionUtils.extractEventsFromExtensions());
-    output.addAll(ActivityBuiltInEvents.getAllActivityEvents());
 
     return output;
   }
