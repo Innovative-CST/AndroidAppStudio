@@ -135,11 +135,17 @@ public class JavaFileModel extends FileModel implements Serializable {
 
     if (getExtendingClassImport() != null) {
       imported.add(getExtendingClassImport());
+      importsCode.append("import ");
+      importsCode.append(getExtendingClassImport());
+      importsCode.append(";");
     }
 
     if (getImplementingInterfaceImports() != null) {
       for (int i = 0; i < getImplementingInterfaceImports().length; ++i) {
         imported.add(getImplementingInterfaceImports()[i]);
+        importsCode.append("import ");
+        importsCode.append(getImplementingInterfaceImports()[i]);
+        importsCode.append(";");
       }
     }
 
