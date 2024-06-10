@@ -31,8 +31,6 @@
 
 package com.tscodeeditor.android.appstudio.utils;
 
-import android.widget.Toast;
-import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.block.model.BlockHolderModel;
 import com.tscodeeditor.android.appstudio.block.model.BlockModel;
 import com.tscodeeditor.android.appstudio.block.model.Event;
@@ -66,7 +64,6 @@ public final class ExtensionUtils {
     for (int i = 0; i < extensions.size(); ++i) {
 		Toast.makeText(MyApplication.getContext(), String.valueOf(extensions.size()), 0).show();
       if (extensions.get(i).getEvents() != null) {
-        Toast.makeText(MyApplication.getContext(), "A", 0).show();
         events.addAll(extensions.get(i).getEvents());
       }
     }
