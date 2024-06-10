@@ -203,6 +203,7 @@ public class EventUtils {
       ArrayList<Event> additionalEvent,
       ArrayList<Event> removeEvents,
       ArrayList<String> superClasses,
+      ArrayList<String> superClassesImports,
       FileModel file) {
     ArrayList<Event> output = new ArrayList<Event>();
 
@@ -210,6 +211,12 @@ public class EventUtils {
 
     for (int i = 0; i < allEvents.size(); ++i) {
       Event event = allEvents.get(i);
+      if (event.getClassesImports() != null) {
+        if (!containsString(event.getClassesImports(), superClassesImports)) {
+          continue;
+        }
+      }
+
       if (event.getClasses() != null) {
         if (!containsString(event.getClasses(), superClasses)) {
           continue;

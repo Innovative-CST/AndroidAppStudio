@@ -55,7 +55,7 @@ public class AddEventDialog extends MaterialAlertDialogBuilder {
     super(fragment.getActivity());
     binding = DialogAddEventBinding.inflate(fragment.getActivity().getLayoutInflater());
     ArrayList<String> superClasses = new ArrayList<String>();
-
+    ArrayList<String> superClassesImports = new ArrayList<String>();
     if (file.getExtendingClass() != null) {
       superClasses.add(file.getExtendingClass());
     }
@@ -64,19 +64,29 @@ public class AddEventDialog extends MaterialAlertDialogBuilder {
         superClasses.add(interfaceClass);
       }
     }
+
+    if (file.getExtendingClassImport() != null) {
+      superClassesImports.add(file.getExtendingClassImport());
+    }
+    if (file.getImplementingInterfaceImports() != null) {
+      for (String interfaceClassImport : file.getImplementingInterfaceImports()) {
+        superClassesImports.add(interfaceClassImport);
+      }
+    }
     ArrayList<Event> events =
         EventUtils.filterEvents(
             new ArrayList<Event>(),
             EventUtils.getAllEventsFromHolders(holdersDir),
             superClasses,
+            superClassesImports,
             file);
 
     setView(binding.getRoot());
 
     if (events.size() == 0) {
       switchSection(INFO_SECTION);
-	  binding.add.setVisibility(View.GONE);
-	  binding.cancel.setOnClickListener(
+      binding.add.setVisibility(View.GONE);
+      binding.cancel.setOnClickListener(
           v -> {
             dialog.dismiss();
           });

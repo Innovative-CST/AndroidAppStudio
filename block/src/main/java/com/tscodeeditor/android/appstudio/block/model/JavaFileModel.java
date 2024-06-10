@@ -31,8 +31,10 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
+import com.tscodeeditor.android.appstudio.block.tag.ImportTag;
 import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,17 +44,161 @@ public class JavaFileModel extends FileModel implements Serializable {
 
   private int classType;
   private String extendingClass;
+  private String extendingClassImport;
   private String[] implementingInterface;
+  private String[] implementingInterfaceImports;
 
   public static final int SIMPLE_JAVA_CLASS = 0;
   public static final int JAVA_ACTIVITY = 1;
 
-  @Override
   public String getCode(
+      String packageName,
       ArrayList<Object> builtInEvents,
       ArrayList<Object> events,
       HashMap<String, Object> variables) {
-    return super.getCode(builtInEvents, events, variables);
+    String resultCode = getRawCode() != null ? new String(getRawCode()) : null;
+    if (resultCode == null) {
+      return "";
+    }
+
+    if (builtInEvents != null) {
+
+      for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
+        if (builtInEvents.get(eventCount) instanceof Event) {
+          Event event = (Event) builtInEvents.get(eventCount);
+          resultCode =
+              resultCode.replace(
+                  RawCodeReplacer.getReplacer(getReplacerKey(), event.getName()),
+                  event.getCode(variables));
+        }
+      }
+    }
+
+    if (events != null) {
+      for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
+        if (events.get(eventCount) instanceof Event) {
+          Event event = (Event) events.get(eventCount);
+          resultCode =
+              resultCode.replace(
+                  RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getName()),
+                  event.getCode(variables));
+        }
+      }
+    }
+
+    resultCode = resultCode.replace(RawCodeReplacer.getReplacer("$FileName"), getFileName());
+    resultCode =
+        resultCode.replace(
+            RawCodeReplacer.getReplacer(getReplacerKey(), "filePackage name"), packageName);
+    resultCode =
+        resultCode.replace(
+            RawCodeReplacer.getReplacer(getReplacerKey(), "imports"),
+            getImportsCode(builtInEvents, events));
+    resultCode =
+        resultCode.replace(
+            RawCodeReplacer.getReplacer(getReplacerKey(), "inheritence"), getInheritenceCode());
+
+    resultCode = RawCodeReplacer.removeAndroidAppStudioString(getReplacerKey(), resultCode);
+    return resultCode;
+  }
+
+  public String getInheritenceCode() {
+    StringBuilder inheritenceCode = new StringBuilder();
+    if (getExtendingClass() != null) {
+      inheritenceCode.append(" ");
+      inheritenceCode.append("extends ");
+      inheritenceCode.append(getExtendingClass());
+    }
+    if (getImplementingInterface() != null) {
+      for (int i = 0; i < getImplementingInterface().length; ++i) {
+        if (i == 0) {
+          inheritenceCode.append(" ");
+          inheritenceCode.append("implements");
+        }
+
+        if (i != 0 && (i != (getImplementingInterface().length - 1))) {
+          inheritenceCode.append(", ");
+        }
+
+        inheritenceCode.append(getImplementingInterface()[i]);
+      }
+    }
+    inheritenceCode.append(" ");
+    return inheritenceCode.toString();
+  }
+
+  public String getImportsCode(ArrayList<Object> builtInEvents, ArrayList<Object> events) {
+    ArrayList<ImportTag> usedImports = getUsedImports(builtInEvents, events);
+    StringBuilder importsCode = new StringBuilder();
+
+    ArrayList<String> imported = new ArrayList<String>();
+
+    if (getExtendingClassImport() != null) {
+      imported.add(getExtendingClassImport());
+    }
+
+    if (getImplementingInterfaceImports() != null) {
+      for (int i = 0; i < getImplementingInterfaceImports().length; ++i) {
+        imported.add(getImplementingInterfaceImports()[i]);
+      }
+    }
+
+    for (int i = 0; i < usedImports.size(); ++i) {
+      if (usedImports.get(i).getImportClass() != null) {
+        if (!imported.contains(usedImports.get(i).getImportClass())) {
+          importsCode.append("import ");
+          importsCode.append(usedImports.get(i).getImportClass());
+          importsCode.append(";");
+
+          if (i != (usedImports.size() - 1)) {
+            importsCode.append("\n");
+          }
+          imported.add(usedImports.get(i).getImportClass());
+        }
+      }
+    }
+
+    return importsCode.toString();
+  }
+
+  public ArrayList<ImportTag> getUsedImports(
+      ArrayList<Object> builtInEvents, ArrayList<Object> events) {
+    ArrayList<ImportTag> usedImports = new ArrayList<ImportTag>();
+
+    if (builtInEvents != null) {
+
+      for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
+        if (builtInEvents.get(eventCount) instanceof Event) {
+          Event event = (Event) builtInEvents.get(eventCount);
+
+          for (int tags = 0; tags < event.getAdditionalTagsUsed().size(); ++tags) {
+            AdditionalCodeHelperTag tag = event.getAdditionalTagsUsed().get(tags);
+
+            if (tag instanceof ImportTag) {
+              usedImports.add((ImportTag) tag);
+            }
+          }
+        }
+      }
+    }
+
+    if (events != null) {
+      for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
+        if (events.get(eventCount) instanceof Event) {
+          Event event = (Event) events.get(eventCount);
+
+          for (int tags = 0; tags < event.getAdditionalTagsUsed().size(); ++tags) {
+            AdditionalCodeHelperTag tag = event.getAdditionalTagsUsed().get(tags);
+
+            if (tag instanceof ImportTag) {
+              usedImports.add((ImportTag) tag);
+            }
+          }
+        }
+      }
+    }
+
+    return usedImports;
   }
 
   @Override
@@ -82,6 +228,9 @@ public class JavaFileModel extends FileModel implements Serializable {
     fileModel.setExtendingClass(
         getExtendingClass() != null ? new String(getExtendingClass()) : null);
     fileModel.setImplementingInterface(ArrayUtils.clone(getImplementingInterface()));
+    fileModel.setExtendingClassImport(
+        getExtendingClassImport() != null ? new String(getExtendingClassImport()) : null);
+    fileModel.setImplementingInterfaceImports(ArrayUtils.clone(getImplementingInterfaceImports()));
     return fileModel;
   }
 
@@ -109,24 +258,19 @@ public class JavaFileModel extends FileModel implements Serializable {
     this.implementingInterface = implementingInterface;
   }
 
-  public class JavaFileReturn {
-    private String code;
-    private ArrayList<DependencyTag> usedDependencies;
+  public String getExtendingClassImport() {
+    return this.extendingClassImport;
+  }
 
-    public String getCode() {
-      return this.code;
-    }
+  public void setExtendingClassImport(String extendingClassImport) {
+    this.extendingClassImport = extendingClassImport;
+  }
 
-    public void setCode(String code) {
-      this.code = code;
-    }
+  public String[] getImplementingInterfaceImports() {
+    return this.implementingInterfaceImports;
+  }
 
-    public ArrayList<DependencyTag> getUsedDependencies() {
-      return this.usedDependencies;
-    }
-
-    public void setUsedDependencies(ArrayList<DependencyTag> usedDependencies) {
-      this.usedDependencies = usedDependencies;
-    }
+  public void setImplementingInterfaceImports(String[] implementingInterfaceImports) {
+    this.implementingInterfaceImports = implementingInterfaceImports;
   }
 }

@@ -35,6 +35,7 @@ import com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;
 import com.tscodeeditor.android.appstudio.block.model.EventGroupModel;
 import com.tscodeeditor.android.appstudio.block.model.FileModel;
+import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
 import com.tscodeeditor.android.appstudio.models.EventHolder;
 import com.tscodeeditor.android.appstudio.models.ProjectModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
@@ -136,5 +137,72 @@ public class FileModelCodeHelper {
         });
 
     return fileModel.getCode(builtInEvents, dirEvents, variables);
+  }
+
+  public String getCode(String packageName) {
+    ArrayList<Object> builtInEvents = null;
+    ArrayList<Object> dirEvents = new ArrayList<Object>();
+
+    if (fileModel == null) return null;
+    if (eventsDirectory == null) return null;
+    if (eventsDirectory.isFile()) return null;
+
+    if (eventsDirectory.exists()) {
+
+      for (File file : eventsDirectory.listFiles()) {
+        if (file.isFile()) continue;
+
+        File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+
+        if (!eventsHolderFile.exists()) continue;
+
+        EventHolder holder = null;
+
+        Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+
+        if (deserializedObject == null) continue;
+
+        if (!(deserializedObject instanceof EventHolder)) continue;
+
+        holder = (EventHolder) deserializedObject;
+
+        if (fileModel.getBuiltInEventsName() != null) {
+          if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+            builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+          }
+        } else {
+          ArrayList<Object> extraEvents =
+              EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+
+          for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+            if (extraEvents.get(extraEventCount) instanceof Event) {
+              dirEvents.add((Event) extraEvents.get(extraEventCount));
+            } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+              dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+            }
+          }
+        }
+      }
+    }
+
+    HashMap<String, Object> variables = new HashMap<String, Object>();
+
+    File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
+    DeserializerUtils.deserialize(
+        projectConfig,
+        new DeserializerUtils.DeserializerListener() {
+
+          @Override
+          public void onSuccessfullyDeserialized(Object deserializedObject) {
+            if (deserializedObject instanceof ProjectModel) {
+              variables.put("ProjectModel", (ProjectModel) deserializedObject);
+            }
+          }
+
+          @Override
+          public void onFailed(int errorCode, Exception e) {}
+        });
+
+    return ((JavaFileModel) fileModel).getCode(packageName, builtInEvents, dirEvents, variables);
   }
 }

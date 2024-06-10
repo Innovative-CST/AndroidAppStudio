@@ -33,12 +33,19 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Build;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.adapters.JavaFileModelEditorTabAdapter;
+import com.tscodeeditor.android.appstudio.block.model.JavaFileModel;
 import com.tscodeeditor.android.appstudio.databinding.ActivityJavaFileModelEditorBinding;
+import com.tscodeeditor.android.appstudio.dialogs.SourceCodeViewerDialog;
+import com.tscodeeditor.android.appstudio.helper.FileModelCodeHelper;
 import com.tscodeeditor.android.appstudio.models.ModuleModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import java.io.File;
 
 public class JavaFileModelEditorActivity extends BaseActivity {
 
@@ -46,6 +53,8 @@ public class JavaFileModelEditorActivity extends BaseActivity {
   private ModuleModel module;
   private String packageName;
   private String fileName;
+  private JavaFileModel fileModel;
+  private MenuItem showSourceCode;
 
   @Override
   @SuppressWarnings("deprecation")
@@ -82,11 +91,63 @@ public class JavaFileModelEditorActivity extends BaseActivity {
               }
             })
         .attach();
+    fileModel =
+        DeserializerUtils.deserialize(
+            new File(
+                new File(
+                    EnvironmentUtils.getJavaDirectory(module, packageName),
+                    fileName.concat(".java")),
+                EnvironmentUtils.JAVA_FILE_MODEL),
+            JavaFileModel.class);
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
     binding = null;
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    getMenuInflater().inflate(R.menu.menu_show_code, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    showSourceCode = menu.findItem(R.id.show_source_code);
+    if (fileModel == null) {
+      if (showSourceCode != null) {
+        showSourceCode.setVisible(false);
+      }
+    } else {
+      if (showSourceCode != null) {
+        showSourceCode.setVisible(true);
+      }
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem menuItem) {
+    if (menuItem.getItemId() == R.id.show_source_code) {
+      if (fileModel != null) {
+        FileModelCodeHelper helper = new FileModelCodeHelper();
+        helper.setFileModel(fileModel);
+        helper.setEventsDirectory(
+            new File(
+                new File(
+                    EnvironmentUtils.getJavaDirectory(module, packageName),
+                    fileName.concat(".java")),
+                EnvironmentUtils.EVENTS_DIR));
+        helper.setProjectRootDirectory(module.projectRootDirectory);
+        SourceCodeViewerDialog sourceCodeDialog =
+            new SourceCodeViewerDialog(this, fileModel, helper.getCode(packageName));
+        sourceCodeDialog.create().show();
+      }
+    }
+
+    return super.onOptionsItemSelected(menuItem);
   }
 }

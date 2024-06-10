@@ -51,6 +51,7 @@ public class Event implements Serializable, Cloneable {
   private ArrayList<BlockModel> blockModels;
   private AdditionalCodeHelperTag[] additionalTags;
   private String[] classes;
+  private String[] classesImports;
   private String[] holderName;
   private String[] extension;
   private String createInHolderName;
@@ -164,6 +165,26 @@ public class Event implements Serializable, Cloneable {
     this.enableRootBlocksSubBlockEditing = enableRootBlocksSubBlockEditing;
   }
 
+  public ArrayList<AdditionalCodeHelperTag> getAdditionalTagsUsed() {
+    ArrayList<AdditionalCodeHelperTag> tags = new ArrayList<AdditionalCodeHelperTag>();
+
+    // Add this event code helper tag to tags
+    if (getAdditionalTags() != null) {
+      if (getAdditionalTags() != null) {
+        for (int i = 0; i < getAdditionalTags().length; ++i) {
+          tags.add(getAdditionalTags()[i]);
+        }
+      }
+    }
+
+    for (int blocksCount = 0; blocksCount < getBlockModels().size(); ++blocksCount) {
+      BlockModel block = getBlockModels().get(blocksCount);
+      tags.addAll(block.getAdditionalTagsOfBlock());
+    }
+
+    return tags;
+  }
+
   public String getCode(HashMap<String, Object> variables) {
     StringBuilder generatedCode = new StringBuilder();
     if (getBlockModels() == null) {
@@ -233,6 +254,7 @@ public class Event implements Serializable, Cloneable {
     event.setEventTopBlock(getEventTopBlock() != null ? getEventTopBlock().clone() : null);
     event.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
     event.setClasses(ArrayUtils.clone(getClasses()));
+	event.setClassesImports(ArrayUtils.clone(getClassesImports()));
     event.setHolderName(ArrayUtils.clone(getHolderName()));
     event.setExtension(ArrayUtils.clone(getExtension()));
     event.setIcon(new Integer(getIcon()));
@@ -291,5 +313,13 @@ public class Event implements Serializable, Cloneable {
 
   public void setCreateInHolderName(String createInHolderName) {
     this.createInHolderName = createInHolderName;
+  }
+
+  public String[] getClassesImports() {
+    return this.classesImports;
+  }
+
+  public void setClassesImports(String[] classesImports) {
+    this.classesImports = classesImports;
   }
 }

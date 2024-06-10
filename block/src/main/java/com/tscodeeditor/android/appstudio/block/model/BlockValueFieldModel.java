@@ -31,6 +31,8 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
+import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -41,6 +43,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
   private String acceptors[];
   private String replacer;
   private BlockModel blockModel;
+  private AdditionalCodeHelperTag[] additionalTags;
   private int fieldType;
   private String pattern; // Only works if fieldType is pattern validator.
 
@@ -48,7 +51,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     public static final int FIELD_TYPE_NOT_SET = 0;
     public static final int FIELD_INPUT_ONLY = 1;
     public static final int FIELD_EXTENSION_VIEW_ONLY = 2;
-	public static final int FIELD_BOOLEAN = 3;
+    public static final int FIELD_BOOLEAN = 3;
   }
 
   public String[] getAcceptors() {
@@ -114,6 +117,14 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     return getBlockModel() != null ? getBlockModel().getCode(variables) : getValue();
   }
 
+  public AdditionalCodeHelperTag[] getAdditionalTags() {
+    return this.additionalTags;
+  }
+
+  public void setAdditionalTags(AdditionalCodeHelperTag[] additionalTags) {
+    this.additionalTags = additionalTags;
+  }
+
   @Override
   public BlockValueFieldModel clone() {
     BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
@@ -123,6 +134,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     blockValueFieldModel.setBlockModel(getBlockModel() != null ? getBlockModel() : null);
     blockValueFieldModel.setFieldType(new Integer(getFieldType()));
     blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : null);
+	blockValueFieldModel.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
     if (getAcceptors() != null) {
       String[] acceptors = new String[getAcceptors().length];
 

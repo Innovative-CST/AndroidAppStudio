@@ -31,6 +31,8 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
+import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -119,6 +121,46 @@ public class FileModel implements Serializable, Cloneable {
 
   public void setReplacerKey(String replacerKey) {
     this.replacerKey = replacerKey;
+  }
+
+  public ArrayList<DependencyTag> getUsedDependency(
+      ArrayList<Object> builtInEvents, ArrayList<Object> events) {
+    ArrayList<DependencyTag> usedDependency = new ArrayList<DependencyTag>();
+
+    if (builtInEvents != null) {
+
+      for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
+        if (builtInEvents.get(eventCount) instanceof Event) {
+          Event event = (Event) builtInEvents.get(eventCount);
+
+          for (int tags = 0; tags < event.getAdditionalTagsUsed().size(); ++tags) {
+            AdditionalCodeHelperTag tag = event.getAdditionalTagsUsed().get(tags);
+
+            if (tag instanceof DependencyTag) {
+              usedDependency.add((DependencyTag) tag);
+            }
+          }
+        }
+      }
+    }
+
+    if (events != null) {
+      for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
+        if (events.get(eventCount) instanceof Event) {
+          Event event = (Event) events.get(eventCount);
+
+          for (int tags = 0; tags < event.getAdditionalTagsUsed().size(); ++tags) {
+            AdditionalCodeHelperTag tag = event.getAdditionalTagsUsed().get(tags);
+
+            if (tag instanceof DependencyTag) {
+              usedDependency.add((DependencyTag) tag);
+            }
+          }
+        }
+      }
+    }
+
+    return usedDependency;
   }
 
   public String getCode(

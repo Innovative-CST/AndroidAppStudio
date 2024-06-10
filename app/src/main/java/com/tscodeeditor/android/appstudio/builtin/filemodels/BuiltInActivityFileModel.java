@@ -39,7 +39,8 @@ public final class BuiltInActivityFileModel {
     JavaFileModel javaClass = new JavaFileModel();
     javaClass.setFileName(className);
     javaClass.setFileExtension("java");
-    javaClass.setExtendingClass("androidx.appcompat.app.AppCompatActivity");
+    javaClass.setExtendingClass("AppCompatActivity");
+	javaClass.setExtendingClassImport("androidx.appcompat.app.AppCompatActivity");
     javaClass.setClassType(JavaFileModel.SIMPLE_JAVA_CLASS);
     javaClass.setReplacerKey(className.concat(".file"));
     StringBuilder rawCode = new StringBuilder();
@@ -52,7 +53,7 @@ public final class BuiltInActivityFileModel {
     rawCode.append("\n");
     rawCode.append("\n");
     rawCode.append("public class ");
-    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "className"));
+    rawCode.append(RawCodeReplacer.getReplacer("$FileName"));
     rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "inheritence"));
     rawCode.append("{");
     rawCode.append("\n");
@@ -60,7 +61,7 @@ public final class BuiltInActivityFileModel {
     rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "variables"));
     rawCode.append("\n");
     rawCode.append("\n");
-    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "events"));
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "directEvents"));
     rawCode.append("\n");
     rawCode.append("\n");
     rawCode.append("}");

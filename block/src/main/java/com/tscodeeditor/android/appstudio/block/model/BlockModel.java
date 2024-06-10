@@ -32,6 +32,7 @@
 package com.tscodeeditor.android.appstudio.block.model;
 
 import android.widget.Toast;
+import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
 import com.tscodeeditor.android.appstudio.block.tag.BlockModelTag;
 import com.tscodeeditor.android.appstudio.block.utils.ArrayUtils;
 import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
@@ -96,7 +97,7 @@ public class BlockModel implements Serializable, Cloneable {
 
   public final class Type {
     public static final int defaultBlock = 0;
-	public static final int defaultBoolean = 1;
+    public static final int defaultBoolean = 1;
   }
 
   public int getBlockType() {
@@ -129,6 +130,65 @@ public class BlockModel implements Serializable, Cloneable {
 
   public void setBlockLayerModel(ArrayList<BlockLayerModel> blockLayerModel) {
     this.blockLayerModel = blockLayerModel;
+  }
+
+  public ArrayList<AdditionalCodeHelperTag> getAdditionalTagsOfBlock() {
+    ArrayList<AdditionalCodeHelperTag> tags = new ArrayList<AdditionalCodeHelperTag>();
+
+    // Add this block code helper tag to tags
+    if (getTags() != null) {
+      if (getTags().getAdditionalTags() != null) {
+        for (int i = 0; i < getTags().getAdditionalTags().length; ++i) {
+          tags.add(getTags().getAdditionalTags()[i]);
+        }
+      }
+    }
+
+    // Add implements and extends import
+
+    if (getBlockLayerModel() == null) return tags;
+
+    for (int layerCount = 0; layerCount < getBlockLayerModel().size(); ++layerCount) {
+      if (getBlockLayerModel().get(layerCount) instanceof BlockFieldLayerModel) {
+        for (int blockFieldCount = 0;
+            blockFieldCount
+                < ((BlockFieldLayerModel) getBlockLayerModel().get(layerCount))
+                    .getBlockFields()
+                    .size();
+            ++blockFieldCount) {
+          if (((BlockFieldLayerModel) getBlockLayerModel().get(layerCount))
+                  .getBlockFields()
+                  .get(blockFieldCount)
+              instanceof BlockValueFieldModel) {
+            BlockValueFieldModel field =
+                ((BlockValueFieldModel)
+                    ((BlockFieldLayerModel) getBlockLayerModel().get(layerCount))
+                        .getBlockFields()
+                        .get(blockFieldCount));
+
+            if (field.getBlockModel() != null) {
+              tags.addAll(field.getBlockModel().getAdditionalTagsOfBlock());
+            } else if (field.getAdditionalTags() != null) {
+              for (int i = 0; i < field.getAdditionalTags().length; ++i) {
+                tags.add(field.getAdditionalTags()[i]);
+              }
+            }
+          }
+        }
+      } else if (getBlockLayerModel().get(layerCount) instanceof BlockHolderLayer) {
+        BlockHolderLayer layer = (BlockHolderLayer) getBlockLayerModel().get(layerCount);
+
+        if (layer.getBlocks() == null) {
+          continue;
+        }
+
+        for (int i = 0; i < layer.getBlocks().size(); ++i) {
+          tags.addAll(layer.getBlocks().get(i).getAdditionalTagsOfBlock());
+        }
+      }
+    }
+
+    return tags;
   }
 
   public String getCode(HashMap<String, Object> variables) {
