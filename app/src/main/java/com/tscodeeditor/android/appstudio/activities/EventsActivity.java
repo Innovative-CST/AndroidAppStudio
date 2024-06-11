@@ -82,7 +82,7 @@ public class EventsActivity extends BaseActivity {
         getIntent().getStringExtra("module"),
         new File(getIntent().getStringExtra("projectRootDirectory")));
     fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
-    eventsDir = new File(fileModelDirectory, EnvironmentUtils.EVENTS_DIR);
+    eventsDir = new File(fileModelDirectory.getParentFile(), EnvironmentUtils.EVENTS_DIR);
     binding = ActivityEventsBinding.inflate(getLayoutInflater());
 
     // Sets the layout of Activity
@@ -96,7 +96,7 @@ public class EventsActivity extends BaseActivity {
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     DeserializerUtils.deserialize(
-        new File(fileModelDirectory, EnvironmentUtils.FILE_MODEL),
+        fileModelDirectory,
         new DeserializerUtils.DeserializerListener() {
 
           @Override

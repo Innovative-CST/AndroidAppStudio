@@ -33,11 +33,9 @@ package com.tscodeeditor.android.appstudio.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tscodeeditor.android.appstudio.activities.EventEditorActivity;
 import com.tscodeeditor.android.appstudio.block.model.Event;

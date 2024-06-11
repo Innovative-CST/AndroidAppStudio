@@ -151,7 +151,9 @@ public class GradleFileModelListAdapter
                   "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
               eventsActivity.putExtra(
                   "fileModelDirectory",
-                  new File(modulesActivity.currentDir, fileList.get(position).getName())
+                  new File(
+                          new File(modulesActivity.currentDir, fileList.get(position).getName()),
+                          EnvironmentUtils.FILE_MODEL)
                       .getAbsolutePath());
               eventsActivity.putExtra("module", modulesActivity.module);
               modulesActivity.startActivity(eventsActivity);
