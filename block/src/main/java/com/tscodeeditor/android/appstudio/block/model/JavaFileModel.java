@@ -66,29 +66,54 @@ public class JavaFileModel extends FileModel implements Serializable {
             RawCodeReplacer.getReplacer(getReplacerKey(), "imports"),
             getImportsCode(builtInEvents, events));
 
+    boolean[] ignoreEvents = null;
     if (events != null) {
-      boolean[] removeEvents = new boolean[events.size()];
+      ignoreEvents = new boolean[events.size()];
       for (int i = 0; i < events.size(); ++i) {
         if (events.get(i) instanceof Event) {
+
           Event event = (Event) events.get(i);
+
+          String formatter = null;
+          String[] lines = resultCode.split("\n");
+          for (String line : lines) {
+            if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents"))) {
+              formatter =
+                  line.substring(
+                      0,
+                      line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents")));
+            }
+          }
+
+          StringBuilder formattedGeneratedCode = new StringBuilder();
+
+          String[] generatedCodeLines = event.getCode(variables).toString().split("\n");
+
+          for (int generatedCodeLinePosition = 0;
+              generatedCodeLinePosition < generatedCodeLines.length;
+              ++generatedCodeLinePosition) {
+
+            if (formatter != null) {
+              if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
+            }
+
+            formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
+            if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
+              formattedGeneratedCode.append("\n");
+            }
+          }
+
           if (event.isDirectFileEvent()) {
             resultCode =
                 resultCode.replace(
                     RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents"),
-                    event
-                        .getCode(variables)
-                        .concat("\n\n\t")
+                    formattedGeneratedCode
+                        .toString()
+                        .concat("\n\n")
+                        .concat(formatter)
                         .concat(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents")));
-            removeEvents[i] = true;
+            ignoreEvents[i] = true;
           }
-        }
-      }
-
-      int numberOfEventRemoved = 0;
-      for (int i = 0; i < removeEvents.length; ++i) {
-        if (removeEvents[i]) {
-          events.remove(i - numberOfEventRemoved);
-          numberOfEventRemoved = numberOfEventRemoved + 1;
         }
       }
     }
@@ -108,12 +133,14 @@ public class JavaFileModel extends FileModel implements Serializable {
 
     if (events != null) {
       for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
-        if (events.get(eventCount) instanceof Event) {
-          Event event = (Event) events.get(eventCount);
-          resultCode =
-              resultCode.replace(
-                  RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getName()),
-                  event.getCode(variables));
+        if (!ignoreEvents[eventCount]) {
+          if (events.get(eventCount) instanceof Event) {
+            Event event = (Event) events.get(eventCount);
+            resultCode =
+                resultCode.replace(
+                    RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getName()),
+                    event.getCode(variables));
+          }
         }
       }
     }
