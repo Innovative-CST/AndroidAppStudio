@@ -176,6 +176,10 @@ public class Event implements Serializable, Cloneable {
       }
     }
 
+    if (getBlockModels() == null) {
+      return tags;
+    }
+
     for (int blocksCount = 0; blocksCount < getBlockModels().size(); ++blocksCount) {
       BlockModel block = getBlockModels().get(blocksCount);
       tags.addAll(block.getAdditionalTagsOfBlock());
@@ -192,6 +196,7 @@ public class Event implements Serializable, Cloneable {
           RawCodeReplacer.removeAndroidAppStudioString(getEventReplacerKey(), returnEmptyEventCode);
       return returnEmptyEventCode;
     }
+
     for (int blocksCount = 0; blocksCount < getBlockModels().size(); ++blocksCount) {
       if (blocksCount != 0) generatedCode.append("\n");
       generatedCode.append(getBlockModels().get(blocksCount).getCode(variables));
