@@ -62,7 +62,6 @@ public final class ExtensionUtils {
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
     for (int i = 0; i < extensions.size(); ++i) {
-		Toast.makeText(MyApplication.getContext(), String.valueOf(extensions.size()), 0).show();
       if (extensions.get(i).getEvents() != null) {
         events.addAll(extensions.get(i).getEvents());
       }

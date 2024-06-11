@@ -61,6 +61,38 @@ public class JavaFileModel extends FileModel implements Serializable {
       return "";
     }
 
+    resultCode =
+        resultCode.replace(
+            RawCodeReplacer.getReplacer(getReplacerKey(), "imports"),
+            getImportsCode(builtInEvents, events));
+
+    if (events != null) {
+      boolean[] removeEvents = new boolean[events.size()];
+      for (int i = 0; i < events.size(); ++i) {
+        if (events.get(i) instanceof Event) {
+          Event event = (Event) events.get(i);
+          if (event.isDirectFileEvent()) {
+            resultCode =
+                resultCode.replace(
+                    RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents"),
+                    event
+                        .getCode(variables)
+                        .concat("\n\n\t")
+                        .concat(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents")));
+            removeEvents[i] = true;
+          }
+        }
+      }
+
+      int numberOfEventRemoved = 0;
+      for (int i = 0; i < removeEvents.length; ++i) {
+        if (removeEvents[i]) {
+          events.remove(i - numberOfEventRemoved);
+          numberOfEventRemoved = numberOfEventRemoved + 1;
+        }
+      }
+    }
+
     if (builtInEvents != null) {
 
       for (int eventCount = 0; eventCount < builtInEvents.size(); ++eventCount) {
@@ -90,10 +122,6 @@ public class JavaFileModel extends FileModel implements Serializable {
     resultCode =
         resultCode.replace(
             RawCodeReplacer.getReplacer(getReplacerKey(), "filePackage name"), packageName);
-    resultCode =
-        resultCode.replace(
-            RawCodeReplacer.getReplacer(getReplacerKey(), "imports"),
-            getImportsCode(builtInEvents, events));
     resultCode =
         resultCode.replace(
             RawCodeReplacer.getReplacer(getReplacerKey(), "inheritence"), getInheritenceCode());
@@ -143,6 +171,7 @@ public class JavaFileModel extends FileModel implements Serializable {
     if (getImplementingInterfaceImports() != null) {
       for (int i = 0; i < getImplementingInterfaceImports().length; ++i) {
         imported.add(getImplementingInterfaceImports()[i]);
+        importsCode.append("\n");
         importsCode.append("import ");
         importsCode.append(getImplementingInterfaceImports()[i]);
         importsCode.append(";");
@@ -152,13 +181,10 @@ public class JavaFileModel extends FileModel implements Serializable {
     for (int i = 0; i < usedImports.size(); ++i) {
       if (usedImports.get(i).getImportClass() != null) {
         if (!imported.contains(usedImports.get(i).getImportClass())) {
+          importsCode.append("\n");
           importsCode.append("import ");
           importsCode.append(usedImports.get(i).getImportClass());
           importsCode.append(";");
-
-          if (i != (usedImports.size() - 1)) {
-            importsCode.append("\n");
-          }
           imported.add(usedImports.get(i).getImportClass());
         }
       }

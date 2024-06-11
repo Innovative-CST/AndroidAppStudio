@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.block.utils;
 
 import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
 import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
+import com.tscodeeditor.android.appstudio.block.tag.ImportTag;
 
 public final class ArrayUtils {
   public static final String[] clone(String[] stringArr) {
@@ -62,6 +63,11 @@ public final class ArrayUtils {
 
     for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
       if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
+        clone[position] =
+            additionalCodeHelperTagArr[position] == null
+                ? null
+                : additionalCodeHelperTagArr[position].clone();
+      } else if (additionalCodeHelperTagArr[position] instanceof ImportTag) {
         clone[position] =
             additionalCodeHelperTagArr[position] == null
                 ? null

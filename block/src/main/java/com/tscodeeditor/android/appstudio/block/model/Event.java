@@ -56,6 +56,7 @@ public class Event implements Serializable, Cloneable {
   private String[] extension;
   private String createInHolderName;
   private int icon;
+  private boolean isDirectFileEvent;
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
   private boolean enableRootBlocksValueEditing;
@@ -170,10 +171,8 @@ public class Event implements Serializable, Cloneable {
 
     // Add this event code helper tag to tags
     if (getAdditionalTags() != null) {
-      if (getAdditionalTags() != null) {
-        for (int i = 0; i < getAdditionalTags().length; ++i) {
-          tags.add(getAdditionalTags()[i]);
-        }
+      for (int i = 0; i < getAdditionalTags().length; ++i) {
+        tags.add(getAdditionalTags()[i]);
       }
     }
 
@@ -254,10 +253,11 @@ public class Event implements Serializable, Cloneable {
     event.setEventTopBlock(getEventTopBlock() != null ? getEventTopBlock().clone() : null);
     event.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
     event.setClasses(ArrayUtils.clone(getClasses()));
-	event.setClassesImports(ArrayUtils.clone(getClassesImports()));
+    event.setClassesImports(ArrayUtils.clone(getClassesImports()));
     event.setHolderName(ArrayUtils.clone(getHolderName()));
     event.setExtension(ArrayUtils.clone(getExtension()));
     event.setIcon(new Integer(getIcon()));
+    event.setDirectFileEvent(new Boolean(isDirectFileEvent()));
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
     event.setEnableRootBlocksValueEditing(new Boolean(getEnableRootBlocksValueEditing()));
@@ -321,5 +321,13 @@ public class Event implements Serializable, Cloneable {
 
   public void setClassesImports(String[] classesImports) {
     this.classesImports = classesImports;
+  }
+
+  public boolean isDirectFileEvent() {
+    return this.isDirectFileEvent;
+  }
+
+  public void setDirectFileEvent(boolean isDirectFileEvent) {
+    this.isDirectFileEvent = isDirectFileEvent;
   }
 }
