@@ -71,39 +71,39 @@ public class JavaFileModel extends FileModel implements Serializable {
       ignoreEvents = new boolean[events.size()];
       for (int i = 0; i < events.size(); ++i) {
         if (events.get(i) instanceof Event) {
-
           Event event = (Event) events.get(i);
 
-          String formatter = null;
-          String[] lines = resultCode.split("\n");
-          for (String line : lines) {
-            if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents"))) {
-              formatter =
-                  line.substring(
-                      0,
-                      line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents")));
-            }
-          }
-
-          StringBuilder formattedGeneratedCode = new StringBuilder();
-
-          String[] generatedCodeLines = event.getCode(variables).toString().split("\n");
-
-          for (int generatedCodeLinePosition = 0;
-              generatedCodeLinePosition < generatedCodeLines.length;
-              ++generatedCodeLinePosition) {
-
-            if (formatter != null) {
-              if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
-            }
-
-            formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
-            if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
-              formattedGeneratedCode.append("\n");
-            }
-          }
-
           if (event.isDirectFileEvent()) {
+            String formatter = null;
+            String[] lines = resultCode.split("\n");
+            for (String line : lines) {
+              if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents"))) {
+                formatter =
+                    line.substring(
+                        0,
+                        line.indexOf(
+                            RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents")));
+              }
+            }
+
+            StringBuilder formattedGeneratedCode = new StringBuilder();
+
+            String[] generatedCodeLines = event.getCode(variables).toString().split("\n");
+
+            for (int generatedCodeLinePosition = 0;
+                generatedCodeLinePosition < generatedCodeLines.length;
+                ++generatedCodeLinePosition) {
+
+              if (formatter != null) {
+                if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
+              }
+
+              formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
+              if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
+                formattedGeneratedCode.append("\n");
+              }
+            }
+
             resultCode =
                 resultCode.replace(
                     RawCodeReplacer.getReplacer(getReplacerKey(), "directEvents"),
