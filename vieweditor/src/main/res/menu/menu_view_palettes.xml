@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_all"
+        android:title="All"
+        android:icon="@drawable/ic_event_category" />
+    <item
+        android:id="@+id/menu_layout"
+        android:title="Layout"
+        android:icon="@drawable/ic_item_appbar" />
+    <item
+        android:id="@+id/menu_androidx"
+        android:title="AndroidX"
+        android:icon="@drawable/ic_item_constraint" />
+    <item
+        android:id="@+id/menu_widget"
+        android:title="Widget"
+        android:icon="@drawable/ic_item_button" />
+    <item
+        android:id="@+id/menu_list"
+        android:title="List"
+        android:icon="@drawable/ic_item_listview" />
+    <item
+        android:id="@+id/menu_google"
+        android:title="Google"
+        android:icon="@drawable/ic_item_cardview" />
+    <item
+        android:id="@+id/menu_tree"
+        android:title="Tree"
+        android:icon="@drawable/ic_tree" />
+</menu>

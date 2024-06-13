@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/selector" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingRight="16dp"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/container">
+
+        <HorizontalScrollView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/chips" />
+
+        </HorizontalScrollView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Enter value"
+            android:id="@+id/text_input_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="text"
+                android:id="@+id/input_text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

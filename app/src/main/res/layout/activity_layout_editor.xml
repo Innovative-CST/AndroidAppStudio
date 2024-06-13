@@ -1,117 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/drawerLayout">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:fitsSystemWindows="true"
+        android:id="@+id/app_bar">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:title="@string/app_name"
+            android:id="@+id/toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:orientation="vertical">
+            android:visibility="gone"
+            android:padding="8dp"
+            android:orientation="horizontal"
+            android:id="@+id/layoutEditorSection">
 
-            <com.google.android.material.appbar.AppBarLayout
+            <com.tscodeeditor.android.appstudio.vieweditor.editor.ViewEditor
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/editor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/loading">
+
+            <ProgressBar
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/appbar">
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_width="match_parent"
-                    android:id="@+id/toolbar" />
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:padding="8dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/layoutEditorSection">
-
-                    <com.tscodeeditor.android.appstudio.vieweditor.editor.ViewEditor
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:id="@+id/editor" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:id="@+id/loading">
-
-                    <ProgressBar
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:indeterminate="true"
-                        android:id="@+id/progressbar" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:id="@+id/errorSection">
-
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textColor="?attr/colorOnSurface"
-                        android:id="@+id/errorText" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_width="wrap_content"
+                android:indeterminate="true"
+                android:id="@+id/progressbar" />
 
         </LinearLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:layout_height="match_parent"
-        android:layout_width="300dp"
-        android:layout_gravity="start"
-        android:id="@+id/navigationView">
 
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true">
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/errorSection">
 
-            <com.google.android.material.navigationrail.NavigationRailView
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:id="@+id/pallete" />
-
-            <FrameLayout
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/fragment_container">
-
-            </FrameLayout>
+                android:textColor="?attr/colorOnSurface"
+                android:id="@+id/errorText" />
 
         </LinearLayout>
 
-    </com.google.android.material.navigation.NavigationView>
+    </LinearLayout>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>

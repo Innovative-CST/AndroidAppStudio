@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:id="@+id/device_size_small"
+    android:title="@string/device_size_small" />
+
+  <item
+    android:id="@+id/device_size_default"
+    android:title="@string/device_size_default" />
+
+  <item
+    android:id="@+id/device_size_large"
+    android:title="@string/device_size_large" />
+
+</menu>

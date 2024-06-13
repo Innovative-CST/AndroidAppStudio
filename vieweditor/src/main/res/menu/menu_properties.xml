@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"> 
+    <item
+        android:id="@+id/front"
+        android:title="Bring to front" /> 
+  
+    <item
+        android:id="@+id/delete"
+        android:title="Delete" /> 
+</menu>

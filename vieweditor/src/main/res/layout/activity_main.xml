@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/coordinator"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:fitsSystemWindows="true"
+        android:id="@+id/app_bar">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:title="@string/app_name"
+            android:id="@+id/toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.elfilibustero.uidesigner.ui.designer.LayoutDesigner
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/editor"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

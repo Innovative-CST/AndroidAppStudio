@@ -1,0 +1,22 @@
+<resources>
+    <style
+        name="LayoutEditorTheme"
+        parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+    </style>
+    <style
+        name="ItemToolbar.TitleText"
+        parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style
+        name="AppTheme.TabLayout"
+        parent="Widget.Material3.TabLayout">
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorGravity">bottom</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabMaxWidth">0px</item>
+        <item name="tabInlineLabel">true</item>
+    </style>
+</resources>

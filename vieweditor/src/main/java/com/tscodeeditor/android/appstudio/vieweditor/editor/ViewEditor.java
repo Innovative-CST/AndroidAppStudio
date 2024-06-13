@@ -34,17 +34,16 @@ package com.tscodeeditor.android.appstudio.vieweditor.editor;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
 import com.tscodeeditor.android.appstudio.vieweditor.R;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 
-public class ViewEditor extends LinearLayout {
+public class ViewEditor extends LayoutDesigner {
 
   private LayoutModel layoutModel;
 
   public ViewEditor(Context context, AttributeSet attrs) {
     super(context, attrs);
-
-    setBackgroundResource(R.drawable.border_frame);
   }
 
   public LayoutModel getLayoutModel() {

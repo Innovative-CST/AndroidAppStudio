@@ -32,12 +32,21 @@
 package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import com.tscodeeditor.android.appstudio.R;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.MenuProvider;
+import androidx.lifecycle.Lifecycle;
+import com.blankj.utilcode.util.ResourceUtils;
+import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.tscodeeditor.android.appstudio.vieweditor.R;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutEditorBinding;
+import com.tscodeeditor.android.appstudio.vieweditor.editor.ViewEditor;
 
 public class LayoutEditorActivity extends BaseActivity {
   // Contants for showing the section easily
@@ -46,33 +55,52 @@ public class LayoutEditorActivity extends BaseActivity {
   public static final int ERROR_SECTION = 2;
 
   private ActivityLayoutEditorBinding binding;
+  private ViewEditor editor;
+
+  private final OnBackPressedCallback onBackPressedCallback =
+      new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+          showExitDialog();
+        }
+      };
 
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
     binding = ActivityLayoutEditorBinding.inflate(getLayoutInflater());
-
+    editor = binding.editor;
+	editor.setLayoutFromXml(ResourceUtils.readAssets2String("sample.xml"));
+    editor.attachOnBackPressedToActivity(this);
     setContentView(binding.getRoot());
     // SetUp the toolbar
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    ActionBarDrawerToggle toggle =
-        new ActionBarDrawerToggle(
-            this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
-    binding.toolbar.setNavigationOnClickListener(
-        v -> {
-          if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-          } else {
-            binding.drawerLayout.openDrawer(GravityCompat.START);
-          }
-        });
-    binding.drawerLayout.addDrawerListener(toggle);
-    toggle.syncState();
     switchSection(EDITOR_SECTION);
+    addMenuProvider(
+        new MenuProvider() {
+          @Override
+          public void onCreateMenu(Menu menu, MenuInflater menuInflater) {
+            menuInflater.inflate(R.menu.project, menu);
+          }
+
+          @Override
+          public boolean onMenuItemSelected(MenuItem menuItem) {
+            var id = menuItem.getItemId();
+            if (id == R.id.device_size) {
+              selectDeviceSize(findViewById(id));
+            } else if (id == R.id.source_code) {
+              editor.showSourceCode();
+              return true;
+            }
+            return false;
+          }
+        },
+        this,
+        Lifecycle.State.RESUMED);
   }
 
   /*
@@ -88,5 +116,33 @@ public class LayoutEditorActivity extends BaseActivity {
   public void showError(String errorText) {
     switchSection(ERROR_SECTION);
     binding.errorText.setText(errorText);
+  }
+
+  private void selectDeviceSize(View view) {
+    final PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+    popupMenu.inflate(R.menu.menu_size);
+    popupMenu.setOnMenuItemClickListener(
+        item -> {
+          var id = item.getItemId();
+          if (id == R.id.device_size_small) {
+            editor.setSize(LayoutDesigner.Size.SMALL);
+          } else if (id == R.id.device_size_default) {
+            editor.setSize(LayoutDesigner.Size.DEFAULT);
+          } else if (id == R.id.device_size_large) {
+            editor.setSize(LayoutDesigner.Size.LARGE);
+          }
+          return true;
+        });
+
+    popupMenu.show();
+  }
+
+  private void showExitDialog() {
+    new MaterialAlertDialogBuilder(this)
+        .setTitle(R.string.common_title_close_project)
+        .setMessage(R.string.common_message_close_project)
+        .setNegativeButton(R.string.common_text_no, null)
+        .setPositiveButton(R.string.common_text_yes, (d, w) -> finishAffinity())
+        .show();
   }
 }

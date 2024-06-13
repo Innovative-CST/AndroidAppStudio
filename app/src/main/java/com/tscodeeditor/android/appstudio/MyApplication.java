@@ -39,14 +39,13 @@ import android.content.Intent;
 import android.os.Process;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
+import com.elfilibustero.uidesigner.AppLoader;
 import com.tscodeeditor.android.appstudio.activities.CrashHandlerActivity;
 import com.tscodeeditor.android.appstudio.models.SettingModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.SettingUtils;
 
 public class MyApplication extends Application {
-  private static Context mApplicationContext;
-
   // Social links
   public static final String YOUTUBE = "https://youtube.com/@tscodeeditor?feature=shared";
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
@@ -56,6 +55,7 @@ public class MyApplication extends Application {
   public static final String GITHUB_ORG = "https://github.com/TS-Code-Editor";
 
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+  private static Context mApplicationContext;
 
   public static Context getContext() {
     return mApplicationContext;
@@ -64,6 +64,7 @@ public class MyApplication extends Application {
   @Override
   public void onCreate() {
     mApplicationContext = getApplicationContext();
+	AppLoader.setContext(getApplicationContext());
     EnvironmentUtils.init(this);
 
     this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();

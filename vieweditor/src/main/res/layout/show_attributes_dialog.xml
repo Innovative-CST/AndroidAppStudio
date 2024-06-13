@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@id/add"
+            android:layout_alignParentLeft="true">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                
+                <ImageView
+                    android:layout_height="16dp"
+                    android:layout_width="16dp"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:id="@+id/icon" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorPrimary"
+                    android:id="@+id/view_name" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_add"
+            android:layout_centerVertical="true"
+            app:tint="?attr/colorTertiary"
+            android:layout_toLeftOf="@id/more"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            style="@style/ImageButtonStyle"
+            android:id="@+id/add" />
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_dots_vertical"
+            android:layout_centerVertical="true"
+            app:tint="?attr/colorTertiary"
+            style="@style/ImageButtonStyle"
+            android:layout_alignParentRight="true"
+            android:id="@+id/more" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:nestedScrollingEnabled="true"
+        android:id="@+id/attributes_list" />
+</LinearLayout>
