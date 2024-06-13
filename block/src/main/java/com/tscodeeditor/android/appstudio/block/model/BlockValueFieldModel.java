@@ -52,6 +52,7 @@ public class BlockValueFieldModel extends BlockFieldModel implements Serializabl
     public static final int FIELD_INPUT_ONLY = 1;
     public static final int FIELD_EXTENSION_VIEW_ONLY = 2;
     public static final int FIELD_BOOLEAN = 3;
+	public static final int FIELD_NUMBER = 4;
   }
 
   public String[] getAcceptors() {

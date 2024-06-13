@@ -44,6 +44,7 @@ import com.tscodeeditor.android.appstudio.block.view.BlockFieldInputOnlyView;
 import com.tscodeeditor.android.appstudio.block.view.BlockFieldView;
 import com.tscodeeditor.android.appstudio.block.view.BlockView;
 import com.tscodeeditor.android.appstudio.block.view.BooleanView;
+import com.tscodeeditor.android.appstudio.block.view.NumberView;
 import java.util.ArrayList;
 
 public class BlockFieldLayerHandler {
@@ -78,6 +79,12 @@ public class BlockFieldLayerHandler {
               new BooleanView(
                   context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
           root.addView(booleanField);
+        } else if (blockValueFieldModel.getFieldType()
+            == BlockValueFieldModel.FieldType.FIELD_NUMBER) {
+          NumberView numberView =
+              new NumberView(
+                  context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
+          root.addView(numberView);
         }
       } else if (content instanceof BlockFieldModel) {
         /*

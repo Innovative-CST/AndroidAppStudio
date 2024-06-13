@@ -98,6 +98,7 @@ public class BlockModel implements Serializable, Cloneable {
   public final class Type {
     public static final int defaultBlock = 0;
     public static final int defaultBoolean = 1;
+    public static final int number = 2;
   }
 
   public int getBlockType() {
@@ -246,6 +247,8 @@ public class BlockModel implements Serializable, Cloneable {
                 layerCode.toString());
       }
     }
+
+    generatedCode = RawCodeReplacer.removeAndroidAppStudioString(getReplacerKey(), generatedCode);
 
     return generatedCode;
   }

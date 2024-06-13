@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.block.tag;
 public class BlockDroppableTag {
   public static final int DEFAULT_BLOCK_DROPPER = 0;
   public static final int BLOCK_BOOLEAN_DROPPER = 1;
+  public static final int BLOCK_NUMBER_DROPPER = 2;
   private int blockDroppableType;
   private Object dropProperty;
 

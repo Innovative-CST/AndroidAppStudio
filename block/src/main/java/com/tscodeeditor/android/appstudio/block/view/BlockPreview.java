@@ -31,10 +31,8 @@
 
 package com.tscodeeditor.android.appstudio.block.view;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.tscodeeditor.android.appstudio.block.R;
 import com.tscodeeditor.android.appstudio.block.editor.EventEditor;
@@ -84,6 +82,14 @@ public class BlockPreview extends LinearLayout {
       LinearLayout body = new LinearLayout(getContext());
       BlockView.setDrawable(
           body, R.drawable.block_boolean_backdrop, Color.parseColor(previewColor));
+      addView(body);
+      body.setLayoutParams(layoutParams);
+    } else if (block.getBlockType() == BlockModel.Type.number) {
+      LinearLayout.LayoutParams layoutParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+      LinearLayout body = new LinearLayout(getContext());
+      BlockView.setDrawable(body, R.drawable.block_number, Color.parseColor("#000000"));
       addView(body);
       body.setLayoutParams(layoutParams);
     }

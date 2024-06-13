@@ -243,6 +243,18 @@ public class BlockDragView extends LinearLayout {
       booleanDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       booleanLayout.setBackground(booleanDrawable);
       blockPreview.addView(booleanLayout);
+    } else if (block.getBlockType() == BlockModel.Type.number) {
+      LinearLayout numberLayout = new LinearLayout(getContext());
+      ViewGroup.LayoutParams layoutParams =
+          new ViewGroup.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      numberLayout.setLayoutParams(layoutParams);
+      Drawable numberDrawable =
+          ContextCompat.getDrawable(getContext(), R.drawable.block_number);
+      numberDrawable.setTint(Color.parseColor(block.getColor()));
+      numberDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      numberLayout.setBackground(numberDrawable);
+      blockPreview.addView(numberLayout);
     }
   }
 }

@@ -31,80 +31,89 @@
 
 package com.tscodeeditor.android.appstudio.block.utils;
 
-import com.tscodeeditor.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.tscodeeditor.android.appstudio.block.tag.DependencyTag;
-import com.tscodeeditor.android.appstudio.block.tag.ImportTag;
+public class NumberRangeValidator {
 
-public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+  public static final int INPUT_TYPE_BYTE = 1;
+  public static final int INPUT_TYPE_SHORT = 2;
+  public static final int INPUT_TYPE_INT = 3;
+  public static final int INPUT_TYPE_LONG = 4;
 
-    if (stringArr == null) {
-      return null;
+  public static final int INPUT_TYPE_FLOAT = 5;
+  public static final int INPUT_TYPE_DOUBLE = 6;
+
+  public static boolean isValidNumber(String value, int type) {
+    if (type == INPUT_TYPE_BYTE) {
+      return isValidByte(value);
     }
-
-    String[] clone = new String[stringArr.length];
-
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
+    if (type == INPUT_TYPE_SHORT) {
+      return isValidShort(value);
     }
-
-    return clone;
-  }
-
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
-
-    if (additionalCodeHelperTagArr == null) {
-      return null;
+    if (type == INPUT_TYPE_INT) {
+      return isValidInt(value);
     }
-
-    AdditionalCodeHelperTag[] clone =
-        new AdditionalCodeHelperTag[additionalCodeHelperTagArr.length];
-
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      } else if (additionalCodeHelperTagArr[position] instanceof ImportTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      }
+    if (type == INPUT_TYPE_LONG) {
+      return isValidLong(value);
     }
-
-    return clone;
-  }
-
-  public static boolean ifContains(String[] arg0, String arg1) {
-    if (arg0 == null) {
-      return false;
+	if (type == INPUT_TYPE_FLOAT) {
+      return isValidFloat(value);
     }
-
-    for (int i = 0; i < arg0.length; ++i) {
-      if (arg0[i].equals(arg1)) {
-        return true;
-      }
+	if (type == INPUT_TYPE_DOUBLE) {
+      return isValidDouble(value);
     }
-
     return false;
   }
 
-  public static boolean ifContainAnyElement(String[] arg0, String[] arg1) {
-    if (arg0 == null || arg1 == null) {
+  public static boolean isValidByte(String value) {
+    try {
+      byte parsedValue = Byte.parseByte(value);
+      return true;
+    } catch (NumberFormatException e) {
       return false;
     }
+  }
 
-    for (int i = 0; i < arg0.length; ++i) {
-      for (int j = i; j < arg1.length; ++j) {
-        if (arg0[i].equals(arg1[j])) {
-          return true;
-        }
-      }
+  public static boolean isValidShort(String value) {
+    try {
+      short parsedValue = Short.parseShort(value);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
     }
+  }
 
-    return false;
+  public static boolean isValidInt(String value) {
+    try {
+      int parsedValue = Integer.parseInt(value);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public static boolean isValidLong(String value) {
+    try {
+      long parsedValue = Long.parseLong(value);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public static boolean isValidFloat(String value) {
+    try {
+      float parsedValue = Float.parseFloat(value);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public static boolean isValidDouble(String value) {
+    try {
+      double parsedValue = Double.parseDouble(value);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
   }
 }
