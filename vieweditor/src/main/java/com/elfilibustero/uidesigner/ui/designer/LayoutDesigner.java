@@ -1130,4 +1130,12 @@ public class LayoutDesigner extends RelativeLayout
                     totalHeight - (int) (dip * 36.0f) - (int) (dip * 36.0f));
         };
     }
+
+    public AttributeSetHandler getAttributeSetHandler() {
+        return this.handler;
+    }
+
+    public LayoutContainer getEditor() {
+        return this.editor;
+    }
 }

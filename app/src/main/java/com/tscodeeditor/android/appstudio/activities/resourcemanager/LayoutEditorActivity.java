@@ -31,22 +31,30 @@
 
 package com.tscodeeditor.android.appstudio.activities.resourcemanager;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import androidx.activity.OnBackPressedCallback;
+import android.widget.Toast;
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.MenuProvider;
 import androidx.lifecycle.Lifecycle;
-import com.blankj.utilcode.util.ResourceUtils;
 import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.tscodeeditor.android.appstudio.dialogs.LayoutSourceViewerDialog;
+import com.tscodeeditor.android.appstudio.models.ModuleModel;
+import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.utils.serialization.SerializerUtil;
 import com.tscodeeditor.android.appstudio.vieweditor.R;
 import com.tscodeeditor.android.appstudio.activities.BaseActivity;
 import com.tscodeeditor.android.appstudio.databinding.ActivityLayoutEditorBinding;
 import com.tscodeeditor.android.appstudio.vieweditor.editor.ViewEditor;
+import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
+import java.io.File;
 
 public class LayoutEditorActivity extends BaseActivity {
   // Contants for showing the section easily
@@ -56,23 +64,40 @@ public class LayoutEditorActivity extends BaseActivity {
 
   private ActivityLayoutEditorBinding binding;
   private ViewEditor editor;
-
-  private final OnBackPressedCallback onBackPressedCallback =
-      new OnBackPressedCallback(true) {
-        @Override
-        public void handleOnBackPressed() {
-          showExitDialog();
-        }
-      };
+  private ModuleModel module;
+  private LayoutModel layout;
+  private File layoutDirectory;
+  private File layoutFileDirectory;
+  private File layoutDirectoryOutput;
 
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      module = getIntent().getParcelableExtra("module", ModuleModel.class);
+    } else {
+      module = (ModuleModel) getIntent().getParcelableExtra("module");
+    }
+
+    String layoutDirectoryName = getIntent().getStringExtra("layoutDirectoryName");
+    String layoutFile = getIntent().getStringExtra("layoutFileName");
+    layoutDirectory =
+        new File(
+            new File(
+                new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirectoryName),
+            EnvironmentUtils.FILES);
+    layoutFileDirectory = new File(layoutFile);
+    layoutDirectoryOutput = new File(module.resourceOutputDirectory, layoutDirectoryName);
+
     binding = ActivityLayoutEditorBinding.inflate(getLayoutInflater());
     editor = binding.editor;
-	editor.setLayoutFromXml(ResourceUtils.readAssets2String("sample.xml"));
-    editor.attachOnBackPressedToActivity(this);
+    layout = DeserializerUtils.deserialize(layoutFileDirectory, LayoutModel.class);
+
+    if (layout == null) {
+      Toast.makeText(LayoutEditorActivity.this, layoutFileDirectory.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+    } else editor.setLayoutModel(layout);
+	
     setContentView(binding.getRoot());
     // SetUp the toolbar
     binding.toolbar.setTitle(R.string.app_name);
@@ -93,7 +118,10 @@ public class LayoutEditorActivity extends BaseActivity {
             if (id == R.id.device_size) {
               selectDeviceSize(findViewById(id));
             } else if (id == R.id.source_code) {
-              editor.showSourceCode();
+              LayoutModel layout = editor.getLayoutModel();
+              LayoutSourceViewerDialog dialog =
+                  new LayoutSourceViewerDialog(LayoutEditorActivity.this, layout.getCode());
+              dialog.show();
               return true;
             }
             return false;
@@ -137,12 +165,24 @@ public class LayoutEditorActivity extends BaseActivity {
     popupMenu.show();
   }
 
-  private void showExitDialog() {
-    new MaterialAlertDialogBuilder(this)
-        .setTitle(R.string.common_title_close_project)
-        .setMessage(R.string.common_message_close_project)
-        .setNegativeButton(R.string.common_text_no, null)
-        .setPositiveButton(R.string.common_text_yes, (d, w) -> finishAffinity())
-        .show();
+  @Override
+  @Deprecated
+  @MainThread
+  @CallSuper
+  public void onBackPressed() {
+    SerializerUtil.serialize(
+        editor.getLayoutModel(),
+        layoutFileDirectory,
+        new SerializerUtil.SerializerCompletionListener() {
+          @Override
+          public void onFailedToSerialize(Exception exception) {
+            Toast.makeText(LayoutEditorActivity.this, "Failed to save", Toast.LENGTH_SHORT).show();
+          }
+
+          @Override
+          public void onSerializeComplete() {
+            LayoutEditorActivity.super.onBackPressed();
+          }
+        });
   }
 }

@@ -31,6 +31,7 @@
 
 package com.tscodeeditor.android.appstudio.vieweditor.models;
 
+import com.blankj.utilcode.util.ResourceUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -40,6 +41,9 @@ public class LayoutModel implements Serializable {
   private ViewModel view;
   private String layoutName;
   private ArrayList<String> viewIds;
+  private boolean isAndroidNameSpaceUsed;
+  private boolean isAppNameSpaceUsed;
+  private boolean isToolsNameSpaceUsed;
 
   public LayoutModel clone() {
     LayoutModel clone = new LayoutModel();
@@ -55,6 +59,9 @@ public class LayoutModel implements Serializable {
 
       clone.setViewIds(clonedViewIds);
     }
+    clone.setAndroidNameSpaceUsed(new Boolean(isAndroidNameSpaceUsed()));
+    clone.setAppNameSpaceUsed(new Boolean(isAppNameSpaceUsed()));
+    clone.setToolsNameSpaceUsed(new Boolean(isToolsNameSpaceUsed()));
     return clone;
   }
 
@@ -80,5 +87,37 @@ public class LayoutModel implements Serializable {
 
   public void setViewIds(ArrayList<String> viewIds) {
     this.viewIds = viewIds;
+  }
+
+  public boolean isAndroidNameSpaceUsed() {
+    return this.isAndroidNameSpaceUsed;
+  }
+
+  public void setAndroidNameSpaceUsed(boolean isAndroidNameSpaceUsed) {
+    this.isAndroidNameSpaceUsed = isAndroidNameSpaceUsed;
+  }
+
+  public boolean isAppNameSpaceUsed() {
+    return this.isAppNameSpaceUsed;
+  }
+
+  public void setAppNameSpaceUsed(boolean isAppNameSpaceUsed) {
+    this.isAppNameSpaceUsed = isAppNameSpaceUsed;
+  }
+
+  public boolean isToolsNameSpaceUsed() {
+    return this.isToolsNameSpaceUsed;
+  }
+
+  public void setToolsNameSpaceUsed(boolean isToolsNameSpaceUsed) {
+    this.isToolsNameSpaceUsed = isToolsNameSpaceUsed;
+  }
+
+  public String getCode() {
+    ViewModel view = getView();
+    if (view == null) {
+	  return ResourceUtils.readAssets2String("default.xml");
+    }
+	return view.getCode("", this);
   }
 }

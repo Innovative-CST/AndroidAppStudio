@@ -86,7 +86,7 @@ public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdap
               Intent layoutEditor = new Intent(activity, LayoutEditorActivity.class);
               layoutEditor.putExtra("module", module);
               layoutEditor.putExtra("layoutDirectoryName", layoutDirectoryName);
-              layoutEditor.putExtra("layoutFilePath", fileList.get(position).getAbsolutePath());
+              layoutEditor.putExtra("layoutFileName", fileList.get(position).getAbsolutePath());
               activity.startActivity(layoutEditor);
             });
   }

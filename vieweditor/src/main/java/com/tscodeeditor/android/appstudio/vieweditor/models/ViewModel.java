@@ -34,57 +34,121 @@ package com.tscodeeditor.android.appstudio.vieweditor.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class ViewModel implements Serializable {
+public class ViewModel implements Serializable {
   public static final long serialVersionUID = 15L;
 
   private String viewClass;
-  private String viewName;
-  private int width;
-  private int height;
   private boolean isRootElement;
   private ArrayList<AttributesModel> attributes;
+  private ArrayList<ViewModel> childs;
 
-  abstract String getCode();
+  public String getCode(String whitespace, LayoutModel layout) {
+    StringBuilder code = new StringBuilder();
+    if (isRootElement) {
+      code.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+    }
+    code.append(whitespace);
+    code.append("<");
+    code.append(viewClass);
+    if (isRootElement) {
+      if (layout.isAndroidNameSpaceUsed()) {
+		  code.append("\n\t");
+		  code.append("xmlns:android");
+		  code.append(String.valueOf("=\""));
+		  code.append("http://schemas.android.com/apk/res/android");
+		  code.append(String.valueOf("\""));
+	  }
+	  if (layout.isAppNameSpaceUsed()) {
+		  code.append("\n\t");
+		  code.append("xmlns:app");
+		  code.append(String.valueOf("=\""));
+		  code.append("http://schemas.android.com/apk/res-auto");
+		  code.append(String.valueOf("\""));
+	  }
+	  if (layout.isAndroidNameSpaceUsed()) {
+		  code.append("\n\t");
+		  code.append("xmlns:tools");
+		  code.append(String.valueOf("=\""));
+		  code.append("http://schemas.android.com/tools");
+		  code.append(String.valueOf("\""));
+	  }
+    }
+    if (attributes == null && childs == null) {
+      code.append("/>");
+    } else if (attributes == null) {
+      code.append(">\n");
+      for (int i = 0; i < childs.size(); ++i) {
+        code.append(childs.get(i).getCode(whitespace.concat("\t"), layout));
+        code.append("\n");
+      }
+      code.append(whitespace);
+      code.append("</");
+      code.append(viewClass);
+      code.append(">");
+    } else if (attributes != null && childs != null) {
+      for (int i = 0; i < attributes.size(); ++i) {
+        if (i == 0) {
+          code.append("\n");
+          code.append(whitespace.concat("\t"));
+        }
 
-  private String getViewClassName() {
-    return this.viewClass;
+        code.append(attributes.get(i).getAttribute());
+        code.append(String.valueOf("=\""));
+        code.append(String.valueOf(attributes.get(i).getAttributeValue()));
+        code.append(String.valueOf("\""));
+
+        if (i != (attributes.size() - 1)) {
+          code.append("\n");
+          code.append(whitespace.concat("\t"));
+        }
+      }
+
+      code.append(">\n");
+      for (int i = 0; i < childs.size(); ++i) {
+        code.append(childs.get(i).getCode(whitespace.concat("\t"), layout));
+        code.append("\n");
+      }
+      code.append(whitespace);
+      code.append("</");
+      code.append(viewClass);
+      code.append(">");
+    } else if (childs == null) {
+      for (int i = 0; i < attributes.size(); ++i) {
+        if (i == 0) {
+          code.append("\n");
+          code.append(whitespace.concat("\t"));
+        }
+
+        code.append(attributes.get(i).getAttribute());
+        code.append(String.valueOf("=\""));
+        code.append(String.valueOf(attributes.get(i).getAttributeValue()));
+        code.append(String.valueOf("\""));
+
+        if (i != (attributes.size() - 1)) {
+          code.append("\n");
+          code.append(whitespace.concat("\t"));
+        }
+      }
+
+      code.append("/>");
+    }
+
+    return code.toString();
   }
 
   public void setClass(String viewClass) {
     this.viewClass = viewClass;
   }
 
-  abstract ViewModel cloneViewModel();
-
-  public String getViewName() {
-    return this.viewName;
-  }
-
-  public void setViewName(String viewName) {
-    this.viewName = viewName;
-  }
-
-  public int getWidth() {
-    return this.width;
-  }
-
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  public int getHeight() {
-    return this.height;
-  }
-
-  public void setHeight(int height) {
-    this.height = height;
+  public ViewModel cloneViewModel() {
+    return null;
   }
 
   public boolean getIsRootElement() {
     return this.isRootElement;
   }
 
-  public void setIsRootElement(boolean isRootElement) {
+  public void setRootElement(boolean isRootElement) {
     this.isRootElement = isRootElement;
   }
 
@@ -94,5 +158,13 @@ public abstract class ViewModel implements Serializable {
 
   public void setAttributes(ArrayList<AttributesModel> attributes) {
     this.attributes = attributes;
+  }
+
+  public ArrayList<ViewModel> getChilds() {
+    return this.childs;
+  }
+
+  public void setChilds(ArrayList<ViewModel> childs) {
+    this.childs = childs;
   }
 }

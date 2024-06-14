@@ -33,10 +33,18 @@ package com.tscodeeditor.android.appstudio.vieweditor.editor;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import com.elfilibustero.uidesigner.lib.builder.LayoutBuilder;
+import com.elfilibustero.uidesigner.lib.handler.AttributeSetHandler;
+import com.elfilibustero.uidesigner.lib.view.ShadowView;
 import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
 import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.tscodeeditor.android.appstudio.vieweditor.models.AttributesModel;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
+import com.tscodeeditor.android.appstudio.vieweditor.models.ViewModel;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ViewEditor extends LayoutDesigner {
 
@@ -47,10 +55,83 @@ public class ViewEditor extends LayoutDesigner {
   }
 
   public LayoutModel getLayoutModel() {
-    return this.layoutModel;
+    return getPreparedLayoutModel();
   }
 
   public void setLayoutModel(LayoutModel layoutModel) {
     this.layoutModel = layoutModel;
+    setLayoutFromXml(layoutModel.getCode());
+  }
+
+  private LayoutModel getPreparedLayoutModel() {
+    for (int i = 0; i < getEditor().getChildCount(); ++i) {
+      if (!(getEditor().getChildAt(i) instanceof ShadowView)) {
+        ViewModel viewModel = new ViewModel();
+        viewModel.setRootElement(true);
+        viewModel.setClass(getEditor().getChildAt(i).getClass().getName());
+
+        AttributeSetHandler handler = getAttributeSetHandler();
+        Map<String, Object> map = handler.get(getEditor().getChildAt(i));
+
+        if (map != null) {
+          ArrayList<AttributesModel> attributes = new ArrayList<AttributesModel>();
+          for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            AttributesModel attr = new AttributesModel();
+            attr.setAttribute(key);
+            attr.setAttributeValue(value);
+            attributes.add(attr);
+          }
+          viewModel.setAttributes(attributes);
+        }
+
+        if (getEditor().getChildAt(i) instanceof ViewGroup viewGroup) {
+          viewModel.setChilds(prepareLayoutModel(viewGroup));
+        }
+
+        LayoutModel layout = layoutModel;
+        layout.setView(viewModel);
+        layout.setAndroidNameSpaceUsed(
+            LayoutBuilder.hasNamespace(handler.getViewMap(), "android:"));
+        layout.setAppNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "app:"));
+        layout.setToolsNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "tools:"));
+
+        return layout;
+      }
+    }
+    return null;
+  }
+
+  private ArrayList<ViewModel> prepareLayoutModel(ViewGroup view) {
+    ArrayList<ViewModel> result = new ArrayList<ViewModel>();
+    for (int i = 0; i < view.getChildCount(); ++i) {
+      if (!(view.getChildAt(i) instanceof ShadowView)) {
+        ViewModel viewModel = new ViewModel();
+        viewModel.setClass(view.getChildAt(i).getClass().getName());
+        AttributeSetHandler handler = getAttributeSetHandler();
+        Map<String, Object> map = handler.get(view.getChildAt(i));
+
+        if (map != null) {
+          ArrayList<AttributesModel> attributes = new ArrayList<AttributesModel>();
+          for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            AttributesModel attr = new AttributesModel();
+            attr.setAttribute(key);
+            attr.setAttributeValue(value);
+            attributes.add(attr);
+          }
+          viewModel.setAttributes(attributes);
+        }
+        if (view.getChildAt(i) instanceof ViewGroup viewGroup) {
+          viewModel.setChilds(prepareLayoutModel(viewGroup));
+        }
+        result.add(viewModel);
+      }
+    }
+    return result.size() == 0 ? null : result;
   }
 }

@@ -29,29 +29,45 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.vieweditor.models;
+package com.tscodeeditor.android.appstudio.dialogs;
 
-import java.io.Serializable;
+import android.app.Activity;
+import android.widget.Toast;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.tscodeeditor.android.appstudio.R;
+import com.tscodeeditor.android.appstudio.activities.BaseActivity;
+import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
+import editor.tsd.tools.Themes;
+import editor.tsd.widget.CodeEditorLayout;
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 
-public class AttributesModel implements Serializable {
-  public static final long serialVersionUID = 17L;
+public class LayoutSourceViewerDialog extends MaterialAlertDialogBuilder {
+  private Activity activity;
+  private CodeEditorLayout editor;
 
-  private String attribute;
-  private Object attributeValue;
+  public LayoutSourceViewerDialog(BaseActivity activity, String code) {
+    super(activity);
+    this.activity = activity;
+    FileProviderRegistry.getInstance()
+        .addFileProvider(new AssetsFileResolver(activity.getAssets()));
+    try {
+      TextMateProvider.loadGrammars();
+    } catch (Exception e) {
+      Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+    }
+    editor = new CodeEditorLayout(activity);
+    editor.setEditable(false);
+    if (activity.getSetting().isEnabledDarkMode()) {
+      editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+    } else {
+      editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+    }
 
-  public String getAttribute() {
-    return this.attribute;
-  }
-
-  public void setAttribute(String attribute) {
-    this.attribute = attribute;
-  }
-
-  public Object getAttributeValue() {
-    return this.attributeValue;
-  }
-
-  public void setAttributeValue(Object attributeValue) {
-    this.attributeValue = attributeValue;
+    editor.setLanguageMode("xml");
+    editor.setText(code);
+    setView(editor);
+    setTitle(R.string.source_code);
+    setPositiveButton(R.string.dismiss, (arg0, arg1) -> {});
   }
 }

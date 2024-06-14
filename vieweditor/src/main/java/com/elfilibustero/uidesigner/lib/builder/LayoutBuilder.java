@@ -123,11 +123,11 @@ public class LayoutBuilder {
                 .orElse(str);
     }
 
-    private boolean hasNamespace(Map<View, Map<String, Object>> viewMap, String namespace) {
+    public static boolean hasNamespace(Map<View, Map<String, Object>> viewMap, String namespace) {
         return viewMap.values().stream().anyMatch(innerMap -> hasNamespace(namespace, innerMap));
     }
 
-    private boolean hasNamespace(String namespace, Map<String, Object> innerMap) {
+    public static boolean hasNamespace(String namespace, Map<String, Object> innerMap) {
         return innerMap.keySet().stream().anyMatch(key -> key.startsWith(namespace));
     }
 }
