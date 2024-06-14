@@ -38,7 +38,9 @@ import android.widget.LinearLayout;
 import com.elfilibustero.uidesigner.lib.builder.LayoutBuilder;
 import com.elfilibustero.uidesigner.lib.handler.AttributeSetHandler;
 import com.elfilibustero.uidesigner.lib.view.ShadowView;
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
+import com.elfilibustero.uidesigner.ui.designer.items.DefaultView;
 import com.tscodeeditor.android.appstudio.vieweditor.R;
 import com.tscodeeditor.android.appstudio.vieweditor.models.AttributesModel;
 import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
@@ -68,8 +70,12 @@ public class ViewEditor extends LayoutDesigner {
       if (!(getEditor().getChildAt(i) instanceof ShadowView)) {
         ViewModel viewModel = new ViewModel();
         viewModel.setRootElement(true);
-        viewModel.setClass(getEditor().getChildAt(i).getClass().getName());
 
+        if (getEditor().getChildAt(i) instanceof DesignerItem designerItem) {
+          viewModel.setClass(designerItem.getClassType().getName());
+        } else {
+          viewModel.setClass(getEditor().getChildAt(i).getClass().getName());
+        }
         AttributeSetHandler handler = getAttributeSetHandler();
         Map<String, Object> map = handler.get(getEditor().getChildAt(i));
 
@@ -109,7 +115,11 @@ public class ViewEditor extends LayoutDesigner {
     for (int i = 0; i < view.getChildCount(); ++i) {
       if (!(view.getChildAt(i) instanceof ShadowView)) {
         ViewModel viewModel = new ViewModel();
-        viewModel.setClass(view.getChildAt(i).getClass().getName());
+        if (view.getChildAt(i) instanceof DesignerItem designerItem) {
+          viewModel.setClass(designerItem.getClassType().getName());
+        } else {
+          viewModel.setClass(view.getChildAt(i).getClass().getName());
+        }
         AttributeSetHandler handler = getAttributeSetHandler();
         Map<String, Object> map = handler.get(view.getChildAt(i));
 
