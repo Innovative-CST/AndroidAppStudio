@@ -38,6 +38,7 @@ import com.tscodeeditor.android.appstudio.models.ModuleModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
 import com.tscodeeditor.android.appstudio.utils.FileModelUtils;
 import com.tscodeeditor.android.appstudio.utils.serialization.DeserializerUtils;
+import com.tscodeeditor.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -213,6 +214,26 @@ public final class ProjectCodeBuilder {
     if (listener != null) {
       listener.onBuildProgressLog(
           "> Task " + module.module + ":generateLayoutsFile[" + layoutDirName + "]");
+    }
+
+    File layoutsDir =
+        new File(
+            new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirName),
+            EnvironmentUtils.FILES);
+    if (!layoutsDir.exists()) return;
+
+    for (File layoutFile : layoutsDir.listFiles()) {
+      LayoutModel layout = DeserializerUtils.deserialize(layoutFile, LayoutModel.class);
+      if (layout == null) {
+        continue;
+      }
+
+      FileUtils.writeFile(
+          new File(
+                  new File(module.resourceOutputDirectory, layoutDirName),
+                  layout.getLayoutName().concat(".xml"))
+              .getAbsolutePath(),
+          layout.getCode());
     }
   }
 
