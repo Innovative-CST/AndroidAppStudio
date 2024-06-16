@@ -29,35 +29,35 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.tscodeeditor.android.appstudio.vieweditor.view;
+plugins {
+    id 'com.android.library'
+}
 
-import android.content.Context;
-import android.widget.LinearLayout;
-import com.tscodeeditor.android.appstudio.vieweditor.models.ViewModel;
+android {
+    namespace 'com.tscodeeditor.android.appstudio.core'
+    compileSdk 34
 
-public class ViewModelRendererView extends LinearLayout {
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        vectorDrawables { 
+            useSupportLibrary true
+        }
+    }
 
-  private Context context;
-  private ViewModel viewModel;
-  private boolean isBluePrintMode;
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 
-  public ViewModelRendererView(Context context) {
-    super(context);
-  }
+    buildFeatures {
+        viewBinding false
+        buildConfig false
+    }
+    
+}
 
-  public ViewModel getViewModel() {
-    return this.viewModel;
-  }
-
-  public void setViewModel(ViewModel viewModel) {
-    this.viewModel = viewModel;
-  }
-
-  public boolean getIsBluePrintMode() {
-    return this.isBluePrintMode;
-  }
-
-  public void setBluePrintMode(boolean isBluePrintMode) {
-    this.isBluePrintMode = isBluePrintMode;
-  }
+dependencies {
+    implementation("com.blankj:utilcodex:1.31.1")
 }
