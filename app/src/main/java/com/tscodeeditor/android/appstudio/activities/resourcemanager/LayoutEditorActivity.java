@@ -95,9 +95,10 @@ public class LayoutEditorActivity extends BaseActivity {
     layout = DeserializerUtils.deserialize(layoutFileDirectory, LayoutModel.class);
 
     if (layout == null) {
-      Toast.makeText(LayoutEditorActivity.this, layoutFileDirectory.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+      layout = new LayoutModel();
+      layout.setLayoutName(layoutDirectoryName);
     } else editor.setLayoutModel(layout);
-	
+
     setContentView(binding.getRoot());
     // SetUp the toolbar
     binding.toolbar.setTitle(R.string.app_name);

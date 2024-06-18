@@ -116,7 +116,7 @@ public class LayoutModel implements Serializable {
   public String getCode() {
     ViewModel view = getView();
     if (view == null) {
-	  return ResourceUtils.readAssets2String("default.xml");
+	  return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
     }
 	return view.getCode("", this);
   }

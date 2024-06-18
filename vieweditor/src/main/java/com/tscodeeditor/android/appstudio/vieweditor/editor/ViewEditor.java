@@ -68,78 +68,79 @@ public class ViewEditor extends LayoutDesigner {
   private LayoutModel getPreparedLayoutModel() {
     for (int i = 0; i < getEditor().getChildCount(); ++i) {
       if (!(getEditor().getChildAt(i) instanceof ShadowView)) {
-        ViewModel viewModel = new ViewModel();
-        viewModel.setRootElement(true);
 
         if (getEditor().getChildAt(i) instanceof DesignerItem designerItem) {
+          ViewModel viewModel = new ViewModel();
+          viewModel.setRootElement(true);
           viewModel.setClass(designerItem.getClassType().getName());
-        } else {
-          viewModel.setClass(getEditor().getChildAt(i).getClass().getName());
-        }
-        AttributeSetHandler handler = getAttributeSetHandler();
-        Map<String, Object> map = handler.get(getEditor().getChildAt(i));
 
-        if (map != null) {
-          ArrayList<AttributesModel> attributes = new ArrayList<AttributesModel>();
-          for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
+          AttributeSetHandler handler = getAttributeSetHandler();
+          Map<String, Object> map = handler.get(getEditor().getChildAt(i));
 
-            AttributesModel attr = new AttributesModel();
-            attr.setAttribute(key);
-            attr.setAttributeValue(value);
-            attributes.add(attr);
+          if (map != null) {
+            ArrayList<AttributesModel> attributes = new ArrayList<AttributesModel>();
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+              String key = entry.getKey();
+              Object value = entry.getValue();
+
+              AttributesModel attr = new AttributesModel();
+              attr.setAttribute(key);
+              attr.setAttributeValue(value);
+              attributes.add(attr);
+            }
+            viewModel.setAttributes(attributes);
           }
-          viewModel.setAttributes(attributes);
+
+          if (getEditor().getChildAt(i) instanceof ViewGroup viewGroup) {
+            viewModel.setChilds(prepareLayoutModel(viewGroup));
+          }
+
+          LayoutModel layout = layoutModel;
+          layout.setView(viewModel);
+          layout.setAndroidNameSpaceUsed(
+              LayoutBuilder.hasNamespace(handler.getViewMap(), "android:"));
+          layout.setAppNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "app:"));
+          layout.setToolsNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "tools:"));
+
+          return layout;
         }
-
-        if (getEditor().getChildAt(i) instanceof ViewGroup viewGroup) {
-          viewModel.setChilds(prepareLayoutModel(viewGroup));
-        }
-
-        LayoutModel layout = layoutModel;
-        layout.setView(viewModel);
-        layout.setAndroidNameSpaceUsed(
-            LayoutBuilder.hasNamespace(handler.getViewMap(), "android:"));
-        layout.setAppNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "app:"));
-        layout.setToolsNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "tools:"));
-
-        return layout;
       }
     }
-    return null;
+    LayoutModel layout = layoutModel;
+    layout.setView(null);
+    return layout;
   }
 
   private ArrayList<ViewModel> prepareLayoutModel(ViewGroup view) {
     ArrayList<ViewModel> result = new ArrayList<ViewModel>();
     for (int i = 0; i < view.getChildCount(); ++i) {
       if (!(view.getChildAt(i) instanceof ShadowView)) {
-        ViewModel viewModel = new ViewModel();
+
         if (view.getChildAt(i) instanceof DesignerItem designerItem) {
+          ViewModel viewModel = new ViewModel();
           viewModel.setClass(designerItem.getClassType().getName());
-        } else {
-          viewModel.setClass(view.getChildAt(i).getClass().getName());
-        }
-        AttributeSetHandler handler = getAttributeSetHandler();
-        Map<String, Object> map = handler.get(view.getChildAt(i));
 
-        if (map != null) {
-          ArrayList<AttributesModel> attributes = new ArrayList<AttributesModel>();
-          for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
+          AttributeSetHandler handler = getAttributeSetHandler();
+          Map<String, Object> map = handler.get(view.getChildAt(i));
 
-            AttributesModel attr = new AttributesModel();
-            attr.setAttribute(key);
-            attr.setAttributeValue(value);
-            attributes.add(attr);
+          if (map != null) {
+            ArrayList<AttributesModel> attributes = new ArrayList<AttributesModel>();
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+              String key = entry.getKey();
+              Object value = entry.getValue();
+
+              AttributesModel attr = new AttributesModel();
+              attr.setAttribute(key);
+              attr.setAttributeValue(value);
+              attributes.add(attr);
+            }
+            viewModel.setAttributes(attributes);
           }
-          viewModel.setAttributes(attributes);
+          if (view.getChildAt(i) instanceof ViewGroup viewGroup) {
+            viewModel.setChilds(prepareLayoutModel(viewGroup));
+          }
+          result.add(viewModel);
         }
-        if (view.getChildAt(i) instanceof ViewGroup viewGroup) {
-          viewModel.setChilds(prepareLayoutModel(viewGroup));
-        }
-        result.add(viewModel);
       }
     }
     return result.size() == 0 ? null : result;
