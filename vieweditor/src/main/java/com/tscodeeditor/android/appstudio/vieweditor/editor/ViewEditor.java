@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.elfilibustero.uidesigner.lib.builder.LayoutBuilder;
 import com.elfilibustero.uidesigner.lib.handler.AttributeSetHandler;
+import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.lib.view.ShadowView;
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
@@ -73,11 +74,7 @@ public class ViewEditor extends LayoutDesigner {
         ViewModel viewModel = new ViewModel();
         viewModel.setRootElement(true);
 
-        if (getEditor().getChildAt(i) instanceof DesignerItem designerItem) {
-          viewModel.setClass(designerItem.getClassType().getName());
-        } else {
-          viewModel.setClass(getEditor().getChildAt(i).getClass().getName());
-        }
+        viewModel.setClass(LayoutBuilder.getClassName(getEditor().getChildAt(i)));
 
         AttributeSetHandler handler = getAttributeSetHandler();
         Map<String, Object> map = handler.get(getEditor().getChildAt(i));
@@ -96,8 +93,8 @@ public class ViewEditor extends LayoutDesigner {
           viewModel.setAttributes(attributes);
         }
 
-        if (!(getEditor().getChildAt(i) instanceof DesignerListItem)) {
-          if (getEditor().getChildAt(i) instanceof ViewGroup viewGroup) {
+        if (getEditor().getChildAt(i) instanceof ViewGroup viewGroup) {
+          if (!(Constants.isExcludedViewGroup(viewGroup))) {
             viewModel.setChilds(prepareLayoutModel(viewGroup));
           }
         }
@@ -123,11 +120,7 @@ public class ViewEditor extends LayoutDesigner {
       if (!(view.getChildAt(i) instanceof ShadowView)) {
         ViewModel viewModel = new ViewModel();
 
-        if (view.getChildAt(i) instanceof DesignerItem designerItem) {
-          viewModel.setClass(designerItem.getClassType().getName());
-        } else {
-          viewModel.setClass(view.getChildAt(i).getClass().getName());
-        }
+        viewModel.setClass(LayoutBuilder.getClassName(view.getChildAt(i)));
 
         AttributeSetHandler handler = getAttributeSetHandler();
         Map<String, Object> map = handler.get(view.getChildAt(i));
@@ -145,8 +138,8 @@ public class ViewEditor extends LayoutDesigner {
           }
           viewModel.setAttributes(attributes);
         }
-        if (!(view.getChildAt(i) instanceof DesignerListItem)) {
-          if (view.getChildAt(i) instanceof ViewGroup viewGroup) {
+        if (view.getChildAt(i) instanceof ViewGroup viewGroup) {
+          if (!(Constants.isExcludedViewGroup(viewGroup))) {
             viewModel.setChilds(prepareLayoutModel(viewGroup));
           }
         }

@@ -111,11 +111,11 @@ public class LayoutBuilder {
         }
     }
 
-    private String getClassName(View view) {
+    public static String getClassName(View view) {
         return removeClassPrefix(DynamicViewFactory.getName(view));
     }
 
-    private String removeClassPrefix(String str) {
+    private static String removeClassPrefix(String str) {
         return Arrays.stream(Constants.ANDROID_CLASS_PREFIX)
                 .filter(str::startsWith)
                 .findFirst()
