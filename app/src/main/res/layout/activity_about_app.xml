@@ -90,7 +90,7 @@
                             android:textColor="?attr/colorOnSurface"
                             android:layout_marginStart="2dp"
                             android:id="@+id/orgName"
-                            android:text="@string/ts_code_editor" />
+                            android:text="@string/icst" />
 
                     </LinearLayout>
 

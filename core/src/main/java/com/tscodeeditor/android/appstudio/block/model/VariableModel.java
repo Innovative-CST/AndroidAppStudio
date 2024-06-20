@@ -50,7 +50,7 @@ public class VariableModel implements Serializable {
   private boolean mustBeGloballyIntialized;
   private boolean isInitializedGlobally;
   private boolean canInitializedGlobally;
-  private VariableModel[] requiredBlocks;
+  private VariableModel[] requiredVariables;
 
   public int getAccessModifier() {
     return this.accessModifier;
@@ -122,5 +122,13 @@ public class VariableModel implements Serializable {
 
   public void setCanInitializedGlobally(boolean canInitializedGlobally) {
     this.canInitializedGlobally = canInitializedGlobally;
+  }
+
+  public VariableModel[] getRequiredVariables() {
+    return this.requiredVariables;
+  }
+
+  public void setRequiredVariables(VariableModel[] requiredVariables) {
+    this.requiredVariables = requiredVariables;
   }
 }

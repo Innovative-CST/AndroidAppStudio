@@ -47,12 +47,11 @@ import com.tscodeeditor.android.appstudio.utils.SettingUtils;
 
 public class MyApplication extends Application {
   // Social links
-  public static final String YOUTUBE = "https://youtube.com/@tscodeeditor?feature=shared";
+  public static final String YOUTUBE = "https://www.youtube.com/@Innovative-CST";
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
-  public static final String INSTAGRAM =
-      "https://www.instagram.com/tscode_editor?igsh=MXBkOG1va2FwZzN6dw==";
-  public static final String GITHUB_APP = "https://github.com/TS-Code-Editor/AndroidAppStudio";
-  public static final String GITHUB_ORG = "https://github.com/TS-Code-Editor";
+  public static final String INSTAGRAM = "https://www.instagram.com/innovative_cst";
+  public static final String GITHUB_APP = "https://github.com/Innovative-CST/AndroidAppStudio";
+  public static final String GITHUB_ORG = "https://github.com/Innovative-CST";
 
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
   private static Context mApplicationContext;
@@ -64,7 +63,7 @@ public class MyApplication extends Application {
   @Override
   public void onCreate() {
     mApplicationContext = getApplicationContext();
-	AppLoader.setContext(getApplicationContext());
+    AppLoader.setContext(getApplicationContext());
     EnvironmentUtils.init(this);
 
     this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();

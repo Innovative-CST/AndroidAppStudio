@@ -56,9 +56,9 @@ public class AboutTeamActivity extends BaseActivity {
   private boolean isContributorsAdditionalDataLoaded;
 
   public static final String contributorsDataUrl =
-      "https://api.github.com/repos/TS-Code-Editor/AndroidAppStudio/contributors";
+      "https://api.github.com/repos/Innovative-CST/AndroidAppStudio/contributors";
   public String contributorsAdditionalDataUrl =
-      "https://raw.githubusercontent.com/TS-Code-Editor/AndroidAppStudio/main/assets/contributors.json";
+      "https://raw.githubusercontent.com/Innovative-CST/AndroidAppStudio/main/assets/contributors.json";
 
   public RequestNetwork contributorsDataReqNetwork;
   public RequestNetwork contributorsAdditionalDataReqNetwork;
