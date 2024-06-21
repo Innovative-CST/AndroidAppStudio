@@ -38,8 +38,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Process;
 import android.util.Log;
-import androidx.appcompat.app.AppCompatDelegate;
 import com.elfilibustero.uidesigner.AppLoader;
+import com.quickersilver.themeengine.ThemeEngine;
+import com.quickersilver.themeengine.ThemeMode;
 import com.tscodeeditor.android.appstudio.activities.CrashHandlerActivity;
 import com.tscodeeditor.android.appstudio.models.SettingModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
@@ -55,14 +56,20 @@ public class MyApplication extends Application {
 
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
   private static Context mApplicationContext;
+  private static ThemeEngine themeEngine;
 
   public static Context getContext() {
     return mApplicationContext;
   }
 
+  public static ThemeEngine getThemeEngine() {
+    return themeEngine;
+  }
+
   @Override
   public void onCreate() {
     mApplicationContext = getApplicationContext();
+    themeEngine = ThemeEngine.getInstance(this);
     AppLoader.setContext(getApplicationContext());
     EnvironmentUtils.init(this);
 
@@ -94,19 +101,21 @@ public class MyApplication extends Application {
       settings = new SettingModel();
     }
     if (settings.isEnabledDarkMode()) {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+      themeEngine.setThemeMode(ThemeMode.DARK);
     } else {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+      themeEngine.setThemeMode(ThemeMode.LIGHT);
     }
+    themeEngine.applyToActivities(this);
     super.onCreate();
   }
 
   public void onThemeChange() {
     SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
     if (settings.isEnabledDarkMode()) {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+      themeEngine.setThemeMode(ThemeMode.DARK);
     } else {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+      themeEngine.setThemeMode(ThemeMode.LIGHT);
     }
+    themeEngine.applyToActivities(this);
   }
 }

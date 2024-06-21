@@ -53,6 +53,6 @@ public class BaseActivity extends AppCompatActivity {
     if (settings == null) {
       settings = new SettingModel();
     }
-	return settings;
+    return settings;
   }
 }

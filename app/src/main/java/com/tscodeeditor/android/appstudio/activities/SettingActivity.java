@@ -33,9 +33,11 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import com.quickersilver.themeengine.ThemeChooserDialogBuilder;
 import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.R;
 import com.tscodeeditor.android.appstudio.databinding.ActivitySettingBinding;
+import com.tscodeeditor.android.appstudio.databinding.LayoutPreferenceBinding;
 import com.tscodeeditor.android.appstudio.databinding.LayoutPreferenceSwitchBinding;
 import com.tscodeeditor.android.appstudio.models.SettingModel;
 import com.tscodeeditor.android.appstudio.utils.EnvironmentUtils;
@@ -64,7 +66,33 @@ public class SettingActivity extends BaseActivity {
       settings = new SettingModel();
     }
 
-    addBooleanPreference("Dark Mode", "Choose dark mode if you eye feels comfort.", R.drawable.ic_light_dark, SettingUtils.DARK_MODE);
+    addPreference(
+        "App Theme",
+        "Choose appropriate theme color of app",
+        R.drawable.ic_palette,
+        v -> {
+          ThemeChooserDialogBuilder dialog = new ThemeChooserDialogBuilder(this);
+          dialog.setPositiveButton(
+              "OK",
+              (position, theme) -> {
+                MyApplication.getThemeEngine().setStaticTheme(theme);
+                ((MyApplication) getApplicationContext()).onThemeChange();
+              });
+          dialog.setNegativeButton("Cancel");
+          dialog.setNeutralButton(
+              "Default",
+              (param1, param2) -> {
+                MyApplication.getThemeEngine().resetTheme();
+                ((MyApplication) getApplicationContext()).onThemeChange();
+              });
+          dialog.create().show();
+        });
+
+    addBooleanPreference(
+        "Dark Mode",
+        "Choose dark mode if you eye feels comfort.",
+        R.drawable.ic_light_dark,
+        SettingUtils.DARK_MODE);
   }
 
   private void addBooleanPreference(String title, String desc, int icon, String key) {
@@ -95,6 +123,23 @@ public class SettingActivity extends BaseActivity {
           saveSettings();
           onSettingChange(key);
         });
+    binding.content.addView(preferenceLayout.getRoot());
+  }
+
+  private void addPreference(String title, String desc, int icon, View.OnClickListener clickEvent) {
+    LayoutPreferenceBinding preferenceLayout = LayoutPreferenceBinding.inflate(getLayoutInflater());
+    if (icon == 0) {
+      preferenceLayout.preferenceIcon.setVisibility(View.GONE);
+    } else {
+      preferenceLayout.preferenceIcon.setImageResource(icon);
+    }
+    preferenceLayout.primaryText.setText(title);
+    if (desc == null) {
+      preferenceLayout.secondaryText.setVisibility(View.GONE);
+    } else {
+      preferenceLayout.secondaryText.setText(desc);
+    }
+    preferenceLayout.getRoot().setOnClickListener(clickEvent);
     binding.content.addView(preferenceLayout.getRoot());
   }
 

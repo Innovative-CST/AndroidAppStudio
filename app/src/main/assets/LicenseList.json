@@ -2,5 +2,9 @@
   {
     "Name": "Sora-Editor - the awesome code editor for Android",
     "Path": "license/sora_editor_license.txt"
+  },
+  {
+    "Name": "Theme Engine",
+	"Path": "license/theme_engine_license.txt"
   }
 ]
