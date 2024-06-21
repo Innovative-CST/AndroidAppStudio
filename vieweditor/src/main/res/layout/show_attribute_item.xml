@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="?attr/colorTertiary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:singleLine="true"
             android:ellipsize="marquee"
             android:id="@+id/attribute_value" />

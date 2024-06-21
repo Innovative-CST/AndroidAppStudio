@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:src="@drawable/ic_add"
             android:layout_centerVertical="true"
-            app:tint="?attr/colorTertiary"
+            app:tint="?attr/colorOnSurfaceVariant"
             android:layout_toLeftOf="@id/more"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:src="@drawable/ic_dots_vertical"
             android:layout_centerVertical="true"
-            app:tint="?attr/colorTertiary"
+            app:tint="?attr/colorOnSurfaceVariant"
             style="@style/ImageButtonStyle"
             android:layout_alignParentRight="true"
             android:id="@+id/more" />
