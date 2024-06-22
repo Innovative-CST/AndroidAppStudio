@@ -63,14 +63,13 @@ android {
         viewBinding true
         buildConfig true
     }
-    
 }
 
 dependencies {
     implementation("com.google.android.material:material:$material_design_version")
 
     def editorGroupId = "io.github.Rosemoe.sora-editor"
-    implementation platform("$editorGroupId:bom:0.22.0")
+    implementation platform("$editorGroupId:bom:$blankj_utilcodex_version")
     implementation("$editorGroupId:editor")
     implementation("$editorGroupId:language-textmate")
 

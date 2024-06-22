@@ -68,10 +68,10 @@ android {
 dependencies {
 	implementation("com.google.android.material:material:$material_design_version")
 	implementation("com.google.guava:guava:33.0.0-jre")
-	implementation("com.blankj:utilcodex:1.31.1")
+	implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
 
 	def editorGroupId = "io.github.Rosemoe.sora-editor"
-    implementation platform("$editorGroupId:bom:0.22.0")
+    implementation platform("$editorGroupId:bom:$sora_editor_version")
     implementation("$editorGroupId:editor")
     implementation("$editorGroupId:language-textmate")
 

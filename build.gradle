@@ -8,6 +8,9 @@ plugins {
 ext {
     appcompat_version = '1.6.1'
     material_design_version = '1.13.0-alpha03'
+    sora_editor_version = '0.22.0'
+	blankj_utilcodex_version = '1.31.1'
+	gson_version = '2.8.7'
 }
 
 task clean(type: Delete) {
