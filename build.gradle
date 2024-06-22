@@ -5,6 +5,11 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.21' apply false
 }
 
+ext {
+    appcompat_version = '1.6.1'
+    material_design_version = '1.13.0-alpha03'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
