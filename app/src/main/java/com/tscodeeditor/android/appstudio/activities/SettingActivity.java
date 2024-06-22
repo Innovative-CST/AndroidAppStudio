@@ -34,6 +34,7 @@ package com.tscodeeditor.android.appstudio.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import androidx.viewbinding.ViewBinding;
 import com.quickersilver.themeengine.ThemeChooserDialogBuilder;
 import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.R;
@@ -49,6 +50,9 @@ public class SettingActivity extends BaseActivity {
 
   private ActivitySettingBinding binding;
   private SettingModel settings;
+  private ViewBinding appThemePreference;
+  private ViewBinding dynamicThemePreferenceBinding;
+  private ViewBinding darkModePreferenceBinding;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -67,40 +71,53 @@ public class SettingActivity extends BaseActivity {
       settings = new SettingModel();
     }
 
-    addPreference(
-        "App Theme",
-        "Choose appropriate theme color of app. (Requires Restart)",
-        R.drawable.ic_palette,
-        v -> {
-          ThemeChooserDialogBuilder dialog = new ThemeChooserDialogBuilder(this);
-          dialog.setPositiveButton(
-              "OK",
-              (position, theme) -> {
-                MyApplication.getThemeEngine().setStaticTheme(theme);
-              });
-          dialog.setNegativeButton("Cancel");
-          dialog.setNeutralButton(
-              "Default",
-              (param1, param2) -> {
-                MyApplication.getThemeEngine().resetTheme();
-              });
-          dialog.create().show();
-        });
+    LayoutPreferenceBinding appThemePreference =
+        LayoutPreferenceBinding.inflate(getLayoutInflater());
+    appThemePreference.preferenceIcon.setImageResource(R.drawable.ic_palette);
+    appThemePreference.primaryText.setText("App Theme");
+    appThemePreference.secondaryText.setText(
+        "Choose appropriate theme color of app. (Requires Restart)");
+    appThemePreference
+        .getRoot()
+        .setOnClickListener(
+            v -> {
+              ThemeChooserDialogBuilder dialog = new ThemeChooserDialogBuilder(this);
+              dialog.setPositiveButton(
+                  "OK",
+                  (position, theme) -> {
+                    MyApplication.getThemeEngine().setStaticTheme(theme);
+                  });
+              dialog.setNegativeButton("Cancel");
+              dialog.setNeutralButton(
+                  "Default",
+                  (param1, param2) -> {
+                    MyApplication.getThemeEngine().resetTheme();
+                  });
+              dialog.create().show();
+            });
+    binding.content.addView(appThemePreference.getRoot());
+    this.appThemePreference = appThemePreference;
 
-    addBooleanPreference(
-        "Dynamic Theme",
-        "Sets Material 3 Dynamic theme. (Requires Restart)",
-        R.drawable.material_design,
-        SettingUtils.DYNAMIC_THEME);
+    if (settings.isEnabledDynamicTheme()) {
+      appThemePreference.getRoot().setVisibility(View.GONE);
+    }
 
-    addBooleanPreference(
-        "Dark Mode",
-        "Choose dark mode if you eye feels comfort. (Requires Restart)",
-        R.drawable.ic_light_dark,
-        SettingUtils.DARK_MODE);
+    dynamicThemePreferenceBinding =
+        addBooleanPreference(
+            "Dynamic Theme",
+            "Sets Material 3 Dynamic theme. (Requires Restart)",
+            R.drawable.material_design,
+            SettingUtils.DYNAMIC_THEME);
+
+    darkModePreferenceBinding =
+        addBooleanPreference(
+            "Dark Mode",
+            "Choose dark mode if you eye feels comfort. (Overrides App Theme and Requires Restart)",
+            R.drawable.ic_light_dark,
+            SettingUtils.DARK_MODE);
   }
 
-  private void addBooleanPreference(String title, String desc, int icon, String key) {
+  private ViewBinding addBooleanPreference(String title, String desc, int icon, String key) {
     LayoutPreferenceSwitchBinding preferenceLayout =
         LayoutPreferenceSwitchBinding.inflate(getLayoutInflater());
     if (icon == 0) {
@@ -125,25 +142,22 @@ public class SettingActivity extends BaseActivity {
         (button, state) -> {
           SettingUtils.setBooleanPreference(key, preferenceLayout.check.isChecked(), settings);
           saveSettings();
+          onSettingChange(key);
         });
     binding.content.addView(preferenceLayout.getRoot());
+    return preferenceLayout;
   }
 
-  private void addPreference(String title, String desc, int icon, View.OnClickListener clickEvent) {
-    LayoutPreferenceBinding preferenceLayout = LayoutPreferenceBinding.inflate(getLayoutInflater());
-    if (icon == 0) {
-      preferenceLayout.preferenceIcon.setVisibility(View.GONE);
-    } else {
-      preferenceLayout.preferenceIcon.setImageResource(icon);
+  public void onSettingChange(String key) {
+    switch (key) {
+      case SettingUtils.DYNAMIC_THEME:
+        if (settings.isEnabledDynamicTheme()) {
+          appThemePreference.getRoot().setVisibility(View.GONE);
+        } else {
+          appThemePreference.getRoot().setVisibility(View.VISIBLE);
+        }
+        break;
     }
-    preferenceLayout.primaryText.setText(title);
-    if (desc == null) {
-      preferenceLayout.secondaryText.setVisibility(View.GONE);
-    } else {
-      preferenceLayout.secondaryText.setText(desc);
-    }
-    preferenceLayout.getRoot().setOnClickListener(clickEvent);
-    binding.content.addView(preferenceLayout.getRoot());
   }
 
   public void saveSettings() {
