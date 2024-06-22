@@ -33,6 +33,7 @@ package com.tscodeeditor.android.appstudio.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import com.quickersilver.themeengine.ThemeChooserDialogBuilder;
 import com.tscodeeditor.android.appstudio.MyApplication;
 import com.tscodeeditor.android.appstudio.R;
@@ -68,7 +69,7 @@ public class SettingActivity extends BaseActivity {
 
     addPreference(
         "App Theme",
-        "Choose appropriate theme color of app",
+        "Choose appropriate theme color of app. (Requires Restart)",
         R.drawable.ic_palette,
         v -> {
           ThemeChooserDialogBuilder dialog = new ThemeChooserDialogBuilder(this);
@@ -76,21 +77,25 @@ public class SettingActivity extends BaseActivity {
               "OK",
               (position, theme) -> {
                 MyApplication.getThemeEngine().setStaticTheme(theme);
-                ((MyApplication) getApplicationContext()).onThemeChange();
               });
           dialog.setNegativeButton("Cancel");
           dialog.setNeutralButton(
               "Default",
               (param1, param2) -> {
                 MyApplication.getThemeEngine().resetTheme();
-                ((MyApplication) getApplicationContext()).onThemeChange();
               });
           dialog.create().show();
         });
 
     addBooleanPreference(
+        "Dynamic Theme",
+        "Sets Material 3 Dynamic theme. (Requires Restart)",
+        R.drawable.material_design,
+        SettingUtils.DYNAMIC_THEME);
+
+    addBooleanPreference(
         "Dark Mode",
-        "Choose dark mode if you eye feels comfort.",
+        "Choose dark mode if you eye feels comfort. (Requires Restart)",
         R.drawable.ic_light_dark,
         SettingUtils.DARK_MODE);
   }
@@ -109,8 +114,7 @@ public class SettingActivity extends BaseActivity {
     } else {
       preferenceLayout.secondaryText.setText(desc);
     }
-    preferenceLayout.check.setChecked(
-        SettingUtils.getBooleanPreference(SettingUtils.DARK_MODE, settings));
+    preferenceLayout.check.setChecked(SettingUtils.getBooleanPreference(key, settings));
     preferenceLayout
         .getRoot()
         .setOnClickListener(
@@ -121,7 +125,6 @@ public class SettingActivity extends BaseActivity {
         (button, state) -> {
           SettingUtils.setBooleanPreference(key, preferenceLayout.check.isChecked(), settings);
           saveSettings();
-          onSettingChange(key);
         });
     binding.content.addView(preferenceLayout.getRoot());
   }
@@ -143,14 +146,6 @@ public class SettingActivity extends BaseActivity {
     binding.content.addView(preferenceLayout.getRoot());
   }
 
-  public void onSettingChange(String key) {
-    switch (key) {
-      case SettingUtils.DARK_MODE:
-        ((MyApplication) getApplicationContext()).onThemeChange();
-        break;
-    }
-  }
-
   public void saveSettings() {
     if (!EnvironmentUtils.SETTING_FILE.getParentFile().exists()) {
       EnvironmentUtils.SETTING_FILE.getParentFile().mkdirs();
@@ -164,7 +159,9 @@ public class SettingActivity extends BaseActivity {
           public void onSerializeComplete() {}
 
           @Override
-          public void onFailedToSerialize(Exception exception) {}
+          public void onFailedToSerialize(Exception exception) {
+            Toast.makeText(SettingActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+          }
         });
   }
 

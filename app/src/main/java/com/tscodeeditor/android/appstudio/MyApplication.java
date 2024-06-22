@@ -105,17 +105,9 @@ public class MyApplication extends Application {
     } else {
       themeEngine.setThemeMode(ThemeMode.LIGHT);
     }
-    themeEngine.applyToActivities(this);
-    super.onCreate();
-  }
 
-  public void onThemeChange() {
-    SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
-    if (settings.isEnabledDarkMode()) {
-      themeEngine.setThemeMode(ThemeMode.DARK);
-    } else {
-      themeEngine.setThemeMode(ThemeMode.LIGHT);
-    }
-    themeEngine.applyToActivities(this);
+    themeEngine.setDynamicTheme(settings.isEnabledDynamicTheme());
+    ThemeEngine.applyToActivities(this);
+    super.onCreate();
   }
 }
