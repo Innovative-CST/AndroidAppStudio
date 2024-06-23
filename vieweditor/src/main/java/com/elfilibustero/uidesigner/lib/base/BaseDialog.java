@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 public abstract class BaseDialog extends MaterialAlertDialogBuilder {
 

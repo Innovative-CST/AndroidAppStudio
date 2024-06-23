@@ -17,7 +17,7 @@ import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.lib.utils.Utils;
 import com.elfilibustero.uidesigner.ui.designer.LayoutContainer;
 import com.google.android.material.color.MaterialColors;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.DeviceViewBinding;
+import com.icst.android.appstudio.vieweditor.databinding.DeviceViewBinding;
 
 import java.util.HashMap;
 import java.util.Map;

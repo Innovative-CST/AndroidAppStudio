@@ -3,7 +3,7 @@ package com.elfilibustero.uidesigner.lib.utils;
 import android.util.Pair;
 
 import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 import java.util.Map;
 import java.util.regex.Matcher;

@@ -28,7 +28,7 @@ import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemButton;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemCalendarView;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemEditText;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemSearchView;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

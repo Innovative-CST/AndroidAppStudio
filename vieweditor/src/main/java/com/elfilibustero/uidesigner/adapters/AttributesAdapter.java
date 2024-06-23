@@ -11,7 +11,7 @@ import androidx.appcompat.widget.TooltipCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 import java.util.List;
 

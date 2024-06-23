@@ -13,7 +13,7 @@ import com.elfilibustero.uidesigner.adapters.MultiChoiceAdapter;
 import com.elfilibustero.uidesigner.adapters.SingleChoiceAdapter;
 import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.lib.utils.ConstantsProperties;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.PropertySelectorItemBinding;
+import com.icst.android.appstudio.vieweditor.databinding.PropertySelectorItemBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;

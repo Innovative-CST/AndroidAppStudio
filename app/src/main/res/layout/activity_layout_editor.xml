@@ -36,7 +36,7 @@
             android:orientation="horizontal"
             android:id="@+id/layoutEditorSection">
 
-            <com.tscodeeditor.android.appstudio.vieweditor.editor.ViewEditor
+            <com.icst.android.appstudio.vieweditor.editor.ViewEditor
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:id="@+id/editor" />

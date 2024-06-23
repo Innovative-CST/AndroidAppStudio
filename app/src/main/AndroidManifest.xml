@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.SplashActivity"
+            android:name="com.icst.android.appstudio.activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action
@@ -32,67 +32,67 @@
         </activity>
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.ProjectManagerActivity"
+            android:name="com.icst.android.appstudio.activities.ProjectManagerActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.LicenseActivity"
+            android:name="com.icst.android.appstudio.activities.LicenseActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.LicenseReaderActivity"
+            android:name="com.icst.android.appstudio.activities.LicenseReaderActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.ProjectModelConfigrationActivity"
+            android:name="com.icst.android.appstudio.activities.ProjectModelConfigrationActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.AboutTeamActivity"
+            android:name="com.icst.android.appstudio.activities.AboutTeamActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.ModulesActivity"
+            android:name="com.icst.android.appstudio.activities.ModulesActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.EventsActivity"
+            android:name="com.icst.android.appstudio.activities.EventsActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.EventEditorActivity"
+            android:name="com.icst.android.appstudio.activities.EventEditorActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.AboutAppActivity"
+            android:name="com.icst.android.appstudio.activities.AboutAppActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.CrashHandlerActivity"
+            android:name="com.icst.android.appstudio.activities.CrashHandlerActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.JavaFileManagerActivity"
+            android:name="com.icst.android.appstudio.activities.JavaFileManagerActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.SettingActivity"
+            android:name="com.icst.android.appstudio.activities.SettingActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.JavaFileModelEditorActivity"
+            android:name="com.icst.android.appstudio.activities.JavaFileModelEditorActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
+            android:name="com.icst.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutManagerActivity"
+            android:name="com.icst.android.appstudio.activities.resourcemanager.LayoutManagerActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.tscodeeditor.android.appstudio.activities.resourcemanager.LayoutEditorActivity"
+            android:name="com.icst.android.appstudio.activities.resourcemanager.LayoutEditorActivity"
             android:exported="true" />
     </application>
 </manifest>

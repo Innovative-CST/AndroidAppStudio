@@ -19,7 +19,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.PropertyResourceItemBinding;
+import com.icst.android.appstudio.vieweditor.databinding.PropertyResourceItemBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;

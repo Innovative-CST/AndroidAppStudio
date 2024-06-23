@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elfilibustero.uidesigner.adapters.SingleChoiceAdapter;
 import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.PropertySelectorItemBinding;
+import com.icst.android.appstudio.vieweditor.databinding.PropertySelectorItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;

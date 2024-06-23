@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:id="@+id/currentLog" />
 
-    <editor.tsd.widget.CodeEditorLayout
+    <com.icst.editor.widget.CodeEditorLayout
         android:layout_height="300dp"
         android:layout_width="match_parent"
         android:visibility="gone"

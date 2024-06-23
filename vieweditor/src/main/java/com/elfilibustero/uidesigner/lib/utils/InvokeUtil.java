@@ -3,7 +3,7 @@ package com.elfilibustero.uidesigner.lib.utils;
 import android.content.Context;
 import android.view.View;
 
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

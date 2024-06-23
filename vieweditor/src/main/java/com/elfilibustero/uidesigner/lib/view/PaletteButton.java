@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 
 import com.elfilibustero.uidesigner.beans.ViewBean;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.PaletteButtonBinding;
+import com.icst.android.appstudio.vieweditor.databinding.PaletteButtonBinding;
 
 public class PaletteButton extends RelativeLayout {
     

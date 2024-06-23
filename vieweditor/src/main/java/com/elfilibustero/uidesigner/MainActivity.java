@@ -17,8 +17,8 @@ import com.blankj.utilcode.util.ResourceUtils;
 import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.ActivityMainBinding;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.databinding.ActivityMainBinding;
+import com.icst.android.appstudio.vieweditor.R;
 
 public class MainActivity extends AppCompatActivity {
 

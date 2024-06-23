@@ -10,7 +10,7 @@ import android.util.TypedValue;
 import androidx.core.content.ContextCompat;
 
 import com.elfilibustero.uidesigner.AppLoader;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 import java.util.List;
 import java.util.stream.Collectors;

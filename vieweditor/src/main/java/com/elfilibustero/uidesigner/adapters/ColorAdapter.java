@@ -18,7 +18,7 @@ import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
 import com.elfilibustero.uidesigner.enums.ResourceType;
 import com.elfilibustero.uidesigner.lib.drawable.AlphaPatternDrawable;
 import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 import java.util.ArrayList;
 import java.util.List;

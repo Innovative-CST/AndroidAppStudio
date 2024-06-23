@@ -42,7 +42,7 @@ if (localPropsFile.exists()) {
 }
 
 android {
-    namespace 'com.tscodeeditor.android.appstudio'
+    namespace 'com.icst.android.appstudio'
     compileSdk 34
 
     def getCommitHash = { ->
@@ -64,7 +64,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tscodeeditor.android.appstudio"
+        applicationId "com.icst.android.appstudio"
         minSdk 21
         targetSdk 33
         versionCode 1

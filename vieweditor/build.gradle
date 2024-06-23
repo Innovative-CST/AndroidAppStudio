@@ -34,7 +34,7 @@ plugins {
 }
 
 android {
-    namespace 'com.tscodeeditor.android.appstudio.vieweditor'
+    namespace 'com.icst.android.appstudio.vieweditor'
     compileSdk 34
 
     defaultConfig {

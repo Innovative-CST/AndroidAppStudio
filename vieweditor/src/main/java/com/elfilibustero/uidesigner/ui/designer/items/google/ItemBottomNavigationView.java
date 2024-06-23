@@ -5,7 +5,7 @@ import android.view.MotionEvent;
 
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.R;
 
 public class ItemBottomNavigationView extends BottomNavigationView implements DesignerItem {
 

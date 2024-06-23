@@ -68,10 +68,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.tscodeeditor.android.appstudio.vieweditor.R;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.LayoutEditorBinding;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.PropertyInputItemBinding;
-import com.tscodeeditor.android.appstudio.vieweditor.databinding.ShowAttributesDialogBinding;
+import com.icst.android.appstudio.vieweditor.R;
+import com.icst.android.appstudio.vieweditor.databinding.LayoutEditorBinding;
+import com.icst.android.appstudio.vieweditor.databinding.PropertyInputItemBinding;
+import com.icst.android.appstudio.vieweditor.databinding.ShowAttributesDialogBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;

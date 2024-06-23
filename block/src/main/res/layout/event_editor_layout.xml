@@ -59,7 +59,7 @@
                     android:orientation="vertical"
                     android:id="@+id/valueEditorSection">
 
-                    <editor.tsd.widget.CodeEditorLayout
+                    <com.icst.editor.widget.CodeEditorLayout
                         android:layout_height="0dp"
                         android:layout_width="match_parent"
                         android:layout_weight="1"
@@ -98,7 +98,7 @@
                     android:layout_weight="60"
                     android:id="@+id/editorSection">
 
-                    <com.tscodeeditor.android.appstudio.block.editor.EditorCanva
+                    <com.icst.android.appstudio.block.editor.EditorCanva
                         android:layout_height="match_parent"
                         android:layout_width="match_parent"
                         android:foregroundGravity="top"
