@@ -31,8 +31,10 @@
 
 package com.tscodeeditor.android.appstudio.block.model;
 
+import com.tscodeeditor.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class VariableModel implements Serializable {
   public static final long serialVersionUID = 24L;
@@ -45,12 +47,128 @@ public class VariableModel implements Serializable {
   private String[] variableImports;
   private String variableType;
   private String variableName;
+  private String nonFixedVariableName;
   private HashMap<String, String> variableValues;
   private String variableInitializerCode;
   private boolean mustBeGloballyIntialized;
   private boolean isInitializedGlobally;
   private boolean canInitializedGlobally;
+  private boolean isStaticVaraible;
+  private boolean isFinalVariable;
   private VariableModel[] requiredVariables;
+
+  public String getDefCode() {
+    StringBuilder code = new StringBuilder();
+
+    for (int i = 0; i < getRequiredVariables().length; ++i) {
+      if (i != 0) {
+        code.append("\n");
+      }
+
+      VariableModel variable = getRequiredVariables()[i];
+      code.append(getDefCode(getVariableValues(), this));
+    }
+
+    if (getRequiredVariables().length > 0) {
+      code.append("\n");
+    }
+
+    String accessModifier =
+        switch (getAccessModifier()) {
+          case ACCESS_MODIFIER_PRIVATE -> "private";
+          case ACCESS_MODIFIER_PROTECTED -> "protected";
+          case ACCESS_MODIFIER_PUBLIC -> "public";
+          default -> "";
+        };
+
+    code.append(accessModifier);
+    code.append(" ");
+
+    if (isStaticVaraible) {
+      code.append("static");
+      code.append(" ");
+    }
+
+    if (isFinalVariable) {
+      code.append("final");
+      code.append(" ");
+    }
+
+    code.append(variableType);
+    code.append(" ");
+    code.append(variableName);
+
+    if (getVariableInitializerCode() == null) {
+      code.append(";");
+    } else {
+      code.append(" = ");
+
+      String init = new String(getVariableInitializerCode());
+
+      for (Map.Entry<String, String> entry : variableValues.entrySet()) {
+        String key = entry.getKey();
+        String value = entry.getValue();
+        init = init.replace(RawCodeReplacer.getReplacer("variable", key), value);
+      }
+
+      code.append(init);
+      code.append(";");
+    }
+
+    return code.toString();
+  }
+
+  private String getDefCode(
+      HashMap<String, String> variableValues, VariableModel parentVariableModel) {
+    StringBuilder code = new StringBuilder();
+
+    String accessModifier =
+        switch (getAccessModifier()) {
+          case ACCESS_MODIFIER_PRIVATE -> "private";
+          case ACCESS_MODIFIER_PROTECTED -> "protected";
+          case ACCESS_MODIFIER_PUBLIC -> "public";
+          default -> "";
+        };
+
+    code.append(accessModifier);
+    code.append(" ");
+
+    if (isStaticVaraible) {
+      code.append("static");
+      code.append(" ");
+    }
+
+    if (isFinalVariable) {
+      code.append("final");
+      code.append(" ");
+    }
+
+    code.append(variableType);
+    code.append(" ");
+    code.append(variableName);
+    code.append(
+        nonFixedVariableName.replace(
+            RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
+
+    if (getVariableInitializerCode() == null) {
+      code.append(";");
+    } else {
+      code.append(" = ");
+
+      String init = new String(getVariableInitializerCode());
+
+      for (Map.Entry<String, String> entry : variableValues.entrySet()) {
+        String key = entry.getKey();
+        String value = entry.getValue();
+        init = init.replace(RawCodeReplacer.getReplacer("variable", key), value);
+      }
+
+      code.append(init);
+      code.append(";");
+    }
+
+    return code.toString();
+  }
 
   public int getAccessModifier() {
     return this.accessModifier;
@@ -84,6 +202,14 @@ public class VariableModel implements Serializable {
     this.variableName = variableName;
   }
 
+  public String getNonFixedVariableName() {
+    return this.nonFixedVariableName;
+  }
+
+  public void setNonFixedVariableName(String nonFixedVariableName) {
+    this.nonFixedVariableName = nonFixedVariableName;
+  }
+
   public HashMap<String, String> getVariableValues() {
     return this.variableValues;
   }
@@ -100,11 +226,11 @@ public class VariableModel implements Serializable {
     this.variableInitializerCode = variableInitializerCode;
   }
 
-  protected boolean getMustBeGloballyIntialized() {
+  public boolean getMustBeGloballyIntialized() {
     return this.mustBeGloballyIntialized;
   }
 
-  protected void setMustBeGloballyIntialized(boolean mustBeGloballyIntialized) {
+  public void setMustBeGloballyIntialized(boolean mustBeGloballyIntialized) {
     this.mustBeGloballyIntialized = mustBeGloballyIntialized;
   }
 
@@ -122,6 +248,22 @@ public class VariableModel implements Serializable {
 
   public void setCanInitializedGlobally(boolean canInitializedGlobally) {
     this.canInitializedGlobally = canInitializedGlobally;
+  }
+
+  public boolean getIsStaticVaraible() {
+    return this.isStaticVaraible;
+  }
+
+  public void setIsStaticVaraible(boolean isStaticVaraible) {
+    this.isStaticVaraible = isStaticVaraible;
+  }
+
+  public boolean getIsFinalVariable() {
+    return this.isFinalVariable;
+  }
+
+  public void setIsFinalVariable(boolean isFinalVariable) {
+    this.isFinalVariable = isFinalVariable;
   }
 
   public VariableModel[] getRequiredVariables() {
