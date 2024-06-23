@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style
+        name="Theme.ThemeEngine.Teal"
+        parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/teal_theme_primary</item>
+        <item name="colorOnPrimary">@color/teal_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/teal_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/teal_theme_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/teal_theme_secondary</item>
+        <item name="colorOnSecondary">@color/teal_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/teal_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/teal_theme_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/teal_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/teal_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/teal_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/teal_theme_onTertiaryContainer</item>
+        <item name="colorError">@color/teal_theme_error</item>
+        <item name="colorOnError">@color/teal_theme_onError</item>
+        <item name="colorErrorContainer">@color/teal_theme_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/teal_theme_onErrorContainer</item>
+        <item name="android:colorBackground">@color/teal_theme_background</item>
+        <item name="colorOnBackground">@color/teal_theme_onBackground</item>
+        <item name="colorSurface">@color/teal_theme_surface</item>
+        <item name="colorOnSurface">@color/teal_theme_onSurface</item>
+        <item name="colorSurfaceVariant">@color/teal_theme_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/teal_theme_onSurfaceVariant</item>
+        <item name="colorOutline">@color/teal_theme_outline</item>
+        <item name="colorOutlineVariant">@color/teal_theme_outlineVariant</item>
+        <item name="colorSurfaceInverse">@color/teal_theme_inverseSurface</item>
+        <item name="colorOnSurfaceInverse">@color/teal_theme_inverseOnSurface</item>
+        <item name="colorPrimaryInverse">@color/teal_theme_inversePrimary</item>
+        <item name="colorPrimaryFixed">@color/teal_theme_primaryFixed</item>
+        <item name="colorOnPrimaryFixed">@color/teal_theme_onPrimaryFixed</item>
+        <item name="colorPrimaryFixedDim">@color/teal_theme_primaryFixedDim</item>
+        <item name="colorOnPrimaryFixedVariant">@color/teal_theme_onPrimaryFixedVariant</item>
+        <item name="colorSecondaryFixed">@color/teal_theme_secondaryFixed</item>
+        <item name="colorOnSecondaryFixed">@color/teal_theme_onSecondaryFixed</item>
+        <item name="colorSecondaryFixedDim">@color/teal_theme_secondaryFixedDim</item>
+        <item name="colorOnSecondaryFixedVariant">@color/teal_theme_onSecondaryFixedVariant</item>
+        <item name="colorTertiaryFixed">@color/teal_theme_tertiaryFixed</item>
+        <item name="colorOnTertiaryFixed">@color/teal_theme_onTertiaryFixed</item>
+        <item name="colorTertiaryFixedDim">@color/teal_theme_tertiaryFixedDim</item>
+        <item name="colorOnTertiaryFixedVariant">@color/teal_theme_onTertiaryFixedVariant</item>
+        <item name="colorSurfaceDim">@color/teal_theme_surfaceDim</item>
+        <item name="colorSurfaceBright">@color/teal_theme_surfaceBright</item>
+        <item name="colorSurfaceContainerLowest">@color/teal_theme_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/teal_theme_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/teal_theme_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/teal_theme_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/teal_theme_surfaceContainerHighest</item>
+    </style>
+</resources>
