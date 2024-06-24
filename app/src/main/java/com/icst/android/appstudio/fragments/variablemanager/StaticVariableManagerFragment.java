@@ -38,40 +38,54 @@ import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.icst.android.appstudio.R.id;
-import com.icst.android.appstudio.databinding.FragmentJavaVariableManagerBinding;
+import com.icst.android.appstudio.block.model.FileModel;
+import com.icst.android.appstudio.databinding.FragmentStaticVariableBinding;
 import com.icst.android.appstudio.models.ModuleModel;
+import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
+import java.io.File;
 
-public class JavaVariableManagerFragment extends Fragment {
-  private FragmentJavaVariableManagerBinding binding;
+public class StaticVariableManagerFragment extends Fragment {
+  private FragmentStaticVariableBinding binding;
+  private ModuleModel module;
+  private String packageName;
+  private String className;
+  private FileModel file;
 
-  public JavaVariableManagerFragment(ModuleModel module, String packageName, String className) {
-    binding.bottomNavigationView.setOnItemSelectedListener(
-        menu -> {
-          if (menu.getItemId() == id.static_variables) {
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(
-                    id.fragment_container,
-                    new StaticVariableManagerFragment(module, packageName, className))
-                .commit();
-          } else if (menu.getItemId() == id.non_static_variables) {
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(id.fragment_container, new Fragment())
-                .commit();
-          }
-          return true;
-        });
+  private static final int LOADING_SECTION = 0;
+  private static final int LIST_SECTION = 1;
+  private static final int INFO_SECTION = 2;
+
+  public StaticVariableManagerFragment(ModuleModel module, String packageName, String className) {
+    this.module = module;
+    this.packageName = packageName;
+    this.className = className;
+    file =
+        DeserializerUtils.deserialize(
+            new File(
+                new File(
+                    EnvironmentUtils.getJavaDirectory(module, packageName),
+                    className.concat(".java")),
+                EnvironmentUtils.JAVA_FILE_MODEL),
+            FileModel.class);
   }
 
   @Override
   @MainThread
   @Nullable
   public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-    binding = FragmentJavaVariableManagerBinding.inflate(inflator);
+    binding = FragmentStaticVariableBinding.inflate(inflator);
     return binding.getRoot();
+  }
+
+  private void switchSection(int section) {
+    binding.loadingSection.setVisibility(LOADING_SECTION == section ? View.VISIBLE : View.GONE);
+    binding.listSection.setVisibility(LIST_SECTION == section ? View.VISIBLE : View.GONE);
+    binding.infoSection.setVisibility(INFO_SECTION == section ? View.VISIBLE : View.GONE);
+  }
+
+  private void showInfo(int info) {
+    switchSection(INFO_SECTION);
+    binding.info.setText(info);
   }
 }
