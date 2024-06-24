@@ -34,6 +34,7 @@ package com.icst.android.appstudio.models;
 import com.icst.android.appstudio.block.model.BlockHolderModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
+import com.icst.android.appstudio.block.model.VariableModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class ExtensionBundle implements Serializable {
   private ArrayList<Event> events;
   private ArrayList<BlockModel> blocks;
   private ArrayList<BlockHolderModel> holders;
+  private ArrayList<VariableModel> variables;
 
   public String getName() {
     return this.name;
@@ -85,5 +87,13 @@ public class ExtensionBundle implements Serializable {
 
   public void setHolders(ArrayList<BlockHolderModel> holders) {
     this.holders = holders;
+  }
+
+  public ArrayList<VariableModel> getVariables() {
+    return this.variables;
+  }
+
+  public void setVariables(ArrayList<VariableModel> variables) {
+    this.variables = variables;
   }
 }

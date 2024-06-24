@@ -44,18 +44,20 @@ public class VariableModel implements Serializable {
   public static final int ACCESS_MODIFIER_PUBLIC = 3;
 
   private int accessModifier;
-  private String[] variableImports;
+  private String variableTitle;
   private String variableType;
   private String variableName;
   private String nonFixedVariableName;
-  private HashMap<String, String> variableValues;
   private String variableInitializerCode;
+  private String[] variableImports;
+  private String[] fileExtensions;
   private boolean mustBeGloballyIntialized;
   private boolean isInitializedGlobally;
   private boolean canInitializedGlobally;
   private boolean isStaticVaraible;
   private boolean isFinalVariable;
   private VariableModel[] requiredVariables;
+  private HashMap<String, String> variableValues;
 
   public String getDefCode() {
     StringBuilder code = new StringBuilder();
@@ -178,12 +180,12 @@ public class VariableModel implements Serializable {
     this.accessModifier = accessModifier;
   }
 
-  public String[] getVariableImports() {
-    return this.variableImports;
+  public String getVariableTitle() {
+    return this.variableTitle;
   }
 
-  public void setVariableImports(String[] variableImports) {
-    this.variableImports = variableImports;
+  public void setVariableTitle(String variableTitle) {
+    this.variableTitle = variableTitle;
   }
 
   public String getVariableType() {
@@ -210,20 +212,28 @@ public class VariableModel implements Serializable {
     this.nonFixedVariableName = nonFixedVariableName;
   }
 
-  public HashMap<String, String> getVariableValues() {
-    return this.variableValues;
-  }
-
-  public void setVariableValues(HashMap<String, String> variableValues) {
-    this.variableValues = variableValues;
-  }
-
   public String getVariableInitializerCode() {
     return this.variableInitializerCode;
   }
 
   public void setVariableInitializerCode(String variableInitializerCode) {
     this.variableInitializerCode = variableInitializerCode;
+  }
+
+  public String[] getVariableImports() {
+    return this.variableImports;
+  }
+
+  public void setVariableImports(String[] variableImports) {
+    this.variableImports = variableImports;
+  }
+
+  public String[] getFileExtensions() {
+    return this.fileExtensions;
+  }
+
+  public void setFileExtensions(String[] fileExtensions) {
+    this.fileExtensions = fileExtensions;
   }
 
   public boolean getMustBeGloballyIntialized() {
@@ -272,5 +282,13 @@ public class VariableModel implements Serializable {
 
   public void setRequiredVariables(VariableModel[] requiredVariables) {
     this.requiredVariables = requiredVariables;
+  }
+
+  public HashMap<String, String> getVariableValues() {
+    return this.variableValues;
+  }
+
+  public void setVariableValues(HashMap<String, String> variableValues) {
+    this.variableValues = variableValues;
   }
 }

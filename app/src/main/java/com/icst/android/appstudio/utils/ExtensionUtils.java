@@ -34,6 +34,7 @@ package com.icst.android.appstudio.utils;
 import com.icst.android.appstudio.block.model.BlockHolderModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
+import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.models.ExtensionBundle;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
@@ -94,5 +95,18 @@ public final class ExtensionUtils {
     }
 
     return blocks;
+  }
+
+  public static ArrayList<VariableModel> extractVariablesFromExtensions() {
+    ArrayList<VariableModel> variables = new ArrayList<VariableModel>();
+    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+
+    for (int i = 0; i < extensions.size(); ++i) {
+      if (extensions.get(i).getVariables() != null) {
+        variables.addAll(extensions.get(i).getVariables());
+      }
+    }
+
+    return variables;
   }
 }

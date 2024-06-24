@@ -29,94 +29,45 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.vieweditor.models;
+package com.icst.android.appstudio.utils;
 
-import java.io.Serializable;
+import com.icst.android.appstudio.block.model.Event;
+import com.icst.android.appstudio.block.model.FileModel;
+import com.icst.android.appstudio.block.model.VariableModel;
 import java.util.ArrayList;
 
-public class LayoutModel implements Serializable {
-  public static final long serialVersionUID = 14L;
+public class VariablesUtils {
 
-  private ViewModel view;
-  private String layoutName;
-  private ArrayList<String> viewIds;
-  private boolean isAndroidNameSpaceUsed;
-  private boolean isAppNameSpaceUsed;
-  private boolean isToolsNameSpaceUsed;
+  public static ArrayList<VariableModel> getAllVariables(FileModel file) {
+    ArrayList<VariableModel> variables = ExtensionUtils.extractVariablesFromExtensions();
 
-  public LayoutModel clone() {
-    LayoutModel clone = new LayoutModel();
-    clone.setView(getView() == null ? null : getView().cloneViewModel());
-    clone.setLayoutName(getLayoutName() == null ? null : new String(getLayoutName()));
+    for (int i = 0; i < variables.size(); ++i) {
+      VariableModel variable = variables.get(i);
 
-    if (getViewIds() != null) {
-      ArrayList<String> clonedViewIds = new ArrayList<String>();
-
-      for (int ids = 0; ids < getViewIds().size(); ++ids) {
-        clonedViewIds.add(getViewIds().get(ids) == null ? null : new String(getViewIds().get(ids)));
+      if (variable.getVariableTitle() == null) {
+        continue;
       }
 
-      clone.setViewIds(clonedViewIds);
+      if (variable.getFileExtensions() != null) {
+        String[] extensions = variable.getFileExtensions();
+
+        if (containsString(extensions, file.getFileExtension())) {
+          continue;
+        }
+      }
+
+      variables.add(variable);
     }
-    clone.setAndroidNameSpaceUsed(new Boolean(isAndroidNameSpaceUsed()));
-    clone.setAppNameSpaceUsed(new Boolean(isAppNameSpaceUsed()));
-    clone.setToolsNameSpaceUsed(new Boolean(isToolsNameSpaceUsed()));
-    return clone;
+
+    return variables;
   }
 
-  public ViewModel getView() {
-    return this.view;
-  }
-
-  public void setView(ViewModel view) {
-    this.view = view;
-  }
-
-  public String getLayoutName() {
-    return this.layoutName;
-  }
-
-  public void setLayoutName(String layoutName) {
-    this.layoutName = layoutName;
-  }
-
-  public ArrayList<String> getViewIds() {
-    return this.viewIds;
-  }
-
-  public void setViewIds(ArrayList<String> viewIds) {
-    this.viewIds = viewIds;
-  }
-
-  public boolean isAndroidNameSpaceUsed() {
-    return this.isAndroidNameSpaceUsed;
-  }
-
-  public void setAndroidNameSpaceUsed(boolean isAndroidNameSpaceUsed) {
-    this.isAndroidNameSpaceUsed = isAndroidNameSpaceUsed;
-  }
-
-  public boolean isAppNameSpaceUsed() {
-    return this.isAppNameSpaceUsed;
-  }
-
-  public void setAppNameSpaceUsed(boolean isAppNameSpaceUsed) {
-    this.isAppNameSpaceUsed = isAppNameSpaceUsed;
-  }
-
-  public boolean isToolsNameSpaceUsed() {
-    return this.isToolsNameSpaceUsed;
-  }
-
-  public void setToolsNameSpaceUsed(boolean isToolsNameSpaceUsed) {
-    this.isToolsNameSpaceUsed = isToolsNameSpaceUsed;
-  }
-
-  public String getCode() {
-    ViewModel view = getView();
-    if (view == null) {
-	  return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  private static boolean containsString(String[] array, String str) {
+    for (int i = 0; i < array.length; ++i) {
+      if (str.equals(array[i])) {
+        return true;
+      }
     }
-	return view.getCode("", this);
+    return false;
   }
 }
