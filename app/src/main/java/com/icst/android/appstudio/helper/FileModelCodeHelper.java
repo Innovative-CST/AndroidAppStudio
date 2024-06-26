@@ -36,6 +36,7 @@ import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.EventGroupModel;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.JavaFileModel;
+import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
@@ -139,7 +140,7 @@ public class FileModelCodeHelper {
     return fileModel.getCode(builtInEvents, dirEvents, variables);
   }
 
-  public String getCode(String packageName) {
+  public String getCode(String packageName, File variablesDir) {
     ArrayList<Object> builtInEvents = null;
     ArrayList<Object> dirEvents = new ArrayList<Object>();
 
@@ -203,6 +204,10 @@ public class FileModelCodeHelper {
           public void onFailed(int errorCode, Exception e) {}
         });
 
-    return ((JavaFileModel) fileModel).getCode(packageName, builtInEvents, dirEvents, variables);
+    ArrayList<VariableModel> nonStaticVariables =
+        DeserializerUtils.deserialize(variablesDir, ArrayList.class);
+
+    return ((JavaFileModel) fileModel)
+        .getCode(packageName, builtInEvents, dirEvents, nonStaticVariables, variables);
   }
 }

@@ -29,58 +29,48 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.fragments.variablemanager;
+package com.icst.android.appstudio.block.dialog.variables;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.MainThread;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import com.icst.android.appstudio.R.id;
-import com.icst.android.appstudio.databinding.FragmentJavaVariableManagerBinding;
-import com.icst.android.appstudio.models.ModuleModel;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.android.appstudio.block.adapter.AddVariableListAdapter;
+import com.icst.android.appstudio.block.databinding.DialogVariableChooserBinding;
+import com.icst.android.appstudio.block.model.VariableModel;
+import java.util.ArrayList;
 
-public class JavaVariableManagerFragment extends Fragment {
-  private FragmentJavaVariableManagerBinding binding;
-  private ModuleModel module;
-  private String packageName;
-  private String className;
+public class ChooseVariablesDialog extends MaterialAlertDialogBuilder {
+  private ArrayList<VariableModel> variables;
+  private Context context;
+  private DialogVariableChooserBinding binding;
+  private AddVariableListAdapter adapter;
+  private AlertDialog dialog;
 
-  public JavaVariableManagerFragment(ModuleModel module, String packageName, String className) {
-    this.module = module;
-    this.packageName = packageName;
-    this.className = className;
+  public ChooseVariablesDialog(Context context, ArrayList<VariableModel> variables) {
+    super(context);
+    this.variables = variables;
+    this.context = context;
+
+    binding = DialogVariableChooserBinding.inflate(LayoutInflater.from(context));
+    adapter =
+        new AddVariableListAdapter(context, variables) {
+          @Override
+          public void setSelectedVariable(VariableModel selectedVariable) {
+            super.setSelectedVariable(selectedVariable);
+            onSelectedVariable(selectedVariable);
+            dialog.dismiss();
+          }
+        };
+    binding.gridView.setAdapter(adapter);
+	setTitle("Add variables");
+	setView(binding.getRoot());
+    dialog = show();
   }
 
-  @Override
-  @MainThread
-  @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-    binding = FragmentJavaVariableManagerBinding.inflate(inflator);
-    binding.bottomNavigationView.setOnItemSelectedListener(
-        menu -> {
-          if (menu.getItemId() == id.static_variables) {
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(
-                    id.fragment_container,
-                    new StaticVariableManagerFragment(module, packageName, className))
-                .commit();
-          } else if (menu.getItemId() == id.non_static_variables) {
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(
-                    id.fragment_container,
-                    new NonStaticVariableManagerFragment(module, packageName, className))
-                .commit();
-          }
-          return true;
-        });
-    binding.bottomNavigationView.setSelectedItemId(id.non_static_variables);
-    return binding.getRoot();
+  public void onSelectedVariable(VariableModel selectedVariable) {}
+
+  public VariableModel getSelectedVariableModel() {
+    return adapter.getSelectedVariable();
   }
 }

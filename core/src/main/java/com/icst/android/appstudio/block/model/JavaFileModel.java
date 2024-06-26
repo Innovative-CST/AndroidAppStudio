@@ -55,7 +55,8 @@ public class JavaFileModel extends FileModel implements Serializable {
       String packageName,
       ArrayList<Object> builtInEvents,
       ArrayList<Object> events,
-      HashMap<String, Object> variables) {
+      ArrayList<VariableModel> variables,
+      HashMap<String, Object> projectVariables) {
     String resultCode = getRawCode() != null ? new String(getRawCode()) : null;
     if (resultCode == null) {
       return "";
@@ -88,7 +89,7 @@ public class JavaFileModel extends FileModel implements Serializable {
 
             StringBuilder formattedGeneratedCode = new StringBuilder();
 
-            String[] generatedCodeLines = event.getCode(variables).toString().split("\n");
+            String[] generatedCodeLines = event.getCode(projectVariables).toString().split("\n");
 
             for (int generatedCodeLinePosition = 0;
                 generatedCodeLinePosition < generatedCodeLines.length;
@@ -126,7 +127,7 @@ public class JavaFileModel extends FileModel implements Serializable {
           resultCode =
               resultCode.replace(
                   RawCodeReplacer.getReplacer(getReplacerKey(), event.getName()),
-                  event.getCode(variables));
+                  event.getCode(projectVariables));
         }
       }
     }
@@ -139,10 +140,23 @@ public class JavaFileModel extends FileModel implements Serializable {
             resultCode =
                 resultCode.replace(
                     RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getName()),
-                    event.getCode(variables));
+                    event.getCode(projectVariables));
           }
         }
       }
+    }
+
+    if (variables != null) {
+      StringBuilder variablesCode = new StringBuilder();
+      for (int i = 0; i < variables.size(); ++i) {
+        if (i != 0) {
+          variablesCode.append("\n");
+        }
+        variablesCode.append(variables.get(i).getDefCode());
+      }
+      resultCode =
+          resultCode.replace(
+              RawCodeReplacer.getReplacer(getReplacerKey(), "variables"), variablesCode.toString());
     }
 
     resultCode = resultCode.replace(RawCodeReplacer.getReplacer("$FileName"), getFileName());

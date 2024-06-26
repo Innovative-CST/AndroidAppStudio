@@ -38,11 +38,15 @@ import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.icst.android.appstudio.adapters.VariableListAdapter;
+import com.icst.android.appstudio.block.dialog.variables.ChooseVariablesDialog;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.databinding.FragmentNonStaticVariableBinding;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.utils.VariablesUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -80,6 +84,10 @@ public class NonStaticVariableManagerFragment extends Fragment {
                     className.concat(".java")),
                 EnvironmentUtils.VARIABLES),
             ArrayList.class);
+
+    if (variables == null) {
+      variables = new ArrayList<VariableModel>();
+    }
   }
 
   @Override
@@ -87,7 +95,42 @@ public class NonStaticVariableManagerFragment extends Fragment {
   @Nullable
   public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
     binding = FragmentNonStaticVariableBinding.inflate(inflator);
+    loadList();
+    binding.fab.setOnClickListener(
+        v -> {
+          ChooseVariablesDialog dialog =
+              new ChooseVariablesDialog(getContext(), VariablesUtils.getAllVariables(file)) {
+                @Override
+                public void onSelectedVariable(VariableModel selectedVariable) {
+                  // Create Variable add dialog
+                }
+              };
+        });
+
     return binding.getRoot();
+  }
+
+  public void loadList() {
+    variables =
+        DeserializerUtils.deserialize(
+            new File(
+                new File(
+                    EnvironmentUtils.getJavaDirectory(module, packageName),
+                    className.concat(".java")),
+                EnvironmentUtils.VARIABLES),
+            ArrayList.class);
+
+    if (variables == null) {
+      variables = new ArrayList<VariableModel>();
+    }
+    if (variables.size() > 0) {
+      binding.list.setAdapter(new VariableListAdapter(variables, this));
+      binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
+      switchSection(LIST_SECTION);
+    } else {
+      switchSection(INFO_SECTION);
+      binding.info.setText("No variables yet");
+    }
   }
 
   private void switchSection(int section) {

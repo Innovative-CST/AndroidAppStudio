@@ -56,23 +56,26 @@ public class VariableModel implements Serializable {
   private boolean canInitializedGlobally;
   private boolean isStaticVaraible;
   private boolean isFinalVariable;
+  private byte[] icon;
   private VariableModel[] requiredVariables;
   private HashMap<String, String> variableValues;
 
   public String getDefCode() {
     StringBuilder code = new StringBuilder();
 
-    for (int i = 0; i < getRequiredVariables().length; ++i) {
-      if (i != 0) {
-        code.append("\n");
+    if (getRequiredVariables() != null) {
+      for (int i = 0; i < getRequiredVariables().length; ++i) {
+        if (i != 0) {
+          code.append("\n");
+        }
+
+        VariableModel variable = getRequiredVariables()[i];
+        code.append(getDefCode(getVariableValues(), this));
       }
 
-      VariableModel variable = getRequiredVariables()[i];
-      code.append(getDefCode(getVariableValues(), this));
-    }
-
-    if (getRequiredVariables().length > 0) {
-      code.append("\n");
+      if (getRequiredVariables().length > 0) {
+        code.append("\n");
+      }
     }
 
     String accessModifier =
@@ -290,5 +293,13 @@ public class VariableModel implements Serializable {
 
   public void setVariableValues(HashMap<String, String> variableValues) {
     this.variableValues = variableValues;
+  }
+
+  public byte[] getIcon() {
+    return this.icon;
+  }
+
+  public void setIcon(byte[] icon) {
+    this.icon = icon;
   }
 }
