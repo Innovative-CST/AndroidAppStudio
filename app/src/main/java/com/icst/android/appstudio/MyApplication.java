@@ -36,6 +36,8 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
 import com.elfilibustero.uidesigner.AppLoader;
@@ -81,7 +83,45 @@ public class MyApplication extends Application {
           public void uncaughtException(Thread thread, Throwable throwable) {
             Intent intent = new Intent(getApplicationContext(), CrashHandlerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("error", Log.getStackTraceString(throwable));
+
+            StringBuilder error = new StringBuilder();
+            error
+                .append("App Version: ")
+                .append(BuildConfig.VERSION_NAME)
+                .append("\n")
+                .append("CommitSHA: ")
+                .append(BuildConfig.commitSha)
+                .append("\n")
+                .append("Build Type: ")
+                .append(BuildConfig.BUILD_TYPE)
+                .append("\n")
+                .append("DeveloperMode: ")
+                .append(BuildConfig.isDeveloperMode)
+                .append("\n")
+                .append("SDK: ")
+                .append(Build.VERSION.SDK_INT)
+                .append("\n")
+                .append("Android: ")
+                .append(Build.VERSION.RELEASE)
+                .append("\n")
+                .append("Model: ")
+                .append(Build.VERSION.INCREMENTAL)
+                .append("\n")
+                .append("Base OS: ")
+                .append(Build.VERSION.BASE_OS)
+                .append("\n")
+                .append("Manufacturer: ")
+                .append(Build.MANUFACTURER)
+                .append("\n")
+                .append("App Storage: ")
+                .append(BuildConfig.STORAGE.getAbsolutePath())
+                .append("\n")
+                .append("Device External Storage: ")
+                .append(Environment.getExternalStorageDirectory())
+                .append("\n\n")
+                .append(Log.getStackTraceString(throwable));
+
+            intent.putExtra("error", error.toString());
             PendingIntent pendingIntent =
                 PendingIntent.getActivity(
                     getApplicationContext(), 11111, intent, PendingIntent.FLAG_ONE_SHOT);
