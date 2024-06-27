@@ -86,9 +86,9 @@ public class JavaFileModelEditorActivity extends BaseActivity {
             binding.viewpager,
             (tab, position) -> {
               if (position == 0) {
-                tab.setText("Events");
-              } else if (position == 1) {
                 tab.setText("Variables");
+              } else if (position == 1) {
+                tab.setText("Events");
               }
             })
         .attach();
