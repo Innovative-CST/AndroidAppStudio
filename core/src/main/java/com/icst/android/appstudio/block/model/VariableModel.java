@@ -54,11 +54,89 @@ public class VariableModel implements Serializable {
   private boolean mustBeGloballyIntialized;
   private boolean isInitializedGlobally;
   private boolean canInitializedGlobally;
-  private boolean isStaticVaraible;
+  private boolean isStaticVariable;
   private boolean isFinalVariable;
   private byte[] icon;
   private VariableModel[] requiredVariables;
+  private HashMap<String, String> variableTitles;
   private HashMap<String, String> variableValues;
+  private HashMap<String, Integer> inputType;
+
+  @SuppressWarnings("deprecation")
+  public VariableModel clone() {
+    VariableModel variable = new VariableModel();
+    variable.accessModifier = new Integer(this.accessModifier);
+    variable.variableTitle = this.variableTitle == null ? null : new String(this.variableTitle);
+    variable.variableType = this.variableType == null ? null : new String(this.variableType);
+    variable.variableName = this.variableName == null ? null : new String(this.variableName);
+    variable.nonFixedVariableName =
+        this.nonFixedVariableName == null ? null : new String(this.nonFixedVariableName);
+    variable.variableInitializerCode =
+        this.variableInitializerCode == null ? null : new String(this.variableInitializerCode);
+
+    if (this.variableImports == null) {
+      variable.variableImports = null;
+    } else {
+      variable.variableImports = new String[this.variableImports.length];
+      for (int i = 0; i < this.variableImports.length; i++) {
+        variable.variableImports[i] =
+            this.variableImports[i] == null ? null : new String(this.variableImports[i]);
+      }
+    }
+
+    if (this.fileExtensions == null) {
+      variable.fileExtensions = null;
+    } else {
+      variable.fileExtensions = new String[this.fileExtensions.length];
+      for (int i = 0; i < this.fileExtensions.length; i++) {
+        variable.fileExtensions[i] =
+            this.fileExtensions[i] == null ? null : new String(this.fileExtensions[i]);
+      }
+    }
+
+    variable.mustBeGloballyIntialized = new Boolean(this.mustBeGloballyIntialized);
+    variable.isInitializedGlobally = new Boolean(this.isInitializedGlobally);
+    variable.canInitializedGlobally = new Boolean(this.canInitializedGlobally);
+    variable.isStaticVariable = new Boolean(this.isStaticVariable);
+    variable.isFinalVariable = new Boolean(this.isFinalVariable);
+
+    if (this.icon == null) {
+      variable.icon = null;
+    } else {
+      variable.icon = new byte[this.icon.length];
+      System.arraycopy(this.icon, 0, variable.icon, 0, this.icon.length);
+    }
+
+    if (this.requiredVariables == null) {
+      variable.requiredVariables = null;
+    } else {
+      variable.requiredVariables = new VariableModel[this.requiredVariables.length];
+      for (int i = 0; i < this.requiredVariables.length; i++) {
+        variable.requiredVariables[i] =
+            this.requiredVariables[i] == null ? null : this.requiredVariables[i].clone();
+      }
+    }
+
+    if (this.variableTitles == null) {
+      variable.variableTitles = null;
+    } else {
+      variable.variableTitles = new HashMap<>(this.variableTitles);
+    }
+
+    if (this.variableValues == null) {
+      variable.variableValues = null;
+    } else {
+      variable.variableValues = new HashMap<>(this.variableValues);
+    }
+
+    if (this.inputType == null) {
+      variable.inputType = null;
+    } else {
+      variable.inputType = new HashMap<>(this.inputType);
+    }
+
+    return variable;
+  }
 
   public String getDefCode() {
     StringBuilder code = new StringBuilder();
@@ -89,7 +167,7 @@ public class VariableModel implements Serializable {
     code.append(accessModifier);
     code.append(" ");
 
-    if (isStaticVaraible) {
+    if (isStaticVariable) {
       code.append("static");
       code.append(" ");
     }
@@ -101,22 +179,32 @@ public class VariableModel implements Serializable {
 
     code.append(variableType);
     code.append(" ");
-    code.append(variableName);
+    if (getNonFixedVariableName() == null) {
+      code.append(variableName);
+    } else {
+      code.append(
+          variableName.replace(
+              RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
+    }
 
-    if (getVariableInitializerCode() == null) {
+    if (isInitializedGlobally) {
+      if (getVariableInitializerCode() == null) {
+        code.append(";");
+      } else {
+        code.append(" = ");
+
+        String init = new String(getVariableInitializerCode());
+
+        for (Map.Entry<String, String> entry : variableValues.entrySet()) {
+          String key = entry.getKey();
+          String value = entry.getValue();
+          init = init.replace(RawCodeReplacer.getReplacer("variable", key), value);
+        }
+
+        code.append(init);
+      }
       code.append(";");
     } else {
-      code.append(" = ");
-
-      String init = new String(getVariableInitializerCode());
-
-      for (Map.Entry<String, String> entry : variableValues.entrySet()) {
-        String key = entry.getKey();
-        String value = entry.getValue();
-        init = init.replace(RawCodeReplacer.getReplacer("variable", key), value);
-      }
-
-      code.append(init);
       code.append(";");
     }
 
@@ -138,7 +226,7 @@ public class VariableModel implements Serializable {
     code.append(accessModifier);
     code.append(" ");
 
-    if (isStaticVaraible) {
+    if (isStaticVariable) {
       code.append("static");
       code.append(" ");
     }
@@ -150,25 +238,32 @@ public class VariableModel implements Serializable {
 
     code.append(variableType);
     code.append(" ");
-    code.append(variableName);
-    code.append(
-        nonFixedVariableName.replace(
-            RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
+    if (getNonFixedVariableName() == null) {
+      code.append(variableName);
+    } else {
+      code.append(
+          variableName.replace(
+              RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
+    }
 
-    if (getVariableInitializerCode() == null) {
+    if (isInitializedGlobally) {
+      if (getVariableInitializerCode() == null) {
+        code.append(";");
+      } else {
+        code.append(" = ");
+
+        String init = new String(getVariableInitializerCode());
+
+        for (Map.Entry<String, String> entry : variableValues.entrySet()) {
+          String key = entry.getKey();
+          String value = entry.getValue();
+          init = init.replace(RawCodeReplacer.getReplacer("variable", key), value);
+        }
+
+        code.append(init);
+      }
       code.append(";");
     } else {
-      code.append(" = ");
-
-      String init = new String(getVariableInitializerCode());
-
-      for (Map.Entry<String, String> entry : variableValues.entrySet()) {
-        String key = entry.getKey();
-        String value = entry.getValue();
-        init = init.replace(RawCodeReplacer.getReplacer("variable", key), value);
-      }
-
-      code.append(init);
       code.append(";");
     }
 
@@ -263,12 +358,12 @@ public class VariableModel implements Serializable {
     this.canInitializedGlobally = canInitializedGlobally;
   }
 
-  public boolean getIsStaticVaraible() {
-    return this.isStaticVaraible;
+  public boolean getIsStaticVariable() {
+    return this.isStaticVariable;
   }
 
-  public void setIsStaticVaraible(boolean isStaticVaraible) {
-    this.isStaticVaraible = isStaticVaraible;
+  public void setIsStaticVariable(boolean isStaticVariable) {
+    this.isStaticVariable = isStaticVariable;
   }
 
   public boolean getIsFinalVariable() {
@@ -279,12 +374,28 @@ public class VariableModel implements Serializable {
     this.isFinalVariable = isFinalVariable;
   }
 
+  public byte[] getIcon() {
+    return this.icon;
+  }
+
+  public void setIcon(byte[] icon) {
+    this.icon = icon;
+  }
+
   public VariableModel[] getRequiredVariables() {
     return this.requiredVariables;
   }
 
   public void setRequiredVariables(VariableModel[] requiredVariables) {
     this.requiredVariables = requiredVariables;
+  }
+
+  public HashMap<String, String> getVariableTitles() {
+    return this.variableTitles;
+  }
+
+  public void setVariableTitles(HashMap<String, String> variableTitles) {
+    this.variableTitles = variableTitles;
   }
 
   public HashMap<String, String> getVariableValues() {
@@ -295,11 +406,11 @@ public class VariableModel implements Serializable {
     this.variableValues = variableValues;
   }
 
-  public byte[] getIcon() {
-    return this.icon;
+  public HashMap<String, Integer> getInputType() {
+    return this.inputType;
   }
 
-  public void setIcon(byte[] icon) {
-    this.icon = icon;
+  public void setInputType(HashMap<String, Integer> inputType) {
+    this.inputType = inputType;
   }
 }

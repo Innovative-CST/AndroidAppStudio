@@ -41,6 +41,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.adapters.VariableListAdapter;
 import com.icst.android.appstudio.block.dialog.variables.ChooseVariablesDialog;
+import com.icst.android.appstudio.block.dialog.variables.EditVariableDialog;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.databinding.FragmentNonStaticVariableBinding;
@@ -48,6 +49,7 @@ import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.VariablesUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
+import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -102,7 +104,29 @@ public class NonStaticVariableManagerFragment extends Fragment {
               new ChooseVariablesDialog(getContext(), VariablesUtils.getAllVariables(file)) {
                 @Override
                 public void onSelectedVariable(VariableModel selectedVariable) {
-                  // Create Variable add dialog
+                  EditVariableDialog addVar =
+                      new EditVariableDialog(getContext(), selectedVariable.clone()) {
+                        @Override
+                        public void onVariableModified(VariableModel variable) {
+                          variables.add(variable);
+                          SerializerUtil.serialize(
+                              variables,
+                              new File(
+                                  new File(
+                                      EnvironmentUtils.getJavaDirectory(module, packageName),
+                                      className.concat(".java")),
+                                  EnvironmentUtils.VARIABLES),
+                              new SerializerUtil.SerializerCompletionListener() {
+
+                                @Override
+                                public void onSerializeComplete() {}
+
+                                @Override
+                                public void onFailedToSerialize(Exception exception) {}
+                              });
+                          loadList();
+                        }
+                      };
                 }
               };
         });

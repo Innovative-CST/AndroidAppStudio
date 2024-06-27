@@ -29,46 +29,35 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.utils;
+package com.icst.android.appstudio.block.enums;
 
-import com.icst.android.appstudio.block.model.Event;
-import com.icst.android.appstudio.block.model.FileModel;
-import com.icst.android.appstudio.block.model.VariableModel;
-import java.util.ArrayList;
+public enum InputTypes {
+  UNKNOWN(0),
+  INPUT_TYPE_BYTE(1),
+  INPUT_TYPE_SHORT(2),
+  INPUT_TYPE_INT(3),
+  INPUT_TYPE_LONG(4),
+  INPUT_TYPE_FLOAT(5),
+  INPUT_TYPE_DOUBLE(6),
+  INPUT_TYPE_STRING(7),
+  INPUT_TYPE_COLOR(8);
 
-public class VariablesUtils {
+  private final int inputType;
 
-  public static ArrayList<VariableModel> getAllVariables(FileModel file) {
-    ArrayList<VariableModel> variables = ExtensionUtils.extractVariablesFromExtensions();
-    ArrayList<VariableModel> result = new ArrayList<VariableModel>();
-
-    for (int i = 0; i < variables.size(); ++i) {
-      VariableModel variable = variables.get(i);
-
-      if (variable.getVariableTitle() == null) {
-        continue;
-      }
-
-      if (variable.getFileExtensions() != null) {
-        String[] extensions = variable.getFileExtensions();
-
-        if (containsString(extensions, file.getFileExtension())) {
-          continue;
-        }
-      }
-
-      result.add(variable);
-    }
-
-    return result;
+  InputTypes(int inputType) {
+    this.inputType = inputType;
   }
 
-  private static boolean containsString(String[] array, String str) {
-    for (int i = 0; i < array.length; ++i) {
-      if (str.equals(array[i])) {
-        return true;
+  public int getInputType() {
+    return inputType;
+  }
+
+  public static InputTypes fromInt(int inputType) {
+    for (InputTypes type : InputTypes.values()) {
+      if (type.getInputType() == inputType) {
+        return type;
       }
     }
-    return false;
+    return UNKNOWN;
   }
 }

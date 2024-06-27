@@ -59,10 +59,8 @@ public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
   @Override
   public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-    AdapterAddVariableBinding listitemView = null;
-    if (convertView == null) {
-      listitemView = AdapterAddVariableBinding.inflate(LayoutInflater.from(getContext()));
-    }
+    AdapterAddVariableBinding listitemView =
+        AdapterAddVariableBinding.inflate(LayoutInflater.from(getContext()));
 
     VariableModel variable = getItem(position);
     if (variable.getIcon() != null) {
@@ -78,6 +76,9 @@ public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
                   com.google.android.material.R.attr.colorPrimary),
               listitemView.getRoot().getContext()));
     }
+
+    listitemView.title.setText(variable.getVariableTitle());
+
     listitemView
         .getRoot()
         .setOnClickListener(
