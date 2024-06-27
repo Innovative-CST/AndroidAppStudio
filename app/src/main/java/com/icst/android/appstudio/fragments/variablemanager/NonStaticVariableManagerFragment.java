@@ -78,18 +78,6 @@ public class NonStaticVariableManagerFragment extends Fragment {
                     className.concat(".java")),
                 EnvironmentUtils.JAVA_FILE_MODEL),
             FileModel.class);
-    variables =
-        DeserializerUtils.deserialize(
-            new File(
-                new File(
-                    EnvironmentUtils.getJavaDirectory(module, packageName),
-                    className.concat(".java")),
-                EnvironmentUtils.VARIABLES),
-            ArrayList.class);
-
-    if (variables == null) {
-      variables = new ArrayList<VariableModel>();
-    }
   }
 
   @Override
@@ -148,7 +136,7 @@ public class NonStaticVariableManagerFragment extends Fragment {
       variables = new ArrayList<VariableModel>();
     }
     if (variables.size() > 0) {
-      binding.list.setAdapter(new VariableListAdapter(variables, this));
+      binding.list.setAdapter(new VariableListAdapter(variables));
       binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
       switchSection(LIST_SECTION);
     } else {

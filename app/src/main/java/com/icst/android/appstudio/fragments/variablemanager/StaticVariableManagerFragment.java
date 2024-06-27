@@ -38,12 +38,20 @@ import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.icst.android.appstudio.adapters.VariableListAdapter;
+import com.icst.android.appstudio.block.dialog.variables.ChooseVariablesDialog;
+import com.icst.android.appstudio.block.dialog.variables.EditVariableDialog;
 import com.icst.android.appstudio.block.model.FileModel;
+import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.databinding.FragmentStaticVariableBinding;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.utils.VariablesUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
+import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import java.io.File;
+import java.util.ArrayList;
 
 public class StaticVariableManagerFragment extends Fragment {
   private FragmentStaticVariableBinding binding;
@@ -51,6 +59,7 @@ public class StaticVariableManagerFragment extends Fragment {
   private String packageName;
   private String className;
   private FileModel file;
+  private ArrayList<VariableModel> variables;
 
   private static final int LOADING_SECTION = 0;
   private static final int LIST_SECTION = 1;
@@ -75,7 +84,63 @@ public class StaticVariableManagerFragment extends Fragment {
   @Nullable
   public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
     binding = FragmentStaticVariableBinding.inflate(inflator);
+    loadList();
+    binding.fab.setOnClickListener(
+        v -> {
+          ChooseVariablesDialog dialog =
+              new ChooseVariablesDialog(getContext(), VariablesUtils.getAllVariables(file)) {
+                @Override
+                public void onSelectedVariable(VariableModel selectedVariable) {
+                  EditVariableDialog addVar =
+                      new EditVariableDialog(getContext(), selectedVariable.clone()) {
+                        @Override
+                        public void onVariableModified(VariableModel variable) {
+                          variables.add(variable);
+                          SerializerUtil.serialize(
+                              variables,
+                              new File(
+                                  new File(
+                                      EnvironmentUtils.getJavaDirectory(module, packageName),
+                                      className.concat(".java")),
+                                  EnvironmentUtils.STATIC_VARIABLES),
+                              new SerializerUtil.SerializerCompletionListener() {
+
+                                @Override
+                                public void onSerializeComplete() {}
+
+                                @Override
+                                public void onFailedToSerialize(Exception exception) {}
+                              });
+                          loadList();
+                        }
+                      };
+                }
+              };
+        });
     return binding.getRoot();
+  }
+
+  public void loadList() {
+    variables =
+        DeserializerUtils.deserialize(
+            new File(
+                new File(
+                    EnvironmentUtils.getJavaDirectory(module, packageName),
+                    className.concat(".java")),
+                EnvironmentUtils.STATIC_VARIABLES),
+            ArrayList.class);
+
+    if (variables == null) {
+      variables = new ArrayList<VariableModel>();
+    }
+    if (variables.size() > 0) {
+      binding.list.setAdapter(new VariableListAdapter(variables));
+      binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
+      switchSection(LIST_SECTION);
+    } else {
+      switchSection(INFO_SECTION);
+      binding.info.setText("No variables yet");
+    }
   }
 
   private void switchSection(int section) {

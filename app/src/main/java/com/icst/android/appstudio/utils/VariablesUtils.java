@@ -51,10 +51,6 @@ public class VariablesUtils {
 
       if (variable.getFileExtensions() != null) {
         String[] extensions = variable.getFileExtensions();
-
-        if (containsString(extensions, file.getFileExtension())) {
-          continue;
-        }
       }
 
       result.add(variable);

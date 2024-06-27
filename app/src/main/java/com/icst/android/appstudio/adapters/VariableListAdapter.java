@@ -44,17 +44,13 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.databinding.AdapterVariableBinding;
-import com.icst.android.appstudio.fragments.variablemanager.NonStaticVariableManagerFragment;
 import java.util.ArrayList;
 
 public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapter.ViewHolder> {
   private ArrayList<VariableModel> variables;
-  private NonStaticVariableManagerFragment fragement;
-
   public VariableListAdapter(
-      ArrayList<VariableModel> variables, NonStaticVariableManagerFragment fragement) {
+      ArrayList<VariableModel> variables) {
     this.variables = variables;
-    this.fragement = fragement;
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
