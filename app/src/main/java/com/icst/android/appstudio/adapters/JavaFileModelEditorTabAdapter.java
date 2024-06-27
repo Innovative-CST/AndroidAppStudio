@@ -60,8 +60,8 @@ public class JavaFileModelEditorTabAdapter extends FragmentStateAdapter {
     this.disableNewEvents = disableNewEvents;
 
     fragments = new ArrayList<Fragment>();
-    fragments.add(new JavaEventManagerFragment(module, packageName, className, disableNewEvents));
 	fragments.add(new JavaVariableManagerFragment(module, packageName, className));
+	fragments.add(new JavaEventManagerFragment(module, packageName, className, disableNewEvents));
   }
 
   @Override
