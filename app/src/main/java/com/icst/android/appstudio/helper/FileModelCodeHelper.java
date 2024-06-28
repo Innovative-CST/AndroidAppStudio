@@ -140,7 +140,7 @@ public class FileModelCodeHelper {
     return fileModel.getCode(builtInEvents, dirEvents, variables);
   }
 
-  public String getCode(String packageName, File variablesDir) {
+  public String getCode(String packageName, File instanceVariablesDir, File staticVariableDir) {
     ArrayList<Object> builtInEvents = null;
     ArrayList<Object> dirEvents = new ArrayList<Object>();
 
@@ -204,10 +204,14 @@ public class FileModelCodeHelper {
           public void onFailed(int errorCode, Exception e) {}
         });
 
-    ArrayList<VariableModel> nonStaticVariables =
-        DeserializerUtils.deserialize(variablesDir, ArrayList.class);
+    ArrayList<VariableModel> instanceVariables =
+        DeserializerUtils.deserialize(instanceVariablesDir, ArrayList.class);
+
+    ArrayList<VariableModel> staticVariables =
+        DeserializerUtils.deserialize(staticVariableDir, ArrayList.class);
 
     return ((JavaFileModel) fileModel)
-        .getCode(packageName, builtInEvents, dirEvents, nonStaticVariables, variables);
+        .getCode(
+            packageName, builtInEvents, dirEvents, instanceVariables, staticVariables, variables);
   }
 }

@@ -55,6 +55,7 @@ public class JavaFileModelEditorActivity extends BaseActivity {
   private String fileName;
   private JavaFileModel fileModel;
   private File variablesFile;
+  private File staticVariablesFile;
   private MenuItem showSourceCode;
 
   @Override
@@ -105,6 +106,11 @@ public class JavaFileModelEditorActivity extends BaseActivity {
             new File(
                 EnvironmentUtils.getJavaDirectory(module, packageName), fileName.concat(".java")),
             EnvironmentUtils.VARIABLES);
+    staticVariablesFile =
+        new File(
+            new File(
+                EnvironmentUtils.getJavaDirectory(module, packageName), fileName.concat(".java")),
+            EnvironmentUtils.STATIC_VARIABLES);
   }
 
   @Override
@@ -149,7 +155,8 @@ public class JavaFileModelEditorActivity extends BaseActivity {
                 EnvironmentUtils.EVENTS_DIR));
         helper.setProjectRootDirectory(module.projectRootDirectory);
         SourceCodeViewerDialog sourceCodeDialog =
-            new SourceCodeViewerDialog(this, fileModel, helper.getCode(packageName, variablesFile));
+            new SourceCodeViewerDialog(
+                this, fileModel, helper.getCode(packageName, variablesFile, staticVariablesFile));
         sourceCodeDialog.create().show();
       }
     }

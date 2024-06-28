@@ -56,6 +56,7 @@ public class JavaFileModel extends FileModel implements Serializable {
       ArrayList<Object> builtInEvents,
       ArrayList<Object> events,
       ArrayList<VariableModel> instanceVariables,
+      ArrayList<VariableModel> staticVariables,
       HashMap<String, Object> projectVariables) {
     String resultCode = getRawCode() != null ? new String(getRawCode()) : null;
     if (resultCode == null) {
@@ -110,6 +111,49 @@ public class JavaFileModel extends FileModel implements Serializable {
       resultCode =
           resultCode.replace(
               RawCodeReplacer.getReplacer(getReplacerKey(), "variables"),
+              formattedGeneratedCode.toString());
+    }
+
+    if (staticVariables != null) {
+      StringBuilder staticVariablesCode = new StringBuilder();
+      for (int i = 0; i < staticVariables.size(); ++i) {
+        if (i != 0) {
+          staticVariablesCode.append("\n");
+        }
+        staticVariablesCode.append(staticVariables.get(i).getDefCode());
+      }
+
+      String formatter = null;
+      String[] lines = getRawCode().split("\n");
+      for (String line : lines) {
+        if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "static-variables"))) {
+          formatter =
+              line.substring(
+                  0, line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "static-variables")));
+        }
+      }
+
+      StringBuilder formattedGeneratedCode = new StringBuilder();
+
+      String[] generatedCodeLines = staticVariablesCode.toString().split("\n");
+
+      for (int generatedCodeLinePosition = 0;
+          generatedCodeLinePosition < generatedCodeLines.length;
+          ++generatedCodeLinePosition) {
+
+        if (formatter != null) {
+          if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
+        }
+
+        formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
+        if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
+          formattedGeneratedCode.append("\n");
+        }
+      }
+
+      resultCode =
+          resultCode.replace(
+              RawCodeReplacer.getReplacer(getReplacerKey(), "static-variables"),
               formattedGeneratedCode.toString());
     }
 

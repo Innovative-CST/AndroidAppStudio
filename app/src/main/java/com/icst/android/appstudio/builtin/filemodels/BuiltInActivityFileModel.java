@@ -56,6 +56,9 @@ public final class BuiltInActivityFileModel {
     rawCode.append(RawCodeReplacer.getReplacer("$FileName"));
     rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "inheritence"));
     rawCode.append("{");
+	rawCode.append("\n\n");
+    rawCode.append("\t");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "static-variables"));
     rawCode.append("\n\n");
     rawCode.append("\t");
     rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "variables"));
