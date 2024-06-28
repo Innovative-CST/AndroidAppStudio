@@ -38,6 +38,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +82,7 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
     if (variables.get(position).getIcon() != null) {
       icon =
           new BitmapDrawable(
-              getContext().getResources(),
+              binding.getRoot().getContext().getResources(),
               BitmapFactory.decodeByteArray(
                   variables.get(position).getIcon(), 0, variables.get(position).getIcon().length));
     } else {
@@ -95,11 +97,10 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
                   binding.getRoot().getContext()));
     }
 
-    if (variable.getApplyColorFilter()) {
+    if (variables.get(position).getApplyColorFilter()) {
       icon.setTint(
           ColorUtils.getColor(
-              listitemView.getRoot().getContext(),
-              com.google.android.material.R.attr.colorPrimary));
+              binding.getRoot().getContext(), com.google.android.material.R.attr.colorPrimary));
       icon.setTintMode(PorterDuff.Mode.MULTIPLY);
     }
 

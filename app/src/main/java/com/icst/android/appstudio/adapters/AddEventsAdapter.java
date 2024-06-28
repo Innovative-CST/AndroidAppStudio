@@ -31,6 +31,11 @@
 
 package com.icst.android.appstudio.adapters;
 
+import android.code.editor.common.utils.ColorUtils;
+import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +78,20 @@ public class AddEventsAdapter extends RecyclerView.Adapter<AddEventsAdapter.View
       AdapterEventAddBinding binding = AdapterEventAddBinding.bind(holder.itemView);
       binding.title.setText(event.getTitle());
       binding.description.setText(event.getDescription());
-      binding.icon.setImageResource(event.getIcon());
+      if (event.getIcon() != null) {
+        Drawable icon =
+            new BitmapDrawable(
+                binding.getRoot().getContext().getResources(),
+                BitmapFactory.decodeByteArray(event.getIcon(), 0, event.getIcon().length));
+
+        if (event.getApplyColorFilter()) {
+          icon.setTint(
+              ColorUtils.getColor(
+                  binding.getRoot().getContext(), com.google.android.material.R.attr.colorPrimary));
+          icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+        }
+        binding.icon.setImageDrawable(icon);
+      }
       binding.cardView.setOnClickListener(
           v -> {
             binding.addCheckbox.setChecked(!binding.addCheckbox.isChecked());

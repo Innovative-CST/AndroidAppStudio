@@ -55,7 +55,8 @@ public class Event implements Serializable, Cloneable {
   private String[] holderName;
   private String[] extension;
   private String createInHolderName;
-  private int icon;
+  private byte[] icon;
+  private boolean applyColorFilter;
   private boolean isDirectFileEvent;
   private boolean enableEdit;
   private boolean enableRootBlocksDrag;
@@ -108,14 +109,6 @@ public class Event implements Serializable, Cloneable {
 
   public void setEventReplacerKey(String eventReplacerKey) {
     this.eventReplacerKey = eventReplacerKey;
-  }
-
-  public int getIcon() {
-    return this.icon;
-  }
-
-  public void setIcon(int icon) {
-    this.icon = icon;
   }
 
   public boolean getEnableEdit() {
@@ -261,12 +254,17 @@ public class Event implements Serializable, Cloneable {
     event.setClassesImports(ArrayUtils.clone(getClassesImports()));
     event.setHolderName(ArrayUtils.clone(getHolderName()));
     event.setExtension(ArrayUtils.clone(getExtension()));
-    event.setIcon(new Integer(getIcon()));
     event.setDirectFileEvent(new Boolean(isDirectFileEvent()));
     event.setEnableEdit(new Boolean(getEnableEdit()));
     event.setEnableRootBlocksDrag(new Boolean(getEnableRootBlocksDrag()));
     event.setEnableRootBlocksValueEditing(new Boolean(getEnableRootBlocksValueEditing()));
     event.setEnableRootBlocksSubBlockEditing(new Boolean(getEnableRootBlocksSubBlockEditing()));
+    event.setApplyColorFilter(new Boolean(getApplyColorFilter()));
+
+    if (getIcon() != null) {
+      event.setIcon(new byte[this.icon.length]);
+      System.arraycopy(getIcon(), 0, event.getIcon(), 0, getIcon().length);
+    }
 
     if (getBlockModels() != null) {
       ArrayList<BlockModel> clonedBlockModels = new ArrayList<BlockModel>();
@@ -334,5 +332,21 @@ public class Event implements Serializable, Cloneable {
 
   public void setDirectFileEvent(boolean isDirectFileEvent) {
     this.isDirectFileEvent = isDirectFileEvent;
+  }
+
+  public byte[] getIcon() {
+    return this.icon;
+  }
+
+  public void setIcon(byte[] icon) {
+    this.icon = icon;
+  }
+
+  public boolean getApplyColorFilter() {
+    return this.applyColorFilter;
+  }
+
+  public void setApplyColorFilter(boolean applyColorFilter) {
+    this.applyColorFilter = applyColorFilter;
   }
 }

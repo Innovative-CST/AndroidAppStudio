@@ -32,8 +32,12 @@
 package com.icst.android.appstudio.fragments.events;
 
 import android.app.Activity;
+import android.code.editor.common.utils.ColorUtils;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -282,7 +286,19 @@ public class JavaEventManagerFragment extends Fragment {
         AdapterEventBinding binding = AdapterEventBinding.bind(holder.itemView);
         binding.title.setText(event.getTitle());
         binding.description.setText(event.getDescription());
-        binding.icon.setImageResource(event.getIcon());
+        if (event.getIcon() != null) {
+          Drawable icon =
+              new BitmapDrawable(
+                  binding.getRoot().getContext().getResources(),
+                  BitmapFactory.decodeByteArray(event.getIcon(), 0, event.getIcon().length));
+
+          if (event.getApplyColorFilter()) {
+            icon.setTint(
+                ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorPrimary));
+            icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+          }
+          binding.icon.setImageDrawable(icon);
+        }
         binding.cardView.setOnClickListener(
             v -> {
               File eventFile = new File(eventListPath, event.getName());
