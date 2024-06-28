@@ -59,6 +59,32 @@ public class VariablesUtils {
     return result;
   }
 
+  public static ArrayList<VariableModel> getInstanceVariables(FileModel file) {
+    ArrayList<VariableModel> variables = getAllVariables(file);
+    ArrayList<VariableModel> result = new ArrayList<VariableModel>();
+
+    for (int i = 0; i < variables.size(); ++i) {
+      if (!variables.get(i).getIsStaticVariable()) {
+        result.add(variables.get(i));
+      }
+    }
+
+    return result;
+  }
+
+  public static ArrayList<VariableModel> getStaticVariables(FileModel file) {
+    ArrayList<VariableModel> variables = getAllVariables(file);
+    ArrayList<VariableModel> result = new ArrayList<VariableModel>();
+
+    for (int i = 0; i < variables.size(); ++i) {
+      if (variables.get(i).getIsStaticVariable()) {
+        result.add(variables.get(i));
+      }
+    }
+
+    return result;
+  }
+
   private static boolean containsString(String[] array, String str) {
     for (int i = 0; i < array.length; ++i) {
       if (str.equals(array[i])) {

@@ -89,7 +89,7 @@ public class NonStaticVariableManagerFragment extends Fragment {
     binding.fab.setOnClickListener(
         v -> {
           ChooseVariablesDialog dialog =
-              new ChooseVariablesDialog(getContext(), VariablesUtils.getAllVariables(file)) {
+              new ChooseVariablesDialog(getContext(), VariablesUtils.getInstanceVariables(file)) {
                 @Override
                 public void onSelectedVariable(VariableModel selectedVariable) {
                   EditVariableDialog addVar =

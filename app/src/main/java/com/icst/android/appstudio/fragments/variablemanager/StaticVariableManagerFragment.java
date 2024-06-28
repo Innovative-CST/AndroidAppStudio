@@ -88,7 +88,7 @@ public class StaticVariableManagerFragment extends Fragment {
     binding.fab.setOnClickListener(
         v -> {
           ChooseVariablesDialog dialog =
-              new ChooseVariablesDialog(getContext(), VariablesUtils.getAllVariables(file)) {
+              new ChooseVariablesDialog(getContext(), VariablesUtils.getStaticVariables(file)) {
                 @Override
                 public void onSelectedVariable(VariableModel selectedVariable) {
                   EditVariableDialog addVar =
