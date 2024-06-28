@@ -145,7 +145,9 @@ public class NumberView extends LinearLayout {
     boolean hasVisibleChild = false;
     for (int i = 0; i < getChildCount(); ++i) {
       if (getChildAt(i).getVisibility() == View.VISIBLE) {
-        hasVisibleChild = true;
+        if (!(getChildAt(i) instanceof TextView)) {
+          hasVisibleChild = true;
+        }
       }
     }
     if (hasVisibleChild) {
