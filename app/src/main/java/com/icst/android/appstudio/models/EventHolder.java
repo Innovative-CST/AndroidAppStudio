@@ -38,8 +38,7 @@ public class EventHolder implements Serializable, Cloneable {
   public static final long serialVersionUID = 8L;
 
   private String holderName;
-  private String icon;
-  private boolean isExternalIcon;
+  private byte[] icon;
   private File filePath;
   private boolean isBuiltInEvents;
   private boolean disableNewEvents;
@@ -52,14 +51,11 @@ public class EventHolder implements Serializable, Cloneable {
     this.holderName = holderName;
   }
 
-  public String getIcon() {
+  public byte[] getIcon() {
     return this.icon;
   }
 
-  public void setIcon(String icon) {
-    if (icon != null) {
-      setExternalIcon(false);
-    }
+  public void setIcon(byte[] icon) {
     this.icon = icon;
   }
 
@@ -87,25 +83,16 @@ public class EventHolder implements Serializable, Cloneable {
     this.disableNewEvents = disableNewEvents;
   }
 
-  public boolean isExternalIcon() {
-    return this.isExternalIcon;
-  }
-
-  public void setExternalIcon(boolean isExternalIcon) {
-    if (isExternalIcon) {
-      setIcon(null);
-    }
-    this.isExternalIcon = isExternalIcon;
-  }
-
   @Override
   protected EventHolder clone() {
     EventHolder eventHolder = new EventHolder();
     eventHolder.setHolderName(new String(getHolderName() != null ? getHolderName() : ""));
-    eventHolder.setIcon(getIcon() == null ? null : new String(getIcon()));
     eventHolder.setBuiltInEvents(new Boolean(isBuiltInEvents()));
     eventHolder.setDisableNewEvents(new Boolean(getDisableNewEvents()));
-	eventHolder.setExternalIcon(new Boolean(isExternalIcon()));
+    if (getIcon() != null) {
+      eventHolder.setIcon(new byte[this.icon.length]);
+      System.arraycopy(getIcon(), 0, eventHolder.getIcon(), 0, this.icon.length);
+    }
     return eventHolder;
   }
 }

@@ -35,6 +35,7 @@ import com.icst.android.appstudio.block.model.BlockHolderModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.VariableModel;
+import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.models.ExtensionBundle;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
@@ -84,6 +85,19 @@ public final class ExtensionUtils {
     return holder;
   }
 
+  public static ArrayList<EventHolder> extractEventHoldersFromExtensions() {
+    ArrayList<EventHolder> holder = new ArrayList<EventHolder>();
+    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+
+    for (int i = 0; i < extensions.size(); ++i) {
+      if (extensions.get(i).getEventHolders() != null) {
+        holder.addAll(extensions.get(i).getEventHolders());
+      }
+    }
+
+    return holder;
+  }
+
   public static ArrayList<BlockModel> extractBlocksFromExtensions() {
     ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
@@ -98,15 +112,15 @@ public final class ExtensionUtils {
   }
 
   public static ArrayList<VariableModel> extractVariablesFromExtensions() {
-    ArrayList<VariableModel> variables = new ArrayList<VariableModel>();
+    ArrayList<VariableModel> holders = new ArrayList<VariableModel>();
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
     for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getVariables() != null) {
-        variables.addAll(extensions.get(i).getVariables());
+      if (extensions.get(i).getEventHolders() != null) {
+        holders.addAll(extensions.get(i).getVariables());
       }
     }
 
-    return variables;
+    return holders;
   }
 }

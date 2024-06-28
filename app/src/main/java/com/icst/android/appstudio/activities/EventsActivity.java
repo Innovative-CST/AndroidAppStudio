@@ -32,12 +32,13 @@
 package com.icst.android.appstudio.activities;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.core.content.ContextCompat;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.databinding.ActivityEventsBinding;
@@ -186,12 +187,10 @@ public class EventsActivity extends BaseActivity {
   }
 
   public static Drawable getEventHolderIcon(Context context, EventHolder holder) {
-    if (!holder.isExternalIcon()) {
-      return ContextCompat.getDrawable(
-          context,
-          context
-              .getResources()
-              .getIdentifier(holder.getIcon(), "drawable", context.getPackageName()));
+    if (holder.getIcon() != null) {
+      return new BitmapDrawable(
+          context.getResources(),
+          BitmapFactory.decodeByteArray(holder.getIcon(), 0, holder.getIcon().length));
     }
     return null;
   }

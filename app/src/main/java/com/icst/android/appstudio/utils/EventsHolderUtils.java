@@ -31,7 +31,6 @@
 
 package com.icst.android.appstudio.utils;
 
-import com.icst.android.appstudio.builtin.eventholders.BuiltInEventHolders;
 import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
@@ -63,11 +62,9 @@ public class EventsHolderUtils {
     return events;
   }
 
-  public static final ArrayList<EventHolder> getAllEventHolders() {
+  private static final ArrayList<EventHolder> getAllEventHolders() {
     ArrayList<EventHolder> holders = new ArrayList<EventHolder>();
-	
-	holders.addAll(BuiltInEventHolders.getAllBuiltInEventHolders());
-
+    holders.addAll(ExtensionUtils.extractEventHoldersFromExtensions());
     return holders;
   }
 

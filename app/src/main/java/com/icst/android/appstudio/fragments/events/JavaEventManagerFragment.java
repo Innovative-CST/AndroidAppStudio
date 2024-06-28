@@ -47,7 +47,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -218,12 +217,10 @@ public class JavaEventManagerFragment extends Fragment {
   }
 
   public static Drawable getEventHolderIcon(Context context, EventHolder holder) {
-    if (!holder.isExternalIcon()) {
-      return ContextCompat.getDrawable(
-          context,
-          context
-              .getResources()
-              .getIdentifier(holder.getIcon(), "drawable", context.getPackageName()));
+    if (holder.getIcon() != null) {
+      return new BitmapDrawable(
+          context.getResources(),
+          BitmapFactory.decodeByteArray(holder.getIcon(), 0, holder.getIcon().length));
     }
     return null;
   }

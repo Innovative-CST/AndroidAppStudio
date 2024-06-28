@@ -46,7 +46,8 @@ public class ExtensionBundle implements Serializable {
   private int version;
   private ArrayList<Event> events;
   private ArrayList<BlockModel> blocks;
-  private ArrayList<BlockHolderModel> holders;
+  private ArrayList<BlockHolderModel> blockHolders;
+  private ArrayList<EventHolder> eventHolders;
   private ArrayList<VariableModel> variables;
 
   public String getName() {
@@ -82,11 +83,11 @@ public class ExtensionBundle implements Serializable {
   }
 
   public ArrayList<BlockHolderModel> getHolders() {
-    return this.holders;
+    return this.blockHolders;
   }
 
-  public void setHolders(ArrayList<BlockHolderModel> holders) {
-    this.holders = holders;
+  public void setHolders(ArrayList<BlockHolderModel> blockHolders) {
+    this.blockHolders = blockHolders;
   }
 
   public ArrayList<VariableModel> getVariables() {
@@ -95,5 +96,13 @@ public class ExtensionBundle implements Serializable {
 
   public void setVariables(ArrayList<VariableModel> variables) {
     this.variables = variables;
+  }
+
+  public ArrayList<EventHolder> getEventHolders() {
+    return this.eventHolders;
+  }
+
+  public void setEventHolders(ArrayList<EventHolder> eventHolders) {
+    this.eventHolders = eventHolders;
   }
 }
