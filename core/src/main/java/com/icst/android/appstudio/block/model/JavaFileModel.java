@@ -55,7 +55,7 @@ public class JavaFileModel extends FileModel implements Serializable {
       String packageName,
       ArrayList<Object> builtInEvents,
       ArrayList<Object> events,
-      ArrayList<VariableModel> variables,
+      ArrayList<VariableModel> instanceVariables,
       HashMap<String, Object> projectVariables) {
     String resultCode = getRawCode() != null ? new String(getRawCode()) : null;
     if (resultCode == null) {
@@ -66,6 +66,52 @@ public class JavaFileModel extends FileModel implements Serializable {
         resultCode.replace(
             RawCodeReplacer.getReplacer(getReplacerKey(), "imports"),
             getImportsCode(builtInEvents, events));
+    resultCode =
+        resultCode.replace(
+            RawCodeReplacer.getReplacer(getReplacerKey(), "inheritence"), getInheritenceCode());
+
+    if (instanceVariables != null) {
+      StringBuilder instanceVariablesCode = new StringBuilder();
+      for (int i = 0; i < instanceVariables.size(); ++i) {
+        if (i != 0) {
+          instanceVariablesCode.append("\n");
+        }
+        instanceVariablesCode.append(instanceVariables.get(i).getDefCode());
+      }
+
+      String formatter = null;
+      String[] lines = getRawCode().split("\n");
+      for (String line : lines) {
+        if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "variables"))) {
+          formatter =
+              line.substring(
+                  0, line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "variables")));
+        }
+      }
+
+      StringBuilder formattedGeneratedCode = new StringBuilder();
+
+      String[] generatedCodeLines = instanceVariablesCode.toString().split("\n");
+
+      for (int generatedCodeLinePosition = 0;
+          generatedCodeLinePosition < generatedCodeLines.length;
+          ++generatedCodeLinePosition) {
+
+        if (formatter != null) {
+          if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
+        }
+
+        formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
+        if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
+          formattedGeneratedCode.append("\n");
+        }
+      }
+
+      resultCode =
+          resultCode.replace(
+              RawCodeReplacer.getReplacer(getReplacerKey(), "variables"),
+              formattedGeneratedCode.toString());
+    }
 
     boolean[] ignoreEvents = null;
     if (events != null) {
@@ -146,27 +192,10 @@ public class JavaFileModel extends FileModel implements Serializable {
       }
     }
 
-    if (variables != null) {
-      StringBuilder variablesCode = new StringBuilder();
-      for (int i = 0; i < variables.size(); ++i) {
-        if (i != 0) {
-          variablesCode.append("\n");
-        }
-        variablesCode.append(variables.get(i).getDefCode());
-      }
-      resultCode =
-          resultCode.replace(
-              RawCodeReplacer.getReplacer(getReplacerKey(), "variables"), variablesCode.toString());
-    }
-
     resultCode = resultCode.replace(RawCodeReplacer.getReplacer("$FileName"), getFileName());
     resultCode =
         resultCode.replace(
             RawCodeReplacer.getReplacer(getReplacerKey(), "filePackage name"), packageName);
-    resultCode =
-        resultCode.replace(
-            RawCodeReplacer.getReplacer(getReplacerKey(), "inheritence"), getInheritenceCode());
-
     resultCode = RawCodeReplacer.removeAndroidAppStudioString(getReplacerKey(), resultCode);
     return resultCode;
   }
