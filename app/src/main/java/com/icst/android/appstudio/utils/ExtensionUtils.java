@@ -116,7 +116,7 @@ public final class ExtensionUtils {
     ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
     for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getEventHolders() != null) {
+      if (extensions.get(i).getVariables() != null) {
         holders.addAll(extensions.get(i).getVariables());
       }
     }
