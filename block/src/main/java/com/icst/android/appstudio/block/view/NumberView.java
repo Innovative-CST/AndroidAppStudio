@@ -36,6 +36,8 @@ import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.icst.android.appstudio.block.R;
@@ -106,6 +108,28 @@ public class NumberView extends LinearLayout {
   @Override
   public void addView(View view) {
     if (view instanceof BlockView) {
+      if (getChildCount() == 1) {
+        if (getChildAt(0) instanceof BlockView oldBlockView) {
+          if (editor != null) {
+            FrameLayout.LayoutParams blockParams =
+                new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+
+            blockParams.setMargins(
+                editor.binding.canva.getScrollX() - editor.binding.codeEditor.getPaddingStart(),
+                editor.binding.canva.getScrollY() - editor.binding.codeEditor.getPaddingTop(),
+                0,
+                0);
+
+            if (oldBlockView.getParent() != null) {
+              ((ViewGroup) oldBlockView.getParent()).removeView(oldBlockView);
+            }
+
+            editor.binding.canva.addView(oldBlockView);
+            oldBlockView.setLayoutParams(blockParams);
+          }
+        }
+      }
       super.removeAllViews();
     }
     if (view instanceof BlockPreview) {
