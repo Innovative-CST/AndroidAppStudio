@@ -183,8 +183,8 @@ public class VariableModel implements Serializable {
       code.append(variableName);
     } else {
       code.append(
-          variableName.replace(
-              RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
+          getNonFixedVariableName()
+              .replace(RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
     }
 
     if (isInitializedGlobally) {
@@ -242,8 +242,8 @@ public class VariableModel implements Serializable {
       code.append(variableName);
     } else {
       code.append(
-          variableName.replace(
-              RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
+          getNonFixedVariableName()
+              .replace(RawCodeReplacer.getReplacer("variable", "variableName"), variableName));
     }
 
     if (isInitializedGlobally) {
