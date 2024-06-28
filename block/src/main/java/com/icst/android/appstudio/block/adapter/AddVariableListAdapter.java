@@ -36,6 +36,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,22 +66,35 @@ public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
         AdapterAddVariableBinding.inflate(LayoutInflater.from(getContext()));
 
     VariableModel variable = getItem(position);
+    Drawable icon = null;
     if (variable.getIcon() != null) {
-      listitemView.icon.setImageBitmap(
-          BitmapFactory.decodeByteArray(variable.getIcon(), 0, variable.getIcon().length));
+      icon =
+          new BitmapDrawable(
+              getContext().getResources(),
+              BitmapFactory.decodeByteArray(variable.getIcon(), 0, variable.getIcon().length));
     } else {
-      listitemView.icon.setImageBitmap(
-          textToBitmap(
-              variable.getVariableTitle(),
-              16,
-              ColorUtils.getColor(
-                  listitemView.getRoot().getContext(),
-                  com.google.android.material.R.attr.colorPrimary),
-              listitemView.getRoot().getContext()));
+      icon =
+          new BitmapDrawable(
+              getContext().getResources(),
+              textToBitmap(
+                  variable.getVariableTitle(),
+                  16,
+                  ColorUtils.getColor(
+                      listitemView.getRoot().getContext(),
+                      com.google.android.material.R.attr.colorPrimary),
+                  listitemView.getRoot().getContext()));
     }
 
-    listitemView.title.setText(variable.getVariableTitle());
+    if (variable.getApplyColorFilter()) {
+      icon.setTint(
+          ColorUtils.getColor(
+              listitemView.getRoot().getContext(),
+              com.google.android.material.R.attr.colorPrimary));
+      icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+    }
 
+    listitemView.icon.setImageDrawable(icon);
+    listitemView.title.setText(variable.getVariableTitle());
     listitemView
         .getRoot()
         .setOnClickListener(

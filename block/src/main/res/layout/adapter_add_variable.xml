@@ -10,7 +10,6 @@
     <ImageView
         android:layout_height="24dp"
         android:layout_width="24dp"
-        android:tint="?attr/colorOnSurface"
         android:id="@+id/icon" />
 
     <TextView

@@ -37,6 +37,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,8 @@ import java.util.ArrayList;
 
 public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapter.ViewHolder> {
   private ArrayList<VariableModel> variables;
-  public VariableListAdapter(
-      ArrayList<VariableModel> variables) {
+
+  public VariableListAdapter(ArrayList<VariableModel> variables) {
     this.variables = variables;
   }
 
@@ -75,19 +76,34 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
     AdapterVariableBinding binding = AdapterVariableBinding.bind(holder.itemView);
     binding.variableName.setText(variables.get(position).getVariableName());
     binding.variableType.setText(variables.get(position).getVariableType());
+    Drawable icon = null;
     if (variables.get(position).getIcon() != null) {
-      binding.representation.setImageBitmap(
-          BitmapFactory.decodeByteArray(
-              variables.get(position).getIcon(), 0, variables.get(position).getIcon().length));
+      icon =
+          new BitmapDrawable(
+              getContext().getResources(),
+              BitmapFactory.decodeByteArray(
+                  variables.get(position).getIcon(), 0, variables.get(position).getIcon().length));
     } else {
-      binding.representation.setImageBitmap(
-          textToBitmap(
-              variables.get(position).getVariableTitle(),
-              16,
-              ColorUtils.getColor(
-                  binding.getRoot().getContext(), com.google.android.material.R.attr.colorPrimary),
-              binding.getRoot().getContext()));
+      icon =
+          new BitmapDrawable(
+              textToBitmap(
+                  variables.get(position).getVariableTitle(),
+                  16,
+                  ColorUtils.getColor(
+                      binding.getRoot().getContext(),
+                      com.google.android.material.R.attr.colorPrimary),
+                  binding.getRoot().getContext()));
     }
+
+    if (variable.getApplyColorFilter()) {
+      icon.setTint(
+          ColorUtils.getColor(
+              listitemView.getRoot().getContext(),
+              com.google.android.material.R.attr.colorPrimary));
+      icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+    }
+
+    binding.representation.setImageDrawable(icon);
     binding.getRoot().setOnClickListener(v -> {});
   }
 

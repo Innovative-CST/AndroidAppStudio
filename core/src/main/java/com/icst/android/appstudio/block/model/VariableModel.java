@@ -56,6 +56,7 @@ public class VariableModel implements Serializable {
   private boolean canInitializedGlobally;
   private boolean isStaticVariable;
   private boolean isFinalVariable;
+  private boolean applyColorFilter;
   private byte[] icon;
   private VariableModel[] requiredVariables;
   private HashMap<String, String> variableTitles;
@@ -99,6 +100,7 @@ public class VariableModel implements Serializable {
     variable.canInitializedGlobally = new Boolean(this.canInitializedGlobally);
     variable.isStaticVariable = new Boolean(this.isStaticVariable);
     variable.isFinalVariable = new Boolean(this.isFinalVariable);
+    variable.applyColorFilter = new Boolean(this.applyColorFilter);
 
     if (this.icon == null) {
       variable.icon = null;
@@ -412,5 +414,13 @@ public class VariableModel implements Serializable {
 
   public void setInputType(HashMap<String, Integer> inputType) {
     this.inputType = inputType;
+  }
+
+  public boolean getApplyColorFilter() {
+    return this.applyColorFilter;
+  }
+
+  public void setApplyColorFilter(boolean applyColorFilter) {
+    this.applyColorFilter = applyColorFilter;
   }
 }
