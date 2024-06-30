@@ -55,9 +55,9 @@ android {
         viewBinding false
         buildConfig false
     }
-    
 }
 
 dependencies {
-    implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
+    implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.26.1'
+    implementation 'com.github.javaparser:javaparser-core:3.26.1'
 }
