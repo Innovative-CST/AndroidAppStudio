@@ -81,7 +81,7 @@ public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
                   16,
                   ColorUtils.getColor(
                       listitemView.getRoot().getContext(),
-                      com.google.android.material.R.attr.colorPrimary),
+                      com.google.android.material.R.attr.colorOnSurface),
                   listitemView.getRoot().getContext()));
     }
 
@@ -89,7 +89,7 @@ public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
       icon.setTint(
           ColorUtils.getColor(
               listitemView.getRoot().getContext(),
-              com.google.android.material.R.attr.colorPrimary));
+              com.google.android.material.R.attr.colorOnSurface));
       icon.setTintMode(PorterDuff.Mode.MULTIPLY);
     }
 

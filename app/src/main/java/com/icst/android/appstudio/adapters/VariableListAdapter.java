@@ -100,7 +100,7 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
     if (variables.get(position).getApplyColorFilter()) {
       icon.setTint(
           ColorUtils.getColor(
-              binding.getRoot().getContext(), com.google.android.material.R.attr.colorPrimary));
+              binding.getRoot().getContext(), com.google.android.material.R.attr.colorOnSurface));
       icon.setTintMode(PorterDuff.Mode.MULTIPLY);
     }
 
