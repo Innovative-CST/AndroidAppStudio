@@ -33,11 +33,26 @@ plugins {
     id 'com.android.application'
 }
 
+def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
+
 def localPropsFile = rootProject.file("local.properties")
 def properties = new Properties()
+def signingEnabled = false
+def password = ""
+
 if (localPropsFile.exists()) {
     localPropsFile.withInputStream { inputStream ->
         properties.load(inputStream)
+    }
+}
+
+if (KEYSTOREPASSWORD != null) {
+    password = KEYSTOREPASSWORD
+    signingEnabled = true
+} else if (localPropsFile.exists()) {
+    if (properties.getProperty('keyStorePassword') != null) {
+        password = properties.getProperty('keyStorePassword')
+        signingEnabled = true
     }
 }
 
@@ -95,7 +110,26 @@ android {
         viewBinding true
         buildConfig true
     }
-    
+
+    signingConfigs {
+        release {
+            if (signingEnabled) {
+                storeFile file("keystore.jks")
+                storePassword password
+                keyAlias "AndroidAppStudio"
+                keyPassword password
+            }
+        }
+
+        debug {
+            if (signingEnabled) {
+                storeFile file("keystore.jks")
+                storePassword password
+                keyAlias "AndroidAppStudio"
+                keyPassword password
+            }
+        }
+    }
 }
 
 dependencies {
