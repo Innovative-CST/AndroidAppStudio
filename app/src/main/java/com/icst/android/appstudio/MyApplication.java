@@ -114,7 +114,7 @@ public class MyApplication extends Application {
                 .append(Build.MANUFACTURER)
                 .append("\n")
                 .append("App Storage: ")
-                .append(BuildConfig.STORAGE.getAbsolutePath())
+                .append(EnvironmentUtils.STORAGE.getAbsolutePath())
                 .append("\n")
                 .append("Device External Storage: ")
                 .append(Environment.getExternalStorageDirectory())
