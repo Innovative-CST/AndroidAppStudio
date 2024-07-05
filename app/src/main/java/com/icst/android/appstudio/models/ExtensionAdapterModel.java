@@ -29,52 +29,52 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-    id 'com.android.library'
-}
+package com.icst.android.appstudio.models;
 
-android {
-    namespace 'com.icst.android.appstudio.vieweditor'
-    compileSdk 34
+public class ExtensionAdapterModel {
+  private String title;
+  private int latestVersion;
+  private boolean isInstalled;
+  private int installedVersion;
+  private String authors;
 
-    defaultConfig {
-        minSdk 21
-        targetSdk 34
-        versionCode 1
-        vectorDrawables { 
-            useSupportLibrary true
-        }
-    }
+  public String getTitle() {
+    return this.title;
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
+  public int getLatestVersion() {
+    return this.latestVersion;
+  }
 
-    buildFeatures {
-        viewBinding true
-        buildConfig true
-    }
-    
-}
+  public void setLatestVersion(int latestVersion) {
+    this.latestVersion = latestVersion;
+  }
 
-dependencies {
-	implementation("com.google.android.material:material:$material_design_version")
-	implementation("com.google.guava:guava:33.0.0-jre")
-	implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
+  public boolean getIsInstalled() {
+    return this.isInstalled;
+  }
 
-	def editorGroupId = "io.github.Rosemoe.sora-editor"
-    implementation platform("$editorGroupId:bom:$sora_editor_version")
-    implementation("$editorGroupId:editor")
-    implementation("$editorGroupId:language-textmate")
+  public void setIsInstalled(boolean isInstalled) {
+    this.isInstalled = isInstalled;
+  }
 
-	implementation project(":core")
-    implementation project(":editor")
+  public int getInstalledVersion() {
+    return this.installedVersion;
+  }
+
+  public void setInstalledVersion(int installedVersion) {
+    this.installedVersion = installedVersion;
+  }
+
+  public String getAuthors() {
+    return this.authors;
+  }
+
+  public void setAuthors(String authors) {
+    this.authors = authors;
+  }
 }

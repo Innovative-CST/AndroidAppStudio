@@ -122,6 +122,11 @@ public class ProjectManagerActivity extends BaseActivity {
             appInfo.setClass(this, AboutAppActivity.class);
             startActivity(appInfo);
           }
+		  if (menuItem.getItemId() == R.id.extensions) {
+            Intent extension = new Intent();
+            extension.setClass(this, ExtensionsManagerActivity.class);
+            startActivity(extension);
+          }
           if (menuItem.getItemId() == R.id.instagram) {
             Intent instagram = new Intent();
             instagram.setAction(Intent.ACTION_VIEW);

@@ -19,6 +19,11 @@
         android:title="@string/about_app"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/extensions"
+        android:icon="@drawable/ic_extension"
+        android:title="@string/extensions"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_setting"
         android:title="@string/settings"

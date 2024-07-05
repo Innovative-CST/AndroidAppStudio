@@ -30,10 +30,22 @@
  */
 
 plugins {
-    id 'com.android.application'
+    id "com.android.application"
 }
 
 def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
+def firebase = System.getenv('Firebase')
+
+if (firebase != null) {
+	if (!file("google-services.json").exists()) {
+       new File("$projectDir/google-services.json").text = firebase;
+    }
+	apply plugin: "com.google.gms.google-services"
+} else {
+    if (file("google-services.json").exists()) {
+        apply plugin: "com.google.gms.google-services"
+    }
+}
 
 def localPropsFile = rootProject.file("local.properties")
 def properties = new Properties()
@@ -81,7 +93,7 @@ android {
     defaultConfig {
         applicationId "com.icst.android.appstudio"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         buildConfigField "String", "commitSha", getCommitSha()
@@ -148,6 +160,10 @@ dependencies {
     implementation platform("$editorGroupId:bom:$sora_editor_version")
     implementation("$editorGroupId:editor")
     implementation("$editorGroupId:language-textmate")
+
+    implementation platform('com.google.firebase:firebase-bom:32.2.3')
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-database")
 
 	implementation project(":core")
     implementation project(":block")

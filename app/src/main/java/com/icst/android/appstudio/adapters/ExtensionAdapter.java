@@ -29,52 +29,67 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-    id 'com.android.library'
-}
+package com.icst.android.appstudio.adapters;
 
-android {
-    namespace 'com.icst.android.appstudio.vieweditor'
-    compileSdk 34
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
+import com.icst.android.appstudio.databinding.AdapterExtensionBinding;
+import com.icst.android.appstudio.models.ExtensionAdapterModel;
+import java.util.ArrayList;
 
-    defaultConfig {
-        minSdk 21
-        targetSdk 34
-        versionCode 1
-        vectorDrawables { 
-            useSupportLibrary true
-        }
+public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
+  private ArrayList<ExtensionAdapterModel> extensions;
+
+  public ExtensionAdapter(ArrayList<ExtensionAdapterModel> extensions) {
+    this.extensions = extensions;
+  }
+
+  public class ViewHolder extends RecyclerView.ViewHolder {
+    public ViewHolder(View view) {
+      super(view);
+    }
+  }
+
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+    AdapterExtensionBinding binding =
+        AdapterExtensionBinding.inflate(LayoutInflater.from(arg0.getContext()));
+    RecyclerView.LayoutParams layoutParam =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    binding.getRoot().setLayoutParams(layoutParam);
+    return new ViewHolder(binding.getRoot());
+  }
+
+  @Override
+  public int getItemCount() {
+    return extensions.size();
+  }
+
+  @Override
+  public void onBindViewHolder(ViewHolder arg0, final int arg1) {
+    ExtensionAdapterModel extension = extensions.get(arg1);
+    AdapterExtensionBinding binding = AdapterExtensionBinding.bind(arg0.itemView);
+
+    binding.extensionName.setText(extension.getTitle());
+
+    StringBuilder details = new StringBuilder();
+    if (extension.getIsInstalled()) {
+      if (extension.getInstalledVersion() < extension.getLatestVersion()) {
+        details.append("Update");
+        details.append(String.valueOf(extension.getInstalledVersion()));
+        details.append(" to ");
+        details.append(String.valueOf(extension.getLatestVersion()));
+      } else {
+        details.append("Installed ");
+        details.append(String.valueOf(extension.getInstalledVersion()));
+      }
+    } else {
+      details.append("Not installed");
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        viewBinding true
-        buildConfig true
-    }
-    
-}
-
-dependencies {
-	implementation("com.google.android.material:material:$material_design_version")
-	implementation("com.google.guava:guava:33.0.0-jre")
-	implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
-
-	def editorGroupId = "io.github.Rosemoe.sora-editor"
-    implementation platform("$editorGroupId:bom:$sora_editor_version")
-    implementation("$editorGroupId:editor")
-    implementation("$editorGroupId:language-textmate")
-
-	implementation project(":core")
-    implementation project(":editor")
+    binding.details.setText(details.toString());
+  }
 }
