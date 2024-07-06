@@ -37,7 +37,7 @@ def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
 def firebase = System.getenv('Firebase')
 
 if (firebase != null) {
-	if (!file("google-services.json").exists()) {
+	if (!new File("$projectDir/google-services.json").exists()) {
        new File("$projectDir/google-services.json").text = firebase;
     }
 	apply plugin: "com.google.gms.google-services"
