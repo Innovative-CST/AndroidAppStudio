@@ -77,11 +77,10 @@
             android:orientation="vertical"
             android:id="@+id/loading">
 
-            <ProgressBar
-                android:layout_height="wrap_content"
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:indeterminate="true"
-                android:id="@+id/progressbar" />
+                android:indeterminate="true" />
 
             <TextView
                 android:layout_height="wrap_content"
