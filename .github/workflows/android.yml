@@ -13,18 +13,18 @@ jobs:
       - name: Set up KeyStore Password
         shell: bash 
         if: ${{ env.KEYSTOREPASSWORD != '' }}
-          env:
-            KEYSTOREPASSWORD: ${{ secrets.KEYSTOREPASSWORD }}
-          run: |
-            printf 'KEYSTOREPASSWORD<<EOF\n%s\nEOF\n' "KEYSTOREPASSWORD" >> $GITHUB_ENV
+        env:
+          KEYSTOREPASSWORD: ${{ secrets.KEYSTOREPASSWORD }}
+        run: |
+          printf 'KEYSTOREPASSWORD<<EOF\n%s\nEOF\n' "KEYSTOREPASSWORD" >> $GITHUB_ENV
         
       - name: Set up Firebase
         shell: bash 
         if: ${{ env.Firebase != '' }}
-          env:
-            Firebase: ${{ secrets.Firebase }}
-          run: |
-            printf 'Firebase<<EOF\n%s\nEOF\n' "Firebase" >> $GITHUB_ENV
+        env:
+          Firebase: ${{ secrets.Firebase }}
+        run: |
+          printf 'Firebase<<EOF\n%s\nEOF\n' "Firebase" >> $GITHUB_ENV
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
