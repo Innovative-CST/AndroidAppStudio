@@ -31,19 +31,24 @@
 
 package com.icst.android.appstudio.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import com.icst.android.appstudio.activities.BaseActivity;
+import com.icst.android.appstudio.activities.ExtensionActivity;
 import com.icst.android.appstudio.databinding.AdapterExtensionBinding;
 import com.icst.android.appstudio.models.ExtensionAdapterModel;
 import java.util.ArrayList;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
   private ArrayList<ExtensionAdapterModel> extensions;
+  private BaseActivity activity;
 
-  public ExtensionAdapter(ArrayList<ExtensionAdapterModel> extensions) {
+  public ExtensionAdapter(ArrayList<ExtensionAdapterModel> extensions, BaseActivity activity) {
     this.extensions = extensions;
+    this.activity = activity;
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
@@ -91,5 +96,14 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
     }
 
     binding.details.setText(details.toString());
+
+    binding
+        .getRoot()
+        .setOnClickListener(
+            v -> {
+              Intent extensionActivity = new Intent(activity, ExtensionActivity.class);
+              extensionActivity.putExtra("childKey", extension.getChildKey());
+              activity.startActivity(extensionActivity);
+            });
   }
 }

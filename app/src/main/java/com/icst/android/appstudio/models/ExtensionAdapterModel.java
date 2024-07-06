@@ -37,6 +37,7 @@ public class ExtensionAdapterModel {
   private boolean isInstalled;
   private int installedVersion;
   private String authors;
+  private String childKey;
 
   public String getTitle() {
     return this.title;
@@ -76,5 +77,13 @@ public class ExtensionAdapterModel {
 
   public void setAuthors(String authors) {
     this.authors = authors;
+  }
+
+  public String getChildKey() {
+    return this.childKey;
+  }
+
+  public void setChildKey(String childKey) {
+    this.childKey = childKey;
   }
 }

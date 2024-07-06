@@ -165,6 +165,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
 
+	implementation("com.mindorks.android:prdownloader:0.6.0")
+
 	implementation project(":core")
     implementation project(":block")
 	implementation project(":editor")

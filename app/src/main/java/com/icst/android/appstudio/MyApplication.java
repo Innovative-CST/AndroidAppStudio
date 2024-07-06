@@ -40,6 +40,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
+import com.downloader.PRDownloader;
+import com.downloader.PRDownloaderConfig;
 import com.elfilibustero.uidesigner.AppLoader;
 import com.quickersilver.themeengine.ThemeEngine;
 import com.quickersilver.themeengine.ThemeMode;
@@ -74,6 +76,11 @@ public class MyApplication extends Application {
     themeEngine = ThemeEngine.getInstance(this);
     AppLoader.setContext(getApplicationContext());
     EnvironmentUtils.init(this);
+
+    PRDownloaderConfig config =
+        PRDownloaderConfig.newBuilder().setDatabaseEnabled(true).setConnectTimeout(30_000).build();
+
+    PRDownloader.initialize(getApplicationContext(), config);
 
     this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 

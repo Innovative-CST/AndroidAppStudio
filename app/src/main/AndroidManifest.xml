@@ -89,6 +89,10 @@
             android:exported="true" />
 
         <activity
+            android:name="com.icst.android.appstudio.activities.ExtensionActivity"
+            android:exported="true" />
+
+        <activity
             android:name="com.icst.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
             android:exported="true" />
 

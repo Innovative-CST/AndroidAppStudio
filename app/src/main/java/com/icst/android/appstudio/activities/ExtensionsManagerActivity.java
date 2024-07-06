@@ -32,6 +32,7 @@
 package com.icst.android.appstudio.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +43,9 @@ import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.ExtensionAdapter;
 import com.icst.android.appstudio.databinding.ActivityExtensionsManagerBinding;
 import com.icst.android.appstudio.models.ExtensionAdapterModel;
+import com.icst.android.appstudio.models.ExtensionBundle;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -51,6 +54,7 @@ public class ExtensionsManagerActivity extends BaseActivity {
   private ActivityExtensionsManagerBinding binding;
   private DatabaseReference extensionDatabase;
   private ArrayList<ExtensionAdapterModel> availableExtensions;
+  private boolean isInitialized;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +70,12 @@ public class ExtensionsManagerActivity extends BaseActivity {
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
     fetchChildValues();
+    isInitialized = true;
   }
 
   private void fetchChildValues() {
+    binding.loading.setVisibility(View.VISIBLE);
+    binding.nestedScrollView.setVisibility(View.GONE);
     extensionDatabase.addListenerForSingleValueEvent(
         new ValueEventListener() {
           @Override
@@ -90,6 +97,14 @@ public class ExtensionsManagerActivity extends BaseActivity {
                         childSnapshot.child("file_name").getValue(String.class))
                     .exists()) {
                   extension.setIsInstalled(true);
+
+                  ExtensionBundle bundle =
+                      DeserializerUtils.deserialize(
+                          new File(
+                              EnvironmentUtils.EXTENSION_DIR,
+                              childSnapshot.child("file_name").getValue(String.class)),
+                          ExtensionBundle.class);
+                  extension.setInstalledVersion(bundle.getVersion());
                 }
               }
 
@@ -97,8 +112,13 @@ public class ExtensionsManagerActivity extends BaseActivity {
                 extension.setAuthors(childSnapshot.child("authors").getValue(String.class));
               }
 
+              extension.setChildKey(childSnapshot.getKey());
+
               availableExtensions.add(extension);
-              binding.extensions.setAdapter(new ExtensionAdapter(availableExtensions));
+              binding.nestedScrollView.setVisibility(View.VISIBLE);
+              binding.loading.setVisibility(View.GONE);
+              binding.extensions.setAdapter(
+                  new ExtensionAdapter(availableExtensions, ExtensionsManagerActivity.this));
               binding.extensions.setLayoutManager(
                   new LinearLayoutManager(ExtensionsManagerActivity.this));
             }
@@ -107,5 +127,14 @@ public class ExtensionsManagerActivity extends BaseActivity {
           @Override
           public void onCancelled(DatabaseError databaseError) {}
         });
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    if (isInitialized) {
+      fetchChildValues();
+    }
   }
 }
