@@ -2,4 +2,7 @@
     <item
         type="id"
         name="attachedBlockLayout" />
+    <item
+        type="id"
+        name="notAttachedBlockLayout" />
 </resources>

@@ -37,8 +37,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.icst.android.appstudio.block.R;
 import com.icst.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.icst.android.appstudio.block.databinding.EventEditorLayoutBinding;
 import com.icst.android.appstudio.block.model.BlockHolderLayer;
@@ -167,86 +170,138 @@ public class EventEditor extends RelativeLayout {
     draggingBlock = null;
   }
 
+  public void dropInCanva(float x, float y) {
+    LinearLayout droppable = new LinearLayout(getContext());
+    droppable.setId(R.id.notAttachedBlockLayout);
+    droppable.setOrientation(LinearLayout.VERTICAL);
+
+    FrameLayout.LayoutParams droppableParams =
+        new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+
+    BlockView block =
+        new BlockView(this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
+
+    droppableParams.setMargins(
+        (int) x + binding.canva.getScrollX() - binding.codeEditor.getPaddingStart(),
+        (int) y + binding.canva.getScrollY() - binding.codeEditor.getPaddingTop(),
+        0,
+        0);
+
+    block.setEnableDragDrop(true);
+    block.setEnableEditing(true);
+    block.setInsideEditor(true);
+
+    droppable.addView(block);
+    binding.canva.addView(droppable);
+    droppable.setLayoutParams(droppableParams);
+
+    if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
+      if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
+        BlockDroppableTag tag =
+            ((BlockDroppableTag) ((ViewGroup) draggingBlock.getParent()).getTag());
+
+        if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER
+            && block.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
+          tag.getDropProperty(BlockHolderLayer.class)
+              .getBlocks()
+              .remove(((ViewGroup) draggingBlock.getParent()).indexOfChild(draggingBlock));
+        }
+      }
+    }
+  }
+
   public void drop(float x, float y) {
     if (isBlockFloatingViewInsideCanva(x, y)) {
-      if (binding.canva.getEvent().getEnableEdit()) {
-        if (binding.canva.attachedBlockLayout != null) {
 
-          if (TargetUtils.isDragInsideTargetView(
-              binding.canva.attachedBlockLayout, binding.getRoot(), (int) x, (int) y)) {
+      /*
+       * Drop is made inside the canva view.
+       * Make sure attachedBlockLayout is initialized before operations on it.
+       * If attachedBlockLayout is null then skip the drop.
+       * If editing of event is disabled then skip drop.
+       */
+
+      if (binding.canva.attachedBlockLayout == null) {
+        return;
+      }
+
+      if (!binding.canva.getEvent().getEnableEdit()) {
+        return;
+      }
+
+      /*
+       * Drop will not be cancelled any how since all the requirement is met
+       */
+
+      // Check every children of canva for droppables
+      boolean droppableAvailable = false;
+      for (int i = binding.canva.getChildCount() - 1; i >= 0; i--) {
+        if (binding.canva.getChildAt(i) instanceof BlockView dropPointingBlock) {
+
+          if (dropPointingBlock.drop(x, y, draggingBlock.getBlockModel())) {
+            droppableAvailable = true;
+          }
+
+        } else if ((binding.canva.getChildAt(i).getId() == R.id.notAttachedBlockLayout
+                || binding.canva.getChildAt(i).getId() == R.id.attachedBlockLayout)
+            && binding.canva.getChildAt(i) instanceof LinearLayout dropView) {
+
+          if (TargetUtils.isDragInsideTargetView(dropView, binding.getRoot(), (int) x, (int) y)) {
 
             int index = 0;
-            for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); i++) {
-              View child = binding.canva.attachedBlockLayout.getChildAt(i);
-              if (y + binding.canva.getScrollY() > child.getY() + (child.getHeight() / 2)) {
-                index = i + 1;
+            for (int i2 = 0; i2 < dropView.getChildCount(); i2++) {
+              View child = dropView.getChildAt(i2);
+              if (y + binding.canva.getScrollY()
+                  > dropView.getY() + child.getY() + (child.getHeight() / 2)) {
+                index = i2 + 1;
               } else {
                 break;
               }
             }
 
-            if (index == 0) {
-              index = 1;
-            }
-            dropBlockView(index, x, y);
-          } else {
-            BlockView block =
-                new BlockView(
-                    this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
+            dropBlockView(index, dropView, x, y);
 
-            FrameLayout.LayoutParams blockParams =
-                new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-
-            blockParams.setMargins(
-                (int) x + binding.canva.getScrollX() - binding.codeEditor.getPaddingStart(),
-                (int) y + binding.canva.getScrollY() - binding.codeEditor.getPaddingTop(),
-                0,
-                0);
-
-            block.setEnableDragDrop(true);
-            block.setEnableEditing(true);
-            block.setInsideEditor(true);
-            binding.canva.addView(block);
-            block.setLayoutParams(blockParams);
-
-            if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
-              if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
-                BlockDroppableTag tag =
-                    ((BlockDroppableTag) ((ViewGroup) draggingBlock.getParent()).getTag());
-
-                if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER
-                    && block.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
-                  tag.getDropProperty(BlockHolderLayer.class)
-                      .getBlocks()
-                      .remove(((ViewGroup) draggingBlock.getParent()).indexOfChild(draggingBlock));
-                }
-              }
-            }
-
-            if (draggingBlock.isInsideEditor()) {
-              ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
-            }
+            droppableAvailable = true;
           }
         }
       }
+
+      if (!droppableAvailable) {
+        dropInCanva(x, y);
+      }
+      /*
+       * Removing block from original position if it was dragged from inside the editor
+       * as drop is successfully made.
+       */
       if (draggingBlock.isInsideEditor()) {
-        if (((ViewGroup) draggingBlock.getParent()) != null) {
+        if (draggingBlock.getParent() != null) {
           ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
         }
       }
     } else {
+
+      /*
+       * Show the dragging view on its original position since drag is made
+       * outside the canva where drop is not allowed.
+       * But make sure that the blocks was dragged from canva not from pallete list.
+       */
+
       if (draggingBlock.isInsideEditor()) {
         draggingBlock.setVisibility(View.VISIBLE);
       }
     }
   }
 
-  public void dropBlockView(int index, float x, float y) {
+  public void dropBlockView(int index, LinearLayout fallBackTarget, float x, float y) {
+
+    if (index == 0 && fallBackTarget.getId() == R.id.attachedBlockLayout) {
+      index = 1;
+    }
+
     boolean isDropConsumed = false;
-    if (binding.canva.attachedBlockLayout.getChildCount() > index) {
-      if (binding.canva.attachedBlockLayout.getChildAt(index) instanceof BlockView) {
-        BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index);
+    if (fallBackTarget.getChildCount() > index) {
+      if (fallBackTarget.getChildAt(index) instanceof BlockView) {
+        BlockView blockView = (BlockView) fallBackTarget.getChildAt(index);
         if (blockView.drop(x, y, draggingBlock.getBlockModel())) {
           isDropConsumed = true;
         }
@@ -254,9 +309,9 @@ public class EventEditor extends RelativeLayout {
     }
 
     if (!isDropConsumed) {
-      if (binding.canva.attachedBlockLayout.getChildCount() > (index - 1)) {
-        if (binding.canva.attachedBlockLayout.getChildAt(index - 1) instanceof BlockView) {
-          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index - 1);
+      if (fallBackTarget.getChildCount() > (index - 1)) {
+        if (fallBackTarget.getChildAt(index - 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) fallBackTarget.getChildAt(index - 1);
           if (blockView.drop(x, y, draggingBlock.getBlockModel())) {
             isDropConsumed = true;
           }
@@ -265,9 +320,9 @@ public class EventEditor extends RelativeLayout {
     }
 
     if (!isDropConsumed) {
-      if (binding.canva.attachedBlockLayout.getChildCount() > (index + 1)) {
-        if (binding.canva.attachedBlockLayout.getChildAt(index + 1) instanceof BlockView) {
-          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index + 1);
+      if (fallBackTarget.getChildCount() > (index + 1)) {
+        if (fallBackTarget.getChildAt(index + 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) fallBackTarget.getChildAt(index + 1);
           if (blockView.drop(x, y, draggingBlock.getBlockModel())) {
             isDropConsumed = true;
           }
@@ -297,7 +352,7 @@ public class EventEditor extends RelativeLayout {
         }
       }
 
-      binding.canva.attachedBlockLayout.addView(block, index);
+      fallBackTarget.addView(block, index);
       if (draggingBlock.isInsideEditor()) {
         ((ViewGroup) draggingBlock.getParent()).removeView(draggingBlock);
       }
@@ -317,47 +372,84 @@ public class EventEditor extends RelativeLayout {
 
     blockPreview.removePreview();
     blockPreview.setBlock(draggingBlock.getBlockModel());
-    if (isBlockFloatingViewInsideCanva(x, y)) {
-      if (binding.canva.getEvent().getEnableEdit()) {
-        if (binding.canva.attachedBlockLayout != null) {
 
-          if (TargetUtils.isDragInsideTargetView(
-              binding.canva.attachedBlockLayout, binding.getRoot(), (int) x, (int) y)) {
+    if (isBlockFloatingViewInsideCanva(x, y)) {
+
+      /*
+       * Drag is made inside the canva view.
+       * Make sure attachedBlockLayout is initialized before operations on it.
+       * If attachedBlockLayout is null then skip the drop.
+       * If editing of event is disabled then skip drop.
+       */
+
+      if (binding.canva.attachedBlockLayout == null) {
+        return;
+      }
+
+      if (!binding.canva.getEvent().getEnableEdit()) {
+        return;
+      }
+
+      /*
+       * Preview may be cancelled if not droppable found.
+       */
+
+      // Check every children of canva for droppables
+      boolean droppableAvailable = false;
+      for (int i = binding.canva.getChildCount() - 1; i >= 0; i--) {
+        if (binding.canva.getChildAt(i) instanceof BlockView dropPointingBlock) {
+
+          if (dropPointingBlock.preview(x, y, draggingBlock.getBlockModel())) {
+            droppableAvailable = true;
+          }
+
+        } else if ((binding.canva.getChildAt(i).getId() == R.id.notAttachedBlockLayout
+                || binding.canva.getChildAt(i).getId() == R.id.attachedBlockLayout)
+            && binding.canva.getChildAt(i) instanceof LinearLayout dropView) {
+
+          if (TargetUtils.isDragInsideTargetView(dropView, binding.getRoot(), (int) x, (int) y)) {
 
             int index = 0;
-            for (int i = 0; i < binding.canva.attachedBlockLayout.getChildCount(); i++) {
-              View child = binding.canva.attachedBlockLayout.getChildAt(i);
-              if (y + binding.canva.getScrollY() > child.getY() + (child.getHeight() / 2)) {
-                index = i + 1;
+            for (int i2 = 0; i2 < dropView.getChildCount(); i2++) {
+              View child = dropView.getChildAt(i2);
+              if (y + binding.canva.getScrollY()
+                  > child.getY() + dropView.getY() + (child.getHeight() / 2)) {
+                index = i2 + 1;
               } else {
                 break;
               }
             }
 
-            if (index == 0) {
-              index = 1;
-            }
+            setBlockPreview(index, dropView, x, y);
 
-            setBlockPreview(index, x, y);
-          } else {
-            blockPreview.removePreview();
+            droppableAvailable = true;
           }
-        } else {
-          blockPreview.removePreview();
         }
-      } else {
+      }
+
+      if (!droppableAvailable) {
         blockPreview.removePreview();
       }
     } else {
+
+      /*
+       * Remove preview since it is outside the drop region.
+       */
+
       blockPreview.removePreview();
     }
   }
 
-  public void setBlockPreview(int index, float x, float y) {
+  public void setBlockPreview(int index, LinearLayout fallBackTarget, float x, float y) {
+
+    if (index == 0 && fallBackTarget.getId() == R.id.attachedBlockLayout) {
+      index = 1;
+    }
+
     boolean isPreviewConsumed = false;
-    if (binding.canva.attachedBlockLayout.getChildCount() > index) {
-      if (binding.canva.attachedBlockLayout.getChildAt(index) instanceof BlockView) {
-        BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index);
+    if (fallBackTarget.getChildCount() > index) {
+      if (fallBackTarget.getChildAt(index) instanceof BlockView) {
+        BlockView blockView = (BlockView) fallBackTarget.getChildAt(index);
         if (blockView.preview(x, y, draggingBlock.getBlockModel())) {
           isPreviewConsumed = true;
         }
@@ -365,9 +457,9 @@ public class EventEditor extends RelativeLayout {
     }
 
     if (!isPreviewConsumed) {
-      if (binding.canva.attachedBlockLayout.getChildCount() > (index - 1)) {
-        if (binding.canva.attachedBlockLayout.getChildAt(index - 1) instanceof BlockView) {
-          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index - 1);
+      if (fallBackTarget.getChildCount() > (index - 1)) {
+        if (fallBackTarget.getChildAt(index - 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) fallBackTarget.getChildAt(index - 1);
           if (blockView.preview(x, y, draggingBlock.getBlockModel())) {
             isPreviewConsumed = true;
           }
@@ -376,9 +468,9 @@ public class EventEditor extends RelativeLayout {
     }
 
     if (!isPreviewConsumed) {
-      if (binding.canva.attachedBlockLayout.getChildCount() > (index + 1)) {
-        if (binding.canva.attachedBlockLayout.getChildAt(index + 1) instanceof BlockView) {
-          BlockView blockView = (BlockView) binding.canva.attachedBlockLayout.getChildAt(index + 1);
+      if (fallBackTarget.getChildCount() > (index + 1)) {
+        if (fallBackTarget.getChildAt(index + 1) instanceof BlockView) {
+          BlockView blockView = (BlockView) fallBackTarget.getChildAt(index + 1);
           if (blockView.preview(x, y, draggingBlock.getBlockModel())) {
             isPreviewConsumed = true;
           }
@@ -388,7 +480,7 @@ public class EventEditor extends RelativeLayout {
 
     if (!isPreviewConsumed
         && draggingBlock.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
-      binding.canva.attachedBlockLayout.addView(blockPreview, index);
+      fallBackTarget.addView(blockPreview, index);
     }
   }
 
