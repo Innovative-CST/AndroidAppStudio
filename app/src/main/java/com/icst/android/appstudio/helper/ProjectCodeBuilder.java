@@ -33,6 +33,7 @@ package com.icst.android.appstudio.helper;
 
 import android.code.editor.common.utils.FileUtils;
 import com.icst.android.appstudio.block.model.FileModel;
+import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
@@ -196,6 +197,20 @@ public final class ProjectCodeBuilder {
      * Generate Java Files *
      ***********************/
 
+    if (listener != null) {
+      listener.onBuildProgressLog("> Task " + module.module + ":generateJavaFiles");
+      listener.onBuildProgressLog("  Generating");
+    }
+
+    generateJavaFile(
+        module,
+        rebuild,
+        "",
+        new File(module.javaSourceDirectory, EnvironmentUtils.FILES),
+        module.javaSourceOutputDirectory,
+        listener,
+        cancelToken);
+
     // Yet be to done
 
     long endExectionTime = System.currentTimeMillis();
@@ -203,6 +218,143 @@ public final class ProjectCodeBuilder {
     if (listener != null) {
       listener.onBuildComplete(executionTime);
     }
+  }
+
+  public static void generateJavaFile(
+      ModuleModel module,
+      boolean rebuild,
+      String packageName,
+      File inputDir,
+      File outputDir,
+      ProjectCodeBuildListener listener,
+      ProjectCodeBuilderCancelToken cancelToken) {
+    if (!inputDir.exists()) {
+      return;
+    }
+
+    if (!outputDir.exists()) {
+      outputDir.mkdirs();
+    }
+
+    for (File files : new File(inputDir, getJavaDirectoryForPackage(packageName)).listFiles()) {
+
+      if (new File(files, EnvironmentUtils.FILE_MODEL).exists()) {
+        FileModel fileModel =
+            DeserializerUtils.deserialize(
+                new File(files, EnvironmentUtils.FILE_MODEL), FileModel.class);
+
+        if (fileModel == null) {
+          return;
+        }
+
+        if (fileModel.isFolder()) {
+
+          new File(outputDir, getJavaOutputDirectoryForPackage(packageName)).mkdirs();
+
+          if (packageName.equals("")) {
+            generateJavaFile(
+                module,
+                rebuild,
+                fileModel.getFileName(),
+                inputDir,
+                outputDir,
+                listener,
+                cancelToken);
+          } else {
+            generateJavaFile(
+                module,
+                rebuild,
+                packageName.concat(".").concat(fileModel.getFileName()),
+                inputDir,
+                outputDir,
+                listener,
+                cancelToken);
+          }
+        }
+      } else if (new File(files, EnvironmentUtils.JAVA_FILE_MODEL).exists()) {
+
+        JavaFileModel javaFileModel =
+            DeserializerUtils.deserialize(
+                new File(files, EnvironmentUtils.JAVA_FILE_MODEL), JavaFileModel.class);
+
+        if (javaFileModel == null) {
+          return;
+        }
+
+        if (packageName.equals("")) {
+          if (listener != null) {
+            listener.onBuildProgressLog("  " + javaFileModel.getFileName());
+          }
+        } else {
+          if (listener != null) {
+            listener.onBuildProgressLog(
+                "  " + packageName.concat(".") + javaFileModel.getFileName());
+          }
+        }
+
+        FileModelCodeHelper fileGenerator = new FileModelCodeHelper();
+
+        fileGenerator.setEventsDirectory(new File(files, EnvironmentUtils.EVENTS_DIR));
+        fileGenerator.setProjectRootDirectory(module.projectRootDirectory);
+        fileGenerator.setFileModel(javaFileModel);
+        String code =
+            fileGenerator.getCode(
+                packageName,
+                new File(files, EnvironmentUtils.VARIABLES),
+                new File(files, EnvironmentUtils.STATIC_VARIABLES));
+
+        FileUtils.writeFile(
+            new File(
+                    new File(outputDir, getJavaOutputDirectoryForPackage(packageName)),
+                    javaFileModel.getName())
+                .getAbsolutePath(),
+            code);
+      }
+    }
+  }
+
+  public static String getJavaDirectoryForPackage(String packageName) {
+
+    StringBuilder packagePath = new StringBuilder();
+
+    String[] packageBreakdown = packageName.split("\\.");
+    for (int i = 0; i < packageBreakdown.length; ++i) {
+      if (packageBreakdown[i].length() != 0) {
+        packagePath.append(packageBreakdown[i]);
+        packagePath.append(File.separator);
+        packagePath.append(EnvironmentUtils.FILES);
+        packagePath.append(File.separator);
+      }
+    }
+    if (packageName.length() != 0) {
+      if (packageBreakdown.length == 0) {
+        packagePath.append(packageName);
+        packagePath.append(File.separator);
+        packagePath.append(EnvironmentUtils.FILES);
+      }
+    }
+
+    return packagePath.toString();
+  }
+
+  public static String getJavaOutputDirectoryForPackage(String packageName) {
+
+    StringBuilder packagePath = new StringBuilder();
+
+    String[] packageBreakdown = packageName.split("\\.");
+    for (int i = 0; i < packageBreakdown.length; ++i) {
+      if (packageBreakdown[i].length() != 0) {
+        packagePath.append(packageBreakdown[i]);
+        packagePath.append(File.separator);
+      }
+    }
+    if (packageName.length() != 0) {
+      if (packageBreakdown.length == 0) {
+        packagePath.append(packageName);
+      }
+    }
+
+    return packagePath.toString();
   }
 
   public static void generateLayoutResources(

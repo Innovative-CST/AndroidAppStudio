@@ -100,10 +100,7 @@ public class ModuleModel implements Parcelable, Cloneable {
     return new File(
         new File(
             new File(
-                new File(
-                    EnvironmentUtils.getBuildDir(projectRootDirectory),
-                    EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module)
-                        .getAbsolutePath()),
+                EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module),
                 EnvironmentUtils.SOURCE_DIR),
             EnvironmentUtils.MAIN_DIR),
         EnvironmentUtils.JAVA_DIR);
