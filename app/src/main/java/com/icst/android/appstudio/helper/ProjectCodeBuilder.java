@@ -33,14 +33,13 @@ package com.icst.android.appstudio.helper;
 
 import android.code.editor.common.utils.FileUtils;
 import com.icst.android.appstudio.block.model.FileModel;
-import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.builder.JavaSourceBuilder;
+import com.icst.android.appstudio.builder.LayoutSourceBuilder;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -188,7 +187,7 @@ public final class ProjectCodeBuilder {
         if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
             .matcher(resFolders.get(position).getName())
             .matches()) {
-          generateLayoutResources(
+          LayoutSourceBuilder.generateLayoutResources(
               module, rebuild, resFolders.get(position).getName(), listener, cancelToken);
         }
       }
@@ -219,38 +218,13 @@ public final class ProjectCodeBuilder {
     }
   }
 
-  public static void generateLayoutResources(
-      ModuleModel module,
-      boolean rebuild,
-      String layoutDirName,
-      ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cancelToken) {
-    if (listener != null) {
-      listener.onBuildProgressLog(
-          "> Task " + module.module + ":generateLayoutsFile[" + layoutDirName + "]");
-    }
-
-    File layoutsDir =
-        new File(
-            new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirName),
-            EnvironmentUtils.FILES);
-    if (!layoutsDir.exists()) return;
-
-    for (File layoutFile : layoutsDir.listFiles()) {
-      LayoutModel layout = DeserializerUtils.deserialize(layoutFile, LayoutModel.class);
-      if (layout == null) {
-        continue;
-      }
-
-      FileUtils.writeFile(
-          new File(
-                  new File(module.resourceOutputDirectory, layoutDirName),
-                  layout.getLayoutName().concat(".xml"))
-              .getAbsolutePath(),
-          layout.getCode());
-    }
-  }
-
+  /*
+   * Delete the directory or files
+   * Parameters:
+   * @File file: Directory or file to delete.
+   * @ProjectCodeBuildListener: listener: Listener for progress listener.
+   * ProjectCodeBuilderCancelToken cancelToken: A cancel token to stop ongoing process.
+   */
   private static boolean cleanFile(
       File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
     if (!file.exists()) {
