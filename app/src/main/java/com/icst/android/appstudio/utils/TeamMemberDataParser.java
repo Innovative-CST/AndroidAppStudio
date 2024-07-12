@@ -52,6 +52,15 @@ public class TeamMemberDataParser {
         member.setProfilePhotoUrl(memberData.getString("avatar_url"));
         member.setDescription(memberData.getString("contributions").concat(" commits"));
         member.setId(memberData.getLong("id"));
+
+        SocialProfile gitProfile = new SocialProfile();
+        gitProfile.setPlatformName("GitHub");
+        gitProfile.setPlatformIconUrl(
+            "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0");
+        gitProfile.setUrl("https://github.com/".concat(memberData.getString("login")));
+        ArrayList<SocialProfile> profiles = new ArrayList<SocialProfile>();
+        profiles.add(gitProfile);
+        member.setSocialProfiles(profiles);
         teamMembers.add(member);
       }
 
@@ -81,7 +90,11 @@ public class TeamMemberDataParser {
 
               if (!contributorsAdditionalObject.getJSONObject(memberCount).isNull("Social")) {
 
-                ArrayList<SocialProfile> profiles = new ArrayList<SocialProfile>();
+                ArrayList<SocialProfile> profiles = member.getSocialProfiles();
+
+                if (profiles == null) {
+                  profiles = new ArrayList<SocialProfile>();
+                }
 
                 for (int socialProfileCount = 0;
                     socialProfileCount
