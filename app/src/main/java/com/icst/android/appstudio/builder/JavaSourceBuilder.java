@@ -43,14 +43,23 @@ import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 
 public class JavaSourceBuilder {
-  public static void generateJavaFile(
-      ModuleModel module,
-      boolean rebuild,
-      String packageName,
-      File inputDir,
-      File outputDir,
-      ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cancelToken) {
+  private ModuleModel module;
+  private boolean rebuild;
+  private String packageName;
+  private File inputDir;
+  private File outputDir;
+  private ProjectCodeBuildListener listener;
+  private ProjectCodeBuilderCancelToken cancelToken;
+
+  public void build() {
+
+    if (module == null || packageName == null || inputDir == null || outputDir == null) {
+      if (listener != null) {
+        listener.onBuildProgressLog("Null values are passed to JavaSourceBuilder");
+      }
+      return;
+    }
+
     if (!inputDir.exists()) {
       return;
     }
@@ -75,23 +84,29 @@ public class JavaSourceBuilder {
           new File(outputDir, getJavaOutputDirectoryForPackage(packageName)).mkdirs();
 
           if (packageName.equals("")) {
-            generateJavaFile(
-                module,
-                rebuild,
-                fileModel.getFileName(),
-                inputDir,
-                outputDir,
-                listener,
-                cancelToken);
+
+            JavaSourceBuilder mainJavaSrcBuilder = new JavaSourceBuilder();
+            mainJavaSrcBuilder.setModule(module);
+            mainJavaSrcBuilder.setRebuild(rebuild);
+            mainJavaSrcBuilder.setPackageName(fileModel.getFileName());
+            mainJavaSrcBuilder.setInputDir(inputDir);
+            mainJavaSrcBuilder.setOutputDir(outputDir);
+            mainJavaSrcBuilder.setListener(listener);
+            mainJavaSrcBuilder.setCancelToken(cancelToken);
+            mainJavaSrcBuilder.build();
+
           } else {
-            generateJavaFile(
-                module,
-                rebuild,
-                packageName.concat(".").concat(fileModel.getFileName()),
-                inputDir,
-                outputDir,
-                listener,
-                cancelToken);
+
+            JavaSourceBuilder mainJavaSrcBuilder = new JavaSourceBuilder();
+            mainJavaSrcBuilder.setModule(module);
+            mainJavaSrcBuilder.setRebuild(rebuild);
+            mainJavaSrcBuilder.setPackageName(
+                packageName.concat(".").concat(fileModel.getFileName()));
+            mainJavaSrcBuilder.setInputDir(inputDir);
+            mainJavaSrcBuilder.setOutputDir(outputDir);
+            mainJavaSrcBuilder.setListener(listener);
+            mainJavaSrcBuilder.setCancelToken(cancelToken);
+            mainJavaSrcBuilder.build();
           }
         }
       } else if (new File(files, EnvironmentUtils.JAVA_FILE_MODEL).exists()) {
@@ -178,5 +193,61 @@ public class JavaSourceBuilder {
     }
 
     return packagePath.toString();
+  }
+
+  public ModuleModel getModule() {
+    return this.module;
+  }
+
+  public void setModule(ModuleModel module) {
+    this.module = module;
+  }
+
+  public boolean getRebuild() {
+    return this.rebuild;
+  }
+
+  public void setRebuild(boolean rebuild) {
+    this.rebuild = rebuild;
+  }
+
+  public String getPackageName() {
+    return this.packageName;
+  }
+
+  public void setPackageName(String packageName) {
+    this.packageName = packageName;
+  }
+
+  public File getInputDir() {
+    return this.inputDir;
+  }
+
+  public void setInputDir(File inputDir) {
+    this.inputDir = inputDir;
+  }
+
+  public File getOutputDir() {
+    return this.outputDir;
+  }
+
+  public void setOutputDir(File outputDir) {
+    this.outputDir = outputDir;
+  }
+
+  public ProjectCodeBuildListener getListener() {
+    return this.listener;
+  }
+
+  public void setListener(ProjectCodeBuildListener listener) {
+    this.listener = listener;
+  }
+
+  public ProjectCodeBuilderCancelToken getCancelToken() {
+    return this.cancelToken;
+  }
+
+  public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
+    this.cancelToken = cancelToken;
   }
 }

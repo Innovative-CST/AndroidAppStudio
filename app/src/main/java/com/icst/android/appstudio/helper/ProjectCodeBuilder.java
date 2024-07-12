@@ -199,17 +199,17 @@ public final class ProjectCodeBuilder {
 
     if (listener != null) {
       listener.onBuildProgressLog("> Task " + module.module + ":generateJavaFiles");
-      listener.onBuildProgressLog("  Generating");
     }
 
-    JavaSourceBuilder.generateJavaFile(
-        module,
-        rebuild,
-        "",
-        new File(module.javaSourceDirectory, EnvironmentUtils.FILES),
-        module.javaSourceOutputDirectory,
-        listener,
-        cancelToken);
+    JavaSourceBuilder mainJavaSrcBuilder = new JavaSourceBuilder();
+    mainJavaSrcBuilder.setModule(module);
+    mainJavaSrcBuilder.setRebuild(rebuild);
+    mainJavaSrcBuilder.setPackageName("");
+    mainJavaSrcBuilder.setInputDir(new File(module.javaSourceDirectory, EnvironmentUtils.FILES));
+    mainJavaSrcBuilder.setOutputDir(module.javaSourceOutputDirectory);
+    mainJavaSrcBuilder.setListener(listener);
+    mainJavaSrcBuilder.setCancelToken(cancelToken);
+    mainJavaSrcBuilder.build();
 
     long endExectionTime = System.currentTimeMillis();
     long executionTime = endExectionTime - executionStartTime;
@@ -223,7 +223,7 @@ public final class ProjectCodeBuilder {
    * Parameters:
    * @File file: Directory or file to delete.
    * @ProjectCodeBuildListener: listener: Listener for progress listener.
-   * ProjectCodeBuilderCancelToken cancelToken: A cancel token to stop ongoing process.
+   * @ProjectCodeBuilderCancelToken cancelToken: A cancel token to stop ongoing process.
    */
   private static boolean cleanFile(
       File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
