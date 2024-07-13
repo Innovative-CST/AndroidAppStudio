@@ -36,7 +36,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
@@ -89,8 +88,7 @@ public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
       icon.setTint(
           ColorUtils.getColor(
               listitemView.getRoot().getContext(),
-              com.google.android.material.R.attr.colorOnSurface));
-      icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+              com.google.android.material.R.attr.colorOnSurfaceVariant));
     }
 
     listitemView.icon.setImageDrawable(icon);

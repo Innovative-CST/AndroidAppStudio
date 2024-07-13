@@ -37,7 +37,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
@@ -100,8 +99,8 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
     if (variables.get(position).getApplyColorFilter()) {
       icon.setTint(
           ColorUtils.getColor(
-              binding.getRoot().getContext(), com.google.android.material.R.attr.colorOnSurface));
-      icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+              binding.getRoot().getContext(),
+              com.google.android.material.R.attr.colorOnSurfaceVariant));
     }
 
     binding.representation.setImageDrawable(icon);
