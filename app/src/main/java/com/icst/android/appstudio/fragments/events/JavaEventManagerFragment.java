@@ -36,8 +36,6 @@ import android.code.editor.common.utils.ColorUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -294,8 +292,8 @@ public class JavaEventManagerFragment extends Fragment {
             icon.setTint(
                 ColorUtils.getColor(
                     getActivity(), com.google.android.material.R.attr.colorOnSurfaceVariant));
-            binding.icon.setImageDrawable(icon);
           }
+          binding.icon.setImageDrawable(icon);
         }
         binding.cardView.setOnClickListener(
             v -> {
