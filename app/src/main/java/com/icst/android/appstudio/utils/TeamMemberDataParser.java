@@ -146,6 +146,52 @@ public class TeamMemberDataParser {
               }
             }
           }
+        } else {
+          JSONObject nonGitContributor = contributorsAdditionalObject.getJSONObject(memberCount);
+          TeamMember member = new TeamMember();
+          member.setName(nonGitContributor.getString("name"));
+          member.setProfilePhotoUrl(nonGitContributor.getString("avatar_url"));
+          member.setDescription(nonGitContributor.getString("decription"));
+
+          ArrayList<SocialProfile> profiles = new ArrayList<SocialProfile>();
+          for (int socialProfileCount = 0;
+              socialProfileCount < nonGitContributor.getJSONArray("Social").length();
+              ++socialProfileCount) {
+            SocialProfile profile = new SocialProfile();
+            if (!nonGitContributor
+                .getJSONArray("Social")
+                .getJSONObject(socialProfileCount)
+                .isNull("platformName")) {
+              profile.setPlatformName(
+                  nonGitContributor
+                      .getJSONArray("Social")
+                      .getJSONObject(socialProfileCount)
+                      .getString("platformName"));
+            }
+            if (!nonGitContributor
+                .getJSONArray("Social")
+                .getJSONObject(socialProfileCount)
+                .isNull("url")) {
+              profile.setUrl(
+                  nonGitContributor
+                      .getJSONArray("Social")
+                      .getJSONObject(socialProfileCount)
+                      .getString("url"));
+            }
+            if (!nonGitContributor
+                .getJSONArray("Social")
+                .getJSONObject(socialProfileCount)
+                .isNull("platformIconUrl")) {
+              profile.setPlatformIconUrl(
+                  nonGitContributor
+                      .getJSONArray("Social")
+                      .getJSONObject(socialProfileCount)
+                      .getString("platformIconUrl"));
+            }
+            profiles.add(profile);
+          }
+          member.setSocialProfiles(profiles);
+          teamMembers.add(member);
         }
       }
     } catch (JSONException e) {
