@@ -41,12 +41,21 @@ import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
 
 public class LayoutSourceBuilder {
-  public static void generateLayoutResources(
-      ModuleModel module,
-      boolean rebuild,
-      String layoutDirName,
-      ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cancelToken) {
+  private ModuleModel module;
+  private boolean rebuild;
+  private String layoutDirName;
+  private ProjectCodeBuildListener listener;
+  private ProjectCodeBuilderCancelToken cancelToken;
+
+  public void build() {
+
+    if (module == null || layoutDirName == null) {
+      if (listener != null) {
+        listener.onBuildProgressLog("Null values are passed to LayoutSourceBuilder");
+      }
+      return;
+    }
+
     if (listener != null) {
       listener.onBuildProgressLog(
           "> Task " + module.module + ":generateLayoutsFile[" + layoutDirName + "]");
@@ -71,5 +80,45 @@ public class LayoutSourceBuilder {
               .getAbsolutePath(),
           layout.getCode());
     }
+  }
+
+  public ModuleModel getModule() {
+    return this.module;
+  }
+
+  public void setModule(ModuleModel module) {
+    this.module = module;
+  }
+
+  public boolean getRebuild() {
+    return this.rebuild;
+  }
+
+  public void setRebuild(boolean rebuild) {
+    this.rebuild = rebuild;
+  }
+
+  public String getLayoutDirName() {
+    return this.layoutDirName;
+  }
+
+  public void setLayoutDirName(String layoutDirName) {
+    this.layoutDirName = layoutDirName;
+  }
+
+  public ProjectCodeBuildListener getListener() {
+    return this.listener;
+  }
+
+  public void setListener(ProjectCodeBuildListener listener) {
+    this.listener = listener;
+  }
+
+  public ProjectCodeBuilderCancelToken getCancelToken() {
+    return this.cancelToken;
+  }
+
+  public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
+    this.cancelToken = cancelToken;
   }
 }

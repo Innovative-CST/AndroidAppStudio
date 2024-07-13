@@ -187,8 +187,13 @@ public final class ProjectCodeBuilder {
         if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
             .matcher(resFolders.get(position).getName())
             .matches()) {
-          LayoutSourceBuilder.generateLayoutResources(
-              module, rebuild, resFolders.get(position).getName(), listener, cancelToken);
+          LayoutSourceBuilder resMainSourceBuilder = new LayoutSourceBuilder();
+          resMainSourceBuilder.setModule(module);
+          resMainSourceBuilder.setRebuild(rebuild);
+          resMainSourceBuilder.setLayoutDirName(resFolders.get(position).getName());
+          resMainSourceBuilder.setListener(listener);
+          resMainSourceBuilder.setCancelToken(cancelToken);
+          resMainSourceBuilder.build();
         }
       }
     }
