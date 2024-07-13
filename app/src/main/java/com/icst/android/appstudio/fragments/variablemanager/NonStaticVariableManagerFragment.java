@@ -136,7 +136,8 @@ public class NonStaticVariableManagerFragment extends Fragment {
       variables = new ArrayList<VariableModel>();
     }
     if (variables.size() > 0) {
-      binding.list.setAdapter(new VariableListAdapter(variables));
+      binding.list.setAdapter(
+          new VariableListAdapter(variables, this, module, packageName, className));
       binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
       switchSection(LIST_SECTION);
     } else {

@@ -74,6 +74,10 @@ public class EditVariableDialog extends MaterialAlertDialogBuilder {
         DialogEditVariableBinding.inflate(LayoutInflater.from(context));
     setView(binding.getRoot());
 
+    if (variable.getVariableName() != null) {
+      binding.variableName.setText(variable.getVariableName());
+    }
+
     if (variable.getVariableTitle() != null) {
       binding.title.setText(variable.getVariableTitle());
     }
@@ -90,7 +94,13 @@ public class EditVariableDialog extends MaterialAlertDialogBuilder {
               binding.getRoot().getContext()));
     }
 
-    binding.initVarCheckbox.setChecked(true);
+    if (variable.getIsInitializedGlobally()) {
+      binding.initVarCheckbox.setChecked(true);
+      binding.fields.setVisibility(View.VISIBLE);
+    } else {
+      binding.initVarCheckbox.setChecked(false);
+      binding.fields.setVisibility(View.GONE);
+    }
     binding.initVarCheckbox.setOnCheckedChangeListener(
         (button, state) -> {
           if (state) {
@@ -137,6 +147,14 @@ public class EditVariableDialog extends MaterialAlertDialogBuilder {
             InputTypes.fromInt(variable.getInputType().get(key)));
         inputEdittext.mInputTypeValidatorEditText.setTag(key);
         inputEdittext.mTextInputLayout.setHint(variable.getVariableTitles().get(key));
+
+        if (variable.getVariableValues() != null) {
+          if (variable.getVariableValues().get(key) != null) {
+            inputEdittext.mInputTypeValidatorEditText.setText(
+                variable.getVariableValues().get(key));
+          }
+        }
+
         binding.fields.addView(inputEdittext.getRoot());
         variablesInputEditText.add(inputEdittext.mInputTypeValidatorEditText);
       }

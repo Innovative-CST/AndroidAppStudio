@@ -43,16 +43,37 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import com.icst.android.appstudio.block.dialog.variables.EditVariableDialog;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.databinding.AdapterVariableBinding;
+import com.icst.android.appstudio.fragments.variablemanager.NonStaticVariableManagerFragment;
+import com.icst.android.appstudio.fragments.variablemanager.StaticVariableManagerFragment;
+import com.icst.android.appstudio.models.ModuleModel;
+import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.utils.serialization.SerializerUtil;
+import java.io.File;
 import java.util.ArrayList;
 
 public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapter.ViewHolder> {
   private ArrayList<VariableModel> variables;
+  private Fragment fragment;
+  private ModuleModel module;
+  private String packageName;
+  private String className;
 
-  public VariableListAdapter(ArrayList<VariableModel> variables) {
+  public VariableListAdapter(
+      ArrayList<VariableModel> variables,
+      Fragment fragment,
+      ModuleModel module,
+      String packageName,
+      String className) {
     this.variables = variables;
+    this.fragment = fragment;
+    this.module = module;
+    this.packageName = packageName;
+    this.className = className;
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
@@ -104,7 +125,42 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
     }
 
     binding.representation.setImageDrawable(icon);
-    binding.getRoot().setOnClickListener(v -> {});
+    binding
+        .getRoot()
+        .setOnClickListener(
+            v -> {
+              EditVariableDialog updateVar =
+                  new EditVariableDialog(fragment.getActivity(), variables.get(position)) {
+                    @Override
+                    public void onVariableModified(VariableModel variable) {
+                      variables.set(position, variable);
+                      SerializerUtil.serialize(
+                          variables,
+                          new File(
+                              new File(
+                                  EnvironmentUtils.getJavaDirectory(module, packageName),
+                                  className.concat(".java")),
+                              EnvironmentUtils.VARIABLES),
+                          new SerializerUtil.SerializerCompletionListener() {
+
+                            @Override
+                            public void onSerializeComplete() {}
+
+                            @Override
+                            public void onFailedToSerialize(Exception exception) {}
+                          });
+                      if (fragment
+                          instanceof
+                          NonStaticVariableManagerFragment
+                          nonStaticVariableManagerFragment) {
+                        nonStaticVariableManagerFragment.loadList();
+                      } else if (fragment
+                          instanceof StaticVariableManagerFragment staticVariableManagerFragment) {
+                        staticVariableManagerFragment.loadList();
+                      }
+                    }
+                  };
+            });
   }
 
   private Bitmap textToBitmap(String text, int textSize, int textColor, Context context) {
