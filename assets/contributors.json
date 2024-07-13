@@ -18,44 +18,9 @@
       "Tag": "Core Developer",
       "Social": [
         {
-          "platformName": "GitHub",
-          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
-          "url": "https://github.com/DevAnDroidCoder"
-        },
-        {
           "platformName": "Instagram",
           "platformIconUrl": "https://dl.dropbox.com/scl/fi/f5e38v0fx7vydxwqf965h/Instagram.png?rlkey=1j2asxafyb3892mnfftukhxna&dl=0",
           "url": "https://www.instagram.com/devkumar929294?igsh=ZnByaTl4MXdsYmMz"
-        }
-      ]
-    },
-    {
-      "id": 131598486,
-      "Social": [
-        {
-          "platformName": "GitHub",
-          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
-          "url": "https://github.com/CyberGlitch01"
-        }
-      ]
-    },
-    {
-      "id": 139035650,
-      "Social": [
-        {
-          "platformName": "GitHub",
-          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
-          "url": "https://github.com/krishandroiddev"
-        }
-      ]
-    },
-    {
-      "id": 149061095,
-      "Social": [
-        {
-          "platformName": "GitHub",
-          "platformIconUrl": "https://dl.dropbox.com/scl/fi/0xxmle6zxtg3714d04kt3/GitHub.png?rlkey=0jswbu2q9ac4s62z7icyzg5ko&dl=0",
-          "url": "https://github.com/krishandroiddev"
         }
       ]
     }
