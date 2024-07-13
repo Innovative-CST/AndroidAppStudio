@@ -1,8 +1,18 @@
 {
   "Contributors": [
     {
-      ""
-    }
+      "name": "rooki_eplay",
+      "avatar_url": "https://instagram.fbek1-2.fna.fbcdn.net/v/t51.2885-19/429912855_6932612710197694_6826170518180335484_n.jpg?stp=dst-jpg_e0_s150x150&_nc_ht=instagram.fbek1-2.fna.fbcdn.net&_nc_cat=110&_nc_ohc=cQckJ4AiFXIQ7kNvgGnvGSu&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AYApC0FYS783K72RCDuUnuKIT-7q92KbEqWuX-djWNKM6g&oe=6697C47D&_nc_sid=8b3546",
+      "decription": "Helped to design UI better",
+      "Tag": "UI Designer",
+      "Social": [
+        {
+          "platformName": "Instagram",
+          "platformIconUrl": "https://dl.dropbox.com/scl/fi/f5e38v0fx7vydxwqf965h/Instagram.png?rlkey=1j2asxafyb3892mnfftukhxna&dl=0",
+          "url": "https://www.instagram.com/rooki_eplay"
+        }
+      ]
+    },
     {
       "id": 96680248,
       "Tag": "Core Developer",
