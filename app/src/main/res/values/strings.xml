@@ -54,5 +54,6 @@
     <string name="version_name">Version name</string>
     <string name="version_name_copied">Version name copied to clipboard</string>
     <string name="warning">Warning</string>
+	<string name="x">X</string>
     <string name="youtube">Youtube</string>
 </resources>

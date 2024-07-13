@@ -46,6 +46,11 @@
                 android:icon="@drawable/discord"
                 android:title="@string/discord"
                 app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/x"
+                android:icon="@drawable/ic_x"
+                android:title="@string/x"
+                app:showAsAction="ifRoom" />
         </menu>
     </item>
 </menu>

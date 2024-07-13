@@ -122,7 +122,7 @@ public class ProjectManagerActivity extends BaseActivity {
             appInfo.setClass(this, AboutAppActivity.class);
             startActivity(appInfo);
           }
-		  if (menuItem.getItemId() == R.id.extensions) {
+          if (menuItem.getItemId() == R.id.extensions) {
             Intent extension = new Intent();
             extension.setClass(this, ExtensionsManagerActivity.class);
             startActivity(extension);
@@ -144,6 +144,12 @@ public class ProjectManagerActivity extends BaseActivity {
             discord.setAction(Intent.ACTION_VIEW);
             discord.setData(Uri.parse(MyApplication.DISCORD));
             startActivity(discord);
+          }
+          if (menuItem.getItemId() == R.id.x) {
+            Intent x = new Intent();
+            x.setAction(Intent.ACTION_VIEW);
+            x.setData(Uri.parse(MyApplication.X));
+            startActivity(x);
           }
           if (menuItem.getItemId() == R.id.settings) {
             Intent settings = new Intent(ProjectManagerActivity.this, SettingActivity.class);

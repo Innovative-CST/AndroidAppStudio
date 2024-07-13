@@ -55,6 +55,7 @@ public class MyApplication extends Application {
   public static final String YOUTUBE = "https://www.youtube.com/@Innovative-CST";
   public static final String DISCORD = "https://discord.com/invite/RM5qaZs4kd";
   public static final String INSTAGRAM = "https://www.instagram.com/innovative_cst";
+  public static final String X = "https://x.com/Innovative_cst";
   public static final String GITHUB_APP = "https://github.com/Innovative-CST/AndroidAppStudio";
   public static final String GITHUB_ORG = "https://github.com/Innovative-CST";
 
