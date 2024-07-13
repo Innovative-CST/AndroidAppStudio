@@ -93,6 +93,14 @@
             android:exported="true" />
 
         <activity
+            android:name="com.icst.android.appstudio.activities.manifest.AndroidManifestManager"
+            android:exported="true" />
+
+        <activity
+            android:name="com.icst.android.appstudio.activities.manifest.AttributesManagerActivity"
+            android:exported="true" />
+
+        <activity
             android:name="com.icst.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
             android:exported="true" />
 

@@ -4,72 +4,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_margin="8dp"
-        style="?attr/materialCardViewElevatedStyle"
-        android:layout_weight="1"
-        android:id="@+id/resourceEditor">
+        android:layout_width="match_parent">
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@drawable/ripple_on_color_surface"
-            android:padding="8dp"
-            android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:layout_weight="1"
+            android:id="@+id/resourceEditor">
 
-            <ImageView
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_xml"
-                android:padding="16dp"
-                android:tint="?attr/colorOnSurface" />
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:background="@drawable/ripple_on_color_surface"
+                android:padding="8dp"
+                android:orientation="vertical">
 
-            <TextView
+                <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_xml"
+                    android:padding="16dp"
+                    android:tint="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="Resources Manager" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:layout_weight="1"
+            android:id="@+id/programEditor">
+
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="?attr/colorOnSurface"
-                android:text="Resources Manager" />
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:background="@drawable/ripple_on_color_surface"
+                android:padding="8dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_java"
+                    android:padding="16dp"
+                    android:tint="?attr/colorOnSurface" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="Program Editor" />
 
-    <com.google.android.material.card.MaterialCardView
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_margin="8dp"
-        style="?attr/materialCardViewElevatedStyle"
-        android:layout_weight="1"
-        android:id="@+id/programEditor">
+        android:layout_width="match_parent">
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:background="@drawable/ripple_on_color_surface"
-            android:padding="8dp"
-            android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:layout_weight="1"
+            android:id="@+id/manifestEditor">
 
-            <ImageView
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_java"
-                android:padding="16dp"
-                android:tint="?attr/colorOnSurface" />
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:background="@drawable/ripple_on_color_surface"
+                android:padding="8dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="?attr/colorOnSurface"
-                android:text="Program Editor" />
+                <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_xml"
+                    android:padding="16dp"
+                    android:tint="?attr/colorOnSurface" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="Manifest" />
 
-    </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
 </LinearLayout>

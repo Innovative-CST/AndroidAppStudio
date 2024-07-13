@@ -40,6 +40,7 @@ import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.EventsActivity;
 import com.icst.android.appstudio.activities.JavaFileManagerActivity;
 import com.icst.android.appstudio.activities.ModulesActivity;
+import com.icst.android.appstudio.activities.manifest.AndroidManifestManager;
 import com.icst.android.appstudio.activities.resourcemanager.ResourceManagerActivity;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.databinding.AdapterFileModelListItemBinding;
@@ -177,6 +178,14 @@ public class GradleFileModelListAdapter
             resourceManager.putExtra(
                 "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
             modulesActivity.startActivity(resourceManager);
+          });
+      binding.manifestEditor.setOnClickListener(
+          v -> {
+            Intent manifestEditor = new Intent(modulesActivity, AndroidManifestManager.class);
+            manifestEditor.putExtra("module", modulesActivity.module);
+            manifestEditor.putExtra(
+                "projectRootDirectory", modulesActivity.projectRootDirectory.getAbsolutePath());
+            modulesActivity.startActivity(manifestEditor);
           });
     }
   }
