@@ -33,13 +33,11 @@ package com.icst.android.appstudio.adapters;
 
 import android.code.editor.common.utils.ColorUtils;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.databinding.AdapterEventAddBinding;
@@ -87,8 +85,8 @@ public class AddEventsAdapter extends RecyclerView.Adapter<AddEventsAdapter.View
         if (event.getApplyColorFilter()) {
           icon.setTint(
               ColorUtils.getColor(
-                  binding.getRoot().getContext(), com.google.android.material.R.attr.colorPrimary));
-          icon.setTintMode(PorterDuff.Mode.MULTIPLY);
+                  binding.getRoot().getContext(),
+                  com.google.android.material.R.attr.colorOnSurfaceVariant));
         }
         binding.icon.setImageDrawable(icon);
       }
