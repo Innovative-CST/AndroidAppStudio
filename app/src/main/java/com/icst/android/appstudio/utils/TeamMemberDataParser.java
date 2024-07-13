@@ -150,6 +150,9 @@ public class TeamMemberDataParser {
           JSONObject nonGitContributor = contributorsAdditionalObject.getJSONObject(memberCount);
           TeamMember member = new TeamMember();
           member.setName(nonGitContributor.getString("name"));
+          if (!nonGitContributor.isNull("Tag")) {
+            member.setTag(nonGitContributor.getString("Tag"));
+          }
           member.setProfilePhotoUrl(nonGitContributor.getString("avatar_url"));
           member.setDescription(nonGitContributor.getString("decription"));
 
