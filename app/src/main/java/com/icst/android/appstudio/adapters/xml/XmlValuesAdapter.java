@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.icst.android.appstudio.activities.manifest.AttributesManagerActivity;
 import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
+import com.icst.android.appstudio.bottomsheet.XmlElementOperationBottomSheet;
 import com.icst.android.appstudio.databinding.AdapterXmlAttributeBinding;
 import com.icst.android.appstudio.databinding.AdapterXmlElementBinding;
 import com.icst.android.appstudio.xml.XmlAttributeModel;
@@ -155,6 +156,43 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
                   }
                   activity.position = arrPos;
                   activity.changesCallback.launch(attributes);
+                });
+
+        binding
+            .getRoot()
+            .setOnLongClickListener(
+                v -> {
+                  int arrPos = position;
+                  if (xml.getAttributes() != null) {
+                    arrPos = position - xml.getAttributes().size();
+                  }
+                  XmlElementOperationBottomSheet sheet =
+                      new XmlElementOperationBottomSheet(
+                          activity,
+                          new XmlElementOperationBottomSheet.XmlElementOperation() {
+                            @Override
+                            public void onDelete() {
+                              int arrPosition = position;
+                              if (xml.getAttributes() != null) {
+                                arrPosition = position - xml.getAttributes().size();
+                              }
+                              xml.getChildren().remove(arrPosition);
+                              activity.load();
+                            }
+
+                            @Override
+                            public void onModify(XmlModel xmlModel) {
+                              int arrPosition = position;
+                              if (xml.getAttributes() != null) {
+                                arrPosition = position - xml.getAttributes().size();
+                              }
+                              xml.getChildren().set(arrPosition, xmlModel);
+                              activity.load();
+                            }
+                          },
+                          xml.getChildren().get(arrPos));
+                  sheet.show();
+                  return true;
                 });
       }
     }
