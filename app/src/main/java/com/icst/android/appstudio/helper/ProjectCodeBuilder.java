@@ -33,6 +33,7 @@ package com.icst.android.appstudio.helper;
 
 import android.code.editor.common.utils.FileUtils;
 import com.icst.android.appstudio.block.model.FileModel;
+import com.icst.android.appstudio.builder.AndroidManifestBuilder;
 import com.icst.android.appstudio.builder.JavaSourceBuilder;
 import com.icst.android.appstudio.builder.LayoutSourceBuilder;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
@@ -159,6 +160,21 @@ public final class ProjectCodeBuilder {
             gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
       }
     }
+
+    /**************************
+     * Generate Manifest File *
+     **************************/
+
+    if (listener != null) {
+      listener.onBuildProgressLog("> Task " + module.module + ":generateAndroidManifestFile");
+    }
+
+    AndroidManifestBuilder manifestBuilder = new AndroidManifestBuilder();
+    manifestBuilder.setModule(module);
+    manifestBuilder.setRebuild(rebuild);
+    manifestBuilder.setListener(listener);
+    manifestBuilder.setCancelToken(cancelToken);
+    manifestBuilder.build();
 
     /*****************************
      * Generate Resource Folders *
