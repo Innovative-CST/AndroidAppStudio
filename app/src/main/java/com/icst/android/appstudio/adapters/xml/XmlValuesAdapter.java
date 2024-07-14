@@ -36,8 +36,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.icst.android.appstudio.activities.manifest.AttributesManagerActivity;
+import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
 import com.icst.android.appstudio.databinding.AdapterXmlAttributeBinding;
 import com.icst.android.appstudio.databinding.AdapterXmlElementBinding;
+import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
 import java.util.ArrayList;
 
@@ -90,6 +92,27 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
             "=\""
                 .concat(String.valueOf(xml.getAttributes().get(position).getAttributeValue()))
                 .concat("\""));
+        binding.getRoot().setOnClickListener(
+            v -> {
+              XmlAttributeOperationBottomSheet sheet =
+                  new XmlAttributeOperationBottomSheet(
+                      activity,
+                      new XmlAttributeOperationBottomSheet.XmlAttributeOperation() {
+                        @Override
+                        public void onDeleteAttribute() {
+                          xml.getAttributes().remove(position);
+                          activity.load();
+                        }
+
+                        @Override
+                        public void onModifyAttribute(XmlAttributeModel xmlAttributeModel) {
+                          xml.getAttributes().set(position, xmlAttributeModel);
+                          activity.load();
+                        }
+                      },
+                      xml.getAttributes().get(position));
+              sheet.show();
+            });
       }
     } else {
       int pos = position;
