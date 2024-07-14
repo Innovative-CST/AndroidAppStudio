@@ -34,13 +34,18 @@ package com.icst.android.appstudio.activities.manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.adapters.xml.XmlValuesAdapter;
+import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
 import com.icst.android.appstudio.databinding.ActivityAttributeManagerBinding;
+import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
+import java.util.ArrayList;
 
 public class AttributesManagerActivity extends BaseActivity {
 
@@ -87,6 +92,44 @@ public class AttributesManagerActivity extends BaseActivity {
     Intent result = new Intent();
     result.putExtra("xmlModel", adapter.getXml());
     setResult(RESULT_OK, result);
-	finish();
+    finish();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    getMenuInflater().inflate(R.menu.activity_menu_xml_attribute, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem menuItem) {
+    if (menuItem.getItemId() == R.id.new_attribute) {
+      XmlAttributeOperationBottomSheet sheet =
+          new XmlAttributeOperationBottomSheet(
+              this,
+              new XmlAttributeOperationBottomSheet.XmlAttributeOperation() {
+                @Override
+                public void onDeleteAttribute() {
+                  load();
+                }
+
+                @Override
+                public void onModifyAttribute(XmlAttributeModel xmlAttributeModel) {
+                  if (xmlModel.getAttributes() != null) {
+                    xmlModel.getAttributes().add(xmlAttributeModel);
+                  } else {
+                    ArrayList<XmlAttributeModel> attrs = new ArrayList<XmlAttributeModel>();
+                    attrs.add(xmlAttributeModel);
+                    xmlModel.setAttributes(attrs);
+                  }
+
+                  load();
+                }
+              },
+              null);
+      sheet.show();
+    }
+    return super.onOptionsItemSelected(menuItem);
   }
 }
