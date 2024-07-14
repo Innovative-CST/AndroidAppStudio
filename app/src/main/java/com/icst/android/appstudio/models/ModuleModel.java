@@ -50,6 +50,8 @@ public class ModuleModel implements Parcelable, Cloneable {
   public File resourceOutputDirectory;
   public File gradleFileDirectory;
   public File gradleOutputFile;
+  public File manifestFile;
+  public File manifestOutputFile;
 
   public ModuleModel() {}
 
@@ -64,6 +66,8 @@ public class ModuleModel implements Parcelable, Cloneable {
     resourceOutputDirectory = new File(in.readString());
     gradleFileDirectory = new File(in.readString());
     gradleOutputFile = new File(in.readString());
+    manifestFile = new File(in.readString());
+    manifestOutputFile = new File(in.readString());
   }
 
   public void init(String module, File projectRootDirectory) {
@@ -80,6 +84,33 @@ public class ModuleModel implements Parcelable, Cloneable {
 
     gradleFileDirectory = getGradleFileDirectory();
     gradleOutputFile = getGradleOutputDirectory();
+
+    manifestFile = getManifestFile();
+	manifestOutputFile = getManifestOutputFile();
+  }
+
+  private File getManifestFile() {
+    return new File(
+        new File(
+            new File(
+                new File(
+                    new File(
+                        new File(moduleDirectory, EnvironmentUtils.FILES),
+                        EnvironmentUtils.SOURCE_DIR),
+                    EnvironmentUtils.FILES),
+                EnvironmentUtils.MAIN_DIR),
+            EnvironmentUtils.FILES),
+        EnvironmentUtils.MANIFEST);
+  }
+
+  private File getManifestOutputFile() {
+    return new File(
+        new File(
+            new File(
+                EnvironmentUtils.getModuleOutputDirectory(projectRootDirectory, module),
+                EnvironmentUtils.SOURCE_DIR),
+            EnvironmentUtils.MAIN_DIR),
+        EnvironmentUtils.MANIFEST);
   }
 
   private File getJavaDirectory() {
@@ -161,6 +192,8 @@ public class ModuleModel implements Parcelable, Cloneable {
     dest.writeString(resourceOutputDirectory.getAbsolutePath());
     dest.writeString(gradleFileDirectory.getAbsolutePath());
     dest.writeString(gradleOutputFile.getAbsolutePath());
+    dest.writeString(manifestFile.getAbsolutePath());
+    dest.writeString(manifestOutputFile.getAbsolutePath());
   }
 
   public static final Creator<ModuleModel> CREATOR =

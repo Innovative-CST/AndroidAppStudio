@@ -32,16 +32,26 @@
 package com.icst.android.appstudio.activities.manifest;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.ActivityAndroidManifestManagerBinding;
 import com.icst.android.appstudio.models.ModuleModel;
+import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
+import com.icst.android.appstudio.utils.serialization.SerializerUtil;
+import com.icst.android.appstudio.xml.XmlModel;
+import java.io.File;
 
 public class AndroidManifestManager extends BaseActivity {
 
   private ActivityAndroidManifestManagerBinding binding;
+  private ModuleModel module;
+  private XmlModel manifest;
+  private ActivityResultLauncher<Intent> applicationChangesCallback;
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -50,26 +60,71 @@ public class AndroidManifestManager extends BaseActivity {
     binding = ActivityAndroidManifestManagerBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.settings);
+    binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
+    module = new ModuleModel();
+    module.init(
+        getIntent().getStringExtra("module"),
+        new File(getIntent().getStringExtra("projectRootDirectory")));
+
+    manifest = DeserializerUtils.deserialize(module.manifestFile, XmlModel.class);
+
+    applicationChangesCallback =
+        registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+              @Override
+              public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == RESULT_OK) {
+                  Intent intent = result.getData();
+
+                  if (manifest != null) {
+                    if (manifest.getChildren() != null) {
+                      for (int i = 0; i < manifest.getChildren().size(); ++i) {
+                        if (manifest.getChildren().get(i).getName().equals("application")) {
+                          manifest
+                              .getChildren()
+                              .set(i, (XmlModel) intent.getSerializableExtra("xmlModel"));
+                          SerializerUtil.serialize(
+                              manifest,
+                              module.manifestFile,
+                              new SerializerUtil.SerializerCompletionListener() {
+                                @Override
+                                public void onFailedToSerialize(Exception exception) {}
+
+                                @Override
+                                public void onSerializeComplete() {}
+                              });
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            });
+
     binding.application.setOnClickListener(
         (v) -> {
-          ModuleModel module = null;
           Intent application =
               new Intent(AndroidManifestManager.this, AttributesManagerActivity.class);
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            module = getIntent().getParcelableExtra("module", ModuleModel.class);
-          } else {
-            module = (ModuleModel) getIntent().getParcelableExtra("module");
-          }
           application.putExtra("module", module);
-          application.putExtra(
-              "projectRootDirectory", getIntent().getStringExtra("projectRootDirectory"));
-          startActivity(application);
+
+          if (manifest != null) {
+            if (manifest.getChildren() != null) {
+              for (int i = 0; i < manifest.getChildren().size(); ++i) {
+                if (manifest.getChildren().get(i).getName().equals("application")) {
+                  application.putExtra("xmlModel", manifest.getChildren().get(i));
+                  application.putExtra("tag", "android:name");
+                }
+              }
+            }
+          }
+
+          applicationChangesCallback.launch(application);
         });
   }
 }

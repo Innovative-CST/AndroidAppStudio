@@ -34,6 +34,7 @@ package com.icst.android.appstudio.utils;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.builtin.filemodels.BuiltInGradleFileModel;
+import com.icst.android.appstudio.builtin.xml.BuiltInAndroidManifest;
 import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
@@ -175,6 +176,20 @@ public class GradleFileUtils {
           "mipmap-xxxhdpi"
         },
         resFilesDire);
+
+    if (!new File(mainFileDir, "AndroidManifest.xml").exists()) {
+
+      SerializerUtil.serialize(
+          BuiltInAndroidManifest.get("com"),
+          new File(mainFileDir, "AndroidManifest.xml"),
+          new SerializerUtil.SerializerCompletionListener() {
+            @Override
+            public void onSerializeComplete() {}
+
+            @Override
+            public void onFailedToSerialize(Exception exception) {}
+          });
+    }
   }
 
   public static void createGradleFilesIfDoNotExists(File projectRootDirectory) {

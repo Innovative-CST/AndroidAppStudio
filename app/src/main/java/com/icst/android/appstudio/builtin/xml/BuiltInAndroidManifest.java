@@ -29,64 +29,49 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.activities.manifest;
+package com.icst.android.appstudio.builtin.xml;
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.widget.Toast;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.activities.BaseActivity;
-import com.icst.android.appstudio.adapters.xml.XmlValuesAdapter;
-import com.icst.android.appstudio.databinding.ActivityAttributeManagerBinding;
+import com.icst.android.appstudio.models.ProjectModel;
+import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
+import java.util.ArrayList;
 
-public class AttributesManagerActivity extends BaseActivity {
+public class BuiltInAndroidManifest {
+  public static XmlModel get(String project) {
+    XmlModel manifest = new XmlModel();
 
-  private ActivityAttributeManagerBinding binding;
-  private XmlValuesAdapter adapter;
-  private XmlModel xmlModel;
+    manifest.setAddAndroidNameSpace(true);
+    manifest.setAddToolsNameSpace(true);
+    manifest.setId("manifest");
+    manifest.setName("manifest");
+    manifest.setRootElement(true);
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    ArrayList<XmlModel> manifestChilds = new ArrayList<XmlModel>();
 
-    binding = ActivityAttributeManagerBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
+    XmlModel application = new XmlModel();
+    application.setAddAndroidNameSpace(true);
+    application.setAddToolsNameSpace(true);
+    application.setId("application");
+    application.setName("application");
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    ArrayList<XmlAttributeModel> applicationAttr = new ArrayList<XmlAttributeModel>();
 
-    if (!getIntent().hasExtra("xmlModel")) {
-      Toast.makeText(this, "Error", 0).show();
-      finish();
-    } else {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        xmlModel = getIntent().getSerializableExtra("xmlModel", XmlModel.class);
-      } else {
-        xmlModel = (XmlModel) getIntent().getSerializableExtra("xmlModel");
-      }
+    XmlAttributeModel applicationName = new XmlAttributeModel();
+    applicationName.setAttribute("android:name");
+    applicationName.setAttributeValue(".MyApplication");
+    applicationAttr.add(applicationName);
 
-      load();
-    }
-  }
+    XmlAttributeModel applicationLabel = new XmlAttributeModel();
+    applicationLabel.setAttribute("android:label");
+    applicationLabel.setAttributeValue(project);
+    applicationAttr.add(applicationLabel);
 
-  public void load() {
-    adapter = new XmlValuesAdapter(xmlModel, getIntent().getStringExtra("tag"), this);
-    binding.listView.setAdapter(adapter);
-    binding.listView.setLayoutManager(new LinearLayoutManager(this));
-  }
+    application.setAttributes(applicationAttr);
 
-  @Override
-  public void onBackPressed() {
-    super.onBackPressed();
-    Intent result = new Intent();
-    result.putExtra("xmlModel", adapter.getXml());
-    setResult(RESULT_OK, result);
-	finish();
+    manifestChilds.add(application);
+
+    manifest.setChildren(manifestChilds);
+
+    return manifest;
   }
 }
