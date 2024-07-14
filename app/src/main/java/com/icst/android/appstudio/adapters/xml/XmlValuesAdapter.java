@@ -31,6 +31,7 @@
 
 package com.icst.android.appstudio.adapters.xml;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,6 @@ import com.icst.android.appstudio.databinding.AdapterXmlAttributeBinding;
 import com.icst.android.appstudio.databinding.AdapterXmlElementBinding;
 import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
-import java.util.ArrayList;
 
 public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.ViewHolder> {
   public class ViewHolder extends RecyclerView.ViewHolder {
@@ -92,27 +92,29 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
             "=\""
                 .concat(String.valueOf(xml.getAttributes().get(position).getAttributeValue()))
                 .concat("\""));
-        binding.getRoot().setOnClickListener(
-            v -> {
-              XmlAttributeOperationBottomSheet sheet =
-                  new XmlAttributeOperationBottomSheet(
-                      activity,
-                      new XmlAttributeOperationBottomSheet.XmlAttributeOperation() {
-                        @Override
-                        public void onDeleteAttribute() {
-                          xml.getAttributes().remove(position);
-                          activity.load();
-                        }
+        binding
+            .getRoot()
+            .setOnClickListener(
+                v -> {
+                  XmlAttributeOperationBottomSheet sheet =
+                      new XmlAttributeOperationBottomSheet(
+                          activity,
+                          new XmlAttributeOperationBottomSheet.XmlAttributeOperation() {
+                            @Override
+                            public void onDeleteAttribute() {
+                              xml.getAttributes().remove(position);
+                              activity.load();
+                            }
 
-                        @Override
-                        public void onModifyAttribute(XmlAttributeModel xmlAttributeModel) {
-                          xml.getAttributes().set(position, xmlAttributeModel);
-                          activity.load();
-                        }
-                      },
-                      xml.getAttributes().get(position));
-              sheet.show();
-            });
+                            @Override
+                            public void onModifyAttribute(XmlAttributeModel xmlAttributeModel) {
+                              xml.getAttributes().set(position, xmlAttributeModel);
+                              activity.load();
+                            }
+                          },
+                          xml.getAttributes().get(position));
+                  sheet.show();
+                });
       }
     } else {
       int pos = position;
@@ -133,6 +135,27 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
             }
           }
         }
+
+        binding
+            .getRoot()
+            .setOnClickListener(
+                v -> {
+                  int arrPos = position;
+                  if (xml.getAttributes() != null) {
+                    arrPos = position - xml.getAttributes().size();
+                  }
+                  Intent attributes = new Intent(activity, AttributesManagerActivity.class);
+
+                  if (xml.getChildren().get(arrPos).getName().equals("activity")) {
+                    attributes.putExtra("xmlModel", xml.getChildren().get(arrPos));
+                    attributes.putExtra("tag", "android:name");
+                  } else {
+                    attributes.putExtra("xmlModel", xml.getChildren().get(arrPos));
+                    attributes.putExtra("tag", "android:name");
+                  }
+                  activity.position = arrPos;
+                  activity.changesCallback.launch(attributes);
+                });
       }
     }
   }

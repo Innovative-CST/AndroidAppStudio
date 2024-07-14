@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingEnd="8dp"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingStart="8dp">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Element Name"
+        android:layout_margin="8dp"
+        android:id="@+id/elementNameTextInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/elementName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="8dp"
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/delete"
+                android:text="@string/delete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="8dp"
+                android:id="@+id/done"
+                android:text="@string/done" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

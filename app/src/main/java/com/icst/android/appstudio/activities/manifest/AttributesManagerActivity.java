@@ -37,11 +37,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.adapters.xml.XmlValuesAdapter;
 import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
+import com.icst.android.appstudio.bottomsheet.XmlElementOperationBottomSheet;
 import com.icst.android.appstudio.databinding.ActivityAttributeManagerBinding;
 import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
@@ -52,6 +57,8 @@ public class AttributesManagerActivity extends BaseActivity {
   private ActivityAttributeManagerBinding binding;
   private XmlValuesAdapter adapter;
   private XmlModel xmlModel;
+  public ActivityResultLauncher<Intent> changesCallback;
+  public int position;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +85,19 @@ public class AttributesManagerActivity extends BaseActivity {
 
       load();
     }
+
+    changesCallback =
+        registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+              @Override
+              public void onActivityResult(ActivityResult result) {
+                Intent intent = result.getData();
+                XmlModel xml = (XmlModel) intent.getSerializableExtra("xmlModel");
+                xmlModel.getChildren().set(position, xml);
+                load();
+              }
+            });
   }
 
   public void load() {
@@ -88,7 +108,6 @@ public class AttributesManagerActivity extends BaseActivity {
 
   @Override
   public void onBackPressed() {
-    super.onBackPressed();
     Intent result = new Intent();
     result.putExtra("xmlModel", adapter.getXml());
     setResult(RESULT_OK, result);
@@ -122,6 +141,31 @@ public class AttributesManagerActivity extends BaseActivity {
                     ArrayList<XmlAttributeModel> attrs = new ArrayList<XmlAttributeModel>();
                     attrs.add(xmlAttributeModel);
                     xmlModel.setAttributes(attrs);
+                  }
+
+                  load();
+                }
+              },
+              null);
+      sheet.show();
+    } else if (menuItem.getItemId() == R.id.new_element) {
+      XmlElementOperationBottomSheet sheet =
+          new XmlElementOperationBottomSheet(
+              this,
+              new XmlElementOperationBottomSheet.XmlElementOperation() {
+                @Override
+                public void onDelete() {
+                  load();
+                }
+
+                @Override
+                public void onModify(XmlModel xml) {
+                  if (xmlModel.getChildren() != null) {
+                    xmlModel.getChildren().add(xml);
+                  } else {
+                    ArrayList<XmlModel> childs = new ArrayList<XmlModel>();
+                    childs.add(xml);
+                    xmlModel.setChildren(childs);
                   }
 
                   load();
