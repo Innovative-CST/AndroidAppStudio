@@ -62,6 +62,9 @@ public final class BuiltInActivityFileModel {
     rawCode.append("\n\n");
     rawCode.append("\t");
     rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "variables"));
+    rawCode.append("\n\n");
+    rawCode.append("\t");
+    rawCode.append(RawCodeReplacer.getReplacer(javaClass.getReplacerKey(), "layoutVariables"));
     rawCode.append("\n");
     rawCode.append("\n");
     rawCode.append("\t");

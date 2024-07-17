@@ -32,7 +32,9 @@
 package com.icst.android.appstudio.block.model;
 
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
+import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +44,9 @@ public class VariableModel implements Serializable {
   public static final int ACCESS_MODIFIER_PRIVATE = 1;
   public static final int ACCESS_MODIFIER_PROTECTED = 2;
   public static final int ACCESS_MODIFIER_PUBLIC = 3;
+
+  public static final int VARIABLE = 0;
+  public static final int LAYOUT = 1;
 
   private int accessModifier;
   private String variableTitle;
@@ -62,6 +67,31 @@ public class VariableModel implements Serializable {
   private HashMap<String, String> variableTitles;
   private HashMap<String, String> variableValues;
   private HashMap<String, Integer> inputType;
+
+  public String getLayoutDefCode(LayoutModel layout) {
+    StringBuilder code = new StringBuilder();
+    int i = 0;
+    for (Map.Entry<String, String> entry : layout.getIdentifiableView().entrySet()) {
+      if (i != 0) {
+        code.append("\n");
+      }
+      String id = entry.getKey();
+      String viewName = entry.getValue();
+
+      VariableModel variable = new VariableModel();
+      variable.setAccessModifier(getAccessModifier());
+      variable.setVariableType(viewName);
+      variable.setNonFixedVariableName(
+          new String(getVariableName())
+              .concat("_")
+              .concat(RawCodeReplacer.getReplacer("variable", "variableName")));
+      variable.setVariableName(id);
+      code.append(variable.getDefCode());
+      i = i + 1;
+    }
+
+    return code.toString();
+  }
 
   @SuppressWarnings("deprecation")
   public VariableModel clone() {
@@ -155,6 +185,10 @@ public class VariableModel implements Serializable {
 
       if (getRequiredVariables().length > 0) {
         code.append("\n");
+      }
+
+      if (variableType == null) {
+        return code.toString();
       }
     }
 

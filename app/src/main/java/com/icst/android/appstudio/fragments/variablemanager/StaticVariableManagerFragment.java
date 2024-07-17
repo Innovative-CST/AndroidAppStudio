@@ -65,6 +65,8 @@ public class StaticVariableManagerFragment extends Fragment {
   private static final int LIST_SECTION = 1;
   private static final int INFO_SECTION = 2;
 
+  public StaticVariableManagerFragment() {}
+
   public StaticVariableManagerFragment(ModuleModel module, String packageName, String className) {
     this.module = module;
     this.packageName = packageName;
@@ -81,8 +83,36 @@ public class StaticVariableManagerFragment extends Fragment {
 
   @Override
   @MainThread
+  public void onSaveInstanceState(Bundle bundle) {
+    super.onSaveInstanceState(bundle);
+    bundle.putString("module", module.module);
+    bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+    bundle.putString("className", className);
+    bundle.putString("packageName", packageName);
+  }
+
+  @Override
+  @MainThread
   @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
+
+    if (savedInstanceState != null) {
+      module = new ModuleModel();
+      module.init(
+          savedInstanceState.getString("module"),
+          new File(savedInstanceState.getString("projectRootDirectory")));
+      className = savedInstanceState.getString("className");
+      packageName = savedInstanceState.getString("packageName");
+
+      file =
+          DeserializerUtils.deserialize(
+              new File(
+                  new File(
+                      EnvironmentUtils.getJavaDirectory(module, packageName),
+                      className.concat(".java")),
+                  EnvironmentUtils.JAVA_FILE_MODEL),
+              FileModel.class);
+    }
     binding = FragmentStaticVariableBinding.inflate(inflator);
     loadList();
     binding.fab.setOnClickListener(

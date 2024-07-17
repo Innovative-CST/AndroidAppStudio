@@ -35,6 +35,10 @@ import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
 import com.icst.android.appstudio.block.tag.ImportTag;
 import com.icst.android.appstudio.block.utils.ArrayUtils;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
+import com.icst.android.appstudio.vieweditor.models.LayoutModel;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,12 +51,15 @@ public class JavaFileModel extends FileModel implements Serializable {
   private String extendingClassImport;
   private String[] implementingInterface;
   private String[] implementingInterfaceImports;
+  private ArrayList<VariableModel> layouts;
+  private ArrayList<String> layoutsName;
 
   public static final int SIMPLE_JAVA_CLASS = 0;
   public static final int JAVA_ACTIVITY = 1;
 
   public String getCode(
       String packageName,
+      File layoutDirectory,
       ArrayList<Object> builtInEvents,
       ArrayList<Object> events,
       ArrayList<VariableModel> instanceVariables,
@@ -114,6 +121,80 @@ public class JavaFileModel extends FileModel implements Serializable {
               formattedGeneratedCode.toString());
     }
 
+    if (layouts != null && layoutsName != null) {
+      StringBuilder layoutVariablesCode = new StringBuilder();
+      for (int i = 0; i < layouts.size(); ++i) {
+
+        /*
+         * Find the layout with layout name at index i.
+         * And pass it to generate variables
+         */
+
+        if (!new File(layoutDirectory, layoutsName.get(i)).exists()) continue;
+
+        if (new File(layoutDirectory, layoutsName.get(i)).isDirectory()) continue;
+
+        LayoutModel layout = null;
+
+        try {
+          FileInputStream mFileInputStream =
+              new FileInputStream(new File(layoutDirectory, layoutsName.get(i)));
+          ObjectInputStream mObjectInputStream = new ObjectInputStream(mFileInputStream);
+          Object mObject = mObjectInputStream.readObject();
+          mFileInputStream.close();
+          mObjectInputStream.close();
+          if (LayoutModel.class.isInstance(mObject)) {
+            layout = LayoutModel.class.cast(mObject);
+          }
+
+        } catch (Exception e) {
+          continue;
+        }
+
+        if (layout == null) {
+          continue;
+        }
+
+        if (i != 0) {
+          layoutVariablesCode.append("\n");
+        }
+        layoutVariablesCode.append(layouts.get(i).getLayoutDefCode(layout));
+      }
+
+      String formatter = null;
+      String[] lines = getRawCode().split("\n");
+      for (String line : lines) {
+        if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "layoutVariables"))) {
+          formatter =
+              line.substring(
+                  0, line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "layoutVariables")));
+        }
+      }
+
+      StringBuilder formattedGeneratedCode = new StringBuilder();
+
+      String[] generatedCodeLines = layoutVariablesCode.toString().split("\n");
+
+      for (int generatedCodeLinePosition = 0;
+          generatedCodeLinePosition < generatedCodeLines.length;
+          ++generatedCodeLinePosition) {
+
+        if (formatter != null) {
+          if (generatedCodeLinePosition != 0) formattedGeneratedCode.append(formatter);
+        }
+
+        formattedGeneratedCode.append(generatedCodeLines[generatedCodeLinePosition]);
+        if (generatedCodeLinePosition != (generatedCodeLines.length - 1)) {
+          formattedGeneratedCode.append("\n");
+        }
+      }
+
+      resultCode =
+          resultCode.replace(
+              RawCodeReplacer.getReplacer(getReplacerKey(), "variables"),
+              formattedGeneratedCode.toString());
+    }
+
     if (staticVariables != null) {
       StringBuilder staticVariablesCode = new StringBuilder();
       for (int i = 0; i < staticVariables.size(); ++i) {
@@ -129,7 +210,8 @@ public class JavaFileModel extends FileModel implements Serializable {
         if (line.contains(RawCodeReplacer.getReplacer(getReplacerKey(), "static-variables"))) {
           formatter =
               line.substring(
-                  0, line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "static-variables")));
+                  0,
+                  line.indexOf(RawCodeReplacer.getReplacer(getReplacerKey(), "static-variables")));
         }
       }
 
@@ -418,5 +500,13 @@ public class JavaFileModel extends FileModel implements Serializable {
 
   public void setImplementingInterfaceImports(String[] implementingInterfaceImports) {
     this.implementingInterfaceImports = implementingInterfaceImports;
+  }
+
+  public ArrayList<VariableModel> getLayouts() {
+    return this.layouts;
+  }
+
+  public void setLayouts(ArrayList<VariableModel> layouts) {
+    this.layouts = layouts;
   }
 }

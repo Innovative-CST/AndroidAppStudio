@@ -80,6 +80,8 @@ public class JavaEventManagerFragment extends Fragment {
   private static final int LIST_SECTION = 1;
   private static final int INFO_SECTION = 2;
 
+  public JavaEventManagerFragment() {}
+
   public JavaEventManagerFragment(
       ModuleModel module, String packageName, String className, boolean disableNewEvents) {
     this.module = module;
@@ -103,8 +105,45 @@ public class JavaEventManagerFragment extends Fragment {
 
   @Override
   @MainThread
+  public void onSaveInstanceState(Bundle bundle) {
+    super.onSaveInstanceState(bundle);
+    bundle.putString("module", module.module);
+    bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+    bundle.putBoolean("disableNewEvents", disableNewEvents);
+    bundle.putString("className", className);
+    bundle.putString("packageName", packageName);
+  }
+
+  @Override
+  @MainThread
   @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
+
+    if (savedInstanceState != null) {
+      module = new ModuleModel();
+      module.init(
+          savedInstanceState.getString("module"),
+          new File(savedInstanceState.getString("projectRootDirectory")));
+      disableNewEvents = savedInstanceState.getBoolean("disableNewEvents");
+      className = savedInstanceState.getString("className");
+      packageName = savedInstanceState.getString("packageName");
+      activity = getActivity();
+      eventsHolderDir =
+          new File(
+              new File(
+                  EnvironmentUtils.getJavaDirectory(module, packageName),
+                  className.concat(".java")),
+              EnvironmentUtils.EVENTS_DIR);
+      file =
+          DeserializerUtils.deserialize(
+              new File(
+                  new File(
+                      EnvironmentUtils.getJavaDirectory(module, packageName),
+                      className.concat(".java")),
+                  EnvironmentUtils.JAVA_FILE_MODEL),
+              JavaFileModel.class);
+    }
+
     binding = FragmentJavaEventManagerBinding.inflate(inflator);
 
     if (file != null) {

@@ -75,10 +75,34 @@ public class EventListFragment extends Fragment {
     this.disableNewEvents = disableNewEvents;
   }
 
+  public EventListFragment() {}
+
+  @Override
+  @MainThread
+  public void onSaveInstanceState(Bundle bundle) {
+    super.onSaveInstanceState(bundle);
+    bundle.putString("module", module.module);
+    bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+    bundle.putString("fileModelDirectory", fileModelDirectory.getAbsolutePath());
+    bundle.putString("eventListPath", eventListPath.getAbsolutePath());
+    bundle.putBoolean("disableNewEvents", disableNewEvents);
+  }
+
   @Override
   @MainThread
   @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
+
+    if (savedInstanceState != null) {
+      module = new ModuleModel();
+      module.init(
+          savedInstanceState.getString("module"),
+          new File(savedInstanceState.getString("projectRootDirectory")));
+      disableNewEvents = savedInstanceState.getBoolean("disableNewEvents");
+      fileModelDirectory = new File(savedInstanceState.getString("fileModelDirectory"));
+      eventListPath = new File(savedInstanceState.getString("eventListPath"));
+    }
+
     binding = FragmentEventListBinding.inflate(inflator);
     switchSection(LOADING_SECTION);
 

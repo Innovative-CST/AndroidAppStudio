@@ -63,8 +63,20 @@ public class ViewIdentifierFactory {
     private String parseReferName(String id) {
         return ResourceFactory.parseReferName(id);
     }
-    
+
     public View findViewById(View root, String id) {
-       return root.findViewById(getId(id));
+        return root.findViewById(getId(id));
+    }
+
+    public String getIdFromView(View view) {
+        for (Map.Entry<String, Integer> entry : idsMap.entrySet()) {
+            String id = entry.getKey();
+            int viewId = entry.getValue().intValue();
+
+            if (viewId == view.getId()) {
+                return id;
+            }
+        }
+        return null;
     }
 }

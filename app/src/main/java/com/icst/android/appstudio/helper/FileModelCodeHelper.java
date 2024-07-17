@@ -38,6 +38,7 @@ import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.models.EventHolder;
+import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.EventUtils;
@@ -50,6 +51,7 @@ public class FileModelCodeHelper {
   private File eventsDirectory;
   private FileModel fileModel;
   private File projectRootDirectory;
+  private ModuleModel module;
 
   public File getEventsDirectory() {
     return this.eventsDirectory;
@@ -73,6 +75,14 @@ public class FileModelCodeHelper {
 
   public void setProjectRootDirectory(File projectRootDirectory) {
     this.projectRootDirectory = projectRootDirectory;
+  }
+
+  public ModuleModel getModule() {
+    return this.module;
+  }
+
+  public void setModule(ModuleModel module) {
+    this.module = module;
   }
 
   public String getCode() {
@@ -212,6 +222,12 @@ public class FileModelCodeHelper {
 
     return ((JavaFileModel) fileModel)
         .getCode(
-            packageName, builtInEvents, dirEvents, instanceVariables, staticVariables, variables);
+            packageName,
+            new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), "layout"),
+            builtInEvents,
+            dirEvents,
+            instanceVariables,
+            staticVariables,
+            variables);
   }
 }

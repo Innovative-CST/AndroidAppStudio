@@ -15,7 +15,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:menu="@menu/variable_menu_bottomsheet"
+        app:menu="@menu/variable_menu_bottom_navbar"
         android:id="@+id/bottomNavigationView" />
 
 </LinearLayout>

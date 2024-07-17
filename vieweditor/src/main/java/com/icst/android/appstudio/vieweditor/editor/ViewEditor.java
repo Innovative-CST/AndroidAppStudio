@@ -48,6 +48,7 @@ import com.icst.android.appstudio.vieweditor.models.AttributesModel;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import com.icst.android.appstudio.vieweditor.models.ViewModel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ViewEditor extends LayoutDesigner {
@@ -74,6 +75,8 @@ public class ViewEditor extends LayoutDesigner {
         ViewModel viewModel = new ViewModel();
         viewModel.setRootElement(true);
 
+        HashMap<String, String> identifiableView = new HashMap<String, String>();
+
         viewModel.setClass(LayoutBuilder.getClassName(getEditor().getChildAt(i)));
 
         AttributeSetHandler handler = getAttributeSetHandler();
@@ -89,18 +92,27 @@ public class ViewEditor extends LayoutDesigner {
             attr.setAttribute(key);
             attr.setAttributeValue(value);
             attributes.add(attr);
+
+            if (key.equals("android:id")) {
+              String id = getViewIdentifier().getIdFromView(getEditor().getChildAt(i));
+
+              if (!identifiableView.containsKey(id)) {
+                identifiableView.put(id, LayoutBuilder.getClassName(getEditor().getChildAt(i)));
+              }
+            }
           }
           viewModel.setAttributes(attributes);
         }
 
         if (getEditor().getChildAt(i) instanceof ViewGroup viewGroup) {
           if (!(Constants.isExcludedViewGroup(viewGroup))) {
-            viewModel.setChilds(prepareLayoutModel(viewGroup));
+            viewModel.setChilds(prepareLayoutModel(viewGroup, identifiableView));
           }
         }
 
         LayoutModel layout = layoutModel;
         layout.setView(viewModel);
+        layout.setIdentifiableView(identifiableView);
         layout.setAndroidNameSpaceUsed(
             LayoutBuilder.hasNamespace(handler.getViewMap(), "android:"));
         layout.setAppNameSpaceUsed(LayoutBuilder.hasNamespace(handler.getViewMap(), "app:"));
@@ -114,7 +126,8 @@ public class ViewEditor extends LayoutDesigner {
     return layout;
   }
 
-  private ArrayList<ViewModel> prepareLayoutModel(ViewGroup view) {
+  private ArrayList<ViewModel> prepareLayoutModel(
+      ViewGroup view, HashMap<String, String> identifiableView) {
     ArrayList<ViewModel> result = new ArrayList<ViewModel>();
     for (int i = 0; i < view.getChildCount(); ++i) {
       if (!(view.getChildAt(i) instanceof ShadowView)) {
@@ -135,12 +148,20 @@ public class ViewEditor extends LayoutDesigner {
             attr.setAttribute(key);
             attr.setAttributeValue(value);
             attributes.add(attr);
+
+            if (key.equals("android:id")) {
+              String id = getViewIdentifier().getIdFromView(view.getChildAt(i));
+
+              if (!identifiableView.containsKey(id)) {
+                identifiableView.put(id, LayoutBuilder.getClassName(view.getChildAt(i)));
+              }
+            }
           }
           viewModel.setAttributes(attributes);
         }
         if (view.getChildAt(i) instanceof ViewGroup viewGroup) {
           if (!(Constants.isExcludedViewGroup(viewGroup))) {
-            viewModel.setChilds(prepareLayoutModel(viewGroup));
+            viewModel.setChilds(prepareLayoutModel(viewGroup, identifiableView));
           }
         }
         result.add(viewModel);

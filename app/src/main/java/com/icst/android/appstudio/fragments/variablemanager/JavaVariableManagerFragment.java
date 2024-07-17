@@ -41,12 +41,15 @@ import androidx.fragment.app.Fragment;
 import com.icst.android.appstudio.R.id;
 import com.icst.android.appstudio.databinding.FragmentJavaVariableManagerBinding;
 import com.icst.android.appstudio.models.ModuleModel;
+import java.io.File;
 
 public class JavaVariableManagerFragment extends Fragment {
   private FragmentJavaVariableManagerBinding binding;
   private ModuleModel module;
   private String packageName;
   private String className;
+
+  public JavaVariableManagerFragment() {}
 
   public JavaVariableManagerFragment(ModuleModel module, String packageName, String className) {
     this.module = module;
@@ -56,8 +59,28 @@ public class JavaVariableManagerFragment extends Fragment {
 
   @Override
   @MainThread
+  public void onSaveInstanceState(Bundle bundle) {
+    super.onSaveInstanceState(bundle);
+    bundle.putString("module", module.module);
+    bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+    bundle.putString("className", className);
+    bundle.putString("packageName", packageName);
+  }
+
+  @Override
+  @MainThread
   @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
+
+    if (savedInstanceState != null) {
+      module = new ModuleModel();
+      module.init(
+          savedInstanceState.getString("module"),
+          new File(savedInstanceState.getString("projectRootDirectory")));
+      className = savedInstanceState.getString("className");
+      packageName = savedInstanceState.getString("packageName");
+    }
+
     binding = FragmentJavaVariableManagerBinding.inflate(inflator);
     binding.bottomNavigationView.setOnItemSelectedListener(
         menu -> {
@@ -76,6 +99,12 @@ public class JavaVariableManagerFragment extends Fragment {
                 .replace(
                     id.fragment_container,
                     new NonStaticVariableManagerFragment(module, packageName, className))
+                .commit();
+          } else if (menu.getItemId() == id.layout_variables) {
+            getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(id.fragment_container, new LayoutVariableManagerFragment())
                 .commit();
           }
           return true;

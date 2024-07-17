@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Non static"
+        android:title="Instance"
         android:id="@+id/non_static_variables"
         android:icon="@drawable/ic_variable_box" />
 
@@ -10,4 +10,9 @@
         android:title="Static"
         android:id="@+id/static_variables"
         android:icon="@drawable/ic_variable" />
+
+    <item
+        android:title="Layout"
+        android:id="@+id/layout_variables"
+        android:icon="@drawable/ic_layout" />
 </menu>
