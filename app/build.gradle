@@ -92,8 +92,8 @@ android {
 
     defaultConfig {
         applicationId "com.icst.android.appstudio"
-        minSdk 21
-        targetSdk 34
+        minSdk 26
+        targetSdk 28
         versionCode 1
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         buildConfigField "String", "commitSha", getCommitSha()
@@ -166,6 +166,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
 
 	implementation("com.mindorks.android:prdownloader:0.6.0")
+
+    implementation("com.termux.termux-app:terminal-view:0.117")
+    implementation("com.termux.termux-app:terminal-emulator:0.117")
 
 	implementation project(":core")
     implementation project(":block")

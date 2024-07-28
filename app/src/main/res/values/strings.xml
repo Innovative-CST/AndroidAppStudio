@@ -50,6 +50,7 @@
     <string name="storage_permission_required">Storage permission required</string>
     <string name="str_continue">Continue</string>
     <string name="target_sdk_version">Target SDK Version</string>
+	<string name="terminal">Terminal</string>
     <string name="version_code">Version code</string>
     <string name="version_name">Version name</string>
     <string name="version_name_copied">Version name copied to clipboard</string>

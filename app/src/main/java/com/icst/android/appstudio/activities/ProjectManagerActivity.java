@@ -48,8 +48,10 @@ import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.MyApplication;
 import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.activities.terminal.TerminalActivity;
 import com.icst.android.appstudio.adapters.ProjectListAdapter;
 import com.icst.android.appstudio.databinding.ActivityProjectManagerBinding;
+import com.icst.android.appstudio.dialogs.BootstrapInstallerDialog;
 import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.PermissionUtils;
@@ -139,6 +141,11 @@ public class ProjectManagerActivity extends BaseActivity {
             youtube.setData(Uri.parse(MyApplication.YOUTUBE));
             startActivity(youtube);
           }
+          if (menuItem.getItemId() == R.id.terminal) {
+            Intent terminal = new Intent();
+            terminal.setClass(this, TerminalActivity.class);
+            startActivity(terminal);
+          }
           if (menuItem.getItemId() == R.id.discord) {
             Intent discord = new Intent();
             discord.setAction(Intent.ACTION_VIEW);
@@ -173,16 +180,44 @@ public class ProjectManagerActivity extends BaseActivity {
         v -> {
           createProject();
         });
-    /*
-     * Ask for storage permission if not granted.
-     * Load projects if storage permission is granted.
-     * Show storage permission denied error when storage permission is denied and ask to grant storage permission.
-     */
-    if (PermissionUtils.isStoagePermissionGranted(this)) {
-      tryToLoadProjects();
+
+    // Install Bootstrap files when required...
+    final File bash = new File(EnvironmentUtils.BIN_DIR, "bash");
+    if (!(EnvironmentUtils.PREFIX.exists()
+        && EnvironmentUtils.PREFIX.isDirectory()
+        && bash.exists()
+        && bash.isFile()
+        && bash.canExecute())) {
+      new BootstrapInstallerDialog(
+          this,
+          new BootstrapInstallerDialog.BootstrapInstallCompletionListener() {
+            @Override
+            public void onComplete() {
+              /*
+               * Ask for storage permission if not granted.
+               * Load projects if storage permission is granted.
+               * Show storage permission denied error when storage permission is denied and ask to grant storage permission.
+               */
+              if (PermissionUtils.isStoagePermissionGranted(ProjectManagerActivity.this)) {
+                tryToLoadProjects();
+              } else {
+                showError(getString(R.string.storage_permission_denied));
+                PermissionUtils.showStoragePermissionDialog(ProjectManagerActivity.this);
+              }
+            }
+          });
     } else {
-      showError(getString(R.string.storage_permission_denied));
-      PermissionUtils.showStoragePermissionDialog(this);
+      /*
+       * Ask for storage permission if not granted.
+       * Load projects if storage permission is granted.
+       * Show storage permission denied error when storage permission is denied and ask to grant storage permission.
+       */
+      if (PermissionUtils.isStoagePermissionGranted(this)) {
+        tryToLoadProjects();
+      } else {
+        showError(getString(R.string.storage_permission_denied));
+        PermissionUtils.showStoragePermissionDialog(this);
+      }
     }
   }
 
