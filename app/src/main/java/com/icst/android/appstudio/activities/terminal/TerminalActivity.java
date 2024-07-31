@@ -34,6 +34,8 @@ package com.icst.android.appstudio.activities.terminal;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.system.ErrnoException;
+import android.system.Os;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -44,6 +46,7 @@ import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.ActivityTerminalBinding;
+import com.icst.android.appstudio.utils.BootstrapInstallerUtils;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.terminal.KeyListener;
 import com.icst.android.appstudio.utils.terminal.SpecialButton;
@@ -152,16 +155,26 @@ public class TerminalActivity extends BaseActivity
     }
   }
 
+  public void grantFileExecutionPermissiom(File path) {
+    try {
+      Os.chmod(path.getAbsolutePath(), 0700);
+    } catch (ErrnoException e) {
+    }
+  }
+
   public void setupTerminalView(boolean systemShell, String cwd) {
     TerminalSession terminalSession;
 
     terminal.setTextSize(28);
     String executablePath;
 
+    grantFileExecutionPermissiom(
+        new File(EnvironmentUtils.PREFIX, "etc/termux/bootstrap/termux-bootstrap-second-stage.sh"));
+
     if (systemShell) {
       executablePath = "/system/bin/sh";
     } else {
-      executablePath = EnvironmentUtils.SHELL.getAbsolutePath();
+      executablePath = EnvironmentUtils.LOGIN_SHELL.getAbsolutePath();
     }
     String[] env = null;
     String[] argsList = {};
