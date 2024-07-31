@@ -71,6 +71,7 @@ if (KEYSTOREPASSWORD != null) {
 android {
     namespace 'com.icst.android.appstudio'
     compileSdk 34
+    flavorDimensions = ["arch"]
 
     def getCommitHash = { ->
         def stdout = new ByteArrayOutputStream()
@@ -102,6 +103,24 @@ android {
 
         vectorDrawables { 
             useSupportLibrary true
+        }
+    }
+
+   productFlavors {
+        arm {
+            dimension "arch"
+            versionNameSuffix "-armeabi-v7a"
+            ndk {
+                abiFilters "armeabi-v8a", "armeabi-v7a", "x86_64", "x86"
+            }
+        }
+
+        aarch64 {
+            dimension "arch"
+            versionNameSuffix "-armeabi-v8a"
+            ndk {
+                abiFilters "armeabi-v8a", "x86_64", "x86"
+            }
         }
     }
 
