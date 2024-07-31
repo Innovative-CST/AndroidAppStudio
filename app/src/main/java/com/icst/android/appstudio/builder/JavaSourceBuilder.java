@@ -134,6 +134,7 @@ public class JavaSourceBuilder {
 
         fileGenerator.setEventsDirectory(new File(files, EnvironmentUtils.EVENTS_DIR));
         fileGenerator.setProjectRootDirectory(module.projectRootDirectory);
+        fileGenerator.setModule(module);
         fileGenerator.setFileModel(javaFileModel);
         String code =
             fileGenerator.getCode(
