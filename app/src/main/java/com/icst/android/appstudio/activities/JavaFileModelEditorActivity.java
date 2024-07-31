@@ -153,6 +153,7 @@ public class JavaFileModelEditorActivity extends BaseActivity {
                     EnvironmentUtils.getJavaDirectory(module, packageName),
                     fileName.concat(".java")),
                 EnvironmentUtils.EVENTS_DIR));
+        helper.setModule(module);
         helper.setProjectRootDirectory(module.projectRootDirectory);
         SourceCodeViewerDialog sourceCodeDialog =
             new SourceCodeViewerDialog(
