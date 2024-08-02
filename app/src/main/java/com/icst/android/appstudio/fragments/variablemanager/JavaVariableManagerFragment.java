@@ -101,10 +101,17 @@ public class JavaVariableManagerFragment extends Fragment {
                     new NonStaticVariableManagerFragment(module, packageName, className))
                 .commit();
           } else if (menu.getItemId() == id.layout_variables) {
+            LayoutVariableManagerFragment layoutManager = new LayoutVariableManagerFragment();
+            Bundle args = new Bundle();
+            args.putString("module", module.module);
+            args.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+            args.putString("className", className);
+            args.putString("packageName", packageName);
+            layoutManager.setArguments(args);
             getActivity()
                 .getSupportFragmentManager()
                 .beginTransaction()
-                .replace(id.fragment_container, new LayoutVariableManagerFragment())
+                .replace(id.fragment_container, layoutManager)
                 .commit();
           }
           return true;
