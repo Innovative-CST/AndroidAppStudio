@@ -37,6 +37,7 @@ import com.icst.android.appstudio.block.model.EventGroupModel;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
+import com.icst.android.appstudio.block.tag.DependencyTag;
 import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.models.ProjectModel;
@@ -229,5 +230,54 @@ public class FileModelCodeHelper {
             instanceVariables,
             staticVariables,
             variables);
+  }
+
+  public ArrayList<DependencyTag> getUsedDependency() {
+    ArrayList<Object> builtInEvents = null;
+    ArrayList<Object> dirEvents = new ArrayList<Object>();
+
+    if (fileModel == null) return null;
+    if (eventsDirectory == null) return null;
+    if (eventsDirectory.isFile()) return null;
+
+    if (eventsDirectory.exists()) {
+
+      for (File file : eventsDirectory.listFiles()) {
+        if (file.isFile()) continue;
+
+        File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+
+        if (!eventsHolderFile.exists()) continue;
+
+        EventHolder holder = null;
+
+        Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+
+        if (deserializedObject == null) continue;
+
+        if (!(deserializedObject instanceof EventHolder)) continue;
+
+        holder = (EventHolder) deserializedObject;
+
+        if (fileModel.getBuiltInEventsName() != null) {
+          if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+            builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+          }
+        } else {
+          ArrayList<Object> extraEvents =
+              EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+
+          for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+            if (extraEvents.get(extraEventCount) instanceof Event) {
+              dirEvents.add((Event) extraEvents.get(extraEventCount));
+            } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+              dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+            }
+          }
+        }
+      }
+    }
+
+    return ((JavaFileModel) fileModel).getUsedDependency(builtInEvents, dirEvents);
   }
 }

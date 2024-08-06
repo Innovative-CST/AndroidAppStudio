@@ -138,7 +138,9 @@ public class BootstrapInstallerUtils {
                   if (zipEntryName.startsWith("bin/")
                       || zipEntryName.startsWith("libexec")
                       || zipEntryName.startsWith("lib/apt/apt-helper")
+                      || zipEntryName.startsWith("lib/jvm/java-17-openjdk/bin")
                       || zipEntryName.startsWith("lib/apt/methods")) {
+
                     grantFile(targetFile, cont, listener);
                   }
                 }
@@ -162,7 +164,11 @@ public class BootstrapInstallerUtils {
               }
               Os.symlink(symlink.first, symlink.second);
             }
-
+            notify(listener, "Extracting Aapt2");
+            extractAapt2(PREFIX);
+            notify(listener, "Granting Execution Permission");
+            grantFile(
+                new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so"), cont, listener);
             notify(listener, "Extracting hooks");
             extractLibHooks(PREFIX);
           } catch (IOException | ErrnoException e) {
@@ -187,6 +193,14 @@ public class BootstrapInstallerUtils {
       copyFileFromAssets(
           "libhook.so",
           new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libhook.so").getAbsolutePath());
+    }
+  }
+
+  public static void extractAapt2(final File PREFIX) {
+    if (!new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so").exists()) {
+      copyFileFromAssets(
+          "libaapt2.so",
+          new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so").getAbsolutePath());
     }
   }
 

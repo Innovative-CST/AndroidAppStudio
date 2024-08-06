@@ -41,6 +41,8 @@ import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
+import com.icst.app.builder.AppBuilder;
+import com.icst.app.builder.BuildListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -231,6 +233,25 @@ public final class ProjectCodeBuilder {
     mainJavaSrcBuilder.setListener(listener);
     mainJavaSrcBuilder.setCancelToken(cancelToken);
     mainJavaSrcBuilder.build();
+
+    if (listener != null) {
+      listener.onBuildProgressLog("\n");
+    }
+
+    AppBuilder apkBuilder = new AppBuilder();
+    apkBuilder.build(
+        new BuildListener() {
+          @Override
+          public void onBuildFinish() {}
+
+          @Override
+          public void onBuildProgress(String arg) {
+            if (listener != null) {
+              listener.onBuildProgressLog(arg);
+            }
+          }
+        },
+        module);
 
     long endExectionTime = System.currentTimeMillis();
     long executionTime = endExectionTime - executionStartTime;

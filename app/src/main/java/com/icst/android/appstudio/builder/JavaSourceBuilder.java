@@ -34,6 +34,7 @@ package com.icst.android.appstudio.builder;
 import android.code.editor.common.utils.FileUtils;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.JavaFileModel;
+import com.icst.android.appstudio.block.tag.DependencyTag;
 import com.icst.android.appstudio.helper.FileModelCodeHelper;
 import com.icst.android.appstudio.helper.ProjectCodeBuilderCancelToken;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
@@ -41,6 +42,7 @@ import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
+import java.util.ArrayList;
 
 public class JavaSourceBuilder {
   private ModuleModel module;
@@ -50,8 +52,10 @@ public class JavaSourceBuilder {
   private File outputDir;
   private ProjectCodeBuildListener listener;
   private ProjectCodeBuilderCancelToken cancelToken;
+  private ArrayList<DependencyTag> dependencies;
 
   public void build() {
+    dependencies = new ArrayList<DependencyTag>();
 
     if (module == null || packageName == null || inputDir == null || outputDir == null) {
       if (listener != null) {
@@ -94,7 +98,7 @@ public class JavaSourceBuilder {
             mainJavaSrcBuilder.setListener(listener);
             mainJavaSrcBuilder.setCancelToken(cancelToken);
             mainJavaSrcBuilder.build();
-
+            dependencies.addAll(mainJavaSrcBuilder.getDependencies());
           } else {
 
             JavaSourceBuilder mainJavaSrcBuilder = new JavaSourceBuilder();
@@ -107,6 +111,7 @@ public class JavaSourceBuilder {
             mainJavaSrcBuilder.setListener(listener);
             mainJavaSrcBuilder.setCancelToken(cancelToken);
             mainJavaSrcBuilder.build();
+            dependencies.addAll(mainJavaSrcBuilder.getDependencies());
           }
         }
       } else if (new File(files, EnvironmentUtils.JAVA_FILE_MODEL).exists()) {
@@ -148,6 +153,7 @@ public class JavaSourceBuilder {
                     javaFileModel.getName())
                 .getAbsolutePath(),
             code);
+        dependencies.addAll(fileGenerator.getUsedDependency());
       }
     }
   }
@@ -250,5 +256,9 @@ public class JavaSourceBuilder {
 
   public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
     this.cancelToken = cancelToken;
+  }
+
+  public ArrayList<DependencyTag> getDependencies() {
+    return this.dependencies;
   }
 }

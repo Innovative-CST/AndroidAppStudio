@@ -72,7 +72,6 @@ android {
     namespace 'com.icst.android.appstudio'
     compileSdk 34
     flavorDimensions = ["arch"]
-
     def getCommitHash = { ->
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -161,6 +160,15 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'xsd/catalog.xml'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/NOTICE.md'
+    }
 }
 
 dependencies {
@@ -188,6 +196,10 @@ dependencies {
 
     implementation("com.termux.termux-app:terminal-view:0.117")
     implementation("com.termux.termux-app:terminal-emulator:0.117")
+
+    runtimeOnly('com.android.tools:sdklib:31.5.1') {
+        exclude group: 'com.sun.activation', module: 'javax.activation'
+    }
 
 	implementation project(":core")
     implementation project(":block")

@@ -105,8 +105,7 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
             activity.runOnUiThread(
                 () -> {
                   log.append("\n");
-                  log.append(
-                      "Code generated successfully in ".concat(TimeUtils.convertTime(buildTime)));
+                  log.append("Build successful in ".concat(TimeUtils.convertTime(buildTime)));
                   log.append("\n");
                   binding.indicator.setVisibility(View.GONE);
                   binding.currentLog.setVisibility(View.GONE);
