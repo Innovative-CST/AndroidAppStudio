@@ -5,7 +5,7 @@ on:
 
 jobs:
   buildArm:
-    name: Build Debug APK
+    name: Build Arm Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -50,8 +50,8 @@ jobs:
           name: output-metadata-armeabi-v7a
           path: app/build/outputs/apk/arm/debug/output-metadata.json
 
-  buildArm:
-    name: Build Debug APK
+  buildAarch64:
+    name: Build Aarch64 Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
