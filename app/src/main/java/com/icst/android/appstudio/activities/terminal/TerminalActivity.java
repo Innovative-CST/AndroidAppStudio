@@ -165,7 +165,7 @@ public class TerminalActivity extends BaseActivity
   public void setupTerminalView(boolean systemShell, String cwd) {
     TerminalSession terminalSession;
 
-    terminal.setTextSize(28);
+    terminal.setTextSize((int) terminalTextSize);
     String executablePath;
 
     grantFileExecutionPermissiom(
@@ -237,9 +237,22 @@ public class TerminalActivity extends BaseActivity
   @Override
   public void onEmulatorSet() {}
 
+  private float terminalTextSize = 24f;
+
   @Override
-  public float onScale(float arg0) {
-    return 14;
+  public float onScale(float scale) {
+    float currentTextSize = terminalTextSize;
+    float newTextSize = currentTextSize * scale;
+    float minTextSize = 10.0f;
+    float maxTextSize = 30.0f;
+    newTextSize = Math.max(minTextSize, Math.min(newTextSize, maxTextSize));
+    binding.termux.setTextSize((int) newTextSize);
+    terminalTextSize = newTextSize;
+
+    if (scale < 0.9f || scale > 1.1f) {
+      return 1.0f;
+    }
+    return scale;
   }
 
   @Override
