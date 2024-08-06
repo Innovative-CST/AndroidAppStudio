@@ -31,6 +31,7 @@
 
 plugins {
     id "com.android.application"
+    id "de.undercouch.download"
 }
 
 def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
@@ -169,6 +170,20 @@ android {
         exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/NOTICE.md'
     }
+}
+
+task downloadBootstrap {
+    download.run {
+        src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.04-r1%2Bapt-android-7/bootstrap-arm.zip"
+        dest file("src/arm/assets/bootstrap.zip")
+        overwrite false
+	}
+
+    download.run {
+        src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.04-r1%2Bapt-android-7/bootstrap-aarch64.zip"
+        dest file("src/aarch64/assets/bootstrap.zip")
+        overwrite false
+	}
 }
 
 dependencies {
