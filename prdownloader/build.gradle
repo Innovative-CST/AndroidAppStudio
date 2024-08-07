@@ -18,6 +18,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
+    namespace "com.downloader"
 
     defaultConfig {
         minSdkVersion 14
