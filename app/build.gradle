@@ -201,8 +201,6 @@ task downloadBootstrapAarch64 {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.2")
 
     implementation("androidx.appcompat:appcompat:$appcompat_version")
