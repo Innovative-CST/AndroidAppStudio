@@ -8,7 +8,6 @@ on:
       - README.md
       - LICENSE
       - .gitignore
-      - **/.gitignore
 
 jobs:
   buildArm:
