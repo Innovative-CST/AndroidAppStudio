@@ -221,7 +221,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
 
-	implementation("com.mindorks.android:prdownloader:0.4.0")
+	implementation("com.mindorks.android:prdownloader:0.6.0")
 
     implementation("com.termux.termux-app:terminal-view:0.117")
     implementation("com.termux.termux-app:terminal-emulator:0.117")
@@ -229,10 +229,6 @@ dependencies {
     runtimeOnly('com.android.tools:sdklib:31.5.1') {
         exclude group: 'com.sun.activation', module: 'javax.activation'
     }
-
-    implementation("com.github.Cosmic-IDE:kotlinc-android:f49c67a8c0")
-
-    testImplementation("junit:junit:4.13.2")
 
 	implementation project(":core")
     implementation project(":block")
