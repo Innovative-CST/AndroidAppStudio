@@ -1,5 +1,6 @@
 # Android AppStudio
 
+[![Android CI](https://github.com/Innovative-CST/AndroidAppStudio/actions/workflows/android.yml/badge.svg)](https://github.com/Innovative-CST/AndroidAppStudio/actions/workflows/android.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/94a4082a551c496cae031bcdb6f2040d)](https://codacy.com/gh/TS-Code-Editor/AndroidAppStudio/dashboard)
 ![Commit Activity](https://img.shields.io/github/commit-activity/m/TS-Code-Editor/AndroidAppStudio)
 [![GitHub contributors](https://img.shields.io/github/contributors/TS-Code-Editor/AndroidAppStudio)](https://github.com/TS-Code-Editor/AndroidAppStudio/graphs/contributors)
