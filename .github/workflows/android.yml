@@ -8,7 +8,7 @@ jobs:
     name: Build Arm Debug APK
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up KeyStore Password
         shell: bash 
@@ -54,7 +54,7 @@ jobs:
     name: Build Aarch64 Debug APK
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up KeyStore Password
         shell: bash 
