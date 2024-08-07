@@ -201,6 +201,8 @@ task downloadBootstrapAarch64 {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.2")
 
     implementation("androidx.appcompat:appcompat:$appcompat_version")
@@ -221,8 +223,6 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
 
-	implementation("com.mindorks.android:prdownloader:0.6.0")
-
     implementation("com.termux.termux-app:terminal-view:0.117")
     implementation("com.termux.termux-app:terminal-emulator:0.117")
 
@@ -234,6 +234,7 @@ dependencies {
     implementation project(":block")
 	implementation project(":editor")
 	implementation project(":vieweditor")
+    implementation project(":prdownloader")
 	implementation project(":themeEngine")
 }
 

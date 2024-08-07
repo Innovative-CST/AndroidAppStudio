@@ -238,6 +238,12 @@ public final class ProjectCodeBuilder {
       listener.onBuildProgressLog("\n");
     }
 
+    /*
+     * Download used dependecies in project.
+     * Only same dependecies download one time.
+     * If two versions are specified then consider tge 1st founded version only.
+     */
+
     AppBuilder apkBuilder = new AppBuilder();
     apkBuilder.build(
         new BuildListener() {

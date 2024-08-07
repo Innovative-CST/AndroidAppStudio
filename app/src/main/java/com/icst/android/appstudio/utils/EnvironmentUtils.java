@@ -72,6 +72,7 @@ public final class EnvironmentUtils {
   private static final String CONFIG = "config";
   private static final String SETTING = "setting";
 
+  public static File APP_LIBRARIES;
   public static File BIN_DIR;
   public static File PREFIX;
   public static File ROOT;
@@ -103,6 +104,7 @@ public final class EnvironmentUtils {
 
     IDEDIR = new File(STORAGE, IDEDIRECTORY);
     PROJECTS = new File(IDEDIR, "Projects");
+    APP_LIBRARIES = mkdirIfNotExits(new File(IDEDIR, "libraries"));
     SETTING_FILE = new File(new File(IDEDIR, CONFIG), SETTING);
     EXTENSION_DIR = new File(IDEDIR, "Extension");
     if (!EXTENSION_DIR.exists()) EXTENSION_DIR.mkdirs();
