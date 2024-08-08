@@ -15,6 +15,18 @@ Currently this app is under development so it doesn't have much features.
 
 This project is currently in its early stages, and there's a lot to be done. If you're interested in contributing, please follow the guidelines.
 
+# Features
+- [x] Block drag-drop logic editor
+- [ ] Layout Editor
+- [x] Java Code generator
+- [x] Layout Code generator
+- [ ] Apk Builder
+- [x] Integrated in-app terminal
+  - [x] Open JDK 17 installed by default.
+- [x] Dynamic Themes
+- [x] Manifest editor (Manually only)
+
+
 # Discord
 [![Join our discord](https://invidget.switchblade.xyz/RM5qaZs4kd)](https://discord.gg/RM5qaZs4kd)
 
