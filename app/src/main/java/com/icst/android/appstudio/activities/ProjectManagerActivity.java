@@ -48,7 +48,7 @@ import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.MyApplication;
 import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.activities.terminal.TerminalActivity;
+import com.icst.android.appstudio.activities.TerminalActivity;
 import com.icst.android.appstudio.adapters.ProjectListAdapter;
 import com.icst.android.appstudio.databinding.ActivityProjectManagerBinding;
 import com.icst.android.appstudio.dialogs.BootstrapInstallerDialog;

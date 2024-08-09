@@ -29,7 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.activities.terminal;
+package com.icst.android.appstudio.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -44,15 +44,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
-import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.ActivityTerminalBinding;
-import com.icst.android.appstudio.utils.BootstrapInstallerUtils;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.terminal.KeyListener;
 import com.icst.android.appstudio.utils.terminal.SpecialButton;
 import com.icst.android.appstudio.utils.terminal.VirtualKeysConstants;
 import com.icst.android.appstudio.utils.terminal.VirtualKeysInfo;
-import com.quickersilver.themeengine.R;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
 import com.termux.terminal.TerminalSessionClient;
