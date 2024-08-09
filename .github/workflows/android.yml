@@ -99,5 +99,5 @@ jobs:
       - name: Upload output metadata APK
         uses: actions/upload-artifact@v3
         with:
-          name: output-metadata-armeabi-v8a
+          name: output-metadata-arm64-v8a
           path: app/build/outputs/apk/aarch64/debug/output-metadata.json
