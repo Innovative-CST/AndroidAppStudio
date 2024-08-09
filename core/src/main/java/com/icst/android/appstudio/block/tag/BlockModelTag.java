@@ -1,5 +1,5 @@
 /*
- * This file is part of Android AppStudio [https://github.com/TS-Code-Editor/AndroidAppStudio].
+ * This file is part of Android AppStudio [https://github.com/Innovative-CST/AndroidAppStudio].
  *
  * License Agreement
  * This software is licensed under the terms and conditions outlined below. By accessing, copying, modifying, or using this software in any way, you agree to abide by these terms.
