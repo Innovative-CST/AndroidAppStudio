@@ -111,15 +111,15 @@ android {
             dimension "arch"
             versionNameSuffix "-armeabi-v7a"
             ndk {
-                abiFilters "armeabi-v8a", "armeabi-v7a", "x86_64", "x86"
+                abiFilters "arm64-v8a", "armeabi-v7a", "x86_64", "x86"
             }
         }
 
         aarch64 {
             dimension "arch"
-            versionNameSuffix "-armeabi-v8a"
+            versionNameSuffix "-arm64-v8a"
             ndk {
-                abiFilters "armeabi-v8a", "x86_64", "x86"
+                abiFilters "arm64-v8a", "x86_64", "x86"
             }
         }
     }

@@ -93,7 +93,7 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v3
         with:
-          name: android-appstudio-armeabi-v8a
+          name: android-appstudio-arm64-v8a
           path: app/build/outputs/apk/aarch64/debug/app-aarch64-debug.apk
 
       - name: Upload output metadata APK
