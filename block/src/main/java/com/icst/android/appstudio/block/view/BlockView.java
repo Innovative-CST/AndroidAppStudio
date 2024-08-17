@@ -714,7 +714,9 @@ public class BlockView extends LinearLayout {
                     droppables.get(i).addView(editor.blockPreview);
                     return true;
                   } else {
-                    if (!((BlockVariableFieldView) droppables.get(i)).getBlock().preview(x, y, toDrop)) {
+                    if (!((BlockVariableFieldView) droppables.get(i))
+                        .getBlock()
+                        .preview(x, y, toDrop)) {
                       editor.blockPreview.removePreview();
                       editor.blockPreview.setBlock(toDrop);
                       droppables.get(i).addView(editor.blockPreview);
@@ -805,6 +807,10 @@ public class BlockView extends LinearLayout {
     } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_NUMBER_DROPPER) {
       if (parent instanceof NumberView) {
         ((NumberView) parent).ensureFieldBackground();
+      }
+    } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_VARIABLE_DROPPER) {
+      if (parent instanceof BlockVariableFieldView) {
+        ((BlockVariableFieldView) parent).ensureFieldBackground();
       }
     }
   }
