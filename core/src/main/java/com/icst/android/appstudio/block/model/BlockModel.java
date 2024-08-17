@@ -39,7 +39,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BlockModel implements Serializable, Cloneable {
+public class BlockModel extends BlockValueFieldModel implements Serializable, Cloneable {
   public static final long serialVersionUID = 3L;
 
   private String color;
@@ -98,6 +98,7 @@ public class BlockModel implements Serializable, Cloneable {
     public static final int defaultBlock = 0;
     public static final int defaultBoolean = 1;
     public static final int number = 2;
+    public static final int variable = 3;
   }
 
   public int getBlockType() {

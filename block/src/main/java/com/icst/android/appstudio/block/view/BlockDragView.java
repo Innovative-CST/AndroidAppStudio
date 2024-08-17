@@ -249,12 +249,22 @@ public class BlockDragView extends LinearLayout {
           new ViewGroup.LayoutParams(
               ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
       numberLayout.setLayoutParams(layoutParams);
-      Drawable numberDrawable =
-          ContextCompat.getDrawable(getContext(), R.drawable.block_number);
+      Drawable numberDrawable = ContextCompat.getDrawable(getContext(), R.drawable.block_number);
       numberDrawable.setTint(Color.parseColor(block.getColor()));
       numberDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
       numberLayout.setBackground(numberDrawable);
       blockPreview.addView(numberLayout);
+    } else if (block.getBlockType() == BlockModel.Type.variable) {
+      LinearLayout variableLayout = new LinearLayout(getContext());
+      ViewGroup.LayoutParams layoutParams =
+          new ViewGroup.LayoutParams(
+              ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      variableLayout.setLayoutParams(layoutParams);
+      Drawable variableDrawable = ContextCompat.getDrawable(getContext(), R.drawable.block_variable);
+      variableDrawable.setTint(Color.parseColor(block.getColor()));
+      variableDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+      variableLayout.setBackground(variableDrawable);
+      blockPreview.addView(variableLayout);
     }
   }
 }

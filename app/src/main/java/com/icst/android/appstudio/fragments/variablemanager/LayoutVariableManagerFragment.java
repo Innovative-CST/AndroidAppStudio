@@ -41,6 +41,7 @@ import androidx.fragment.app.Fragment;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.databinding.FragmentLayoutVariableManagerBinding;
+import com.icst.android.appstudio.dialogs.resourcemanager.EditLayoutVariableModelDialog;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
@@ -80,7 +81,17 @@ public class LayoutVariableManagerFragment extends Fragment {
                   EnvironmentUtils.JAVA_FILE_MODEL),
               FileModel.class);
     }
-    return super.onCreateView(inflator, parent, savedInstanceState);
+
+    binding = FragmentLayoutVariableManagerBinding.inflate(inflator);
+
+    binding.fab.setOnClickListener(
+        (v) -> {
+          EditLayoutVariableModelDialog mEditLayoutVariableModelDialog =
+              new EditLayoutVariableModelDialog(getContext());
+          mEditLayoutVariableModelDialog.show();
+        });
+
+    return binding.getRoot();
   }
 
   @Override

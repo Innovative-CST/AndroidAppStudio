@@ -29,29 +29,20 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.block.tag;
+package com.icst.android.appstudio.dialogs.resourcemanager;
 
-public class BlockDroppableTag {
-  public static final int DEFAULT_BLOCK_DROPPER = 0;
-  public static final int BLOCK_BOOLEAN_DROPPER = 1;
-  public static final int BLOCK_NUMBER_DROPPER = 2;
-  public static final int BLOCK_VARIABLE_DROPPER = 3;
-  private int blockDroppableType;
-  private Object dropProperty;
+import android.content.Context;
+import android.view.LayoutInflater;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.android.appstudio.databinding.DialogLayoutVariableModelEditorBinding;
 
-  public int getBlockDroppableType() {
-    return this.blockDroppableType;
-  }
+public class EditLayoutVariableModelDialog extends MaterialAlertDialogBuilder {
+  public EditLayoutVariableModelDialog(Context context) {
+    super(context);
 
-  public void setBlockDroppableType(int blockDroppableType) {
-    this.blockDroppableType = blockDroppableType;
-  }
+    DialogLayoutVariableModelEditorBinding binding =
+        DialogLayoutVariableModelEditorBinding.inflate(LayoutInflater.from(context));
 
-  public <T> T getDropProperty(Class<T> dropPropertyClass) {
-    return dropPropertyClass.cast(dropProperty);
-  }
-
-  public void setDropProperty(Object dropProperty) {
-    this.dropProperty = dropProperty;
+    setView(binding.getRoot());
   }
 }

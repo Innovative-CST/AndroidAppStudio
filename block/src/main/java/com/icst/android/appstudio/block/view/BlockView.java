@@ -146,7 +146,8 @@ public class BlockView extends LinearLayout {
 
       addBlockBottomView();
     } else if (getBlockModel().getBlockType() == BlockModel.Type.defaultBoolean
-        || getBlockModel().getBlockType() == BlockModel.Type.number) {
+        || getBlockModel().getBlockType() == BlockModel.Type.number
+        || getBlockModel().getBlockType() == BlockModel.Type.variable) {
 
       if (getBlockModel().getBlockType() == BlockModel.Type.defaultBoolean) {
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_boolean);
@@ -156,6 +157,12 @@ public class BlockView extends LinearLayout {
         setBackground(drawable);
       } else if (getBlockModel().getBlockType() == BlockModel.Type.number) {
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_number);
+        drawable.setTint(
+            ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
+        drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+        setBackground(drawable);
+      } else if (getBlockModel().getBlockType() == BlockModel.Type.variable) {
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_variable);
         drawable.setTint(
             ColorPalleteUtils.transformColor(getBlockModel().getColor(), editor.isDarkMode()));
         drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
@@ -360,7 +367,8 @@ public class BlockView extends LinearLayout {
               return true;
             }
           } else if (toDrop.getBlockType() == BlockModel.Type.defaultBoolean
-              || toDrop.getBlockType() == BlockModel.Type.number) {
+              || toDrop.getBlockType() == BlockModel.Type.number
+              || toDrop.getBlockType() == BlockModel.Type.variable) {
             if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
               for (int ind = 0; ind < droppables.get(i).getChildCount(); ind++) {
                 View child = droppables.get(i).getChildAt(ind);
@@ -449,6 +457,58 @@ public class BlockView extends LinearLayout {
 
                 } else {
                   if (!((NumberView) droppables.get(i)).getNumberBlock().drop(x, y, toDrop)) {
+                    if (editor.draggingBlock.isInsideEditor()) {
+                      ((ViewGroup) editor.draggingBlock.getParent())
+                          .removeView(editor.draggingBlock);
+                    }
+                    BlockView draggingBlockView =
+                        new BlockView(
+                            editor,
+                            getContext(),
+                            editor.draggingBlock.getBlockModel().clone(),
+                            darkMode);
+
+                    draggingBlockView.setEnableDragDrop(true);
+                    draggingBlockView.setEnableEditing(true);
+                    draggingBlockView.setInsideEditor(true);
+
+                    droppables.get(i).addView(draggingBlockView);
+                    return true;
+                  }
+                }
+              }
+            }
+          }
+        } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_VARIABLE_DROPPER) {
+          if (toDrop.getBlockType() == BlockModel.Type.variable) {
+
+            if (ArrayUtils.ifContainAnyElement(
+                tag.getDropProperty(BlockValueFieldModel.class).getAcceptors(),
+                toDrop.getReturns())) {
+
+              if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
+                if (tag.getDropProperty(BlockValueFieldModel.class).getBlockModel() == null) {
+
+                  if (editor.draggingBlock.isInsideEditor()) {
+                    ((ViewGroup) editor.draggingBlock.getParent()).removeView(editor.draggingBlock);
+                  }
+
+                  BlockView draggingBlockView =
+                      new BlockView(
+                          editor,
+                          getContext(),
+                          editor.draggingBlock.getBlockModel().clone(),
+                          darkMode);
+
+                  draggingBlockView.setEnableDragDrop(true);
+                  draggingBlockView.setEnableEditing(true);
+                  draggingBlockView.setInsideEditor(true);
+
+                  droppables.get(i).addView(draggingBlockView);
+                  return true;
+
+                } else {
+                  if (!((BlockVariableFieldView) droppables.get(i)).getBlock().drop(x, y, toDrop)) {
                     if (editor.draggingBlock.isInsideEditor()) {
                       ((ViewGroup) editor.draggingBlock.getParent())
                           .removeView(editor.draggingBlock);
@@ -585,7 +645,8 @@ public class BlockView extends LinearLayout {
                 return true;
               }
             } else if (toDrop.getBlockType() == BlockModel.Type.defaultBoolean
-                || toDrop.getBlockType() == BlockModel.Type.number) {
+                || toDrop.getBlockType() == BlockModel.Type.number
+                || toDrop.getBlockType() == BlockModel.Type.variable) {
               if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
                 for (int ind = 0; ind < droppables.get(i).getChildCount(); ind++) {
                   View child = droppables.get(i).getChildAt(ind);
@@ -631,6 +692,29 @@ public class BlockView extends LinearLayout {
                     return true;
                   } else {
                     if (!((NumberView) droppables.get(i)).getNumberBlock().preview(x, y, toDrop)) {
+                      editor.blockPreview.removePreview();
+                      editor.blockPreview.setBlock(toDrop);
+                      droppables.get(i).addView(editor.blockPreview);
+                      return true;
+                    }
+                  }
+                }
+              }
+            }
+          } else if (tag.getBlockDroppableType() == BlockDroppableTag.BLOCK_VARIABLE_DROPPER) {
+            if (toDrop.getBlockType() == BlockModel.Type.variable) {
+              if (TargetUtils.isDragInsideTargetView(droppables.get(i), editor, x, y)) {
+                if (ArrayUtils.ifContainAnyElement(
+                    tag.getDropProperty(BlockValueFieldModel.class).getAcceptors(),
+                    toDrop.getReturns())) {
+
+                  if (tag.getDropProperty(BlockValueFieldModel.class).getBlockModel() == null) {
+                    editor.blockPreview.removePreview();
+                    editor.blockPreview.setBlock(toDrop);
+                    droppables.get(i).addView(editor.blockPreview);
+                    return true;
+                  } else {
+                    if (!((BlockVariableFieldView) droppables.get(i)).getBlock().preview(x, y, toDrop)) {
                       editor.blockPreview.removePreview();
                       editor.blockPreview.setBlock(toDrop);
                       droppables.get(i).addView(editor.blockPreview);

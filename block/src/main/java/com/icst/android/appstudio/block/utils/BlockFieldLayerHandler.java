@@ -42,6 +42,7 @@ import com.icst.android.appstudio.block.model.BlockValueFieldModel;
 import com.icst.android.appstudio.block.view.BlockFieldExtensionViewOnly;
 import com.icst.android.appstudio.block.view.BlockFieldInputOnlyView;
 import com.icst.android.appstudio.block.view.BlockFieldView;
+import com.icst.android.appstudio.block.view.BlockVariableFieldView;
 import com.icst.android.appstudio.block.view.BlockView;
 import com.icst.android.appstudio.block.view.BooleanView;
 import com.icst.android.appstudio.block.view.NumberView;
@@ -85,6 +86,20 @@ public class BlockFieldLayerHandler {
               new NumberView(
                   context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
           root.addView(numberView);
+        } else if (blockValueFieldModel.getFieldType()
+            == BlockValueFieldModel.FieldType.FIELD_TYPE_NOT_SET) {
+          if (blockValueFieldModel instanceof BlockModel block) {
+            BlockView mBlockView = new BlockView(editor, context, block, isDarkMode);
+            mBlockView.setInsideEditor(false);
+            mBlockView.setEnableDragDrop(true);
+            mBlockView.setEnableEditing(true);
+            root.addView(mBlockView);
+          } else {
+            BlockVariableFieldView variableView =
+                new BlockVariableFieldView(
+                    context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
+            root.addView(variableView);
+          }
         }
       } else if (content instanceof BlockFieldModel) {
         /*

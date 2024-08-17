@@ -92,6 +92,14 @@ public class BlockPreview extends LinearLayout {
       BlockView.setDrawable(body, R.drawable.block_number, Color.parseColor("#000000"));
       addView(body);
       body.setLayoutParams(layoutParams);
+    } else if (block.getBlockType() == BlockModel.Type.variable) {
+      LinearLayout.LayoutParams layoutParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+      LinearLayout body = new LinearLayout(getContext());
+      BlockView.setDrawable(body, R.drawable.block_variable, Color.parseColor("#000000"));
+      addView(body);
+      body.setLayoutParams(layoutParams);
     }
   }
 

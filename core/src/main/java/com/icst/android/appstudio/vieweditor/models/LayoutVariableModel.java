@@ -29,29 +29,25 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.block.tag;
+package com.icst.android.appstudio.vieweditor.models;
 
-public class BlockDroppableTag {
-  public static final int DEFAULT_BLOCK_DROPPER = 0;
-  public static final int BLOCK_BOOLEAN_DROPPER = 1;
-  public static final int BLOCK_NUMBER_DROPPER = 2;
-  public static final int BLOCK_VARIABLE_DROPPER = 3;
-  private int blockDroppableType;
-  private Object dropProperty;
+public class LayoutVariableModel {
+  private String variableName;
+  private String layoutName;
 
-  public int getBlockDroppableType() {
-    return this.blockDroppableType;
+  public String getVariableName() {
+    return this.variableName;
   }
 
-  public void setBlockDroppableType(int blockDroppableType) {
-    this.blockDroppableType = blockDroppableType;
+  public void setVariableName(String variableName) {
+    this.variableName = variableName;
   }
 
-  public <T> T getDropProperty(Class<T> dropPropertyClass) {
-    return dropPropertyClass.cast(dropProperty);
+  public String getLayoutName() {
+    return this.layoutName;
   }
 
-  public void setDropProperty(Object dropProperty) {
-    this.dropProperty = dropProperty;
+  public void setLayoutName(String layoutName) {
+    this.layoutName = layoutName;
   }
 }
