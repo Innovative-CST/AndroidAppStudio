@@ -69,6 +69,10 @@ public class BootstrapInstallerUtils {
 
     return CompletableFuture.runAsync(
         () -> {
+          notify(listener, "Extracting aapt2...");
+          extractAapt2(PREFIX, context, listener);
+          notify(listener, "Extracting hooks...");
+          extractLibHooks(PREFIX, context, listener);
           notify(listener, "Opening bootstrap zip input stream...");
           try (final var assetIn = context.getAssets().open("bootstrap.zip");
               final var zip = new ZipInputStream(assetIn)) {
@@ -164,13 +168,6 @@ public class BootstrapInstallerUtils {
               }
               Os.symlink(symlink.first, symlink.second);
             }
-            notify(listener, "Extracting Aapt2");
-            extractAapt2(PREFIX, context, listener);
-            notify(listener, "Granting Execution Permission");
-            grantFile(
-                new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so"), cont, listener);
-            notify(listener, "Extracting hooks");
-            extractLibHooks(PREFIX);
           } catch (IOException | ErrnoException e) {
             throw new RuntimeException(e);
           }
@@ -188,11 +185,14 @@ public class BootstrapInstallerUtils {
     return in;
   }
 
-  public static void extractLibHooks(final File PREFIX) {
+  public static void extractLibHooks(
+      final File PREFIX, Context context, ProgressListener listener) {
     if (!new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libhook.so").exists()) {
       copyFileFromAssets(
           "libhook.so",
           new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libhook.so").getAbsolutePath());
+
+      grantFile(new File(new File(PREFIX, "lib"), "libhook.so"), context, listener);
     }
   }
 
