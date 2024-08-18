@@ -34,13 +34,15 @@ package com.icst.app.compiler;
 import com.icst.app.compiler.progress.BuildEventProgressListener;
 import java.io.BufferedReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandExecutor {
   private final ProcessBuilder mProcess = new ProcessBuilder();
   private BuildEventProgressListener listener;
-  private StringBuilder mStringBuilder;
+  private final StringWriter mWriter = new StringWriter();
 
   public CommandExecutor(BuildEventProgressListener listener) {
     this.listener = listener;
@@ -51,22 +53,24 @@ public class CommandExecutor {
   }
 
   public String execute() {
-    mStringBuilder = new StringBuilder();
     try {
       Process process = mProcess.start();
-
-      Scanner scanner = new Scanner(process.getErrorStream());
+      Scanner scanner = new Scanner(process.getInputStream());
       while (scanner.hasNextLine()) {
-        mStringBuilder.append(scanner.nextLine());
-        mStringBuilder.append("\n");
+        mWriter.append(scanner.nextLine());
+        mWriter.append(System.lineSeparator());
+      }
+
+      Scanner scanner2 = new Scanner(process.getErrorStream());
+      while (scanner2.hasNextLine()) {
+        mWriter.append(scanner2.nextLine());
+        mWriter.append(System.lineSeparator());
       }
 
       process.waitFor();
     } catch (Exception e) {
-      if (listener != null) {
-        listener.onProgress(e.getMessage());
-      }
+      e.printStackTrace(new PrintWriter(mWriter));
     }
-    return mStringBuilder.toString();
+    return mWriter.toString();
   }
 }

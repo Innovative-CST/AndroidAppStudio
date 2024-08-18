@@ -77,7 +77,7 @@ public class AAPT2Compiler {
       listener.onProgress("AAPT2 > Compiling resources");
     }
 
-    arguments.add(new File(EnvironmentUtils.LIB_DIR, "libaapt2.so").getAbsolutePath());
+    arguments.add(new File(EnvironmentUtils.BIN_DIR, "aapt2").getAbsolutePath());
     arguments.add("compile");
     arguments.add("--dir");
     arguments.add(module.resourceOutputDirectory.getAbsolutePath());
@@ -89,12 +89,13 @@ public class AAPT2Compiler {
 
     arguments.add(outputFile.getAbsolutePath());
 
+    arguments.add("-v");
+
     executer = new CommandExecutor(listener);
     executer.setCommands(arguments);
-    if (!executer.execute().isEmpty()) {
-      if (listener != null) {
-        listener.onProgress("Aapt2 execution ended with errors!");
-      }
+
+    if (listener != null) {
+      listener.onProgress(executer.execute());
     }
   }
 }
