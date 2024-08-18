@@ -35,7 +35,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -46,9 +45,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.icst.android.appstudio.MyApplication;
 import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.activities.TerminalActivity;
 import com.icst.android.appstudio.adapters.ProjectListAdapter;
 import com.icst.android.appstudio.databinding.ActivityProjectManagerBinding;
 import com.icst.android.appstudio.dialogs.BootstrapInstallerDialog;
@@ -129,34 +126,10 @@ public class ProjectManagerActivity extends BaseActivity {
             extension.setClass(this, ExtensionsManagerActivity.class);
             startActivity(extension);
           }
-          if (menuItem.getItemId() == R.id.instagram) {
-            Intent instagram = new Intent();
-            instagram.setAction(Intent.ACTION_VIEW);
-            instagram.setData(Uri.parse(MyApplication.INSTAGRAM));
-            startActivity(instagram);
-          }
-          if (menuItem.getItemId() == R.id.youtube) {
-            Intent youtube = new Intent();
-            youtube.setAction(Intent.ACTION_VIEW);
-            youtube.setData(Uri.parse(MyApplication.YOUTUBE));
-            startActivity(youtube);
-          }
           if (menuItem.getItemId() == R.id.terminal) {
             Intent terminal = new Intent();
             terminal.setClass(this, TerminalActivity.class);
             startActivity(terminal);
-          }
-          if (menuItem.getItemId() == R.id.discord) {
-            Intent discord = new Intent();
-            discord.setAction(Intent.ACTION_VIEW);
-            discord.setData(Uri.parse(MyApplication.DISCORD));
-            startActivity(discord);
-          }
-          if (menuItem.getItemId() == R.id.x) {
-            Intent x = new Intent();
-            x.setAction(Intent.ACTION_VIEW);
-            x.setData(Uri.parse(MyApplication.X));
-            startActivity(x);
           }
           if (menuItem.getItemId() == R.id.settings) {
             Intent settings = new Intent(ProjectManagerActivity.this, SettingActivity.class);

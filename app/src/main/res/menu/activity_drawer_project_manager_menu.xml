@@ -33,29 +33,4 @@
         android:icon="@drawable/ic_setting"
         android:title="@string/settings"
         app:showAsAction="ifRoom" />
-    <item
-        android:title="@string/social_links">
-        <menu>
-            <item
-                android:id="@+id/instagram"
-                android:icon="@drawable/ic_instagram"
-                android:title="@string/instagram"
-                app:showAsAction="ifRoom" />
-            <item
-                android:id="@+id/youtube"
-                android:icon="@drawable/ic_youtube"
-                android:title="@string/youtube"
-                app:showAsAction="ifRoom" />
-            <item
-                android:id="@+id/discord"
-                android:icon="@drawable/discord"
-                android:title="@string/discord"
-                app:showAsAction="ifRoom" />
-            <item
-                android:id="@+id/x"
-                android:icon="@drawable/ic_x"
-                android:title="@string/x"
-                app:showAsAction="ifRoom" />
-        </menu>
-    </item>
 </menu>

@@ -100,6 +100,46 @@ public class AboutAppActivity extends BaseActivity {
           orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
           startActivity(orgGithub);
         });
+
+    binding.github.setOnClickListener(
+        v -> {
+          Intent orgGithub = new Intent();
+          orgGithub.setAction(Intent.ACTION_VIEW);
+          orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
+          startActivity(orgGithub);
+        });
+
+    binding.discord.setOnClickListener(
+        v -> {
+          Intent discord = new Intent();
+          discord.setAction(Intent.ACTION_VIEW);
+          discord.setData(Uri.parse(MyApplication.DISCORD));
+          startActivity(discord);
+        });
+
+    binding.youtube.setOnClickListener(
+        v -> {
+          Intent youtube = new Intent();
+          youtube.setAction(Intent.ACTION_VIEW);
+          youtube.setData(Uri.parse(MyApplication.YOUTUBE));
+          startActivity(youtube);
+        });
+
+    binding.instagram.setOnClickListener(
+        v -> {
+          Intent instagram = new Intent();
+          instagram.setAction(Intent.ACTION_VIEW);
+          instagram.setData(Uri.parse(MyApplication.INSTAGRAM));
+          startActivity(instagram);
+        });
+
+    binding.x.setOnClickListener(
+        v -> {
+          Intent x = new Intent();
+          x.setAction(Intent.ACTION_VIEW);
+          x.setData(Uri.parse(MyApplication.X));
+          startActivity(x);
+        });
   }
 
   @Override
