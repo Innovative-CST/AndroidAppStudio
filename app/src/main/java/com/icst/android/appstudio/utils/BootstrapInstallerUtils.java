@@ -165,7 +165,7 @@ public class BootstrapInstallerUtils {
               Os.symlink(symlink.first, symlink.second);
             }
             notify(listener, "Extracting Aapt2");
-            extractAapt2(PREFIX);
+            extractAapt2(PREFIX, context, listener);
             notify(listener, "Granting Execution Permission");
             grantFile(
                 new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so"), cont, listener);
@@ -196,11 +196,12 @@ public class BootstrapInstallerUtils {
     }
   }
 
-  public static void extractAapt2(final File PREFIX) {
-    if (!new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so").exists()) {
+  public static void extractAapt2(final File PREFIX, Context context, ProgressListener listener) {
+    if (!new File(mkdirIfNotExits(new File(PREFIX, "bin")), "aapt2").exists()) {
       copyFileFromAssets(
-          "libaapt2.so",
-          new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libaapt2.so").getAbsolutePath());
+          "aapt2", new File(mkdirIfNotExits(new File(PREFIX, "bin")), "aapt2").getAbsolutePath());
+
+      grantFile(new File(new File(PREFIX, "bin"), "aapt2"), context, listener);
     }
   }
 
