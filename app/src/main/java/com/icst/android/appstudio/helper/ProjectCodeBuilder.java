@@ -247,30 +247,33 @@ public final class ProjectCodeBuilder {
 
     // Note: In Currently available blocks dependency feature is not available but it is implemented
     // in block generators library...
-    ArrayList<DependencyTag> dependencies = new ArrayList<DependencyTag>();
+    ArrayList<DependencyTag> dependencies = mainJavaSrcBuilder.getDependencies();
     ArrayList<String> alreadyAddedDeps = new ArrayList<String>();
     for (int i = 0; i < dependencies.size(); ++i) {
       String group = dependencies.get(i).getDependencyGroup();
       String name = dependencies.get(i).getDependencyName();
       String version = dependencies.get(i).getVersion();
-
+      boolean isDepUsed = false;
       for (int i2 = 0; i2 < alreadyAddedDeps.size(); ++i2) {
-        if (!alreadyAddedDeps
+        if (alreadyAddedDeps
             .get(i2)
             .equals(group.concat(":").concat(name).concat(":").concat(version))) {
-          alreadyAddedDeps.add(group.concat(":").concat(name).concat(":").concat(version));
-          if (listener != null) {
-            listener.onBuildProgressLog(
-                "Using dependency in project : " + group + ":" + name + ":" + version);
-          }
-
-          // Logic to download dependency
-          // Dependency must be downloaded to module.getModuleLibsDirectory() with folder name
-          // `name-group-version`
-          // and files must be stored in it eg. configuration (Info of dependency like source), jar
-          // file with any name.
-          // All jar files present will be added to it.
+          isDepUsed = true;
         }
+      }
+      if (!isDepUsed) {
+        alreadyAddedDeps.add(group.concat(":").concat(name).concat(":").concat(version));
+        if (listener != null) {
+          listener.onBuildProgressLog(
+              "Using dependency in project : " + group + ":" + name + ":" + version);
+        }
+
+        // Logic to download dependency
+        // Dependency must be downloaded to module.getModuleLibsDirectory() with folder name
+        // `name-group-version`
+        // and files must be stored in it eg. configuration (Info of dependency like source), jar
+        // file with any name.
+        // All jar files present will be added to it.
       }
     }
 
