@@ -33,6 +33,7 @@ package com.icst.android.appstudio.helper;
 
 import android.code.editor.common.utils.FileUtils;
 import com.icst.android.appstudio.block.model.FileModel;
+import com.icst.android.appstudio.block.tag.DependencyTag;
 import com.icst.android.appstudio.builder.AndroidManifestBuilder;
 import com.icst.android.appstudio.builder.JavaSourceBuilder;
 import com.icst.android.appstudio.builder.LayoutSourceBuilder;
@@ -241,8 +242,37 @@ public final class ProjectCodeBuilder {
     /*
      * Download used dependecies in project.
      * Only same dependecies download one time.
-     * If two versions are specified then consider tge 1st founded version only.
+     * If two versions are specified then consider the 1st founded version only.
      */
+
+    // Note: In Currently available blocks dependency feature is not available but it is implemented
+    // in block generators library...
+    ArrayList<DependencyTag> dependencies = new ArrayList<DependencyTag>();
+    ArrayList<String> alreadyAddedDeps = new ArrayList<String>();
+    for (int i = 0; i < dependencies.size(); ++i) {
+      String group = dependencies.get(i).getDependencyGroup();
+      String name = dependencies.get(i).getDependencyName();
+      String version = dependencies.get(i).getVersion();
+
+      for (int i2 = 0; i2 < alreadyAddedDeps.size(); ++i2) {
+        if (!alreadyAddedDeps
+            .get(i2)
+            .equals(group.concat(":").concat(name).concat(":").concat(version))) {
+          alreadyAddedDeps.add(group.concat(":").concat(name).concat(":").concat(version));
+          if (listener != null) {
+            listener.onBuildProgressLog(
+                "Using dependency in project : " + group + ":" + name + ":" + version);
+          }
+
+          // Logic to download dependency
+          // Dependency must be downloaded to module.getModuleLibsDirectory() with folder name
+          // `name-group-version`
+          // and files must be stored in it eg. configuration (Info of dependency like source), jar
+          // file with any name.
+          // All jar files present will be added to it.
+        }
+      }
+    }
 
     AppBuilder apkBuilder = new AppBuilder();
     apkBuilder.build(

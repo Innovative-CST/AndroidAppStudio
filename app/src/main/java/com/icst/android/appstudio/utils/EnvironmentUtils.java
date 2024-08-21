@@ -53,6 +53,7 @@ public final class EnvironmentUtils {
   public static File PROJECTS;
   public static File SETTING_FILE;
   public static File EXTENSION_DIR;
+  public static final String PROJECT_DEPENDENCIES = "libs";
   public static final String PROJECT_CONFIGRATION = "ProjectConfig";
   public static final String FILE_MODEL = "FileModel";
   public static final String JAVA_FILE_MODEL = "JavaFileModel";

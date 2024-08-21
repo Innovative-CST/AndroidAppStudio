@@ -74,7 +74,7 @@ public class AAPT2Compiler {
     ArrayList<String> arguments = new ArrayList<String>();
 
     if (listener != null) {
-      listener.onProgress("AAPT2 > Compiling resources");
+      listener.onProgress("AAPT2 > Compiling resources...");
     }
 
     arguments.add(new File(EnvironmentUtils.BIN_DIR, "aapt2").getAbsolutePath());

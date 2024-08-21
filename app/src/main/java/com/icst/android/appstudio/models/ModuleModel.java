@@ -52,6 +52,7 @@ public class ModuleModel implements Parcelable, Cloneable {
   public File gradleOutputFile;
   public File manifestFile;
   public File manifestOutputFile;
+  public File moduleLibsDirectory;
 
   public ModuleModel() {}
 
@@ -68,6 +69,7 @@ public class ModuleModel implements Parcelable, Cloneable {
     gradleOutputFile = new File(in.readString());
     manifestFile = new File(in.readString());
     manifestOutputFile = new File(in.readString());
+    moduleLibsDirectory = new File(in.readString());
   }
 
   public void init(String module, File projectRootDirectory) {
@@ -86,7 +88,9 @@ public class ModuleModel implements Parcelable, Cloneable {
     gradleOutputFile = getGradleOutputDirectory();
 
     manifestFile = getManifestFile();
-	manifestOutputFile = getManifestOutputFile();
+    manifestOutputFile = getManifestOutputFile();
+
+    moduleLibsDirectory = getModuleLibsDirectory();
   }
 
   private File getManifestFile() {
@@ -194,6 +198,7 @@ public class ModuleModel implements Parcelable, Cloneable {
     dest.writeString(gradleOutputFile.getAbsolutePath());
     dest.writeString(manifestFile.getAbsolutePath());
     dest.writeString(manifestOutputFile.getAbsolutePath());
+    dest.writeString(moduleLibsDirectory.getAbsolutePath());
   }
 
   public static final Creator<ModuleModel> CREATOR =
@@ -208,4 +213,14 @@ public class ModuleModel implements Parcelable, Cloneable {
           return new ModuleModel[size];
         }
       };
+
+  public File getModuleLibsDirectory() {
+    return new File(
+        EnvironmentUtils.getModuleDirectory(projectRootDirectory, module),
+        EnvironmentUtils.PROJECT_DEPENDENCIES);
+  }
+
+  public void setModuleLibsDirectory(File moduleLibsDirectory) {
+    this.moduleLibsDirectory = moduleLibsDirectory;
+  }
 }
