@@ -179,7 +179,7 @@ task downloadBootstrapArm {
             println "Downloading bootstrap for arm will be ignored as it already exists."
         }
 		download.run {
-            src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.04-r1%2Bapt-android-7/bootstrap-arm.zip"
+            src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-arm.zip"
             dest file("src/arm/assets/bootstrap.zip")
             overwrite false
 	    }
@@ -193,7 +193,7 @@ task downloadBootstrapAarch64 {
             println "Downloading bootstrap for aarch64 will be ignored as it already exists."
         }
 		download.run {
-            src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.04-r1%2Bapt-android-7/bootstrap-aarch64.zip"
+            src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-aarch64.zip"
             dest file("src/aarch64/assets/bootstrap.zip")
             overwrite false
 	    }
