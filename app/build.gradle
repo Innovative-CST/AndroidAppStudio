@@ -72,7 +72,7 @@ if (KEYSTOREPASSWORD != null) {
 android {
     namespace 'com.icst.android.appstudio'
     compileSdk 34
-    flavorDimensions = ["arch"]
+    flavorDimensions = ["abi"]
     def getCommitHash = { ->
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -99,27 +99,47 @@ android {
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         buildConfigField "String", "commitSha", getCommitSha()
         buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
-		buildConfigField "java.io.File", "STORAGE", "new java.io.File(\"" + properties.getProperty("STORAGE", "NOT_PROVIDED") + "\")"
+        buildConfigField "java.io.File", "STORAGE", "new java.io.File(\"" + properties.getProperty("STORAGE", "NOT_PROVIDED") + "\")"
 
         vectorDrawables { 
             useSupportLibrary true
         }
     }
 
-   productFlavors {
+    productFlavors {
         arm {
-            dimension "arch"
+            dimension "abi"
             versionNameSuffix "-armeabi-v7a"
+            buildConfigField "String", "abi", "\"armeabi-v7a\""
             ndk {
-                abiFilters "arm64-v8a", "armeabi-v7a", "x86_64", "x86"
+                abiFilters "armeabi-v7a"
             }
         }
 
         aarch64 {
-            dimension "arch"
+            dimension "abi"
             versionNameSuffix "-arm64-v8a"
+            buildConfigField "String", "abi", "\"arm64-v8a\""
             ndk {
-                abiFilters "arm64-v8a", "x86_64", "x86"
+                abiFilters "arm64-v8a"
+            }
+        }
+
+        x86 {
+            dimension "abi"
+            versionNameSuffix "-x86"
+            buildConfigField "String", "abi", "\"x86\""
+            ndk {
+                abiFilters "x86"
+            }
+        }
+
+        x86_64 {
+            dimension "abi"
+            versionNameSuffix "-x86_64"
+            buildConfigField "String", "abi", "\"x86_64\""
+            ndk {
+                abiFilters "x86_64"
             }
         }
     }
@@ -172,31 +192,39 @@ android {
     }
 }
 
+def downloadBootstrap(String arch) {
+    println "Downloading bootstrap-${arch}.zip..."
+    if (file("src/${arch}/assets/bootstrap.zip").exists()) {
+        println "Downloading bootstrap-${arch} will be ignored as it already exists."
+    }
+	download.run {
+        src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-${arch}.zip"
+        dest file("src/${arch}/assets/bootstrap.zip")
+        overwrite false
+    }
+}
+
 task downloadBootstrapArm {
     doLast {
-        println "Downloading bootstrap for arm..."
-        if (file("src/arm/assets/bootstrap.zip").exists()) {
-            println "Downloading bootstrap for arm will be ignored as it already exists."
-        }
-		download.run {
-            src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-arm.zip"
-            dest file("src/arm/assets/bootstrap.zip")
-            overwrite false
-	    }
+        downloadBootstrap("arm")
 	}
 }
 
 task downloadBootstrapAarch64 {
     doLast {
-        println "Downloading bootstrap for aarch64..."
-        if (file("src/aarch64/assets/bootstrap.zip").exists()) {
-            println "Downloading bootstrap for aarch64 will be ignored as it already exists."
-        }
-		download.run {
-            src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-aarch64.zip"
-            dest file("src/aarch64/assets/bootstrap.zip")
-            overwrite false
-	    }
+        downloadBootstrap("aarch64")
+	}
+}
+
+task downloadx86 {
+    doLast {
+        downloadBootstrap("i686")
+	}
+}
+
+task downloadx86_64 {
+    doLast {
+        downloadBootstrap("x86_64")
 	}
 }
 
@@ -243,5 +271,13 @@ project.afterEvaluate {
 
     tasks.named('assembleAarch64Debug').configure {
         dependsOn downloadBootstrapAarch64
+    }
+
+    tasks.named('assembleX86Debug').configure {
+        dependsOn downloadx86
+    }
+
+    tasks.named('assembleX86_64Debug').configure {
+        dependsOn downloadx86_64
     }
 }
