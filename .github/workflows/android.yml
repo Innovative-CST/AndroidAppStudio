@@ -11,7 +11,7 @@ on:
 
 jobs:
   buildArmDebug:
-    name: Build Debug APK
+    name: Build armeabi-v7a Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -57,7 +57,7 @@ jobs:
           path: app/build/outputs/apk/arm/debug/output-metadata.json
 
   buildAarch64Debug:
-    name: Build Debug APK
+    name: Build arm64-v8a Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -103,7 +103,7 @@ jobs:
           path: app/build/outputs/apk/aarch64/debug/output-metadata.json
 
   buildX86Debug:
-    name: Build Debug APK
+    name: Build x86 Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -155,7 +155,7 @@ jobs:
           path: app/build/outputs/apk/x86/debug/output-metadata.json
 
   buildX86_64Debug:
-    name: Build Debug APK
+    name: Build x86_64 Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
