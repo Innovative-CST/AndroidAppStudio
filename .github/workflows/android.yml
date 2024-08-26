@@ -10,8 +10,8 @@ on:
       - .gitignore
 
 jobs:
-  buildArm:
-    name: Build Arm Debug APK
+  build:
+    name: Build Debug APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,62 +42,52 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleArmDebug
+        run: ./gradlew assembleDebug
           
-      - name: Upload debug APK
+      - name: Upload arm debug APK
         uses: actions/upload-artifact@v3
         with:
           name: android-appstudio-armeabi-v7a
           path: app/build/outputs/apk/arm/debug/app-arm-debug.apk
 
-      - name: Upload output metadata APK
+      - name: Upload arm output metadata
         uses: actions/upload-artifact@v3
         with:
           name: output-metadata-armeabi-v7a
           path: app/build/outputs/apk/arm/debug/output-metadata.json
 
-  buildAarch64:
-    name: Build Aarch64 Debug APK
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up KeyStore Password
-        shell: bash 
-        if: ${{ env.KEYSTOREPASSWORD != '' }}
-        env:
-          KEYSTOREPASSWORD: ${{ secrets.KEYSTOREPASSWORD }}
-        run: |
-          printf 'KEYSTOREPASSWORD<<EOF\n%s\nEOF\n' "$KEYSTOREPASSWORD" >> $GITHUB_ENV
-        
-      - name: Set up Firebase
-        shell: bash 
-        if: ${{ env.Firebase != '' }}
-        env:
-          Firebase: ${{ secrets.Firebase }}
-        run: |
-          printf 'Firebase<<EOF\n%s\nEOF\n' "$Firebase" >> $GITHUB_ENV
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: temurin
-          
-      - name: Allow gradlew permission
-        run: chmod +x ./gradlew
-
-      - name: Build debug APK
-        run: ./gradlew assembleAarch64Debug
-          
-      - name: Upload debug APK
+      - name: Upload aarch64 debug APK
         uses: actions/upload-artifact@v3
         with:
           name: android-appstudio-arm64-v8a
           path: app/build/outputs/apk/aarch64/debug/app-aarch64-debug.apk
 
-      - name: Upload output metadata APK
+      - name: Upload aarch64 output metadata
         uses: actions/upload-artifact@v3
         with:
           name: output-metadata-arm64-v8a
           path: app/build/outputs/apk/aarch64/debug/output-metadata.json
+
+      - name: Upload x86 debug APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-appstudio-x86
+          path: app/build/outputs/apk/x86/debug/app-x86-debug.apk
+
+      - name: Upload x86 output metadata
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-metadata-x86
+          path: app/build/outputs/apk/x86/debug/output-metadata.json
+
+      - name: Upload x86_64 debug APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-appstudio-x86_64
+          path: app/build/outputs/apk/x86_64/debug/app-x86_64-debug.apk
+
+      - name: Upload x86_64 output metadata
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-metadata-x86_64
+          path: app/build/outputs/apk/x86_64/debug/output-metadata.json
