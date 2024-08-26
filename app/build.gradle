@@ -212,7 +212,7 @@ task downloadBootstrapArm {
 
 task downloadBootstrapAarch64 {
     doLast {
-        downloadBootstrap("aarch64", "arm")
+        downloadBootstrap("aarch64", "aarch64")
 	}
 }
 
