@@ -192,39 +192,39 @@ android {
     }
 }
 
-def downloadBootstrap(String arch) {
+def downloadBootstrap(String arch, String variant) {
     println "Downloading bootstrap-${arch}.zip..."
     if (file("src/${arch}/assets/bootstrap.zip").exists()) {
         println "Downloading bootstrap-${arch} will be ignored as it already exists."
     }
 	download.run {
         src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-${arch}.zip"
-        dest file("src/${arch}/assets/bootstrap.zip")
+        dest file("src/${variant}/assets/bootstrap.zip")
         overwrite false
     }
 }
 
 task downloadBootstrapArm {
     doLast {
-        downloadBootstrap("arm")
+        downloadBootstrap("arm", "arm")
 	}
 }
 
 task downloadBootstrapAarch64 {
     doLast {
-        downloadBootstrap("aarch64")
+        downloadBootstrap("aarch64", "arm")
 	}
 }
 
 task downloadx86 {
     doLast {
-        downloadBootstrap("i686")
+        downloadBootstrap("i686", "x86")
 	}
 }
 
 task downloadx86_64 {
     doLast {
-        downloadBootstrap("x86_64")
+        downloadBootstrap("x86_64", "x86_64")
 	}
 }
 
