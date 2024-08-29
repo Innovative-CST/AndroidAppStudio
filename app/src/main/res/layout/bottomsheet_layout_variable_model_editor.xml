@@ -21,20 +21,58 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-     <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:hint="Choose layout"
         android:layout_margin="8dp"
         android:id="@+id/layoutInputLayout"
-		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-			android:inputType="none"
+            android:inputType="none"
             android:id="@+id/layoutName" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="8dp"
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/delete"
+                android:text="@string/delete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="8dp"
+                android:id="@+id/done"
+                android:text="@string/done" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

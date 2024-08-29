@@ -29,20 +29,12 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.dialogs.resourcemanager;
+package com.icst.android.appstudio.listener;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.android.appstudio.databinding.DialogLayoutVariableModelEditorBinding;
+import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
 
-public class EditLayoutVariableModelDialog extends MaterialAlertDialogBuilder {
-  public EditLayoutVariableModelDialog(Context context) {
-    super(context);
+public interface LayoutVariableModelChangeListener {
+  void onLayoutVariableModelUpdate(LayoutVariableModel model);
 
-    DialogLayoutVariableModelEditorBinding binding =
-        DialogLayoutVariableModelEditorBinding.inflate(LayoutInflater.from(context));
-
-    setView(binding.getRoot());
-  }
+  void onLayoutVariableModelDelete();
 }

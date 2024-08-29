@@ -40,11 +40,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
+import com.icst.android.appstudio.bottomsheet.EditLayoutVariableModelBottomSheet;
 import com.icst.android.appstudio.databinding.FragmentLayoutVariableManagerBinding;
-import com.icst.android.appstudio.dialogs.resourcemanager.EditLayoutVariableModelDialog;
+import com.icst.android.appstudio.listener.LayoutVariableModelChangeListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
+import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -86,9 +88,19 @@ public class LayoutVariableManagerFragment extends Fragment {
 
     binding.fab.setOnClickListener(
         (v) -> {
-          EditLayoutVariableModelDialog mEditLayoutVariableModelDialog =
-              new EditLayoutVariableModelDialog(getContext());
-          mEditLayoutVariableModelDialog.show();
+          EditLayoutVariableModelBottomSheet EditLayoutVariableModelBottomSheet =
+              new EditLayoutVariableModelBottomSheet(
+                  getContext(),
+                  null,
+                  new LayoutVariableModelChangeListener() {
+                    @Override
+                    public void onLayoutVariableModelDelete() {}
+
+                    @Override
+                    public void onLayoutVariableModelUpdate(LayoutVariableModel model) {}
+                  });
+
+          EditLayoutVariableModelBottomSheet.show();
         });
 
     return binding.getRoot();
