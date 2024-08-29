@@ -88,9 +88,10 @@ public class LayoutVariableManagerFragment extends Fragment {
 
     binding.fab.setOnClickListener(
         (v) -> {
-          EditLayoutVariableModelBottomSheet EditLayoutVariableModelBottomSheet =
+          EditLayoutVariableModelBottomSheet editLayoutVariableModelBottomSheet =
               new EditLayoutVariableModelBottomSheet(
                   getContext(),
+                  module,
                   null,
                   new LayoutVariableModelChangeListener() {
                     @Override
@@ -100,7 +101,7 @@ public class LayoutVariableManagerFragment extends Fragment {
                     public void onLayoutVariableModelUpdate(LayoutVariableModel model) {}
                   });
 
-          EditLayoutVariableModelBottomSheet.show();
+          editLayoutVariableModelBottomSheet.show();
         });
 
     return binding.getRoot();
