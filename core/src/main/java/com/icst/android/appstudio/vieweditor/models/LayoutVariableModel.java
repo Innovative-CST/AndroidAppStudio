@@ -31,7 +31,11 @@
 
 package com.icst.android.appstudio.vieweditor.models;
 
-public class LayoutVariableModel {
+import java.io.Serializable;
+
+public class LayoutVariableModel implements Serializable {
+  public static final long serialVersionUID = 27L;
+
   private String variableName;
   private String layoutName;
 

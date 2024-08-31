@@ -59,6 +59,7 @@ public final class EnvironmentUtils {
   public static final String JAVA_FILE_MODEL = "JavaFileModel";
   public static final String VARIABLES = "Variables";
   public static final String STATIC_VARIABLES = "StaticVariables";
+  public static final String LAYOUT_VARIABLE = "LayoutVariable";
   public static final String FILES = "files";
   public static final String EVENTS_DIR = "Events";
   public static final String EVENTS_HOLDER = "EventsHolder";
