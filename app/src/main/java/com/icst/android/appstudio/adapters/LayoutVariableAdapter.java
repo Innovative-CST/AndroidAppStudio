@@ -37,7 +37,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.bottomsheet.EditLayoutVariableModelBottomSheet;
-import com.icst.android.appstudio.databinding.AdapterVariableBinding;
+import com.icst.android.appstudio.databinding.AdapterLayoutVariableBinding;
 import com.icst.android.appstudio.fragments.variablemanager.LayoutVariableManagerFragment;
 import com.icst.android.appstudio.listener.LayoutVariableModelChangeListener;
 import com.icst.android.appstudio.models.ModuleModel;
@@ -72,8 +72,8 @@ public class LayoutVariableAdapter extends RecyclerView.Adapter<LayoutVariableAd
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterVariableBinding binding =
-        AdapterVariableBinding.inflate(LayoutInflater.from(fragment.getContext()));
+    AdapterLayoutVariableBinding binding =
+        AdapterLayoutVariableBinding.inflate(LayoutInflater.from(fragment.getContext()));
     RecyclerView.LayoutParams mLayoutParams =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -83,7 +83,7 @@ public class LayoutVariableAdapter extends RecyclerView.Adapter<LayoutVariableAd
 
   @Override
   public void onBindViewHolder(ViewHolder holder, final int position) {
-    AdapterVariableBinding binding = AdapterVariableBinding.bind(holder.itemView);
+    AdapterLayoutVariableBinding binding = AdapterLayoutVariableBinding.bind(holder.itemView);
     binding.variableName.setText(variables.get(position).getVariableName());
     binding.variableType.setText(variables.get(position).getLayoutName());
     binding.representation.setImageResource(R.drawable.ic_layout);
