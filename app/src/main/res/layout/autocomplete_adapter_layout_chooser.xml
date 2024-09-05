@@ -12,7 +12,8 @@
     <ImageView
         android:layout_height="24dp"
         android:layout_width="24dp"
-        android:src="@drawable/ic_layout" />
+        android:src="@drawable/ic_layout"
+        android:tint="?attr/colorOnSurface" />
 
     <LinearLayout
         android:layout_height="wrap_content"
