@@ -32,6 +32,8 @@
 package com.icst.android.appstudio.bottomsheet;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -76,8 +78,54 @@ public class EditLayoutVariableModelBottomSheet extends BottomSheetDialog {
 
     binding.layoutName.setAdapter(adapter);
 
+    binding.layoutVariableName.addTextChangedListener(
+        new TextWatcher() {
+
+          @Override
+          public void afterTextChanged(Editable arg0) {}
+
+          @Override
+          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+
+          @Override
+          public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            binding.done.setEnabled(
+                shouldEnableActionButton(
+                    binding.layoutName.getText().toString(),
+                    binding.layoutVariableName.getText().toString()));
+          }
+        });
+
+    binding.layoutName.addTextChangedListener(
+        new TextWatcher() {
+
+          @Override
+          public void afterTextChanged(Editable arg0) {}
+
+          @Override
+          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+
+          @Override
+          public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            binding.done.setEnabled(
+                shouldEnableActionButton(
+                    binding.layoutName.getText().toString(),
+                    binding.layoutVariableName.getText().toString()));
+          }
+        });
+
+    binding.done.setEnabled(
+        shouldEnableActionButton(
+            binding.layoutName.getText().toString(),
+            binding.layoutVariableName.getText().toString()));
+
     if (this.model == null) {
       binding.delete.setText("Cancel");
+    } else {
+      binding.layoutName.setText(model.getLayoutName());
+      binding.layoutVariableName.setText(model.getVariableName());
     }
 
     binding.delete.setOnClickListener(
@@ -97,6 +145,13 @@ public class EditLayoutVariableModelBottomSheet extends BottomSheetDialog {
           listener.onLayoutVariableModelUpdate(this.model);
           dismiss();
         });
+  }
+
+  public boolean shouldEnableActionButton(String str1, String str2) {
+    if (str1.equals("") || str2.equals("")) {
+      return false;
+    }
+    return true;
   }
 
   public void addLayoutNamesToList(ArrayList<String> layoutNames, ArrayAdapter<String> adapter) {
