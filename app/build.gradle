@@ -229,6 +229,8 @@ task downloadx86_64 {
 }
 
 dependencies {
+    fileTree(dir: 'libs', include: ['*.jar'])
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.2")
 
     implementation("androidx.appcompat:appcompat:$appcompat_version")
@@ -252,6 +254,8 @@ dependencies {
     implementation("com.termux.termux-app:terminal-view:0.117")
     implementation("com.termux.termux-app:terminal-emulator:0.117")
 
+    implementation("org.gradle:gradle-tooling-api:7.1.1")
+    runtimeOnly("org.slf4j:slf4j-simple:1.7.10")
     runtimeOnly('com.android.tools:sdklib:31.5.1') {
         exclude group: 'com.sun.activation', module: 'javax.activation'
     }
