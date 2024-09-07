@@ -171,43 +171,64 @@ public class EventEditor extends RelativeLayout {
   }
 
   public void dropInCanva(float x, float y) {
-    LinearLayout droppable = new LinearLayout(getContext());
-    droppable.setId(R.id.notAttachedBlockLayout);
-    droppable.setOrientation(LinearLayout.VERTICAL);
+    if (draggingBlock.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
+      LinearLayout droppable = new LinearLayout(getContext());
+      droppable.setId(R.id.notAttachedBlockLayout);
+      droppable.setOrientation(LinearLayout.VERTICAL);
 
-    FrameLayout.LayoutParams droppableParams =
-        new FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+      FrameLayout.LayoutParams droppableParams =
+          new FrameLayout.LayoutParams(
+              FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 
-    BlockView block =
-        new BlockView(this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
+      BlockView block =
+          new BlockView(this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
 
-    droppableParams.setMargins(
-        (int) x + binding.canva.getScrollX() - binding.codeEditor.getPaddingStart(),
-        (int) y + binding.canva.getScrollY() - binding.codeEditor.getPaddingTop(),
-        0,
-        0);
+      droppableParams.setMargins(
+          (int) x + binding.canva.getScrollX() - binding.codeEditor.getPaddingStart(),
+          (int) y + binding.canva.getScrollY() - binding.codeEditor.getPaddingTop(),
+          0,
+          0);
 
-    block.setEnableDragDrop(true);
-    block.setEnableEditing(true);
-    block.setInsideEditor(true);
+      block.setEnableDragDrop(true);
+      block.setEnableEditing(true);
+      block.setInsideEditor(true);
 
-    droppable.addView(block);
-    binding.canva.addView(droppable);
-    droppable.setLayoutParams(droppableParams);
+      droppable.addView(block);
+      binding.canva.addView(droppable);
+      droppable.setLayoutParams(droppableParams);
 
-    if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
-      if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
-        BlockDroppableTag tag =
-            ((BlockDroppableTag) ((ViewGroup) draggingBlock.getParent()).getTag());
+      if (((ViewGroup) draggingBlock.getParent()).getTag() != null) {
+        if (((ViewGroup) draggingBlock.getParent()).getTag() instanceof BlockDroppableTag) {
+          BlockDroppableTag tag =
+              ((BlockDroppableTag) ((ViewGroup) draggingBlock.getParent()).getTag());
 
-        if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER
-            && block.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
-          tag.getDropProperty(BlockHolderLayer.class)
-              .getBlocks()
-              .remove(((ViewGroup) draggingBlock.getParent()).indexOfChild(draggingBlock));
+          if (tag.getBlockDroppableType() == BlockDroppableTag.DEFAULT_BLOCK_DROPPER
+              && block.getBlockModel().getBlockType() == BlockModel.Type.defaultBlock) {
+            tag.getDropProperty(BlockHolderLayer.class)
+                .getBlocks()
+                .remove(((ViewGroup) draggingBlock.getParent()).indexOfChild(draggingBlock));
+          }
         }
       }
+    } else {
+      FrameLayout.LayoutParams blockParams =
+          new FrameLayout.LayoutParams(
+              FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+
+      BlockView block =
+          new BlockView(this, getContext(), draggingBlock.getBlockModel().clone(), isDarkMode());
+
+      blockParams.setMargins(
+          (int) x + binding.canva.getScrollX() - binding.codeEditor.getPaddingStart(),
+          (int) y + binding.canva.getScrollY() - binding.codeEditor.getPaddingTop(),
+          0,
+          0);
+
+      block.setEnableDragDrop(true);
+      block.setEnableEditing(true);
+      block.setInsideEditor(true);
+      binding.canva.addView(block);
+      block.setLayoutParams(blockParams);
     }
   }
 
