@@ -32,6 +32,7 @@
 package com.icst.android.appstudio.activities;
 
 import android.code.editor.common.utils.FileUtils;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.core.graphics.Insets;
@@ -76,6 +77,13 @@ public class FileManagerActivity extends BaseActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+    binding.fab.setOnClickListener(
+        (v) -> {
+          Intent editor = new Intent(FileManagerActivity.this, CodeEditorActivity.class);
+          editor.putExtra("path", currentDir.getAbsolutePath());
+          startActivity(editor);
+        });
 
     loadFileList(currentDir);
   }
