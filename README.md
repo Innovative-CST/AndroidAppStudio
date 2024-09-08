@@ -1,12 +1,12 @@
 # Android AppStudio
 
 [![Android CI](https://github.com/Innovative-CST/AndroidAppStudio/actions/workflows/android.yml/badge.svg)](https://github.com/Innovative-CST/AndroidAppStudio/actions/workflows/android.yml)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/94a4082a551c496cae031bcdb6f2040d)](https://codacy.com/gh/TS-Code-Editor/AndroidAppStudio/dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/94a4082a551c496cae031bcdb6f2040d)](https://codacy.com/gh/Innovative-CST/AndroidAppStudio/dashboard)
 ![Commit Activity](https://img.shields.io/github/commit-activity/m/TS-Code-Editor/AndroidAppStudio)
-[![GitHub contributors](https://img.shields.io/github/contributors/TS-Code-Editor/AndroidAppStudio)](https://github.com/TS-Code-Editor/AndroidAppStudio/graphs/contributors)
-[![GitHub last commit](https://img.shields.io/github/last-commit/TS-Code-Editor/AndroidAppStudio)](https://github.com/TS-Code-Editor/AndroidAppStudio/commits/)
+[![GitHub contributors](https://img.shields.io/github/contributors/TS-Code-Editor/AndroidAppStudio)](https://github.com/Innovative-CST/AndroidAppStudio/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/TS-Code-Editor/AndroidAppStudio)](https://github.com/Innovative-CST/AndroidAppStudio/commits/)
 [![Discord server stats](https://img.shields.io/discord/1069271293150625853)](http://discord.gg/RM5qaZs4kd)
-[![Repository Size](https://img.shields.io/github/repo-size/TS-Code-Editor/AndroidAppStudio)](https://github.com/TS-Code-Editor/AndroidAppStudio)
+[![Repository Size](https://img.shields.io/github/repo-size/TS-Code-Editor/AndroidAppStudio)](https://github.com/Innovative-CST/AndroidAppStudio)
 
 Welcome to the Android App Studio! This project enables building Android applications using a drag-and-drop interface.
 Currently this app is under development so it doesn't have much features.
