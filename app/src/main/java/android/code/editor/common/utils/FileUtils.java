@@ -36,7 +36,7 @@ import java.util.HashMap;
 
 public class FileUtils {
   public static void setUpFileList(
-      ArrayList<HashMap<String, Object>> listMap, ArrayList<String> listString) {
+      ArrayList<HashMap<String, String>> listMap, ArrayList<String> listString) {
     final class FileComparator implements Comparator<String> {
       public int compare(String f1, String f2) {
         if (f1 == f2) return 0;
@@ -49,7 +49,7 @@ public class FileUtils {
     int pos = 0;
     for (int _repeat13 = 0; _repeat13 < listString.size(); _repeat13++) {
       {
-        HashMap<String, Object> _item = new HashMap<>();
+        HashMap<String, String> _item = new HashMap<>();
         _item.put("path", listString.get(pos));
         _item.put("lastSegmentOfFilePath", getLatSegmentOfFilePath(listString.get(pos)));
         listMap.add(pos, _item);

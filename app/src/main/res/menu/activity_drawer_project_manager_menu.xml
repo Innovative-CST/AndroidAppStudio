@@ -28,6 +28,11 @@
         android:icon="@drawable/ic_terminal"
         android:title="@string/terminal"
         app:showAsAction="ifRoom" />
+	<item
+        android:id="@+id/fileManager"
+        android:icon="@drawable/ic_folder"
+        android:title="Files Manager"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_setting"

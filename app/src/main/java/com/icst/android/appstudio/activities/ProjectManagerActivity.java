@@ -140,6 +140,12 @@ public class ProjectManagerActivity extends BaseActivity {
             aboutTeam.setClass(this, AboutTeamActivity.class);
             startActivity(aboutTeam);
           }
+          if (menuItem.getItemId() == R.id.fileManager) {
+            Intent fileManager = new Intent();
+            fileManager.putExtra("path", "/data/data/com.icst.android.appstudio/files");
+            fileManager.setClass(this, FileManagerActivity.class);
+            startActivity(fileManager);
+          }
           return true;
         });
     /*
