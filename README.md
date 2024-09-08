@@ -17,14 +17,17 @@ This project is currently in its early stages, and there's a lot to be done. If 
 
 # Features
 - [x] Block drag-drop logic editor
-- [ ] Layout Editor
+- [x] Layout Editor
 - [x] Java Code generator
 - [x] Layout Code generator
 - [ ] Apk Builder
 - [x] Integrated in-app terminal
   - [x] Open JDK 17 installed by default.
+  - [x] Git
+  - [x] Nano editor
 - [x] Dynamic Themes
 - [x] Manifest editor (Manually only)
+- [ ] Integrated mini code editor
 
 
 # Discord
