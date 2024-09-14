@@ -1,122 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/drawer">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
-            android:id="@+id/appbar">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                android:id="@+id/toolbar" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <ProgressBar
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:indeterminate="true"
-            style="?android:progressBarStyleHorizontal"
-            android:id="@+id/progressbar" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:id="@+id/fileTab" />
-
-        <View
-            android:layout_height="0.5dp"
-            android:layout_width="match_parent"
-            android:background="?attr/colorOutline"
-            android:id="@+id/divider" />
+        android:id="@+id/drawer">
 
         <LinearLayout
-            android:id="@+id/editorArea"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+                android:id="@+id/appbar">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    android:id="@+id/toolbar" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <ProgressBar
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:indeterminate="true"
+                style="?android:progressBarStyleHorizontal"
+                android:id="@+id/progressbar" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/fileTab" />
+
+            <View
+                android:layout_height="0.5dp"
+                android:layout_width="match_parent"
+                android:background="?attr/colorOutline"
+                android:id="@+id/divider" />
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_height="0dp"
                 android:layout_width="match_parent"
-                android:orientation="horizontal">
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:id="@+id/workspace">
 
                 <LinearLayout
-                    android:id="@+id/editorContainer"
+                    android:layout_height="0dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:id="@+id/workspaceContainer">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:id="@+id/emptyWorkspace">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="22sp"
+                    android:textColor="?attr/colorSecondary"
+                    android:text="Android AppStudio"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="Free and open source software." />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:id="@+id/fileNotOpenedArea">
-
-            <TextView
-                android:textColor="?attr/colorSecondary"
-                android:text="Android AppStudio"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textColor="?attr/colorOnSurface"
-                android:text="Open file from drawer"
-                android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:layout_height="match_parent"
-        android:layout_width="300dp"
-        android:layout_gravity="start"
-        android:id="@+id/navigationView">
-
-        <LinearLayout
+        <com.google.android.material.navigation.NavigationView
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="300dp"
+            android:layout_gravity="start"
+            android:id="@+id/navigationView">
 
-            <com.google.android.material.navigationrail.NavigationRailView
+            <LinearLayout
                 android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:id="@+id/navigation_rail" />
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/fragment_container" />
+                <com.google.android.material.navigationrail.NavigationRailView
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    app:menuGravity="bottom"
+                    android:id="@+id/navigation_rail" />
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:background="?attr/colorSurface"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/fileTreeSection">
 
-    </com.google.android.material.navigation.NavigationView>
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold"
+                        android:text="File Tree" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+                    <HorizontalScrollView
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:id="@+id/fileTreeContainer">
+
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:id="@+id/workSpacesListSection">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</LinearLayout>

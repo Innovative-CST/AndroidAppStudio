@@ -32,18 +32,25 @@
 package com.icst.android.appstudio.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.databinding.ActivityCodeEditorBinding;
+import com.icst.android.appstudio.viewholder.FileTreeViewHolder;
+import com.unnamed.b.atv.model.TreeNode;
+import com.unnamed.b.atv.view.AndroidTreeView;
+import com.unnamed.b.atv.view.TreeNodeWrapperView;
 import java.io.File;
 
 public class CodeEditorActivity extends BaseActivity {
   private File directory;
+  private TreeNode root;
   private ActivityCodeEditorBinding binding;
 
-  public static final int FILE_NOT_OPENED = 0;
-  public static final int EDITOR_SECTION = 1;
+  public static final int NO_WORKSPACE = 0;
+  public static final int WORKSPACE = 1;
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -58,19 +65,86 @@ public class CodeEditorActivity extends BaseActivity {
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
+    /*
+     * Info:
+     * CodeEditorActivity may be requested to open a files or a folder.
+     *
+     * How it handles folder?
+     *
+     * If folder is opened then the folder will path fill be assigned to `directory` variable.
+     * File tree of folder will loaded in drawer.
+     *
+     * How it handles file?
+     *
+     * If a file is opened then it must be in folder. So open the file in workspace (pane).
+     * And assign directory variable to parent folder(e.g. folder in which file is stored) of opened file.
+     */
     String path = getIntent().getStringExtra("path");
     if (new File(path).exists()) {
       if (new File(path).isFile()) {
         directory = new File(path).getParentFile();
-        openFile(new File(path));
+        openInEditorPane(new File(path));
       } else {
         directory = new File(path);
-        switchSection(FILE_NOT_OPENED);
+        switchSection(NO_WORKSPACE);
       }
     } else {
       Toast.makeText(this, "Could not open directory.", Toast.LENGTH_SHORT);
       finish();
     }
+
+    /*
+     * Add Menu to navigationRail as following:
+     * 1. File Tree
+     * Displays the file tree of directory opened in editor.
+     *
+     * 2. Curretly opened panes: TODO
+     * Displays the unfinished editor pane or terminal pane.
+     */
+    Menu menu = binding.navigationRail.getMenu();
+    MenuItem fileTree = menu.add(Menu.NONE, 0, Menu.NONE, "");
+    fileTree.setIcon(R.drawable.ic_folder);
+
+    MenuItem workspace = menu.add(Menu.NONE, 1, Menu.NONE, "");
+    workspace.setIcon(R.drawable.ic_edit);
+
+    binding.navigationRail.setOnItemSelectedListener(
+        (menuItem) -> {
+          int id = menuItem.getItemId();
+          if (id == 0) {
+            binding.fileTreeSection.setVisibility(View.VISIBLE);
+            binding.workSpacesListSection.setVisibility(View.GONE);
+          } else if (id == 1) {
+            binding.fileTreeSection.setVisibility(View.GONE);
+            binding.workSpacesListSection.setVisibility(View.VISIBLE);
+          }
+          return true;
+        });
+
+    // Load file tree of directory
+    loadFileList();
+  }
+
+  public void loadFileTree() {
+    // Assign root for file tree
+    root = TreeNode.root();
+
+    // Add root folder to start tree structure
+    TreeNode child = new TreeNode(directory);
+    child.setViewHolder(new FileTreeViewHolder(this));
+    root.addChild(child);
+    /*
+     * Add Tree view
+     * Attach it with root(TreeNode)
+     */
+    AndroidTreeView tView = new AndroidTreeView(this, root);
+    tView.setDefaultAnimation(true);
+    TreeNodeWrapperView treeView =
+        new TreeNodeWrapperView(this, com.unnamed.b.atv.R.style.TreeNodeStyle);
+    treeView.getNodeContainer().addView(tView.getView());
+
+    // Add File Tree Widget to drawer
+    binding.fileTreeContainer.addView(treeView);
   }
 
   /*
@@ -78,15 +152,15 @@ public class CodeEditorActivity extends BaseActivity {
    * All other section will be GONE except the section of which the section code is provided
    */
   public void switchSection(int section) {
-    binding.fileNotOpenedArea.setVisibility(section == FILE_NOT_OPENED ? View.VISIBLE : View.GONE);
-    binding.editorArea.setVisibility(section == EDITOR_SECTION ? View.VISIBLE : View.GONE);
+    binding.emptyWorkspace.setVisibility(section == NO_WORKSPACE ? View.VISIBLE : View.GONE);
+    binding.workspace.setVisibility(section == WORKSPACE ? View.VISIBLE : View.GONE);
   }
 
-  public void openFile(File file) {
-    switchSection(EDITOR_SECTION);
+  public void openInEditorPane(File file) {
+    switchSection(WORKSPACE);
     binding.progressbar.setVisibility(View.VISIBLE);
 
-    // TODO: Open file in editor
+    // TODO: Open file in editor pane
 
     binding.progressbar.setVisibility(View.GONE);
   }

@@ -29,33 +29,37 @@
  * Copyright © 2024 Dev Kumar
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk 32
+    useLibrary 'org.apache.http.legacy'
+    namespace "com.unnamed.b.atv"
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 28
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-    }
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
-
-rootProject.name = "Android AppStudio"
-
-include(":app")
-include(":block")
-include(":editor")
-include(":vieweditor")
-include(":core")
-include(":themeEngine")
-include(":prdownloader")
-include(":treeview")
