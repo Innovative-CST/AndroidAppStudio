@@ -69,11 +69,15 @@ public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<File> {
     if (file.isDirectory()) {
       binding.icon.setImageResource(R.drawable.ic_folder);
       updateExpandCollapseIcon(node.isExpanded());
+    } else {
+      binding.icon.setImageDrawable(FileIconUtils.getFileIcon(file, activity));
+    }
 
-      binding
-          .getRoot()
-          .setOnClickListener(
-              v -> {
+    binding
+        .getRoot()
+        .setOnClickListener(
+            v -> {
+              if (file.isDirectory()) {
                 if (node.isExpanded()) {
                   getTreeView().collapseNode(node);
                   updateExpandCollapseIcon(node.isExpanded());
@@ -96,10 +100,11 @@ public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<File> {
                                 });
                           });
                 }
-              });
-    } else {
-      binding.icon.setImageDrawable(FileIconUtils.getFileIcon(file, activity));
-    }
+              } else {
+                activity.openInEditorPane(file);
+              }
+            });
+
     return binding.getRoot();
   }
 

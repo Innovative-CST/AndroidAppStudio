@@ -28,10 +28,15 @@
         android:icon="@drawable/ic_terminal"
         android:title="@string/terminal"
         app:showAsAction="ifRoom" />
-	<item
+    <item
         android:id="@+id/fileManager"
         android:icon="@drawable/ic_folder"
         android:title="Files Manager"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/fileManagerRoot"
+        android:icon="@drawable/ic_folder"
+        android:title="Files Manager(Root)"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/settings"

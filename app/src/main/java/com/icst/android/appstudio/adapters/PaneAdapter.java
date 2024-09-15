@@ -31,81 +31,71 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.CodeEditorActivity;
-import com.icst.android.appstudio.activities.FileManagerActivity;
-import com.icst.android.appstudio.databinding.AdapterFileBinding;
-import com.icst.android.appstudio.utils.FileIconUtils;
-import java.io.File;
+import com.icst.android.appstudio.databinding.ViewHolderPaneBinding;
+import com.icst.android.appstudio.interfaces.WorkSpacePane;
+import com.icst.android.appstudio.view.CodeEditorPaneView;
+import com.icst.android.appstudio.view.TerminalPaneView;
+import java.util.ArrayList;
 
-public class FilesListAdapter extends RecyclerView.Adapter<FilesListAdapter.ViewHolder> {
-  private FileManagerActivity activity;
+/*
+ * Adapter for Recycler view in CodeEditorActivity to list TerminalPane and CodeEditorPane.
+ */
 
+public class PaneAdapter extends RecyclerView.Adapter<PaneAdapter.ViewHolder> {
   public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View view) {
-      super(view);
+    public ViewHolder(View v) {
+      super(v);
     }
   }
 
-  public FilesListAdapter(FileManagerActivity activity) {
-    this.activity = activity;
+  private ArrayList<WorkSpacePane> panes;
+  private CodeEditorActivity editorActivity;
+
+  public PaneAdapter(ArrayList<WorkSpacePane> panes, CodeEditorActivity editorActivity) {
+    this.panes = panes;
+    this.editorActivity = editorActivity;
   }
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    View view = AdapterFileBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
+    ViewHolderPaneBinding binding =
+        ViewHolderPaneBinding.inflate(editorActivity.getLayoutInflater());
     RecyclerView.LayoutParams layoutParams =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(layoutParams);
-    return new ViewHolder(view);
+    binding.getRoot().setLayoutParams(layoutParams);
+    return new ViewHolder(binding.getRoot());
   }
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    File file =
-        new File(
-            activity.getCurrentDir(),
-            activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
-    AdapterFileBinding binding = AdapterFileBinding.bind(holder.itemView);
-    binding.title.setText(activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
+    ViewHolderPaneBinding binding = ViewHolderPaneBinding.bind(holder.itemView);
+
+    binding.name.setText(panes.get(position).getWorkSpacePaneName());
+    binding.icon.setImageDrawable(panes.get(position).getWorkSpacePaneIcon());
+
     binding
         .getRoot()
         .setOnClickListener(
-            (v) -> {
-              if (new File(
-                      activity.getCurrentDir(),
-                      activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
-                  .isDirectory()) {
-                activity.loadFileList(
-                    new File(
-                        activity.getCurrentDir(),
-                        activity.getFilesMap().get(position).get("lastSegmentOfFilePath")));
-              } else {
-                Intent editor = new Intent(activity, CodeEditorActivity.class);
-                editor.putExtra(
-                    "path",
-                    new File(
-                            activity.getCurrentDir(),
-                            activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
-                        .getAbsolutePath());
-                activity.startActivity(editor);
+            v -> {
+              if (panes.get(position) instanceof CodeEditorPaneView editorPane) {
+                editorActivity.switchSection(CodeEditorActivity.WORKSPACE);
+                editorActivity.binding.workspaceContainer.removeAllViews();
+                editorActivity.binding.workspaceContainer.addView(editorPane);
+              }else if (panes.get(position) instanceof TerminalPaneView terminalPane) {
+                editorActivity.switchSection(CodeEditorActivity.WORKSPACE);
+                editorActivity.binding.workspaceContainer.removeAllViews();
+                editorActivity.binding.workspaceContainer.addView(terminalPane);
               }
             });
-    if (file.isDirectory()) {
-      binding.icon.setImageResource(R.drawable.ic_folder);
-    } else {
-      binding.icon.setImageDrawable(FileIconUtils.getFileIcon(file, activity));
-    }
   }
 
   @Override
   public int getItemCount() {
-    return activity.getFilesMap().size();
+    return panes.size();
   }
 }

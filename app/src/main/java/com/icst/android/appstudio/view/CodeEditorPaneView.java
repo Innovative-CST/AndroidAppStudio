@@ -29,83 +29,96 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.adapters;
+package com.icst.android.appstudio.view;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.code.editor.common.utils.FileUtils;
+import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.activities.CodeEditorActivity;
-import com.icst.android.appstudio.activities.FileManagerActivity;
-import com.icst.android.appstudio.databinding.AdapterFileBinding;
+import android.widget.LinearLayout;
+import com.icst.android.appstudio.activities.BaseActivity;
+import com.icst.android.appstudio.interfaces.WorkSpacePane;
 import com.icst.android.appstudio.utils.FileIconUtils;
+import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
+import com.icst.editor.tools.Language;
+import com.icst.editor.tools.Themes;
+import com.icst.editor.widget.CodeEditorLayout;
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import java.io.File;
 
-public class FilesListAdapter extends RecyclerView.Adapter<FilesListAdapter.ViewHolder> {
-  private FileManagerActivity activity;
+/*
+ * A WorkSpacePane for Code Editor.
+ */
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View view) {
-      super(view);
-    }
-  }
+public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
 
-  public FilesListAdapter(FileManagerActivity activity) {
+  private BaseActivity activity;
+  private CodeEditorLayout codeEditor;
+  private File file;
+
+  public CodeEditorPaneView(BaseActivity activity, File file) {
+    super(activity);
     this.activity = activity;
+    this.file = file;
+
+    init();
   }
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    View view = AdapterFileBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
-    RecyclerView.LayoutParams layoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(layoutParams);
-    return new ViewHolder(view);
-  }
-
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    File file =
-        new File(
-            activity.getCurrentDir(),
-            activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
-    AdapterFileBinding binding = AdapterFileBinding.bind(holder.itemView);
-    binding.title.setText(activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
-    binding
-        .getRoot()
-        .setOnClickListener(
-            (v) -> {
-              if (new File(
-                      activity.getCurrentDir(),
-                      activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
-                  .isDirectory()) {
-                activity.loadFileList(
-                    new File(
-                        activity.getCurrentDir(),
-                        activity.getFilesMap().get(position).get("lastSegmentOfFilePath")));
-              } else {
-                Intent editor = new Intent(activity, CodeEditorActivity.class);
-                editor.putExtra(
-                    "path",
-                    new File(
-                            activity.getCurrentDir(),
-                            activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
-                        .getAbsolutePath());
-                activity.startActivity(editor);
-              }
-            });
-    if (file.isDirectory()) {
-      binding.icon.setImageResource(R.drawable.ic_folder);
-    } else {
-      binding.icon.setImageDrawable(FileIconUtils.getFileIcon(file, activity));
+  public void init() {
+    FileProviderRegistry.getInstance()
+        .addFileProvider(new AssetsFileResolver(activity.getAssets()));
+    try {
+      TextMateProvider.loadGrammars();
+    } catch (Exception e) {
     }
+
+    ViewGroup.LayoutParams layoutParams =
+        new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    codeEditor = new CodeEditorLayout(activity);
+    codeEditor.setLayoutParams(layoutParams);
+
+    codeEditor.setLanguageMode(getLanguageMode());
+    if (activity.getSetting().isEnabledDarkMode()) {
+      codeEditor.setTheme(Themes.SoraEditorTheme.Dark.Solarized_Drak);
+    } else {
+      codeEditor.setTheme(Themes.SoraEditorTheme.Light.Solarized_Light);
+    }
+    codeEditor.setText(FileUtils.readFile(file.getAbsolutePath()));
+    addView(codeEditor);
+  }
+
+  public String getLanguageMode() {
+    return switch (FileUtils.getPathFormat(file.getAbsolutePath())) {
+      case "java" -> Language.Java;
+      case "kt" -> Language.Kt;
+      case "js" -> Language.JavaScript;
+      case "html" -> Language.HTML;
+      case "css" -> Language.CSS;
+      case "xml" -> Language.XML;
+      case "md" -> Language.Markdown;
+      case "json" -> Language.JSON;
+      case "gradle" -> Language.GRADLE;
+      default -> Language.UNKNOWN;
+    };
   }
 
   @Override
-  public int getItemCount() {
-    return activity.getFilesMap().size();
+  public Drawable getWorkSpacePaneIcon() {
+    return FileIconUtils.getFileIcon(file, activity);
+  }
+
+  @Override
+  public String getWorkSpacePaneName() {
+    return FileUtils.getLatSegmentOfFilePath(file.getAbsolutePath());
+  }
+
+  @Override
+  public Drawable getWorkSpaceStatus() {
+    return null;
+  }
+
+  public File getEditorFile() {
+    return this.file;
   }
 }

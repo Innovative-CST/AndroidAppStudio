@@ -149,8 +149,24 @@
                     android:layout_height="match_parent"
                     android:layout_width="0dp"
                     android:visibility="gone"
+                    android:background="?attr/colorSurface"
+                    android:orientation="vertical"
                     android:layout_weight="1"
                     android:id="@+id/workSpacesListSection">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold"
+                        android:text="WorkSpace Pane" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:id="@+id/list" />
 
                 </LinearLayout>
 

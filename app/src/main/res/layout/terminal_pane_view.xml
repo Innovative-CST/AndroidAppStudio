@@ -18,6 +18,7 @@
     <com.icst.android.appstudio.utils.terminal.VirtualKeysView
         android:layout_height="75dp"
         android:layout_width="match_parent"
+        android:background="#000000"
         android:orientation="horizontal"
         style="?android:attr/buttonBarStyle"
         android:layout_alignParentBottom="true"

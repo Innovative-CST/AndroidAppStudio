@@ -35,19 +35,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.adapters.PaneAdapter;
 import com.icst.android.appstudio.databinding.ActivityCodeEditorBinding;
+import com.icst.android.appstudio.interfaces.WorkSpacePane;
+import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.view.CodeEditorPaneView;
+import com.icst.android.appstudio.view.TerminalPaneView;
 import com.icst.android.appstudio.viewholder.FileTreeViewHolder;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 import com.unnamed.b.atv.view.TreeNodeWrapperView;
 import java.io.File;
+import java.util.ArrayList;
 
 public class CodeEditorActivity extends BaseActivity {
+  public ActivityCodeEditorBinding binding;
   private File directory;
   private TreeNode root;
-  private ActivityCodeEditorBinding binding;
+  private ArrayList<WorkSpacePane> panes;
+  private PaneAdapter paneAdapter;
 
   public static final int NO_WORKSPACE = 0;
   public static final int WORKSPACE = 1;
@@ -57,13 +68,36 @@ public class CodeEditorActivity extends BaseActivity {
     super.onCreate(bundle);
 
     binding = ActivityCodeEditorBinding.inflate(getLayoutInflater());
+    panes = new ArrayList<WorkSpacePane>();
+    paneAdapter = new PaneAdapter(panes, this);
     setContentView(binding.getRoot());
+
+    ImageView shellIcon = new ImageView(this);
+    shellIcon.setImageResource(R.drawable.language_shell);
+    shellIcon.setOnClickListener(
+        v -> {
+          switchSection(WORKSPACE);
+          TerminalPaneView terminalPane =
+              new TerminalPaneView(
+                  CodeEditorActivity.this, directory, EnvironmentUtils.LOGIN_SHELL);
+          LinearLayout.LayoutParams layoutParam =
+              new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+          panes.add(terminalPane);
+          terminalPane.setLayoutParams(layoutParam);
+          paneAdapter.notifyDataSetChanged();
+          binding.workspaceContainer.removeAllViews();
+          binding.workspaceContainer.addView(terminalPane);
+        });
+    binding.navigationRail.addHeaderView(shellIcon);
 
     binding.toolbar.setTitle("Android AppStudio");
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    binding.list.setAdapter(paneAdapter);
+    binding.list.setLayoutManager(new LinearLayoutManager(this));
 
     /*
      * Info:
@@ -122,7 +156,7 @@ public class CodeEditorActivity extends BaseActivity {
         });
 
     // Load file tree of directory
-    loadFileList();
+    loadFileTree();
   }
 
   public void loadFileTree() {
@@ -157,11 +191,31 @@ public class CodeEditorActivity extends BaseActivity {
   }
 
   public void openInEditorPane(File file) {
+    CodeEditorPaneView pane = null;
+
     switchSection(WORKSPACE);
     binding.progressbar.setVisibility(View.VISIBLE);
 
-    // TODO: Open file in editor pane
+    for (int i = 0; i < panes.size(); ++i) {
+      if (panes.get(i) instanceof CodeEditorPaneView editorPane) {
+        if (editorPane.getEditorFile().getAbsolutePath().equals(file.getAbsolutePath())) {
+          pane = editorPane;
+        }
+      }
+    }
 
+    if (pane == null) {
+      pane = new CodeEditorPaneView(this, file);
+      LinearLayout.LayoutParams layoutParam =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+      panes.add(pane);
+      pane.setLayoutParams(layoutParam);
+      paneAdapter.notifyDataSetChanged();
+    }
+
+    binding.workspaceContainer.removeAllViews();
+    binding.workspaceContainer.addView(pane);
     binding.progressbar.setVisibility(View.GONE);
   }
 }

@@ -37,6 +37,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -140,9 +141,16 @@ public class ProjectManagerActivity extends BaseActivity {
             aboutTeam.setClass(this, AboutTeamActivity.class);
             startActivity(aboutTeam);
           }
-          if (menuItem.getItemId() == R.id.fileManager) {
+          if (menuItem.getItemId() == R.id.fileManagerRoot) {
             Intent fileManager = new Intent();
             fileManager.putExtra("path", "/data/data/com.icst.android.appstudio/files");
+            fileManager.setClass(this, FileManagerActivity.class);
+            startActivity(fileManager);
+          }
+          if (menuItem.getItemId() == R.id.fileManager) {
+            Intent fileManager = new Intent();
+            fileManager.putExtra(
+                "path", Environment.getExternalStorageDirectory().getAbsolutePath());
             fileManager.setClass(this, FileManagerActivity.class);
             startActivity(fileManager);
           }

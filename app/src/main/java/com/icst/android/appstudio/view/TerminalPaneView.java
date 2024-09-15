@@ -29,25 +29,23 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.fragments;
+package com.icst.android.appstudio.view;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.TerminalActivity;
-import com.icst.android.appstudio.databinding.FragmentTerminalPaneBinding;
+import com.icst.android.appstudio.databinding.TerminalPaneViewBinding;
 import com.icst.android.appstudio.interfaces.WorkSpacePane;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.terminal.KeyListener;
@@ -57,31 +55,39 @@ import com.icst.android.appstudio.utils.terminal.VirtualKeysInfo;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
 import com.termux.terminal.TerminalSessionClient;
-import com.termux.view.TerminalView;
 import com.termux.view.TerminalViewClient;
 import java.io.File;
 import java.util.Map;
 import org.json.JSONException;
 
-public class TerminalPaneFragment extends Fragment
+/*
+ * A WorkSpacePane for Terminal.
+ */
+
+public class TerminalPaneView extends LinearLayout
     implements TerminalViewClient, TerminalSessionClient, WorkSpacePane {
+  private float terminalTextSize = 24f;
+  private final float minTextSize = 10.0f;
+  private final float maxTextSize = 30.0f;
 
-  private FragmentTerminalPaneBinding binding;
-  public TerminalView terminal;
-  protected KeyListener keyListener;
+  private KeyListener keyListener;
+  private TerminalPaneViewBinding binding;
+  private TerminalSession terminalSession;
+  private AppCompatActivity activity;
+  private File workingDir;
+  private File executeFile;
 
-  private String workingDir;
-  private String executeFile;
+  public TerminalPaneView(AppCompatActivity activity, File workingDir, File executeFile) {
+    super(activity);
+    this.activity = activity;
+    this.workingDir = workingDir;
+    this.executeFile = executeFile;
+    init();
+  }
 
-  public TerminalPaneFragment() {}
-
-  @Override
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-
-    workingDir = getArguments().getString("path");
-    executeFile = getArguments().getString("executeFile");
-
-    FragmentTerminalPaneBinding binding = FragmentTerminalPaneBinding.inflate(inflator);
+  public void init() {
+    binding = TerminalPaneViewBinding.inflate(activity.getLayoutInflater());
+    binding.termux.setTextSize((int) terminalTextSize);
     keyListener = new KeyListener(binding.termux);
     try {
       binding.extraKeys.setVirtualKeysViewClient(keyListener);
@@ -91,16 +97,15 @@ public class TerminalPaneFragment extends Fragment
     } catch (JSONException e) {
     }
 
-    getActivity()
+    activity
         .getWindow()
         .setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-    terminal = binding.termux;
 
     setupTerminalView();
 
-    return binding.getRoot();
+    addView(binding.getRoot());
   }
 
   public void grantFileExecutionPermissiom(File path) {
@@ -111,10 +116,6 @@ public class TerminalPaneFragment extends Fragment
   }
 
   public void setupTerminalView() {
-    TerminalSession terminalSession;
-
-    binding.termux.setTextSize((int) terminalTextSize);
-
     grantFileExecutionPermissiom(
         new File(EnvironmentUtils.PREFIX, "etc/termux/bootstrap/termux-bootstrap-second-stage.sh"));
 
@@ -131,14 +132,14 @@ public class TerminalPaneFragment extends Fragment
 
     terminalSession =
         new TerminalSession(
-            executeFile,
-            workingDir,
+            executeFile.getAbsolutePath(),
+            workingDir.getAbsolutePath(),
             argsList,
             env,
             TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,
             this);
-    terminal.setTerminalViewClient(this);
-    terminal.attachSession(terminalSession);
+    binding.termux.setTerminalViewClient(this);
+    binding.termux.attachSession(terminalSession);
   }
 
   @Override
@@ -166,14 +167,11 @@ public class TerminalPaneFragment extends Fragment
   @Override
   public void onEmulatorSet() {}
 
-  private float terminalTextSize = 24f;
-
   @Override
   public float onScale(float scale) {
     float currentTextSize = terminalTextSize;
     float newTextSize = currentTextSize * scale;
-    float minTextSize = 10.0f;
-    float maxTextSize = 30.0f;
+
     newTextSize = Math.max(minTextSize, Math.min(newTextSize, maxTextSize));
     binding.termux.setTextSize((int) newTextSize);
     terminalTextSize = newTextSize;
@@ -214,7 +212,6 @@ public class TerminalPaneFragment extends Fragment
   @Override
   public boolean onKeyDown(int arg0, KeyEvent arg1, TerminalSession arg2) {
     if (arg0 == KeyEvent.KEYCODE_ENTER && !arg2.isRunning()) {
-      getActivity().finish();
       return true;
     }
     return false;
@@ -227,7 +224,7 @@ public class TerminalPaneFragment extends Fragment
 
   @Override
   public void onTextChanged(TerminalSession arg0) {
-    terminal.onScreenUpdated();
+    binding.termux.onScreenUpdated();
   }
 
   @Override
@@ -278,7 +275,7 @@ public class TerminalPaneFragment extends Fragment
 
   @Override
   public Drawable getWorkSpacePaneIcon() {
-    return ContextCompat.getDrawable(getActivity(), R.drawable.language_shell);
+    return ContextCompat.getDrawable(activity, R.drawable.language_shell);
   }
 
   @Override
