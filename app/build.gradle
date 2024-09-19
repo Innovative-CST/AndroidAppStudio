@@ -93,6 +93,7 @@ android {
 
     defaultConfig {
         applicationId "com.icst.android.appstudio"
+        multiDexEnabled true
         minSdk 26
         targetSdk 28
         versionCode 1
@@ -229,9 +230,9 @@ task downloadx86_64 {
 }
 
 dependencies {
-    fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.2")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
 
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
