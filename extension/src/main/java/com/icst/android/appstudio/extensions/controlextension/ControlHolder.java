@@ -29,34 +29,24 @@
  * Copyright © 2024 Dev Kumar
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
+package com.icst.android.appstudio.extensions.controlextension;
+
+import com.icst.android.appstudio.block.model.BlockHolderModel;
+import java.util.ArrayList;
+
+public final class ControlHolder {
+  public static ArrayList<BlockHolderModel> getHolders() {
+    ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
+
+    holders.add(getControlBlockHolder());
+
+    return holders;
+  }
+
+  private static BlockHolderModel getControlBlockHolder() {
+    BlockHolderModel controlHolder = new BlockHolderModel();
+    controlHolder.setName("Control");
+    controlHolder.setColor("#17A2AF");
+    return controlHolder;
+  }
 }
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-    }
-}
-
-rootProject.name = "Android AppStudio"
-
-include(":app")
-include(":block")
-include(":editor")
-include(":extension")
-include(":vieweditor")
-include(":core")
-include(":themeEngine")
-include(":prdownloader")
-include(":treeview")

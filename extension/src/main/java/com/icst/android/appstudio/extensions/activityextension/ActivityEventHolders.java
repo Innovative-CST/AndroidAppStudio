@@ -29,34 +29,31 @@
  * Copyright © 2024 Dev Kumar
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
+package com.icst.android.appstudio.extensions.activityextension;
+
+import com.icst.android.appstudio.ImageUtils;
+import com.icst.android.appstudio.models.EventHolder;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class ActivityEventHolders {
+  public static ArrayList<EventHolder> getHolders() {
+    ArrayList<EventHolder> result = new ArrayList<EventHolder>();
+    result.add(getActivityHolder());
+    return result;
+  }
+
+  public static EventHolder getActivityHolder() {
+    EventHolder holder = new EventHolder();
+    holder.setHolderName("Activity");
+    holder.setBuiltInEvents(true);
+
+    try {
+      holder.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+
+    return holder;
+  }
 }
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-    }
-}
-
-rootProject.name = "Android AppStudio"
-
-include(":app")
-include(":block")
-include(":editor")
-include(":extension")
-include(":vieweditor")
-include(":core")
-include(":themeEngine")
-include(":prdownloader")
-include(":treeview")

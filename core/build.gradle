@@ -30,34 +30,5 @@
  */
 
 plugins {
-    id 'com.android.library'
-}
-
-android {
-    namespace 'com.icst.android.appstudio.core'
-    compileSdk 34
-
-    defaultConfig {
-        minSdk 21
-        targetSdk 33
-        versionCode 1
-        vectorDrawables { 
-            useSupportLibrary true
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        viewBinding false
-        buildConfig false
-    }
-}
-
-dependencies {
-    implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.26.1'
-    implementation 'com.github.javaparser:javaparser-core:3.26.1'
+    id("java-library")
 }

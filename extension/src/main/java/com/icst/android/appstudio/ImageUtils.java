@@ -29,34 +29,16 @@
  * Copyright © 2024 Dev Kumar
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
+package com.icst.android.appstudio;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class ImageUtils {
+  public static byte[] convertImageToByteArray(String imagePath) throws IOException {
+    Path path = Paths.get(ImageUtils.class.getClassLoader().getResource(imagePath).getPath());
+    return Files.readAllBytes(path);
+  }
 }
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-    }
-}
-
-rootProject.name = "Android AppStudio"
-
-include(":app")
-include(":block")
-include(":editor")
-include(":extension")
-include(":vieweditor")
-include(":core")
-include(":themeEngine")
-include(":prdownloader")
-include(":treeview")

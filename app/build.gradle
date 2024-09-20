@@ -57,6 +57,21 @@ if (localPropsFile.exists()) {
     localPropsFile.withInputStream { inputStream ->
         properties.load(inputStream)
     }
+} else {
+    println()
+    println("+-------------------------------------------------------------- local.properties --------------------------------------------------------------+")
+    println("+                                                                                                                                              +")
+    println("+ If you are running this project locally, please set up the following properties in local.properties:                                         +")
+    println("+                                                                                                                                              +")
+    println("+ Properties              Values              Description                                                                                      +")
+    println("+                                                                                                                                              +")
+    println("+ keyStorePassword        [password]          The app will be signed if a password is provided for the keystore (app/keystore.jks).            +")
+    println("+ isDeveloperMode         [true, false]       Must be set to true for the following properties to work.                                        +")
+    println("+ STORAGE                 [path]              The storage path that the app will use to store projects or read/install extensions.             +")
+    println("+ installExtensions       [true, false]       Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.  +")
+    println("+                                                                                                                                              +")
+    println("+----------------------------------------------------------------------------------------------------------------------------------------------+")
+    println()
 }
 
 if (KEYSTOREPASSWORD != null) {
@@ -68,6 +83,16 @@ if (KEYSTOREPASSWORD != null) {
         signingEnabled = true
     }
 }
+
+println()
+println("Setting up properties from environment and local.propertied\n")
+println("Properties              Values")
+println()
+println("isDeveloperMode         ${properties.getProperty('isDeveloperMode', 'NOT_SET')}")
+println("STORAGE                 ${properties.getProperty('STORAGE', 'NOT_SET')}")
+println("keyStorePassword        ${password.equals("") ? 'NOT_SET' : '****************' }")
+println("installExtensions       ${properties.getProperty('installExtensions', 'NOT_SET')}")
+println()
 
 android {
     namespace 'com.icst.android.appstudio'
@@ -261,29 +286,67 @@ dependencies {
         exclude group: 'com.sun.activation', module: 'javax.activation'
     }
 
-	implementation project(":core")
+    implementation project(":core")
     implementation project(":block")
-	implementation project(":editor")
-	implementation project(":vieweditor")
+    implementation project(":editor")
+    implementation project(":vieweditor")
     implementation project(":prdownloader")
-	implementation project(":themeEngine")
+    implementation project(":themeEngine")
     implementation project(":treeview")
+}
+
+def shouldInstallExtension() {
+
+    def localPropsFile = rootProject.file("local.properties")
+    def properties = new Properties()
+
+    if (localPropsFile.exists()) {
+        localPropsFile.withInputStream { inputStream ->
+            properties.load(inputStream)
+        }
+    }
+
+    Boolean installExtensions = new Boolean(properties.getProperty("installExtensions", "false"))
+    Boolean isDeveloperMode = new Boolean(properties.getProperty("isDeveloperMode", "false"))
+
+
+    if (!(installExtensions && isDeveloperMode)) {
+        return false
+    }
+
+    String storage = properties.getProperty("STORAGE", "NOT_PROVIDED")
+
+    if (!(storage.equals("NOT_PROVIDED"))) {
+        return true
+    }
 }
 
 project.afterEvaluate {
     tasks.named('assembleArmDebug').configure {
         dependsOn downloadBootstrapArm
+        if (shouldInstallExtension()) {
+            dependsOn project(':extension').tasks.named('generateExtensions')
+        }
     }
 
     tasks.named('assembleAarch64Debug').configure {
         dependsOn downloadBootstrapAarch64
+        if (shouldInstallExtension()) {
+            dependsOn project(':extension').tasks.named('generateExtensions')
+        }
     }
 
     tasks.named('assembleX86Debug').configure {
         dependsOn downloadx86
+        if (shouldInstallExtension()) {
+            dependsOn project(':extension').tasks.named('generateExtensions')
+        }
     }
 
     tasks.named('assembleX86_64Debug').configure {
         dependsOn downloadx86_64
+        if (shouldInstallExtension()) {
+            dependsOn project(':extension').tasks.named('generateExtensions')
+        }
     }
 }

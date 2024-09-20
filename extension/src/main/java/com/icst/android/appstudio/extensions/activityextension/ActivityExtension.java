@@ -29,34 +29,17 @@
  * Copyright © 2024 Dev Kumar
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
+package com.icst.android.appstudio.extensions.activityextension;
+
+import com.icst.android.appstudio.models.ExtensionBundle;
+
+public class ActivityExtension {
+  public static ExtensionBundle getExtensionBundle() {
+    ExtensionBundle extension = new ExtensionBundle();
+    extension.setName("Activity Extension");
+    extension.setVersion(2);
+    extension.setEvents(ActivityEvents.getAllEvents());
+    extension.setEventHolders(ActivityEventHolders.getHolders());
+    return extension;
+  }
 }
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-    }
-}
-
-rootProject.name = "Android AppStudio"
-
-include(":app")
-include(":block")
-include(":editor")
-include(":extension")
-include(":vieweditor")
-include(":core")
-include(":themeEngine")
-include(":prdownloader")
-include(":treeview")
