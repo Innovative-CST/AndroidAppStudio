@@ -31,10 +31,6 @@
 
 package com.icst.android.appstudio;
 
-import com.icst.android.appstudio.extensions.activityextension.ActivityExtension;
-import com.icst.android.appstudio.extensions.basicvariables.BasicVariablesExtensions;
-import com.icst.android.appstudio.extensions.controlextension.ControlExtension;
-import com.icst.android.appstudio.extensions.controlextension.OperatorExtension;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,38 +38,27 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ExtensionGenerator {
-  public static void generateFiles(File output) throws Exception {
-    /*
-     * MAKE YOUR EXTENSION FILE IN ANOTHER CLASS AND SERIALIZE IT
-     * For Example:
-     * serialize(YOUR_EXTENSION_OBJECT, new File(output, "FileName.fileExtension"), "TaskName");
-     */
-    serialize(
-        ControlExtension.getExtensionBundle(),
-        new File(output, "ControlBlocks.extaas"),
-        "generateControlBlocks");
-
-    serialize(
-        OperatorExtension.getExtensionBundle(),
-        new File(output, "OperatorBlocks.extaas"),
-        "generateOperatorBlocks");
-
-    serialize(
-        ActivityExtension.getExtensionBundle(),
-        new File(output, "ActivityEvents.extaas"),
-        "generateActivityEvents");
-
-    serialize(
-        BasicVariablesExtensions.getExtensionBundle(),
-        new File(output, "BasicVariable.extaas"),
-        "generateBasicVariable");
-  }
 
   // DO NOT MODIFY THIS METHOD
   public static void main(String[] args) throws Exception {
-    generateFiles(new File(args[0]));
+    File outputDir = new File(args[0]);
+
+    ArrayList<HashMap<String, Object>> extensions = ExtensionsManager.getExtensions();
+
+    for (int i = 0; i < extensions.size(); ++i) {
+      if (extensions.get(i).containsKey(ExtensionsManager.EXTENSION_BUNDLE)) {
+        serialize(
+            extensions.get(i).get(ExtensionsManager.EXTENSION_BUNDLE),
+            new File(outputDir, ((String) extensions.get(i).get(ExtensionsManager.EXTENSION_FILE_NAME))),
+            extractTaskName(((String) extensions.get(i).get(ExtensionsManager.EXTENSION_FILE_NAME))));
+      } else {
+        throw new Exception(ExtensionsManager.EXTENSION_BUNDLE.concat(" key is not set."));
+      }
+    }
 
     boolean installExtensions = Boolean.parseBoolean(args[1]);
     boolean isDeveloperMode = Boolean.parseBoolean(args[2]);
@@ -87,7 +72,6 @@ public class ExtensionGenerator {
     File IDEDIRECTORY = new File(storage, ".AndroidAppBuilder");
     File EXTENSION_DIR = new File(IDEDIRECTORY, "Extension");
 
-    File outputDir = new File(args[0]);
     if (!outputDir.exists()) outputDir.mkdirs();
     if (!EXTENSION_DIR.exists()) EXTENSION_DIR.mkdirs();
 
@@ -107,7 +91,7 @@ public class ExtensionGenerator {
   }
 
   // DO NOT MODIFY THIS METHOD
-  public static void serialize(Object object, File path, String taskName) throws Exception {
+  private static void serialize(Object object, File path, String taskName) throws Exception {
     try {
       FileOutputStream fileOutputStream = new FileOutputStream(path);
       ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -119,5 +103,24 @@ public class ExtensionGenerator {
       System.out.println("Failed to serialized ".concat(path.getAbsolutePath()));
       throw e;
     }
+  }
+
+  private static String extractTaskName(String fileName) {
+    String baseName = fileName.replace(".extaas", "");
+
+    String[] words = baseName.split("(?=[A-Z])|_");
+
+    StringBuilder taskName = new StringBuilder("generate");
+
+    for (String word : words) {
+      if (!word.isEmpty()) {
+        taskName.append(Character.toUpperCase(word.charAt(0)));
+        if (word.length() > 1) {
+          taskName.append(word.substring(1).toLowerCase());
+        }
+      }
+    }
+
+    return taskName.toString();
   }
 }
