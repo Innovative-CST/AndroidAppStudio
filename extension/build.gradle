@@ -30,6 +30,15 @@ task generateExtensions(type: JavaExec) {
     args = [outputDir.getAbsolutePath(), installExtensions, isDeveloperMode, storage]
 }
 
+task generateExtensionsJSONMetadata(type: JavaExec) {
+    File outputDir = new File("${buildDir}/extensions/metadata");
+    outputDir.mkdirs();
+
+    classpath = sourceSets.main.runtimeClasspath
+    main = "com.icst.android.appstudio.ExtensionsMetaDataGenerator"
+    args = [outputDir.getAbsolutePath()]
+}
+
 dependencies {
     implementation project(":core")
 }
