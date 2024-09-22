@@ -41,9 +41,22 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Manages extension-related operations
+/**
+ * Manages the generation and installation of extensions in Android AppStudio. The class processes
+ * extension bundles, serializes them, and handles installation if required.
+ */
 public class ExtensionGenerator {
 
+  /**
+  * Main method to process extensions and optionally install them.
+  * 
+  * @param args Command-line arguments:
+  *             args[0] - Output directory for the extensions.
+  *             args[1] - Boolean flag to determine if extensions should be installed.
+  *             args[2] - Boolean flag for developer mode.
+  *             args[3] - File storage location for extension installation.
+  * @throws Exception if any error occurs during extension processing or installation.
+  */
   public static void main(String[] args) throws Exception {
     File outputDir = new File(args[0]);
     boolean installExtensions = Boolean.parseBoolean(args[1]);
@@ -55,8 +68,13 @@ public class ExtensionGenerator {
     installExtensions(installExtensions, isDeveloperMode, storage, outputDir);
   }
 
-  // Handles serialization and task extraction
-  private static void processExtensions(File outputDir) throws Exception {
+  /**
+   * Processes extensions by serializing the extension bundle into the specified output directory.
+   *
+   * @param outputDir The directory where the serialized extension files will be stored.
+   * @throws Exception if the extension bundle key is not set or serialization fails.
+   */
+  public static void processExtensions(File outputDir) throws Exception {
     ArrayList<HashMap<String, Object>> extensions = ExtensionsManager.getExtensions();
 
     for (HashMap<String, Object> extension : extensions) {
@@ -72,8 +90,16 @@ public class ExtensionGenerator {
     }
   }
 
-  // Handles the installation of extensions if required
-  private static void installExtensions(
+  /**
+   * Installs the extensions into the specified storage directory if the installation conditions are
+   * met.
+   *
+   * @param installExtensions Flag to determine if installation is required.
+   * @param isDeveloperMode Flag to check if the developer mode is enabled.
+   * @param storage The storage directory where the extensions will be installed.
+   * @param outputDir The output directory containing the serialized extensions.
+   */
+  public static void installExtensions(
       boolean installExtensions, boolean isDeveloperMode, File storage, File outputDir) {
     if (!installExtensions || !isDeveloperMode || storage.getAbsolutePath().equals("NOT_PROVIDED"))
       return;
@@ -82,21 +108,30 @@ public class ExtensionGenerator {
     File extensionDir = new File(ideDirectory, "Extension");
 
     createDirectories(outputDir, extensionDir);
-
     installFiles(outputDir, extensionDir);
 
     System.out.println(
         "\nAndroid AppStudio will search the installed extensions if it is built using the current local.properties configuration.");
   }
 
-  // Creates required directories if they don't exist
-  private static void createDirectories(File outputDir, File extensionDir) {
+  /**
+   * Creates the necessary directories if they do not exist.
+   *
+   * @param outputDir The directory where the serialized extension files are stored.
+   * @param extensionDir The directory where the extensions will be installed.
+   */
+  public static void createDirectories(File outputDir, File extensionDir) {
     if (!outputDir.exists()) outputDir.mkdirs();
     if (!extensionDir.exists()) extensionDir.mkdirs();
   }
 
-  // Copies extension files to the designated directory
-  private static void installFiles(File outputDir, File extensionDir) {
+  /**
+   * Installs the serialized extension files from the output directory into the extension directory.
+   *
+   * @param outputDir The directory containing the serialized extension files.
+   * @param extensionDir The directory where the extension files will be installed.
+   */
+  public static void installFiles(File outputDir, File extensionDir) {
     System.out.println("> Task :extension:installExtension\n");
 
     for (File file : outputDir.listFiles()) {
@@ -114,8 +149,15 @@ public class ExtensionGenerator {
     }
   }
 
-  // Serializes the extension bundle
-  private static void serialize(Object object, File path, String taskName) throws Exception {
+  /**
+   * Serializes the given extension bundle object into the specified file path.
+   *
+   * @param object The extension bundle object to be serialized.
+   * @param path The file path where the serialized object will be saved.
+   * @param taskName The name of the task associated with the extension.
+   * @throws Exception if serialization fails.
+   */
+  public static void serialize(Object object, File path, String taskName) throws Exception {
     try (FileOutputStream fileOutputStream = new FileOutputStream(path);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
 
@@ -127,8 +169,14 @@ public class ExtensionGenerator {
     }
   }
 
-  // Extracts the task name based on the file name
-  private static String extractTaskName(String fileName) {
+  /**
+   * Extracts the task name from the given file name by removing the file extension and converting
+   * it into camel case.
+   *
+   * @param fileName The file name to extract the task name from.
+   * @return The extracted task name in camel case format.
+   */
+  public static String extractTaskName(String fileName) {
     String baseName = fileName.replace(".extaas", "");
     String[] words = baseName.split("(?=[A-Z])|_");
 
