@@ -41,77 +41,98 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// Manages extension-related operations
 public class ExtensionGenerator {
 
-  // DO NOT MODIFY THIS METHOD
   public static void main(String[] args) throws Exception {
     File outputDir = new File(args[0]);
-
-    ArrayList<HashMap<String, Object>> extensions = ExtensionsManager.getExtensions();
-
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).containsKey(ExtensionsManager.EXTENSION_BUNDLE)) {
-        serialize(
-            extensions.get(i).get(ExtensionsManager.EXTENSION_BUNDLE),
-            new File(outputDir, ((String) extensions.get(i).get(ExtensionsManager.EXTENSION_FILE_NAME))),
-            extractTaskName(((String) extensions.get(i).get(ExtensionsManager.EXTENSION_FILE_NAME))));
-      } else {
-        throw new Exception(ExtensionsManager.EXTENSION_BUNDLE.concat(" key is not set."));
-      }
-    }
-
     boolean installExtensions = Boolean.parseBoolean(args[1]);
     boolean isDeveloperMode = Boolean.parseBoolean(args[2]);
     File storage = new File(args[3]);
 
-    // Do not perform installation of extension until specified.
-    if (!installExtensions) return;
-    if (!isDeveloperMode) return;
-    if (storage.getAbsolutePath().equals("NOT_PROVIDED")) return;
+    // Handle extensions processing and installation
+    processExtensions(outputDir);
+    installExtensions(installExtensions, isDeveloperMode, storage, outputDir);
+  }
 
-    File IDEDIRECTORY = new File(storage, ".AndroidAppBuilder");
-    File EXTENSION_DIR = new File(IDEDIRECTORY, "Extension");
+  // Handles serialization and task extraction
+  private static void processExtensions(File outputDir) throws Exception {
+    ArrayList<HashMap<String, Object>> extensions = ExtensionsManager.getExtensions();
 
-    if (!outputDir.exists()) outputDir.mkdirs();
-    if (!EXTENSION_DIR.exists()) EXTENSION_DIR.mkdirs();
-
-    System.out.println();
-    for (File file : outputDir.listFiles()) {
-      Path in = Path.of(file.toURI());
-      Path out = Path.of(new File(EXTENSION_DIR, file.getName()).toURI());
-      try {
-        System.out.println("Installing ".concat(file.getName()).concat(" in your file system."));
-        Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException e) {
-        e.printStackTrace();
+    for (HashMap<String, Object> extension : extensions) {
+      if (extension.containsKey(ExtensionsManager.EXTENSION_BUNDLE)) {
+        File extensionFile =
+            new File(outputDir, (String) extension.get(ExtensionsManager.EXTENSION_FILE_NAME));
+        String taskName =
+            extractTaskName((String) extension.get(ExtensionsManager.EXTENSION_FILE_NAME));
+        serialize(extension.get(ExtensionsManager.EXTENSION_BUNDLE), extensionFile, taskName);
+      } else {
+        throw new Exception(ExtensionsManager.EXTENSION_BUNDLE.concat(" key is not set."));
       }
     }
+  }
+
+  // Handles the installation of extensions if required
+  private static void installExtensions(
+      boolean installExtensions, boolean isDeveloperMode, File storage, File outputDir) {
+    if (!installExtensions || !isDeveloperMode || storage.getAbsolutePath().equals("NOT_PROVIDED"))
+      return;
+
+    File ideDirectory = new File(storage, ".AndroidAppBuilder");
+    File extensionDir = new File(ideDirectory, "Extension");
+
+    createDirectories(outputDir, extensionDir);
+
+    installFiles(outputDir, extensionDir);
+
     System.out.println(
         "\nAndroid AppStudio will search the installed extensions if it is built using the current local.properties configuration.");
   }
 
-  // DO NOT MODIFY THIS METHOD
+  // Creates required directories if they don't exist
+  private static void createDirectories(File outputDir, File extensionDir) {
+    if (!outputDir.exists()) outputDir.mkdirs();
+    if (!extensionDir.exists()) extensionDir.mkdirs();
+  }
+
+  // Copies extension files to the designated directory
+  private static void installFiles(File outputDir, File extensionDir) {
+    System.out.println("> Task :extension:installExtension\n");
+
+    for (File file : outputDir.listFiles()) {
+      Path source = Path.of(file.toURI());
+      Path destination = Path.of(new File(extensionDir, file.getName()).toURI());
+
+      if (file.isDirectory()) continue;
+
+      try {
+        System.out.println("Installing ".concat(file.getName()).concat(" in your file system."));
+        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  // Serializes the extension bundle
   private static void serialize(Object object, File path, String taskName) throws Exception {
-    try {
-      FileOutputStream fileOutputStream = new FileOutputStream(path);
-      ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+    try (FileOutputStream fileOutputStream = new FileOutputStream(path);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+
       objectOutputStream.writeObject(object);
-      fileOutputStream.close();
-      objectOutputStream.close();
       System.out.println("> Task :extension:".concat(taskName));
     } catch (Exception e) {
-      System.out.println("Failed to serialized ".concat(path.getAbsolutePath()));
+      System.out.println("Failed to serialize ".concat(path.getAbsolutePath()));
       throw e;
     }
   }
 
+  // Extracts the task name based on the file name
   private static String extractTaskName(String fileName) {
     String baseName = fileName.replace(".extaas", "");
-
     String[] words = baseName.split("(?=[A-Z])|_");
 
     StringBuilder taskName = new StringBuilder("generate");
-
     for (String word : words) {
       if (!word.isEmpty()) {
         taskName.append(Character.toUpperCase(word.charAt(0)));
@@ -120,7 +141,6 @@ public class ExtensionGenerator {
         }
       }
     }
-
     return taskName.toString();
   }
 }
