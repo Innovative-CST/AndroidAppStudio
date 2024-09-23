@@ -57,21 +57,27 @@ if (localPropsFile.exists()) {
   localPropsFile.withInputStream { inputStream ->
     properties.load(inputStream)
   }
+
+  printInBox("""
+Setting up properties from environment and local.properties\n
+
+Properties          Values
+isDeveloperMode     ${properties.getProperty('isDeveloperMode', 'NOT_SET')}
+STORAGE             ${properties.getProperty('STORAGE', 'NOT_SET')}
+keyStorePassword    ${password.equals("") ? 'NOT_SET' : '****************' }
+installExtensions   ${properties.getProperty('installExtensions', 'NOT_SET')}
+""")
 } else {
-  println()
-  println("+-------------------------------------------------------------- local.properties --------------------------------------------------------------+")
-  println("+                                                                                                                                              +")
-  println("+ If you are running this project locally, please set up the following properties in local.properties:                                         +")
-  println("+                                                                                                                                              +")
-  println("+ Properties            Values                  Description                                                                                    +")
-  println("+                                                                                                                                              +")
-  println("+ keyStorePassword      [password]            The app will be signed if a password is provided for the keystore (app/keystore.jks).            +")
-  println("+ isDeveloperMode       [true, false]         Must be set to true for the following properties to work.                                        +")
-  println("+ STORAGE               [path]                The storage path that the app will use to store projects or read/install extensions.             +")
-  println("+ installExtensions     [true, false]         Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.  +")
-  println("+                                                                                                                                              +")
-  println("+----------------------------------------------------------------------------------------------------------------------------------------------+")
-  println()
+  printInBox("""
+If you are running this project locally, please set up the following properties in local.properties:
+
+Properties            Values                  Description
+
+keyStorePassword      [password]            The app will be signed if a password is provided for the keystore (app/keystore.jks).
+isDeveloperMode       [true, false]         Must be set to true for the following properties to work.
+STORAGE               [path]                The storage path that the app will use to store projects or read/install extensions.
+installExtensions     [true, false]         Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.
+""")
 }
 
 if (KEYSTOREPASSWORD != null) {
@@ -83,44 +89,6 @@ if (KEYSTOREPASSWORD != null) {
     signingEnabled = true
   }
 }
-
-println()
-println("Setting up properties from environment and local.properties\n")
-println("Properties        Values")
-println()
-println("isDeveloperMode     ${properties.getProperty('isDeveloperMode', 'NOT_SET')}")
-println("STORAGE             ${properties.getProperty('STORAGE', 'NOT_SET')}")
-println("keyStorePassword    ${password.equals("") ? 'NOT_SET' : '****************' }")
-println("installExtensions   ${properties.getProperty('installExtensions', 'NOT_SET')}")
-println()
-
-task printBoxedText {
-    doLast {
-        // Example multi-line text
-        def text = ""
-        
-        // Split the text into individual lines
-        def lines = text.split('\n')
-        
-        // Determine the maximum length of any line for the box width
-        def maxLength = lines.collect { it.length() }.max()
-        def boxWidth = maxLength + 4
-        def horizontalBorder = "+" + "-".repeat(boxWidth) + "+"
-
-        // Print the top border
-        println horizontalBorder
-        
-        // Print each line with padding to match the longest line
-        lines.each { line ->
-            def paddedLine = line.padRight(maxLength)
-            println "|  " + paddedLine + "  |"
-        }
-        
-        // Print the bottom border
-        println horizontalBorder
-    }
-}
-
 
 android {
   namespace 'com.icst.android.appstudio'
@@ -244,6 +212,22 @@ android {
     exclude 'META-INF/LICENSE.md'
     exclude 'META-INF/NOTICE.md'
   }
+}
+
+def printInBox(String text) {
+  println()
+  def lines = text.split('\n')
+  def maxLength = lines.collect { it.length() }.max()
+  def boxWidth = maxLength + 4
+  def horizontalBorder = "+" + "-".repeat(boxWidth) + "+"
+  println horizontalBorder
+  lines.each { line ->
+    def paddedLine = line.padRight(maxLength)
+    println "|  " + paddedLine + "  |"
+  }
+  // Print the bottom border
+  println horizontalBorder
+  println()
 }
 
 def downloadBootstrap(String arch, String variant) {
