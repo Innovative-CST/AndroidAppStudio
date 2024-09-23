@@ -30,22 +30,22 @@
  */
 
 plugins {
-    id "com.android.application"
-    id "de.undercouch.download"
+  id "com.android.application"
+  id "de.undercouch.download"
 }
 
 def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
 def firebase = System.getenv('Firebase')
 
 if (firebase != null) {
-	if (!new File("$projectDir/google-services.json").exists()) {
-       new File("$projectDir/google-services.json").text = firebase;
-    }
-	apply plugin: "com.google.gms.google-services"
+  if (!new File("$projectDir/google-services.json").exists()) {
+    new File("$projectDir/google-services.json").text = firebase;
+  }
+  apply plugin: "com.google.gms.google-services"
 } else {
-    if (file("google-services.json").exists()) {
-        apply plugin: "com.google.gms.google-services"
-    }
+  if (file("google-services.json").exists()) {
+    apply plugin: "com.google.gms.google-services"
+  }
 }
 
 def localPropsFile = rootProject.file("local.properties")
@@ -54,299 +54,327 @@ def signingEnabled = false
 def password = ""
 
 if (localPropsFile.exists()) {
-    localPropsFile.withInputStream { inputStream ->
-        properties.load(inputStream)
-    }
+  localPropsFile.withInputStream { inputStream ->
+    properties.load(inputStream)
+  }
 } else {
-    println()
-    println("+-------------------------------------------------------------- local.properties --------------------------------------------------------------+")
-    println("+                                                                                                                                              +")
-    println("+ If you are running this project locally, please set up the following properties in local.properties:                                         +")
-    println("+                                                                                                                                              +")
-    println("+ Properties              Values              Description                                                                                      +")
-    println("+                                                                                                                                              +")
-    println("+ keyStorePassword        [password]          The app will be signed if a password is provided for the keystore (app/keystore.jks).            +")
-    println("+ isDeveloperMode         [true, false]       Must be set to true for the following properties to work.                                        +")
-    println("+ STORAGE                 [path]              The storage path that the app will use to store projects or read/install extensions.             +")
-    println("+ installExtensions       [true, false]       Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.  +")
-    println("+                                                                                                                                              +")
-    println("+----------------------------------------------------------------------------------------------------------------------------------------------+")
-    println()
+  println()
+  println("+-------------------------------------------------------------- local.properties --------------------------------------------------------------+")
+  println("+                                                                                                                                              +")
+  println("+ If you are running this project locally, please set up the following properties in local.properties:                                         +")
+  println("+                                                                                                                                              +")
+  println("+ Properties            Values                  Description                                                                                    +")
+  println("+                                                                                                                                              +")
+  println("+ keyStorePassword      [password]            The app will be signed if a password is provided for the keystore (app/keystore.jks).            +")
+  println("+ isDeveloperMode       [true, false]         Must be set to true for the following properties to work.                                        +")
+  println("+ STORAGE               [path]                The storage path that the app will use to store projects or read/install extensions.             +")
+  println("+ installExtensions     [true, false]         Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.  +")
+  println("+                                                                                                                                              +")
+  println("+----------------------------------------------------------------------------------------------------------------------------------------------+")
+  println()
 }
 
 if (KEYSTOREPASSWORD != null) {
-    password = KEYSTOREPASSWORD
-    signingEnabled = true
+  password = KEYSTOREPASSWORD
+  signingEnabled = true
 } else if (localPropsFile.exists()) {
-    if (properties.getProperty('keyStorePassword') != null) {
-        password = properties.getProperty('keyStorePassword')
-        signingEnabled = true
-    }
+  if (properties.getProperty('keyStorePassword') != null) {
+    password = properties.getProperty('keyStorePassword')
+    signingEnabled = true
+  }
 }
 
 println()
-println("Setting up properties from environment and local.propertied\n")
-println("Properties              Values")
+println("Setting up properties from environment and local.properties\n")
+println("Properties        Values")
 println()
-println("isDeveloperMode         ${properties.getProperty('isDeveloperMode', 'NOT_SET')}")
-println("STORAGE                 ${properties.getProperty('STORAGE', 'NOT_SET')}")
-println("keyStorePassword        ${password.equals("") ? 'NOT_SET' : '****************' }")
-println("installExtensions       ${properties.getProperty('installExtensions', 'NOT_SET')}")
+println("isDeveloperMode     ${properties.getProperty('isDeveloperMode', 'NOT_SET')}")
+println("STORAGE             ${properties.getProperty('STORAGE', 'NOT_SET')}")
+println("keyStorePassword    ${password.equals("") ? 'NOT_SET' : '****************' }")
+println("installExtensions   ${properties.getProperty('installExtensions', 'NOT_SET')}")
 println()
+
+task printBoxedText {
+    doLast {
+        // Example multi-line text
+        def text = ""
+        
+        // Split the text into individual lines
+        def lines = text.split('\n')
+        
+        // Determine the maximum length of any line for the box width
+        def maxLength = lines.collect { it.length() }.max()
+        def boxWidth = maxLength + 4
+        def horizontalBorder = "+" + "-".repeat(boxWidth) + "+"
+
+        // Print the top border
+        println horizontalBorder
+        
+        // Print each line with padding to match the longest line
+        lines.each { line ->
+            def paddedLine = line.padRight(maxLength)
+            println "|  " + paddedLine + "  |"
+        }
+        
+        // Print the bottom border
+        println horizontalBorder
+    }
+}
+
 
 android {
-    namespace 'com.icst.android.appstudio'
-    compileSdk 34
-    flavorDimensions = ["abi"]
-    def getCommitHash = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-parse", "--short", "HEAD"
-            standardOutput = stdout
-        }
-        return stdout.toString().trim()
+  namespace 'com.icst.android.appstudio'
+  compileSdk 34
+  flavorDimensions = ["abi"]
+  def getCommitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+      commandLine "git", "rev-parse", "--short", "HEAD"
+      standardOutput = stdout
+    }
+    return stdout.toString().trim()
+  }
+
+  def getCommitSha = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+      commandLine "git", "rev-parse", "HEAD"
+      standardOutput = stdout
+    }
+    return "\"" + stdout.toString().trim() + "\""
+  }
+
+  defaultConfig {
+    applicationId "com.icst.android.appstudio"
+    multiDexEnabled true
+    minSdk 26
+    targetSdk 28
+    versionCode 1
+    versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
+    buildConfigField "String", "commitSha", getCommitSha()
+    buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
+    buildConfigField "java.io.File", "STORAGE", "new java.io.File(\"" + properties.getProperty("STORAGE", "NOT_PROVIDED") + "\")"
+
+    vectorDrawables { 
+      useSupportLibrary true
+    }
+  }
+
+  productFlavors {
+    arm {
+      dimension "abi"
+      versionNameSuffix "-armeabi-v7a"
+      buildConfigField "String", "abi", "\"armeabi-v7a\""
+      ndk {
+        abiFilters "armeabi-v7a"
+      }
     }
 
-    def getCommitSha = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-parse", "HEAD"
-            standardOutput = stdout
-        }
-        return "\"" + stdout.toString().trim() + "\""
+    aarch64 {
+      dimension "abi"
+      versionNameSuffix "-arm64-v8a"
+      buildConfigField "String", "abi", "\"arm64-v8a\""
+      ndk {
+        abiFilters "arm64-v8a"
+      }
     }
 
-    defaultConfig {
-        applicationId "com.icst.android.appstudio"
-        multiDexEnabled true
-        minSdk 26
-        targetSdk 28
-        versionCode 1
-        versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
-        buildConfigField "String", "commitSha", getCommitSha()
-        buildConfigField "boolean", "isDeveloperMode", properties.getProperty("isDeveloperMode", "false")
-        buildConfigField "java.io.File", "STORAGE", "new java.io.File(\"" + properties.getProperty("STORAGE", "NOT_PROVIDED") + "\")"
-
-        vectorDrawables { 
-            useSupportLibrary true
-        }
+    x86 {
+      dimension "abi"
+      versionNameSuffix "-x86"
+      buildConfigField "String", "abi", "\"x86\""
+      ndk {
+        abiFilters "x86"
+      }
     }
 
-    productFlavors {
-        arm {
-            dimension "abi"
-            versionNameSuffix "-armeabi-v7a"
-            buildConfigField "String", "abi", "\"armeabi-v7a\""
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
-        }
+    x86_64 {
+      dimension "abi"
+      versionNameSuffix "-x86_64"
+      buildConfigField "String", "abi", "\"x86_64\""
+      ndk {
+        abiFilters "x86_64"
+      }
+    }
+  }
 
-        aarch64 {
-            dimension "abi"
-            versionNameSuffix "-arm64-v8a"
-            buildConfigField "String", "abi", "\"arm64-v8a\""
-            ndk {
-                abiFilters "arm64-v8a"
-            }
-        }
+  buildTypes {
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
 
-        x86 {
-            dimension "abi"
-            versionNameSuffix "-x86"
-            buildConfigField "String", "abi", "\"x86\""
-            ndk {
-                abiFilters "x86"
-            }
-        }
+  compileOptions {
+    coreLibraryDesugaringEnabled true
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
 
-        x86_64 {
-            dimension "abi"
-            versionNameSuffix "-x86_64"
-            buildConfigField "String", "abi", "\"x86_64\""
-            ndk {
-                abiFilters "x86_64"
-            }
-        }
+  buildFeatures {
+    viewBinding true
+    buildConfig true
+  }
+
+  signingConfigs {
+    release {
+      if (signingEnabled) {
+        storeFile file("keystore.jks")
+        storePassword password
+        keyAlias "AndroidAppStudio"
+        keyPassword password
+      }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    debug {
+      if (signingEnabled) {
+        storeFile file("keystore.jks")
+        storePassword password
+        keyAlias "AndroidAppStudio"
+        keyPassword password
+      }
     }
+  }
 
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        viewBinding true
-        buildConfig true
-    }
-
-    signingConfigs {
-        release {
-            if (signingEnabled) {
-                storeFile file("keystore.jks")
-                storePassword password
-                keyAlias "AndroidAppStudio"
-                keyPassword password
-            }
-        }
-
-        debug {
-            if (signingEnabled) {
-                storeFile file("keystore.jks")
-                storePassword password
-                keyAlias "AndroidAppStudio"
-                keyPassword password
-            }
-        }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'xsd/catalog.xml'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE.md'
-        exclude 'META-INF/NOTICE.md'
-    }
+  packagingOptions {
+    exclude 'META-INF/AL2.0'
+    exclude 'META-INF/LGPL2.1'
+    exclude 'xsd/catalog.xml'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/LICENSE.md'
+    exclude 'META-INF/NOTICE.md'
+  }
 }
 
 def downloadBootstrap(String arch, String variant) {
-    println "Downloading bootstrap-${arch}.zip..."
-    if (file("src/${arch}/assets/bootstrap.zip").exists()) {
-        println "Downloading bootstrap-${arch} will be ignored as it already exists."
-    }
+  println "Downloading bootstrap-${arch}.zip..."
+  if (file("src/${arch}/assets/bootstrap.zip").exists()) {
+    println "Downloading bootstrap-${arch} will be ignored as it already exists."
+  }
 	download.run {
-        src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-${arch}.zip"
-        dest file("src/${variant}/assets/bootstrap.zip")
-        overwrite false
-    }
+    src "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2024.08.25-r2%2Bapt-android-7/bootstrap-${arch}.zip"
+    dest file("src/${variant}/assets/bootstrap.zip")
+    overwrite false
+  }
 }
 
 task downloadBootstrapArm {
-    doLast {
-        downloadBootstrap("arm", "arm")
-	}
+  doLast {
+    downloadBootstrap("arm", "arm")
+  }
 }
 
 task downloadBootstrapAarch64 {
-    doLast {
-        downloadBootstrap("aarch64", "aarch64")
-	}
+  doLast {
+    downloadBootstrap("aarch64", "aarch64")
+  }
 }
 
 task downloadx86 {
-    doLast {
-        downloadBootstrap("i686", "x86")
-	}
+  doLast {
+    downloadBootstrap("i686", "x86")
+  }
 }
 
 task downloadx86_64 {
-    doLast {
-        downloadBootstrap("x86_64", "x86_64")
-	}
+  doLast {
+    downloadBootstrap("x86_64", "x86_64")
+  }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
+  coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
 
-    implementation("androidx.appcompat:appcompat:$appcompat_version")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+  implementation("androidx.appcompat:appcompat:$appcompat_version")
+  implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("com.google.android.material:material:$material_design_version")
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    implementation("com.google.code.gson:gson:$gson_version")
-    implementation("com.squareup.okhttp3:okhttp:3.9.1")
-	implementation("com.blankj:utilcodex:blankj_utilcodex_version")
+  implementation("com.google.android.material:material:$material_design_version")
+  implementation("com.github.bumptech.glide:glide:4.12.0")
+  implementation("com.google.code.gson:gson:$gson_version")
+  implementation("com.squareup.okhttp3:okhttp:3.9.1")
+  implementation("com.blankj:utilcodex:blankj_utilcodex_version")
 
-    def editorGroupId = "io.github.Rosemoe.sora-editor"
-    implementation platform("$editorGroupId:bom:$sora_editor_version")
-    implementation("$editorGroupId:editor")
-    implementation("$editorGroupId:language-textmate")
+  def editorGroupId = "io.github.Rosemoe.sora-editor"
+  implementation platform("$editorGroupId:bom:$sora_editor_version")
+  implementation("$editorGroupId:editor")
+  implementation("$editorGroupId:language-textmate")
 
-    implementation platform('com.google.firebase:firebase-bom:32.2.3')
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-database")
+  implementation platform('com.google.firebase:firebase-bom:32.2.3')
+  implementation("com.google.firebase:firebase-analytics")
+  implementation("com.google.firebase:firebase-database")
 
-    implementation("com.termux.termux-app:terminal-view:0.117")
-    implementation("com.termux.termux-app:terminal-emulator:0.117")
+  implementation("com.termux.termux-app:terminal-view:0.117")
+  implementation("com.termux.termux-app:terminal-emulator:0.117")
 
-    implementation("org.gradle:gradle-tooling-api:7.1.1")
-    runtimeOnly("org.slf4j:slf4j-simple:1.7.10")
-    runtimeOnly('com.android.tools:sdklib:31.5.1') {
-        exclude group: 'com.sun.activation', module: 'javax.activation'
-    }
+  implementation("org.gradle:gradle-tooling-api:7.1.1")
+  runtimeOnly("org.slf4j:slf4j-simple:1.7.10")
+  runtimeOnly('com.android.tools:sdklib:31.5.1') {
+    exclude group: 'com.sun.activation', module: 'javax.activation'
+  }
 
-    implementation project(":core")
-    implementation project(":block")
-    implementation project(":editor")
-    implementation project(":vieweditor")
-    implementation project(":prdownloader")
-    implementation project(":themeEngine")
-    implementation project(":treeview")
+  implementation project(":core")
+  implementation project(":block")
+  implementation project(":editor")
+  implementation project(":vieweditor")
+  implementation project(":prdownloader")
+  implementation project(":themeEngine")
+  implementation project(":treeview")
 }
 
 def shouldInstallExtension() {
 
-    def localPropsFile = rootProject.file("local.properties")
-    def properties = new Properties()
+  def localPropsFile = rootProject.file("local.properties")
+  def properties = new Properties()
 
-    if (localPropsFile.exists()) {
-        localPropsFile.withInputStream { inputStream ->
-            properties.load(inputStream)
-        }
+  if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { inputStream ->
+      properties.load(inputStream)
     }
+  }
 
-    Boolean installExtensions = new Boolean(properties.getProperty("installExtensions", "false"))
-    Boolean isDeveloperMode = new Boolean(properties.getProperty("isDeveloperMode", "false"))
+  Boolean installExtensions = new Boolean(properties.getProperty("installExtensions", "false"))
+  Boolean isDeveloperMode = new Boolean(properties.getProperty("isDeveloperMode", "false"))
 
 
-    if (!(installExtensions && isDeveloperMode)) {
-        return false
-    }
+  if (!(installExtensions && isDeveloperMode)) {
+    return false
+  }
 
-    String storage = properties.getProperty("STORAGE", "NOT_PROVIDED")
+  String storage = properties.getProperty("STORAGE", "NOT_PROVIDED")
 
-    if (!(storage.equals("NOT_PROVIDED"))) {
-        return true
-    }
+  if (!(storage.equals("NOT_PROVIDED"))) {
+    return true
+  }
 }
 
 project.afterEvaluate {
-    tasks.named('assembleArmDebug').configure {
-        dependsOn downloadBootstrapArm
-        if (shouldInstallExtension()) {
-            dependsOn project(':extension').tasks.named('generateExtensions')
-        }
+  tasks.named('assembleArmDebug').configure {
+    dependsOn downloadBootstrapArm
+    if (shouldInstallExtension()) {
+      dependsOn project(':extension').tasks.named('generateExtensions')
     }
+  }
 
-    tasks.named('assembleAarch64Debug').configure {
-        dependsOn downloadBootstrapAarch64
-        if (shouldInstallExtension()) {
-            dependsOn project(':extension').tasks.named('generateExtensions')
-        }
+  tasks.named('assembleAarch64Debug').configure {
+    dependsOn downloadBootstrapAarch64
+    if (shouldInstallExtension()) {
+      dependsOn project(':extension').tasks.named('generateExtensions')
     }
+  }
 
-    tasks.named('assembleX86Debug').configure {
-        dependsOn downloadx86
-        if (shouldInstallExtension()) {
-            dependsOn project(':extension').tasks.named('generateExtensions')
-        }
+  tasks.named('assembleX86Debug').configure {
+    dependsOn downloadx86
+    if (shouldInstallExtension()) {
+      dependsOn project(':extension').tasks.named('generateExtensions')
     }
+  }
 
-    tasks.named('assembleX86_64Debug').configure {
-        dependsOn downloadx86_64
-        if (shouldInstallExtension()) {
-            dependsOn project(':extension').tasks.named('generateExtensions')
-        }
+  tasks.named('assembleX86_64Debug').configure {
+    dependsOn downloadx86_64
+    if (shouldInstallExtension()) {
+      dependsOn project(':extension').tasks.named('generateExtensions')
     }
+  }
 }
