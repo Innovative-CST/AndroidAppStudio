@@ -34,8 +34,8 @@ plugins {
   id "de.undercouch.download"
 }
 
-def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
-def firebase = System.getenv('Firebase')
+def KEYSTOREPASSWORD = System.getenv("KEYSTOREPASSWORD")
+def firebase = System.getenv("Firebase")
 
 if (firebase != null) {
   if (!new File("$projectDir/google-services.json").exists()) {
@@ -57,16 +57,6 @@ if (localPropsFile.exists()) {
   localPropsFile.withInputStream { inputStream ->
     properties.load(inputStream)
   }
-
-  printInBox("""
-Setting up properties from environment and local.properties\n
-
-Properties          Values
-isDeveloperMode     ${properties.getProperty('isDeveloperMode', 'NOT_SET')}
-STORAGE             ${properties.getProperty('STORAGE', 'NOT_SET')}
-keyStorePassword    ${password.equals("") ? 'NOT_SET' : '****************' }
-installExtensions   ${properties.getProperty('installExtensions', 'NOT_SET')}
-""")
 } else {
   printInBox("""
 If you are running this project locally, please set up the following properties in local.properties:
@@ -84,14 +74,27 @@ if (KEYSTOREPASSWORD != null) {
   password = KEYSTOREPASSWORD
   signingEnabled = true
 } else if (localPropsFile.exists()) {
-  if (properties.getProperty('keyStorePassword') != null) {
-    password = properties.getProperty('keyStorePassword')
+  if (properties.getProperty("keyStorePassword") != null) {
+    password = properties.getProperty("keyStorePassword")
     signingEnabled = true
   }
 }
 
+if(localPropsFile.exists()){
+  printInBox("""
+Setting up properties from environment and local.properties\n
+
+Properties          Values
+
+isDeveloperMode     ${properties.getProperty("isDeveloperMode", "NOT_SET")}
+STORAGE             ${properties.getProperty("STORAGE", "NOT_SET")}
+keyStorePassword    ${password.equals("") ? "NOT_SET" : "****************" }
+installExtensions   ${properties.getProperty("installExtensions", "NOT_SET")}
+""")
+}
+
 android {
-  namespace 'com.icst.android.appstudio'
+  namespace "com.icst.android.appstudio"
   compileSdk 34
   flavorDimensions = ["abi"]
   def getCommitHash = { ->
@@ -169,7 +172,7 @@ android {
   buildTypes {
     release {
       minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
     }
   }
 
@@ -205,18 +208,22 @@ android {
   }
 
   packagingOptions {
-    exclude 'META-INF/AL2.0'
-    exclude 'META-INF/LGPL2.1'
-    exclude 'xsd/catalog.xml'
-    exclude 'META-INF/DEPENDENCIES'
-    exclude 'META-INF/LICENSE.md'
-    exclude 'META-INF/NOTICE.md'
+    exclude "META-INF/AL2.0"
+    exclude "META-INF/LGPL2.1"
+    exclude "xsd/catalog.xml"
+    exclude "META-INF/DEPENDENCIES"
+    exclude "META-INF/LICENSE.md"
+    exclude "META-INF/NOTICE.md"
+    exclude "META-INF/eclipse.inf"
+    exclude "about_files/LICENSE-2.0.txt"
+    exclude "plugin.xml"
+    exclude "plugin.properties"
   }
 }
 
 def printInBox(String text) {
   println()
-  def lines = text.split('\n')
+  def lines = text.split("\n")
   def maxLength = lines.collect { it.length() }.max()
   def boxWidth = maxLength + 4
   def horizontalBorder = "+" + "-".repeat(boxWidth) + "+"
@@ -267,7 +274,10 @@ task downloadx86_64 {
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation fileTree(dir: "libs", include: ["*.jar"])
+
+  implementation("com.squareup.okhttp3:okhttp:4.12.0")
+  implementation("com.google.guava:guava:33.1.0-android")
 
   coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
 
@@ -285,7 +295,7 @@ dependencies {
   implementation("$editorGroupId:editor")
   implementation("$editorGroupId:language-textmate")
 
-  implementation platform('com.google.firebase:firebase-bom:32.2.3')
+  implementation platform("com.google.firebase:firebase-bom:32.2.3")
   implementation("com.google.firebase:firebase-analytics")
   implementation("com.google.firebase:firebase-database")
 
@@ -294,8 +304,8 @@ dependencies {
 
   implementation("org.gradle:gradle-tooling-api:7.1.1")
   runtimeOnly("org.slf4j:slf4j-simple:1.7.10")
-  runtimeOnly('com.android.tools:sdklib:31.5.1') {
-    exclude group: 'com.sun.activation', module: 'javax.activation'
+  runtimeOnly("com.android.tools:sdklib:31.5.1") {
+    exclude group: "com.sun.activation", module: "javax.activation"
   }
 
   implementation project(":core")
@@ -334,31 +344,31 @@ def shouldInstallExtension() {
 }
 
 project.afterEvaluate {
-  tasks.named('assembleArmDebug').configure {
+  tasks.named("assembleArmDebug").configure {
     dependsOn downloadBootstrapArm
     if (shouldInstallExtension()) {
-      dependsOn project(':extension').tasks.named('generateExtensions')
+      dependsOn project(":extension").tasks.named("generateExtensions")
     }
   }
 
-  tasks.named('assembleAarch64Debug').configure {
+  tasks.named("assembleAarch64Debug").configure {
     dependsOn downloadBootstrapAarch64
     if (shouldInstallExtension()) {
-      dependsOn project(':extension').tasks.named('generateExtensions')
+      dependsOn project(":extension").tasks.named("generateExtensions")
     }
   }
 
-  tasks.named('assembleX86Debug').configure {
+  tasks.named("assembleX86Debug").configure {
     dependsOn downloadx86
     if (shouldInstallExtension()) {
-      dependsOn project(':extension').tasks.named('generateExtensions')
+      dependsOn project(":extension").tasks.named("generateExtensions")
     }
   }
 
-  tasks.named('assembleX86_64Debug').configure {
+  tasks.named("assembleX86_64Debug").configure {
     dependsOn downloadx86_64
     if (shouldInstallExtension()) {
-      dependsOn project(':extension').tasks.named('generateExtensions')
+      dependsOn project(":extension").tasks.named("generateExtensions")
     }
   }
 }
