@@ -157,7 +157,7 @@ public class ActivityEvents {
     event.setDirectFileEvent(true);
     event.setEventReplacerKey("onCreateEventCode");
     event.setRawCode(
-        "@Override\npublic Bundle onCreate(Bundle savedInstanceState) {\n\t"
+        "@Override\npublic void onCreate(Bundle savedInstanceState) {\n\tsuper.onCreate(savedInstanceState);\n\t"
             + RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getEventReplacer())
             + "\n}");
     event.setEnableEdit(true);
