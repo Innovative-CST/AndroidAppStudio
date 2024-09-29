@@ -29,62 +29,61 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio;
+package com.icst.android.appstudio.extensions.commentextension;
 
-import com.icst.android.appstudio.extensions.activityextension.ActivityExtension;
-import com.icst.android.appstudio.extensions.basicvariables.BasicVariablesExtensions;
-import com.icst.android.appstudio.extensions.commentextension.CommentExtension;
-import com.icst.android.appstudio.extensions.controlextension.ControlExtension;
-import com.icst.android.appstudio.extensions.controlextension.OperatorExtension;
+import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
+import com.icst.android.appstudio.block.model.BlockFieldModel;
+import com.icst.android.appstudio.block.model.BlockLayerModel;
+import com.icst.android.appstudio.block.model.BlockModel;
+import com.icst.android.appstudio.block.model.BlockValueFieldModel;
+import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class ExtensionsManager {
-  public static final String EXTENSION_FILE_NAME = "extensionFileName";
-  public static final String EXTENSION_BUNDLE = "extensionBundle";
+public class CommentBlocks {
 
-  public static ArrayList<HashMap<String, Object>> getExtensions() throws Exception {
-    /*
-     * MAKE YOUR EXTENSION LIST HERE
-     */
+  public static ArrayList<BlockModel> getBlocks() {
+    ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
+    blocks.add(getCommentBlock());
+    return blocks;
+  }
 
-    ArrayList<HashMap<String, Object>> extensions = new ArrayList<HashMap<String, Object>>();
+  private static BlockModel getCommentBlock() {
+    BlockModel block = new BlockModel();
+    block.setColor("#29CC57");
+    block.setBlockType(BlockModel.Type.defaultBlock);
+    block.setDragAllowed(true);
+    block.setHolderName("Comment");
+    block.setReplacerKey("comment");
 
-    {
-      HashMap<String, Object> extension = new HashMap<String, Object>();
-      extension.put(EXTENSION_FILE_NAME, "ControlBlocks.extaas");
-      extension.put(EXTENSION_BUNDLE, ControlExtension.getExtensionBundle());
-      extensions.add(extension);
-    }
+    ArrayList<BlockLayerModel> layers = new ArrayList<BlockLayerModel>();
+    BlockFieldLayerModel layer1 = new BlockFieldLayerModel();
 
-    {
-      HashMap<String, Object> extension = new HashMap<String, Object>();
-      extension.put(EXTENSION_FILE_NAME, "OperatorBlocks.extaas");
-      extension.put(EXTENSION_BUNDLE, OperatorExtension.getExtensionBundle());
-      extensions.add(extension);
-    }
+    ArrayList<BlockFieldModel> fieldsLayer1 = new ArrayList<BlockFieldModel>();
+    BlockFieldModel ifText = new BlockFieldModel();
 
-    {
-      HashMap<String, Object> extension = new HashMap<String, Object>();
-      extension.put(EXTENSION_FILE_NAME, "ActivityEvents.extaas");
-      extension.put(EXTENSION_BUNDLE, ActivityExtension.getExtensionBundle());
-      extensions.add(extension);
-    }
+    ifText.setValue("comment");
 
-    {
-      HashMap<String, Object> extension = new HashMap<String, Object>();
-      extension.put(EXTENSION_FILE_NAME, "BasicVariable.extaas");
-      extension.put(EXTENSION_BUNDLE, BasicVariablesExtensions.getExtensionBundle());
-      extensions.add(extension);
-    }
+    fieldsLayer1.add(ifText);
 
-    {
-      HashMap<String, Object> extension = new HashMap<String, Object>();
-      extension.put(EXTENSION_FILE_NAME, "CommentExtension.extaas");
-      extension.put(EXTENSION_BUNDLE, CommentExtension.getExtensionBundle());
-      extensions.add(extension);
-    }
+    BlockValueFieldModel commentField = new BlockValueFieldModel();
+    commentField.setEnableEdit(true);
+    commentField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+    commentField.setReplacer("comment");
 
-    return extensions;
+    fieldsLayer1.add(commentField);
+
+    layer1.setBlockFields(fieldsLayer1);
+
+    layers.add(layer1);
+
+    block.setBlockLayerModel(layers);
+
+    StringBuilder rawCode = new StringBuilder();
+    rawCode.append("// ");
+    rawCode.append(RawCodeReplacer.getReplacer(block.getReplacerKey(), "comment"));
+
+    block.setRawCode(rawCode.toString());
+
+    return block;
   }
 }
