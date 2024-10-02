@@ -43,6 +43,8 @@ public abstract class ExpressionBlockDropZone {
   // ExpressionBlockBean that occupied this ExpressionBlockDropZone.
   private ExpressionBlockBean expressionBlockBean;
 
+  private DatatypeBean datatypeBean;
+
   /**
    * Execute when the ExpressionBlockBean is dropped inside BlockDropZoneBean and BlockDropZoneBean
    * was not previously occupied.
@@ -70,7 +72,17 @@ public abstract class ExpressionBlockDropZone {
    * @return return true if @mExpressionBlockBean is droppable inside ExpressionBlockDropZone or
    *     not.
    */
-  protected abstract boolean canDropBlockBean(ExpressionBlockBean mExpressionBlockBean);
+  protected boolean canDropBlockBean(ExpressionBlockBean mExpressionBlockBean) {
+    boolean canDrop = false;
+    for (DatatypeBean datatypeBean : mExpressionBlockBean.getReturnDatatypes()) {
+      if (datatypeBean.equals(getDatatypeBean())) {
+        canDrop = true;
+        break;
+      }
+    }
+
+    return canDrop;
+  }
 
   /**
    * Use this method to drop the ExpressionBlockBean in ExpressionBlockDropZone.
@@ -86,9 +98,10 @@ public abstract class ExpressionBlockDropZone {
 
       if (isOccupied) {
         // Mark ExpressionBlockDropZone to be occupied
-        onExpressionBlockBeanDropped(expressionBlockBean, this.expressionBlockBean);
+        final ExpressionBlockBean previousExpressionBlockBean = this.expressionBlockBean;
         setExpressionBlockBean(expressionBlockBean);
         setOccupied(true);
+        onExpressionBlockBeanDropped(expressionBlockBean, previousExpressionBlockBean);
       } else {
         // Mark ExpressionBlockDropZone to be occupied
         setExpressionBlockBean(expressionBlockBean);
@@ -100,9 +113,7 @@ public abstract class ExpressionBlockDropZone {
   }
 
   /**
-   * Use this method to know whether ExpressionBlockDropZone already has block or not. <b>NOTE</b>:
-   * When called inside overriden onExpressionBlockBeanDropped then you will not get latest info,
-   * you will get previous info instead of latest expression.
+   * Use this method to know whether ExpressionBlockDropZone already has block or not.
    *
    * @return return true ExpressionBlockDropZone has not ExpressionBlockBean.
    */
@@ -115,18 +126,25 @@ public abstract class ExpressionBlockDropZone {
   }
 
   /**
-   * NOTE: When called inside overriden onExpressionBlockBeanDropped then you will not get latest
-   * info, you will get previous ExpressionBlockBean instead latest expression.
-   *
    * @return returns the current expressionBlockBean which has occupied block.
    */
   public ExpressionBlockBean getExpressionBlockBean() {
     return this.expressionBlockBean;
   }
 
-  // Sets the value of expressionBlockBean for internal use only, it is not supposed to be used as
-  // api because this is for internal use of this class only and hence private.
+  /**
+   * Sets the value of expressionBlockBean for internal use only, it is not supposed to be used as
+   * api because this is for internal use of this class only and hence private.
+   */
   private void setExpressionBlockBean(ExpressionBlockBean expressionBlockBean) {
     this.expressionBlockBean = expressionBlockBean;
+  }
+
+  public DatatypeBean getDatatypeBean() {
+    return this.datatypeBean;
+  }
+
+  public void setDatatypeBean(DatatypeBean datatypeBean) {
+    this.datatypeBean = datatypeBean;
   }
 }

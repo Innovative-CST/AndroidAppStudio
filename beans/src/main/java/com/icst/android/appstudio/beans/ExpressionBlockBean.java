@@ -32,12 +32,23 @@
 package com.icst.android.appstudio.beans;
 
 public class ExpressionBlockBean extends BlockBean {
+
+  private DatatypeBean[] returnDatatypes;
+
   /**
-   * Detect whether block can be dropped at a droppable or not.
+   * Detect whether block can be dropped in a ExpressionBlockDropZone or not.
    *
    * @return true if block can be dropped inside a given ExpressionBlockDropZone.
    */
   public boolean canDropBlock(ExpressionBlockDropZone expressionBlockDropZone) {
     return expressionBlockDropZone.canDropBlockBean(this);
+  }
+
+  public DatatypeBean[] getReturnDatatypes() {
+    return this.returnDatatypes;
+  }
+
+  public void setReturnDatatypes(DatatypeBean[] returnDatatypes) {
+    this.returnDatatypes = returnDatatypes;
   }
 }
