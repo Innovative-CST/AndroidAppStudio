@@ -29,7 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.block;
+package com.icst.android.appstudio.beans;
 
 /**
  * Abstract class representing the ExpressionBlockBean drop zone supposed to be used within the
@@ -100,9 +100,9 @@ public abstract class ExpressionBlockDropZone {
   }
 
   /**
-   * Use this method to know whether ExpressionBlockDropZone already has block or not.
-   * <b>NOTE</b>: When called inside overriden onExpressionBlockBeanDropped then you will not get
-   * latest info, you will get previous info instead of latest expression.
+   * Use this method to know whether ExpressionBlockDropZone already has block or not. <b>NOTE</b>:
+   * When called inside overriden onExpressionBlockBeanDropped then you will not get latest info,
+   * you will get previous info instead of latest expression.
    *
    * @return return true ExpressionBlockDropZone has not ExpressionBlockBean.
    */
@@ -124,6 +124,8 @@ public abstract class ExpressionBlockDropZone {
     return this.expressionBlockBean;
   }
 
+  // Sets the value of expressionBlockBean for internal use only, it is not supposed to be used as
+  // api because this is for internal use of this class only and hence private.
   private void setExpressionBlockBean(ExpressionBlockBean expressionBlockBean) {
     this.expressionBlockBean = expressionBlockBean;
   }

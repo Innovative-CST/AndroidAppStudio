@@ -29,7 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.block;
+package com.icst.android.appstudio.beans;
 
 /** Abstract class representing the base block supposed to be used within the LogicEditor. */
 public abstract class BlockBean {

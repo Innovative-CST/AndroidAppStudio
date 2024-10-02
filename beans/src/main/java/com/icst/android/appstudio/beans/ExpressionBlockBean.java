@@ -29,10 +29,10 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.block;
+package com.icst.android.appstudio.beans;
 
 public class ExpressionBlockBean extends BlockBean {
-  /*
+  /**
    * Detect whether block can be dropped at a droppable or not.
    *
    * @return true if block can be dropped inside a given ExpressionBlockDropZone.
