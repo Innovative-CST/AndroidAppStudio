@@ -29,18 +29,6 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.DatatypeBean;
-
-public final class BlockBeanUtils {
-
-  public static boolean arrayContainsDatatypeBeans(DatatypeBean[] array, DatatypeBean datatype) {
-    for (DatatypeBean datatypeBeans : array) {
-      if (datatypeBeans.equals(datatype)) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
+public class EventBlockBean extends BaseBlockBean {}

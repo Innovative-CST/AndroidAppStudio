@@ -29,18 +29,10 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.DatatypeBean;
-
-public final class BlockBeanUtils {
-
-  public static boolean arrayContainsDatatypeBeans(DatatypeBean[] array, DatatypeBean datatype) {
-    for (DatatypeBean datatypeBeans : array) {
-      if (datatypeBeans.equals(datatype)) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
+/**
+ * A Bean that holds a group of Block fields or text. Used to store the Block items, like input
+ * values or text but does not hold nested blocks.
+ */
+public class BlockContentLayerBean extends LayerBean {}

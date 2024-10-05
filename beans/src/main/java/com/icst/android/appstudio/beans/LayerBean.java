@@ -29,18 +29,11 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.DatatypeBean;
-
-public final class BlockBeanUtils {
-
-  public static boolean arrayContainsDatatypeBeans(DatatypeBean[] array, DatatypeBean datatype) {
-    for (DatatypeBean datatypeBeans : array) {
-      if (datatypeBeans.equals(datatype)) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
+/**
+ * A abstract class, to be inherited by types Layer, It provides a interface for types of Layer of
+ * Block. Layer is a meant to used to prevent long block from being so long and hence can be
+ * rendered below from point of new layer (e.g: Like we press enter to put long text on next line)
+ */
+public abstract class LayerBean {}

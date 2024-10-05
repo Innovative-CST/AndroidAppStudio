@@ -29,18 +29,24 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.DatatypeBean;
+import java.util.ArrayList;
 
-public final class BlockBeanUtils {
+/**
+ * A basic BlockBean model that just hold fields layer (not nested block) and does not return any
+ * code from it..
+ */
+public abstract class BaseBlockBean extends BlockBean {
 
-  public static boolean arrayContainsDatatypeBeans(DatatypeBean[] array, DatatypeBean datatype) {
-    for (DatatypeBean datatypeBeans : array) {
-      if (datatypeBeans.equals(datatype)) {
-        return true;
-      }
-    }
-    return false;
+  /** All the layers of Fields that holds content of block. */
+  private ArrayList<BlockContentLayerBean> contentLayers;
+
+  public ArrayList<BlockContentLayerBean> getContentLayers() {
+    return this.contentLayers;
+  }
+
+  public void setContentLayers(ArrayList<BlockContentLayerBean> contentLayers) {
+    this.contentLayers = contentLayers;
   }
 }

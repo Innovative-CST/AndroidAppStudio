@@ -39,10 +39,10 @@ import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
  */
 public abstract class ExpressionBlockDropZone {
 
-  // Marks whether ExpressionBlockDropZone is empty or occupied by a ExpressionBlockBean.
+  /** Marks whether ExpressionBlockDropZone is empty or occupied by a ExpressionBlockBean. */
   private boolean isOccupied;
 
-  // ExpressionBlockBean that occupied this ExpressionBlockDropZone.
+  /** ExpressionBlockBean that occupied this ExpressionBlockDropZone. */
   private ExpressionBlockBean expressionBlockBean;
 
   private DatatypeBean datatypeBean;
