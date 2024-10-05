@@ -46,6 +46,9 @@ public abstract class BlockBean {
   // Whether the value of the block is read-only
   private boolean valueReadOnly;
 
+  // Base Code of the block.
+  private String baseCode;
+
   /**
    * Gets the color of the block.
    *
@@ -119,5 +122,13 @@ public abstract class BlockBean {
    */
   public void setValueReadOnly(boolean valueReadOnly) {
     this.valueReadOnly = valueReadOnly;
+  }
+
+  public String getBaseCode() {
+    return this.baseCode;
+  }
+
+  public void setBaseCode(String baseCode) {
+    this.baseCode = baseCode;
   }
 }
