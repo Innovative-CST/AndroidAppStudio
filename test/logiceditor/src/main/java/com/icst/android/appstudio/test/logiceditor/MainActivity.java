@@ -29,10 +29,26 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.android.appstudio.test.logiceditor;
 
-public class EventBlockBean extends BaseBlockBean {
-  public void getValueFromKey(String key) {
-    // TODO: Implementation to get the values from block element using key...
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
+
+public class MainActivity extends AppCompatActivity {
+  private ActivityMainBinding binding;
+
+  @Override
+  protected void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+	binding.toolbar.setTitle(R.string.app_name);
+    setSupportActionBar(binding.toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+	
+	binding.logicEditor.openEventInCanva(DummyBeans.getDummyEvent());
   }
 }

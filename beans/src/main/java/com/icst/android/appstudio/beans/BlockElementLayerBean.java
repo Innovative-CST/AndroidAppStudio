@@ -31,8 +31,20 @@
 
 package com.icst.android.appstudio.beans;
 
-public class EventBlockBean extends BaseBlockBean {
-  public void getValueFromKey(String key) {
-    // TODO: Implementation to get the values from block element using key...
+import java.util.ArrayList;
+
+/**
+ * A Bean that holds a group of Block elements. Used to store the Block items, block elements but
+ * does not hold nested blocks.
+ */
+public class BlockElementLayerBean extends LayerBean {
+  private ArrayList<BlockElementBean> blockElementBeans;
+
+  public ArrayList<BlockElementBean> getBlockElementBeans() {
+    return this.blockElementBeans;
+  }
+
+  public void setBlockElementBeans(ArrayList<BlockElementBean> blockElementBeans) {
+    this.blockElementBeans = blockElementBeans;
   }
 }

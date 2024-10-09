@@ -31,7 +31,7 @@
 
 package com.icst.android.appstudio.beans;
 
-public class ExpressionBlockBean extends BlockBean {
+public class ExpressionBlockBean extends BaseBlockBean implements BlockElementBean {
 
   private DatatypeBean[] returnDatatypes;
 

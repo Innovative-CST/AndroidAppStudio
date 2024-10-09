@@ -34,6 +34,8 @@ package com.icst.android.appstudio.beans;
 /** Abstract class representing the base block supposed to be used within the LogicEditor. */
 public abstract class BlockBean {
 
+  private String blockBeanKey;
+
   // The color of the block
   private String color;
 
@@ -45,6 +47,14 @@ public abstract class BlockBean {
 
   // Whether the value of the block is read-only
   private boolean valueReadOnly;
+
+  public String getBlockBeanKey() {
+    return this.blockBeanKey;
+  }
+
+  public void setBlockBeanKey(String blockBeanKey) {
+    this.blockBeanKey = blockBeanKey;
+  }
 
   /**
    * Gets the color of the block.

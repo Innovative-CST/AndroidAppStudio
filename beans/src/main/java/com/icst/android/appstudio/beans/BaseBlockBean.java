@@ -35,18 +35,18 @@ import java.util.ArrayList;
 
 /**
  * A basic BlockBean model that just hold fields layer (not nested block) and does not return any
- * code from it..
+ * code from it.
  */
 public abstract class BaseBlockBean extends BlockBean {
 
-  /** All the layers of Fields that holds content of block. */
-  private ArrayList<BlockContentLayerBean> contentLayers;
+  /** All the layers of block elememts that holds content of block. */
+  private ArrayList<BlockElementLayerBean> elementsLayers;
 
-  public ArrayList<BlockContentLayerBean> getContentLayers() {
-    return this.contentLayers;
+  public ArrayList<BlockElementLayerBean> getElementsLayers() {
+    return this.elementsLayers;
   }
 
-  public void setContentLayers(ArrayList<BlockContentLayerBean> contentLayers) {
-    this.contentLayers = contentLayers;
+  public void setElementsLayers(ArrayList<BlockElementLayerBean> elementsLayers) {
+    this.elementsLayers = elementsLayers;
   }
 }

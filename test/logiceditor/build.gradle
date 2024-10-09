@@ -29,10 +29,53 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+plugins {
+  id "com.android.application"
+}
 
-/**
- * A Bean that holds a group of Block fields or text. Used to store the Block items, like input
- * values or text but does not hold nested blocks.
- */
-public class BlockContentLayerBean extends LayerBean {}
+android {
+  namespace "com.icst.android.appstudio.test.logiceditor"
+  compileSdk 34
+
+  defaultConfig {
+    applicationId "com.icst.android.appstudio.test.logiceditor"
+    multiDexEnabled true
+    minSdk 26
+    targetSdk 28
+    versionCode 1
+    versionName "Logic Editor Test"
+    vectorDrawables { 
+      useSupportLibrary true
+    }
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+    }
+  }
+
+  compileOptions {
+    coreLibraryDesugaringEnabled true
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  buildFeatures {
+    viewBinding true
+    buildConfig true
+  }
+}
+
+dependencies {
+  coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
+
+  implementation("androidx.appcompat:appcompat:$appcompat_version")
+  implementation("com.google.android.material:material:$material_design_version")
+  implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
+
+  implementation project(":themeEngine")
+  implementation project(":beans")
+  implementation project(":logiceditor")
+}

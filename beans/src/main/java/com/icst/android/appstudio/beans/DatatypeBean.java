@@ -32,16 +32,19 @@
 package com.icst.android.appstudio.beans;
 
 /**
- * A class of Datatype, to compare that the two Datatypes are different or not by comparing class name and import.
- * This Bean can also be used to store data.
+ * A class of Datatype, to compare that the two Datatypes are different or not by comparing class
+ * name and import. This Bean can also be used to store data.
  */
 public class DatatypeBean {
   private String className;
   private String classImport;
+  private boolean isImportNecessary;
 
   /**
-   * <p>Compare two DatatypeBean by checking that its import and class name is same or not with other.</p>
-   * <p><b>Note</b>: Comparision is not done by memory pointer, it is checked whether the className and classImoort of datatype is equal or not.
+   * Compare two DatatypeBean by checking that its import and class name is same or not with other.
+   *
+   * <p><b>Note</b>: Comparision is not done by memory pointer, it is checked whether the className
+   * and classImoort of datatype is equal or not.
    *
    * @param mDatatypeBean DatatypeBean to compare with.
    * @return True if @mDatatypeBean is equal.
@@ -83,5 +86,13 @@ public class DatatypeBean {
 
   public void setClassImport(String classImport) {
     this.classImport = classImport;
+  }
+
+  public boolean isImportNecessary() {
+    return this.isImportNecessary;
+  }
+
+  public void setImportNecessary(boolean isImportNecessary) {
+    this.isImportNecessary = isImportNecessary;
   }
 }

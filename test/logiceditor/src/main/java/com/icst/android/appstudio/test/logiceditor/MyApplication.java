@@ -29,10 +29,35 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.android.appstudio.test.logiceditor;
 
-public class EventBlockBean extends BaseBlockBean {
-  public void getValueFromKey(String key) {
-    // TODO: Implementation to get the values from block element using key...
+import android.app.Application;
+import android.os.Environment;
+import android.os.Process;
+import android.util.Log;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.quickersilver.themeengine.Theme;
+import com.quickersilver.themeengine.ThemeEngine;
+import java.io.File;
+
+public class MyApplication extends Application {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE);
+    ThemeEngine.applyToActivities(this);
+
+    Thread.setDefaultUncaughtExceptionHandler(
+        new Thread.UncaughtExceptionHandler() {
+          @Override
+          public void uncaughtException(Thread thread, Throwable throwable) {
+            File logFile = new File(Environment.getExternalStorageDirectory(), "logicEditor.log");
+            FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable));
+            Process.killProcess(Process.myPid());
+            System.exit(1);
+
+            Thread.getDefaultUncaughtExceptionHandler().uncaughtException(thread, throwable);
+          }
+        });
   }
 }

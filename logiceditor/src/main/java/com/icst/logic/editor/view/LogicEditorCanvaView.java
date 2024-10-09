@@ -35,12 +35,15 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import com.icst.android.appstudio.beans.EventBean;
 
 /**
  * Logic Editor Canva, It is tha canva that can be scrolled according to the contents. It adjusts
  * its height and width according to its content when scrolled it is increased and renders.
  */
 public class LogicEditorCanvaView extends LogicEditorScrollView {
+
+  private EventBean eventBean;
 
   public LogicEditorCanvaView(final Context context, final AttributeSet set) {
     super(context, set);
@@ -50,6 +53,14 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
   private void initializeCanva() {
     setAllowScroll(true);
     setClipChildren(true);
+  }
+
+  public void openEventInCanva(EventBean eventBean) {
+    this.eventBean = eventBean;
+    if (eventBean == null) {
+      removeAllViews();
+      return;
+    }
   }
 
   @Override

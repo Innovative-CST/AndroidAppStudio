@@ -31,8 +31,15 @@
 
 package com.icst.android.appstudio.beans;
 
-public class EventBlockBean extends BaseBlockBean {
-  public void getValueFromKey(String key) {
-    // TODO: Implementation to get the values from block element using key...
+/** A simple BlockElement that just display text on block */
+public class LabelBlockElementBean implements BlockElementBean {
+  private String label;
+
+  public String getLabel() {
+    return this.label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
   }
 }

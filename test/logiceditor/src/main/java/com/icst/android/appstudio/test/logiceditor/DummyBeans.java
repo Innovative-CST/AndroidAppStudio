@@ -29,10 +29,43 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.android.appstudio.test.logiceditor;
 
-public class EventBlockBean extends BaseBlockBean {
-  public void getValueFromKey(String key) {
-    // TODO: Implementation to get the values from block element using key...
+import com.icst.android.appstudio.beans.BlockElementBean;
+import com.icst.android.appstudio.beans.BlockElementLayerBean;
+import com.icst.android.appstudio.beans.EventBean;
+import com.icst.android.appstudio.beans.EventBlockBean;
+import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import java.util.ArrayList;
+
+public class DummyBeans {
+  public static EventBean getDummyEvent() {
+    EventBean event = new EventBean();
+
+    event.setEventDefinationBlockBean(getDummyEventDefBlockBean());
+
+    return event;
+  }
+
+  private static EventBlockBean getDummyEventDefBlockBean() {
+    EventBlockBean blockBean = new EventBlockBean();
+
+    blockBean.setColor("#998803");
+
+    ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+    BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+    ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+    LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+    onTestLabel.setLabel("onTestEvent");
+
+    layer1Elements.add(onTestLabel);
+    layer1.setBlockElementBeans(layer1Elements);
+
+    layers.add(layer1);
+    blockBean.setElementsLayers(layers);
+
+    return blockBean;
   }
 }
