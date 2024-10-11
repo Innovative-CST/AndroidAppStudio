@@ -29,43 +29,62 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.logic.lib.builder;
 
-import com.icst.android.appstudio.beans.BlockElementBean;
+import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
-import com.icst.android.appstudio.beans.EventBean;
-import com.icst.android.appstudio.beans.EventBlockBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
-import java.util.ArrayList;
+import com.icst.android.appstudio.beans.LayerBean;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 
-public class DummyBeans {
-  public static EventBean getDummyEvent() {
-    EventBean event = new EventBean();
+public final class LayerBuilder {
 
-    event.setEventDefinationBlockBean(getDummyEventDefBlockBean());
-
-    return event;
+  public static View buildBlockLayerView(
+      Context context, LayerBean layerBean, LogicEditorConfiguration configuration) {
+    if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
+      return buildBlockElementLayerView(context, mBlockElementLayerBean, configuration);
+    } else return null;
   }
 
-  private static EventBlockBean getDummyEventDefBlockBean() {
-    EventBlockBean blockBean = new EventBlockBean();
-    blockBean.setColor("#998803");
-    blockBean.setDragAllowed(true);
+  // Build the block element layer
+  private static View buildBlockElementLayerView(
+      Context context,
+      BlockElementLayerBean mBlockElementLayerBean,
+      LogicEditorConfiguration configuration) {
 
-    ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
-    BlockElementLayerBean layer1 = new BlockElementLayerBean();
+    LinearLayout view = new LinearLayout(context);
+    view.setOrientation(LinearLayout.HORIZONTAL);
 
-    ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+    mBlockElementLayerBean
+        .getBlockElementBeans()
+        .forEach(
+            element -> {
+              if (element instanceof LabelBlockElementBean labelBean) {
+                view.addView(buildLabelView(labelBean, context, configuration));
+              } else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
+                view.addView(buildExpressionBlockBeanView(mExpressionBlockBean, context, configuration));
+              }
+            });
 
-    LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
-    onTestLabel.setLabel("onTestEvent");
+    return view;
+  }
 
-    layer1Elements.add(onTestLabel);
-    layer1.setBlockElementBeans(layer1Elements);
+  private static View buildLabelView(
+      LabelBlockElementBean labelBean, Context context, LogicEditorConfiguration configuration) {
 
-    layers.add(layer1);
-    blockBean.setElementsLayers(layers);
+    TextView labelTextView = new TextView(context);
+    labelTextView.setText(labelBean.getLabel());
+    labelTextView.setTextSize(configuration.getTextSize().getTextSize());
+    return labelTextView;
+  }
 
-    return blockBean;
+  private static View buildExpressionBlockBeanView(
+      ExpressionBlockBean mExpressionBlockBean, Context context, LogicEditorConfiguration configuration) {
+    // TODO: Need to write this method....
+    return null;
   }
 }

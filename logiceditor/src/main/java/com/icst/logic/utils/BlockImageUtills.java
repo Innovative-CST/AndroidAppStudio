@@ -29,43 +29,20 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.logic.utils;
+import com.icst.logic.editor.R;
 
-import com.icst.android.appstudio.beans.BlockElementBean;
-import com.icst.android.appstudio.beans.BlockElementLayerBean;
-import com.icst.android.appstudio.beans.EventBean;
-import com.icst.android.appstudio.beans.EventBlockBean;
-import com.icst.android.appstudio.beans.LabelBlockElementBean;
-import java.util.ArrayList;
+public final class BlockImageUtills {
 
-public class DummyBeans {
-  public static EventBean getDummyEvent() {
-    EventBean event = new EventBean();
-
-    event.setEventDefinationBlockBean(getDummyEventDefBlockBean());
-
-    return event;
+  public static int getImage(Image image) {
+    if (Image.EVENT_BLOCK_ROUND_EDGE_TOP.ordinal() == image.ordinal()) {
+      return R.drawable.event_blockbean_top;
+    } else {
+      return 0;
+    }
   }
 
-  private static EventBlockBean getDummyEventDefBlockBean() {
-    EventBlockBean blockBean = new EventBlockBean();
-    blockBean.setColor("#998803");
-    blockBean.setDragAllowed(true);
-
-    ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
-    BlockElementLayerBean layer1 = new BlockElementLayerBean();
-
-    ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
-
-    LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
-    onTestLabel.setLabel("onTestEvent");
-
-    layer1Elements.add(onTestLabel);
-    layer1.setBlockElementBeans(layer1Elements);
-
-    layers.add(layer1);
-    blockBean.setElementsLayers(layers);
-
-    return blockBean;
+  public enum Image {
+    EVENT_BLOCK_ROUND_EDGE_TOP;
   }
 }
