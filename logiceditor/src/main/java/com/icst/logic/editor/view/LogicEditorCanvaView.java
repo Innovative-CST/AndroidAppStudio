@@ -36,6 +36,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import com.icst.android.appstudio.beans.EventBean;
+import com.icst.logic.block.view.EventBlockBeanView;
 
 /**
  * Logic Editor Canva, It is tha canva that can be scrolled according to the contents. It adjusts
@@ -61,6 +62,8 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
       removeAllViews();
       return;
     }
+
+    addView(new EventBlockBeanView(getContext(), eventBean.getEventDefinationBlockBean()));
   }
 
   @Override
