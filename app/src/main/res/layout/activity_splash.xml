@@ -10,7 +10,6 @@
     <ImageView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:src="@drawable/secondary_logo"
-        android:tint="?attr/colorOnSurface" />
+        android:src="@drawable/splash_screen_icon" />
 
 </LinearLayout>
