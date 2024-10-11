@@ -31,4 +31,64 @@
 
 package com.icst.logic.block.view;
 
-public class EventBlockBeanView {}
+import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
+import com.icst.android.appstudio.beans.BlockElementLayerBean;
+import com.icst.android.appstudio.beans.EventBlockBean;
+import com.icst.logic.lib.builder.LayerBuilder;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.utils.BlockImageUtills;
+import com.icst.logic.utils.ImageViewUtils;
+import java.util.ArrayList;
+
+public class EventBlockBeanView extends LinearLayout {
+  private Context context;
+  private EventBlockBean eventBlockBean;
+  private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
+
+  public EventBlockBeanView(Context context, EventBlockBean eventBlockBean) {
+    super(context);
+    this.context = context;
+    this.eventBlockBean = eventBlockBean;
+    init();
+  }
+
+  private void init() {
+    setOrientation(VERTICAL);
+    LinearLayout header = new LinearLayout(context);
+    LinearLayout.LayoutParams headerLayoutParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+            LinearLayout.LayoutParams.WRAP_CONTENT // Height
+            );
+    header.setBackgroundDrawable(
+        ImageViewUtils.getImageView(
+            context,
+            eventBlockBean.getColor(),
+            BlockImageUtills.getImage(BlockImageUtills.Image.EVENT_BLOCK_ROUND_EDGE_TOP)));
+    header.setLayoutParams(headerLayoutParams);
+    addView(header);
+
+    ArrayList<BlockElementLayerBean> layers = eventBlockBean.getElementsLayers();
+
+    for (int i = 0; i < layers.size(); ++i) {
+      BlockElementLayerBean elementLayer = layers.get(i);
+      View layerView = LayerBuilder.buildBlockLayerView(context, elementLayer, configuration);
+
+      LinearLayout.LayoutParams layerLayoutParams =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+              LinearLayout.LayoutParams.WRAP_CONTENT // Height
+              );
+      header.setLayoutParams(layerLayoutParams);
+      addView(layerView);
+    }
+  }
+
+  private void setEventBlockBean(EventBlockBean eventBlockBean) {
+    this.eventBlockBean = eventBlockBean;
+    removeAllViews();
+    init();
+  }
+}
