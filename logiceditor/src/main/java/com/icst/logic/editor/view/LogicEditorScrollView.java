@@ -143,11 +143,13 @@ public class LogicEditorScrollView extends FrameLayout {
       float finalScrollY = 0;
 
       if (deltaX < 0) {
-        // From up to down is scrolled
+        // From left to right is scrolled
         // Make sure user does not scroll greater than current scrollX
 
         if (deltaXMagnitude <= getScrollX()) {
           finalScrollX = deltaX;
+        } else {
+          finalScrollX -= getScrollX();
         }
       } else {
         // From down to up is scrolled
@@ -156,32 +158,41 @@ public class LogicEditorScrollView extends FrameLayout {
           if (getParent() instanceof View parent) {
             if (getScrollX() + parent.getWidth() < getWidth()) {
               finalScrollX = deltaX;
+            } else {
+              finalScrollX = getScrollX();
             }
           }
         }
       }
 
       if (deltaY < 0) {
-        // From left to right is scrolled
+        // From up to down is scrolled
         // Make sure user does not scroll greater than current scrollY
 
-        if (deltaXMagnitude <= getScrollY()) {
-          finalScrollX = deltaY;
+        if (deltaYMagnitude <= getScrollY()) {
+          finalScrollY = deltaY;
+        } else {
+          finalScrollY -= getScrollY();
         }
       } else {
-        // From right to left is scrolled
+        // From down to up is scrolled
         // Scroll if there is more content
         if (getParent() != null) {
           if (getParent() instanceof View parent) {
             if (getScrollY() + parent.getHeight() < getHeight()) {
               finalScrollY = deltaY;
+            } else {
+              finalScrollY = getScrollY();
             }
           }
         }
       }
 
+      // Reset initial touch
+      initialScrollX = motionEvent.getX();
+      initialScrollY = motionEvent.getY();
       // Scroll to calculated delta coordinates
-      scrollBy((int)(finalScrollX), (int)(finalScrollY));
+      scrollBy((int) (finalScrollX), (int) (finalScrollY));
     }
     return true;
   }
