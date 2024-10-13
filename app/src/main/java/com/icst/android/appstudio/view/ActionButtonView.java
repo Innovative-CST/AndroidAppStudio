@@ -31,6 +31,7 @@
 
 package com.icst.android.appstudio.view;
 
+import android.code.editor.common.utils.ColorUtils;
 import android.content.Context;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -61,6 +62,8 @@ public class ActionButtonView extends LinearLayout {
 
     TextView text = new TextView(context);
     text.setText(actionButton.getText());
+    text.setTextColor(
+        ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorOnSurface));
     addView(text);
     text.setLayoutParams(lp);
   }
