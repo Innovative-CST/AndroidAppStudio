@@ -80,13 +80,21 @@ public class CodeEditorActivity extends BaseActivity {
     shellIconDrawable.setTint(
         ColorUtils.getColor(this, com.google.android.material.R.attr.colorOnSurface));
     shellIcon.setImageDrawable(shellIconDrawable);
-	shellIcon.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ripple_on_color_surface));
+    shellIcon.setBackgroundDrawable(
+        ContextCompat.getDrawable(this, R.drawable.ripple_on_color_surface));
     shellIcon.setOnClickListener(
         v -> {
           switchSection(WORKSPACE);
           TerminalPaneView terminalPane =
               new TerminalPaneView(
-                  CodeEditorActivity.this, directory, EnvironmentUtils.LOGIN_SHELL);
+                  CodeEditorActivity.this, directory, EnvironmentUtils.LOGIN_SHELL) {
+                @Override
+                public void onRelease() {
+                  panes.remove(this);
+                  paneAdapter.notifyDataSetChanged();
+                  switchSection(NO_WORKSPACE);
+                }
+              };
           LinearLayout.LayoutParams layoutParam =
               new LinearLayout.LayoutParams(
                   LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -212,7 +220,21 @@ public class CodeEditorActivity extends BaseActivity {
     }
 
     if (pane == null) {
-      pane = new CodeEditorPaneView(this, file);
+      pane =
+          new CodeEditorPaneView(this, file) {
+
+            @Override
+            public void onReleaseRequest() {
+              onRelease();
+            }
+
+            @Override
+            public void onRelease() {
+              panes.remove(this);
+              paneAdapter.notifyDataSetChanged();
+              switchSection(NO_WORKSPACE);
+            }
+          };
       LinearLayout.LayoutParams layoutParam =
           new LinearLayout.LayoutParams(
               LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

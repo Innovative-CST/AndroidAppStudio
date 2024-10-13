@@ -47,4 +47,8 @@ public interface WorkSpacePane {
   String getWorkSpacePaneName();
 
   Drawable getWorkSpaceStatus();
+
+  void onReleaseRequest();
+
+  void onRelease();
 }

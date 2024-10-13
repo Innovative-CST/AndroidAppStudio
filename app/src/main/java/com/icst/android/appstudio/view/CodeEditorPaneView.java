@@ -58,7 +58,7 @@ import java.util.ArrayList;
  * A WorkSpacePane for Code Editor.
  */
 
-public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
+public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
 
   private BaseActivity activity;
   private CodeEditorLayout codeEditor;
@@ -181,6 +181,12 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
   public Drawable getWorkSpaceStatus() {
     return null;
   }
+
+  @Override
+  public abstract void onRelease();
+
+  @Override
+  public abstract void onReleaseRequest();
 
   public File getEditorFile() {
     return this.file;

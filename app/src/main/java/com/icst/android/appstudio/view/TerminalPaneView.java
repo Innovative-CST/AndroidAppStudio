@@ -64,7 +64,7 @@ import org.json.JSONException;
  * A WorkSpacePane for Terminal.
  */
 
-public class TerminalPaneView extends LinearLayout
+public abstract class TerminalPaneView extends LinearLayout
     implements TerminalViewClient, TerminalSessionClient, WorkSpacePane {
   private float terminalTextSize = 24f;
   private final float minTextSize = 10.0f;
@@ -212,6 +212,7 @@ public class TerminalPaneView extends LinearLayout
   @Override
   public boolean onKeyDown(int arg0, KeyEvent arg1, TerminalSession arg2) {
     if (arg0 == KeyEvent.KEYCODE_ENTER && !arg2.isRunning()) {
+      onRelease();
       return true;
     }
     return false;
@@ -286,5 +287,14 @@ public class TerminalPaneView extends LinearLayout
   @Override
   public Drawable getWorkSpaceStatus() {
     return null;
+  }
+
+  @Override
+  public abstract void onRelease();
+
+  @Override
+  public void onReleaseRequest() {
+    terminalSession.finishIfRunning();
+    onRelease();
   }
 }
