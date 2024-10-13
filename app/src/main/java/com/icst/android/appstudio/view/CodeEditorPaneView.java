@@ -32,9 +32,19 @@
 package com.icst.android.appstudio.view;
 
 import android.code.editor.common.utils.FileUtils;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.google.android.material.navigation.NavigationView;
+import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.interfaces.WorkSpacePane;
 import com.icst.android.appstudio.utils.FileIconUtils;
@@ -45,6 +55,7 @@ import com.icst.editor.widget.CodeEditorLayout;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import java.io.File;
+import java.util.ArrayList;
 
 /*
  * A WorkSpacePane for Code Editor.
@@ -55,13 +66,112 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
   private BaseActivity activity;
   private CodeEditorLayout codeEditor;
   private File file;
+  private ArrayList<ActionButton> actionButtons;
+  private DrawerLayout drawer;
+  private NavigationView mNavigationView;
+
+  private abstract class ActionButton {
+    private int icon;
+    private String text;
+
+    public int getIcon() {
+      return this.icon;
+    }
+
+    public void setIcon(int icon) {
+      this.icon = icon;
+    }
+
+    public String getText() {
+      return this.text;
+    }
+
+    public void setText(String text) {
+      this.text = text;
+    }
+
+    abstract void onClick();
+  }
+
+  public class ActionButtonView extends LinearLayout {
+    public ActionButtonView(Context context, ActionButton actionButton) {
+      super(context);
+      setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ripple_on_color_surface));
+      setOnClickListener(
+          v -> {
+            actionButton.onClick();
+          });
+      setOrientation(VERTICAL);
+      setGravity(Gravity.CENTER);
+      setPadding(8, 8, 8, 8);
+      ImageView icon = new ImageView(context);
+      icon.setImageDrawable(ContextCompat.getDrawable(context, actionButton.getIcon()));
+      addView(icon);
+
+      LinearLayout.LayoutParams lp =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+      TextView text = new TextView(context);
+      text.setText(actionButton.getText());
+      addView(text);
+      text.setLayoutParams(lp);
+    }
+  }
 
   public CodeEditorPaneView(BaseActivity activity, File file) {
     super(activity);
     this.activity = activity;
     this.file = file;
 
+    drawer = new DrawerLayout(getContext());
+    mNavigationView = new NavigationView(getContext());
+    codeEditor = new CodeEditorLayout(getContext());
+
+    DrawerLayout.LayoutParams mNavigationViewLayoutParams =
+        new DrawerLayout.LayoutParams(96, DrawerLayout.LayoutParams.MATCH_PARENT);
+    mNavigationViewLayoutParams.gravity = Gravity.END;
+
+    DrawerLayout.LayoutParams editorLayoutParams =
+        new DrawerLayout.LayoutParams(
+            DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
     init();
+
+    LinearLayout.LayoutParams drawerLayoutParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    drawer.setLayoutParams(drawerLayoutParams);
+    addActionButtonsToList();
+    actionButtons.forEach(
+        actionButton -> {
+          ViewGroup.LayoutParams lp =
+              new ViewGroup.LayoutParams(
+                  ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          ActionButtonView mActionButtonView = new ActionButtonView(getContext(), actionButton);
+          mActionButtonView.setLayoutParams(lp);
+          mNavigationView.addView(mActionButtonView);
+        });
+    addView(drawer);
+    drawer.addView(mNavigationView);
+    drawer.addView(codeEditor);
+    codeEditor.setLayoutParams(editorLayoutParams);
+    mNavigationView.setLayoutParams(mNavigationViewLayoutParams);
+    mNavigationView.bringToFront();
+  }
+
+  private void addActionButtonsToList() {
+    actionButtons = new ArrayList<ActionButton>();
+    ActionButton save =
+        new ActionButton() {
+          @Override
+          void onClick() {
+            FileIOUtils.writeFileFromString(file, codeEditor.getText().toString());
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+          }
+        };
+    save.setIcon(R.drawable.content_save_outline);
+    save.setText("Save");
+    actionButtons.add(save);
   }
 
   public void init() {
@@ -72,12 +182,6 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
     } catch (Exception e) {
     }
 
-    ViewGroup.LayoutParams layoutParams =
-        new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-    codeEditor = new CodeEditorLayout(activity);
-    codeEditor.setLayoutParams(layoutParams);
-
     codeEditor.setLanguageMode(getLanguageMode());
     if (activity.getSetting().isEnabledDarkMode()) {
       codeEditor.setTheme(Themes.SoraEditorTheme.Dark.Solarized_Drak);
@@ -85,7 +189,6 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
       codeEditor.setTheme(Themes.SoraEditorTheme.Light.Solarized_Light);
     }
     codeEditor.setText(FileUtils.readFile(file.getAbsolutePath()));
-    addView(codeEditor);
   }
 
   public String getLanguageMode() {
