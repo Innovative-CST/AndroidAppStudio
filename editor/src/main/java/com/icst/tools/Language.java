@@ -27,5 +27,6 @@ public class Language {
   public static final String Markdown = "md";
   public static final String JSON = "json";
   public static final String GRADLE = "gradle";
+  public static final String SHELLSCRIPT = "sh";
   public static final String UNKNOWN = "Unknown";
 }

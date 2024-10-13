@@ -64,6 +64,12 @@
       "name": "json",
       "scopeName": "source.json", 
       "languageConfiguration": "Editor/SoraEditor/json/language-configuration.json"
+    },
+    {
+      "grammar": "Editor/SoraEditor/shellscript/syntaxes/shell-unix-bash.tmLanguage.json",
+      "name": "shellscript",
+      "scopeName": "source.shell",
+      "languageConfiguration": "Editor/SoraEditor/shellscript/language-configuration.json"
     }
   ]
 }

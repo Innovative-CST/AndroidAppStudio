@@ -8,5 +8,6 @@
   "kt": "source.kotlin",
   "html": "text.html.basic",
   "xml": "text.xml",
-  "gradle": "source.groovy"
+  "gradle": "source.groovy",
+  "sh": "source.shell"
 }

@@ -162,6 +162,7 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
       case "md" -> Language.Markdown;
       case "json" -> Language.JSON;
       case "gradle" -> Language.GRADLE;
+      case "sh" -> Language.SHELLSCRIPT;
       default -> Language.UNKNOWN;
     };
   }
