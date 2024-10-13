@@ -76,35 +76,35 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
     mNavigationView = new NavigationView(getContext());
     codeEditor = new CodeEditorLayout(getContext());
 
+    // Set up LayoutParams for NavigationView
     DrawerLayout.LayoutParams mNavigationViewLayoutParams =
         new DrawerLayout.LayoutParams(96, DrawerLayout.LayoutParams.MATCH_PARENT);
     mNavigationViewLayoutParams.gravity = Gravity.END;
 
+    // Set up LayoutParams for the CodeEditorLayout
     DrawerLayout.LayoutParams editorLayoutParams =
         new DrawerLayout.LayoutParams(
             DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
-    init();
 
-    LinearLayout.LayoutParams drawerLayoutParams =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-    drawer.setLayoutParams(drawerLayoutParams);
+    initEditor();
+    setupDrawerLayout();
     addActionButtonsToList();
-    actionButtons.forEach(
-        actionButton -> {
-          ViewGroup.LayoutParams lp =
-              new ViewGroup.LayoutParams(
-                  ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-          ActionButtonView mActionButtonView = new ActionButtonView(getContext(), actionButton);
-          mActionButtonView.setLayoutParams(lp);
-          mNavigationView.addView(mActionButtonView);
-        });
-    addView(drawer);
+    addActionButtonsToNavigationView();
+
+    // Configure the drawer layout
     drawer.addView(mNavigationView);
     drawer.addView(codeEditor);
     codeEditor.setLayoutParams(editorLayoutParams);
     mNavigationView.setLayoutParams(mNavigationViewLayoutParams);
     mNavigationView.bringToFront();
+  }
+
+  private void setupDrawerLayout() {
+    LinearLayout.LayoutParams drawerLayoutParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    drawer.setLayoutParams(drawerLayoutParams);
+    addView(drawer);
   }
 
   private void addActionButtonsToList() {
@@ -122,7 +122,19 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
     actionButtons.add(save);
   }
 
-  public void init() {
+  private void addActionButtonsToNavigationView() {
+    actionButtons.forEach(
+        actionButton -> {
+          ViewGroup.LayoutParams lp =
+              new ViewGroup.LayoutParams(
+                  ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          ActionButtonView actionButtonView = new ActionButtonView(getContext(), actionButton);
+          actionButtonView.setLayoutParams(lp);
+          mNavigationView.addView(actionButtonView);
+        });
+  }
+
+  public void initEditor() {
     FileProviderRegistry.getInstance()
         .addFileProvider(new AssetsFileResolver(activity.getAssets()));
     try {
