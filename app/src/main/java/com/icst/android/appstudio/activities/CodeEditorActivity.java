@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.activities;
 
+import android.code.editor.common.utils.ColorUtils;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +40,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.PaneAdapter;
@@ -73,7 +76,11 @@ public class CodeEditorActivity extends BaseActivity {
     setContentView(binding.getRoot());
 
     ImageView shellIcon = new ImageView(this);
-    shellIcon.setImageResource(R.drawable.language_shell);
+    Drawable shellIconDrawable = ContextCompat.getDrawable(this, R.drawable.language_shell);
+    shellIconDrawable.setTint(
+        ColorUtils.getColor(this, com.google.android.material.R.attr.colorOnSurface));
+    shellIcon.setImageDrawable(shellIconDrawable);
+	shellIcon.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ripple_on_color_surface));
     shellIcon.setOnClickListener(
         v -> {
           switchSection(WORKSPACE);
