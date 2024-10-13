@@ -18,30 +18,17 @@
 package android.code.editor.common.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.os.Build;
-import com.google.android.material.color.DynamicColors;
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.color.utilities.DynamicColor;
+import android.util.TypedValue;
+import androidx.annotation.ColorInt;
 
 public class ColorUtils {
   public static String materialIntToHexColor(Context context, int res) {
-    return String.format("#%06X", (0xFFFFFF & MaterialColors.getColor(context, res, "#000000")));
+    return String.format("#%06X", (0xFFFFFF & getColor(context, res)));
   }
 
-  public static int getColor(Context context, int res) {
-    int color;
-
-    if (DynamicColors.isDynamicColorAvailable()) {
-      Resources.Theme theme = context.getTheme();
-      TypedArray typedArray = theme.obtainStyledAttributes(new int[] {res});
-      color = typedArray.getColor(0, 0);
-      typedArray.recycle();
-      if (color != 0) {
-        return color;
-      }
-    }
-    return MaterialColors.getColor(context, res, 0);
+  public static @ColorInt int getColor(Context context, int res) {
+    TypedValue typedValue = new TypedValue();
+    context.getTheme().resolveAttribute(res, typedValue, true);
+    return typedValue.data;
   }
 }
