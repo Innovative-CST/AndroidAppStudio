@@ -29,73 +29,41 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.builder;
+package com.icst.logic.lib.view;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-import com.icst.android.appstudio.beans.BlockElementLayerBean;
-import com.icst.android.appstudio.beans.ExpressionBlockBean;
-import com.icst.android.appstudio.beans.LabelBlockElementBean;
-import com.icst.android.appstudio.beans.LayerBean;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
-import com.icst.logic.lib.view.BlockElementLayerBeanView;
-import com.icst.logic.lib.view.LayerBeanView;
+import android.widget.LinearLayout;
 
-public final class LayerBuilder {
+public abstract class LayerBeanView extends LinearLayout {
+  private int layerPosition;
+  private boolean isFirstLayer;
+  private boolean isLastLayer;
 
-  public static LayerBeanView buildBlockLayerView(
-      Context context, LayerBean layerBean, LogicEditorConfiguration configuration) {
-    if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
-      return buildBlockElementLayerView(context, mBlockElementLayerBean, configuration);
-    } else return null;
+  public LayerBeanView(Context context) {
+    super(context);
   }
 
-  // Build the block element layer
-  private static LayerBeanView buildBlockElementLayerView(
-      Context context,
-      BlockElementLayerBean mBlockElementLayerBean,
-      LogicEditorConfiguration configuration) {
-
-    BlockElementLayerBeanView view = new BlockElementLayerBeanView(context);
-    view.setOrientation(BlockElementLayerBeanView.HORIZONTAL);
-
-    mBlockElementLayerBean
-        .getBlockElementBeans()
-        .forEach(
-            element -> {
-              if (element instanceof LabelBlockElementBean labelBean) {
-                view.addView(buildLabelView(labelBean, context, configuration));
-              } else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
-                view.addView(
-                    buildExpressionBlockBeanView(mExpressionBlockBean, context, configuration));
-              }
-            });
-
-    return view;
+  public int getLayerPosition() {
+    return this.layerPosition;
   }
 
-  private static View buildLabelView(
-      LabelBlockElementBean labelBean, Context context, LogicEditorConfiguration configuration) {
-
-    TextView labelTextView = new TextView(context);
-    labelTextView.setText(labelBean.getLabel());
-    labelTextView.setTextSize(configuration.getTextSize().getTextSize());
-    LayerBeanView.LayoutParams layerLayoutParams =
-        new LayerBeanView.LayoutParams(
-            LayerBeanView.LayoutParams.WRAP_CONTENT, // Width
-            LayerBeanView.LayoutParams.WRAP_CONTENT // Height
-            );
-    labelTextView.setLayoutParams(layerLayoutParams);
-    labelTextView.setPadding(8, 8, 8, 8);
-    return labelTextView;
+  public void setLayerPosition(int layerPosition) {
+    this.layerPosition = layerPosition;
   }
 
-  private static View buildExpressionBlockBeanView(
-      ExpressionBlockBean mExpressionBlockBean,
-      Context context,
-      LogicEditorConfiguration configuration) {
-    // TODO: Need to write this method....
-    return null;
+  public boolean isFirstLayer() {
+    return this.isFirstLayer;
+  }
+
+  public void setFirstLayer(boolean isFirstLayer) {
+    this.isFirstLayer = isFirstLayer;
+  }
+
+  public boolean isLastLayer() {
+    return this.isLastLayer;
+  }
+
+  public void setLastLayer(boolean isLastLayer) {
+    this.isLastLayer = isLastLayer;
   }
 }

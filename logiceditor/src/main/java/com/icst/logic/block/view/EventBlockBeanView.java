@@ -38,6 +38,8 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.lib.builder.LayerBuilder;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.lib.view.BlockElementLayerBeanView;
+import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtills;
 import com.icst.logic.utils.ImageViewUtils;
 import java.util.ArrayList;
@@ -46,11 +48,13 @@ public class EventBlockBeanView extends LinearLayout {
   private Context context;
   private EventBlockBean eventBlockBean;
   private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
+  private ArrayList<LayerBeanView> layers;
 
   public EventBlockBeanView(Context context, EventBlockBean eventBlockBean) {
     super(context);
     this.context = context;
     this.eventBlockBean = eventBlockBean;
+    layers = new ArrayList<LayerBeanView>();
     init();
   }
 
@@ -74,20 +78,40 @@ public class EventBlockBeanView extends LinearLayout {
 
     for (int i = 0; i < layers.size(); ++i) {
       BlockElementLayerBean elementLayer = layers.get(i);
-      View layerView = LayerBuilder.buildBlockLayerView(context, elementLayer, configuration);
-
+      LayerBeanView layerView =
+          LayerBuilder.buildBlockLayerView(context, elementLayer, configuration);
+      layerView.setLayerPosition(i);
+      layerView.setFirstLayer(i == 0);
+      layerView.setLastLayer(i == (layers.size() - 1));
       LinearLayout.LayoutParams layerLayoutParams =
           new LinearLayout.LayoutParams(
               LinearLayout.LayoutParams.WRAP_CONTENT, // Width
               LinearLayout.LayoutParams.WRAP_CONTENT // Height
               );
-      header.setLayoutParams(layerLayoutParams);
       addView(layerView);
+	  layerView.setLayoutParams(layerLayoutParams);
+      this.layers.add(layerView);
     }
+	applyBackDropToLayers();
+  }
+
+  private void applyBackDropToLayers() {
+    layers.forEach(
+        layerBeanView -> {
+          if (layerBeanView instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
+            mBlockElementLayerBeanView.setBackgroundDrawable(
+                ImageViewUtils.getImageView(
+                    context,
+                    eventBlockBean.getColor(),
+                    BlockImageUtills.getImage(
+                        BlockImageUtills.Image.BLOCK_ELEMENT_LAYER_BACKDROP)));
+          }
+        });
   }
 
   private void setEventBlockBean(EventBlockBean eventBlockBean) {
     this.eventBlockBean = eventBlockBean;
+    layers = new ArrayList<LayerBeanView>();
     removeAllViews();
     init();
   }
