@@ -32,15 +32,11 @@
 package com.icst.android.appstudio.view;
 
 import android.code.editor.common.utils.FileUtils;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -48,6 +44,7 @@ import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.interfaces.WorkSpacePane;
 import com.icst.android.appstudio.utils.FileIconUtils;
+import com.icst.android.appstudio.viewmodel.ActionButton;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
@@ -69,55 +66,6 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
   private ArrayList<ActionButton> actionButtons;
   private DrawerLayout drawer;
   private NavigationView mNavigationView;
-
-  private abstract class ActionButton {
-    private int icon;
-    private String text;
-
-    public int getIcon() {
-      return this.icon;
-    }
-
-    public void setIcon(int icon) {
-      this.icon = icon;
-    }
-
-    public String getText() {
-      return this.text;
-    }
-
-    public void setText(String text) {
-      this.text = text;
-    }
-
-    abstract void onClick();
-  }
-
-  public class ActionButtonView extends LinearLayout {
-    public ActionButtonView(Context context, ActionButton actionButton) {
-      super(context);
-      setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ripple_on_color_surface));
-      setOnClickListener(
-          v -> {
-            actionButton.onClick();
-          });
-      setOrientation(VERTICAL);
-      setGravity(Gravity.CENTER);
-      setPadding(8, 8, 8, 8);
-      ImageView icon = new ImageView(context);
-      icon.setImageDrawable(ContextCompat.getDrawable(context, actionButton.getIcon()));
-      addView(icon);
-
-      LinearLayout.LayoutParams lp =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-      TextView text = new TextView(context);
-      text.setText(actionButton.getText());
-      addView(text);
-      text.setLayoutParams(lp);
-    }
-  }
 
   public CodeEditorPaneView(BaseActivity activity, File file) {
     super(activity);
@@ -164,7 +112,7 @@ public class CodeEditorPaneView extends LinearLayout implements WorkSpacePane {
     ActionButton save =
         new ActionButton() {
           @Override
-          void onClick() {
+          public void onClick() {
             FileIOUtils.writeFileFromString(file, codeEditor.getText().toString());
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
           }
