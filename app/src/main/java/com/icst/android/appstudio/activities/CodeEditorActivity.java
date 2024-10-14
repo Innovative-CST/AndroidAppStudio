@@ -224,11 +224,6 @@ public class CodeEditorActivity extends BaseActivity {
           new CodeEditorPaneView(this, file) {
 
             @Override
-            public void onReleaseRequest() {
-              onRelease();
-            }
-
-            @Override
             public void onRelease() {
               panes.remove(this);
               paneAdapter.notifyDataSetChanged();

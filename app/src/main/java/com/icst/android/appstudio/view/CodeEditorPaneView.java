@@ -39,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.blankj.utilcode.util.FileIOUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
@@ -66,6 +67,7 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
   private ArrayList<ActionButton> actionButtons;
   private DrawerLayout drawer;
   private NavigationView mNavigationView;
+  private LinearLayout mNavigationViewItemListView;
 
   public CodeEditorPaneView(BaseActivity activity, File file) {
     super(activity);
@@ -75,7 +77,8 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
     drawer = new DrawerLayout(getContext());
     mNavigationView = new NavigationView(getContext());
     codeEditor = new CodeEditorLayout(getContext());
-
+    mNavigationViewItemListView = new LinearLayout(getContext());
+    mNavigationViewItemListView.setOrientation(LinearLayout.VERTICAL);
     // Set up LayoutParams for NavigationView
     DrawerLayout.LayoutParams mNavigationViewLayoutParams =
         new DrawerLayout.LayoutParams(96, DrawerLayout.LayoutParams.MATCH_PARENT);
@@ -95,6 +98,7 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
     drawer.addView(mNavigationView);
     drawer.addView(codeEditor);
     codeEditor.setLayoutParams(editorLayoutParams);
+    mNavigationView.addView(mNavigationViewItemListView);
     mNavigationView.setLayoutParams(mNavigationViewLayoutParams);
     mNavigationView.bringToFront();
   }
@@ -120,6 +124,17 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
     save.setIcon(R.drawable.content_save_outline);
     save.setText("Save");
     actionButtons.add(save);
+
+    ActionButton closeWorkspacePane =
+        new ActionButton() {
+          @Override
+          public void onClick() {
+            onReleaseRequest();
+          }
+        };
+    closeWorkspacePane.setIcon(R.drawable.ic_close_outline);
+    closeWorkspacePane.setText("Close");
+    actionButtons.add(closeWorkspacePane);
   }
 
   private void addActionButtonsToNavigationView() {
@@ -130,7 +145,7 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
                   ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
           ActionButtonView actionButtonView = new ActionButtonView(getContext(), actionButton);
           actionButtonView.setLayoutParams(lp);
-          mNavigationView.addView(actionButtonView);
+          mNavigationViewItemListView.addView(actionButtonView);
         });
   }
 
@@ -149,6 +164,10 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
       codeEditor.setTheme(Themes.SoraEditorTheme.Light.Solarized_Light);
     }
     codeEditor.setText(FileUtils.readFile(file.getAbsolutePath()));
+  }
+
+  public boolean isFileSaved() {
+    return FileIOUtils.readFile2String(file).equals(codeEditor.getText().toString());
   }
 
   public String getLanguageMode() {
@@ -186,7 +205,30 @@ public abstract class CodeEditorPaneView extends LinearLayout implements WorkSpa
   public abstract void onRelease();
 
   @Override
-  public abstract void onReleaseRequest();
+  public void onReleaseRequest() {
+    if (isFileSaved()) {
+      onRelease();
+    } else {
+      MaterialAlertDialogBuilder confirmCloseWithSaveDialog =
+          new MaterialAlertDialogBuilder(getContext());
+      confirmCloseWithSaveDialog.setTitle("Unsaved Files");
+      confirmCloseWithSaveDialog.setMessage(
+          "This file is not saved, do you want to save it before closing this file workspace?");
+      confirmCloseWithSaveDialog.setPositiveButton(
+          "Save",
+          (arg0, arg1) -> {
+            FileIOUtils.writeFileFromString(file, codeEditor.getText().toString());
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+            onRelease();
+          });
+      confirmCloseWithSaveDialog.setNegativeButton(
+          "Cancel Save",
+          (arg0, arg1) -> {
+            onRelease();
+          });
+      confirmCloseWithSaveDialog.show();
+    }
+  }
 
   public File getEditorFile() {
     return this.file;
