@@ -147,7 +147,7 @@ public class CodeEditorActivity extends BaseActivity {
      * 1. File Tree
      * Displays the file tree of directory opened in editor.
      *
-     * 2. Curretly opened panes: TODO
+     * 2. Curretly opened panes
      * Displays the unfinished editor pane or terminal pane.
      */
     Menu menu = binding.navigationRail.getMenu();
