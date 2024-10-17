@@ -41,6 +41,8 @@ public final class BlockImageUtills {
     }
     if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
       return R.drawable.block_element_layer_backdrop;
+    } else if (Image.BLOCK_BOTTOM.ordinal() == image.ordinal()) {
+      return R.drawable.block_bottom;
     } else {
       return 0;
     }
@@ -48,6 +50,7 @@ public final class BlockImageUtills {
 
   public enum Image {
     EVENT_BLOCK_ROUND_EDGE_TOP,
-    BLOCK_ELEMENT_LAYER_BACKDROP;
+    BLOCK_ELEMENT_LAYER_BACKDROP,
+    BLOCK_BOTTOM;
   }
 }

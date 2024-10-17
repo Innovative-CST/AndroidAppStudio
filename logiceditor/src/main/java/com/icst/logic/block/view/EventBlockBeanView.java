@@ -89,10 +89,25 @@ public class EventBlockBeanView extends LinearLayout {
               LinearLayout.LayoutParams.WRAP_CONTENT // Height
               );
       addView(layerView);
-	  layerView.setLayoutParams(layerLayoutParams);
+      layerView.setLayoutParams(layerLayoutParams);
       this.layers.add(layerView);
     }
-	applyBackDropToLayers();
+
+    LinearLayout footer = new LinearLayout(context);
+    LinearLayout.LayoutParams footerLayoutParams =
+        new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+            LinearLayout.LayoutParams.WRAP_CONTENT // Height
+            );
+    footer.setBackgroundDrawable(
+        ImageViewUtils.getImageView(
+            context,
+            eventBlockBean.getColor(),
+            BlockImageUtills.getImage(BlockImageUtills.Image.BLOCK_BOTTOM)));
+    footer.setLayoutParams(footerLayoutParams);
+    addView(footer);
+
+    applyBackDropToLayers();
   }
 
   private void applyBackDropToLayers() {
