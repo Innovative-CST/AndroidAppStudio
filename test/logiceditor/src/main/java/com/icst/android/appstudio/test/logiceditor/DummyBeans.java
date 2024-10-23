@@ -39,33 +39,33 @@ import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import java.util.ArrayList;
 
 public class DummyBeans {
-  public static EventBean getDummyEvent() {
-    EventBean event = new EventBean();
+	public static EventBean getDummyEvent() {
+		EventBean event = new EventBean();
 
-    event.setEventDefinationBlockBean(getDummyEventDefBlockBean());
+		event.setEventDefinationBlockBean(getDummyEventDefBlockBean());
 
-    return event;
-  }
+		return event;
+	}
 
-  private static EventBlockBean getDummyEventDefBlockBean() {
-    EventBlockBean blockBean = new EventBlockBean();
-    blockBean.setColor("#998803");
-    blockBean.setDragAllowed(true);
+	private static EventBlockBean getDummyEventDefBlockBean() {
+		EventBlockBean blockBean = new EventBlockBean();
+		blockBean.setColor("#998803");
+		blockBean.setDragAllowed(true);
 
-    ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
-    BlockElementLayerBean layer1 = new BlockElementLayerBean();
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
 
-    ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
 
-    LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
-    onTestLabel.setLabel("onTestEvent");
+		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+		onTestLabel.setLabel("onTestEvent");
 
-    layer1Elements.add(onTestLabel);
-    layer1.setBlockElementBeans(layer1Elements);
+		layer1Elements.add(onTestLabel);
+		layer1.setBlockElementBeans(layer1Elements);
 
-    layers.add(layer1);
-    blockBean.setElementsLayers(layers);
+		layers.add(layer1);
+		blockBean.setElementsLayers(layers);
 
-    return blockBean;
-  }
+		return blockBean;
+	}
 }

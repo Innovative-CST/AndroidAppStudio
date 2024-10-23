@@ -41,23 +41,23 @@ import com.quickersilver.themeengine.ThemeEngine;
 import java.io.File;
 
 public class MyApplication extends Application {
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE);
-    ThemeEngine.applyToActivities(this);
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE);
+		ThemeEngine.applyToActivities(this);
 
-    Thread.setDefaultUncaughtExceptionHandler(
-        new Thread.UncaughtExceptionHandler() {
-          @Override
-          public void uncaughtException(Thread thread, Throwable throwable) {
-            File logFile = new File(Environment.getExternalStorageDirectory(), "logicEditor.log");
-            FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable));
-            Process.killProcess(Process.myPid());
-            System.exit(1);
+		Thread.setDefaultUncaughtExceptionHandler(
+				new Thread.UncaughtExceptionHandler() {
+					@Override
+					public void uncaughtException(Thread thread, Throwable throwable) {
+						File logFile = new File(Environment.getExternalStorageDirectory(), "logicEditor.log");
+						FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable));
+						Process.killProcess(Process.myPid());
+						System.exit(1);
 
-            Thread.getDefaultUncaughtExceptionHandler().uncaughtException(thread, throwable);
-          }
-        });
-  }
+						Thread.getDefaultUncaughtExceptionHandler().uncaughtException(thread, throwable);
+					}
+				});
+	}
 }
