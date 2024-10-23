@@ -32,45 +32,43 @@
 package com.icst.app.compiler;
 
 import com.icst.app.compiler.progress.BuildEventProgressListener;
-import java.io.BufferedReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandExecutor {
-  private final ProcessBuilder mProcess = new ProcessBuilder();
-  private BuildEventProgressListener listener;
-  private final StringWriter mWriter = new StringWriter();
+	private final ProcessBuilder mProcess = new ProcessBuilder();
+	private BuildEventProgressListener listener;
+	private final StringWriter mWriter = new StringWriter();
 
-  public CommandExecutor(BuildEventProgressListener listener) {
-    this.listener = listener;
-  }
+	public CommandExecutor(BuildEventProgressListener listener) {
+		this.listener = listener;
+	}
 
-  public void setCommands(ArrayList<String> arrayList) {
-    mProcess.command(arrayList);
-  }
+	public void setCommands(ArrayList<String> arrayList) {
+		mProcess.command(arrayList);
+	}
 
-  public String execute() {
-    try {
-      Process process = mProcess.start();
-      Scanner scanner = new Scanner(process.getInputStream());
-      while (scanner.hasNextLine()) {
-        mWriter.append(scanner.nextLine());
-        mWriter.append(System.lineSeparator());
-      }
+	public String execute() {
+		try {
+			Process process = mProcess.start();
+			Scanner scanner = new Scanner(process.getInputStream());
+			while (scanner.hasNextLine()) {
+				mWriter.append(scanner.nextLine());
+				mWriter.append(System.lineSeparator());
+			}
 
-      Scanner scanner2 = new Scanner(process.getErrorStream());
-      while (scanner2.hasNextLine()) {
-        mWriter.append(scanner2.nextLine());
-        mWriter.append(System.lineSeparator());
-      }
+			Scanner scanner2 = new Scanner(process.getErrorStream());
+			while (scanner2.hasNextLine()) {
+				mWriter.append(scanner2.nextLine());
+				mWriter.append(System.lineSeparator());
+			}
 
-      process.waitFor();
-    } catch (Exception e) {
-      e.printStackTrace(new PrintWriter(mWriter));
-    }
-    return mWriter.toString();
-  }
+			process.waitFor();
+		} catch (Exception e) {
+			e.printStackTrace(new PrintWriter(mWriter));
+		}
+		return mWriter.toString();
+	}
 }

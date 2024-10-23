@@ -35,35 +35,35 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BlockFieldLayerModel extends BlockLayerModel implements Serializable, Cloneable {
-  public static final long serialVersionUID = 5L;
+	public static final long serialVersionUID = 5L;
 
-  private ArrayList<BlockFieldModel> blockFields;
+	private ArrayList<BlockFieldModel> blockFields;
 
-  public ArrayList<BlockFieldModel> getBlockFields() {
-    return this.blockFields;
-  }
+	public ArrayList<BlockFieldModel> getBlockFields() {
+		return this.blockFields;
+	}
 
-  public void setBlockFields(ArrayList<BlockFieldModel> blockFields) {
-    this.blockFields = blockFields;
-  }
+	public void setBlockFields(ArrayList<BlockFieldModel> blockFields) {
+		this.blockFields = blockFields;
+	}
 
-  @Override
-  public BlockFieldLayerModel clone() {
-    BlockFieldLayerModel blockFieldLayerModel = new BlockFieldLayerModel();
+	@Override
+	public BlockFieldLayerModel clone() {
+		BlockFieldLayerModel blockFieldLayerModel = new BlockFieldLayerModel();
 
-    if (getBlockFields() != null) {
-      ArrayList<BlockFieldModel> clonedBlockFieldModel = new ArrayList<BlockFieldModel>();
-      for (int pos = 0; pos < getBlockFields().size(); ++pos) {
-        if (getBlockFields().get(pos) instanceof BlockValueFieldModel) {
-          clonedBlockFieldModel.add(((BlockValueFieldModel) getBlockFields().get(pos)).clone());
-        } else {
-          clonedBlockFieldModel.add(getBlockFields().get(pos).clone());
-        }
-      }
-      blockFieldLayerModel.setBlockFields(clonedBlockFieldModel);
-    } else {
-      blockFieldLayerModel.setBlockFields(null);
-    }
-    return blockFieldLayerModel;
-  }
+		if (getBlockFields() != null) {
+			ArrayList<BlockFieldModel> clonedBlockFieldModel = new ArrayList<BlockFieldModel>();
+			for (int pos = 0; pos < getBlockFields().size(); ++pos) {
+				if (getBlockFields().get(pos) instanceof BlockValueFieldModel) {
+					clonedBlockFieldModel.add(((BlockValueFieldModel) getBlockFields().get(pos)).clone());
+				} else {
+					clonedBlockFieldModel.add(getBlockFields().get(pos).clone());
+				}
+			}
+			blockFieldLayerModel.setBlockFields(clonedBlockFieldModel);
+		} else {
+			blockFieldLayerModel.setBlockFields(null);
+		}
+		return blockFieldLayerModel;
+	}
 }

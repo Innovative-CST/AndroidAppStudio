@@ -32,24 +32,24 @@
 package com.icst.android.appstudio.viewmodel;
 
 public abstract class ActionButton {
-  private int icon;
-  private String text;
+	private int icon;
+	private String text;
 
-  public int getIcon() {
-    return this.icon;
-  }
+	public int getIcon() {
+		return this.icon;
+	}
 
-  public void setIcon(int icon) {
-    this.icon = icon;
-  }
+	public void setIcon(int icon) {
+		this.icon = icon;
+	}
 
-  public String getText() {
-    return this.text;
-  }
+	public String getText() {
+		return this.text;
+	}
 
-  public void setText(String text) {
-    this.text = text;
-  }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-  public abstract void onClick();
+	public abstract void onClick();
 }

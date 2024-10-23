@@ -31,66 +31,65 @@
 
 package com.icst.android.appstudio.utils;
 
-import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
 import java.util.ArrayList;
 
 public class VariablesUtils {
 
-  public static ArrayList<VariableModel> getAllVariables(FileModel file) {
-    ArrayList<VariableModel> variables = ExtensionUtils.extractVariablesFromExtensions();
-    ArrayList<VariableModel> result = new ArrayList<VariableModel>();
+	public static ArrayList<VariableModel> getAllVariables(FileModel file) {
+		ArrayList<VariableModel> variables = ExtensionUtils.extractVariablesFromExtensions();
+		ArrayList<VariableModel> result = new ArrayList<VariableModel>();
 
-    for (int i = 0; i < variables.size(); ++i) {
-      VariableModel variable = variables.get(i);
+		for (int i = 0; i < variables.size(); ++i) {
+			VariableModel variable = variables.get(i);
 
-      if (variable.getVariableTitle() == null) {
-        continue;
-      }
+			if (variable.getVariableTitle() == null) {
+				continue;
+			}
 
-      if (variable.getFileExtensions() != null) {
-        String[] extensions = variable.getFileExtensions();
-      }
+			if (variable.getFileExtensions() != null) {
+				String[] extensions = variable.getFileExtensions();
+			}
 
-      result.add(variable);
-    }
+			result.add(variable);
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  public static ArrayList<VariableModel> getInstanceVariables(FileModel file) {
-    ArrayList<VariableModel> variables = getAllVariables(file);
-    ArrayList<VariableModel> result = new ArrayList<VariableModel>();
+	public static ArrayList<VariableModel> getInstanceVariables(FileModel file) {
+		ArrayList<VariableModel> variables = getAllVariables(file);
+		ArrayList<VariableModel> result = new ArrayList<VariableModel>();
 
-    for (int i = 0; i < variables.size(); ++i) {
-      if (!variables.get(i).getIsStaticVariable()) {
-        result.add(variables.get(i));
-      }
-    }
+		for (int i = 0; i < variables.size(); ++i) {
+			if (!variables.get(i).getIsStaticVariable()) {
+				result.add(variables.get(i));
+			}
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  public static ArrayList<VariableModel> getStaticVariables(FileModel file) {
-    ArrayList<VariableModel> variables = getAllVariables(file);
-    ArrayList<VariableModel> result = new ArrayList<VariableModel>();
+	public static ArrayList<VariableModel> getStaticVariables(FileModel file) {
+		ArrayList<VariableModel> variables = getAllVariables(file);
+		ArrayList<VariableModel> result = new ArrayList<VariableModel>();
 
-    for (int i = 0; i < variables.size(); ++i) {
-      if (variables.get(i).getIsStaticVariable()) {
-        result.add(variables.get(i));
-      }
-    }
+		for (int i = 0; i < variables.size(); ++i) {
+			if (variables.get(i).getIsStaticVariable()) {
+				result.add(variables.get(i));
+			}
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  private static boolean containsString(String[] array, String str) {
-    for (int i = 0; i < array.length; ++i) {
-      if (str.equals(array[i])) {
-        return true;
-      }
-    }
-    return false;
-  }
+	private static boolean containsString(String[] array, String str) {
+		for (int i = 0; i < array.length; ++i) {
+			if (str.equals(array[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

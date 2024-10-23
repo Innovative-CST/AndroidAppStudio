@@ -34,22 +34,22 @@ package com.icst.android.appstudio.block.model;
 import java.io.Serializable;
 
 public class BlockFieldModel extends BlockLayerModel implements Serializable, Cloneable {
-  public static final long serialVersionUID = 7L;
+	public static final long serialVersionUID = 7L;
 
-  private String value;
+	private String value;
 
-  public String getValue() {
-    return this.value == null ? "" : this.value;
-  }
+	public String getValue() {
+		return this.value == null ? "" : this.value;
+	}
 
-  public void setValue(String value) {
-    this.value = value;
-  }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-  @Override
-  public BlockFieldModel clone() {
-    BlockFieldModel blockFieldModel = new BlockFieldModel();
-    blockFieldModel.setValue(getValue() != null ? new String(getValue()) : null);
-    return blockFieldModel;
-  }
+	@Override
+	public BlockFieldModel clone() {
+		BlockFieldModel blockFieldModel = new BlockFieldModel();
+		blockFieldModel.setValue(getValue() != null ? new String(getValue()) : null);
+		return blockFieldModel;
+	}
 }

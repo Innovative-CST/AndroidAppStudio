@@ -49,145 +49,143 @@ import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 
 public class ExtensionActivity extends BaseActivity {
-  private ActivityExtensionBinding binding;
-  private String childKey;
-  private DatabaseReference extensionDatabase;
+	private ActivityExtensionBinding binding;
+	private String childKey;
+	private DatabaseReference extensionDatabase;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    extensionDatabase = FirebaseDatabase.getInstance().getReference("extensions");
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		extensionDatabase = FirebaseDatabase.getInstance().getReference("extensions");
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityExtensionBinding.inflate(getLayoutInflater());
+		binding = ActivityExtensionBinding.inflate(getLayoutInflater());
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    childKey = getIntent().getStringExtra("childKey");
+		childKey = getIntent().getStringExtra("childKey");
 
-    extensionDatabase
-        .child(childKey)
-        .addListenerForSingleValueEvent(
-            new ValueEventListener() {
+		extensionDatabase
+				.child(childKey)
+				.addListenerForSingleValueEvent(
+						new ValueEventListener() {
 
-              @Override
-              public void onDataChange(DataSnapshot arg0) {
-                if (arg0.child("title").exists()) {
-                  binding.extensionName.setText(arg0.child("title").getValue(String.class));
-                } else {
-                  binding.extensionName.setText("TITLE NOT PROVIDED");
-                }
+							@Override
+							public void onDataChange(DataSnapshot arg0) {
+								if (arg0.child("title").exists()) {
+									binding.extensionName.setText(arg0.child("title").getValue(String.class));
+								} else {
+									binding.extensionName.setText("TITLE NOT PROVIDED");
+								}
 
-                updateActionButtom(arg0);
-              }
+								updateActionButtom(arg0);
+							}
 
-              @Override
-              public void onCancelled(DatabaseError arg0) {}
-            });
-  }
+							@Override
+							public void onCancelled(DatabaseError arg0) {
+							}
+						});
+	}
 
-  public void updateActionButtom(DataSnapshot arg0) {
-    if (arg0.child("file_name").exists()) {
-      if (new File(EnvironmentUtils.EXTENSION_DIR, arg0.child("file_name").getValue(String.class))
-          .exists()) {
+	public void updateActionButtom(DataSnapshot arg0) {
+		if (arg0.child("file_name").exists()) {
+			if (new File(EnvironmentUtils.EXTENSION_DIR, arg0.child("file_name").getValue(String.class))
+					.exists()) {
 
-        ExtensionBundle bundle =
-            DeserializerUtils.deserialize(
-                new File(
-                    EnvironmentUtils.EXTENSION_DIR, arg0.child("file_name").getValue(String.class)),
-                ExtensionBundle.class);
+				ExtensionBundle bundle = DeserializerUtils.deserialize(
+						new File(
+								EnvironmentUtils.EXTENSION_DIR, arg0.child("file_name").getValue(String.class)),
+						ExtensionBundle.class);
 
-        if (arg0.child("latest_version").exists()) {
-          if (arg0.child("latest_version").getValue(Integer.class) > bundle.getVersion()) {
-            binding.actionButton.setText("Update");
+				if (arg0.child("latest_version").exists()) {
+					if (arg0.child("latest_version").getValue(Integer.class) > bundle.getVersion()) {
+						binding.actionButton.setText("Update");
 
-            if (arg0.child("download_url").exists()) {
-              binding.actionButton.setOnClickListener(
-                  v -> {
-                    binding.actionButton.setText("Updating...");
-                    binding.actionButton.setOnClickListener(null);
-                    int downloadId =
-                        PRDownloader.download(
-                                arg0.child("download_url").getValue(String.class),
-                                EnvironmentUtils.EXTENSION_DIR.getAbsolutePath(),
-                                arg0.child("file_name").getValue(String.class))
-                            .build()
-                            .start(
-                                new OnDownloadListener() {
-                                  @Override
-                                  public void onDownloadComplete() {
-                                    updateActionButtom(arg0);
-                                  }
+						if (arg0.child("download_url").exists()) {
+							binding.actionButton.setOnClickListener(
+									v -> {
+										binding.actionButton.setText("Updating...");
+										binding.actionButton.setOnClickListener(null);
+										int downloadId = PRDownloader.download(
+												arg0.child("download_url").getValue(String.class),
+												EnvironmentUtils.EXTENSION_DIR.getAbsolutePath(),
+												arg0.child("file_name").getValue(String.class))
+												.build()
+												.start(
+														new OnDownloadListener() {
+															@Override
+															public void onDownloadComplete() {
+																updateActionButtom(arg0);
+															}
 
-                                  @Override
-                                  public void onError(Error error) {
-                                    Toast.makeText(
-                                            ExtensionActivity.this,
-                                            error.getServerErrorMessage(),
-                                            Toast.LENGTH_SHORT)
-                                        .show();
-                                    updateActionButtom(arg0);
-                                  }
-                                });
-                  });
-            } else {
-              binding.actionButton.setOnClickListener(null);
-            }
+															@Override
+															public void onError(Error error) {
+																Toast.makeText(
+																		ExtensionActivity.this,
+																		error.getServerErrorMessage(),
+																		Toast.LENGTH_SHORT)
+																		.show();
+																updateActionButtom(arg0);
+															}
+														});
+									});
+						} else {
+							binding.actionButton.setOnClickListener(null);
+						}
 
-          } else {
-            binding.actionButton.setText("Uninstall");
-            binding.actionButton.setOnClickListener(
-                v -> {
-                  new File(
-                          EnvironmentUtils.EXTENSION_DIR,
-                          arg0.child("file_name").getValue(String.class))
-                      .delete();
-                  updateActionButtom(arg0);
-                });
-          }
-        }
+					} else {
+						binding.actionButton.setText("Uninstall");
+						binding.actionButton.setOnClickListener(
+								v -> {
+									new File(
+											EnvironmentUtils.EXTENSION_DIR,
+											arg0.child("file_name").getValue(String.class))
+											.delete();
+									updateActionButtom(arg0);
+								});
+					}
+				}
 
-      } else {
-        binding.actionButton.setText("Install");
+			} else {
+				binding.actionButton.setText("Install");
 
-        if (arg0.child("download_url").exists()) {
-          binding.actionButton.setOnClickListener(
-              v -> {
-                binding.actionButton.setText("Installing...");
-                binding.actionButton.setOnClickListener(null);
-                int downloadId =
-                    PRDownloader.download(
-                            arg0.child("download_url").getValue(String.class),
-                            EnvironmentUtils.EXTENSION_DIR.getAbsolutePath(),
-                            arg0.child("file_name").getValue(String.class))
-                        .build()
-                        .start(
-                            new OnDownloadListener() {
-                              @Override
-                              public void onDownloadComplete() {
-                                updateActionButtom(arg0);
-                              }
+				if (arg0.child("download_url").exists()) {
+					binding.actionButton.setOnClickListener(
+							v -> {
+								binding.actionButton.setText("Installing...");
+								binding.actionButton.setOnClickListener(null);
+								int downloadId = PRDownloader.download(
+										arg0.child("download_url").getValue(String.class),
+										EnvironmentUtils.EXTENSION_DIR.getAbsolutePath(),
+										arg0.child("file_name").getValue(String.class))
+										.build()
+										.start(
+												new OnDownloadListener() {
+													@Override
+													public void onDownloadComplete() {
+														updateActionButtom(arg0);
+													}
 
-                              @Override
-                              public void onError(Error error) {
-                                Toast.makeText(
-                                        ExtensionActivity.this,
-                                        error.getConnectionException().getMessage(),
-                                        Toast.LENGTH_SHORT)
-                                    .show();
-                                updateActionButtom(arg0);
-                              }
-                            });
-              });
-        } else {
-          binding.actionButton.setOnClickListener(null);
-        }
-      }
-    }
-  }
+													@Override
+													public void onError(Error error) {
+														Toast.makeText(
+																ExtensionActivity.this,
+																error.getConnectionException().getMessage(),
+																Toast.LENGTH_SHORT)
+																.show();
+														updateActionButtom(arg0);
+													}
+												});
+							});
+				} else {
+					binding.actionButton.setOnClickListener(null);
+				}
+			}
+		}
+	}
 }

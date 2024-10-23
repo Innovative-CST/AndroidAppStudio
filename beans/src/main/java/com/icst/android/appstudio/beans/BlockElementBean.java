@@ -31,4 +31,5 @@
 
 package com.icst.android.appstudio.beans;
 
-public abstract interface BlockElementBean {}
+public abstract interface BlockElementBean {
+}

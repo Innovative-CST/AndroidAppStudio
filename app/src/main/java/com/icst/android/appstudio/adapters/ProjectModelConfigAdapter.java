@@ -41,36 +41,36 @@ import com.icst.android.appstudio.models.ProjectModel;
 import java.util.ArrayList;
 
 public class ProjectModelConfigAdapter extends FragmentStateAdapter {
-  public ArrayList<ProjectModelConfigBaseFragment> fragments;
-  private boolean isNewProject;
-  private ProjectModel mProjectModel;
+	public ArrayList<ProjectModelConfigBaseFragment> fragments;
+	private boolean isNewProject;
+	private ProjectModel mProjectModel;
 
-  public ProjectModelConfigAdapter(
-      AppCompatActivity activity, boolean isNewProject, ProjectModel mProjectModel) {
-    super(activity);
-    this.fragments = fragments;
-    this.isNewProject = isNewProject;
-    this.mProjectModel = mProjectModel;
-    fragments = new ArrayList<ProjectModelConfigBaseFragment>();
-    fragments.add(new ProjectModelAppSetupFragment(isNewProject, mProjectModel));
-    fragments.add(new ProjectModelAppConfigrationFragment(isNewProject, mProjectModel));
-  }
+	public ProjectModelConfigAdapter(
+			AppCompatActivity activity, boolean isNewProject, ProjectModel mProjectModel) {
+		super(activity);
+		this.fragments = fragments;
+		this.isNewProject = isNewProject;
+		this.mProjectModel = mProjectModel;
+		fragments = new ArrayList<ProjectModelConfigBaseFragment>();
+		fragments.add(new ProjectModelAppSetupFragment(isNewProject, mProjectModel));
+		fragments.add(new ProjectModelAppConfigrationFragment(isNewProject, mProjectModel));
+	}
 
-  @Override
-  public int getItemCount() {
-    return fragments.size();
-  }
+	@Override
+	public int getItemCount() {
+		return fragments.size();
+	}
 
-  @Override
-  public Fragment createFragment(int position) {
-    return fragments.get(position);
-  }
+	@Override
+	public Fragment createFragment(int position) {
+		return fragments.get(position);
+	}
 
-  public ArrayList<ProjectModelConfigBaseFragment> getFragments() {
-    return this.fragments;
-  }
+	public ArrayList<ProjectModelConfigBaseFragment> getFragments() {
+		return this.fragments;
+	}
 
-  public void setFragments(ArrayList<ProjectModelConfigBaseFragment> fragments) {
-    this.fragments = fragments;
-  }
+	public void setFragments(ArrayList<ProjectModelConfigBaseFragment> fragments) {
+		this.fragments = fragments;
+	}
 }

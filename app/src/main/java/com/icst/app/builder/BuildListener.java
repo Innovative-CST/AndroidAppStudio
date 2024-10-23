@@ -32,7 +32,7 @@
 package com.icst.app.builder;
 
 public interface BuildListener {
-  void onBuildFinish();
+	void onBuildFinish();
 
-  void onBuildProgress(String arg);
+	void onBuildProgress(String arg);
 }

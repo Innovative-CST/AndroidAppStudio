@@ -44,58 +44,58 @@ import com.icst.logic.lib.view.LayerBeanView;
 
 public final class LayerBuilder {
 
-  public static LayerBeanView buildBlockLayerView(
-      Context context, LayerBean layerBean, LogicEditorConfiguration configuration) {
-    if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
-      return buildBlockElementLayerView(context, mBlockElementLayerBean, configuration);
-    } else return null;
-  }
+	public static LayerBeanView buildBlockLayerView(
+			Context context, LayerBean layerBean, LogicEditorConfiguration configuration) {
+		if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
+			return buildBlockElementLayerView(context, mBlockElementLayerBean, configuration);
+		} else
+			return null;
+	}
 
-  // Build the block element layer
-  private static LayerBeanView buildBlockElementLayerView(
-      Context context,
-      BlockElementLayerBean mBlockElementLayerBean,
-      LogicEditorConfiguration configuration) {
+	// Build the block element layer
+	private static LayerBeanView buildBlockElementLayerView(
+			Context context,
+			BlockElementLayerBean mBlockElementLayerBean,
+			LogicEditorConfiguration configuration) {
 
-    BlockElementLayerBeanView view = new BlockElementLayerBeanView(context);
-    view.setOrientation(BlockElementLayerBeanView.HORIZONTAL);
+		BlockElementLayerBeanView view = new BlockElementLayerBeanView(context);
+		view.setOrientation(BlockElementLayerBeanView.HORIZONTAL);
 
-    mBlockElementLayerBean
-        .getBlockElementBeans()
-        .forEach(
-            element -> {
-              if (element instanceof LabelBlockElementBean labelBean) {
-                view.addView(buildLabelView(labelBean, context, configuration));
-              } else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
-                view.addView(
-                    buildExpressionBlockBeanView(mExpressionBlockBean, context, configuration));
-              }
-            });
+		mBlockElementLayerBean
+				.getBlockElementBeans()
+				.forEach(
+						element -> {
+							if (element instanceof LabelBlockElementBean labelBean) {
+								view.addView(buildLabelView(labelBean, context, configuration));
+							} else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
+								view.addView(
+										buildExpressionBlockBeanView(mExpressionBlockBean, context, configuration));
+							}
+						});
 
-    return view;
-  }
+		return view;
+	}
 
-  private static View buildLabelView(
-      LabelBlockElementBean labelBean, Context context, LogicEditorConfiguration configuration) {
+	private static View buildLabelView(
+			LabelBlockElementBean labelBean, Context context, LogicEditorConfiguration configuration) {
 
-    TextView labelTextView = new TextView(context);
-    labelTextView.setText(labelBean.getLabel());
-    labelTextView.setTextSize(configuration.getTextSize().getTextSize());
-    LayerBeanView.LayoutParams layerLayoutParams =
-        new LayerBeanView.LayoutParams(
-            LayerBeanView.LayoutParams.WRAP_CONTENT, // Width
-            LayerBeanView.LayoutParams.WRAP_CONTENT // Height
-            );
-    labelTextView.setLayoutParams(layerLayoutParams);
-    labelTextView.setPadding(8, 8, 8, 8);
-    return labelTextView;
-  }
+		TextView labelTextView = new TextView(context);
+		labelTextView.setText(labelBean.getLabel());
+		labelTextView.setTextSize(configuration.getTextSize().getTextSize());
+		LayerBeanView.LayoutParams layerLayoutParams = new LayerBeanView.LayoutParams(
+				LayerBeanView.LayoutParams.WRAP_CONTENT, // Width
+				LayerBeanView.LayoutParams.WRAP_CONTENT // Height
+		);
+		labelTextView.setLayoutParams(layerLayoutParams);
+		labelTextView.setPadding(8, 8, 8, 8);
+		return labelTextView;
+	}
 
-  private static View buildExpressionBlockBeanView(
-      ExpressionBlockBean mExpressionBlockBean,
-      Context context,
-      LogicEditorConfiguration configuration) {
-    // TODO: Need to write this method....
-    return null;
-  }
+	private static View buildExpressionBlockBeanView(
+			ExpressionBlockBean mExpressionBlockBean,
+			Context context,
+			LogicEditorConfiguration configuration) {
+		// TODO: Need to write this method....
+		return null;
+	}
 }

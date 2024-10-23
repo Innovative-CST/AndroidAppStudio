@@ -32,32 +32,25 @@
 package com.icst.android.appstudio.block.enums;
 
 public enum InputTypes {
-  UNKNOWN(0),
-  INPUT_TYPE_BYTE(1),
-  INPUT_TYPE_SHORT(2),
-  INPUT_TYPE_INT(3),
-  INPUT_TYPE_LONG(4),
-  INPUT_TYPE_FLOAT(5),
-  INPUT_TYPE_DOUBLE(6),
-  INPUT_TYPE_STRING(7),
-  INPUT_TYPE_COLOR(8);
+	UNKNOWN(0), INPUT_TYPE_BYTE(1), INPUT_TYPE_SHORT(2), INPUT_TYPE_INT(3), INPUT_TYPE_LONG(4), INPUT_TYPE_FLOAT(
+			5), INPUT_TYPE_DOUBLE(6), INPUT_TYPE_STRING(7), INPUT_TYPE_COLOR(8);
 
-  private final int inputType;
+	private final int inputType;
 
-  InputTypes(int inputType) {
-    this.inputType = inputType;
-  }
+	InputTypes(int inputType) {
+		this.inputType = inputType;
+	}
 
-  public int getInputType() {
-    return inputType;
-  }
+	public int getInputType() {
+		return inputType;
+	}
 
-  public static InputTypes fromInt(int inputType) {
-    for (InputTypes type : InputTypes.values()) {
-      if (type.getInputType() == inputType) {
-        return type;
-      }
-    }
-    return UNKNOWN;
-  }
+	public static InputTypes fromInt(int inputType) {
+		for (InputTypes type : InputTypes.values()) {
+			if (type.getInputType() == inputType) {
+				return type;
+			}
+		}
+		return UNKNOWN;
+	}
 }

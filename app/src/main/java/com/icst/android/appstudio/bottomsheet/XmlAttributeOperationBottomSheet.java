@@ -39,57 +39,57 @@ import com.icst.android.appstudio.databinding.BottomsheetXmlAttributeOperationBi
 import com.icst.android.appstudio.xml.XmlAttributeModel;
 
 public class XmlAttributeOperationBottomSheet extends BottomSheetDialog {
-  private Context context;
-  private XmlAttributeOperation operationListener;
-  private XmlAttributeModel attr;
+	private Context context;
+	private XmlAttributeOperation operationListener;
+	private XmlAttributeModel attr;
 
-  public XmlAttributeOperationBottomSheet(
-      Context context, XmlAttributeOperation operationListener, XmlAttributeModel attribute) {
-    super(context);
-    this.context = context;
-    this.operationListener = operationListener;
-    this.attr = attribute;
+	public XmlAttributeOperationBottomSheet(
+			Context context, XmlAttributeOperation operationListener, XmlAttributeModel attribute) {
+		super(context);
+		this.context = context;
+		this.operationListener = operationListener;
+		this.attr = attribute;
 
-    BottomsheetXmlAttributeOperationBinding binding =
-        BottomsheetXmlAttributeOperationBinding.inflate(LayoutInflater.from(context));
+		BottomsheetXmlAttributeOperationBinding binding = BottomsheetXmlAttributeOperationBinding
+				.inflate(LayoutInflater.from(context));
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    if (attr == null) {
-      binding.delete.setVisibility(View.GONE);
-    }
+		if (attr == null) {
+			binding.delete.setVisibility(View.GONE);
+		}
 
-    if (attr != null) {
+		if (attr != null) {
 
-      if (attr.getAttribute() != null) {
-        binding.attrName.setText(attr.getAttribute());
-      }
+			if (attr.getAttribute() != null) {
+				binding.attrName.setText(attr.getAttribute());
+			}
 
-      if (attr.getAttributeValue() != null) {
-        binding.attrValue.setText(String.valueOf(attr.getAttributeValue()));
-      }
-    }
+			if (attr.getAttributeValue() != null) {
+				binding.attrValue.setText(String.valueOf(attr.getAttributeValue()));
+			}
+		}
 
-    binding.delete.setOnClickListener(
-        v -> {
-          operationListener.onDeleteAttribute();
-          dismiss();
-        });
-    binding.done.setOnClickListener(
-        v -> {
-          if (attr == null) {
-            attr = new XmlAttributeModel();
-          }
-          attr.setAttribute(binding.attrName.getText().toString());
-          attr.setAttributeValue(binding.attrValue.getText().toString());
-          operationListener.onModifyAttribute(attr);
-          dismiss();
-        });
-  }
+		binding.delete.setOnClickListener(
+				v -> {
+					operationListener.onDeleteAttribute();
+					dismiss();
+				});
+		binding.done.setOnClickListener(
+				v -> {
+					if (attr == null) {
+						attr = new XmlAttributeModel();
+					}
+					attr.setAttribute(binding.attrName.getText().toString());
+					attr.setAttributeValue(binding.attrValue.getText().toString());
+					operationListener.onModifyAttribute(attr);
+					dismiss();
+				});
+	}
 
-  public interface XmlAttributeOperation {
-    void onDeleteAttribute();
+	public interface XmlAttributeOperation {
+		void onDeleteAttribute();
 
-    void onModifyAttribute(XmlAttributeModel xmlAttributeModel);
-  }
+		void onModifyAttribute(XmlAttributeModel xmlAttributeModel);
+	}
 }

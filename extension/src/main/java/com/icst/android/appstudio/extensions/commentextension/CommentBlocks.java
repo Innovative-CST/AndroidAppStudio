@@ -41,49 +41,49 @@ import java.util.ArrayList;
 
 public class CommentBlocks {
 
-  public static ArrayList<BlockModel> getBlocks() {
-    ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
-    blocks.add(getCommentBlock());
-    return blocks;
-  }
+	public static ArrayList<BlockModel> getBlocks() {
+		ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
+		blocks.add(getCommentBlock());
+		return blocks;
+	}
 
-  private static BlockModel getCommentBlock() {
-    BlockModel block = new BlockModel();
-    block.setColor("#29CC57");
-    block.setBlockType(BlockModel.Type.defaultBlock);
-    block.setDragAllowed(true);
-    block.setHolderName("Comment");
-    block.setReplacerKey("comment");
+	private static BlockModel getCommentBlock() {
+		BlockModel block = new BlockModel();
+		block.setColor("#29CC57");
+		block.setBlockType(BlockModel.Type.defaultBlock);
+		block.setDragAllowed(true);
+		block.setHolderName("Comment");
+		block.setReplacerKey("comment");
 
-    ArrayList<BlockLayerModel> layers = new ArrayList<BlockLayerModel>();
-    BlockFieldLayerModel layer1 = new BlockFieldLayerModel();
+		ArrayList<BlockLayerModel> layers = new ArrayList<BlockLayerModel>();
+		BlockFieldLayerModel layer1 = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> fieldsLayer1 = new ArrayList<BlockFieldModel>();
-    BlockFieldModel ifText = new BlockFieldModel();
+		ArrayList<BlockFieldModel> fieldsLayer1 = new ArrayList<BlockFieldModel>();
+		BlockFieldModel ifText = new BlockFieldModel();
 
-    ifText.setValue("comment");
+		ifText.setValue("comment");
 
-    fieldsLayer1.add(ifText);
+		fieldsLayer1.add(ifText);
 
-    BlockValueFieldModel commentField = new BlockValueFieldModel();
-    commentField.setEnableEdit(true);
-    commentField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
-    commentField.setReplacer("comment");
+		BlockValueFieldModel commentField = new BlockValueFieldModel();
+		commentField.setEnableEdit(true);
+		commentField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+		commentField.setReplacer("comment");
 
-    fieldsLayer1.add(commentField);
+		fieldsLayer1.add(commentField);
 
-    layer1.setBlockFields(fieldsLayer1);
+		layer1.setBlockFields(fieldsLayer1);
 
-    layers.add(layer1);
+		layers.add(layer1);
 
-    block.setBlockLayerModel(layers);
+		block.setBlockLayerModel(layers);
 
-    StringBuilder rawCode = new StringBuilder();
-    rawCode.append("// ");
-    rawCode.append(RawCodeReplacer.getReplacer(block.getReplacerKey(), "comment"));
+		StringBuilder rawCode = new StringBuilder();
+		rawCode.append("// ");
+		rawCode.append(RawCodeReplacer.getReplacer(block.getReplacerKey(), "comment"));
 
-    block.setRawCode(rawCode.toString());
+		block.setRawCode(rawCode.toString());
 
-    return block;
-  }
+		return block;
+	}
 }

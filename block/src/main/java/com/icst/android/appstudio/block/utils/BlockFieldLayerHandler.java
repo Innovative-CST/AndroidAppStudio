@@ -49,68 +49,61 @@ import com.icst.android.appstudio.block.view.NumberView;
 import java.util.ArrayList;
 
 public class BlockFieldLayerHandler {
-  public static ViewGroup getBlockFieldLayerView(
-      Context context,
-      BlockFieldLayerModel blockFieldLayerModel,
-      EventEditor editor,
-      BlockModel blockModel,
-      BlockView blockView,
-      ArrayList<LinearLayout> droppables,
-      boolean isDarkMode) {
-    LinearLayout root = new LinearLayout(context);
+	public static ViewGroup getBlockFieldLayerView(
+			Context context,
+			BlockFieldLayerModel blockFieldLayerModel,
+			EventEditor editor,
+			BlockModel blockModel,
+			BlockView blockView,
+			ArrayList<LinearLayout> droppables,
+			boolean isDarkMode) {
+		LinearLayout root = new LinearLayout(context);
 
-    for (int position = 0; position < blockFieldLayerModel.getBlockFields().size(); ++position) {
-      BlockFieldModel content = blockFieldLayerModel.getBlockFields().get(position);
+		for (int position = 0; position < blockFieldLayerModel.getBlockFields().size(); ++position) {
+			BlockFieldModel content = blockFieldLayerModel.getBlockFields().get(position);
 
-      if (content instanceof BlockValueFieldModel) {
-        BlockValueFieldModel blockValueFieldModel = (BlockValueFieldModel) content;
-        if (blockValueFieldModel.getFieldType()
-            == BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY) {
-          BlockFieldInputOnlyView inputField =
-              new BlockFieldInputOnlyView(context, blockValueFieldModel, blockView, editor);
-          root.addView(inputField);
-        } else if (blockValueFieldModel.getFieldType()
-            == BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY) {
-          BlockFieldExtensionViewOnly extensionFieldViewOnly =
-              new BlockFieldExtensionViewOnly(context, blockView, blockValueFieldModel, editor);
-          root.addView(extensionFieldViewOnly);
-        } else if (blockValueFieldModel.getFieldType()
-            == BlockValueFieldModel.FieldType.FIELD_BOOLEAN) {
-          BooleanView booleanField =
-              new BooleanView(
-                  context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
-          root.addView(booleanField);
-        } else if (blockValueFieldModel.getFieldType()
-            == BlockValueFieldModel.FieldType.FIELD_NUMBER) {
-          NumberView numberView =
-              new NumberView(
-                  context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
-          root.addView(numberView);
-        } else if (blockValueFieldModel.getFieldType()
-            == BlockValueFieldModel.FieldType.FIELD_TYPE_NOT_SET) {
-          if (blockValueFieldModel instanceof BlockModel block) {
-            BlockView mBlockView = new BlockView(editor, context, block, isDarkMode);
-            mBlockView.setInsideEditor(false);
-            mBlockView.setEnableDragDrop(true);
-            mBlockView.setEnableEditing(true);
-            root.addView(mBlockView);
-          } else {
-            BlockVariableFieldView variableView =
-                new BlockVariableFieldView(
-                    context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
-            root.addView(variableView);
-          }
-        }
-      } else if (content instanceof BlockFieldModel) {
-        /*
-         * BlockFieldModel just contains text to display.
-         * Using BlockContentView for displaying text.
-         */
-        BlockFieldView textField = new BlockFieldView(context, content, blockModel, isDarkMode);
-        textField.setPadding(UnitUtils.dpToPx(context, 4), 0, UnitUtils.dpToPx(context, 4), 0);
-        root.addView(textField);
-      }
-    }
-    return root;
-  }
+			if (content instanceof BlockValueFieldModel) {
+				BlockValueFieldModel blockValueFieldModel = (BlockValueFieldModel) content;
+				if (blockValueFieldModel.getFieldType() == BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY) {
+					BlockFieldInputOnlyView inputField = new BlockFieldInputOnlyView(context, blockValueFieldModel,
+							blockView, editor);
+					root.addView(inputField);
+				} else if (blockValueFieldModel
+						.getFieldType() == BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY) {
+					BlockFieldExtensionViewOnly extensionFieldViewOnly = new BlockFieldExtensionViewOnly(context,
+							blockView, blockValueFieldModel, editor);
+					root.addView(extensionFieldViewOnly);
+				} else if (blockValueFieldModel.getFieldType() == BlockValueFieldModel.FieldType.FIELD_BOOLEAN) {
+					BooleanView booleanField = new BooleanView(
+							context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
+					root.addView(booleanField);
+				} else if (blockValueFieldModel.getFieldType() == BlockValueFieldModel.FieldType.FIELD_NUMBER) {
+					NumberView numberView = new NumberView(
+							context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
+					root.addView(numberView);
+				} else if (blockValueFieldModel.getFieldType() == BlockValueFieldModel.FieldType.FIELD_TYPE_NOT_SET) {
+					if (blockValueFieldModel instanceof BlockModel block) {
+						BlockView mBlockView = new BlockView(editor, context, block, isDarkMode);
+						mBlockView.setInsideEditor(false);
+						mBlockView.setEnableDragDrop(true);
+						mBlockView.setEnableEditing(true);
+						root.addView(mBlockView);
+					} else {
+						BlockVariableFieldView variableView = new BlockVariableFieldView(
+								context, blockValueFieldModel, blockView, droppables, editor, isDarkMode);
+						root.addView(variableView);
+					}
+				}
+			} else if (content instanceof BlockFieldModel) {
+				/*
+				 * BlockFieldModel just contains text to display.
+				 * Using BlockContentView for displaying text.
+				 */
+				BlockFieldView textField = new BlockFieldView(context, content, blockModel, isDarkMode);
+				textField.setPadding(UnitUtils.dpToPx(context, 4), 0, UnitUtils.dpToPx(context, 4), 0);
+				root.addView(textField);
+			}
+		}
+		return root;
+	}
 }

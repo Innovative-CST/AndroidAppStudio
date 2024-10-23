@@ -45,60 +45,58 @@ import com.icst.android.appstudio.utils.IconUtils;
 import java.util.ArrayList;
 
 public class ResourceManagerAdapter
-    extends RecyclerView.Adapter<ResourceManagerAdapter.ViewHolder> {
-  private ModuleModel module;
+		extends RecyclerView.Adapter<ResourceManagerAdapter.ViewHolder> {
+	private ModuleModel module;
 
-  private ArrayList<FileModel> files;
-  private ResourceManagerActivity activity;
+	private ArrayList<FileModel> files;
+	private ResourceManagerActivity activity;
 
-  public ResourceManagerAdapter(
-      ArrayList<FileModel> files, ResourceManagerActivity activity, ModuleModel module) {
-    this.files = files;
-    this.activity = activity;
-    this.module = module;
-  }
+	public ResourceManagerAdapter(
+			ArrayList<FileModel> files, ResourceManagerActivity activity, ModuleModel module) {
+		this.files = files;
+		this.activity = activity;
+		this.module = module;
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterResourceManagerBinding binding =
-        AdapterResourceManagerBinding.inflate(activity.getLayoutInflater());
-    RecyclerView.LayoutParams layoutParam =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(layoutParam);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+		AdapterResourceManagerBinding binding = AdapterResourceManagerBinding.inflate(activity.getLayoutInflater());
+		RecyclerView.LayoutParams layoutParam = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(layoutParam);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    AdapterResourceManagerBinding binding = AdapterResourceManagerBinding.bind(holder.itemView);
-    binding.title.setText(files.get(position).getName());
-    int icon = IconUtils.getResourceManagerFileModelIcon(files.get(position));
-    binding.icon.setImageResource(icon != 0 ? icon : R.drawable.ic_folder);
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		AdapterResourceManagerBinding binding = AdapterResourceManagerBinding.bind(holder.itemView);
+		binding.title.setText(files.get(position).getName());
+		int icon = IconUtils.getResourceManagerFileModelIcon(files.get(position));
+		binding.icon.setImageResource(icon != 0 ? icon : R.drawable.ic_folder);
 
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              switch (files.get(position).getName()) {
-                case "layout", "layout-land":
-                  Intent layoutManager = new Intent(activity, LayoutManagerActivity.class);
-                  layoutManager.putExtra("module", module);
-                  layoutManager.putExtra("layoutDirectoryName", files.get(position).getName());
-                  activity.startActivity(layoutManager);
-                  break;
-              }
-            });
-  }
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							switch (files.get(position).getName()) {
+								case "layout", "layout-land":
+									Intent layoutManager = new Intent(activity, LayoutManagerActivity.class);
+									layoutManager.putExtra("module", module);
+									layoutManager.putExtra("layoutDirectoryName", files.get(position).getName());
+									activity.startActivity(layoutManager);
+									break;
+							}
+						});
+	}
 
-  @Override
-  public int getItemCount() {
-    return files.size();
-  }
+	@Override
+	public int getItemCount() {
+		return files.size();
+	}
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 }

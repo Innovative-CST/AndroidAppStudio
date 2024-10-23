@@ -51,109 +51,109 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 public class ModulesActivity extends BaseActivity {
-  public ActivityModulesBinding binding;
+	public ActivityModulesBinding binding;
 
-  public File projectRootDirectory;
-  public File currentDir;
-  public File outputDir;
-  public String module;
+	public File projectRootDirectory;
+	public File currentDir;
+	public File outputDir;
+	public String module;
 
-  public static final int LOADING_SECTION = 0;
-  public static final int GRADLE_FILE_LIST_SECTION = 1;
-  public boolean isInsideModule = false;
+	public static final int LOADING_SECTION = 0;
+	public static final int GRADLE_FILE_LIST_SECTION = 1;
+	public boolean isInsideModule = false;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityModulesBinding.inflate(getLayoutInflater());
+		binding = ActivityModulesBinding.inflate(getLayoutInflater());
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    // SetUp the toolbar
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
+		// SetUp the toolbar
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 
-    projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
-    currentDir = new File(getIntent().getStringExtra("currentDir"));
-    isInsideModule = getIntent().getBooleanExtra("isInsideModule", false);
+		projectRootDirectory = new File(getIntent().getStringExtra("projectRootDirectory"));
+		currentDir = new File(getIntent().getStringExtra("currentDir"));
+		isInsideModule = getIntent().getBooleanExtra("isInsideModule", false);
 
-    if (getIntent().hasExtra("module")) {
-      module = getIntent().getStringExtra("module");
-    } else {
-      module = "";
-    }
+		if (getIntent().hasExtra("module")) {
+			module = getIntent().getStringExtra("module");
+		} else {
+			module = "";
+		}
 
-    if (getIntent().hasExtra("outputPath")) {
-      outputDir = new File(getIntent().getStringExtra("outputPath"));
-    } else {
-      outputDir = EnvironmentUtils.getBuildDir(projectRootDirectory);
-    }
+		if (getIntent().hasExtra("outputPath")) {
+			outputDir = new File(getIntent().getStringExtra("outputPath"));
+		} else {
+			outputDir = EnvironmentUtils.getBuildDir(projectRootDirectory);
+		}
 
-    switchSection(LOADING_SECTION);
+		switchSection(LOADING_SECTION);
 
-    /*
-     * Creates app module gradle file if it doesn't seems to exists
-     */
-    GradleFileUtils.createGradleFilesIfDoNotExists(projectRootDirectory);
+		/*
+		 * Creates app module gradle file if it doesn't seems to exists
+		 */
+		GradleFileUtils.createGradleFilesIfDoNotExists(projectRootDirectory);
 
-    ProjectModelSerializationUtils.deserialize(
-        new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
-        new ProjectModelSerializationUtils.DeserializerListener() {
+		ProjectModelSerializationUtils.deserialize(
+				new File(projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+				new ProjectModelSerializationUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
-            Executors.newSingleThreadExecutor()
-                .execute(
-                    () -> {
-                      ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
+					@Override
+					public void onSuccessfullyDeserialized(ProjectModel mProjectModel) {
+						Executors.newSingleThreadExecutor()
+								.execute(
+										() -> {
+											ArrayList<FileModel> fileList = FileModelUtils.getFileModelList(currentDir);
 
-                      runOnUiThread(
-                          () -> {
-                            binding.list.setAdapter(
-                                new GradleFileModelListAdapter(fileList, ModulesActivity.this));
-                            binding.list.setLayoutManager(
-                                new LinearLayoutManager(ModulesActivity.this));
-                            switchSection(GRADLE_FILE_LIST_SECTION);
-                          });
-                    });
-          }
+											runOnUiThread(
+													() -> {
+														binding.list.setAdapter(
+																new GradleFileModelListAdapter(fileList,
+																		ModulesActivity.this));
+														binding.list.setLayoutManager(
+																new LinearLayoutManager(ModulesActivity.this));
+														switchSection(GRADLE_FILE_LIST_SECTION);
+													});
+										});
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {
-            finish();
-          }
-        });
-  }
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+						finish();
+					}
+				});
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 
-  public void switchSection(int section) {
-    binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
-    binding.gradleFileListSection.setVisibility(
-        section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
-  }
+	public void switchSection(int section) {
+		binding.loadingSection.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+		binding.gradleFileListSection.setVisibility(
+				section == GRADLE_FILE_LIST_SECTION ? View.VISIBLE : View.GONE);
+	}
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.menu_modules_activity, menu);
-    return true;
-  }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.menu_modules_activity, menu);
+		return true;
+	}
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem menuItem) {
-    if (menuItem.getItemId() == R.id.run) {
-      ProjectBuilderDialog buildDialog =
-          new ProjectBuilderDialog(this, projectRootDirectory, module);
-      buildDialog.create().show();
-    }
-    return super.onOptionsItemSelected(menuItem);
-  }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		if (menuItem.getItemId() == R.id.run) {
+			ProjectBuilderDialog buildDialog = new ProjectBuilderDialog(this, projectRootDirectory, module);
+			buildDialog.create().show();
+		}
+		return super.onOptionsItemSelected(menuItem);
+	}
 }

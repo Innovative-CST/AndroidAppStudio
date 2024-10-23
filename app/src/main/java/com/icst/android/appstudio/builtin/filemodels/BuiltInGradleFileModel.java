@@ -31,73 +31,72 @@
 
 package com.icst.android.appstudio.builtin.filemodels;
 
-import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 import com.icst.android.appstudio.builtin.events.GradleBuiltInEvents;
 import java.util.ArrayList;
 
 public class BuiltInGradleFileModel {
-  /*
-   * Built-in file model of build.gradle of application module.
-   */
-  public static FileModel getAppModuleGradleFileModel() {
-    FileModel appModuleGradleFile = new FileModel();
-    appModuleGradleFile.setFileName("build");
-    appModuleGradleFile.setFileExtension("gradle");
-    appModuleGradleFile.setFolder(false);
-    appModuleGradleFile.setReplacerKey("applicationModuleGradleEvent");
-    appModuleGradleFile.setBuiltInEventsName("Config");
+	/*
+	 * Built-in file model of build.gradle of application module.
+	 */
+	public static FileModel getAppModuleGradleFileModel() {
+		FileModel appModuleGradleFile = new FileModel();
+		appModuleGradleFile.setFileName("build");
+		appModuleGradleFile.setFileExtension("gradle");
+		appModuleGradleFile.setFolder(false);
+		appModuleGradleFile.setReplacerKey("applicationModuleGradleEvent");
+		appModuleGradleFile.setBuiltInEventsName("Config");
 
-    StringBuilder appModuleGradleFileRawCode = new StringBuilder();
-    appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n\n");
-    appModuleGradleFileRawCode.append(
-        RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "androidBlock"));
-    appModuleGradleFileRawCode.append("\n\n");
-    appModuleGradleFileRawCode.append(
-        RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "dependenciesBlock"));
-    appModuleGradleFileRawCode.append("\n");
+		StringBuilder appModuleGradleFileRawCode = new StringBuilder();
+		appModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.application'\n}\n\n");
+		appModuleGradleFileRawCode.append(
+				RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "androidBlock"));
+		appModuleGradleFileRawCode.append("\n\n");
+		appModuleGradleFileRawCode.append(
+				RawCodeReplacer.getReplacer(appModuleGradleFile.getReplacerKey(), "dependenciesBlock"));
+		appModuleGradleFileRawCode.append("\n");
 
-    appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
+		appModuleGradleFile.setRawCode(appModuleGradleFileRawCode.toString());
 
-    ArrayList<Object> builtinEvents = new ArrayList<Object>();
-    builtinEvents.add(GradleBuiltInEvents.getAppModuleAndroidBlockEvent());
-    builtinEvents.add(GradleBuiltInEvents.getAppModuleDependenciesBlockEvent());
+		ArrayList<Object> builtinEvents = new ArrayList<Object>();
+		builtinEvents.add(GradleBuiltInEvents.getAppModuleAndroidBlockEvent());
+		builtinEvents.add(GradleBuiltInEvents.getAppModuleDependenciesBlockEvent());
 
-    appModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
+		appModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
 
-    return appModuleGradleFile;
-  }
+		return appModuleGradleFile;
+	}
 
-  /*
-   * Built-in file model of build.gradle of library module.
-   */
-  public static FileModel getLibraryModuleGradleFileModel() {
-    FileModel libraryModuleGradleFile = new FileModel();
-    libraryModuleGradleFile.setFileName("build");
-    libraryModuleGradleFile.setFileExtension("gradle");
-    libraryModuleGradleFile.setFolder(false);
-    libraryModuleGradleFile.setReplacerKey("libraryModuleGradleEvent");
-    libraryModuleGradleFile.setBuiltInEventsName("Config");
+	/*
+	 * Built-in file model of build.gradle of library module.
+	 */
+	public static FileModel getLibraryModuleGradleFileModel() {
+		FileModel libraryModuleGradleFile = new FileModel();
+		libraryModuleGradleFile.setFileName("build");
+		libraryModuleGradleFile.setFileExtension("gradle");
+		libraryModuleGradleFile.setFolder(false);
+		libraryModuleGradleFile.setReplacerKey("libraryModuleGradleEvent");
+		libraryModuleGradleFile.setBuiltInEventsName("Config");
 
-    StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
-    libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
-    libraryModuleGradleFileRawCode.append(
-        RawCodeReplacer.getReplacer(libraryModuleGradleFile.getReplacerKey(), "androidBlock"));
-    libraryModuleGradleFileRawCode.append("\n\n");
-    libraryModuleGradleFileRawCode.append(
-        RawCodeReplacer.getReplacer(libraryModuleGradleFile.getReplacerKey(), "dependenciesBlock"));
-    libraryModuleGradleFileRawCode.append("\n");
+		StringBuilder libraryModuleGradleFileRawCode = new StringBuilder();
+		libraryModuleGradleFileRawCode.append("plugins {\n\tid 'com.android.library'\n}\n");
+		libraryModuleGradleFileRawCode.append(
+				RawCodeReplacer.getReplacer(libraryModuleGradleFile.getReplacerKey(), "androidBlock"));
+		libraryModuleGradleFileRawCode.append("\n\n");
+		libraryModuleGradleFileRawCode.append(
+				RawCodeReplacer.getReplacer(libraryModuleGradleFile.getReplacerKey(), "dependenciesBlock"));
+		libraryModuleGradleFileRawCode.append("\n");
 
-    libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
+		libraryModuleGradleFile.setRawCode(libraryModuleGradleFileRawCode.toString());
 
-    ArrayList<Object> builtinEvents = new ArrayList<Object>();
+		ArrayList<Object> builtinEvents = new ArrayList<Object>();
 
-    builtinEvents.add(GradleBuiltInEvents.getLibraryModuleAndroidBlockEvent());
-    builtinEvents.add(GradleBuiltInEvents.getLibraryModuleDependenciesBlockEvent());
+		builtinEvents.add(GradleBuiltInEvents.getLibraryModuleAndroidBlockEvent());
+		builtinEvents.add(GradleBuiltInEvents.getLibraryModuleDependenciesBlockEvent());
 
-    libraryModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
+		libraryModuleGradleFile.setDefaultBuiltInEvents(builtinEvents);
 
-    return libraryModuleGradleFile;
-  }
+		return libraryModuleGradleFile;
+	}
 }

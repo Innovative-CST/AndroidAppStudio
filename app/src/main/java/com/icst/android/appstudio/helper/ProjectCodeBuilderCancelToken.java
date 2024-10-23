@@ -32,5 +32,5 @@
 package com.icst.android.appstudio.helper;
 
 public interface ProjectCodeBuilderCancelToken {
-  boolean isBuildCancelled();
+	boolean isBuildCancelled();
 }

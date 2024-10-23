@@ -32,8 +32,12 @@
 package com.icst.android.appstudio.beans;
 
 /**
- * A abstract class, to be inherited by types Layer, It provides a interface for types of Layer of
- * Block. Layer is a meant to used to prevent long block from being so long and hence can be
- * rendered below from point of new layer (e.g: Like we press enter to put long text on next line)
+ * A abstract class, to be inherited by types Layer, It provides a interface for
+ * types of Layer of
+ * Block. Layer is a meant to used to prevent long block from being so long and
+ * hence can be
+ * rendered below from point of new layer (e.g: Like we press enter to put long
+ * text on next line)
  */
-public abstract class LayerBean {}
+public abstract class LayerBean {
+}

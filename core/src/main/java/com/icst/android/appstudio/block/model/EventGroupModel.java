@@ -32,80 +32,79 @@
 package com.icst.android.appstudio.block.model;
 
 import java.io.Serializable;
-import java.io.SerializablePermission;
 import java.util.ArrayList;
 
 public class EventGroupModel implements Serializable, Cloneable {
-  public static final long serialVersionUID = 12L;
+	public static final long serialVersionUID = 12L;
 
-  private String name;
-  private String title;
-  private String description;
-  private String rawCode;
-  private String replacer;
-  private ArrayList<Event> events;
+	private String name;
+	private String title;
+	private String description;
+	private String rawCode;
+	private String replacer;
+	private ArrayList<Event> events;
 
-  public String getName() {
-    return this.name;
-  }
+	public String getName() {
+		return this.name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getTitle() {
-    return this.title;
-  }
+	public String getTitle() {
+		return this.title;
+	}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public String getDescription() {
-    return this.description;
-  }
+	public String getDescription() {
+		return this.description;
+	}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-  public String getRawCode() {
-    return this.rawCode;
-  }
+	public String getRawCode() {
+		return this.rawCode;
+	}
 
-  public void setRawCode(String rawCode) {
-    this.rawCode = rawCode;
-  }
+	public void setRawCode(String rawCode) {
+		this.rawCode = rawCode;
+	}
 
-  public String getReplacer() {
-    return this.replacer;
-  }
+	public String getReplacer() {
+		return this.replacer;
+	}
 
-  public void setReplacer(String replacer) {
-    this.replacer = replacer;
-  }
+	public void setReplacer(String replacer) {
+		this.replacer = replacer;
+	}
 
-  public ArrayList<Event> getEvents() {
-    return this.events;
-  }
+	public ArrayList<Event> getEvents() {
+		return this.events;
+	}
 
-  public void setEvents(ArrayList<Event> events) {
-    this.events = events;
-  }
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
 
-  @Override
-  public EventGroupModel clone() {
-    EventGroupModel eventGroupModel = new EventGroupModel();
-    eventGroupModel.setName(this.name != null ? new String(this.name) : null);
-    eventGroupModel.setTitle(this.title != null ? new String(this.title) : null);
-    eventGroupModel.setDescription(this.description != null ? new String(this.description) : null);
-    eventGroupModel.setRawCode(this.rawCode != null ? new String(this.rawCode) : null);
-    eventGroupModel.setReplacer(this.replacer != null ? new String(this.replacer) : null);
-    ArrayList<Event> clonedEvents = new ArrayList<Event>();
-    for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
-      clonedEvents.add(events.get(eventCount));
-    }
-    eventGroupModel.setEvents(clonedEvents);
-    return eventGroupModel;
-  }
+	@Override
+	public EventGroupModel clone() {
+		EventGroupModel eventGroupModel = new EventGroupModel();
+		eventGroupModel.setName(this.name != null ? new String(this.name) : null);
+		eventGroupModel.setTitle(this.title != null ? new String(this.title) : null);
+		eventGroupModel.setDescription(this.description != null ? new String(this.description) : null);
+		eventGroupModel.setRawCode(this.rawCode != null ? new String(this.rawCode) : null);
+		eventGroupModel.setReplacer(this.replacer != null ? new String(this.replacer) : null);
+		ArrayList<Event> clonedEvents = new ArrayList<Event>();
+		for (int eventCount = 0; eventCount < events.size(); ++eventCount) {
+			clonedEvents.add(events.get(eventCount));
+		}
+		eventGroupModel.setEvents(clonedEvents);
+		return eventGroupModel;
+	}
 }

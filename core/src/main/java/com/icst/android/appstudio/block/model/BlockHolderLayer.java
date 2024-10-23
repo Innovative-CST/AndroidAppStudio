@@ -36,53 +36,55 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BlockHolderLayer extends BlockLayerModel implements Cloneable, Serializable {
-  public static final long serialVersionUID = 6L;
+	public static final long serialVersionUID = 6L;
 
-  private ArrayList<BlockModel> blocks;
-  private String replacer;
+	private ArrayList<BlockModel> blocks;
+	private String replacer;
 
-  public ArrayList<BlockModel> getBlocks() {
-    return this.blocks;
-  }
+	public ArrayList<BlockModel> getBlocks() {
+		return this.blocks;
+	}
 
-  public void setBlocks(ArrayList<BlockModel> blocks) {
-    this.blocks = blocks;
-  }
+	public void setBlocks(ArrayList<BlockModel> blocks) {
+		this.blocks = blocks;
+	}
 
-  public String getReplacer() {
-    return this.replacer;
-  }
+	public String getReplacer() {
+		return this.replacer;
+	}
 
-  public void setReplacer(String replacer) {
-    this.replacer = replacer;
-  }
+	public void setReplacer(String replacer) {
+		this.replacer = replacer;
+	}
 
-  public String getCode(HashMap<String, Object> variables) {
-    if (getBlocks() == null) return "";
-    StringBuilder code = new StringBuilder();
-    for (int blocksCount = 0; blocksCount < getBlocks().size(); ++blocksCount) {
-      if (blocksCount != 0) code.append("\n");
-      code.append(getBlocks().get(blocksCount).getCode(variables));
-    }
-    return code.toString();
-  }
+	public String getCode(HashMap<String, Object> variables) {
+		if (getBlocks() == null)
+			return "";
+		StringBuilder code = new StringBuilder();
+		for (int blocksCount = 0; blocksCount < getBlocks().size(); ++blocksCount) {
+			if (blocksCount != 0)
+				code.append("\n");
+			code.append(getBlocks().get(blocksCount).getCode(variables));
+		}
+		return code.toString();
+	}
 
-  @Override
-  public BlockHolderLayer clone() {
-    BlockHolderLayer clone = new BlockHolderLayer();
+	@Override
+	public BlockHolderLayer clone() {
+		BlockHolderLayer clone = new BlockHolderLayer();
 
-    if (getBlocks() != null) {
-      ArrayList<BlockModel> cloneBlockHolderLayer = new ArrayList<BlockModel>();
-      for (int position = 0; position < getBlocks().size(); ++position) {
-        cloneBlockHolderLayer.add(getBlocks().get(position).clone());
-      }
-      clone.setBlocks(cloneBlockHolderLayer);
-    } else {
-      clone.setBlocks(null);
-    }
+		if (getBlocks() != null) {
+			ArrayList<BlockModel> cloneBlockHolderLayer = new ArrayList<BlockModel>();
+			for (int position = 0; position < getBlocks().size(); ++position) {
+				cloneBlockHolderLayer.add(getBlocks().get(position).clone());
+			}
+			clone.setBlocks(cloneBlockHolderLayer);
+		} else {
+			clone.setBlocks(null);
+		}
 
-    clone.setReplacer(getReplacer() != null ? new String(getReplacer()) : null);
+		clone.setReplacer(getReplacer() != null ? new String(getReplacer()) : null);
 
-    return clone;
-  }
+		return clone;
+	}
 }

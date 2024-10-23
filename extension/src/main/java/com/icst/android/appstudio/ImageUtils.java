@@ -37,8 +37,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ImageUtils {
-  public static byte[] convertImageToByteArray(String imagePath) throws IOException {
-    Path path = Paths.get(ImageUtils.class.getClassLoader().getResource(imagePath).getPath());
-    return Files.readAllBytes(path);
-  }
+	public static byte[] convertImageToByteArray(String imagePath) throws IOException {
+		Path path = Paths.get(ImageUtils.class.getClassLoader().getResource(imagePath).getPath());
+		return Files.readAllBytes(path);
+	}
 }

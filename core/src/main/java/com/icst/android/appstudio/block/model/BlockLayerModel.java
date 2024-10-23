@@ -34,11 +34,11 @@ package com.icst.android.appstudio.block.model;
 import java.io.Serializable;
 
 public class BlockLayerModel implements Cloneable, Serializable {
-  public static final long serialVersionUID = 4L;
+	public static final long serialVersionUID = 4L;
 
-  @Override
-  public BlockLayerModel clone() {
-    BlockLayerModel clone = new BlockLayerModel();
-    return clone;
-  }
+	@Override
+	public BlockLayerModel clone() {
+		BlockLayerModel clone = new BlockLayerModel();
+		return clone;
+	}
 }

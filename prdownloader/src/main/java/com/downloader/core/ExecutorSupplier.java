@@ -24,10 +24,10 @@ import java.util.concurrent.Executor;
 
 public interface ExecutorSupplier {
 
-    DownloadExecutor forDownloadTasks();
+	DownloadExecutor forDownloadTasks();
 
-    Executor forBackgroundTasks();
+	Executor forBackgroundTasks();
 
-    Executor forMainThreadTasks();
+	Executor forMainThreadTasks();
 
 }

@@ -36,75 +36,72 @@ import com.icst.android.appstudio.block.tag.DependencyTag;
 import com.icst.android.appstudio.block.tag.ImportTag;
 
 public final class ArrayUtils {
-  public static final String[] clone(String[] stringArr) {
+	public static final String[] clone(String[] stringArr) {
 
-    if (stringArr == null) {
-      return null;
-    }
+		if (stringArr == null) {
+			return null;
+		}
 
-    String[] clone = new String[stringArr.length];
+		String[] clone = new String[stringArr.length];
 
-    for (int position = 0; position < stringArr.length; ++position) {
-      clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
-    }
+		for (int position = 0; position < stringArr.length; ++position) {
+			clone[position] = stringArr[position] == null ? null : new String(stringArr[position]);
+		}
 
-    return clone;
-  }
+		return clone;
+	}
 
-  public static final AdditionalCodeHelperTag[] clone(
-      AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
+	public static final AdditionalCodeHelperTag[] clone(
+			AdditionalCodeHelperTag[] additionalCodeHelperTagArr) {
 
-    if (additionalCodeHelperTagArr == null) {
-      return null;
-    }
+		if (additionalCodeHelperTagArr == null) {
+			return null;
+		}
 
-    AdditionalCodeHelperTag[] clone =
-        new AdditionalCodeHelperTag[additionalCodeHelperTagArr.length];
+		AdditionalCodeHelperTag[] clone = new AdditionalCodeHelperTag[additionalCodeHelperTagArr.length];
 
-    for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
-      if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      } else if (additionalCodeHelperTagArr[position] instanceof ImportTag) {
-        clone[position] =
-            additionalCodeHelperTagArr[position] == null
-                ? null
-                : additionalCodeHelperTagArr[position].clone();
-      }
-    }
+		for (int position = 0; position < additionalCodeHelperTagArr.length; ++position) {
+			if (additionalCodeHelperTagArr[position] instanceof DependencyTag) {
+				clone[position] = additionalCodeHelperTagArr[position] == null
+						? null
+						: additionalCodeHelperTagArr[position].clone();
+			} else if (additionalCodeHelperTagArr[position] instanceof ImportTag) {
+				clone[position] = additionalCodeHelperTagArr[position] == null
+						? null
+						: additionalCodeHelperTagArr[position].clone();
+			}
+		}
 
-    return clone;
-  }
+		return clone;
+	}
 
-  public static boolean ifContains(String[] arg0, String arg1) {
-    if (arg0 == null) {
-      return false;
-    }
+	public static boolean ifContains(String[] arg0, String arg1) {
+		if (arg0 == null) {
+			return false;
+		}
 
-    for (int i = 0; i < arg0.length; ++i) {
-      if (arg0[i].equals(arg1)) {
-        return true;
-      }
-    }
+		for (int i = 0; i < arg0.length; ++i) {
+			if (arg0[i].equals(arg1)) {
+				return true;
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  public static boolean ifContainAnyElement(String[] arg0, String[] arg1) {
-    if (arg0 == null || arg1 == null) {
-      return false;
-    }
+	public static boolean ifContainAnyElement(String[] arg0, String[] arg1) {
+		if (arg0 == null || arg1 == null) {
+			return false;
+		}
 
-    for (int i = 0; i < arg0.length; ++i) {
-      for (int j = i; j < arg1.length; ++j) {
-        if (arg0[i].equals(arg1[j])) {
-          return true;
-        }
-      }
-    }
+		for (int i = 0; i < arg0.length; ++i) {
+			for (int j = i; j < arg1.length; ++j) {
+				if (arg0[i].equals(arg1[j])) {
+					return true;
+				}
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 }

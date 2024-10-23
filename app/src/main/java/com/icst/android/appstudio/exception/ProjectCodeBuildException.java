@@ -32,13 +32,13 @@
 package com.icst.android.appstudio.exception;
 
 public class ProjectCodeBuildException extends Exception {
-  private String message;
+	private String message;
 
-  public String getMessage() {
-    return this.message;
-  }
+	public String getMessage() {
+		return this.message;
+	}
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

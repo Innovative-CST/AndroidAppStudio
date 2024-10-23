@@ -32,26 +32,26 @@
 package com.icst.android.appstudio.block.tag;
 
 public class BlockDroppableTag {
-  public static final int DEFAULT_BLOCK_DROPPER = 0;
-  public static final int BLOCK_BOOLEAN_DROPPER = 1;
-  public static final int BLOCK_NUMBER_DROPPER = 2;
-  public static final int BLOCK_VARIABLE_DROPPER = 3;
-  private int blockDroppableType;
-  private Object dropProperty;
+	public static final int DEFAULT_BLOCK_DROPPER = 0;
+	public static final int BLOCK_BOOLEAN_DROPPER = 1;
+	public static final int BLOCK_NUMBER_DROPPER = 2;
+	public static final int BLOCK_VARIABLE_DROPPER = 3;
+	private int blockDroppableType;
+	private Object dropProperty;
 
-  public int getBlockDroppableType() {
-    return this.blockDroppableType;
-  }
+	public int getBlockDroppableType() {
+		return this.blockDroppableType;
+	}
 
-  public void setBlockDroppableType(int blockDroppableType) {
-    this.blockDroppableType = blockDroppableType;
-  }
+	public void setBlockDroppableType(int blockDroppableType) {
+		this.blockDroppableType = blockDroppableType;
+	}
 
-  public <T> T getDropProperty(Class<T> dropPropertyClass) {
-    return dropPropertyClass.cast(dropProperty);
-  }
+	public <T> T getDropProperty(Class<T> dropPropertyClass) {
+		return dropPropertyClass.cast(dropProperty);
+	}
 
-  public void setDropProperty(Object dropProperty) {
-    this.dropProperty = dropProperty;
-  }
+	public void setDropProperty(Object dropProperty) {
+		this.dropProperty = dropProperty;
+	}
 }

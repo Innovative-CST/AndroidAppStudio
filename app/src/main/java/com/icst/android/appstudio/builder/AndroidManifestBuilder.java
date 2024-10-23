@@ -42,73 +42,72 @@ import com.icst.android.appstudio.xml.XmlModel;
 import java.io.File;
 
 public class AndroidManifestBuilder {
-  private ModuleModel module;
-  private boolean rebuild;
-  private ProjectCodeBuildListener listener;
-  private ProjectCodeBuilderCancelToken cancelToken;
+	private ModuleModel module;
+	private boolean rebuild;
+	private ProjectCodeBuildListener listener;
+	private ProjectCodeBuilderCancelToken cancelToken;
 
-  public void build() {
-    if (module == null) {
-      if (listener != null) {
-        listener.onBuildProgressLog("Null values are passed to Android Manifest Builder");
-      }
-      return;
-    }
+	public void build() {
+		if (module == null) {
+			if (listener != null) {
+				listener.onBuildProgressLog("Null values are passed to Android Manifest Builder");
+			}
+			return;
+		}
 
-    FileModel moduleFileModel =
-        DeserializerUtils.deserialize(
-            new File(module.moduleDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class);
+		FileModel moduleFileModel = DeserializerUtils.deserialize(
+				new File(module.moduleDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class);
 
-    if (moduleFileModel == null) {
-      if (listener != null) {
-        listener.onBuildProgressLog(
-            "Module is not an android app or android library.\n\tCannot add manifest file to that.");
-      }
-      return;
-    }
+		if (moduleFileModel == null) {
+			if (listener != null) {
+				listener.onBuildProgressLog(
+						"Module is not an android app or android library.\n\tCannot add manifest file to that.");
+			}
+			return;
+		}
 
-    XmlModel manifest = DeserializerUtils.deserialize(module.manifestFile, XmlModel.class);
+		XmlModel manifest = DeserializerUtils.deserialize(module.manifestFile, XmlModel.class);
 
-    if (manifest == null) {
-      if (listener != null) {
-        listener.onBuildProgressLog(
-            "Manifest file object is null. Aborting to generate manifest file");
-      }
-      return;
-    }
+		if (manifest == null) {
+			if (listener != null) {
+				listener.onBuildProgressLog(
+						"Manifest file object is null. Aborting to generate manifest file");
+			}
+			return;
+		}
 
-    FileUtils.writeFile(module.manifestOutputFile.getAbsolutePath(), manifest.getCode(""));
-  }
+		FileUtils.writeFile(module.manifestOutputFile.getAbsolutePath(), manifest.getCode(""));
+	}
 
-  public ModuleModel getModule() {
-    return this.module;
-  }
+	public ModuleModel getModule() {
+		return this.module;
+	}
 
-  public void setModule(ModuleModel module) {
-    this.module = module;
-  }
+	public void setModule(ModuleModel module) {
+		this.module = module;
+	}
 
-  public boolean getRebuild() {
-    return this.rebuild;
-  }
+	public boolean getRebuild() {
+		return this.rebuild;
+	}
 
-  public void setRebuild(boolean rebuild) {
-    this.rebuild = rebuild;
-  }
+	public void setRebuild(boolean rebuild) {
+		this.rebuild = rebuild;
+	}
 
-  public ProjectCodeBuildListener getListener() {
-    return this.listener;
-  }
+	public ProjectCodeBuildListener getListener() {
+		return this.listener;
+	}
 
-  public void setListener(ProjectCodeBuildListener listener) {
-    this.listener = listener;
-  }
+	public void setListener(ProjectCodeBuildListener listener) {
+		this.listener = listener;
+	}
 
-  public ProjectCodeBuilderCancelToken getCancelToken() {
-    return this.cancelToken;
-  }
+	public ProjectCodeBuilderCancelToken getCancelToken() {
+		return this.cancelToken;
+	}
 
-  public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
-    this.cancelToken = cancelToken;
-  }
+	public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
+		this.cancelToken = cancelToken;
+	}
 }

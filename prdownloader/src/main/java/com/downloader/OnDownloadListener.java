@@ -22,8 +22,8 @@ package com.downloader;
 
 public interface OnDownloadListener {
 
-    void onDownloadComplete();
+	void onDownloadComplete();
 
-    void onError(Error error);
+	void onError(Error error);
 
 }

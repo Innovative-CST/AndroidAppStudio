@@ -51,81 +51,77 @@ import com.icst.android.appstudio.block.utils.ColorUtils;
 import java.util.ArrayList;
 
 public class AddVariableListAdapter extends ArrayAdapter<VariableModel> {
-  private VariableModel selectedVariable;
+	private VariableModel selectedVariable;
 
-  public AddVariableListAdapter(Context context, ArrayList<VariableModel> variables) {
-    super(context, 0, variables);
-  }
+	public AddVariableListAdapter(Context context, ArrayList<VariableModel> variables) {
+		super(context, 0, variables);
+	}
 
-  @NonNull
-  @Override
-  public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+	@NonNull @Override
+	public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-    AdapterAddVariableBinding listitemView =
-        AdapterAddVariableBinding.inflate(LayoutInflater.from(getContext()));
+		AdapterAddVariableBinding listitemView = AdapterAddVariableBinding.inflate(LayoutInflater.from(getContext()));
 
-    VariableModel variable = getItem(position);
-    Drawable icon = null;
-    if (variable.getIcon() != null) {
-      icon =
-          new BitmapDrawable(
-              getContext().getResources(),
-              BitmapFactory.decodeByteArray(variable.getIcon(), 0, variable.getIcon().length));
-    } else {
-      icon =
-          new BitmapDrawable(
-              getContext().getResources(),
-              textToBitmap(
-                  variable.getVariableTitle(),
-                  16,
-                  ColorUtils.getColor(
-                      listitemView.getRoot().getContext(),
-                      com.google.android.material.R.attr.colorOnSurface),
-                  listitemView.getRoot().getContext()));
-    }
+		VariableModel variable = getItem(position);
+		Drawable icon = null;
+		if (variable.getIcon() != null) {
+			icon = new BitmapDrawable(
+					getContext().getResources(),
+					BitmapFactory.decodeByteArray(variable.getIcon(), 0, variable.getIcon().length));
+		} else {
+			icon = new BitmapDrawable(
+					getContext().getResources(),
+					textToBitmap(
+							variable.getVariableTitle(),
+							16,
+							ColorUtils.getColor(
+									listitemView.getRoot().getContext(),
+									com.google.android.material.R.attr.colorOnSurface),
+							listitemView.getRoot().getContext()));
+		}
 
-    if (variable.getApplyColorFilter()) {
-      icon.setTint(
-          ColorUtils.getColor(
-              listitemView.getRoot().getContext(),
-              com.google.android.material.R.attr.colorOnSurfaceVariant));
-    }
+		if (variable.getApplyColorFilter()) {
+			icon.setTint(
+					ColorUtils.getColor(
+							listitemView.getRoot().getContext(),
+							com.google.android.material.R.attr.colorOnSurfaceVariant));
+		}
 
-    listitemView.icon.setImageDrawable(icon);
-    listitemView.title.setText(variable.getVariableTitle());
-    listitemView
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              setSelectedVariable(variable);
-            });
+		listitemView.icon.setImageDrawable(icon);
+		listitemView.title.setText(variable.getVariableTitle());
+		listitemView
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							setSelectedVariable(variable);
+						});
 
-    return listitemView.getRoot();
-  }
+		return listitemView.getRoot();
+	}
 
-  private Bitmap textToBitmap(String text, int textSize, int textColor, Context context) {
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    paint.setTextSize(
-        TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP, textSize, context.getResources().getDisplayMetrics()));
-    paint.setColor(textColor);
-    paint.setTextAlign(Paint.Align.LEFT);
+	private Bitmap textToBitmap(String text, int textSize, int textColor, Context context) {
+		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		paint.setTextSize(
+				TypedValue.applyDimension(
+						TypedValue.COMPLEX_UNIT_SP, textSize, context.getResources().getDisplayMetrics()));
+		paint.setColor(textColor);
+		paint.setTextAlign(Paint.Align.LEFT);
 
-    float baseline = -paint.ascent(); // ascent() is negative
-    int width = (int) (paint.measureText(text) + 0.5f); // round
-    int height = (int) (baseline + paint.descent() + 0.5f);
+		float baseline = -paint.ascent(); // ascent() is negative
+		int width = (int) (paint.measureText(text) + 0.5f); // round
+		int height = (int) (baseline + paint.descent() + 0.5f);
 
-    Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(image);
-    canvas.drawText(text, 0, baseline, paint);
-    return image;
-  }
+		Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(image);
+		canvas.drawText(text, 0, baseline, paint);
+		return image;
+	}
 
-  public VariableModel getSelectedVariable() {
-    return this.selectedVariable;
-  }
+	public VariableModel getSelectedVariable() {
+		return this.selectedVariable;
+	}
 
-  public void setSelectedVariable(VariableModel selectedVariable) {
-    this.selectedVariable = selectedVariable;
-  }
+	public void setSelectedVariable(VariableModel selectedVariable) {
+		this.selectedVariable = selectedVariable;
+	}
 }

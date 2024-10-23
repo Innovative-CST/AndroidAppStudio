@@ -20,7 +20,6 @@ package com.icst.editor.widget;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.Toast;
 import com.icst.editor.editors.sora.lang.textmate.AndroidCodeEditorTMLanguage;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Language;
@@ -29,81 +28,79 @@ import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel;
-import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import org.eclipse.tm4e.core.registry.IThemeSource;
 
 public class CodeEditorLayout extends CodeEditor {
-  private Context context;
+	private Context context;
 
-  public CodeEditorLayout(Context context) {
-    super(context);
-    this.context = context;
-    init();
-  }
+	public CodeEditorLayout(Context context) {
+		super(context);
+		this.context = context;
+		init();
+	}
 
-  public CodeEditorLayout(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    this.context = context;
-    init();
-  }
+	public CodeEditorLayout(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		this.context = context;
+		init();
+	}
 
-  private void init() {
-    Typeface font =
-        Typeface.createFromAsset(context.getAssets(), "Editor/SoraEditor/jetbrains.ttf");
-    setTypefaceText(font);
-  }
+	private void init() {
+		Typeface font = Typeface.createFromAsset(context.getAssets(), "Editor/SoraEditor/jetbrains.ttf");
+		setTypefaceText(font);
+	}
 
-  public void setLanguageMode(String LanguageMode) {
-    if (!LanguageMode.equals(Language.UNKNOWN)) {
-      setEditorLanguage(
-          AndroidCodeEditorTMLanguage.create(
-              TextMateProvider.getLanguageScope(context, LanguageMode)));
-    }
-  }
+	public void setLanguageMode(String LanguageMode) {
+		if (!LanguageMode.equals(Language.UNKNOWN)) {
+			setEditorLanguage(
+					AndroidCodeEditorTMLanguage.create(
+							TextMateProvider.getLanguageScope(context, LanguageMode)));
+		}
+	}
 
-  public void setTheme(String theme) {
-    String ThemeFile;
-    String ThemeFileName;
-    switch (theme) {
-      case Themes.SoraEditorTheme.Dark.Darcula:
-        ThemeFile = "Editor/SoraEditor/darcula.json";
-        ThemeFileName = "darcula.json";
-        initTheme(ThemeFile, ThemeFileName);
-        break;
-      case Themes.SoraEditorTheme.Dark.Monokai:
-        ThemeFile = "Editor/SoraEditor/monokai-color-theme.json";
-        ThemeFileName = "monokai-color-theme.json";
-        initTheme(ThemeFile, ThemeFileName);
-        break;
-      case Themes.SoraEditorTheme.Dark.Solarized_Drak:
-        ThemeFile = "Editor/SoraEditor/solarized_drak.json";
-        ThemeFileName = "solarized_drak.json";
-        initTheme(ThemeFile, ThemeFileName);
-        break;
-      case Themes.SoraEditorTheme.Light.Quietlight:
-        ThemeFile = "Editor/SoraEditor/quietlight.json";
-        ThemeFileName = "quietlight.json";
-        initTheme(ThemeFile, ThemeFileName);
-        break;
-      case Themes.SoraEditorTheme.Light.Solarized_Light:
-        ThemeFile = "Editor/SoraEditor/solarized-light-color-theme.json";
-        ThemeFileName = "solarized-light-color-theme.json";
-        initTheme(ThemeFile, ThemeFileName);
-        break;
-    }
-  }
+	public void setTheme(String theme) {
+		String ThemeFile;
+		String ThemeFileName;
+		switch (theme) {
+			case Themes.SoraEditorTheme.Dark.Darcula:
+				ThemeFile = "Editor/SoraEditor/darcula.json";
+				ThemeFileName = "darcula.json";
+				initTheme(ThemeFile, ThemeFileName);
+				break;
+			case Themes.SoraEditorTheme.Dark.Monokai:
+				ThemeFile = "Editor/SoraEditor/monokai-color-theme.json";
+				ThemeFileName = "monokai-color-theme.json";
+				initTheme(ThemeFile, ThemeFileName);
+				break;
+			case Themes.SoraEditorTheme.Dark.Solarized_Drak:
+				ThemeFile = "Editor/SoraEditor/solarized_drak.json";
+				ThemeFileName = "solarized_drak.json";
+				initTheme(ThemeFile, ThemeFileName);
+				break;
+			case Themes.SoraEditorTheme.Light.Quietlight:
+				ThemeFile = "Editor/SoraEditor/quietlight.json";
+				ThemeFileName = "quietlight.json";
+				initTheme(ThemeFile, ThemeFileName);
+				break;
+			case Themes.SoraEditorTheme.Light.Solarized_Light:
+				ThemeFile = "Editor/SoraEditor/solarized-light-color-theme.json";
+				ThemeFileName = "solarized-light-color-theme.json";
+				initTheme(ThemeFile, ThemeFileName);
+				break;
+		}
+	}
 
-  public void initTheme(String p1, String p2) {
-    try {
-      setColorScheme(
-          new TextMateColorScheme(
-              ThemeRegistry.getInstance(),
-              new ThemeModel(
-                  IThemeSource.fromInputStream(
-                      FileProviderRegistry.getInstance().tryGetInputStream(p1), p1, null),
-                  p1)));
-    } catch (Exception e) {
-    }
-  }
+	public void initTheme(String p1, String p2) {
+		try {
+			setColorScheme(
+					new TextMateColorScheme(
+							ThemeRegistry.getInstance(),
+							new ThemeModel(
+									IThemeSource.fromInputStream(
+											FileProviderRegistry.getInstance().tryGetInputStream(p1), p1, null),
+									p1)));
+		} catch (Exception e) {
+		}
+	}
 }

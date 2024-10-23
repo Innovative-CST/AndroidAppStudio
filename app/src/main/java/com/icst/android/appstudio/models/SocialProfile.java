@@ -32,31 +32,31 @@
 package com.icst.android.appstudio.models;
 
 public class SocialProfile {
-  private String platformName;
-  private String platformIconUrl;
-  private String url;
+	private String platformName;
+	private String platformIconUrl;
+	private String url;
 
-  public String getPlatformName() {
-    return this.platformName;
-  }
+	public String getPlatformName() {
+		return this.platformName;
+	}
 
-  public void setPlatformName(String platformName) {
-    this.platformName = platformName;
-  }
+	public void setPlatformName(String platformName) {
+		this.platformName = platformName;
+	}
 
-  public String getPlatformIconUrl() {
-    return this.platformIconUrl;
-  }
+	public String getPlatformIconUrl() {
+		return this.platformIconUrl;
+	}
 
-  public void setPlatformIconUrl(String platformIconUrl) {
-    this.platformIconUrl = platformIconUrl;
-  }
+	public void setPlatformIconUrl(String platformIconUrl) {
+		this.platformIconUrl = platformIconUrl;
+	}
 
-  public String getUrl() {
-    return this.url;
-  }
+	public String getUrl() {
+		return this.url;
+	}
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }

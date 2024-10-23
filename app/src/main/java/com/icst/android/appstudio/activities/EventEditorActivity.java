@@ -50,137 +50,141 @@ import java.io.File;
 import java.util.HashMap;
 
 public class EventEditorActivity extends BaseActivity {
-  private ActivityEventEditorBinding binding;
+	private ActivityEventEditorBinding binding;
 
-  private ProjectModel projectModel;
-  private ModuleModel module;
-  /*
-   * Contains the location of currently selected file model.
-   * For example: /../../Projects/100/../abc/FileModel
-   */
-  private File fileModelDirectory;
-  /*
-   * Contains the location of event list path.
-   * For example: /../../Projects/100/../../Events/Config
-   */
-  private File eventListPath;
-  /*
-   * Contains the location of event file path.
-   * For example: /../../Projects/100/../../Events/Config/ActivityBasics
-   */
-  private File eventFile;
-  /*
-   * Main Event Object
-   */
-  private Event event;
-  private FileModel file;
+	private ProjectModel projectModel;
+	private ModuleModel module;
+	/*
+	 * Contains the location of currently selected file model.
+	 * For example: /../../Projects/100/../abc/FileModel
+	 */
+	private File fileModelDirectory;
+	/*
+	 * Contains the location of event list path.
+	 * For example: /../../Projects/100/../../Events/Config
+	 */
+	private File eventListPath;
+	/*
+	 * Contains the location of event file path.
+	 * For example: /../../Projects/100/../../Events/Config/ActivityBasics
+	 */
+	private File eventFile;
+	/*
+	 * Main Event Object
+	 */
+	private Event event;
+	private FileModel file;
 
-  @Override
-  @SuppressWarnings("deprecation")
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityEventEditorBinding.inflate(getLayoutInflater());
+		binding = ActivityEventEditorBinding.inflate(getLayoutInflater());
 
-    // Initialize the files paths
+		// Initialize the files paths
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      module = getIntent().getParcelableExtra("module", ModuleModel.class);
-    } else {
-      module = (ModuleModel) getIntent().getParcelableExtra("module");
-    }
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			module = getIntent().getParcelableExtra("module", ModuleModel.class);
+		} else {
+			module = (ModuleModel) getIntent().getParcelableExtra("module");
+		}
 
-    fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
-    eventListPath = new File(getIntent().getStringExtra("eventListPath"));
-    eventFile = new File(getIntent().getStringExtra("eventFile"));
+		fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
+		eventListPath = new File(getIntent().getStringExtra("eventListPath"));
+		eventFile = new File(getIntent().getStringExtra("eventFile"));
 
-    setContentView(binding.getRoot());
-    // SetUp the toolbar
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		setContentView(binding.getRoot());
+		// SetUp the toolbar
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    DeserializerUtils.deserialize(
-        eventFile,
-        new DeserializerUtils.DeserializerListener() {
+		DeserializerUtils.deserialize(
+				eventFile,
+				new DeserializerUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(Object deserializedObject) {
-            if (deserializedObject instanceof Event) {
-              event = (Event) deserializedObject;
-            }
-          }
+					@Override
+					public void onSuccessfullyDeserialized(Object deserializedObject) {
+						if (deserializedObject instanceof Event) {
+							event = (Event) deserializedObject;
+						}
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {}
-        });
-    DeserializerUtils.deserialize(
-        new File(module.projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
-        new DeserializerUtils.DeserializerListener() {
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+					}
+				});
+		DeserializerUtils.deserialize(
+				new File(module.projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+				new DeserializerUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(Object deserializedObject) {
-            if (deserializedObject instanceof ProjectModel) {
-              projectModel = (ProjectModel) deserializedObject;
-            }
-          }
+					@Override
+					public void onSuccessfullyDeserialized(Object deserializedObject) {
+						if (deserializedObject instanceof ProjectModel) {
+							projectModel = (ProjectModel) deserializedObject;
+						}
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {}
-        });
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+					}
+				});
 
-    file = DeserializerUtils.deserialize(fileModelDirectory, FileModel.class);
+		file = DeserializerUtils.deserialize(fileModelDirectory, FileModel.class);
 
-    if (event == null) {
-      finish();
-      return;
-    }
-    if (file == null) {
-      finish();
-      return;
-    }
-    if (event.getEventTopBlock() != null) {
-      HashMap<String, Object> variables = new HashMap<String, Object>();
-      if (projectModel != null) {
-        variables.put("ProjectModel", projectModel);
-      }
-      if (event != null) {
-        variables.put("Event", event);
-      }
-      SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
-      if (settings == null) {
-        settings = new SettingModel();
-      }
-      binding.eventEditor.initEditor(event, settings.isEnabledDarkMode(), variables);
-    }
+		if (event == null) {
+			finish();
+			return;
+		}
+		if (file == null) {
+			finish();
+			return;
+		}
+		if (event.getEventTopBlock() != null) {
+			HashMap<String, Object> variables = new HashMap<String, Object>();
+			if (projectModel != null) {
+				variables.put("ProjectModel", projectModel);
+			}
+			if (event != null) {
+				variables.put("Event", event);
+			}
+			SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+			if (settings == null) {
+				settings = new SettingModel();
+			}
+			binding.eventEditor.initEditor(event, settings.isEnabledDarkMode(), variables);
+		}
 
-    if (event.getName() != null) {
-      if (event.getName().equals("dependenciesBlock")) {
-        binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleDepedencyBlocks());
-      } else if (event.getName().equals("androidBlock")) {
-        binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleAndroidBlocks());
-      } else {
-        binding.eventEditor.setHolder(BlockUtils.loadBlockHolders(file, event));
-      }
-    }
-  }
+		if (event.getName() != null) {
+			if (event.getName().equals("dependenciesBlock")) {
+				binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleDepedencyBlocks());
+			} else if (event.getName().equals("androidBlock")) {
+				binding.eventEditor.setHolder(GradleDepedencyBlocks.getGradleAndroidBlocks());
+			} else {
+				binding.eventEditor.setHolder(BlockUtils.loadBlockHolders(file, event));
+			}
+		}
+	}
 
-  @Override
-  protected void onPause() {
-    binding.eventEditor.loadBlocksInEvent();
-    SerializerUtil.serialize(
-        event,
-        eventFile,
-        new SerializerUtil.SerializerCompletionListener() {
+	@Override
+	protected void onPause() {
+		binding.eventEditor.loadBlocksInEvent();
+		SerializerUtil.serialize(
+				event,
+				eventFile,
+				new SerializerUtil.SerializerCompletionListener() {
 
-          @Override
-          public void onSerializeComplete() {}
+					@Override
+					public void onSerializeComplete() {
+					}
 
-          @Override
-          public void onFailedToSerialize(Exception exception) {}
-        });
-    super.onPause();
-  }
+					@Override
+					public void onFailedToSerialize(Exception exception) {
+					}
+				});
+		super.onPause();
+	}
 }

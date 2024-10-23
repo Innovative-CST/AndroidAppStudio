@@ -57,132 +57,126 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapter.ViewHolder> {
-  private ArrayList<VariableModel> variables;
-  private Fragment fragment;
-  private ModuleModel module;
-  private String packageName;
-  private String className;
+	private ArrayList<VariableModel> variables;
+	private Fragment fragment;
+	private ModuleModel module;
+	private String packageName;
+	private String className;
 
-  public VariableListAdapter(
-      ArrayList<VariableModel> variables,
-      Fragment fragment,
-      ModuleModel module,
-      String packageName,
-      String className) {
-    this.variables = variables;
-    this.fragment = fragment;
-    this.module = module;
-    this.packageName = packageName;
-    this.className = className;
-  }
+	public VariableListAdapter(
+			ArrayList<VariableModel> variables,
+			Fragment fragment,
+			ModuleModel module,
+			String packageName,
+			String className) {
+		this.variables = variables;
+		this.fragment = fragment;
+		this.module = module;
+		this.packageName = packageName;
+		this.className = className;
+	}
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterVariableBinding binding =
-        AdapterVariableBinding.inflate(LayoutInflater.from(parent.getContext()));
-    RecyclerView.LayoutParams mLayoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(mLayoutParams);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+		AdapterVariableBinding binding = AdapterVariableBinding.inflate(LayoutInflater.from(parent.getContext()));
+		RecyclerView.LayoutParams mLayoutParams = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(mLayoutParams);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, final int position) {
-    AdapterVariableBinding binding = AdapterVariableBinding.bind(holder.itemView);
-    binding.variableName.setText(variables.get(position).getVariableName());
-    binding.variableType.setText(variables.get(position).getVariableType());
-    Drawable icon = null;
-    if (variables.get(position).getIcon() != null) {
-      icon =
-          new BitmapDrawable(
-              binding.getRoot().getContext().getResources(),
-              BitmapFactory.decodeByteArray(
-                  variables.get(position).getIcon(), 0, variables.get(position).getIcon().length));
-    } else {
-      icon =
-          new BitmapDrawable(
-              textToBitmap(
-                  variables.get(position).getVariableTitle(),
-                  16,
-                  ColorUtils.getColor(
-                      binding.getRoot().getContext(),
-                      com.google.android.material.R.attr.colorPrimary),
-                  binding.getRoot().getContext()));
-    }
+	@Override
+	public void onBindViewHolder(ViewHolder holder, final int position) {
+		AdapterVariableBinding binding = AdapterVariableBinding.bind(holder.itemView);
+		binding.variableName.setText(variables.get(position).getVariableName());
+		binding.variableType.setText(variables.get(position).getVariableType());
+		Drawable icon = null;
+		if (variables.get(position).getIcon() != null) {
+			icon = new BitmapDrawable(
+					binding.getRoot().getContext().getResources(),
+					BitmapFactory.decodeByteArray(
+							variables.get(position).getIcon(), 0, variables.get(position).getIcon().length));
+		} else {
+			icon = new BitmapDrawable(
+					textToBitmap(
+							variables.get(position).getVariableTitle(),
+							16,
+							ColorUtils.getColor(
+									binding.getRoot().getContext(),
+									com.google.android.material.R.attr.colorPrimary),
+							binding.getRoot().getContext()));
+		}
 
-    if (variables.get(position).getApplyColorFilter()) {
-      icon.setTint(
-          ColorUtils.getColor(
-              binding.getRoot().getContext(),
-              com.google.android.material.R.attr.colorOnSurfaceVariant));
-    }
+		if (variables.get(position).getApplyColorFilter()) {
+			icon.setTint(
+					ColorUtils.getColor(
+							binding.getRoot().getContext(),
+							com.google.android.material.R.attr.colorOnSurfaceVariant));
+		}
 
-    binding.representation.setImageDrawable(icon);
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              EditVariableDialog updateVar =
-                  new EditVariableDialog(fragment.getActivity(), variables.get(position)) {
-                    @Override
-                    public void onVariableModified(VariableModel variable) {
-                      variables.set(position, variable);
-                      SerializerUtil.serialize(
-                          variables,
-                          new File(
-                              new File(
-                                  EnvironmentUtils.getJavaDirectory(module, packageName),
-                                  className.concat(".java")),
-                              EnvironmentUtils.VARIABLES),
-                          new SerializerUtil.SerializerCompletionListener() {
+		binding.representation.setImageDrawable(icon);
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							EditVariableDialog updateVar = new EditVariableDialog(fragment.getActivity(),
+									variables.get(position)) {
+								@Override
+								public void onVariableModified(VariableModel variable) {
+									variables.set(position, variable);
+									SerializerUtil.serialize(
+											variables,
+											new File(
+													new File(
+															EnvironmentUtils.getJavaDirectory(module, packageName),
+															className.concat(".java")),
+													EnvironmentUtils.VARIABLES),
+											new SerializerUtil.SerializerCompletionListener() {
 
-                            @Override
-                            public void onSerializeComplete() {}
+												@Override
+												public void onSerializeComplete() {
+												}
 
-                            @Override
-                            public void onFailedToSerialize(Exception exception) {}
-                          });
-                      if (fragment
-                          instanceof
-                          NonStaticVariableManagerFragment
-                          nonStaticVariableManagerFragment) {
-                        nonStaticVariableManagerFragment.loadList();
-                      } else if (fragment
-                          instanceof StaticVariableManagerFragment staticVariableManagerFragment) {
-                        staticVariableManagerFragment.loadList();
-                      }
-                    }
-                  };
-            });
-  }
+												@Override
+												public void onFailedToSerialize(Exception exception) {
+												}
+											});
+									if (fragment instanceof NonStaticVariableManagerFragment nonStaticVariableManagerFragment) {
+										nonStaticVariableManagerFragment.loadList();
+									} else if (fragment instanceof StaticVariableManagerFragment staticVariableManagerFragment) {
+										staticVariableManagerFragment.loadList();
+									}
+								}
+							};
+						});
+	}
 
-  private Bitmap textToBitmap(String text, int textSize, int textColor, Context context) {
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    paint.setTextSize(
-        TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP, textSize, context.getResources().getDisplayMetrics()));
-    paint.setColor(textColor);
-    paint.setTextAlign(Paint.Align.LEFT);
+	private Bitmap textToBitmap(String text, int textSize, int textColor, Context context) {
+		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		paint.setTextSize(
+				TypedValue.applyDimension(
+						TypedValue.COMPLEX_UNIT_SP, textSize, context.getResources().getDisplayMetrics()));
+		paint.setColor(textColor);
+		paint.setTextAlign(Paint.Align.LEFT);
 
-    float baseline = -paint.ascent(); // ascent() is negative
-    int width = (int) (paint.measureText(text) + 0.5f); // round
-    int height = (int) (baseline + paint.descent() + 0.5f);
+		float baseline = -paint.ascent(); // ascent() is negative
+		int width = (int) (paint.measureText(text) + 0.5f); // round
+		int height = (int) (baseline + paint.descent() + 0.5f);
 
-    Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(image);
-    canvas.drawText(text, 0, baseline, paint);
-    return image;
-  }
+		Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(image);
+		canvas.drawText(text, 0, baseline, paint);
+		return image;
+	}
 
-  @Override
-  public int getItemCount() {
-    return variables.size();
-  }
+	@Override
+	public int getItemCount() {
+		return variables.size();
+	}
 }

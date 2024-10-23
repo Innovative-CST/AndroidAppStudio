@@ -34,24 +34,24 @@ package com.icst.android.appstudio.vieweditor.models;
 import java.io.Serializable;
 
 public class LayoutVariableModel implements Serializable {
-  public static final long serialVersionUID = 27L;
+	public static final long serialVersionUID = 27L;
 
-  private String variableName;
-  private String layoutName;
+	private String variableName;
+	private String layoutName;
 
-  public String getVariableName() {
-    return this.variableName;
-  }
+	public String getVariableName() {
+		return this.variableName;
+	}
 
-  public void setVariableName(String variableName) {
-    this.variableName = variableName;
-  }
+	public void setVariableName(String variableName) {
+		this.variableName = variableName;
+	}
 
-  public String getLayoutName() {
-    return this.layoutName;
-  }
+	public String getLayoutName() {
+		return this.layoutName;
+	}
 
-  public void setLayoutName(String layoutName) {
-    this.layoutName = layoutName;
-  }
+	public void setLayoutName(String layoutName) {
+		this.layoutName = layoutName;
+	}
 }

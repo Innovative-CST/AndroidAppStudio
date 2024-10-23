@@ -32,58 +32,58 @@
 package com.icst.android.appstudio.models;
 
 public class ExtensionAdapterModel {
-  private String title;
-  private int latestVersion;
-  private boolean isInstalled;
-  private int installedVersion;
-  private String authors;
-  private String childKey;
+	private String title;
+	private int latestVersion;
+	private boolean isInstalled;
+	private int installedVersion;
+	private String authors;
+	private String childKey;
 
-  public String getTitle() {
-    return this.title;
-  }
+	public String getTitle() {
+		return this.title;
+	}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public int getLatestVersion() {
-    return this.latestVersion;
-  }
+	public int getLatestVersion() {
+		return this.latestVersion;
+	}
 
-  public void setLatestVersion(int latestVersion) {
-    this.latestVersion = latestVersion;
-  }
+	public void setLatestVersion(int latestVersion) {
+		this.latestVersion = latestVersion;
+	}
 
-  public boolean getIsInstalled() {
-    return this.isInstalled;
-  }
+	public boolean getIsInstalled() {
+		return this.isInstalled;
+	}
 
-  public void setIsInstalled(boolean isInstalled) {
-    this.isInstalled = isInstalled;
-  }
+	public void setIsInstalled(boolean isInstalled) {
+		this.isInstalled = isInstalled;
+	}
 
-  public int getInstalledVersion() {
-    return this.installedVersion;
-  }
+	public int getInstalledVersion() {
+		return this.installedVersion;
+	}
 
-  public void setInstalledVersion(int installedVersion) {
-    this.installedVersion = installedVersion;
-  }
+	public void setInstalledVersion(int installedVersion) {
+		this.installedVersion = installedVersion;
+	}
 
-  public String getAuthors() {
-    return this.authors;
-  }
+	public String getAuthors() {
+		return this.authors;
+	}
 
-  public void setAuthors(String authors) {
-    this.authors = authors;
-  }
+	public void setAuthors(String authors) {
+		this.authors = authors;
+	}
 
-  public String getChildKey() {
-    return this.childKey;
-  }
+	public String getChildKey() {
+		return this.childKey;
+	}
 
-  public void setChildKey(String childKey) {
-    this.childKey = childKey;
-  }
+	public void setChildKey(String childKey) {
+		this.childKey = childKey;
+	}
 }

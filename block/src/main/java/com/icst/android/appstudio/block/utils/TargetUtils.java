@@ -31,43 +31,41 @@
 
 package com.icst.android.appstudio.block.utils;
 
-import android.graphics.Rect;
 import android.view.View;
-import android.view.ViewGroup;
 
 public class TargetUtils {
-  public static boolean isPointInsideRectangle(
-      float x, float y, float a, float b, float c, float d) {
-    float left = Math.min(a, c);
-    float right = Math.max(a, c);
-    float top = Math.min(b, d);
-    float bottom = Math.max(b, d);
+	public static boolean isPointInsideRectangle(
+			float x, float y, float a, float b, float c, float d) {
+		float left = Math.min(a, c);
+		float right = Math.max(a, c);
+		float top = Math.min(b, d);
+		float bottom = Math.max(b, d);
 
-    return x >= left && x <= right && y >= top && y <= bottom;
-  }
+		return x >= left && x <= right && y >= top && y <= bottom;
+	}
 
-  public static int[] getRelativePosition(View view, View relativeOf) {
-    int[] location1 = new int[2];
-    int[] location2 = new int[2];
+	public static int[] getRelativePosition(View view, View relativeOf) {
+		int[] location1 = new int[2];
+		int[] location2 = new int[2];
 
-    relativeOf.getLocationOnScreen(location1);
-    view.getLocationOnScreen(location2);
+		relativeOf.getLocationOnScreen(location1);
+		view.getLocationOnScreen(location2);
 
-    int relativeX = location2[0] - location1[0];
-    int relativeY = location2[1] - location1[1];
+		int relativeX = location2[0] - location1[0];
+		int relativeY = location2[1] - location1[1];
 
-    return new int[] {relativeX, relativeY};
-  }
+		return new int[] { relativeX, relativeY };
+	}
 
-  public static boolean isDragInsideTargetView(View target, View relativeTo, float x, float y) {
-    int[] relativePosition = getRelativePosition(target, relativeTo);
+	public static boolean isDragInsideTargetView(View target, View relativeTo, float x, float y) {
+		int[] relativePosition = getRelativePosition(target, relativeTo);
 
-    return TargetUtils.isPointInsideRectangle(
-        x,
-        y,
-        relativePosition[0],
-        relativePosition[1],
-        relativePosition[0] + target.getWidth(),
-        relativePosition[1] + target.getHeight());
-  }
+		return TargetUtils.isPointInsideRectangle(
+				x,
+				y,
+				relativePosition[0],
+				relativePosition[1],
+				relativePosition[0] + target.getWidth(),
+				relativePosition[1] + target.getHeight());
+	}
 }

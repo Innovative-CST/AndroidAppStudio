@@ -32,5 +32,5 @@
 package com.icst.app.compiler.progress;
 
 public interface BuildEventProgressListener {
-  void onProgress(String message);
+	void onProgress(String message);
 }

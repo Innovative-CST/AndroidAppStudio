@@ -39,92 +39,92 @@ import com.icst.android.appstudio.block.tag.BlockModelTag;
 import java.util.ArrayList;
 
 public final class BlockUtils {
-  public static ArrayList<BlockHolderModel> loadBlockHolders(FileModel file, Event event) {
-    ArrayList<BlockHolderModel> holders = ExtensionUtils.extractBlockHoldersFromExtensions();
-    ArrayList<BlockModel> blocks = ExtensionUtils.extractBlocksFromExtensions();
+	public static ArrayList<BlockHolderModel> loadBlockHolders(FileModel file, Event event) {
+		ArrayList<BlockHolderModel> holders = ExtensionUtils.extractBlockHoldersFromExtensions();
+		ArrayList<BlockModel> blocks = ExtensionUtils.extractBlocksFromExtensions();
 
-    for (int i = 0; i < holders.size(); ++i) {
-      BlockHolderModel holder = holders.get(i);
-      ArrayList<Object> holderBlocks = new ArrayList<Object>();
+		for (int i = 0; i < holders.size(); ++i) {
+			BlockHolderModel holder = holders.get(i);
+			ArrayList<Object> holderBlocks = new ArrayList<Object>();
 
-      for (int i2 = 0; i2 < blocks.size(); ++i2) {
-        BlockModel block = blocks.get(i2);
+			for (int i2 = 0; i2 < blocks.size(); ++i2) {
+				BlockModel block = blocks.get(i2);
 
-        if (block.getHolderName() == null) {
-          continue;
-        }
+				if (block.getHolderName() == null) {
+					continue;
+				}
 
-        if (!block.getHolderName().equals(holder.getName())) {
-          continue;
-        }
+				if (!block.getHolderName().equals(holder.getName())) {
+					continue;
+				}
 
-        if (block.getTags() != null) {
-          BlockModelTag tag = block.getTags();
+				if (block.getTags() != null) {
+					BlockModelTag tag = block.getTags();
 
-          if (tag.getNotSupportedFileExtensions() != null) {
-            if (file.getFileExtension() == null) {
-              continue;
-            }
+					if (tag.getNotSupportedFileExtensions() != null) {
+						if (file.getFileExtension() == null) {
+							continue;
+						}
 
-            if (containsString(tag.getNotSupportedFileExtensions(), file.getFileExtension())) {
-              continue;
-            }
-          }
+						if (containsString(tag.getNotSupportedFileExtensions(), file.getFileExtension())) {
+							continue;
+						}
+					}
 
-          if (tag.getSupportedFileExtensions() != null) {
-            if (file.getFileExtension() == null) {
-              continue;
-            }
+					if (tag.getSupportedFileExtensions() != null) {
+						if (file.getFileExtension() == null) {
+							continue;
+						}
 
-            if (!containsString(tag.getSupportedFileExtensions(), file.getFileExtension())) {
-              continue;
-            }
-          }
+						if (!containsString(tag.getSupportedFileExtensions(), file.getFileExtension())) {
+							continue;
+						}
+					}
 
-          if (tag.getNotSupportedEvents() != null) {
-            if (event.getName() == null) {
-              continue;
-            }
+					if (tag.getNotSupportedEvents() != null) {
+						if (event.getName() == null) {
+							continue;
+						}
 
-            if (containsString(tag.getNotSupportedEvents(), event.getName())) {
-              continue;
-            }
-          }
+						if (containsString(tag.getNotSupportedEvents(), event.getName())) {
+							continue;
+						}
+					}
 
-          if (tag.getSupportedEvents() != null) {
-            if (event.getName() == null) {
-              continue;
-            }
+					if (tag.getSupportedEvents() != null) {
+						if (event.getName() == null) {
+							continue;
+						}
 
-            if (!containsString(tag.getSupportedEvents(), event.getName())) {
-              continue;
-            }
-          }
-        }
+						if (!containsString(tag.getSupportedEvents(), event.getName())) {
+							continue;
+						}
+					}
+				}
 
-        holderBlocks.add(block);
-      }
-      holder.setList(holderBlocks);
-    }
+				holderBlocks.add(block);
+			}
+			holder.setList(holderBlocks);
+		}
 
-    ArrayList<BlockHolderModel> output = new ArrayList<BlockHolderModel>();
-    for (int i = 0; i < holders.size(); ++i) {
-      BlockHolderModel holder = holders.get(i);
+		ArrayList<BlockHolderModel> output = new ArrayList<BlockHolderModel>();
+		for (int i = 0; i < holders.size(); ++i) {
+			BlockHolderModel holder = holders.get(i);
 
-      if (holder.getList().size() > 0) {
-        output.add(holder);
-      }
-    }
+			if (holder.getList().size() > 0) {
+				output.add(holder);
+			}
+		}
 
-    return output;
-  }
+		return output;
+	}
 
-  private static boolean containsString(String[] array, String str) {
-    for (int i = 0; i < array.length; ++i) {
-      if (str.equals(array[i])) {
-        return true;
-      }
-    }
-    return false;
-  }
+	private static boolean containsString(String[] array, String str) {
+		for (int i = 0; i < array.length; ++i) {
+			if (str.equals(array[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

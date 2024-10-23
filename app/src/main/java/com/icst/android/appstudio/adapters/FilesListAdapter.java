@@ -44,68 +44,66 @@ import com.icst.android.appstudio.utils.FileIconUtils;
 import java.io.File;
 
 public class FilesListAdapter extends RecyclerView.Adapter<FilesListAdapter.ViewHolder> {
-  private FileManagerActivity activity;
+	private FileManagerActivity activity;
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View view) {
-      super(view);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View view) {
+			super(view);
+		}
+	}
 
-  public FilesListAdapter(FileManagerActivity activity) {
-    this.activity = activity;
-  }
+	public FilesListAdapter(FileManagerActivity activity) {
+		this.activity = activity;
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    View view = AdapterFileBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
-    RecyclerView.LayoutParams layoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(layoutParams);
-    return new ViewHolder(view);
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+		View view = AdapterFileBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
+		RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		view.setLayoutParams(layoutParams);
+		return new ViewHolder(view);
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    File file =
-        new File(
-            activity.getCurrentDir(),
-            activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
-    AdapterFileBinding binding = AdapterFileBinding.bind(holder.itemView);
-    binding.title.setText(activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
-    binding
-        .getRoot()
-        .setOnClickListener(
-            (v) -> {
-              if (new File(
-                      activity.getCurrentDir(),
-                      activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
-                  .isDirectory()) {
-                activity.loadFileList(
-                    new File(
-                        activity.getCurrentDir(),
-                        activity.getFilesMap().get(position).get("lastSegmentOfFilePath")));
-              } else {
-                Intent editor = new Intent(activity, CodeEditorActivity.class);
-                editor.putExtra(
-                    "path",
-                    new File(
-                            activity.getCurrentDir(),
-                            activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
-                        .getAbsolutePath());
-                activity.startActivity(editor);
-              }
-            });
-    if (file.isDirectory()) {
-      binding.icon.setImageResource(R.drawable.ic_folder);
-    } else {
-      binding.icon.setImageDrawable(FileIconUtils.getFileIcon(file, activity));
-    }
-  }
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		File file = new File(
+				activity.getCurrentDir(),
+				activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
+		AdapterFileBinding binding = AdapterFileBinding.bind(holder.itemView);
+		binding.title.setText(activity.getFilesMap().get(position).get("lastSegmentOfFilePath"));
+		binding
+				.getRoot()
+				.setOnClickListener(
+						(v) -> {
+							if (new File(
+									activity.getCurrentDir(),
+									activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
+									.isDirectory()) {
+								activity.loadFileList(
+										new File(
+												activity.getCurrentDir(),
+												activity.getFilesMap().get(position).get("lastSegmentOfFilePath")));
+							} else {
+								Intent editor = new Intent(activity, CodeEditorActivity.class);
+								editor.putExtra(
+										"path",
+										new File(
+												activity.getCurrentDir(),
+												activity.getFilesMap().get(position).get("lastSegmentOfFilePath"))
+												.getAbsolutePath());
+								activity.startActivity(editor);
+							}
+						});
+		if (file.isDirectory()) {
+			binding.icon.setImageResource(R.drawable.ic_folder);
+		} else {
+			binding.icon.setImageDrawable(FileIconUtils.getFileIcon(file, activity));
+		}
+	}
 
-  @Override
-  public int getItemCount() {
-    return activity.getFilesMap().size();
-  }
+	@Override
+	public int getItemCount() {
+		return activity.getFilesMap().size();
+	}
 }

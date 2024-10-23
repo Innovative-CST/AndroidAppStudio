@@ -34,42 +34,42 @@ package com.icst.android.appstudio.models;
 import java.io.Serializable;
 
 public class BuildConfigFieldModel implements Serializable {
-  private static final long serialVersionUID = 021173502L;
+	private static final long serialVersionUID = 021173502L;
 
-  private String fieldName;
-  private String fieldValue;
-  private String fieldDataType;
-  private String fieldImport;
+	private String fieldName;
+	private String fieldValue;
+	private String fieldDataType;
+	private String fieldImport;
 
-  public String getFieldName() {
-    return this.fieldName == null ? "" : this.fieldName;
-  }
+	public String getFieldName() {
+		return this.fieldName == null ? "" : this.fieldName;
+	}
 
-  public void setFieldName(String fieldName) {
-    this.fieldName = fieldName;
-  }
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
 
-  public String getFieldValue() {
-    return this.fieldValue == null ? "" : this.fieldValue;
-  }
+	public String getFieldValue() {
+		return this.fieldValue == null ? "" : this.fieldValue;
+	}
 
-  public void setFieldValue(String fieldValue) {
-    this.fieldValue = fieldValue;
-  }
+	public void setFieldValue(String fieldValue) {
+		this.fieldValue = fieldValue;
+	}
 
-  public String getFieldDataType() {
-    return this.fieldDataType == null ? "" : this.fieldDataType;
-  }
+	public String getFieldDataType() {
+		return this.fieldDataType == null ? "" : this.fieldDataType;
+	}
 
-  public void setFieldDataType(String fieldDataType) {
-    this.fieldDataType = fieldDataType;
-  }
+	public void setFieldDataType(String fieldDataType) {
+		this.fieldDataType = fieldDataType;
+	}
 
-  public String getFieldImport() {
-    return this.fieldImport == null ? "" : this.fieldImport;
-  }
+	public String getFieldImport() {
+		return this.fieldImport == null ? "" : this.fieldImport;
+	}
 
-  public void setFieldImport(String fieldImport) {
-    this.fieldImport = fieldImport;
-  }
+	public void setFieldImport(String fieldImport) {
+		this.fieldImport = fieldImport;
+	}
 }

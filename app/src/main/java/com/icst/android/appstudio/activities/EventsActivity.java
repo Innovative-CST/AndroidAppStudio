@@ -56,181 +56,183 @@ import java.util.concurrent.Executors;
 
 public class EventsActivity extends BaseActivity {
 
-  private ActivityEventsBinding binding;
-  /*
-   * Contains the location of currently selected file model.
-   * For example: /../../Project/100/../abc/FileModel
-   */
-  private File fileModelDirectory;
-  /*
-   * Contains the location of currently loaded event list.
-   * For example: /../../Project/100/../abc/Events
-   */
-  private File eventsDir;
+	private ActivityEventsBinding binding;
+	/*
+	 * Contains the location of currently selected file model.
+	 * For example: /../../Project/100/../abc/FileModel
+	 */
+	private File fileModelDirectory;
+	/*
+	 * Contains the location of currently loaded event list.
+	 * For example: /../../Project/100/../abc/Events
+	 */
+	private File eventsDir;
 
-  private ModuleModel module;
+	private ModuleModel module;
 
-  private MenuItem showSourceCode;
-  private FileModel fileModel;
+	private MenuItem showSourceCode;
+	private FileModel fileModel;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    // Initialize the variables
-    module = new ModuleModel();
-    module.init(
-        getIntent().getStringExtra("module"),
-        new File(getIntent().getStringExtra("projectRootDirectory")));
-    fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
-    eventsDir = new File(fileModelDirectory.getParentFile(), EnvironmentUtils.EVENTS_DIR);
-    binding = ActivityEventsBinding.inflate(getLayoutInflater());
+		// Initialize the variables
+		module = new ModuleModel();
+		module.init(
+				getIntent().getStringExtra("module"),
+				new File(getIntent().getStringExtra("projectRootDirectory")));
+		fileModelDirectory = new File(getIntent().getStringExtra("fileModelDirectory"));
+		eventsDir = new File(fileModelDirectory.getParentFile(), EnvironmentUtils.EVENTS_DIR);
+		binding = ActivityEventsBinding.inflate(getLayoutInflater());
 
-    // Sets the layout of Activity
-    setContentView(binding.getRoot());
+		// Sets the layout of Activity
+		setContentView(binding.getRoot());
 
-    // Handles Toolbar
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		// Handles Toolbar
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    DeserializerUtils.deserialize(
-        fileModelDirectory,
-        new DeserializerUtils.DeserializerListener() {
+		DeserializerUtils.deserialize(
+				fileModelDirectory,
+				new DeserializerUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(Object object) {
-            if (object instanceof FileModel) {
-              fileModel = (FileModel) object;
-            }
-          }
+					@Override
+					public void onSuccessfullyDeserialized(Object object) {
+						if (object instanceof FileModel) {
+							fileModel = (FileModel) object;
+						}
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {}
-        });
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+					}
+				});
 
-    if (fileModel == null) {
-      Toast.makeText(this, R.string.failed_to_deserialize_file_model, Toast.LENGTH_SHORT).show();
-      finish();
-    }
+		if (fileModel == null) {
+			Toast.makeText(this, R.string.failed_to_deserialize_file_model, Toast.LENGTH_SHORT).show();
+			finish();
+		}
 
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              ArrayList<EventHolder> eventHolderList = EventsHolderUtils.getEventHolder(eventsDir);
-              runOnUiThread(
-                  () -> {
-                    // Loading the events
-                    loadEventData(eventHolderList);
-                  });
-            });
-  }
+		Executors.newSingleThreadExecutor()
+				.execute(
+						() -> {
+							ArrayList<EventHolder> eventHolderList = EventsHolderUtils.getEventHolder(eventsDir);
+							runOnUiThread(
+									() -> {
+										// Loading the events
+										loadEventData(eventHolderList);
+									});
+						});
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 
-  /*
-   * Loads the NavigationRail View and Events.
-   */
-  private void loadEventData(ArrayList<EventHolder> eventHolderList) {
-    /*
-     * ** Loads the Navigation menu **
-     * Adds the MenuItem in NavigationRail.
-     * Retreviews the MenuItem Icon from EventHolder.
-     * Set the current fragment if EventList of a Fragment is attached to a FileModel.
-     */
-    for (int position = 0; position < eventHolderList.size(); ++position) {
-      Menu menu = binding.navigationRail.getMenu();
-      MenuItem item =
-          menu.add(Menu.NONE, position, Menu.NONE, eventHolderList.get(position).getHolderName());
-      item.setIcon(getEventHolderIcon(this, eventHolderList.get(position)));
-      if (eventHolderList.get(position).isBuiltInEvents()) {
-        getSupportFragmentManager()
-            .beginTransaction()
-            .replace(
-                R.id.fragment_container,
-                new EventListFragment(
-                    module,
-                    fileModelDirectory,
-                    new File(
-                        eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
-                    eventHolderList.get(position).getDisableNewEvents()))
-            .commit();
-      }
-    }
-    /*
-     * Sets the click listener of NavigationRail.
-     * Treating the MenuItem Id as position of ArrayList
-     * Retreview the FilePath of EventList from EventHolder itself.
-     */
-    binding.navigationRail.setOnItemSelectedListener(
-        (menuItem) -> {
-          int position = menuItem.getItemId();
-          getSupportFragmentManager()
-              .beginTransaction()
-              .replace(
-                  R.id.fragment_container,
-                  new EventListFragment(
-                      module,
-                      fileModelDirectory,
-                      new File(
-                          eventHolderList.get(position).getFilePath(), EnvironmentUtils.EVENTS_DIR),
-                      eventHolderList.get(position).getDisableNewEvents()))
-              .commit();
-          return true;
-        });
-  }
+	/*
+	 * Loads the NavigationRail View and Events.
+	 */
+	private void loadEventData(ArrayList<EventHolder> eventHolderList) {
+		/*
+		 * ** Loads the Navigation menu **
+		 * Adds the MenuItem in NavigationRail.
+		 * Retreviews the MenuItem Icon from EventHolder.
+		 * Set the current fragment if EventList of a Fragment is attached to a
+		 * FileModel.
+		 */
+		for (int position = 0; position < eventHolderList.size(); ++position) {
+			Menu menu = binding.navigationRail.getMenu();
+			MenuItem item = menu.add(Menu.NONE, position, Menu.NONE, eventHolderList.get(position).getHolderName());
+			item.setIcon(getEventHolderIcon(this, eventHolderList.get(position)));
+			if (eventHolderList.get(position).isBuiltInEvents()) {
+				getSupportFragmentManager()
+						.beginTransaction()
+						.replace(
+								R.id.fragment_container,
+								new EventListFragment(
+										module,
+										fileModelDirectory,
+										new File(
+												eventHolderList.get(position).getFilePath(),
+												EnvironmentUtils.EVENTS_DIR),
+										eventHolderList.get(position).getDisableNewEvents()))
+						.commit();
+			}
+		}
+		/*
+		 * Sets the click listener of NavigationRail.
+		 * Treating the MenuItem Id as position of ArrayList
+		 * Retreview the FilePath of EventList from EventHolder itself.
+		 */
+		binding.navigationRail.setOnItemSelectedListener(
+				(menuItem) -> {
+					int position = menuItem.getItemId();
+					getSupportFragmentManager()
+							.beginTransaction()
+							.replace(
+									R.id.fragment_container,
+									new EventListFragment(
+											module,
+											fileModelDirectory,
+											new File(
+													eventHolderList.get(position).getFilePath(),
+													EnvironmentUtils.EVENTS_DIR),
+											eventHolderList.get(position).getDisableNewEvents()))
+							.commit();
+					return true;
+				});
+	}
 
-  public static Drawable getEventHolderIcon(Context context, EventHolder holder) {
-    if (holder.getIcon() != null) {
-      return new BitmapDrawable(
-          context.getResources(),
-          BitmapFactory.decodeByteArray(holder.getIcon(), 0, holder.getIcon().length));
-    }
-    return null;
-  }
+	public static Drawable getEventHolderIcon(Context context, EventHolder holder) {
+		if (holder.getIcon() != null) {
+			return new BitmapDrawable(
+					context.getResources(),
+					BitmapFactory.decodeByteArray(holder.getIcon(), 0, holder.getIcon().length));
+		}
+		return null;
+	}
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.menu_show_code, menu);
-    return true;
-  }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.menu_show_code, menu);
+		return true;
+	}
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    showSourceCode = menu.findItem(R.id.show_source_code);
-    if (fileModel == null) {
-      if (showSourceCode != null) {
-        showSourceCode.setVisible(false);
-      }
-    } else {
-      if (showSourceCode != null) {
-        showSourceCode.setVisible(true);
-      }
-    }
-    return super.onPrepareOptionsMenu(menu);
-  }
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		showSourceCode = menu.findItem(R.id.show_source_code);
+		if (fileModel == null) {
+			if (showSourceCode != null) {
+				showSourceCode.setVisible(false);
+			}
+		} else {
+			if (showSourceCode != null) {
+				showSourceCode.setVisible(true);
+			}
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem menuItem) {
-    if (menuItem.getItemId() == R.id.show_source_code) {
-      if (fileModel != null) {
-        FileModelCodeHelper helper = new FileModelCodeHelper();
-        helper.setFileModel(fileModel);
-        helper.setEventsDirectory(eventsDir);
-        helper.setProjectRootDirectory(module.projectRootDirectory);
-        SourceCodeViewerDialog sourceCodeDialog =
-            new SourceCodeViewerDialog(this, fileModel, helper.getCode());
-        sourceCodeDialog.create().show();
-      }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		if (menuItem.getItemId() == R.id.show_source_code) {
+			if (fileModel != null) {
+				FileModelCodeHelper helper = new FileModelCodeHelper();
+				helper.setFileModel(fileModel);
+				helper.setEventsDirectory(eventsDir);
+				helper.setProjectRootDirectory(module.projectRootDirectory);
+				SourceCodeViewerDialog sourceCodeDialog = new SourceCodeViewerDialog(this, fileModel, helper.getCode());
+				sourceCodeDialog.create().show();
+			}
+		}
 
-    return super.onOptionsItemSelected(menuItem);
-  }
+		return super.onOptionsItemSelected(menuItem);
+	}
 }

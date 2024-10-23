@@ -36,24 +36,24 @@ import com.icst.android.appstudio.models.ProjectModel;
 import java.util.HashMap;
 
 public class PackageNameBlockField extends BlockValueFieldModel {
-  public PackageNameBlockField() {
-    setFieldType(BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY);
-    setEnableEdit(false);
-  }
+	public PackageNameBlockField() {
+		setFieldType(BlockValueFieldModel.FieldType.FIELD_EXTENSION_VIEW_ONLY);
+		setEnableEdit(false);
+	}
 
-  @Override
-  public String getCode(HashMap<String, Object> variables) {
-    if (variables.containsKey("ProjectModel")) {
-      return ((ProjectModel) variables.get("ProjectModel")).getPackageName();
-    }
+	@Override
+	public String getCode(HashMap<String, Object> variables) {
+		if (variables.containsKey("ProjectModel")) {
+			return ((ProjectModel) variables.get("ProjectModel")).getPackageName();
+		}
 
-    return "null";
-  }
+		return "null";
+	}
 
-  @Override
-  public PackageNameBlockField clone() {
-    PackageNameBlockField clone = new PackageNameBlockField();
-    clone.setReplacer(getReplacer() != null ? getReplacer() : null);
-    return clone;
-  }
+	@Override
+	public PackageNameBlockField clone() {
+		PackageNameBlockField clone = new PackageNameBlockField();
+		clone.setReplacer(getReplacer() != null ? getReplacer() : null);
+		return clone;
+	}
 }

@@ -48,180 +48,189 @@ import com.icst.android.appstudio.block.tag.BlockDroppableTag;
 import java.util.ArrayList;
 
 public class NumberView extends LinearLayout {
-  private BlockView numberBlock;
-  private TextView text;
-  private BlockValueFieldModel blockFieldModel;
-  private EventEditor editor;
-  private BlockView blockView;
+	private BlockView numberBlock;
+	private TextView text;
+	private BlockValueFieldModel blockFieldModel;
+	private EventEditor editor;
+	private BlockView blockView;
 
-  public NumberView(
-      Context context,
-      BlockValueFieldModel blockFieldModel,
-      BlockView blockView,
-      ArrayList<LinearLayout> droppables,
-      EventEditor editor,
-      boolean darkMode) {
-    super(context);
-    this.blockFieldModel = blockFieldModel;
-    this.editor = editor;
-    this.blockView = blockView;
-    setGravity(Gravity.CENTER);
-    if (blockFieldModel.getBlockModel() == null) {
-      text = new TextView(context);
-      text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
-      text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-      text.setSingleLine(true);
-      text.setTextColor(Color.BLACK);
-      addView(text);
-      BlockView.setDrawable(this, R.drawable.block_number, Color.parseColor("#ffffff"));
-      setOnClickListener(
-          v -> {
-            if (!blockView.isInsideEditor()) return;
-            if (!blockFieldModel.isEnabledEdit()) return;
-            if (editor == null) return;
-            if (editor.getEvent() != null && !editor.getEvent().getEnableEdit()) return;
-            if (editor.getEvent() != null
-                && !editor.getEvent().getEnableRootBlocksValueEditing()
-                && blockView.isRootBlock()) return;
+	public NumberView(
+			Context context,
+			BlockValueFieldModel blockFieldModel,
+			BlockView blockView,
+			ArrayList<LinearLayout> droppables,
+			EventEditor editor,
+			boolean darkMode) {
+		super(context);
+		this.blockFieldModel = blockFieldModel;
+		this.editor = editor;
+		this.blockView = blockView;
+		setGravity(Gravity.CENTER);
+		if (blockFieldModel.getBlockModel() == null) {
+			text = new TextView(context);
+			text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+			text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+			text.setSingleLine(true);
+			text.setTextColor(Color.BLACK);
+			addView(text);
+			BlockView.setDrawable(this, R.drawable.block_number, Color.parseColor("#ffffff"));
+			setOnClickListener(
+					v -> {
+						if (!blockView.isInsideEditor())
+							return;
+						if (!blockFieldModel.isEnabledEdit())
+							return;
+						if (editor == null)
+							return;
+						if (editor.getEvent() != null && !editor.getEvent().getEnableEdit())
+							return;
+						if (editor.getEvent() != null
+								&& !editor.getEvent().getEnableRootBlocksValueEditing()
+								&& blockView.isRootBlock())
+							return;
 
-            NumericalValueEditorDialog dialog =
-                new NumericalValueEditorDialog(editor, blockFieldModel, NumberView.this);
-          });
-    } else {
-      setBackground(null);
-      numberBlock = new BlockView(editor, context, blockFieldModel.getBlockModel(), darkMode);
-      numberBlock.setInsideEditor(true);
-      numberBlock.setEnableEditing(true);
-      numberBlock.setEnableDragDrop(true);
-      addView(numberBlock);
-    }
+						NumericalValueEditorDialog dialog = new NumericalValueEditorDialog(editor, blockFieldModel,
+								NumberView.this);
+					});
+		} else {
+			setBackground(null);
+			numberBlock = new BlockView(editor, context, blockFieldModel.getBlockModel(), darkMode);
+			numberBlock.setInsideEditor(true);
+			numberBlock.setEnableEditing(true);
+			numberBlock.setEnableDragDrop(true);
+			addView(numberBlock);
+		}
 
-    if (blockFieldModel.isEnabledEdit()) {
-      BlockDroppableTag tag = new BlockDroppableTag();
-      tag.setDropProperty(blockFieldModel);
-      tag.setBlockDroppableType(BlockDroppableTag.BLOCK_NUMBER_DROPPER);
-      setTag(tag);
-      droppables.add(this);
-    }
-  }
+		if (blockFieldModel.isEnabledEdit()) {
+			BlockDroppableTag tag = new BlockDroppableTag();
+			tag.setDropProperty(blockFieldModel);
+			tag.setBlockDroppableType(BlockDroppableTag.BLOCK_NUMBER_DROPPER);
+			setTag(tag);
+			droppables.add(this);
+		}
+	}
 
-  @Override
-  public void addView(View view) {
-    if (view instanceof BlockView) {
-      if (getChildCount() == 1) {
-        if (getChildAt(0) instanceof BlockView oldBlockView) {
-          if (editor != null) {
-            FrameLayout.LayoutParams blockParams =
-                new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+	@Override
+	public void addView(View view) {
+		if (view instanceof BlockView) {
+			if (getChildCount() == 1) {
+				if (getChildAt(0) instanceof BlockView oldBlockView) {
+					if (editor != null) {
+						FrameLayout.LayoutParams blockParams = new FrameLayout.LayoutParams(
+								FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 
-            blockParams.setMargins(
-                editor.binding.canva.getScrollX() - editor.binding.codeEditor.getPaddingStart(),
-                editor.binding.canva.getScrollY() - editor.binding.codeEditor.getPaddingTop(),
-                0,
-                0);
+						blockParams.setMargins(
+								editor.binding.canva.getScrollX() - editor.binding.codeEditor.getPaddingStart(),
+								editor.binding.canva.getScrollY() - editor.binding.codeEditor.getPaddingTop(),
+								0,
+								0);
 
-            if (oldBlockView.getParent() != null) {
-              ((ViewGroup) oldBlockView.getParent()).removeView(oldBlockView);
-            }
+						if (oldBlockView.getParent() != null) {
+							((ViewGroup) oldBlockView.getParent()).removeView(oldBlockView);
+						}
 
-            editor.binding.canva.addView(oldBlockView);
-            oldBlockView.setLayoutParams(blockParams);
-          }
-        }
-      }
-      super.removeAllViews();
-    }
-    if (view instanceof BlockPreview) {
-      if (getChildCount() == 1) {
-        getChildAt(0).setVisibility(View.GONE);
-      }
-    }
-    super.addView(view);
-    ensureFieldBackground();
-    if (view instanceof BlockView) {
-      setNumberBlock((BlockView) view);
-    }
-  }
+						editor.binding.canva.addView(oldBlockView);
+						oldBlockView.setLayoutParams(blockParams);
+					}
+				}
+			}
+			super.removeAllViews();
+		}
+		if (view instanceof BlockPreview) {
+			if (getChildCount() == 1) {
+				getChildAt(0).setVisibility(View.GONE);
+			}
+		}
+		super.addView(view);
+		ensureFieldBackground();
+		if (view instanceof BlockView) {
+			setNumberBlock((BlockView) view);
+		}
+	}
 
-  @Override
-  public void removeView(View view) {
-    super.removeView(view);
-    if (view instanceof BlockPreview) {
-      if (getChildCount() == 1) {
-        getChildAt(0).setVisibility(View.VISIBLE);
-      }
-      if (editor != null) {
-        if (editor.draggingBlock != null) {
-          if (editor.draggingBlock.isInsideEditor()) {
-            editor.draggingBlock.setVisibility(View.GONE);
-          }
-        }
-      }
-    }
-    ensureFieldBackground();
-    if (view instanceof BlockView) {
-      setNumberBlock(null);
-    }
-  }
+	@Override
+	public void removeView(View view) {
+		super.removeView(view);
+		if (view instanceof BlockPreview) {
+			if (getChildCount() == 1) {
+				getChildAt(0).setVisibility(View.VISIBLE);
+			}
+			if (editor != null) {
+				if (editor.draggingBlock != null) {
+					if (editor.draggingBlock.isInsideEditor()) {
+						editor.draggingBlock.setVisibility(View.GONE);
+					}
+				}
+			}
+		}
+		ensureFieldBackground();
+		if (view instanceof BlockView) {
+			setNumberBlock(null);
+		}
+	}
 
-  public void ensureFieldBackground() {
-    boolean hasVisibleChild = false;
-    for (int i = 0; i < getChildCount(); ++i) {
-      if (getChildAt(i).getVisibility() == View.VISIBLE) {
-        if (!(getChildAt(i) instanceof TextView)) {
-          hasVisibleChild = true;
-        }
-      }
-    }
-    if (hasVisibleChild) {
-      setBackground(null);
-    } else {
-      BlockView.setDrawable(this, R.drawable.block_number, Color.parseColor("#ffffff"));
-    }
-  }
+	public void ensureFieldBackground() {
+		boolean hasVisibleChild = false;
+		for (int i = 0; i < getChildCount(); ++i) {
+			if (getChildAt(i).getVisibility() == View.VISIBLE) {
+				if (!(getChildAt(i) instanceof TextView)) {
+					hasVisibleChild = true;
+				}
+			}
+		}
+		if (hasVisibleChild) {
+			setBackground(null);
+		} else {
+			BlockView.setDrawable(this, R.drawable.block_number, Color.parseColor("#ffffff"));
+		}
+	}
 
-  public BlockView getNumberBlock() {
-    return this.numberBlock;
-  }
+	public BlockView getNumberBlock() {
+		return this.numberBlock;
+	}
 
-  public void setNumberBlock(BlockView numberBlock) {
-    this.numberBlock = numberBlock;
-    if (numberBlock != null) {
-      blockFieldModel.setBlockModel(numberBlock.getBlockModel());
-      setOnClickListener(null);
-    } else {
-      setOnClickListener(
-          v -> {
-            if (!blockView.isInsideEditor()) return;
-            if (!blockFieldModel.isEnabledEdit()) return;
-            if (editor == null) return;
-            if (editor.getEvent() != null && !editor.getEvent().getEnableEdit()) return;
-            if (editor.getEvent() != null
-                && !editor.getEvent().getEnableRootBlocksValueEditing()
-                && blockView.isRootBlock()) return;
+	public void setNumberBlock(BlockView numberBlock) {
+		this.numberBlock = numberBlock;
+		if (numberBlock != null) {
+			blockFieldModel.setBlockModel(numberBlock.getBlockModel());
+			setOnClickListener(null);
+		} else {
+			setOnClickListener(
+					v -> {
+						if (!blockView.isInsideEditor())
+							return;
+						if (!blockFieldModel.isEnabledEdit())
+							return;
+						if (editor == null)
+							return;
+						if (editor.getEvent() != null && !editor.getEvent().getEnableEdit())
+							return;
+						if (editor.getEvent() != null
+								&& !editor.getEvent().getEnableRootBlocksValueEditing()
+								&& blockView.isRootBlock())
+							return;
 
-            NumericalValueEditorDialog dialog =
-                new NumericalValueEditorDialog(editor, blockFieldModel, NumberView.this);
-          });
-      blockFieldModel.setBlockModel(null);
-    }
-  }
+						NumericalValueEditorDialog dialog = new NumericalValueEditorDialog(editor, blockFieldModel,
+								NumberView.this);
+					});
+			blockFieldModel.setBlockModel(null);
+		}
+	}
 
-  public void setFieldValue(String value) {
-    blockFieldModel.setValue(value);
-    if (text == null) {
-      text = new TextView(getContext());
-    }
-    if (text.getParent() == null) {
-      text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
-      text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-      text.setSingleLine(true);
-      text.setTextColor(Color.BLACK);
-      addView(text);
-    } else {
-      text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
-    }
-    BlockView.setDrawable(this, R.drawable.block_number, Color.parseColor("#ffffff"));
-  }
+	public void setFieldValue(String value) {
+		blockFieldModel.setValue(value);
+		if (text == null) {
+			text = new TextView(getContext());
+		}
+		if (text.getParent() == null) {
+			text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+			text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+			text.setSingleLine(true);
+			text.setTextColor(Color.BLACK);
+			addView(text);
+		} else {
+			text.setText(blockFieldModel.getValue() != null ? blockFieldModel.getValue() : "");
+		}
+		BlockView.setDrawable(this, R.drawable.block_number, Color.parseColor("#ffffff"));
+	}
 }

@@ -39,20 +39,20 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.SettingUtils;
 
 public class BaseActivity extends AppCompatActivity {
-  /*
-   * BaseActivity contains configration for all activities
-   */
-  @Override
-  protected void onCreate(Bundle bundle) {
-    super.onCreate(bundle);
-    EdgeToEdge.enable(this);
-  }
+	/*
+	 * BaseActivity contains configration for all activities
+	 */
+	@Override
+	protected void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
+		EdgeToEdge.enable(this);
+	}
 
-  public SettingModel getSetting() {
-    SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
-    if (settings == null) {
-      settings = new SettingModel();
-    }
-    return settings;
-  }
+	public SettingModel getSetting() {
+		SettingModel settings = SettingUtils.readSettings(EnvironmentUtils.SETTING_FILE);
+		if (settings == null) {
+			settings = new SettingModel();
+		}
+		return settings;
+	}
 }

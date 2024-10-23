@@ -35,12 +35,12 @@ import com.icst.android.appstudio.beans.DatatypeBean;
 
 public final class BlockBeanUtils {
 
-  public static boolean arrayContainsDatatypeBeans(DatatypeBean[] array, DatatypeBean datatype) {
-    for (DatatypeBean datatypeBeans : array) {
-      if (datatypeBeans.equals(datatype)) {
-        return true;
-      }
-    }
-    return false;
-  }
+	public static boolean arrayContainsDatatypeBeans(DatatypeBean[] array, DatatypeBean datatype) {
+		for (DatatypeBean datatypeBeans : array) {
+			if (datatypeBeans.equals(datatype)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

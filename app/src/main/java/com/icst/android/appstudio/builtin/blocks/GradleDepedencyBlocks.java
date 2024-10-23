@@ -43,157 +43,157 @@ import com.icst.android.appstudio.builtin.blockfield.PackageNameBlockField;
 import java.util.ArrayList;
 
 public class GradleDepedencyBlocks {
-  public static ArrayList<BlockHolderModel> getGradleDepedencyBlocks() {
-    ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
-    BlockHolderModel holder = new BlockHolderModel();
-    holder.setColor("#E27625");
-    holder.setName("dependency");
+	public static ArrayList<BlockHolderModel> getGradleDepedencyBlocks() {
+		ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
+		BlockHolderModel holder = new BlockHolderModel();
+		holder.setColor("#E27625");
+		holder.setName("dependency");
 
-    ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
-    dependencyBlocksList.add(getImplementationBlock(true, true, null));
+		ArrayList<Object> dependencyBlocksList = new ArrayList<Object>();
+		dependencyBlocksList.add(getImplementationBlock(true, true, null));
 
-    holder.setList(dependencyBlocksList);
+		holder.setList(dependencyBlocksList);
 
-    holders.add(holder);
-    return holders;
-  }
+		holders.add(holder);
+		return holders;
+	}
 
-  public static ArrayList<BlockHolderModel> getGradleAndroidBlocks() {
-    ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
-    BlockHolderModel holder = new BlockHolderModel();
-    holder.setColor("#1B0B54");
-    holder.setName("Android");
+	public static ArrayList<BlockHolderModel> getGradleAndroidBlocks() {
+		ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
+		BlockHolderModel holder = new BlockHolderModel();
+		holder.setColor("#1B0B54");
+		holder.setName("Android");
 
-    ArrayList<Object> androidBlocksList = new ArrayList<Object>();
+		ArrayList<Object> androidBlocksList = new ArrayList<Object>();
 
-    androidBlocksList.add(getNameSpaceBlock(true, null));
+		androidBlocksList.add(getNameSpaceBlock(true, null));
 
-    holder.setList(androidBlocksList);
+		holder.setList(androidBlocksList);
 
-    holders.add(holder);
-    return holders;
-  }
+		holders.add(holder);
+		return holders;
+	}
 
-  public static BlockModel getNameSpaceBlock(boolean allowDrag, String nameSpace) {
-    BlockModel block = new BlockModel();
-    block.setBlockType(BlockModel.Type.defaultBlock);
-    block.setColor("#0061FE");
-    block.setReplacerKey("namespaceBlock");
-    block.setDragAllowed(allowDrag);
+	public static BlockModel getNameSpaceBlock(boolean allowDrag, String nameSpace) {
+		BlockModel block = new BlockModel();
+		block.setBlockType(BlockModel.Type.defaultBlock);
+		block.setColor("#0061FE");
+		block.setReplacerKey("namespaceBlock");
+		block.setDragAllowed(allowDrag);
 
-    StringBuilder rawCode = new StringBuilder();
-    rawCode.append("namespace \"");
-    rawCode.append(RawCodeReplacer.getReplacer(block.getReplacerKey(), "namespace"));
-    rawCode.append("\"");
+		StringBuilder rawCode = new StringBuilder();
+		rawCode.append("namespace \"");
+		rawCode.append(RawCodeReplacer.getReplacer(block.getReplacerKey(), "namespace"));
+		rawCode.append("\"");
 
-    block.setRawCode(rawCode.toString());
+		block.setRawCode(rawCode.toString());
 
-    ArrayList<BlockLayerModel> blockLayers = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> blockLayers = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel layer1 = new BlockFieldLayerModel();
+		BlockFieldLayerModel layer1 = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> layer1Fields = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> layer1Fields = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel nameSpaceText = new BlockFieldModel();
-    nameSpaceText.setValue("namespace");
+		BlockFieldModel nameSpaceText = new BlockFieldModel();
+		nameSpaceText.setValue("namespace");
 
-    PackageNameBlockField inputNameSpaceField = new PackageNameBlockField();
-    inputNameSpaceField.setReplacer("namespace");
-    if (nameSpace != null) {
-      inputNameSpaceField.setValue(nameSpace);
-    }
+		PackageNameBlockField inputNameSpaceField = new PackageNameBlockField();
+		inputNameSpaceField.setReplacer("namespace");
+		if (nameSpace != null) {
+			inputNameSpaceField.setValue(nameSpace);
+		}
 
-    layer1Fields.add(nameSpaceText);
-    layer1Fields.add(inputNameSpaceField);
+		layer1Fields.add(nameSpaceText);
+		layer1Fields.add(inputNameSpaceField);
 
-    layer1.setBlockFields(layer1Fields);
-    blockLayers.add(layer1);
-    block.setBlockLayerModel(blockLayers);
-    return block;
-  }
+		layer1.setBlockFields(layer1Fields);
+		blockLayers.add(layer1);
+		block.setBlockLayerModel(blockLayers);
+		return block;
+	}
 
-  public static BlockModel getImplementationBlock(
-      boolean allowDrag, boolean allowLibraryChange, String libraryValue) {
-    BlockModel implementationBlock = new BlockModel();
-    implementationBlock.setBlockType(BlockModel.Type.defaultBlock);
-    implementationBlock.setColor("#E27625");
-    implementationBlock.setRawCode("implementation");
-    implementationBlock.setReplacerKey("implementationBlock");
-    implementationBlock.setDragAllowed(allowDrag);
+	public static BlockModel getImplementationBlock(
+			boolean allowDrag, boolean allowLibraryChange, String libraryValue) {
+		BlockModel implementationBlock = new BlockModel();
+		implementationBlock.setBlockType(BlockModel.Type.defaultBlock);
+		implementationBlock.setColor("#E27625");
+		implementationBlock.setRawCode("implementation");
+		implementationBlock.setReplacerKey("implementationBlock");
+		implementationBlock.setDragAllowed(allowDrag);
 
-    StringBuilder rawCode = new StringBuilder();
-    rawCode.append("implementation \"");
-    rawCode.append(RawCodeReplacer.getReplacer(implementationBlock.getReplacerKey(), "library"));
-    rawCode.append("\"");
+		StringBuilder rawCode = new StringBuilder();
+		rawCode.append("implementation \"");
+		rawCode.append(RawCodeReplacer.getReplacer(implementationBlock.getReplacerKey(), "library"));
+		rawCode.append("\"");
 
-    implementationBlock.setRawCode(rawCode.toString());
+		implementationBlock.setRawCode(rawCode.toString());
 
-    ArrayList<BlockLayerModel> implementationBlockLayers = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> implementationBlockLayers = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel implementationBlockLayer1 = new BlockFieldLayerModel();
+		BlockFieldLayerModel implementationBlockLayer1 = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> implementationBlockLayer1Fields = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> implementationBlockLayer1Fields = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel implementationText = new BlockFieldModel();
-    implementationText.setValue("implementation");
+		BlockFieldModel implementationText = new BlockFieldModel();
+		implementationText.setValue("implementation");
 
-    BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
-    inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
-    inputDependencyField.setReplacer("library");
-    inputDependencyField.setEnableEdit(allowLibraryChange);
-    if (libraryValue != null) {
-      inputDependencyField.setValue(libraryValue);
-    }
+		BlockValueFieldModel inputDependencyField = new BlockValueFieldModel();
+		inputDependencyField.setFieldType(BlockValueFieldModel.FieldType.FIELD_INPUT_ONLY);
+		inputDependencyField.setReplacer("library");
+		inputDependencyField.setEnableEdit(allowLibraryChange);
+		if (libraryValue != null) {
+			inputDependencyField.setValue(libraryValue);
+		}
 
-    implementationBlockLayer1Fields.add(implementationText);
-    implementationBlockLayer1Fields.add(inputDependencyField);
+		implementationBlockLayer1Fields.add(implementationText);
+		implementationBlockLayer1Fields.add(inputDependencyField);
 
-    implementationBlockLayer1.setBlockFields(implementationBlockLayer1Fields);
+		implementationBlockLayer1.setBlockFields(implementationBlockLayer1Fields);
 
-    implementationBlockLayers.add(implementationBlockLayer1);
+		implementationBlockLayers.add(implementationBlockLayer1);
 
-    implementationBlock.setBlockLayerModel(implementationBlockLayers);
+		implementationBlock.setBlockLayerModel(implementationBlockLayers);
 
-    return implementationBlock;
-  }
+		return implementationBlock;
+	}
 
-  public static BlockModel getDefaultConfigBlock(boolean allowDrag) {
-    BlockModel defaultConfigBlock = new BlockModel();
-    defaultConfigBlock.setBlockType(BlockModel.Type.defaultBlock);
-    defaultConfigBlock.setColor("#4759B8");
-    defaultConfigBlock.setReplacerKey("defaultConfigBlock");
-    defaultConfigBlock.setDragAllowed(allowDrag);
+	public static BlockModel getDefaultConfigBlock(boolean allowDrag) {
+		BlockModel defaultConfigBlock = new BlockModel();
+		defaultConfigBlock.setBlockType(BlockModel.Type.defaultBlock);
+		defaultConfigBlock.setColor("#4759B8");
+		defaultConfigBlock.setReplacerKey("defaultConfigBlock");
+		defaultConfigBlock.setDragAllowed(allowDrag);
 
-    StringBuilder rawCode = new StringBuilder();
-    rawCode.append("defaultConfig {\n\t");
-    rawCode.append(RawCodeReplacer.getReplacer(defaultConfigBlock.getReplacerKey(), "config"));
-    rawCode.append("\n}");
+		StringBuilder rawCode = new StringBuilder();
+		rawCode.append("defaultConfig {\n\t");
+		rawCode.append(RawCodeReplacer.getReplacer(defaultConfigBlock.getReplacerKey(), "config"));
+		rawCode.append("\n}");
 
-    defaultConfigBlock.setRawCode(rawCode.toString());
+		defaultConfigBlock.setRawCode(rawCode.toString());
 
-    ArrayList<BlockLayerModel> defaultConfigBlockLayers = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> defaultConfigBlockLayers = new ArrayList<BlockLayerModel>();
 
-    // Layer 1st
-    BlockFieldLayerModel defaultConfigBlockLayer1 = new BlockFieldLayerModel();
+		// Layer 1st
+		BlockFieldLayerModel defaultConfigBlockLayer1 = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> defaultConfigBlockLayer1Fields = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> defaultConfigBlockLayer1Fields = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel defaultConfigText = new BlockFieldModel();
-    defaultConfigText.setValue("defaultConfig");
+		BlockFieldModel defaultConfigText = new BlockFieldModel();
+		defaultConfigText.setValue("defaultConfig");
 
-    defaultConfigBlockLayer1Fields.add(defaultConfigText);
+		defaultConfigBlockLayer1Fields.add(defaultConfigText);
 
-    defaultConfigBlockLayer1.setBlockFields(defaultConfigBlockLayer1Fields);
+		defaultConfigBlockLayer1.setBlockFields(defaultConfigBlockLayer1Fields);
 
-    // Layer 2nd
-    BlockHolderLayer defaultConfigBlockLayer2 = new BlockHolderLayer();
-    defaultConfigBlockLayer2.setReplacer("config");
+		// Layer 2nd
+		BlockHolderLayer defaultConfigBlockLayer2 = new BlockHolderLayer();
+		defaultConfigBlockLayer2.setReplacer("config");
 
-    defaultConfigBlockLayers.add(defaultConfigBlockLayer1);
-    defaultConfigBlockLayers.add(defaultConfigBlockLayer2);
+		defaultConfigBlockLayers.add(defaultConfigBlockLayer1);
+		defaultConfigBlockLayers.add(defaultConfigBlockLayer2);
 
-    defaultConfigBlock.setBlockLayerModel(defaultConfigBlockLayers);
+		defaultConfigBlock.setBlockLayerModel(defaultConfigBlockLayers);
 
-    return defaultConfigBlock;
-  }
+		return defaultConfigBlock;
+	}
 }

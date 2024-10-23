@@ -36,15 +36,15 @@ import com.icst.android.appstudio.helper.ProjectCodeBuildProgress;
 
 public interface ProjectCodeBuildListener {
 
-  void onBuildStart();
+	void onBuildStart();
 
-  void onBuildComplete(long buildTime);
+	void onBuildComplete(long buildTime);
 
-  void onBuildProgress(ProjectCodeBuildProgress progress);
+	void onBuildProgress(ProjectCodeBuildProgress progress);
 
-  void onBuildProgressLog(String log);
+	void onBuildProgressLog(String log);
 
-  void onBuildCancelled();
+	void onBuildCancelled();
 
-  void onBuildFailed(ProjectCodeBuildException e);
+	void onBuildFailed(ProjectCodeBuildException e);
 }

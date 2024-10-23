@@ -42,29 +42,28 @@ import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.viewmodel.ActionButton;
 
 public class ActionButtonView extends LinearLayout {
-  public ActionButtonView(Context context, ActionButton actionButton) {
-    super(context);
-    setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ripple_on_color_surface));
-    setOnClickListener(
-        v -> {
-          actionButton.onClick();
-        });
-    setOrientation(VERTICAL);
-    setGravity(Gravity.CENTER);
-    setPadding(8, 8, 8, 8);
-    ImageView icon = new ImageView(context);
-    icon.setImageDrawable(ContextCompat.getDrawable(context, actionButton.getIcon()));
-    addView(icon);
+	public ActionButtonView(Context context, ActionButton actionButton) {
+		super(context);
+		setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ripple_on_color_surface));
+		setOnClickListener(
+				v -> {
+					actionButton.onClick();
+				});
+		setOrientation(VERTICAL);
+		setGravity(Gravity.CENTER);
+		setPadding(8, 8, 8, 8);
+		ImageView icon = new ImageView(context);
+		icon.setImageDrawable(ContextCompat.getDrawable(context, actionButton.getIcon()));
+		addView(icon);
 
-    LinearLayout.LayoutParams lp =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-    TextView text = new TextView(context);
-    text.setText(actionButton.getText());
-    text.setTextColor(
-        ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorOnSurface));
-    addView(text);
-    text.setLayoutParams(lp);
-  }
+		TextView text = new TextView(context);
+		text.setText(actionButton.getText());
+		text.setTextColor(
+				ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorOnSurface));
+		addView(text);
+		text.setLayoutParams(lp);
+	}
 }

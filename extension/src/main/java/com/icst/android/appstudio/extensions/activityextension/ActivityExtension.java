@@ -34,12 +34,12 @@ package com.icst.android.appstudio.extensions.activityextension;
 import com.icst.android.appstudio.models.ExtensionBundle;
 
 public class ActivityExtension {
-  public static ExtensionBundle getExtensionBundle() {
-    ExtensionBundle extension = new ExtensionBundle();
-    extension.setName("Activity Extension");
-    extension.setVersion(2);
-    extension.setEvents(ActivityEvents.getAllEvents());
-    extension.setEventHolders(ActivityEventHolders.getHolders());
-    return extension;
-  }
+	public static ExtensionBundle getExtensionBundle() {
+		ExtensionBundle extension = new ExtensionBundle();
+		extension.setName("Activity Extension");
+		extension.setVersion(2);
+		extension.setEvents(ActivityEvents.getAllEvents());
+		extension.setEventHolders(ActivityEventHolders.getHolders());
+		return extension;
+	}
 }

@@ -18,15 +18,15 @@
 package com.icst.editor.tools;
 
 public class Language {
-  public static final String Java = "java";
-  public static final String Kt = "kt";
-  public static final String JavaScript = "js";
-  public static final String HTML = "html";
-  public static final String CSS = "css";
-  public static final String XML = "xml";
-  public static final String Markdown = "md";
-  public static final String JSON = "json";
-  public static final String GRADLE = "gradle";
-  public static final String SHELLSCRIPT = "sh";
-  public static final String UNKNOWN = "Unknown";
+	public static final String Java = "java";
+	public static final String Kt = "kt";
+	public static final String JavaScript = "js";
+	public static final String HTML = "html";
+	public static final String CSS = "css";
+	public static final String XML = "xml";
+	public static final String Markdown = "md";
+	public static final String JSON = "json";
+	public static final String GRADLE = "gradle";
+	public static final String SHELLSCRIPT = "sh";
+	public static final String UNKNOWN = "Unknown";
 }

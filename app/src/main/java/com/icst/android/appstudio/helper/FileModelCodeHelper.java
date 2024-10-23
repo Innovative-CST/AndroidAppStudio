@@ -31,7 +31,6 @@
 
 package com.icst.android.appstudio.helper;
 
-import com.icst.android.appstudio.activities.ProjectManagerActivity;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.EventGroupModel;
 import com.icst.android.appstudio.block.model.FileModel;
@@ -49,235 +48,257 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileModelCodeHelper {
-  private File eventsDirectory;
-  private FileModel fileModel;
-  private File projectRootDirectory;
-  private ModuleModel module;
+	private File eventsDirectory;
+	private FileModel fileModel;
+	private File projectRootDirectory;
+	private ModuleModel module;
 
-  public File getEventsDirectory() {
-    return this.eventsDirectory;
-  }
+	public File getEventsDirectory() {
+		return this.eventsDirectory;
+	}
 
-  public void setEventsDirectory(File eventsDirectory) {
-    this.eventsDirectory = eventsDirectory;
-  }
+	public void setEventsDirectory(File eventsDirectory) {
+		this.eventsDirectory = eventsDirectory;
+	}
 
-  public FileModel getFileModel() {
-    return this.fileModel;
-  }
+	public FileModel getFileModel() {
+		return this.fileModel;
+	}
 
-  public void setFileModel(FileModel fileModel) {
-    this.fileModel = fileModel;
-  }
+	public void setFileModel(FileModel fileModel) {
+		this.fileModel = fileModel;
+	}
 
-  public File getProjectRootDirectory() {
-    return this.projectRootDirectory;
-  }
+	public File getProjectRootDirectory() {
+		return this.projectRootDirectory;
+	}
 
-  public void setProjectRootDirectory(File projectRootDirectory) {
-    this.projectRootDirectory = projectRootDirectory;
-  }
+	public void setProjectRootDirectory(File projectRootDirectory) {
+		this.projectRootDirectory = projectRootDirectory;
+	}
 
-  public ModuleModel getModule() {
-    return this.module;
-  }
+	public ModuleModel getModule() {
+		return this.module;
+	}
 
-  public void setModule(ModuleModel module) {
-    this.module = module;
-  }
+	public void setModule(ModuleModel module) {
+		this.module = module;
+	}
 
-  public String getCode() {
-    ArrayList<Object> builtInEvents = null;
-    ArrayList<Object> dirEvents = new ArrayList<Object>();
+	public String getCode() {
+		ArrayList<Object> builtInEvents = null;
+		ArrayList<Object> dirEvents = new ArrayList<Object>();
 
-    if (fileModel == null) return null;
-    if (eventsDirectory == null) return null;
-    if (eventsDirectory.isFile()) return null;
+		if (fileModel == null)
+			return null;
+		if (eventsDirectory == null)
+			return null;
+		if (eventsDirectory.isFile())
+			return null;
 
-    if (eventsDirectory.exists()) {
+		if (eventsDirectory.exists()) {
 
-      for (File file : eventsDirectory.listFiles()) {
-        if (file.isFile()) continue;
+			for (File file : eventsDirectory.listFiles()) {
+				if (file.isFile())
+					continue;
 
-        File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+				File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
 
-        if (!eventsHolderFile.exists()) continue;
+				if (!eventsHolderFile.exists())
+					continue;
 
-        EventHolder holder = null;
+				EventHolder holder = null;
 
-        Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+				Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
 
-        if (deserializedObject == null) continue;
+				if (deserializedObject == null)
+					continue;
 
-        if (!(deserializedObject instanceof EventHolder)) continue;
+				if (!(deserializedObject instanceof EventHolder))
+					continue;
 
-        holder = (EventHolder) deserializedObject;
+				holder = (EventHolder) deserializedObject;
 
-        if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
-          builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
-        } else {
-          ArrayList<Object> extraEvents =
-              EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+				if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+					builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+				} else {
+					ArrayList<Object> extraEvents = EventUtils
+							.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
 
-          for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
-            if (extraEvents.get(extraEventCount) instanceof Event) {
-              dirEvents.add((Event) extraEvents.get(extraEventCount));
-            } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
-              dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
-            }
-          }
-        }
-      }
-    }
+					for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+						if (extraEvents.get(extraEventCount) instanceof Event) {
+							dirEvents.add((Event) extraEvents.get(extraEventCount));
+						} else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+							dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+						}
+					}
+				}
+			}
+		}
 
-    HashMap<String, Object> variables = new HashMap<String, Object>();
+		HashMap<String, Object> variables = new HashMap<String, Object>();
 
-    File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
-    DeserializerUtils.deserialize(
-        projectConfig,
-        new DeserializerUtils.DeserializerListener() {
+		File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
+		DeserializerUtils.deserialize(
+				projectConfig,
+				new DeserializerUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(Object deserializedObject) {
-            if (deserializedObject instanceof ProjectModel) {
-              variables.put("ProjectModel", (ProjectModel) deserializedObject);
-            }
-          }
+					@Override
+					public void onSuccessfullyDeserialized(Object deserializedObject) {
+						if (deserializedObject instanceof ProjectModel) {
+							variables.put("ProjectModel", (ProjectModel) deserializedObject);
+						}
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {}
-        });
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+					}
+				});
 
-    return fileModel.getCode(builtInEvents, dirEvents, variables);
-  }
+		return fileModel.getCode(builtInEvents, dirEvents, variables);
+	}
 
-  public String getCode(String packageName, File instanceVariablesDir, File staticVariableDir) {
-    ArrayList<Object> builtInEvents = null;
-    ArrayList<Object> dirEvents = new ArrayList<Object>();
+	public String getCode(String packageName, File instanceVariablesDir, File staticVariableDir) {
+		ArrayList<Object> builtInEvents = null;
+		ArrayList<Object> dirEvents = new ArrayList<Object>();
 
-    if (fileModel == null) return null;
-    if (eventsDirectory == null) return null;
-    if (eventsDirectory.isFile()) return null;
+		if (fileModel == null)
+			return null;
+		if (eventsDirectory == null)
+			return null;
+		if (eventsDirectory.isFile())
+			return null;
 
-    if (eventsDirectory.exists()) {
+		if (eventsDirectory.exists()) {
 
-      for (File file : eventsDirectory.listFiles()) {
-        if (file.isFile()) continue;
+			for (File file : eventsDirectory.listFiles()) {
+				if (file.isFile())
+					continue;
 
-        File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+				File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
 
-        if (!eventsHolderFile.exists()) continue;
+				if (!eventsHolderFile.exists())
+					continue;
 
-        EventHolder holder = null;
+				EventHolder holder = null;
 
-        Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+				Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
 
-        if (deserializedObject == null) continue;
+				if (deserializedObject == null)
+					continue;
 
-        if (!(deserializedObject instanceof EventHolder)) continue;
+				if (!(deserializedObject instanceof EventHolder))
+					continue;
 
-        holder = (EventHolder) deserializedObject;
+				holder = (EventHolder) deserializedObject;
 
-        if (fileModel.getBuiltInEventsName() != null) {
-          if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
-            builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
-          }
-        } else {
-          ArrayList<Object> extraEvents =
-              EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+				if (fileModel.getBuiltInEventsName() != null) {
+					if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+						builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+					}
+				} else {
+					ArrayList<Object> extraEvents = EventUtils
+							.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
 
-          for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
-            if (extraEvents.get(extraEventCount) instanceof Event) {
-              dirEvents.add((Event) extraEvents.get(extraEventCount));
-            } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
-              dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
-            }
-          }
-        }
-      }
-    }
+					for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+						if (extraEvents.get(extraEventCount) instanceof Event) {
+							dirEvents.add((Event) extraEvents.get(extraEventCount));
+						} else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+							dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+						}
+					}
+				}
+			}
+		}
 
-    HashMap<String, Object> variables = new HashMap<String, Object>();
+		HashMap<String, Object> variables = new HashMap<String, Object>();
 
-    File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
-    DeserializerUtils.deserialize(
-        projectConfig,
-        new DeserializerUtils.DeserializerListener() {
+		File projectConfig = new File(getProjectRootDirectory(), EnvironmentUtils.PROJECT_CONFIGRATION);
+		DeserializerUtils.deserialize(
+				projectConfig,
+				new DeserializerUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(Object deserializedObject) {
-            if (deserializedObject instanceof ProjectModel) {
-              variables.put("ProjectModel", (ProjectModel) deserializedObject);
-            }
-          }
+					@Override
+					public void onSuccessfullyDeserialized(Object deserializedObject) {
+						if (deserializedObject instanceof ProjectModel) {
+							variables.put("ProjectModel", (ProjectModel) deserializedObject);
+						}
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {}
-        });
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+					}
+				});
 
-    ArrayList<VariableModel> instanceVariables =
-        DeserializerUtils.deserialize(instanceVariablesDir, ArrayList.class);
+		ArrayList<VariableModel> instanceVariables = DeserializerUtils.deserialize(instanceVariablesDir,
+				ArrayList.class);
 
-    ArrayList<VariableModel> staticVariables =
-        DeserializerUtils.deserialize(staticVariableDir, ArrayList.class);
+		ArrayList<VariableModel> staticVariables = DeserializerUtils.deserialize(staticVariableDir, ArrayList.class);
 
-    return ((JavaFileModel) fileModel)
-        .getCode(
-            packageName,
-            new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), "layout"),
-            builtInEvents,
-            dirEvents,
-            instanceVariables,
-            staticVariables,
-            variables);
-  }
+		return ((JavaFileModel) fileModel)
+				.getCode(
+						packageName,
+						new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), "layout"),
+						builtInEvents,
+						dirEvents,
+						instanceVariables,
+						staticVariables,
+						variables);
+	}
 
-  public ArrayList<DependencyTag> getUsedDependency() {
-    ArrayList<Object> builtInEvents = null;
-    ArrayList<Object> dirEvents = new ArrayList<Object>();
+	public ArrayList<DependencyTag> getUsedDependency() {
+		ArrayList<Object> builtInEvents = null;
+		ArrayList<Object> dirEvents = new ArrayList<Object>();
 
-    if (fileModel == null) return null;
-    if (eventsDirectory == null) return null;
-    if (eventsDirectory.isFile()) return null;
+		if (fileModel == null)
+			return null;
+		if (eventsDirectory == null)
+			return null;
+		if (eventsDirectory.isFile())
+			return null;
 
-    if (eventsDirectory.exists()) {
+		if (eventsDirectory.exists()) {
 
-      for (File file : eventsDirectory.listFiles()) {
-        if (file.isFile()) continue;
+			for (File file : eventsDirectory.listFiles()) {
+				if (file.isFile())
+					continue;
 
-        File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
+				File eventsHolderFile = new File(file, EnvironmentUtils.EVENTS_HOLDER);
 
-        if (!eventsHolderFile.exists()) continue;
+				if (!eventsHolderFile.exists())
+					continue;
 
-        EventHolder holder = null;
+				EventHolder holder = null;
 
-        Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
+				Object deserializedObject = DeserializerUtils.deserialize(eventsHolderFile);
 
-        if (deserializedObject == null) continue;
+				if (deserializedObject == null)
+					continue;
 
-        if (!(deserializedObject instanceof EventHolder)) continue;
+				if (!(deserializedObject instanceof EventHolder))
+					continue;
 
-        holder = (EventHolder) deserializedObject;
+				holder = (EventHolder) deserializedObject;
 
-        if (fileModel.getBuiltInEventsName() != null) {
-          if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
-            builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
-          }
-        } else {
-          ArrayList<Object> extraEvents =
-              EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+				if (fileModel.getBuiltInEventsName() != null) {
+					if (fileModel.getBuiltInEventsName().equals(holder.getHolderName())) {
+						builtInEvents = EventUtils.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
+					}
+				} else {
+					ArrayList<Object> extraEvents = EventUtils
+							.getEventsObject(new File(file, EnvironmentUtils.EVENTS_DIR));
 
-          for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
-            if (extraEvents.get(extraEventCount) instanceof Event) {
-              dirEvents.add((Event) extraEvents.get(extraEventCount));
-            } else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
-              dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
-            }
-          }
-        }
-      }
-    }
+					for (int extraEventCount = 0; extraEventCount < extraEvents.size(); ++extraEventCount) {
+						if (extraEvents.get(extraEventCount) instanceof Event) {
+							dirEvents.add((Event) extraEvents.get(extraEventCount));
+						} else if (extraEvents.get(extraEventCount) instanceof EventGroupModel) {
+							dirEvents.add((EventGroupModel) extraEvents.get(extraEventCount));
+						}
+					}
+				}
+			}
+		}
 
-    return ((JavaFileModel) fileModel).getUsedDependency(builtInEvents, dirEvents);
-  }
+		return ((JavaFileModel) fileModel).getUsedDependency(builtInEvents, dirEvents);
+	}
 }

@@ -32,76 +32,76 @@
 package com.icst.android.appstudio.beans;
 
 public class EventBean {
-  private String name;
-  private String title;
-  private String description;
-  private String abstractCode;
-  private EventBlockBean eventDefinationBlockBean;
-  private DatatypeBean[] importClasses;
-  private String holderName;
-  private byte[] icon;
+	private String name;
+	private String title;
+	private String description;
+	private String abstractCode;
+	private EventBlockBean eventDefinationBlockBean;
+	private DatatypeBean[] importClasses;
+	private String holderName;
+	private byte[] icon;
 
-  public String getName() {
-    return this.name;
-  }
+	public String getName() {
+		return this.name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getTitle() {
-    return this.title;
-  }
+	public String getTitle() {
+		return this.title;
+	}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public String getDescription() {
-    return this.description;
-  }
+	public String getDescription() {
+		return this.description;
+	}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-  public String getAbstractCode() {
-    return this.abstractCode;
-  }
+	public String getAbstractCode() {
+		return this.abstractCode;
+	}
 
-  public void setAbstractCode(String abstractCode) {
-    this.abstractCode = abstractCode;
-  }
+	public void setAbstractCode(String abstractCode) {
+		this.abstractCode = abstractCode;
+	}
 
-  public EventBlockBean getEventDefinationBlockBean() {
-    return this.eventDefinationBlockBean;
-  }
+	public EventBlockBean getEventDefinationBlockBean() {
+		return this.eventDefinationBlockBean;
+	}
 
-  public void setEventDefinationBlockBean(EventBlockBean eventDefinationBlockBean) {
-    this.eventDefinationBlockBean = eventDefinationBlockBean;
-  }
+	public void setEventDefinationBlockBean(EventBlockBean eventDefinationBlockBean) {
+		this.eventDefinationBlockBean = eventDefinationBlockBean;
+	}
 
-  public DatatypeBean[] getImportClasses() {
-    return this.importClasses;
-  }
+	public DatatypeBean[] getImportClasses() {
+		return this.importClasses;
+	}
 
-  public void setImportClasses(DatatypeBean[] importClasses) {
-    this.importClasses = importClasses;
-  }
+	public void setImportClasses(DatatypeBean[] importClasses) {
+		this.importClasses = importClasses;
+	}
 
-  public String getHolderName() {
-    return this.holderName;
-  }
+	public String getHolderName() {
+		return this.holderName;
+	}
 
-  public void setHolderName(String holderName) {
-    this.holderName = holderName;
-  }
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
 
-  public byte[] getIcon() {
-    return this.icon;
-  }
+	public byte[] getIcon() {
+		return this.icon;
+	}
 
-  public void setIcon(byte[] icon) {
-    this.icon = icon;
-  }
+	public void setIcon(byte[] icon) {
+		this.icon = icon;
+	}
 }

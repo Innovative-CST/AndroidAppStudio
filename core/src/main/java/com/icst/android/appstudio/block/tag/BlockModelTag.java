@@ -31,101 +31,100 @@
 
 package com.icst.android.appstudio.block.tag;
 
-import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
 import com.icst.android.appstudio.block.utils.ArrayUtils;
 import java.io.Serializable;
 
 public class BlockModelTag implements Serializable {
-  public static final long serialVersionUID = 13L;
+	public static final long serialVersionUID = 13L;
 
-  public String[] supportedFileExtensions;
-  public String[] notSupportedFileExtensions;
-  public String[] supportedEvents;
-  public String[] notSupportedEvents;
-  public AdditionalCodeHelperTag[] additionalTags;
-  public boolean showInAllBlocksDeveloperMode;
-  public boolean isForDeveloperOnly;
+	public String[] supportedFileExtensions;
+	public String[] notSupportedFileExtensions;
+	public String[] supportedEvents;
+	public String[] notSupportedEvents;
+	public AdditionalCodeHelperTag[] additionalTags;
+	public boolean showInAllBlocksDeveloperMode;
+	public boolean isForDeveloperOnly;
 
-  public String[] getSupportedFileExtensions() {
-    return this.supportedFileExtensions;
-  }
+	public String[] getSupportedFileExtensions() {
+		return this.supportedFileExtensions;
+	}
 
-  public void setSupportedFileExtensions(String[] supportedFileExtensions) {
-    this.supportedFileExtensions = supportedFileExtensions;
-  }
+	public void setSupportedFileExtensions(String[] supportedFileExtensions) {
+		this.supportedFileExtensions = supportedFileExtensions;
+	}
 
-  public String[] getNotSupportedFileExtensions() {
-    return this.notSupportedFileExtensions;
-  }
+	public String[] getNotSupportedFileExtensions() {
+		return this.notSupportedFileExtensions;
+	}
 
-  public void setNotSupportedFileExtensions(String[] notSupportedFileExtensions) {
-    this.notSupportedFileExtensions = notSupportedFileExtensions;
-  }
+	public void setNotSupportedFileExtensions(String[] notSupportedFileExtensions) {
+		this.notSupportedFileExtensions = notSupportedFileExtensions;
+	}
 
-  public String[] getSupportedEvents() {
-    return this.supportedEvents;
-  }
+	public String[] getSupportedEvents() {
+		return this.supportedEvents;
+	}
 
-  public void setSupportedEvents(String[] supportedEvents) {
-    this.supportedEvents = supportedEvents;
-  }
+	public void setSupportedEvents(String[] supportedEvents) {
+		this.supportedEvents = supportedEvents;
+	}
 
-  public String[] getNotSupportedEvents() {
-    return this.notSupportedEvents;
-  }
+	public String[] getNotSupportedEvents() {
+		return this.notSupportedEvents;
+	}
 
-  public void setNotSupportedEvents(String[] notSupportedEvents) {
-    this.notSupportedEvents = notSupportedEvents;
-  }
+	public void setNotSupportedEvents(String[] notSupportedEvents) {
+		this.notSupportedEvents = notSupportedEvents;
+	}
 
-  public AdditionalCodeHelperTag[] getAdditionalTags() {
-    return this.additionalTags;
-  }
+	public AdditionalCodeHelperTag[] getAdditionalTags() {
+		return this.additionalTags;
+	}
 
-  public void setAdditionalTags(AdditionalCodeHelperTag[] additionalTags) {
-    this.additionalTags = additionalTags;
-  }
+	public void setAdditionalTags(AdditionalCodeHelperTag[] additionalTags) {
+		this.additionalTags = additionalTags;
+	}
 
-  public boolean getShowInAllBlocksDeveloperMode() {
-    return this.showInAllBlocksDeveloperMode;
-  }
+	public boolean getShowInAllBlocksDeveloperMode() {
+		return this.showInAllBlocksDeveloperMode;
+	}
 
-  public void setShowInAllBlocksDeveloperMode(boolean showInAllBlocksDeveloperMode) {
-    this.showInAllBlocksDeveloperMode = showInAllBlocksDeveloperMode;
-  }
+	public void setShowInAllBlocksDeveloperMode(boolean showInAllBlocksDeveloperMode) {
+		this.showInAllBlocksDeveloperMode = showInAllBlocksDeveloperMode;
+	}
 
-  public boolean isForDeveloperOnly() {
-    return this.isForDeveloperOnly;
-  }
+	public boolean isForDeveloperOnly() {
+		return this.isForDeveloperOnly;
+	}
 
-  public void setForDeveloperOnly(boolean isForDeveloperOnly) {
-    this.isForDeveloperOnly = isForDeveloperOnly;
-  }
+	public void setForDeveloperOnly(boolean isForDeveloperOnly) {
+		this.isForDeveloperOnly = isForDeveloperOnly;
+	}
 
-  public BlockModelTag clone() {
-    BlockModelTag clone = new BlockModelTag();
+	public BlockModelTag clone() {
+		BlockModelTag clone = new BlockModelTag();
 
-    clone.setSupportedFileExtensions(
-        getSupportedFileExtensions() == null
-            ? null
-            : ArrayUtils.clone(getSupportedFileExtensions()));
+		clone.setSupportedFileExtensions(
+				getSupportedFileExtensions() == null
+						? null
+						: ArrayUtils.clone(getSupportedFileExtensions()));
 
-    clone.setNotSupportedFileExtensions(
-        getNotSupportedFileExtensions() == null
-            ? null
-            : ArrayUtils.clone(getNotSupportedFileExtensions()));
+		clone.setNotSupportedFileExtensions(
+				getNotSupportedFileExtensions() == null
+						? null
+						: ArrayUtils.clone(getNotSupportedFileExtensions()));
 
-    clone.setSupportedEvents(
-        getSupportedEvents() == null ? null : ArrayUtils.clone(getSupportedEvents()));
+		clone.setSupportedEvents(
+				getSupportedEvents() == null ? null : ArrayUtils.clone(getSupportedEvents()));
 
-    clone.setNotSupportedEvents(
-        getNotSupportedEvents() == null ? null : ArrayUtils.clone(getNotSupportedEvents()));
+		clone.setNotSupportedEvents(
+				getNotSupportedEvents() == null ? null : ArrayUtils.clone(getNotSupportedEvents()));
 
-    clone.setShowInAllBlocksDeveloperMode(new Boolean(getShowInAllBlocksDeveloperMode()));
+		clone.setShowInAllBlocksDeveloperMode(new Boolean(getShowInAllBlocksDeveloperMode()));
 
-    clone.setForDeveloperOnly(new Boolean(isForDeveloperOnly()));
+		clone.setForDeveloperOnly(new Boolean(isForDeveloperOnly()));
 
-    clone.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
-    return clone;
-  }
+		clone.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
+		return clone;
+	}
 }

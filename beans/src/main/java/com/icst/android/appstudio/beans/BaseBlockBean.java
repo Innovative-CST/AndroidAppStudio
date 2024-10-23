@@ -34,19 +34,20 @@ package com.icst.android.appstudio.beans;
 import java.util.ArrayList;
 
 /**
- * A basic BlockBean model that just hold fields layer (not nested block) and does not return any
+ * A basic BlockBean model that just hold fields layer (not nested block) and
+ * does not return any
  * code from it.
  */
 public abstract class BaseBlockBean extends BlockBean {
 
-  /** All the layers of block elememts that holds content of block. */
-  private ArrayList<BlockElementLayerBean> elementsLayers;
+	/** All the layers of block elememts that holds content of block. */
+	private ArrayList<BlockElementLayerBean> elementsLayers;
 
-  public ArrayList<BlockElementLayerBean> getElementsLayers() {
-    return this.elementsLayers;
-  }
+	public ArrayList<BlockElementLayerBean> getElementsLayers() {
+		return this.elementsLayers;
+	}
 
-  public void setElementsLayers(ArrayList<BlockElementLayerBean> elementsLayers) {
-    this.elementsLayers = elementsLayers;
-  }
+	public void setElementsLayers(ArrayList<BlockElementLayerBean> elementsLayers) {
+		this.elementsLayers = elementsLayers;
+	}
 }

@@ -39,113 +39,110 @@ import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.block.view.EventBlockBeanView;
 
 /**
- * Logic Editor Canva, It is tha canva that can be scrolled according to the contents. It adjusts
- * its height and width according to its content when scrolled it is increased and renders.
+ * Logic Editor Canva, It is tha canva that can be scrolled according to the
+ * contents. It adjusts
+ * its height and width according to its content when scrolled it is increased
+ * and renders.
  */
 public class LogicEditorCanvaView extends LogicEditorScrollView {
 
-  private EventBean eventBean;
+	private EventBean eventBean;
 
-  public LogicEditorCanvaView(final Context context, final AttributeSet set) {
-    super(context, set);
-    initializeCanva();
-  }
+	public LogicEditorCanvaView(final Context context, final AttributeSet set) {
+		super(context, set);
+		initializeCanva();
+	}
 
-  private void initializeCanva() {
-    setAllowScroll(true);
-    setClipChildren(true);
-  }
+	private void initializeCanva() {
+		setAllowScroll(true);
+		setClipChildren(true);
+	}
 
-  public void openEventInCanva(EventBean eventBean) {
-    this.eventBean = eventBean;
-    if (eventBean == null) {
-      removeAllViews();
-      return;
-    }
-    EventBlockBeanView headerBlock =
-        new EventBlockBeanView(getContext(), eventBean.getEventDefinationBlockBean());
-    addView(headerBlock);
-    LogicEditorScrollView.LayoutParams lp =
-        new LogicEditorScrollView.LayoutParams(
-            LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
-            LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
-    headerBlock.setLayoutParams(lp);
-  }
+	public void openEventInCanva(EventBean eventBean) {
+		this.eventBean = eventBean;
+		if (eventBean == null) {
+			removeAllViews();
+			return;
+		}
+		EventBlockBeanView headerBlock = new EventBlockBeanView(getContext(), eventBean.getEventDefinationBlockBean());
+		addView(headerBlock);
+		LogicEditorScrollView.LayoutParams lp = new LogicEditorScrollView.LayoutParams(
+				LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
+				LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
+		headerBlock.setLayoutParams(lp);
+	}
 
-  @Override
-  protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4) {
-    super.onLayout(arg0, arg1, arg2, arg3, arg4);
-    updateCanvasDimensions();
-  }
+	@Override
+	protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4) {
+		super.onLayout(arg0, arg1, arg2, arg3, arg4);
+		updateCanvasDimensions();
+	}
 
-  @Override
-  protected void onScrollChanged(int arg0, int arg1, int arg2, int arg3) {
-    super.onScrollChanged(arg0, arg1, arg2, arg3);
-    updateCanvasDimensions();
-  }
+	@Override
+	protected void onScrollChanged(int arg0, int arg1, int arg2, int arg3) {
+		super.onScrollChanged(arg0, arg1, arg2, arg3);
+		updateCanvasDimensions();
+	}
 
-  @Override
-  public boolean onTouchEvent(MotionEvent motion) {
-    updateCanvasDimensions();
-    return super.onTouchEvent(motion);
-  }
+	@Override
+	public boolean onTouchEvent(MotionEvent motion) {
+		updateCanvasDimensions();
+		return super.onTouchEvent(motion);
+	}
 
-  /** Adjusts the canvas dimensions based on child views. */
-  private void updateCanvasDimensions() {
-    // Set initial width and height
-    getLayoutParams().width = getRight() - getLeft();
-    getLayoutParams().height = getBottom() - getTop();
+	/** Adjusts the canvas dimensions based on child views. */
+	private void updateCanvasDimensions() {
+		// Set initial width and height
+		getLayoutParams().width = getRight() - getLeft();
+		getLayoutParams().height = getBottom() - getTop();
 
-    int maxWidth = getLayoutParams().width;
-    int maxHeight = getLayoutParams().height;
+		int maxWidth = getLayoutParams().width;
+		int maxHeight = getLayoutParams().height;
 
-    // Calculate maximum width and height required for the canvas
-    maxWidth = calculateMaxDimension(maxWidth, Dimension.WIDTH);
-    maxHeight = calculateMaxDimension(maxHeight, Dimension.HEIGHT);
+		// Calculate maximum width and height required for the canvas
+		maxWidth = calculateMaxDimension(maxWidth, Dimension.WIDTH);
+		maxHeight = calculateMaxDimension(maxHeight, Dimension.HEIGHT);
 
-    // Update layout dimensions
-    getLayoutParams().width = maxWidth;
-    getLayoutParams().height = maxHeight;
-    requestLayout();
-  }
+		// Update layout dimensions
+		getLayoutParams().width = maxWidth;
+		getLayoutParams().height = maxHeight;
+		requestLayout();
+	}
 
-  private enum Dimension {
-    WIDTH,
-    HEIGHT
-  }
+	private enum Dimension {
+		WIDTH, HEIGHT
+	}
 
-  /**
-   * Calculates the maximum width or height for the canvas.
-   *
-   * @param currentMax Current maximum value (width or height).
-   * @param dimension Whether calculating for HEIGHT or WIDTH.
-   * @return Updated(+150px) maximum dimension.
-   */
-  private int calculateMaxDimension(int currentMax, Dimension dimension) {
-    int max = currentMax;
-    for (int i = 0; i < getChildCount(); i++) {
-      View child = getChildAt(i);
-      int dimensionValue = 0;
+	/**
+	 * Calculates the maximum width or height for the canvas.
+	 *
+	 * @param currentMax
+	 *            Current maximum value (width or height).
+	 * @param dimension
+	 *            Whether calculating for HEIGHT or WIDTH.
+	 * @return Updated(+150px) maximum dimension.
+	 */
+	private int calculateMaxDimension(int currentMax, Dimension dimension) {
+		int max = currentMax;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			int dimensionValue = 0;
 
-      if (dimension == Dimension.WIDTH) {
-        dimensionValue =
-            (int)
-                (child.getX()
-                    + child.getPaddingLeft()
-                    + child.getWidth()
-                    + child.getPaddingRight()
-                    + 150);
-      } else {
-        dimensionValue =
-            (int)
-                (child.getY()
-                    + child.getPaddingTop()
-                    + child.getHeight()
-                    + child.getPaddingBottom()
-                    + 150);
-      }
-      max = Math.max(dimensionValue, max);
-    }
-    return max;
-  }
+			if (dimension == Dimension.WIDTH) {
+				dimensionValue = (int) (child.getX()
+						+ child.getPaddingLeft()
+						+ child.getWidth()
+						+ child.getPaddingRight()
+						+ 150);
+			} else {
+				dimensionValue = (int) (child.getY()
+						+ child.getPaddingTop()
+						+ child.getHeight()
+						+ child.getPaddingBottom()
+						+ 150);
+			}
+			max = Math.max(dimensionValue, max);
+		}
+		return max;
+	}
 }

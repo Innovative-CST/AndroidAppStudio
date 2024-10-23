@@ -32,22 +32,22 @@
 package com.icst.app.compiler.exception;
 
 public class BuildException {
-  private String message;
-  private String cause;
+	private String message;
+	private String cause;
 
-  public String getMessage() {
-    return this.message;
-  }
+	public String getMessage() {
+		return this.message;
+	}
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
-  public String getCause() {
-    return this.cause;
-  }
+	public String getCause() {
+		return this.cause;
+	}
 
-  public void setCause(String cause) {
-    this.cause = cause;
-  }
+	public void setCause(String cause) {
+		this.cause = cause;
+	}
 }

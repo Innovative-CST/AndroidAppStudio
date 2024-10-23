@@ -45,60 +45,58 @@ import java.util.ArrayList;
 
 public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdapter.ViewHolder> {
 
-  private LayoutManagerActivity activity;
-  private ArrayList<LayoutModel> layoutList;
-  private ArrayList<File> fileList;
-  private ModuleModel module;
-  private String layoutDirectoryName;
+	private LayoutManagerActivity activity;
+	private ArrayList<LayoutModel> layoutList;
+	private ArrayList<File> fileList;
+	private ModuleModel module;
+	private String layoutDirectoryName;
 
-  public LayoutManagerAdapter(
-      LayoutManagerActivity activity,
-      ArrayList<LayoutModel> layoutList,
-      ArrayList<File> fileList,
-      ModuleModel module,
-      String layoutDirectoryName) {
-    this.activity = activity;
-    this.layoutList = layoutList;
-    this.fileList = fileList;
-    this.module = module;
-    this.layoutDirectoryName = layoutDirectoryName;
-  }
+	public LayoutManagerAdapter(
+			LayoutManagerActivity activity,
+			ArrayList<LayoutModel> layoutList,
+			ArrayList<File> fileList,
+			ModuleModel module,
+			String layoutDirectoryName) {
+		this.activity = activity;
+		this.layoutList = layoutList;
+		this.fileList = fileList;
+		this.module = module;
+		this.layoutDirectoryName = layoutDirectoryName;
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterManagerLayoutBinding binding =
-        AdapterManagerLayoutBinding.inflate(activity.getLayoutInflater());
-    RecyclerView.LayoutParams layoutParam =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(layoutParam);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+		AdapterManagerLayoutBinding binding = AdapterManagerLayoutBinding.inflate(activity.getLayoutInflater());
+		RecyclerView.LayoutParams layoutParam = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(layoutParam);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    AdapterManagerLayoutBinding binding = AdapterManagerLayoutBinding.bind(holder.itemView);
-    binding.title.setText(layoutList.get(position).getLayoutName());
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              Intent layoutEditor = new Intent(activity, LayoutEditorActivity.class);
-              layoutEditor.putExtra("module", module);
-              layoutEditor.putExtra("layoutDirectoryName", layoutDirectoryName);
-              layoutEditor.putExtra("layoutFileName", fileList.get(position).getAbsolutePath());
-              activity.startActivity(layoutEditor);
-            });
-  }
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		AdapterManagerLayoutBinding binding = AdapterManagerLayoutBinding.bind(holder.itemView);
+		binding.title.setText(layoutList.get(position).getLayoutName());
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							Intent layoutEditor = new Intent(activity, LayoutEditorActivity.class);
+							layoutEditor.putExtra("module", module);
+							layoutEditor.putExtra("layoutDirectoryName", layoutDirectoryName);
+							layoutEditor.putExtra("layoutFileName", fileList.get(position).getAbsolutePath());
+							activity.startActivity(layoutEditor);
+						});
+	}
 
-  @Override
-  public int getItemCount() {
-    return layoutList.size();
-  }
+	@Override
+	public int getItemCount() {
+		return layoutList.size();
+	}
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 }

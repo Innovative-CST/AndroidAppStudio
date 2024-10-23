@@ -34,11 +34,11 @@ package com.icst.android.appstudio.extensions.basicvariables;
 import com.icst.android.appstudio.models.ExtensionBundle;
 
 public class BasicVariablesExtensions {
-  public static ExtensionBundle getExtensionBundle() {
-    ExtensionBundle extension = new ExtensionBundle();
-    extension.setName("Basic variable Extension");
-    extension.setVersion(1);
-    extension.setVariables(BasicVariables.getVariables());
-    return extension;
-  }
+	public static ExtensionBundle getExtensionBundle() {
+		ExtensionBundle extension = new ExtensionBundle();
+		extension.setName("Basic variable Extension");
+		extension.setVersion(1);
+		extension.setVariables(BasicVariables.getVariables());
+		return extension;
+	}
 }

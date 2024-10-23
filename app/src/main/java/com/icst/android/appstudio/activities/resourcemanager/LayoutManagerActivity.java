@@ -49,118 +49,114 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 public class LayoutManagerActivity extends BaseActivity {
-  // SECTION Constants
-  public static final int LAYOUT_SECTION = 0;
-  public static final int INFO_SECTION = 1;
-  public static final int LOADING_SECTION = 2;
+	// SECTION Constants
+	public static final int LAYOUT_SECTION = 0;
+	public static final int INFO_SECTION = 1;
+	public static final int LOADING_SECTION = 2;
 
-  private ActivityLayoutManagerBinding binding;
+	private ActivityLayoutManagerBinding binding;
 
-  private ModuleModel module;
-  private File layoutDirectory;
-  private File layoutDirectoryOutput;
-  private String layoutDirectoryName;
-  private ArrayList<LayoutModel> layoutsList;
-  private ArrayList<File> filesList;
+	private ModuleModel module;
+	private File layoutDirectory;
+	private File layoutDirectoryOutput;
+	private String layoutDirectoryName;
+	private ArrayList<LayoutModel> layoutsList;
+	private ArrayList<File> filesList;
 
-  @Override
-  @SuppressWarnings("deprecation")
-  protected void onCreate(Bundle bundle) {
-    super.onCreate(bundle);
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
 
-    binding = ActivityLayoutManagerBinding.inflate(getLayoutInflater());
+		binding = ActivityLayoutManagerBinding.inflate(getLayoutInflater());
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      module = getIntent().getParcelableExtra("module", ModuleModel.class);
-    } else {
-      module = (ModuleModel) getIntent().getParcelableExtra("module");
-    }
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			module = getIntent().getParcelableExtra("module", ModuleModel.class);
+		} else {
+			module = (ModuleModel) getIntent().getParcelableExtra("module");
+		}
 
-    layoutDirectoryName = getIntent().getStringExtra("layoutDirectoryName");
-    layoutDirectory =
-        new File(
-            new File(
-                new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirectoryName),
-            EnvironmentUtils.FILES);
-    layoutDirectoryOutput = new File(module.resourceOutputDirectory, layoutDirectoryName);
+		layoutDirectoryName = getIntent().getStringExtra("layoutDirectoryName");
+		layoutDirectory = new File(
+				new File(
+						new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirectoryName),
+				EnvironmentUtils.FILES);
+		layoutDirectoryOutput = new File(module.resourceOutputDirectory, layoutDirectoryName);
 
-    switchSection(LOADING_SECTION);
-    loadLayouts();
-    binding.fab.setOnClickListener(
-        v -> {
-          loadLayoutModelsList();
-          ManageLayoutDialog createLayoutDialog =
-              new ManageLayoutDialog(
-                  LayoutManagerActivity.this, layoutsList, filesList, layoutDirectory);
-          createLayoutDialog.create().show();
-        });
-  }
+		switchSection(LOADING_SECTION);
+		loadLayouts();
+		binding.fab.setOnClickListener(
+				v -> {
+					loadLayoutModelsList();
+					ManageLayoutDialog createLayoutDialog = new ManageLayoutDialog(
+							LayoutManagerActivity.this, layoutsList, filesList, layoutDirectory);
+					createLayoutDialog.create().show();
+				});
+	}
 
-  public void loadLayouts() {
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              loadLayoutModelsList();
-              runOnUiThread(
-                  () -> {
-                    if (layoutsList.size() == 0) {
-                      setInfo(getString(R.string.no_layouts_yet));
-                    } else {
-                      LayoutManagerAdapter layoutsAdapter =
-                          new LayoutManagerAdapter(
-                              LayoutManagerActivity.this,
-                              layoutsList,
-                              filesList,
-                              module,
-                              layoutDirectoryName);
-                      binding.layoutList.setAdapter(layoutsAdapter);
-                      binding.layoutList.setLayoutManager(
-                          new LinearLayoutManager(LayoutManagerActivity.this));
-                      switchSection(LAYOUT_SECTION);
-                    }
-                  });
-            });
-  }
+	public void loadLayouts() {
+		Executors.newSingleThreadExecutor()
+				.execute(
+						() -> {
+							loadLayoutModelsList();
+							runOnUiThread(
+									() -> {
+										if (layoutsList.size() == 0) {
+											setInfo(getString(R.string.no_layouts_yet));
+										} else {
+											LayoutManagerAdapter layoutsAdapter = new LayoutManagerAdapter(
+													LayoutManagerActivity.this,
+													layoutsList,
+													filesList,
+													module,
+													layoutDirectoryName);
+											binding.layoutList.setAdapter(layoutsAdapter);
+											binding.layoutList.setLayoutManager(
+													new LinearLayoutManager(LayoutManagerActivity.this));
+											switchSection(LAYOUT_SECTION);
+										}
+									});
+						});
+	}
 
-  private void loadLayoutModelsList() {
-    layoutsList = new ArrayList<LayoutModel>();
-    filesList = new ArrayList<File>();
+	private void loadLayoutModelsList() {
+		layoutsList = new ArrayList<LayoutModel>();
+		filesList = new ArrayList<File>();
 
-    if (layoutDirectory.exists()) {
-      File[] layoutsFilePath = layoutDirectory.listFiles();
-      for (int layouts = 0; layouts < layoutsFilePath.length; ++layouts) {
-        LayoutModel layout =
-            DeserializerUtils.deserialize(layoutsFilePath[layouts], LayoutModel.class);
-        if (layout != null) {
-          layoutsList.add(layout);
-          filesList.add(layoutsFilePath[layouts]);
-        }
-      }
-    }
-  }
+		if (layoutDirectory.exists()) {
+			File[] layoutsFilePath = layoutDirectory.listFiles();
+			for (int layouts = 0; layouts < layoutsFilePath.length; ++layouts) {
+				LayoutModel layout = DeserializerUtils.deserialize(layoutsFilePath[layouts], LayoutModel.class);
+				if (layout != null) {
+					layoutsList.add(layout);
+					filesList.add(layoutsFilePath[layouts]);
+				}
+			}
+		}
+	}
 
-  public void switchSection(int section) {
-    binding.resourceView.setVisibility(section == LAYOUT_SECTION ? View.VISIBLE : View.GONE);
-    binding.fab.setVisibility(section != LOADING_SECTION ? View.VISIBLE : View.GONE);
-    binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
-    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
-  }
+	public void switchSection(int section) {
+		binding.resourceView.setVisibility(section == LAYOUT_SECTION ? View.VISIBLE : View.GONE);
+		binding.fab.setVisibility(section != LOADING_SECTION ? View.VISIBLE : View.GONE);
+		binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
+		binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+	}
 
-  public void setInfo(String error) {
-    switchSection(INFO_SECTION);
-    binding.infoText.setText(error);
-  }
+	public void setInfo(String error) {
+		switchSection(INFO_SECTION);
+		binding.infoText.setText(error);
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 }

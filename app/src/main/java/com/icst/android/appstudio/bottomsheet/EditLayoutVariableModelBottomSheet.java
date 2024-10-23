@@ -53,149 +53,152 @@ import java.util.regex.Pattern;
 
 public class EditLayoutVariableModelBottomSheet extends BottomSheetDialog {
 
-  private LayoutVariableModel model;
-  private ModuleModel module;
+	private LayoutVariableModel model;
+	private ModuleModel module;
 
-  public EditLayoutVariableModelBottomSheet(
-      Context context,
-      ModuleModel module,
-      LayoutVariableModel model,
-      LayoutVariableModelChangeListener listener) {
-    super(context);
-    this.model = model;
-    this.module = module;
+	public EditLayoutVariableModelBottomSheet(
+			Context context,
+			ModuleModel module,
+			LayoutVariableModel model,
+			LayoutVariableModelChangeListener listener) {
+		super(context);
+		this.model = model;
+		this.module = module;
 
-    BottomsheetLayoutVariableModelEditorBinding binding =
-        BottomsheetLayoutVariableModelEditorBinding.inflate(LayoutInflater.from(context));
+		BottomsheetLayoutVariableModelEditorBinding binding = BottomsheetLayoutVariableModelEditorBinding
+				.inflate(LayoutInflater.from(context));
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    ArrayAdapter adapter =
-        new ArrayAdapter<String>(
-            getContext(), R.layout.autocomplete_adapter_layout_chooser, R.id.variableName);
-    ArrayList<String> layoutNames = new ArrayList<String>();
-    addLayoutNamesToList(layoutNames, adapter);
+		ArrayAdapter adapter = new ArrayAdapter<String>(
+				getContext(), R.layout.autocomplete_adapter_layout_chooser, R.id.variableName);
+		ArrayList<String> layoutNames = new ArrayList<String>();
+		addLayoutNamesToList(layoutNames, adapter);
 
-    binding.layoutName.setAdapter(adapter);
+		binding.layoutName.setAdapter(adapter);
 
-    binding.layoutVariableName.addTextChangedListener(
-        new TextWatcher() {
+		binding.layoutVariableName.addTextChangedListener(
+				new TextWatcher() {
 
-          @Override
-          public void afterTextChanged(Editable arg0) {}
+					@Override
+					public void afterTextChanged(Editable arg0) {
+					}
 
-          @Override
-          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+					@Override
+					public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					}
 
-          @Override
-          public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					@Override
+					public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 
-            binding.done.setEnabled(
-                shouldEnableActionButton(
-                    binding.layoutName.getText().toString(),
-                    binding.layoutVariableName.getText().toString()));
-          }
-        });
+						binding.done.setEnabled(
+								shouldEnableActionButton(
+										binding.layoutName.getText().toString(),
+										binding.layoutVariableName.getText().toString()));
+					}
+				});
 
-    binding.layoutName.addTextChangedListener(
-        new TextWatcher() {
+		binding.layoutName.addTextChangedListener(
+				new TextWatcher() {
 
-          @Override
-          public void afterTextChanged(Editable arg0) {}
+					@Override
+					public void afterTextChanged(Editable arg0) {
+					}
 
-          @Override
-          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+					@Override
+					public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					}
 
-          @Override
-          public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					@Override
+					public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 
-            binding.done.setEnabled(
-                shouldEnableActionButton(
-                    binding.layoutName.getText().toString(),
-                    binding.layoutVariableName.getText().toString()));
-          }
-        });
+						binding.done.setEnabled(
+								shouldEnableActionButton(
+										binding.layoutName.getText().toString(),
+										binding.layoutVariableName.getText().toString()));
+					}
+				});
 
-    binding.done.setEnabled(
-        shouldEnableActionButton(
-            binding.layoutName.getText().toString(),
-            binding.layoutVariableName.getText().toString()));
+		binding.done.setEnabled(
+				shouldEnableActionButton(
+						binding.layoutName.getText().toString(),
+						binding.layoutVariableName.getText().toString()));
 
-    if (this.model == null) {
-      binding.delete.setText("Cancel");
-    } else {
-      binding.layoutName.setText(model.getLayoutName());
-      binding.layoutVariableName.setText(model.getVariableName());
-    }
+		if (this.model == null) {
+			binding.delete.setText("Cancel");
+		} else {
+			binding.layoutName.setText(model.getLayoutName());
+			binding.layoutVariableName.setText(model.getVariableName());
+		}
 
-    binding.delete.setOnClickListener(
-        v -> {
-          if (this.model != null) {
-            listener.onLayoutVariableModelDelete();
-          }
-          dismiss();
-        });
-    binding.done.setOnClickListener(
-        v -> {
-          if (this.model == null) {
-            this.model = new LayoutVariableModel();
-          }
-          this.model.setLayoutName(binding.layoutName.getText().toString());
-          this.model.setVariableName(binding.layoutVariableName.getText().toString());
-          listener.onLayoutVariableModelUpdate(this.model);
-          dismiss();
-        });
-  }
+		binding.delete.setOnClickListener(
+				v -> {
+					if (this.model != null) {
+						listener.onLayoutVariableModelDelete();
+					}
+					dismiss();
+				});
+		binding.done.setOnClickListener(
+				v -> {
+					if (this.model == null) {
+						this.model = new LayoutVariableModel();
+					}
+					this.model.setLayoutName(binding.layoutName.getText().toString());
+					this.model.setVariableName(binding.layoutVariableName.getText().toString());
+					listener.onLayoutVariableModelUpdate(this.model);
+					dismiss();
+				});
+	}
 
-  public boolean shouldEnableActionButton(String str1, String str2) {
-    if (str1.equals("") || str2.equals("")) {
-      return false;
-    }
-    return true;
-  }
+	public boolean shouldEnableActionButton(String str1, String str2) {
+		if (str1.isEmpty() || str2.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
-  public void addLayoutNamesToList(ArrayList<String> layoutNames, ArrayAdapter<String> adapter) {
-    File resListDirectory = new File(module.resourceDirectory, EnvironmentUtils.FILES);
-    ArrayList<FileModel> resFolders = FileModelUtils.getFileModelList(resListDirectory);
+	public void addLayoutNamesToList(ArrayList<String> layoutNames, ArrayAdapter<String> adapter) {
+		File resListDirectory = new File(module.resourceDirectory, EnvironmentUtils.FILES);
+		ArrayList<FileModel> resFolders = FileModelUtils.getFileModelList(resListDirectory);
 
-    if (resFolders == null) return;
+		if (resFolders == null)
+			return;
 
-    for (int position = 0; position < resFolders.size(); ++position) {
+		for (int position = 0; position < resFolders.size(); ++position) {
 
-      if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
-          .matcher(resFolders.get(position).getName())
-          .matches()) {
+			if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
+					.matcher(resFolders.get(position).getName())
+					.matches()) {
 
-        File layoutsDir =
-            new File(
-                resListDirectory,
-                resFolders
-                    .get(position)
-                    .getName()
-                    .concat(File.separator)
-                    .concat(EnvironmentUtils.FILES));
+				File layoutsDir = new File(
+						resListDirectory,
+						resFolders
+								.get(position)
+								.getName()
+								.concat(File.separator)
+								.concat(EnvironmentUtils.FILES));
 
-        if (!layoutsDir.exists()) return;
+				if (!layoutsDir.exists())
+					return;
 
-        for (File layoutFile : layoutsDir.listFiles()) {
-          LayoutModel layoutFileModel =
-              DeserializerUtils.deserialize(layoutFile, LayoutModel.class);
+				for (File layoutFile : layoutsDir.listFiles()) {
+					LayoutModel layoutFileModel = DeserializerUtils.deserialize(layoutFile, LayoutModel.class);
 
-          if (layoutFileModel != null) {
-            boolean alreadyPresentLayout = false;
-            for (int i = 0; i < layoutNames.size(); ++i) {
-              if (layoutNames.get(i).equals(layoutFileModel.getLayoutName())) {
-                alreadyPresentLayout = true;
-              }
-            }
+					if (layoutFileModel != null) {
+						boolean alreadyPresentLayout = false;
+						for (int i = 0; i < layoutNames.size(); ++i) {
+							if (layoutNames.get(i).equals(layoutFileModel.getLayoutName())) {
+								alreadyPresentLayout = true;
+							}
+						}
 
-            if (!alreadyPresentLayout) {
-              layoutNames.add(layoutFileModel.getLayoutName());
-              adapter.add(layoutFileModel.getLayoutName());
-            }
-          }
-        }
-      }
-    }
-  }
+						if (!alreadyPresentLayout) {
+							layoutNames.add(layoutFileModel.getLayoutName());
+							adapter.add(layoutFileModel.getLayoutName());
+						}
+					}
+				}
+			}
+		}
+	}
 }

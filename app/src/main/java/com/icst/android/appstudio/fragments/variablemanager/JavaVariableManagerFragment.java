@@ -44,79 +44,79 @@ import com.icst.android.appstudio.models.ModuleModel;
 import java.io.File;
 
 public class JavaVariableManagerFragment extends Fragment {
-  private FragmentJavaVariableManagerBinding binding;
-  private ModuleModel module;
-  private String packageName;
-  private String className;
+	private FragmentJavaVariableManagerBinding binding;
+	private ModuleModel module;
+	private String packageName;
+	private String className;
 
-  public JavaVariableManagerFragment() {}
+	public JavaVariableManagerFragment() {
+	}
 
-  public JavaVariableManagerFragment(ModuleModel module, String packageName, String className) {
-    this.module = module;
-    this.packageName = packageName;
-    this.className = className;
-  }
+	public JavaVariableManagerFragment(ModuleModel module, String packageName, String className) {
+		this.module = module;
+		this.packageName = packageName;
+		this.className = className;
+	}
 
-  @Override
-  @MainThread
-  public void onSaveInstanceState(Bundle bundle) {
-    super.onSaveInstanceState(bundle);
-    bundle.putString("module", module.module);
-    bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
-    bundle.putString("className", className);
-    bundle.putString("packageName", packageName);
-  }
+	@Override
+	@MainThread
+	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+		bundle.putString("module", module.module);
+		bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+		bundle.putString("className", className);
+		bundle.putString("packageName", packageName);
+	}
 
-  @Override
-  @MainThread
-  @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
+	@Override
+	@MainThread
+	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
 
-    if (savedInstanceState != null) {
-      module = new ModuleModel();
-      module.init(
-          savedInstanceState.getString("module"),
-          new File(savedInstanceState.getString("projectRootDirectory")));
-      className = savedInstanceState.getString("className");
-      packageName = savedInstanceState.getString("packageName");
-    }
+		if (savedInstanceState != null) {
+			module = new ModuleModel();
+			module.init(
+					savedInstanceState.getString("module"),
+					new File(savedInstanceState.getString("projectRootDirectory")));
+			className = savedInstanceState.getString("className");
+			packageName = savedInstanceState.getString("packageName");
+		}
 
-    binding = FragmentJavaVariableManagerBinding.inflate(inflator);
-    binding.bottomNavigationView.setOnItemSelectedListener(
-        menu -> {
-          if (menu.getItemId() == id.static_variables) {
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(
-                    id.fragment_container,
-                    new StaticVariableManagerFragment(module, packageName, className))
-                .commit();
-          } else if (menu.getItemId() == id.non_static_variables) {
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(
-                    id.fragment_container,
-                    new NonStaticVariableManagerFragment(module, packageName, className))
-                .commit();
-          } else if (menu.getItemId() == id.layout_variables) {
-            LayoutVariableManagerFragment layoutManager = new LayoutVariableManagerFragment();
-            Bundle args = new Bundle();
-            args.putString("module", module.module);
-            args.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
-            args.putString("className", className);
-            args.putString("packageName", packageName);
-            layoutManager.setArguments(args);
-            getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(id.fragment_container, layoutManager)
-                .commit();
-          }
-          return true;
-        });
-    binding.bottomNavigationView.setSelectedItemId(id.non_static_variables);
-    return binding.getRoot();
-  }
+		binding = FragmentJavaVariableManagerBinding.inflate(inflator);
+		binding.bottomNavigationView.setOnItemSelectedListener(
+				menu -> {
+					if (menu.getItemId() == id.static_variables) {
+						getActivity()
+								.getSupportFragmentManager()
+								.beginTransaction()
+								.replace(
+										id.fragment_container,
+										new StaticVariableManagerFragment(module, packageName, className))
+								.commit();
+					} else if (menu.getItemId() == id.non_static_variables) {
+						getActivity()
+								.getSupportFragmentManager()
+								.beginTransaction()
+								.replace(
+										id.fragment_container,
+										new NonStaticVariableManagerFragment(module, packageName, className))
+								.commit();
+					} else if (menu.getItemId() == id.layout_variables) {
+						LayoutVariableManagerFragment layoutManager = new LayoutVariableManagerFragment();
+						Bundle args = new Bundle();
+						args.putString("module", module.module);
+						args.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+						args.putString("className", className);
+						args.putString("packageName", packageName);
+						layoutManager.setArguments(args);
+						getActivity()
+								.getSupportFragmentManager()
+								.beginTransaction()
+								.replace(id.fragment_container, layoutManager)
+								.commit();
+					}
+					return true;
+				});
+		binding.bottomNavigationView.setSelectedItemId(id.non_static_variables);
+		return binding.getRoot();
+	}
 }

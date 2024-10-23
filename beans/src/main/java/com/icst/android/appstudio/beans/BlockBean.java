@@ -31,103 +31,113 @@
 
 package com.icst.android.appstudio.beans;
 
-/** Abstract class representing the base block supposed to be used within the LogicEditor. */
+/**
+ * Abstract class representing the base block supposed to be used within the
+ * LogicEditor.
+ */
 public abstract class BlockBean {
 
-  private String blockBeanKey;
+	private String blockBeanKey;
 
-  // The color of the block
-  private String color;
+	// The color of the block
+	private String color;
 
-  // Whether the block is currently inside the LogicEditorCanva
-  private boolean insideEditor;
+	// Whether the block is currently inside the LogicEditorCanva
+	private boolean insideEditor;
 
-  // Whether the block can be dragged
-  private boolean dragAllowed;
+	// Whether the block can be dragged
+	private boolean dragAllowed;
 
-  // Whether the value of the block is read-only
-  private boolean valueReadOnly;
+	// Whether the value of the block is read-only
+	private boolean valueReadOnly;
 
-  public String getBlockBeanKey() {
-    return this.blockBeanKey;
-  }
+	public String getBlockBeanKey() {
+		return this.blockBeanKey;
+	}
 
-  public void setBlockBeanKey(String blockBeanKey) {
-    this.blockBeanKey = blockBeanKey;
-  }
+	public void setBlockBeanKey(String blockBeanKey) {
+		this.blockBeanKey = blockBeanKey;
+	}
 
-  /**
-   * Gets the color of the block.
-   *
-   * @return the color of the block as a String in hexadecimal format.
-   */
-  public String getColor() {
-    return color;
-  }
+	/**
+	 * Gets the color of the block.
+	 *
+	 * @return the color of the block as a String in hexadecimal format.
+	 */
+	public String getColor() {
+		return color;
+	}
 
-  /**
-   * Sets the color of the block.
-   *
-   * @param color the new color for the block.
-   */
-  public void setColor(String color) {
-    this.color = color;
-  }
+	/**
+	 * Sets the color of the block.
+	 *
+	 * @param color
+	 *            the new color for the block.
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
 
-  /**
-   * Checks if the block is inside the LogicEditorCanva.
-   *
-   * @return true if the block is inside the editor, false otherwise.
-   */
-  public boolean isInsideEditor() {
-    return insideEditor;
-  }
+	/**
+	 * Checks if the block is inside the LogicEditorCanva.
+	 *
+	 * @return true if the block is inside the editor, false otherwise.
+	 */
+	public boolean isInsideEditor() {
+		return insideEditor;
+	}
 
-  /**
-   * Sets the inside editor state of the block. Supposed to be used only by internal library not by
-   * library consumers.
-   *
-   * @param insideEditor true if the block is inside the LogicEditorCanva, false otherwise.
-   */
-  public void setInsideEditor(boolean insideEditor) {
-    this.insideEditor = insideEditor;
-  }
+	/**
+	 * Sets the inside editor state of the block. Supposed to be used only by
+	 * internal library not by
+	 * library consumers.
+	 *
+	 * @param insideEditor
+	 *            true if the block is inside the LogicEditorCanva, false otherwise.
+	 */
+	public void setInsideEditor(boolean insideEditor) {
+		this.insideEditor = insideEditor;
+	}
 
-  /**
-   * Checks if dragging the block is allowed.
-   *
-   * @return true if dragging is allowed, false otherwise.
-   */
-  public boolean isDragAllowed() {
-    return dragAllowed;
-  }
+	/**
+	 * Checks if dragging the block is allowed.
+	 *
+	 * @return true if dragging is allowed, false otherwise.
+	 */
+	public boolean isDragAllowed() {
+		return dragAllowed;
+	}
 
-  /**
-   * Sets whether dragging the block is allowed. Supposed to be used only by internal library and
-   * for purpose of pre-build EventBean. You must see its implementation somewhere in app, guess its
-   * usage because it is not designed mainly for consumers.
-   *
-   * @param dragAllowed true to allow dragging, false otherwise.
-   */
-  public void setDragAllowed(boolean dragAllowed) {
-    this.dragAllowed = dragAllowed;
-  }
+	/**
+	 * Sets whether dragging the block is allowed. Supposed to be used only by
+	 * internal library and
+	 * for purpose of pre-build EventBean. You must see its implementation somewhere
+	 * in app, guess its
+	 * usage because it is not designed mainly for consumers.
+	 *
+	 * @param dragAllowed
+	 *            true to allow dragging, false otherwise.
+	 */
+	public void setDragAllowed(boolean dragAllowed) {
+		this.dragAllowed = dragAllowed;
+	}
 
-  /**
-   * Checks if the block's value is read-only.
-   *
-   * @return true if the value is read-only, false otherwise.
-   */
-  public boolean isValueReadOnly() {
-    return valueReadOnly;
-  }
+	/**
+	 * Checks if the block's value is read-only.
+	 *
+	 * @return true if the value is read-only, false otherwise.
+	 */
+	public boolean isValueReadOnly() {
+		return valueReadOnly;
+	}
 
-  /**
-   * Sets whether the block's value is read-only.
-   *
-   * @param valueReadOnly true to make the value read-only, false otherwise.
-   */
-  public void setValueReadOnly(boolean valueReadOnly) {
-    this.valueReadOnly = valueReadOnly;
-  }
+	/**
+	 * Sets whether the block's value is read-only.
+	 *
+	 * @param valueReadOnly
+	 *            true to make the value read-only, false otherwise.
+	 */
+	public void setValueReadOnly(boolean valueReadOnly) {
+		this.valueReadOnly = valueReadOnly;
+	}
 }

@@ -34,43 +34,43 @@ package com.icst.android.appstudio.block.tag;
 import java.io.Serializable;
 
 public class DependencyTag implements AdditionalCodeHelperTag, Serializable {
-  public static final long serialVersionUID = 19L;
+	public static final long serialVersionUID = 19L;
 
-  public String dependencyGroup;
-  public String dependencyName;
-  public String version;
+	public String dependencyGroup;
+	public String dependencyName;
+	public String version;
 
-  public String getDependencyGroup() {
-    return this.dependencyGroup;
-  }
+	public String getDependencyGroup() {
+		return this.dependencyGroup;
+	}
 
-  public void setDependencyGroup(String dependencyGroup) {
-    this.dependencyGroup = dependencyGroup;
-  }
+	public void setDependencyGroup(String dependencyGroup) {
+		this.dependencyGroup = dependencyGroup;
+	}
 
-  public String getDependencyName() {
-    return this.dependencyName;
-  }
+	public String getDependencyName() {
+		return this.dependencyName;
+	}
 
-  public void setDependencyName(String dependencyName) {
-    this.dependencyName = dependencyName;
-  }
+	public void setDependencyName(String dependencyName) {
+		this.dependencyName = dependencyName;
+	}
 
-  public String getVersion() {
-    return this.version;
-  }
+	public String getVersion() {
+		return this.version;
+	}
 
-  public void setVersion(String version) {
-    this.version = version;
-  }
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-  @Override
-  public AdditionalCodeHelperTag clone() {
-    DependencyTag clone = new DependencyTag();
-    clone.setDependencyGroup(
-        getDependencyGroup() == null ? null : new String(getDependencyGroup()));
-    clone.setVersion(getVersion() == null ? null : new String(getVersion()));
-    clone.setDependencyName(getDependencyName() == null ? null : new String(getDependencyName()));
-    return clone;
-  }
+	@Override
+	public AdditionalCodeHelperTag clone() {
+		DependencyTag clone = new DependencyTag();
+		clone.setDependencyGroup(
+				getDependencyGroup() == null ? null : new String(getDependencyGroup()));
+		clone.setVersion(getVersion() == null ? null : new String(getVersion()));
+		clone.setDependencyName(getDependencyName() == null ? null : new String(getDependencyName()));
+		return clone;
+	}
 }

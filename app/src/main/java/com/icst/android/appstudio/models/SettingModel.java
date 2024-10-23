@@ -34,28 +34,28 @@ package com.icst.android.appstudio.models;
 import java.io.Serializable;
 
 public class SettingModel implements Serializable {
-  public static final long serialVersionUID = 22L;
+	public static final long serialVersionUID = 22L;
 
-  private boolean enableDarkMode;
-  private boolean enableDynamicTheme;
+	private boolean enableDarkMode;
+	private boolean enableDynamicTheme;
 
-  public SettingModel() {
-    enableDarkMode = false;
-  }
+	public SettingModel() {
+		enableDarkMode = false;
+	}
 
-  public boolean isEnabledDarkMode() {
-    return this.enableDarkMode;
-  }
+	public boolean isEnabledDarkMode() {
+		return this.enableDarkMode;
+	}
 
-  public void setEnableDarkMode(boolean enableDarkMode) {
-    this.enableDarkMode = enableDarkMode;
-  }
+	public void setEnableDarkMode(boolean enableDarkMode) {
+		this.enableDarkMode = enableDarkMode;
+	}
 
-  public boolean isEnabledDynamicTheme() {
-    return this.enableDynamicTheme;
-  }
+	public boolean isEnabledDynamicTheme() {
+		return this.enableDynamicTheme;
+	}
 
-  public void setEnabledDynamicTheme(boolean enableDynamicTheme) {
-    this.enableDynamicTheme = enableDynamicTheme;
-  }
+	public void setEnabledDynamicTheme(boolean enableDynamicTheme) {
+		this.enableDynamicTheme = enableDynamicTheme;
+	}
 }

@@ -33,13 +33,13 @@ package com.icst.android.appstudio.beans;
 
 /** A simple BlockElement that just display text on block */
 public class LabelBlockElementBean implements BlockElementBean {
-  private String label;
+	private String label;
 
-  public String getLabel() {
-    return this.label;
-  }
+	public String getLabel() {
+		return this.label;
+	}
 
-  public void setLabel(String label) {
-    this.label = label;
-  }
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }

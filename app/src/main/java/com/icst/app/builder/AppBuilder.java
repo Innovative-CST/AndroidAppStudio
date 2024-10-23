@@ -36,26 +36,25 @@ import com.icst.app.compiler.AAPT2Compiler;
 import com.icst.app.compiler.progress.BuildEventProgressListener;
 
 public class AppBuilder {
-  public void build(BuildListener listener, ModuleModel module) {
-    if (listener != null) {
-      listener.onBuildProgress("AAPT2 > Executing AAPT2 Compiler....");
-    }
+	public void build(BuildListener listener, ModuleModel module) {
+		if (listener != null) {
+			listener.onBuildProgress("AAPT2 > Executing AAPT2 Compiler....");
+		}
 
-    AAPT2Compiler aapt2 =
-        new AAPT2Compiler(
-            module,
-            new BuildEventProgressListener() {
-              @Override
-              public void onProgress(String message) {
-                if (listener != null) {
-                  listener.onBuildProgress(message);
-                }
-              }
-            });
-    aapt2.compile();
+		AAPT2Compiler aapt2 = new AAPT2Compiler(
+				module,
+				new BuildEventProgressListener() {
+					@Override
+					public void onProgress(String message) {
+						if (listener != null) {
+							listener.onBuildProgress(message);
+						}
+					}
+				});
+		aapt2.compile();
 
-    if (listener != null) {
-      listener.onBuildFinish();
-    }
-  }
+		if (listener != null) {
+			listener.onBuildFinish();
+		}
+	}
 }

@@ -31,47 +31,46 @@
 
 package com.icst.android.appstudio.builtin.xml;
 
-import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
 import java.util.ArrayList;
 
 public class BuiltInAndroidManifest {
-  public static XmlModel get(String project) {
-    XmlModel manifest = new XmlModel();
+	public static XmlModel get(String project) {
+		XmlModel manifest = new XmlModel();
 
-    manifest.setAddAndroidNameSpace(true);
-    manifest.setAddToolsNameSpace(true);
-    manifest.setId("manifest");
-    manifest.setName("manifest");
-    manifest.setRootElement(true);
+		manifest.setAddAndroidNameSpace(true);
+		manifest.setAddToolsNameSpace(true);
+		manifest.setId("manifest");
+		manifest.setName("manifest");
+		manifest.setRootElement(true);
 
-    ArrayList<XmlModel> manifestChilds = new ArrayList<XmlModel>();
+		ArrayList<XmlModel> manifestChilds = new ArrayList<XmlModel>();
 
-    XmlModel application = new XmlModel();
-    application.setAddAndroidNameSpace(true);
-    application.setAddToolsNameSpace(true);
-    application.setId("application");
-    application.setName("application");
+		XmlModel application = new XmlModel();
+		application.setAddAndroidNameSpace(true);
+		application.setAddToolsNameSpace(true);
+		application.setId("application");
+		application.setName("application");
 
-    ArrayList<XmlAttributeModel> applicationAttr = new ArrayList<XmlAttributeModel>();
+		ArrayList<XmlAttributeModel> applicationAttr = new ArrayList<XmlAttributeModel>();
 
-    XmlAttributeModel applicationName = new XmlAttributeModel();
-    applicationName.setAttribute("android:name");
-    applicationName.setAttributeValue(".MyApplication");
-    applicationAttr.add(applicationName);
+		XmlAttributeModel applicationName = new XmlAttributeModel();
+		applicationName.setAttribute("android:name");
+		applicationName.setAttributeValue(".MyApplication");
+		applicationAttr.add(applicationName);
 
-    XmlAttributeModel applicationLabel = new XmlAttributeModel();
-    applicationLabel.setAttribute("android:label");
-    applicationLabel.setAttributeValue(project);
-    applicationAttr.add(applicationLabel);
+		XmlAttributeModel applicationLabel = new XmlAttributeModel();
+		applicationLabel.setAttribute("android:label");
+		applicationLabel.setAttributeValue(project);
+		applicationAttr.add(applicationLabel);
 
-    application.setAttributes(applicationAttr);
+		application.setAttributes(applicationAttr);
 
-    manifestChilds.add(application);
+		manifestChilds.add(application);
 
-    manifest.setChildren(manifestChilds);
+		manifest.setChildren(manifestChilds);
 
-    return manifest;
-  }
+		return manifest;
+	}
 }

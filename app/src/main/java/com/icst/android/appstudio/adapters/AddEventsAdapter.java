@@ -45,84 +45,82 @@ import java.util.ArrayList;
 
 public class AddEventsAdapter extends RecyclerView.Adapter<AddEventsAdapter.ViewHolder> {
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View view) {
-      super(view);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View view) {
+			super(view);
+		}
+	}
 
-  private ArrayList<Event> events;
-  public boolean[] selectedCheckboxes;
+	private ArrayList<Event> events;
+	public boolean[] selectedCheckboxes;
 
-  public AddEventsAdapter(ArrayList<Event> events) {
-    this.events = events;
-    selectedCheckboxes = new boolean[events.size()];
-  }
+	public AddEventsAdapter(ArrayList<Event> events) {
+		this.events = events;
+		selectedCheckboxes = new boolean[events.size()];
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    View view = AdapterEventAddBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
-    RecyclerView.LayoutParams layoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(layoutParams);
-    return new ViewHolder(view);
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+		View view = AdapterEventAddBinding.inflate(LayoutInflater.from(arg0.getContext())).getRoot();
+		RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		view.setLayoutParams(layoutParams);
+		return new ViewHolder(view);
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    if (getEvents().get(position) instanceof Event) {
-      Event event = (Event) getEvents().get(position);
-      AdapterEventAddBinding binding = AdapterEventAddBinding.bind(holder.itemView);
-      binding.title.setText(event.getTitle());
-      binding.description.setText(event.getDescription());
-      if (event.getIcon() != null) {
-        Drawable icon =
-            new BitmapDrawable(
-                binding.getRoot().getContext().getResources(),
-                BitmapFactory.decodeByteArray(event.getIcon(), 0, event.getIcon().length));
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		if (getEvents().get(position) instanceof Event) {
+			Event event = (Event) getEvents().get(position);
+			AdapterEventAddBinding binding = AdapterEventAddBinding.bind(holder.itemView);
+			binding.title.setText(event.getTitle());
+			binding.description.setText(event.getDescription());
+			if (event.getIcon() != null) {
+				Drawable icon = new BitmapDrawable(
+						binding.getRoot().getContext().getResources(),
+						BitmapFactory.decodeByteArray(event.getIcon(), 0, event.getIcon().length));
 
-        if (event.getApplyColorFilter()) {
-          icon.setTint(
-              ColorUtils.getColor(
-                  binding.getRoot().getContext(),
-                  com.google.android.material.R.attr.colorOnSurfaceVariant));
-        }
-        binding.icon.setImageDrawable(icon);
-      }
-      binding.cardView.setOnClickListener(
-          v -> {
-            binding.addCheckbox.setChecked(!binding.addCheckbox.isChecked());
-          });
-      binding.addCheckbox.setOnCheckedChangeListener(
-          (button, isChecked) -> {
-            selectedCheckboxes[position] = isChecked;
-          });
-    }
-  }
+				if (event.getApplyColorFilter()) {
+					icon.setTint(
+							ColorUtils.getColor(
+									binding.getRoot().getContext(),
+									com.google.android.material.R.attr.colorOnSurfaceVariant));
+				}
+				binding.icon.setImageDrawable(icon);
+			}
+			binding.cardView.setOnClickListener(
+					v -> {
+						binding.addCheckbox.setChecked(!binding.addCheckbox.isChecked());
+					});
+			binding.addCheckbox.setOnCheckedChangeListener(
+					(button, isChecked) -> {
+						selectedCheckboxes[position] = isChecked;
+					});
+		}
+	}
 
-  @Override
-  public int getItemCount() {
-    return events.size();
-  }
+	@Override
+	public int getItemCount() {
+		return events.size();
+	}
 
-  public ArrayList<Event> getEvents() {
-    return this.events;
-  }
+	public ArrayList<Event> getEvents() {
+		return this.events;
+	}
 
-  public void setEvents(ArrayList<Event> events) {
-    this.events = events;
-  }
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
 
-  public ArrayList<Event> getSelectedEvents() {
-    ArrayList<Event> selectedEvents = new ArrayList<Event>();
+	public ArrayList<Event> getSelectedEvents() {
+		ArrayList<Event> selectedEvents = new ArrayList<Event>();
 
-    for (int i = 0; i < events.size(); ++i) {
-      if (selectedCheckboxes[i]) {
-        selectedEvents.add(events.get(i));
-      }
-    }
+		for (int i = 0; i < events.size(); ++i) {
+			if (selectedCheckboxes[i]) {
+				selectedEvents.add(events.get(i));
+			}
+		}
 
-    return selectedEvents;
-  }
+		return selectedEvents;
+	}
 }

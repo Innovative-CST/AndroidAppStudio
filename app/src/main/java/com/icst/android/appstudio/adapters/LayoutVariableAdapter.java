@@ -45,79 +45,77 @@ import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
 import java.util.ArrayList;
 
 public class LayoutVariableAdapter extends RecyclerView.Adapter<LayoutVariableAdapter.ViewHolder> {
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 
-  private ArrayList<LayoutVariableModel> variables;
-  private LayoutVariableManagerFragment fragment;
-  private ModuleModel module;
-  private String packageName;
-  private String className;
+	private ArrayList<LayoutVariableModel> variables;
+	private LayoutVariableManagerFragment fragment;
+	private ModuleModel module;
+	private String packageName;
+	private String className;
 
-  public LayoutVariableAdapter(
-      ArrayList<LayoutVariableModel> variables,
-      LayoutVariableManagerFragment fragment,
-      ModuleModel module,
-      String packageName,
-      String className) {
-    this.variables = variables;
-    this.fragment = fragment;
-    this.module = module;
-    this.packageName = packageName;
-    this.className = className;
-  }
+	public LayoutVariableAdapter(
+			ArrayList<LayoutVariableModel> variables,
+			LayoutVariableManagerFragment fragment,
+			ModuleModel module,
+			String packageName,
+			String className) {
+		this.variables = variables;
+		this.fragment = fragment;
+		this.module = module;
+		this.packageName = packageName;
+		this.className = className;
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterLayoutVariableBinding binding =
-        AdapterLayoutVariableBinding.inflate(LayoutInflater.from(fragment.getContext()));
-    RecyclerView.LayoutParams mLayoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(mLayoutParams);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+		AdapterLayoutVariableBinding binding = AdapterLayoutVariableBinding
+				.inflate(LayoutInflater.from(fragment.getContext()));
+		RecyclerView.LayoutParams mLayoutParams = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(mLayoutParams);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, final int position) {
-    AdapterLayoutVariableBinding binding = AdapterLayoutVariableBinding.bind(holder.itemView);
-    binding.variableName.setText(variables.get(position).getVariableName());
-    binding.variableType.setText(variables.get(position).getLayoutName());
-    binding.representation.setImageResource(R.drawable.ic_layout);
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              EditLayoutVariableModelBottomSheet editLayoutVariableModelBottomSheet =
-                  new EditLayoutVariableModelBottomSheet(
-                      fragment.getContext(),
-                      module,
-                      variables.get(position),
-                      new LayoutVariableModelChangeListener() {
-                        @Override
-                        public void onLayoutVariableModelDelete() {
-                          variables.remove(position);
-                          fragment.saveVariables();
-                          fragment.loadVariables();
-                        }
+	@Override
+	public void onBindViewHolder(ViewHolder holder, final int position) {
+		AdapterLayoutVariableBinding binding = AdapterLayoutVariableBinding.bind(holder.itemView);
+		binding.variableName.setText(variables.get(position).getVariableName());
+		binding.variableType.setText(variables.get(position).getLayoutName());
+		binding.representation.setImageResource(R.drawable.ic_layout);
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							EditLayoutVariableModelBottomSheet editLayoutVariableModelBottomSheet = new EditLayoutVariableModelBottomSheet(
+									fragment.getContext(),
+									module,
+									variables.get(position),
+									new LayoutVariableModelChangeListener() {
+										@Override
+										public void onLayoutVariableModelDelete() {
+											variables.remove(position);
+											fragment.saveVariables();
+											fragment.loadVariables();
+										}
 
-                        @Override
-                        public void onLayoutVariableModelUpdate(LayoutVariableModel model) {
-                          variables.add(model);
-                          fragment.saveVariables();
-                          fragment.loadVariables();
-                        }
-                      });
+										@Override
+										public void onLayoutVariableModelUpdate(LayoutVariableModel model) {
+											variables.add(model);
+											fragment.saveVariables();
+											fragment.loadVariables();
+										}
+									});
 
-              editLayoutVariableModelBottomSheet.show();
-            });
-  }
+							editLayoutVariableModelBottomSheet.show();
+						});
+	}
 
-  @Override
-  public int getItemCount() {
-    return variables.size();
-  }
+	@Override
+	public int getItemCount() {
+		return variables.size();
+	}
 }

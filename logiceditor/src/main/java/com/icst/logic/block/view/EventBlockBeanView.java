@@ -45,91 +45,86 @@ import com.icst.logic.utils.ImageViewUtils;
 import java.util.ArrayList;
 
 public class EventBlockBeanView extends LinearLayout {
-  private Context context;
-  private EventBlockBean eventBlockBean;
-  private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
-  private ArrayList<LayerBeanView> layers;
-  private LinearLayout layersView;
+	private Context context;
+	private EventBlockBean eventBlockBean;
+	private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
+	private ArrayList<LayerBeanView> layers;
+	private LinearLayout layersView;
 
-  public EventBlockBeanView(Context context, EventBlockBean eventBlockBean) {
-    super(context);
-    this.context = context;
-    this.eventBlockBean = eventBlockBean;
-    layers = new ArrayList<LayerBeanView>();
-    layersView = new LinearLayout(context);
-    setOrientation(VERTICAL);
-    init();
-  }
+	public EventBlockBeanView(Context context, EventBlockBean eventBlockBean) {
+		super(context);
+		this.context = context;
+		this.eventBlockBean = eventBlockBean;
+		layers = new ArrayList<LayerBeanView>();
+		layersView = new LinearLayout(context);
+		setOrientation(VERTICAL);
+		init();
+	}
 
-  private void init() {
-    addHeader();
-    addLayers();
-    addFooter();
-  }
+	private void init() {
+		addHeader();
+		addLayers();
+		addFooter();
+	}
 
-  private void addHeader() {
-    EventBlockBeanView.LayoutParams lp =
-        new EventBlockBeanView.LayoutParams(
-            EventBlockBeanView.LayoutParams.WRAP_CONTENT,
-            EventBlockBeanView.LayoutParams.WRAP_CONTENT);
+	private void addHeader() {
+		EventBlockBeanView.LayoutParams lp = new EventBlockBeanView.LayoutParams(
+				EventBlockBeanView.LayoutParams.WRAP_CONTENT,
+				EventBlockBeanView.LayoutParams.WRAP_CONTENT);
 
-    View header = new LinearLayout(context);
-    int res = BlockImageUtills.getImage(BlockImageUtills.Image.EVENT_BLOCK_ROUND_EDGE_TOP);
-    Drawable headerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
-    header.setBackgroundDrawable(headerDrawable);
-    addView(header);
-    header.setLayoutParams(lp);
-  }
+		View header = new LinearLayout(context);
+		int res = BlockImageUtills.getImage(BlockImageUtills.Image.EVENT_BLOCK_ROUND_EDGE_TOP);
+		Drawable headerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
+		header.setBackgroundDrawable(headerDrawable);
+		addView(header);
+		header.setLayoutParams(lp);
+	}
 
-  private void addLayers() {
-    ArrayList<BlockElementLayerBean> layers = eventBlockBean.getElementsLayers();
+	private void addLayers() {
+		ArrayList<BlockElementLayerBean> layers = eventBlockBean.getElementsLayers();
 
-    for (int i = 0; i < layers.size(); ++i) {
+		for (int i = 0; i < layers.size(); ++i) {
 
-      LinearLayout.LayoutParams lp =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-      BlockElementLayerBean elementLayer = layers.get(i);
-      LayerBeanView layerView =
-          LayerBuilder.buildBlockLayerView(context, elementLayer, configuration);
-      layerView.setLayerPosition(i);
-      layerView.setFirstLayer(i == 0);
-      layerView.setLastLayer(i == (layers.size() - 1));
-      layerView.setColor(eventBlockBean.getColor());
+			BlockElementLayerBean elementLayer = layers.get(i);
+			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(context, elementLayer, configuration);
+			layerView.setLayerPosition(i);
+			layerView.setFirstLayer(i == 0);
+			layerView.setLastLayer(i == (layers.size() - 1));
+			layerView.setColor(eventBlockBean.getColor());
 
-      layersView.addView(layerView);
-      layerView.setLayoutParams(lp);
-      this.layers.add(layerView);
-    }
+			layersView.addView(layerView);
+			layerView.setLayoutParams(lp);
+			this.layers.add(layerView);
+		}
 
-    EventBlockBeanView.LayoutParams lp =
-        new EventBlockBeanView.LayoutParams(
-            EventBlockBeanView.LayoutParams.WRAP_CONTENT,
-            EventBlockBeanView.LayoutParams.WRAP_CONTENT);
-    addView(layersView);
-    layersView.setLayoutParams(lp);
-  }
+		EventBlockBeanView.LayoutParams lp = new EventBlockBeanView.LayoutParams(
+				EventBlockBeanView.LayoutParams.WRAP_CONTENT,
+				EventBlockBeanView.LayoutParams.WRAP_CONTENT);
+		addView(layersView);
+		layersView.setLayoutParams(lp);
+	}
 
-  private void addFooter() {
+	private void addFooter() {
 
-    EventBlockBeanView.LayoutParams lp =
-        new EventBlockBeanView.LayoutParams(
-            EventBlockBeanView.LayoutParams.WRAP_CONTENT,
-            EventBlockBeanView.LayoutParams.WRAP_CONTENT);
+		EventBlockBeanView.LayoutParams lp = new EventBlockBeanView.LayoutParams(
+				EventBlockBeanView.LayoutParams.WRAP_CONTENT,
+				EventBlockBeanView.LayoutParams.WRAP_CONTENT);
 
-    View footer = new LinearLayout(context);
-    int res = BlockImageUtills.getImage(BlockImageUtills.Image.BLOCK_BOTTOM);
-    Drawable footerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
-    footer.setBackgroundDrawable(footerDrawable);
-    addView(footer);
-    footer.setLayoutParams(lp);
-  }
+		View footer = new LinearLayout(context);
+		int res = BlockImageUtills.getImage(BlockImageUtills.Image.BLOCK_BOTTOM);
+		Drawable footerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
+		footer.setBackgroundDrawable(footerDrawable);
+		addView(footer);
+		footer.setLayoutParams(lp);
+	}
 
-  private void setEventBlockBean(EventBlockBean eventBlockBean) {
-    this.eventBlockBean = eventBlockBean;
-    layers = new ArrayList<LayerBeanView>();
-    removeAllViews();
-    init();
-  }
+	private void setEventBlockBean(EventBlockBean eventBlockBean) {
+		this.eventBlockBean = eventBlockBean;
+		layers = new ArrayList<LayerBeanView>();
+		removeAllViews();
+		init();
+	}
 }

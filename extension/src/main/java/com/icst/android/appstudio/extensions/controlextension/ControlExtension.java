@@ -35,12 +35,12 @@ import com.icst.android.appstudio.models.ExtensionBundle;
 
 public final class ControlExtension {
 
-  public static ExtensionBundle getExtensionBundle() {
-    ExtensionBundle extension = new ExtensionBundle();
-	extension.setName("Control Blocks Extension");
-	extension.setVersion(1);
-	extension.setHolders(ControlHolder.getHolders());
-	extension.setBlocks(ControlBlocks.getBlocks());
-    return extension;
-  }
+	public static ExtensionBundle getExtensionBundle() {
+		ExtensionBundle extension = new ExtensionBundle();
+		extension.setName("Control Blocks Extension");
+		extension.setVersion(1);
+		extension.setHolders(ControlHolder.getHolders());
+		extension.setBlocks(ControlBlocks.getBlocks());
+		return extension;
+	}
 }

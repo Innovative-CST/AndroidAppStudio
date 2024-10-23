@@ -39,31 +39,31 @@ import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.databinding.ActivityLicenseReaderBinding;
 
 public class LicenseReaderActivity extends BaseActivity {
-  private ActivityLicenseReaderBinding binding;
+	private ActivityLicenseReaderBinding binding;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityLicenseReaderBinding.inflate(getLayoutInflater());
-    // set content view to binding's root.
-    setContentView(binding.getRoot());
+		binding = ActivityLicenseReaderBinding.inflate(getLayoutInflater());
+		// set content view to binding's root.
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    binding.LicenseText.setAutoLinkMask(Linkify.WEB_URLS);
-    binding.LicenseText.setMovementMethod(LinkMovementMethod.getInstance());
-    binding.LicenseText.setText(
-        FileUtils.readFileFromAssets(getAssets(), getIntent().getStringExtra("Path")));
-  }
+		binding.LicenseText.setAutoLinkMask(Linkify.WEB_URLS);
+		binding.LicenseText.setMovementMethod(LinkMovementMethod.getInstance());
+		binding.LicenseText.setText(
+				FileUtils.readFileFromAssets(getAssets(), getIntent().getStringExtra("Path")));
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 }

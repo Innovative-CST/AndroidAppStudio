@@ -34,24 +34,24 @@ package com.icst.android.appstudio.vieweditor.models;
 import java.io.Serializable;
 
 public class AttributesModel implements Serializable {
-  public static final long serialVersionUID = 17L;
+	public static final long serialVersionUID = 17L;
 
-  private String attribute;
-  private Object attributeValue;
+	private String attribute;
+	private Object attributeValue;
 
-  public String getAttribute() {
-    return this.attribute;
-  }
+	public String getAttribute() {
+		return this.attribute;
+	}
 
-  public void setAttribute(String attribute) {
-    this.attribute = attribute;
-  }
+	public void setAttribute(String attribute) {
+		this.attribute = attribute;
+	}
 
-  public Object getAttributeValue() {
-    return this.attributeValue;
-  }
+	public Object getAttributeValue() {
+		return this.attributeValue;
+	}
 
-  public void setAttributeValue(Object attributeValue) {
-    this.attributeValue = attributeValue;
-  }
+	public void setAttributeValue(Object attributeValue) {
+		this.attributeValue = attributeValue;
+	}
 }

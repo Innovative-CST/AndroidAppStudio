@@ -17,7 +17,6 @@
 package com.downloader.httpclient;
 
 import com.downloader.request.DownloadRequest;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -29,22 +28,22 @@ import java.util.Map;
 
 public interface HttpClient extends Cloneable {
 
-    HttpClient clone();
+	HttpClient clone();
 
-    void connect(DownloadRequest request) throws IOException;
+	void connect(DownloadRequest request) throws IOException;
 
-    int getResponseCode() throws IOException;
+	int getResponseCode() throws IOException;
 
-    InputStream getInputStream() throws IOException;
+	InputStream getInputStream() throws IOException;
 
-    long getContentLength();
+	long getContentLength();
 
-    String getResponseHeader(String name);
+	String getResponseHeader(String name);
 
-    void close();
+	void close();
 
-    Map<String, List<String>> getHeaderFields();
+	Map<String, List<String>> getHeaderFields();
 
-    InputStream getErrorStream() throws IOException;
+	InputStream getErrorStream() throws IOException;
 
 }

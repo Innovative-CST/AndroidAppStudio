@@ -40,13 +40,14 @@ import com.icst.android.appstudio.models.SocialProfile;
 import java.util.ArrayList;
 
 public class SocialProfileBottomSheet extends BottomSheetDialog {
-  public SocialProfileBottomSheet(ArrayList<SocialProfile> socialProfiles, Activity activity) {
-    super(activity);
-	
-	BottomsheetSocialProfileBottomSheetBinding binding = BottomsheetSocialProfileBottomSheetBinding.inflate(activity.getLayoutInflater());
-	setContentView(binding.getRoot());
-	
-	binding.profilesList.setAdapter(new SocialProfileAdapter(socialProfiles,activity));
-	binding.profilesList.setLayoutManager(new LinearLayoutManager(activity));
-  }
+	public SocialProfileBottomSheet(ArrayList<SocialProfile> socialProfiles, Activity activity) {
+		super(activity);
+
+		BottomsheetSocialProfileBottomSheetBinding binding = BottomsheetSocialProfileBottomSheetBinding
+				.inflate(activity.getLayoutInflater());
+		setContentView(binding.getRoot());
+
+		binding.profilesList.setAdapter(new SocialProfileAdapter(socialProfiles, activity));
+		binding.profilesList.setLayoutManager(new LinearLayoutManager(activity));
+	}
 }

@@ -43,31 +43,32 @@ import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 
 public class LayoutSourceViewerDialog extends MaterialAlertDialogBuilder {
-  private Activity activity;
-  private CodeEditorLayout editor;
+	private Activity activity;
+	private CodeEditorLayout editor;
 
-  public LayoutSourceViewerDialog(BaseActivity activity, String code) {
-    super(activity);
-    this.activity = activity;
-    FileProviderRegistry.getInstance()
-        .addFileProvider(new AssetsFileResolver(activity.getAssets()));
-    try {
-      TextMateProvider.loadGrammars();
-    } catch (Exception e) {
-      Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
-    }
-    editor = new CodeEditorLayout(activity);
-    editor.setEditable(false);
-    if (activity.getSetting().isEnabledDarkMode()) {
-      editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
-    } else {
-      editor.setTheme(Themes.SoraEditorTheme.Light.Default);
-    }
+	public LayoutSourceViewerDialog(BaseActivity activity, String code) {
+		super(activity);
+		this.activity = activity;
+		FileProviderRegistry.getInstance()
+				.addFileProvider(new AssetsFileResolver(activity.getAssets()));
+		try {
+			TextMateProvider.loadGrammars();
+		} catch (Exception e) {
+			Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+		editor = new CodeEditorLayout(activity);
+		editor.setEditable(false);
+		if (activity.getSetting().isEnabledDarkMode()) {
+			editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+		} else {
+			editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+		}
 
-    editor.setLanguageMode("xml");
-    editor.setText(code);
-    setView(editor);
-    setTitle(R.string.source_code);
-    setPositiveButton(R.string.dismiss, (arg0, arg1) -> {});
-  }
+		editor.setLanguageMode("xml");
+		editor.setText(code);
+		setView(editor);
+		setTitle(R.string.source_code);
+		setPositiveButton(R.string.dismiss, (arg0, arg1) -> {
+		});
+	}
 }

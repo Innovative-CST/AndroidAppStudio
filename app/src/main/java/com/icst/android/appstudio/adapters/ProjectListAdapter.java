@@ -45,68 +45,66 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.ViewHolder> {
-  private ArrayList<ProjectModel> projectList;
-  private ArrayList<File> projectFileList;
-  private ProjectManagerActivity mProjectManagerActivity;
+	private ArrayList<ProjectModel> projectList;
+	private ArrayList<File> projectFileList;
+	private ProjectManagerActivity mProjectManagerActivity;
 
-  public ProjectListAdapter(
-      ArrayList<ProjectModel> projectList,
-      ArrayList<File> projectFileList,
-      ProjectManagerActivity mProjectManagerActivity) {
-    this.projectList = projectList;
-    this.projectFileList = projectFileList;
-    this.mProjectManagerActivity = mProjectManagerActivity;
-  }
+	public ProjectListAdapter(
+			ArrayList<ProjectModel> projectList,
+			ArrayList<File> projectFileList,
+			ProjectManagerActivity mProjectManagerActivity) {
+		this.projectList = projectList;
+		this.projectFileList = projectFileList;
+		this.mProjectManagerActivity = mProjectManagerActivity;
+	}
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterProjectBinding binding =
-        AdapterProjectBinding.inflate(mProjectManagerActivity.getLayoutInflater());
-    RecyclerView.LayoutParams mLayoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(mLayoutParams);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+		AdapterProjectBinding binding = AdapterProjectBinding.inflate(mProjectManagerActivity.getLayoutInflater());
+		RecyclerView.LayoutParams mLayoutParams = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(mLayoutParams);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, final int position) {
-    AdapterProjectBinding binding = AdapterProjectBinding.bind(holder.itemView);
-    binding.projectName.setText(projectList.get(position).getProjectName());
-    binding.packageName.setText(projectList.get(position).getPackageName());
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              Intent modules = new Intent(mProjectManagerActivity, ModulesActivity.class);
-              modules.putExtra(
-                  "projectRootDirectory", projectFileList.get(position).getAbsolutePath());
-              modules.putExtra(
-                  "currentDir",
-                  EnvironmentUtils.getProjectDataDir(projectFileList.get(position))
-                      .getAbsolutePath());
-              modules.putExtra("isInsideModule", false);
-              mProjectManagerActivity.startActivity(modules);
-            });
-    binding
-        .getRoot()
-        .setOnLongClickListener(
-            (view) -> {
-              ProjectOptionsSheet sheet =
-                  new ProjectOptionsSheet(mProjectManagerActivity, projectFileList.get(position));
-              sheet.show();
-              return false;
-            });
-  }
+	@Override
+	public void onBindViewHolder(ViewHolder holder, final int position) {
+		AdapterProjectBinding binding = AdapterProjectBinding.bind(holder.itemView);
+		binding.projectName.setText(projectList.get(position).getProjectName());
+		binding.packageName.setText(projectList.get(position).getPackageName());
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							Intent modules = new Intent(mProjectManagerActivity, ModulesActivity.class);
+							modules.putExtra(
+									"projectRootDirectory", projectFileList.get(position).getAbsolutePath());
+							modules.putExtra(
+									"currentDir",
+									EnvironmentUtils.getProjectDataDir(projectFileList.get(position))
+											.getAbsolutePath());
+							modules.putExtra("isInsideModule", false);
+							mProjectManagerActivity.startActivity(modules);
+						});
+		binding
+				.getRoot()
+				.setOnLongClickListener(
+						(view) -> {
+							ProjectOptionsSheet sheet = new ProjectOptionsSheet(mProjectManagerActivity,
+									projectFileList.get(position));
+							sheet.show();
+							return false;
+						});
+	}
 
-  @Override
-  public int getItemCount() {
-    return projectList.size();
-  }
+	@Override
+	public int getItemCount() {
+		return projectList.size();
+	}
 }

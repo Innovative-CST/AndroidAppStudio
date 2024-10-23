@@ -37,23 +37,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ActivityEventHolders {
-  public static ArrayList<EventHolder> getHolders() {
-    ArrayList<EventHolder> result = new ArrayList<EventHolder>();
-    result.add(getActivityHolder());
-    return result;
-  }
+	public static ArrayList<EventHolder> getHolders() {
+		ArrayList<EventHolder> result = new ArrayList<EventHolder>();
+		result.add(getActivityHolder());
+		return result;
+	}
 
-  public static EventHolder getActivityHolder() {
-    EventHolder holder = new EventHolder();
-    holder.setHolderName("Activity");
-    holder.setBuiltInEvents(true);
+	public static EventHolder getActivityHolder() {
+		EventHolder holder = new EventHolder();
+		holder.setHolderName("Activity");
+		holder.setBuiltInEvents(true);
 
-    try {
-      holder.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+		try {
+			holder.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    return holder;
-  }
+		return holder;
+	}
 }

@@ -39,72 +39,69 @@ import com.icst.android.appstudio.block.editor.EventEditor;
 import com.icst.android.appstudio.block.model.BlockModel;
 
 public class BlockPreview extends LinearLayout {
-  private BlockModel block;
-  private EventEditor editor;
+	private BlockModel block;
+	private EventEditor editor;
 
-  public BlockPreview(EventEditor editor) {
-    super(editor.getContext());
-    this.editor = editor;
-  }
+	public BlockPreview(EventEditor editor) {
+		super(editor.getContext());
+		this.editor = editor;
+	}
 
-  public void setBlock(BlockModel block) {
-    this.block = block;
-    drawPreview();
-  }
+	public void setBlock(BlockModel block) {
+		this.block = block;
+		drawPreview();
+	}
 
-  public void drawPreview() {
-    String previewColor = editor.isDarkMode() ? "#FFFFFF" : "#000000";
-    removeAllViews();
-    setOrientation(LinearLayout.VERTICAL);
-    if (block.getBlockType() == BlockModel.Type.defaultBlock) {
-      LinearLayout.LayoutParams layoutParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+	public void drawPreview() {
+		String previewColor = editor.isDarkMode() ? "#FFFFFF" : "#000000";
+		removeAllViews();
+		setOrientation(LinearLayout.VERTICAL);
+		if (block.getBlockType() == BlockModel.Type.defaultBlock) {
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-      LinearLayout top = new LinearLayout(getContext());
-      BlockView.setDrawable(top, R.drawable.block_default_top, Color.parseColor(previewColor));
-      addView(top);
-      LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(
-          body, R.drawable.block_default_cut_bl_br, Color.parseColor(previewColor));
-      addView(body);
-      LinearLayout bottom = new LinearLayout(getContext());
-      BlockView.setDrawable(
-          bottom, R.drawable.block_default_bottom_joint, Color.parseColor(previewColor));
-      addView(bottom);
-      top.setLayoutParams(layoutParams);
-      body.setLayoutParams(layoutParams);
-      bottom.setLayoutParams(layoutParams);
-    } else if (block.getBlockType() == BlockModel.Type.defaultBoolean) {
-      LinearLayout.LayoutParams layoutParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-      LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(
-          body, R.drawable.block_boolean_backdrop, Color.parseColor(previewColor));
-      addView(body);
-      body.setLayoutParams(layoutParams);
-    } else if (block.getBlockType() == BlockModel.Type.number) {
-      LinearLayout.LayoutParams layoutParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-      LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(body, R.drawable.block_number, Color.parseColor("#000000"));
-      addView(body);
-      body.setLayoutParams(layoutParams);
-    } else if (block.getBlockType() == BlockModel.Type.variable) {
-      LinearLayout.LayoutParams layoutParams =
-          new LinearLayout.LayoutParams(
-              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-      LinearLayout body = new LinearLayout(getContext());
-      BlockView.setDrawable(body, R.drawable.block_variable, Color.parseColor("#000000"));
-      addView(body);
-      body.setLayoutParams(layoutParams);
-    }
-  }
+			LinearLayout top = new LinearLayout(getContext());
+			BlockView.setDrawable(top, R.drawable.block_default_top, Color.parseColor(previewColor));
+			addView(top);
+			LinearLayout body = new LinearLayout(getContext());
+			BlockView.setDrawable(
+					body, R.drawable.block_default_cut_bl_br, Color.parseColor(previewColor));
+			addView(body);
+			LinearLayout bottom = new LinearLayout(getContext());
+			BlockView.setDrawable(
+					bottom, R.drawable.block_default_bottom_joint, Color.parseColor(previewColor));
+			addView(bottom);
+			top.setLayoutParams(layoutParams);
+			body.setLayoutParams(layoutParams);
+			bottom.setLayoutParams(layoutParams);
+		} else if (block.getBlockType() == BlockModel.Type.defaultBoolean) {
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			LinearLayout body = new LinearLayout(getContext());
+			BlockView.setDrawable(
+					body, R.drawable.block_boolean_backdrop, Color.parseColor(previewColor));
+			addView(body);
+			body.setLayoutParams(layoutParams);
+		} else if (block.getBlockType() == BlockModel.Type.number) {
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			LinearLayout body = new LinearLayout(getContext());
+			BlockView.setDrawable(body, R.drawable.block_number, Color.parseColor("#000000"));
+			addView(body);
+			body.setLayoutParams(layoutParams);
+		} else if (block.getBlockType() == BlockModel.Type.variable) {
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			LinearLayout body = new LinearLayout(getContext());
+			BlockView.setDrawable(body, R.drawable.block_variable, Color.parseColor("#000000"));
+			addView(body);
+			body.setLayoutParams(layoutParams);
+		}
+	}
 
-  public void removePreview() {
-    if (getParent() == null) return;
-    ((ViewGroup) getParent()).removeView(this);
-  }
+	public void removePreview() {
+		if (getParent() == null)
+			return;
+		((ViewGroup) getParent()).removeView(this);
+	}
 }

@@ -35,12 +35,12 @@ import com.icst.android.appstudio.models.ExtensionBundle;
 
 public class CommentExtension {
 
-  public static ExtensionBundle getExtensionBundle() {
-    ExtensionBundle extension = new ExtensionBundle();
-    extension.setName("Comment Blocks Extension");
-    extension.setVersion(1);
-    extension.setHolders(CommentBlocksHolder.getHolders());
-    extension.setBlocks(CommentBlocks.getBlocks());
-    return extension;
-  }
+	public static ExtensionBundle getExtensionBundle() {
+		ExtensionBundle extension = new ExtensionBundle();
+		extension.setName("Comment Blocks Extension");
+		extension.setVersion(1);
+		extension.setHolders(CommentBlocksHolder.getHolders());
+		extension.setBlocks(CommentBlocks.getBlocks());
+		return extension;
+	}
 }

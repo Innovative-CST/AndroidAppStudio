@@ -34,112 +34,128 @@ package com.icst.android.appstudio.beans;
 import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 
 /**
- * Abstract class representing the ExpressionBlockBean drop zone supposed to be used within the
+ * Abstract class representing the ExpressionBlockBean drop zone supposed to be
+ * used within the
  * LogicEditor.
  */
 public abstract class ExpressionBlockDropZone {
 
-  /** Marks whether ExpressionBlockDropZone is empty or occupied by a ExpressionBlockBean. */
-  private boolean isOccupied;
+	/**
+	 * Marks whether ExpressionBlockDropZone is empty or occupied by a
+	 * ExpressionBlockBean.
+	 */
+	private boolean isOccupied;
 
-  /** ExpressionBlockBean that occupied this ExpressionBlockDropZone. */
-  private ExpressionBlockBean expressionBlockBean;
+	/** ExpressionBlockBean that occupied this ExpressionBlockDropZone. */
+	private ExpressionBlockBean expressionBlockBean;
 
-  private DatatypeBean datatypeBean;
+	private DatatypeBean datatypeBean;
 
-  /**
-   * Execute when the ExpressionBlockBean is dropped inside BlockDropZoneBean and BlockDropZoneBean
-   * was not previously occupied.
-   *
-   * @param expressionBlockBean The ExpressionBlockBean which is just dropped.
-   */
-  protected abstract void onExpressionBlockBeanDropped(ExpressionBlockBean expressionBlockBean);
+	/**
+	 * Execute when the ExpressionBlockBean is dropped inside BlockDropZoneBean and
+	 * BlockDropZoneBean
+	 * was not previously occupied.
+	 *
+	 * @param expressionBlockBean
+	 *            The ExpressionBlockBean which is just dropped.
+	 */
+	protected abstract void onExpressionBlockBeanDropped(ExpressionBlockBean expressionBlockBean);
 
-  /**
-   * Execute when the ExpressionBlockBean is dropped inside BlockDropZoneBean and BlockDropZoneBean
-   * was previously occupied.
-   *
-   * @param droppedExpressionBlockBean The ExpressionBlockBean which is just dropped.
-   * @param oldExpressionBlockBean The previously ExpressionBlockBean which is replaced by a new new
-   *     one.
-   */
-  protected abstract void onExpressionBlockBeanDropped(
-      ExpressionBlockBean droppedExpressionBlockBean, ExpressionBlockBean oldExpressionBlockBean);
+	/**
+	 * Execute when the ExpressionBlockBean is dropped inside BlockDropZoneBean and
+	 * BlockDropZoneBean
+	 * was previously occupied.
+	 *
+	 * @param droppedExpressionBlockBean
+	 *            The ExpressionBlockBean which is just dropped.
+	 * @param oldExpressionBlockBean
+	 *            The previously ExpressionBlockBean which is replaced by a new new
+	 *            one.
+	 */
+	protected abstract void onExpressionBlockBeanDropped(
+			ExpressionBlockBean droppedExpressionBlockBean, ExpressionBlockBean oldExpressionBlockBean);
 
-  /**
-   * Use this method to know whether a ExpressionBlockBean is droppable inside a
-   * ExpressionBlockDropZone or not.
-   *
-   * @param mExpressionBlockBean Instance of ExpressionBlockBean to check if it is droppable or not.
-   * @return return true if @mExpressionBlockBean is droppable inside ExpressionBlockDropZone or
-   *     not.
-   */
-  protected boolean canDropBlockBean(ExpressionBlockBean mExpressionBlockBean) {
-    return BlockBeanUtils.arrayContainsDatatypeBeans(
-        mExpressionBlockBean.getReturnDatatypes(), datatypeBean);
-  }
+	/**
+	 * Use this method to know whether a ExpressionBlockBean is droppable inside a
+	 * ExpressionBlockDropZone or not.
+	 *
+	 * @param mExpressionBlockBean
+	 *            Instance of ExpressionBlockBean to check if it is droppable or
+	 *            not.
+	 * @return return true if @mExpressionBlockBean is droppable inside
+	 *         ExpressionBlockDropZone or
+	 *         not.
+	 */
+	protected boolean canDropBlockBean(ExpressionBlockBean mExpressionBlockBean) {
+		return BlockBeanUtils.arrayContainsDatatypeBeans(
+				mExpressionBlockBean.getReturnDatatypes(), datatypeBean);
+	}
 
-  /**
-   * Use this method to drop the ExpressionBlockBean in ExpressionBlockDropZone.
-   *
-   * @param expressionBlockBean Instance of ExpressionBlockBean to drop inside the
-   *     ExpressionBlockDropZone.
-   * @return return true if expressionBlockBean is dropped, otherwise false.
-   */
-  protected boolean dropBlockBean(ExpressionBlockBean expressionBlockBean) {
-    if (canDropBlockBean(expressionBlockBean)) {
+	/**
+	 * Use this method to drop the ExpressionBlockBean in ExpressionBlockDropZone.
+	 *
+	 * @param expressionBlockBean
+	 *            Instance of ExpressionBlockBean to drop inside the
+	 *            ExpressionBlockDropZone.
+	 * @return return true if expressionBlockBean is dropped, otherwise false.
+	 */
+	protected boolean dropBlockBean(ExpressionBlockBean expressionBlockBean) {
+		if (canDropBlockBean(expressionBlockBean)) {
 
-      // Check if this ExpressionBlockDropZone is already occupied.
+			// Check if this ExpressionBlockDropZone is already occupied.
 
-      if (isOccupied) {
-        // Mark ExpressionBlockDropZone to be occupied
-        final ExpressionBlockBean previousExpressionBlockBean = this.expressionBlockBean;
-        setExpressionBlockBean(expressionBlockBean);
-        setOccupied(true);
-        onExpressionBlockBeanDropped(expressionBlockBean, previousExpressionBlockBean);
-      } else {
-        // Mark ExpressionBlockDropZone to be occupied
-        setExpressionBlockBean(expressionBlockBean);
-        setOccupied(true);
-      }
+			if (isOccupied) {
+				// Mark ExpressionBlockDropZone to be occupied
+				final ExpressionBlockBean previousExpressionBlockBean = this.expressionBlockBean;
+				setExpressionBlockBean(expressionBlockBean);
+				setOccupied(true);
+				onExpressionBlockBeanDropped(expressionBlockBean, previousExpressionBlockBean);
+			} else {
+				// Mark ExpressionBlockDropZone to be occupied
+				setExpressionBlockBean(expressionBlockBean);
+				setOccupied(true);
+			}
 
-      return true;
-    } else return false;
-  }
+			return true;
+		} else
+			return false;
+	}
 
-  /**
-   * Use this method to know whether ExpressionBlockDropZone already has block or not.
-   *
-   * @return return true ExpressionBlockDropZone has not ExpressionBlockBean.
-   */
-  public boolean isOccupied() {
-    return this.isOccupied;
-  }
+	/**
+	 * Use this method to know whether ExpressionBlockDropZone already has block or
+	 * not.
+	 *
+	 * @return return true ExpressionBlockDropZone has not ExpressionBlockBean.
+	 */
+	public boolean isOccupied() {
+		return this.isOccupied;
+	}
 
-  private void setOccupied(boolean isOccupied) {
-    this.isOccupied = isOccupied;
-  }
+	private void setOccupied(boolean isOccupied) {
+		this.isOccupied = isOccupied;
+	}
 
-  /**
-   * @return returns the current expressionBlockBean which has occupied block.
-   */
-  public ExpressionBlockBean getExpressionBlockBean() {
-    return this.expressionBlockBean;
-  }
+	/**
+	 * @return returns the current expressionBlockBean which has occupied block.
+	 */
+	public ExpressionBlockBean getExpressionBlockBean() {
+		return this.expressionBlockBean;
+	}
 
-  /**
-   * Sets the value of expressionBlockBean for internal use only, it is not supposed to be used as
-   * api because this is for internal use of this class only and hence private.
-   */
-  private void setExpressionBlockBean(ExpressionBlockBean expressionBlockBean) {
-    this.expressionBlockBean = expressionBlockBean;
-  }
+	/**
+	 * Sets the value of expressionBlockBean for internal use only, it is not
+	 * supposed to be used as
+	 * api because this is for internal use of this class only and hence private.
+	 */
+	private void setExpressionBlockBean(ExpressionBlockBean expressionBlockBean) {
+		this.expressionBlockBean = expressionBlockBean;
+	}
 
-  public DatatypeBean getDatatypeBean() {
-    return this.datatypeBean;
-  }
+	public DatatypeBean getDatatypeBean() {
+		return this.datatypeBean;
+	}
 
-  public void setDatatypeBean(DatatypeBean datatypeBean) {
-    this.datatypeBean = datatypeBean;
-  }
+	public void setDatatypeBean(DatatypeBean datatypeBean) {
+		this.datatypeBean = datatypeBean;
+	}
 }

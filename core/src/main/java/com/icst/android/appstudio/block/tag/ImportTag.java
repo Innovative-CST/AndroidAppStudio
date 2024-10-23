@@ -34,22 +34,22 @@ package com.icst.android.appstudio.block.tag;
 import java.io.Serializable;
 
 public class ImportTag implements AdditionalCodeHelperTag, Serializable {
-  public static final long serialVersionUID = 18L;
+	public static final long serialVersionUID = 18L;
 
-  private String importClass;
+	private String importClass;
 
-  @Override
-  public AdditionalCodeHelperTag clone() {
-    ImportTag clone = new ImportTag();
-    clone.setImportClass(getImportClass() == null ? null : new String(getImportClass()));
-    return clone;
-  }
+	@Override
+	public AdditionalCodeHelperTag clone() {
+		ImportTag clone = new ImportTag();
+		clone.setImportClass(getImportClass() == null ? null : new String(getImportClass()));
+		return clone;
+	}
 
-  public String getImportClass() {
-    return this.importClass;
-  }
+	public String getImportClass() {
+		return this.importClass;
+	}
 
-  public void setImportClass(String importClass) {
-    this.importClass = importClass;
-  }
+	public void setImportClass(String importClass) {
+		this.importClass = importClass;
+	}
 }

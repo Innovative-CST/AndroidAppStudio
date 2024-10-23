@@ -35,89 +35,89 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ProjectModel implements Serializable {
-  public static final long serialVersionUID = 9L;
+	public static final long serialVersionUID = 9L;
 
-  private String packageName;
-  private String projectName;
-  private String projectVersionName;
-  private String targetSdkVersion;
-  private String minimumSdkVersion;
-  private String javaVersion;
-  private String dexer;
-  private ArrayList<BuildConfigFieldModel> buildConfigFields;
-  private int versionCode;
+	private String packageName;
+	private String projectName;
+	private String projectVersionName;
+	private String targetSdkVersion;
+	private String minimumSdkVersion;
+	private String javaVersion;
+	private String dexer;
+	private ArrayList<BuildConfigFieldModel> buildConfigFields;
+	private int versionCode;
 
-  public String getPackageName() {
-    return this.packageName == null ? "" : this.packageName;
-  }
+	public String getPackageName() {
+		return this.packageName == null ? "" : this.packageName;
+	}
 
-  public void setPackageName(String packageName) {
-    this.packageName = packageName;
-  }
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
 
-  public String getProjectName() {
-    return this.projectName == null ? "" : this.projectName;
-  }
+	public String getProjectName() {
+		return this.projectName == null ? "" : this.projectName;
+	}
 
-  public void setProjectName(String projectName) {
-    this.projectName = projectName;
-  }
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
-  public String getProjectVersionName() {
-    return this.projectVersionName == null ? "" : this.projectVersionName;
-  }
+	public String getProjectVersionName() {
+		return this.projectVersionName == null ? "" : this.projectVersionName;
+	}
 
-  public void setProjectVersionName(String projectVersionName) {
-    this.projectVersionName = projectVersionName;
-  }
+	public void setProjectVersionName(String projectVersionName) {
+		this.projectVersionName = projectVersionName;
+	}
 
-  public String getTargetSdkVersion() {
-    return this.targetSdkVersion == null ? "" : this.targetSdkVersion;
-  }
+	public String getTargetSdkVersion() {
+		return this.targetSdkVersion == null ? "" : this.targetSdkVersion;
+	}
 
-  public void setTargetSdkVersion(String targetSdkVersion) {
-    this.targetSdkVersion = targetSdkVersion;
-  }
+	public void setTargetSdkVersion(String targetSdkVersion) {
+		this.targetSdkVersion = targetSdkVersion;
+	}
 
-  public String getMinimumSdkVersion() {
-    return this.minimumSdkVersion == null ? "" : this.minimumSdkVersion;
-  }
+	public String getMinimumSdkVersion() {
+		return this.minimumSdkVersion == null ? "" : this.minimumSdkVersion;
+	}
 
-  public void setMinimumSdkVersion(String minimumSdkVersion) {
-    this.minimumSdkVersion = minimumSdkVersion;
-  }
+	public void setMinimumSdkVersion(String minimumSdkVersion) {
+		this.minimumSdkVersion = minimumSdkVersion;
+	}
 
-  public String getJavaVersion() {
-    return this.javaVersion == null ? "" : this.javaVersion;
-  }
+	public String getJavaVersion() {
+		return this.javaVersion == null ? "" : this.javaVersion;
+	}
 
-  public void setJavaVersion(String javaVersion) {
-    this.javaVersion = javaVersion;
-  }
+	public void setJavaVersion(String javaVersion) {
+		this.javaVersion = javaVersion;
+	}
 
-  public String getDexer() {
-    return this.dexer == null ? "" : this.dexer;
-  }
+	public String getDexer() {
+		return this.dexer == null ? "" : this.dexer;
+	}
 
-  public void setDexer(String dexer) {
-    this.dexer = dexer;
-  }
+	public void setDexer(String dexer) {
+		this.dexer = dexer;
+	}
 
-  public ArrayList<BuildConfigFieldModel> getBuildConfigFields() {
-    return this.buildConfigFields == null
-        ? new ArrayList<BuildConfigFieldModel>()
-        : this.buildConfigFields;
-  }
+	public ArrayList<BuildConfigFieldModel> getBuildConfigFields() {
+		return this.buildConfigFields == null
+				? new ArrayList<BuildConfigFieldModel>()
+				: this.buildConfigFields;
+	}
 
-  public void setBuildConfigFields(ArrayList<BuildConfigFieldModel> buildConfigFields) {
-    this.buildConfigFields = buildConfigFields;
-  }
+	public void setBuildConfigFields(ArrayList<BuildConfigFieldModel> buildConfigFields) {
+		this.buildConfigFields = buildConfigFields;
+	}
 
-  public int getVersionCode() {
-    return this.versionCode;
-  }
+	public int getVersionCode() {
+		return this.versionCode;
+	}
 
-  public void setVersionCode(int versionCode) {
-    this.versionCode = versionCode;
-  }
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
 }

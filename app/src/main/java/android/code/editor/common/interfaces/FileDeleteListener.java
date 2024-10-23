@@ -20,13 +20,13 @@ package android.code.editor.common.interfaces;
 import java.io.File;
 
 public interface FileDeleteListener {
-  public void onProgressUpdate(int deleteDone);
+	void onProgressUpdate(int deleteDone);
 
-  public void onTotalCount(int total);
+	void onTotalCount(int total);
 
-  public void onDeleting(File path);
+	void onDeleting(File path);
 
-  public void onDeleteComplete(File path);
+	void onDeleteComplete(File path);
 
-  public void onTaskComplete();
+	void onTaskComplete();
 }

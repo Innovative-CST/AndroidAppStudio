@@ -46,100 +46,99 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileManagerActivity extends BaseActivity {
-  private ActivityFileManagerBinding binding;
-  private File initialDir;
-  private File currentDir;
-  private ArrayList<String> files = new ArrayList<>();
-  private ArrayList<HashMap<String, String>> filesMap = new ArrayList<>();
-  private FilesListAdapter filesListAdapter;
+	private ActivityFileManagerBinding binding;
+	private File initialDir;
+	private File currentDir;
+	private ArrayList<String> files = new ArrayList<>();
+	private ArrayList<HashMap<String, String>> filesMap = new ArrayList<>();
+	private FilesListAdapter filesListAdapter;
 
-  @Override
-  protected void onCreate(Bundle bundle) {
-    super.onCreate(bundle);
+	@Override
+	protected void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
 
-    binding = ActivityFileManagerBinding.inflate(getLayoutInflater());
-    initialDir = new File(getIntent().getStringExtra("path"));
-    currentDir = new File(getIntent().getStringExtra("path"));
+		binding = ActivityFileManagerBinding.inflate(getLayoutInflater());
+		initialDir = new File(getIntent().getStringExtra("path"));
+		currentDir = new File(getIntent().getStringExtra("path"));
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    ViewCompat.setOnApplyWindowInsetsListener(
-        binding.getRoot(),
-        (view, windowInsets) -> {
-          Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-          view.setPadding(
-              view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), insets.bottom);
-          return windowInsets;
-        });
+		ViewCompat.setOnApplyWindowInsetsListener(
+				binding.getRoot(),
+				(view, windowInsets) -> {
+					Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+					view.setPadding(
+							view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), insets.bottom);
+					return windowInsets;
+				});
 
-    binding.toolbar.setTitle("File Manager");
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.toolbar.setTitle("File Manager");
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    binding.fab.setOnClickListener(
-        (v) -> {
-          Intent editor = new Intent(FileManagerActivity.this, CodeEditorActivity.class);
-          editor.putExtra("path", currentDir.getAbsolutePath());
-          startActivity(editor);
-        });
+		binding.fab.setOnClickListener(
+				(v) -> {
+					Intent editor = new Intent(FileManagerActivity.this, CodeEditorActivity.class);
+					editor.putExtra("path", currentDir.getAbsolutePath());
+					startActivity(editor);
+				});
 
-    loadFileList(currentDir);
-  }
+		loadFileList(currentDir);
+	}
 
-  public void loadFileList(File path) {
-    files.clear();
-    filesMap.clear();
-    currentDir = path;
-    Thread thread =
-        new Thread(
-            () -> {
-              runOnUiThread(
-                  () -> {
-                    binding.progressbar.setVisibility(View.VISIBLE);
-                  });
+	public void loadFileList(File path) {
+		files.clear();
+		filesMap.clear();
+		currentDir = path;
+		Thread thread = new Thread(
+				() -> {
+					runOnUiThread(
+							() -> {
+								binding.progressbar.setVisibility(View.VISIBLE);
+							});
 
-              // Get file path from intent and list dir in array
-              FileUtils.listDir(path.getAbsolutePath(), files);
-              FileUtils.setUpFileList(filesMap, files);
+					// Get file path from intent and list dir in array
+					FileUtils.listDir(path.getAbsolutePath(), files);
+					FileUtils.setUpFileList(filesMap, files);
 
-              runOnUiThread(
-                  () -> {
-                    // Set Data in list
-                    binding.progressbar.setVisibility(View.GONE);
-                    filesListAdapter = new FilesListAdapter(FileManagerActivity.this);
-                    binding.list.setAdapter(filesListAdapter);
-                    binding.list.setLayoutManager(
-                        new LinearLayoutManager(FileManagerActivity.this));
-                  });
-            });
+					runOnUiThread(
+							() -> {
+								// Set Data in list
+								binding.progressbar.setVisibility(View.GONE);
+								filesListAdapter = new FilesListAdapter(FileManagerActivity.this);
+								binding.list.setAdapter(filesListAdapter);
+								binding.list.setLayoutManager(
+										new LinearLayoutManager(FileManagerActivity.this));
+							});
+				});
 
-    thread.run();
-  }
+		thread.run();
+	}
 
-  public File getCurrentDir() {
-    return this.currentDir;
-  }
+	public File getCurrentDir() {
+		return this.currentDir;
+	}
 
-  public void setCurrentDir(File currentDir) {
-    this.currentDir = currentDir;
-  }
+	public void setCurrentDir(File currentDir) {
+		this.currentDir = currentDir;
+	}
 
-  public ArrayList<HashMap<String, String>> getFilesMap() {
-    return this.filesMap;
-  }
+	public ArrayList<HashMap<String, String>> getFilesMap() {
+		return this.filesMap;
+	}
 
-  public void setFilesMap(ArrayList<HashMap<String, String>> filesMap) {
-    this.filesMap = filesMap;
-  }
+	public void setFilesMap(ArrayList<HashMap<String, String>> filesMap) {
+		this.filesMap = filesMap;
+	}
 
-  @Override
-  public void onBackPressed() {
-    if (initialDir.getAbsolutePath().equals(currentDir.getAbsolutePath())) {
-      finish();
-    } else {
-      loadFileList(currentDir.getParentFile());
-    }
-  }
+	@Override
+	public void onBackPressed() {
+		if (initialDir.getAbsolutePath().equals(currentDir.getAbsolutePath())) {
+			finish();
+		} else {
+			loadFileList(currentDir.getParentFile());
+		}
+	}
 }

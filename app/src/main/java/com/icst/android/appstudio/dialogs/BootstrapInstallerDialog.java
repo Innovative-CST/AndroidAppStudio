@@ -46,74 +46,73 @@ import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolve
 import java.util.concurrent.CompletableFuture;
 
 public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
-  private Activity activity;
-  private AlertDialog dialog;
-  private DialogBootstrapInstallerBinding binding;
+	private Activity activity;
+	private AlertDialog dialog;
+	private DialogBootstrapInstallerBinding binding;
 
-  public BootstrapInstallerDialog(
-      BaseActivity activity, BootstrapInstallCompletionListener listener) {
-    super(activity);
-    this.activity = activity;
-    binding = DialogBootstrapInstallerBinding.inflate(LayoutInflater.from(activity));
+	public BootstrapInstallerDialog(
+			BaseActivity activity, BootstrapInstallCompletionListener listener) {
+		super(activity);
+		this.activity = activity;
+		binding = DialogBootstrapInstallerBinding.inflate(LayoutInflater.from(activity));
 
-    FileProviderRegistry.getInstance()
-        .addFileProvider(new AssetsFileResolver(activity.getAssets()));
-    try {
-      TextMateProvider.loadGrammars();
-    } catch (Exception e) {
-    }
+		FileProviderRegistry.getInstance()
+				.addFileProvider(new AssetsFileResolver(activity.getAssets()));
+		try {
+			TextMateProvider.loadGrammars();
+		} catch (Exception e) {
+		}
 
-    binding.editor.setEditable(false);
-    if (activity.getSetting().isEnabledDarkMode()) {
-      binding.editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
-    } else {
-      binding.editor.setTheme(Themes.SoraEditorTheme.Light.Default);
-    }
+		binding.editor.setEditable(false);
+		if (activity.getSetting().isEnabledDarkMode()) {
+			binding.editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+		} else {
+			binding.editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+		}
 
-    setView(binding.getRoot());
-    setTitle("Bootstrap Installation");
-    setCancelable(false);
-    StringBuilder log = new StringBuilder();
+		setView(binding.getRoot());
+		setTitle("Bootstrap Installation");
+		setCancelable(false);
+		StringBuilder log = new StringBuilder();
 
-    final CompletableFuture<Void> future =
-        BootstrapInstallerUtils.install(
-            activity,
-            new BootstrapInstallerUtils.ProgressListener() {
-              @Override
-              public void onWarning(String warning) {
-                log.append(warning);
-                log.append("\n");
-                activity.runOnUiThread(
-                    () -> {
-                      binding.editor.setText(log.toString());
-                    });
-              }
+		final CompletableFuture<Void> future = BootstrapInstallerUtils.install(
+				activity,
+				new BootstrapInstallerUtils.ProgressListener() {
+					@Override
+					public void onWarning(String warning) {
+						log.append(warning);
+						log.append("\n");
+						activity.runOnUiThread(
+								() -> {
+									binding.editor.setText(log.toString());
+								});
+					}
 
-              @Override
-              public void onProgress(String message) {
-                log.append(message);
-                log.append("\n");
-                activity.runOnUiThread(
-                    () -> {
-                      binding.editor.setText(log.toString());
-                    });
-              }
-            },
-            EnvironmentUtils.PREFIX);
+					@Override
+					public void onProgress(String message) {
+						log.append(message);
+						log.append("\n");
+						activity.runOnUiThread(
+								() -> {
+									binding.editor.setText(log.toString());
+								});
+					}
+				},
+				EnvironmentUtils.PREFIX);
 
-    future.whenComplete(
-        (voidResult, throwable) -> {
-          activity.runOnUiThread(
-              () -> {
-                dialog.dismiss();
-                listener.onComplete();
-              });
-        });
-    dialog = create();
-    dialog.show();
-  }
+		future.whenComplete(
+				(voidResult, throwable) -> {
+					activity.runOnUiThread(
+							() -> {
+								dialog.dismiss();
+								listener.onComplete();
+							});
+				});
+		dialog = create();
+		dialog.show();
+	}
 
-  public interface BootstrapInstallCompletionListener {
-    void onComplete();
-  }
+	public interface BootstrapInstallCompletionListener {
+		void onComplete();
+	}
 }

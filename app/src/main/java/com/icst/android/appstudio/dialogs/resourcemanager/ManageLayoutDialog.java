@@ -31,7 +31,6 @@
 
 package com.icst.android.appstudio.dialogs.resourcemanager;
 
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
@@ -48,91 +47,95 @@ import java.util.regex.Pattern;
 
 public class ManageLayoutDialog extends MaterialAlertDialogBuilder {
 
-  private ArrayList<LayoutModel> layoutsList;
-  private ArrayList<File> filesList;
-  private DialogCreateLayoutBinding binding;
+	private ArrayList<LayoutModel> layoutsList;
+	private ArrayList<File> filesList;
+	private DialogCreateLayoutBinding binding;
 
-  public ManageLayoutDialog(
-      LayoutManagerActivity activity,
-      ArrayList<LayoutModel> layoutsList,
-      ArrayList<File> filesList,
-      File layoutDirectory) {
-    super(activity);
+	public ManageLayoutDialog(
+			LayoutManagerActivity activity,
+			ArrayList<LayoutModel> layoutsList,
+			ArrayList<File> filesList,
+			File layoutDirectory) {
+		super(activity);
 
-    this.layoutsList = layoutsList;
-    this.filesList = filesList;
+		this.layoutsList = layoutsList;
+		this.filesList = filesList;
 
-    binding = DialogCreateLayoutBinding.inflate(activity.getLayoutInflater());
-    setView(binding.getRoot());
-    binding.layoutName.setSingleLine(true);
+		binding = DialogCreateLayoutBinding.inflate(activity.getLayoutInflater());
+		setView(binding.getRoot());
+		binding.layoutName.setSingleLine(true);
 
-    binding.layoutName.addTextChangedListener(
-        new TextWatcher() {
+		binding.layoutName.addTextChangedListener(
+				new TextWatcher() {
 
-          @Override
-          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+					@Override
+					public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					}
 
-          @Override
-          public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            if (validateLayoutNameAndExistance(binding.layoutName.getText().toString())) {
-              binding.layoutNameInputLayout.setErrorEnabled(true);
-              binding.layoutNameInputLayout.setError("Please enter another name...");
-            } else {
-              binding.layoutNameInputLayout.setErrorEnabled(false);
-            }
-          }
+					@Override
+					public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+						if (validateLayoutNameAndExistance(binding.layoutName.getText().toString())) {
+							binding.layoutNameInputLayout.setErrorEnabled(true);
+							binding.layoutNameInputLayout.setError("Please enter another name...");
+						} else {
+							binding.layoutNameInputLayout.setErrorEnabled(false);
+						}
+					}
 
-          @Override
-          public void afterTextChanged(Editable arg0) {}
-        });
+					@Override
+					public void afterTextChanged(Editable arg0) {
+					}
+				});
 
-    setPositiveButton(
-        R.string.done,
-        (param1, param2) -> {
-          if (validateLayoutNameAndExistance(binding.layoutName.getText().toString())) {
-            Toast.makeText(activity, "Please enter another name...", Toast.LENGTH_SHORT).show();
-          } else {
-            binding.layoutNameInputLayout.setErrorEnabled(false);
-            LayoutModel layout = new LayoutModel();
-            layout.setLayoutName(binding.layoutName.getText().toString());
-            SerializerUtil.serialize(
-                layout,
-                new File(layoutDirectory, binding.layoutName.getText().toString()),
-                new SerializerUtil.SerializerCompletionListener() {
+		setPositiveButton(
+				R.string.done,
+				(param1, param2) -> {
+					if (validateLayoutNameAndExistance(binding.layoutName.getText().toString())) {
+						Toast.makeText(activity, "Please enter another name...", Toast.LENGTH_SHORT).show();
+					} else {
+						binding.layoutNameInputLayout.setErrorEnabled(false);
+						LayoutModel layout = new LayoutModel();
+						layout.setLayoutName(binding.layoutName.getText().toString());
+						SerializerUtil.serialize(
+								layout,
+								new File(layoutDirectory, binding.layoutName.getText().toString()),
+								new SerializerUtil.SerializerCompletionListener() {
 
-                  @Override
-                  public void onSerializeComplete() {
-                    activity.loadLayouts();
-                  }
+									@Override
+									public void onSerializeComplete() {
+										activity.loadLayouts();
+									}
 
-                  @Override
-                  public void onFailedToSerialize(Exception exception) {}
-                });
-          }
-        });
-    setNegativeButton(R.string.cancel, (param1, param2) -> {});
-  }
+									@Override
+									public void onFailedToSerialize(Exception exception) {
+									}
+								});
+					}
+				});
+		setNegativeButton(R.string.cancel, (param1, param2) -> {
+		});
+	}
 
-  public boolean validateLayoutNameAndExistance(String fileName) {
-    for (int files = 0; files < filesList.size(); ++files) {
-      if (filesList.get(files).getName().equals(fileName)) {
-        return true;
-      }
-    }
+	public boolean validateLayoutNameAndExistance(String fileName) {
+		for (int files = 0; files < filesList.size(); ++files) {
+			if (filesList.get(files).getName().equals(fileName)) {
+				return true;
+			}
+		}
 
-    for (int files = 0; files < layoutsList.size(); ++files) {
-      if (layoutsList.get(files).getLayoutName().equals(fileName)) {
-        return true;
-      }
-    }
+		for (int files = 0; files < layoutsList.size(); ++files) {
+			if (layoutsList.get(files).getLayoutName().equals(fileName)) {
+				return true;
+			}
+		}
 
-    return !validateLayoutName(fileName.concat(".xml"));
-  }
+		return !validateLayoutName(fileName.concat(".xml"));
+	}
 
-  public boolean validateLayoutName(String fileName) {
-    String regex = "^[a-z][a-z0-9_]*\\.xml$";
-    Pattern pattern = Pattern.compile(regex);
-    Matcher matcher = pattern.matcher(fileName);
-    return matcher.matches();
-  }
+	public boolean validateLayoutName(String fileName) {
+		String regex = "^[a-z][a-z0-9_]*\\.xml$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(fileName);
+		return matcher.matches();
+	}
 }

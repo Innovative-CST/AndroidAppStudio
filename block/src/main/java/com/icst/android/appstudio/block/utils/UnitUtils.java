@@ -35,9 +35,9 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 public final class UnitUtils {
-  public static int dpToPx(Context context, float dp) {
-    DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-    int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    return px;
-  }
+	public static int dpToPx(Context context, float dp) {
+		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+		int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+		return px;
+	}
 }

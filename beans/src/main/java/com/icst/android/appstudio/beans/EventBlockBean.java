@@ -32,7 +32,7 @@
 package com.icst.android.appstudio.beans;
 
 public class EventBlockBean extends BaseBlockBean {
-  public void getValueFromKey(String key) {
-    // TODO: Implementation to get the values from block element using key...
-  }
+	public void getValueFromKey(String key) {
+		// TODO: Implementation to get the values from block element using key...
+	}
 }

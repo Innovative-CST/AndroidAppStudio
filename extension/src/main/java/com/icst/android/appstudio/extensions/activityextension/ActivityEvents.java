@@ -45,231 +45,230 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ActivityEvents {
-  public static ArrayList<Event> getAllEvents() {
-    ArrayList<Event> output = new ArrayList<Event>();
+	public static ArrayList<Event> getAllEvents() {
+		ArrayList<Event> output = new ArrayList<Event>();
 
-    output.add(getOnCreateEvent());
-    output.add(getOnDestroyEvent());
-    output.add(getOnBackPressedEvent());
-    output.add(getOnNightModeChangedEvent());
+		output.add(getOnCreateEvent());
+		output.add(getOnDestroyEvent());
+		output.add(getOnBackPressedEvent());
+		output.add(getOnNightModeChangedEvent());
 
-    return output;
-  }
+		return output;
+	}
 
-  public static Event getOnBackPressedEvent() {
-    BlockModel defineEvent = new BlockModel();
-    defineEvent.setBlockType(BlockModel.Type.defaultBlock);
-    defineEvent.setColor("#C88330");
-    defineEvent.setFirstBlock(true);
+	public static Event getOnBackPressedEvent() {
+		BlockModel defineEvent = new BlockModel();
+		defineEvent.setBlockType(BlockModel.Type.defaultBlock);
+		defineEvent.setColor("#C88330");
+		defineEvent.setFirstBlock(true);
 
-    ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
+		BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel defineEventText = new BlockFieldModel();
-    defineEventText.setValue("onBackPressed");
+		BlockFieldModel defineEventText = new BlockFieldModel();
+		defineEventText.setValue("onBackPressed");
 
-    eventDefinationLayerTextLayer.add(defineEventText);
-    eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
+		eventDefinationLayerTextLayer.add(defineEventText);
+		eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
 
-    blockLayerModels.add(eventDefinationLayer);
-    defineEvent.setBlockLayerModel(blockLayerModels);
-    return MethodEventUtils.buildMethodEvent(
-        "onBackPressed",
-        "onBackPressed",
-        "Executes when back key is pressed",
-        "onBackPressedEvent",
-        "onBackPressedEventCode",
-        "Activity",
-        "images/android.png",
-        "protected",
-        "void",
-        "onBackPressed",
-        null,
-        new String[] {"AppCompatActivity"},
-        new String[] {"androidx.appcompat.app.AppCompatActivity"},
-        new String[] {"@Override", "@Deprecated"},
-        defineEvent,
-        null,
-        true,
-        true,
-        true,
-        true,
-        true,
-        false,
-        false);
-  }
+		blockLayerModels.add(eventDefinationLayer);
+		defineEvent.setBlockLayerModel(blockLayerModels);
+		return MethodEventUtils.buildMethodEvent(
+				"onBackPressed",
+				"onBackPressed",
+				"Executes when back key is pressed",
+				"onBackPressedEvent",
+				"onBackPressedEventCode",
+				"Activity",
+				"images/android.png",
+				"protected",
+				"void",
+				"onBackPressed",
+				null,
+				new String[] { "AppCompatActivity" },
+				new String[] { "androidx.appcompat.app.AppCompatActivity" },
+				new String[] { "@Override", "@Deprecated" },
+				defineEvent,
+				null,
+				true,
+				true,
+				true,
+				true,
+				true,
+				false,
+				false);
+	}
 
-  public static Event getOnNightModeChangedEvent() {
-    BlockModel defineEvent = new BlockModel();
-    defineEvent.setBlockType(BlockModel.Type.defaultBlock);
-    defineEvent.setColor("#C88330");
-    defineEvent.setFirstBlock(true);
+	public static Event getOnNightModeChangedEvent() {
+		BlockModel defineEvent = new BlockModel();
+		defineEvent.setBlockType(BlockModel.Type.defaultBlock);
+		defineEvent.setColor("#C88330");
+		defineEvent.setFirstBlock(true);
 
-    ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
+		BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel defineEventText = new BlockFieldModel();
-    defineEventText.setValue("onNightModeChanged");
+		BlockFieldModel defineEventText = new BlockFieldModel();
+		defineEventText.setValue("onNightModeChanged");
 
-    eventDefinationLayerTextLayer.add(defineEventText);
-    eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
+		eventDefinationLayerTextLayer.add(defineEventText);
+		eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
 
-    blockLayerModels.add(eventDefinationLayer);
-    defineEvent.setBlockLayerModel(blockLayerModels);
-    return MethodEventUtils.buildMethodEvent(
-        "onNightModeChanged",
-        "onNightModeChanged",
-        "Called when the night mode has changed.",
-        "onNightModeChangedEvent",
-        "onNightModeChangedEventCode",
-        "Activity",
-        "images/android.png",
-        "protected",
-        "void",
-        "onNightModeChanged",
-        null,
-        new String[] {"AppCompatActivity"},
-        new String[] {"androidx.appcompat.app.AppCompatActivity"},
-        new String[] {"@Override"},
-        defineEvent,
-        null,
-        true,
-        true,
-        true,
-        true,
-        true,
-        false,
-        false);
-  }
+		blockLayerModels.add(eventDefinationLayer);
+		defineEvent.setBlockLayerModel(blockLayerModels);
+		return MethodEventUtils.buildMethodEvent(
+				"onNightModeChanged",
+				"onNightModeChanged",
+				"Called when the night mode has changed.",
+				"onNightModeChangedEvent",
+				"onNightModeChangedEventCode",
+				"Activity",
+				"images/android.png",
+				"protected",
+				"void",
+				"onNightModeChanged",
+				null,
+				new String[] { "AppCompatActivity" },
+				new String[] { "androidx.appcompat.app.AppCompatActivity" },
+				new String[] { "@Override" },
+				defineEvent,
+				null,
+				true,
+				true,
+				true,
+				true,
+				true,
+				false,
+				false);
+	}
 
-  public static Event getOnCreateEvent() {
-    Event event = new Event();
-    event.setTitle("onCreate");
-    event.setName("onCreate");
-    event.setDescription("Executes when activity is created");
-    event.setEventReplacer("onCreateEvent");
-    event.setDirectFileEvent(true);
-    event.setEventReplacerKey("onCreateEventCode");
-    event.setRawCode(
-        "@Override\npublic void onCreate(Bundle savedInstanceState) {\n\tsuper.onCreate(savedInstanceState);\n\t"
-            + RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getEventReplacer())
-            + "\n}");
-    event.setEnableEdit(true);
-    event.setCreateInHolderName("Activity");
-    event.setClasses(new String[] {"AppCompatActivity"});
-    event.setClassesImports(new String[] {"androidx.appcompat.app.AppCompatActivity"});
-    event.setEnableRootBlocksDrag(true);
-    event.setEnableRootBlocksValueEditing(true);
-    try {
-      event.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
-      event.setApplyColorFilter(true);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+	public static Event getOnCreateEvent() {
+		Event event = new Event();
+		event.setTitle("onCreate");
+		event.setName("onCreate");
+		event.setDescription("Executes when activity is created");
+		event.setEventReplacer("onCreateEvent");
+		event.setDirectFileEvent(true);
+		event.setEventReplacerKey("onCreateEventCode");
+		event.setRawCode(
+				"@Override\npublic void onCreate(Bundle savedInstanceState) {\n\tsuper.onCreate(savedInstanceState);\n\t"
+						+ RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getEventReplacer())
+						+ "\n}");
+		event.setEnableEdit(true);
+		event.setCreateInHolderName("Activity");
+		event.setClasses(new String[] { "AppCompatActivity" });
+		event.setClassesImports(new String[] { "androidx.appcompat.app.AppCompatActivity" });
+		event.setEnableRootBlocksDrag(true);
+		event.setEnableRootBlocksValueEditing(true);
+		try {
+			event.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
+			event.setApplyColorFilter(true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    ImportTag bundleImport = new ImportTag();
-    bundleImport.setImportClass("android.os.Bundle");
-    event.setAdditionalTags(new AdditionalCodeHelperTag[] {bundleImport});
+		ImportTag bundleImport = new ImportTag();
+		bundleImport.setImportClass("android.os.Bundle");
+		event.setAdditionalTags(new AdditionalCodeHelperTag[] { bundleImport });
 
-    BlockModel defineEvent = new BlockModel();
-    defineEvent.setBlockType(BlockModel.Type.defaultBlock);
-    defineEvent.setColor("#C88330");
-    defineEvent.setFirstBlock(true);
+		BlockModel defineEvent = new BlockModel();
+		defineEvent.setBlockType(BlockModel.Type.defaultBlock);
+		defineEvent.setColor("#C88330");
+		defineEvent.setFirstBlock(true);
 
-    ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
+		BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel defineEventText = new BlockFieldModel();
-    defineEventText.setValue("onActivityCreate");
+		BlockFieldModel defineEventText = new BlockFieldModel();
+		defineEventText.setValue("onActivityCreate");
 
-    eventDefinationLayerTextLayer.add(defineEventText);
+		eventDefinationLayerTextLayer.add(defineEventText);
 
-    BlockModel bundle = new BlockModel();
-    bundle.setColor("#5533ff");
-    bundle.setRawCode("savedInstanceState");
-    bundle.setReturns(new String[] {"android.os.Bundle"});
-    bundle.setDragAllowed(true);
-    bundle.setBlockType(BlockModel.Type.variable);
+		BlockModel bundle = new BlockModel();
+		bundle.setColor("#5533ff");
+		bundle.setRawCode("savedInstanceState");
+		bundle.setReturns(new String[] { "android.os.Bundle" });
+		bundle.setDragAllowed(true);
+		bundle.setBlockType(BlockModel.Type.variable);
 
-    ArrayList<BlockLayerModel> bundleBlockLayerModels = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> bundleBlockLayerModels = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel bundleBlockDefinationLayer = new BlockFieldLayerModel();
+		BlockFieldLayerModel bundleBlockDefinationLayer = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> bundleBlockDefinationLayerTextLayer =
-        new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> bundleBlockDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel bundleText = new BlockFieldModel();
-    bundleText.setValue("bundle");
+		BlockFieldModel bundleText = new BlockFieldModel();
+		bundleText.setValue("bundle");
 
-    bundleBlockDefinationLayerTextLayer.add(bundleText);
+		bundleBlockDefinationLayerTextLayer.add(bundleText);
 
-    bundleBlockDefinationLayer.setBlockFields(bundleBlockDefinationLayerTextLayer);
-    bundleBlockLayerModels.add(bundleBlockDefinationLayer);
-    bundle.setBlockLayerModel(bundleBlockLayerModels);
+		bundleBlockDefinationLayer.setBlockFields(bundleBlockDefinationLayerTextLayer);
+		bundleBlockLayerModels.add(bundleBlockDefinationLayer);
+		bundle.setBlockLayerModel(bundleBlockLayerModels);
 
-    eventDefinationLayerTextLayer.add(bundle);
-    eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
+		eventDefinationLayerTextLayer.add(bundle);
+		eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
 
-    blockLayerModels.add(eventDefinationLayer);
-    defineEvent.setBlockLayerModel(blockLayerModels);
-    event.setEventTopBlock(defineEvent);
-    return event;
-  }
+		blockLayerModels.add(eventDefinationLayer);
+		defineEvent.setBlockLayerModel(blockLayerModels);
+		event.setEventTopBlock(defineEvent);
+		return event;
+	}
 
-  public static Event getOnDestroyEvent() {
-    Event event = new Event();
-    event.setTitle("onDestroy");
-    event.setName("onDestroy");
-    event.setDescription("Executes when activity is destroyed");
-    event.setEventReplacer("onDestroyEvent");
-    event.setDirectFileEvent(true);
-    event.setEventReplacerKey("onDestroyEventCode");
-    event.setRawCode(
-        "@Override\npublic void onDestroy() {\n\t"
-            + RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getEventReplacer())
-            + "\n}");
-    event.setEnableEdit(true);
-    event.setCreateInHolderName("Activity");
-    event.setClasses(new String[] {"AppCompatActivity"});
-    event.setClassesImports(new String[] {"androidx.appcompat.app.AppCompatActivity"});
-    event.setEnableRootBlocksDrag(true);
-    event.setEnableRootBlocksValueEditing(true);
-    try {
-      event.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
-      event.setApplyColorFilter(true);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+	public static Event getOnDestroyEvent() {
+		Event event = new Event();
+		event.setTitle("onDestroy");
+		event.setName("onDestroy");
+		event.setDescription("Executes when activity is destroyed");
+		event.setEventReplacer("onDestroyEvent");
+		event.setDirectFileEvent(true);
+		event.setEventReplacerKey("onDestroyEventCode");
+		event.setRawCode(
+				"@Override\npublic void onDestroy() {\n\t"
+						+ RawCodeReplacer.getReplacer(event.getEventReplacerKey(), event.getEventReplacer())
+						+ "\n}");
+		event.setEnableEdit(true);
+		event.setCreateInHolderName("Activity");
+		event.setClasses(new String[] { "AppCompatActivity" });
+		event.setClassesImports(new String[] { "androidx.appcompat.app.AppCompatActivity" });
+		event.setEnableRootBlocksDrag(true);
+		event.setEnableRootBlocksValueEditing(true);
+		try {
+			event.setIcon(ImageUtils.convertImageToByteArray("images/android.png"));
+			event.setApplyColorFilter(true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    BlockModel defineEvent = new BlockModel();
-    defineEvent.setBlockType(BlockModel.Type.defaultBlock);
-    defineEvent.setColor("#C88330");
-    defineEvent.setFirstBlock(true);
+		BlockModel defineEvent = new BlockModel();
+		defineEvent.setBlockType(BlockModel.Type.defaultBlock);
+		defineEvent.setColor("#C88330");
+		defineEvent.setFirstBlock(true);
 
-    ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
+		ArrayList<BlockLayerModel> blockLayerModels = new ArrayList<BlockLayerModel>();
 
-    BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
+		BlockFieldLayerModel eventDefinationLayer = new BlockFieldLayerModel();
 
-    ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
+		ArrayList<BlockFieldModel> eventDefinationLayerTextLayer = new ArrayList<BlockFieldModel>();
 
-    BlockFieldModel defineEventText = new BlockFieldModel();
-    defineEventText.setValue("onActivityDestroy");
+		BlockFieldModel defineEventText = new BlockFieldModel();
+		defineEventText.setValue("onActivityDestroy");
 
-    eventDefinationLayerTextLayer.add(defineEventText);
-    eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
+		eventDefinationLayerTextLayer.add(defineEventText);
+		eventDefinationLayer.setBlockFields(eventDefinationLayerTextLayer);
 
-    blockLayerModels.add(eventDefinationLayer);
-    defineEvent.setBlockLayerModel(blockLayerModels);
-    event.setEventTopBlock(defineEvent);
-    return event;
-  }
+		blockLayerModels.add(eventDefinationLayer);
+		defineEvent.setBlockLayerModel(blockLayerModels);
+		event.setEventTopBlock(defineEvent);
+		return event;
+	}
 }

@@ -4,7 +4,7 @@ import androidx.annotation.LayoutRes;
 
 public interface DesignerListItem {
 
-    void setListItem(@LayoutRes int layout);
-    
-    void setItemCount(int count);
+	void setListItem(@LayoutRes int layout);
+
+	void setItemCount(int count);
 }

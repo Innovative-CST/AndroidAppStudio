@@ -45,106 +45,104 @@ import com.icst.android.appstudio.databinding.ActivityAboutAppBinding;
 
 public class AboutAppActivity extends BaseActivity {
 
-  private ActivityAboutAppBinding binding;
+	private ActivityAboutAppBinding binding;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    binding = ActivityAboutAppBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		binding = ActivityAboutAppBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-    binding.versionName.setText(BuildConfig.VERSION_NAME);
+		binding.versionName.setText(BuildConfig.VERSION_NAME);
 
-    binding.versionName.setOnLongClickListener(
-        v -> {
-          ClipboardManager clipboard =
-              (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-          ClipData clip = ClipData.newPlainText("label", BuildConfig.VERSION_NAME);
-          clipboard.setPrimaryClip(clip);
-          Toast.makeText(AboutAppActivity.this, R.string.version_name_copied, Toast.LENGTH_SHORT)
-              .show();
-          return true;
-        });
+		binding.versionName.setOnLongClickListener(
+				v -> {
+					ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("label", BuildConfig.VERSION_NAME);
+					clipboard.setPrimaryClip(clip);
+					Toast.makeText(AboutAppActivity.this, R.string.version_name_copied, Toast.LENGTH_SHORT)
+							.show();
+					return true;
+				});
 
-    binding.commitSha.setText(BuildConfig.commitSha);
+		binding.commitSha.setText(BuildConfig.commitSha);
 
-    binding.commitSha.setOnLongClickListener(
-        v -> {
-          ClipboardManager clipboard =
-              (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-          ClipData clip = ClipData.newPlainText("label", BuildConfig.commitSha);
-          clipboard.setPrimaryClip(clip);
-          Toast.makeText(AboutAppActivity.this, R.string.commit_sha_copied, Toast.LENGTH_SHORT)
-              .show();
-          return true;
-        });
+		binding.commitSha.setOnLongClickListener(
+				v -> {
+					ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("label", BuildConfig.commitSha);
+					clipboard.setPrimaryClip(clip);
+					Toast.makeText(AboutAppActivity.this, R.string.commit_sha_copied, Toast.LENGTH_SHORT)
+							.show();
+					return true;
+				});
 
-    binding.appName.setOnClickListener(
-        v -> {
-          Intent appGithub = new Intent();
-          appGithub.setAction(Intent.ACTION_VIEW);
-          appGithub.setData(Uri.parse(MyApplication.GITHUB_APP));
-          startActivity(appGithub);
-        });
+		binding.appName.setOnClickListener(
+				v -> {
+					Intent appGithub = new Intent();
+					appGithub.setAction(Intent.ACTION_VIEW);
+					appGithub.setData(Uri.parse(MyApplication.GITHUB_APP));
+					startActivity(appGithub);
+				});
 
-    binding.orgName.setOnClickListener(
-        v -> {
-          Intent orgGithub = new Intent();
-          orgGithub.setAction(Intent.ACTION_VIEW);
-          orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
-          startActivity(orgGithub);
-        });
+		binding.orgName.setOnClickListener(
+				v -> {
+					Intent orgGithub = new Intent();
+					orgGithub.setAction(Intent.ACTION_VIEW);
+					orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
+					startActivity(orgGithub);
+				});
 
-    binding.github.setOnClickListener(
-        v -> {
-          Intent orgGithub = new Intent();
-          orgGithub.setAction(Intent.ACTION_VIEW);
-          orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
-          startActivity(orgGithub);
-        });
+		binding.github.setOnClickListener(
+				v -> {
+					Intent orgGithub = new Intent();
+					orgGithub.setAction(Intent.ACTION_VIEW);
+					orgGithub.setData(Uri.parse(MyApplication.GITHUB_ORG));
+					startActivity(orgGithub);
+				});
 
-    binding.discord.setOnClickListener(
-        v -> {
-          Intent discord = new Intent();
-          discord.setAction(Intent.ACTION_VIEW);
-          discord.setData(Uri.parse(MyApplication.DISCORD));
-          startActivity(discord);
-        });
+		binding.discord.setOnClickListener(
+				v -> {
+					Intent discord = new Intent();
+					discord.setAction(Intent.ACTION_VIEW);
+					discord.setData(Uri.parse(MyApplication.DISCORD));
+					startActivity(discord);
+				});
 
-    binding.youtube.setOnClickListener(
-        v -> {
-          Intent youtube = new Intent();
-          youtube.setAction(Intent.ACTION_VIEW);
-          youtube.setData(Uri.parse(MyApplication.YOUTUBE));
-          startActivity(youtube);
-        });
+		binding.youtube.setOnClickListener(
+				v -> {
+					Intent youtube = new Intent();
+					youtube.setAction(Intent.ACTION_VIEW);
+					youtube.setData(Uri.parse(MyApplication.YOUTUBE));
+					startActivity(youtube);
+				});
 
-    binding.instagram.setOnClickListener(
-        v -> {
-          Intent instagram = new Intent();
-          instagram.setAction(Intent.ACTION_VIEW);
-          instagram.setData(Uri.parse(MyApplication.INSTAGRAM));
-          startActivity(instagram);
-        });
+		binding.instagram.setOnClickListener(
+				v -> {
+					Intent instagram = new Intent();
+					instagram.setAction(Intent.ACTION_VIEW);
+					instagram.setData(Uri.parse(MyApplication.INSTAGRAM));
+					startActivity(instagram);
+				});
 
-    binding.x.setOnClickListener(
-        v -> {
-          Intent x = new Intent();
-          x.setAction(Intent.ACTION_VIEW);
-          x.setData(Uri.parse(MyApplication.X));
-          startActivity(x);
-        });
-  }
+		binding.x.setOnClickListener(
+				v -> {
+					Intent x = new Intent();
+					x.setAction(Intent.ACTION_VIEW);
+					x.setData(Uri.parse(MyApplication.X));
+					startActivity(x);
+				});
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 }

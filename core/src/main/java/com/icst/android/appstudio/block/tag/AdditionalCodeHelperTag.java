@@ -32,5 +32,5 @@
 package com.icst.android.appstudio.block.tag;
 
 public interface AdditionalCodeHelperTag {
-  abstract AdditionalCodeHelperTag clone();
+	AdditionalCodeHelperTag clone();
 }

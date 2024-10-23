@@ -34,7 +34,6 @@ package com.icst.android.appstudio.bottomsheet;
 import android.code.editor.common.interfaces.FileDeleteListener;
 import android.code.editor.common.utils.FileDeleteUtils;
 import android.content.Intent;
-import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
@@ -44,59 +43,64 @@ import com.icst.android.appstudio.databinding.BottomsheetProjectOptionBinding;
 import java.io.File;
 
 public class ProjectOptionsSheet extends BottomSheetDialog {
-  private BottomsheetProjectOptionBinding binding;
+	private BottomsheetProjectOptionBinding binding;
 
-  public ProjectOptionsSheet(ProjectManagerActivity activity, File projectRootDirectory) {
-    super(activity);
+	public ProjectOptionsSheet(ProjectManagerActivity activity, File projectRootDirectory) {
+		super(activity);
 
-    binding = BottomsheetProjectOptionBinding.inflate(activity.getLayoutInflater());
+		binding = BottomsheetProjectOptionBinding.inflate(activity.getLayoutInflater());
 
-    setContentView(binding.getRoot());
-    binding.settings.setOnClickListener(
-        v -> {
-          Intent modifyProject = new Intent();
-          modifyProject.setClass(activity, ProjectModelConfigrationActivity.class);
-          modifyProject.putExtra("isNewProject", false);
-          modifyProject.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
-          activity.projectListUpdateActivityResultLauncher.launch(modifyProject);
-        });
-    binding.delete.setOnClickListener(
-        v -> {
-          MaterialAlertDialogBuilder deleteConfirm = new MaterialAlertDialogBuilder(activity);
-          deleteConfirm.setTitle(R.string.warning);
-          deleteConfirm.setIcon(R.drawable.ic_alert);
-          deleteConfirm.setMessage(R.string.project_delete_warning_text);
-          deleteConfirm.setPositiveButton(
-              R.string.delete,
-              (param1, param2) -> {
-                FileDeleteUtils.delete(
-                    projectRootDirectory,
-                    new FileDeleteListener() {
+		setContentView(binding.getRoot());
+		binding.settings.setOnClickListener(
+				v -> {
+					Intent modifyProject = new Intent();
+					modifyProject.setClass(activity, ProjectModelConfigrationActivity.class);
+					modifyProject.putExtra("isNewProject", false);
+					modifyProject.putExtra("projectRootDirectory", projectRootDirectory.getAbsolutePath());
+					activity.projectListUpdateActivityResultLauncher.launch(modifyProject);
+				});
+		binding.delete.setOnClickListener(
+				v -> {
+					MaterialAlertDialogBuilder deleteConfirm = new MaterialAlertDialogBuilder(activity);
+					deleteConfirm.setTitle(R.string.warning);
+					deleteConfirm.setIcon(R.drawable.ic_alert);
+					deleteConfirm.setMessage(R.string.project_delete_warning_text);
+					deleteConfirm.setPositiveButton(
+							R.string.delete,
+							(param1, param2) -> {
+								FileDeleteUtils.delete(
+										projectRootDirectory,
+										new FileDeleteListener() {
 
-                      @Override
-                      public void onProgressUpdate(int deleteDone) {}
+											@Override
+											public void onProgressUpdate(int deleteDone) {
+											}
 
-                      @Override
-                      public void onTotalCount(int total) {}
+											@Override
+											public void onTotalCount(int total) {
+											}
 
-                      @Override
-                      public void onDeleting(File path) {}
+											@Override
+											public void onDeleting(File path) {
+											}
 
-                      @Override
-                      public void onDeleteComplete(File path) {}
+											@Override
+											public void onDeleteComplete(File path) {
+											}
 
-                      @Override
-                      public void onTaskComplete() {
-                        ProjectOptionsSheet.this.dismiss();
-                        activity.tryToLoadProjects();
-                      }
-                    },
-                    true,
-                    activity);
-              });
+											@Override
+											public void onTaskComplete() {
+												ProjectOptionsSheet.this.dismiss();
+												activity.tryToLoadProjects();
+											}
+										},
+										true,
+										activity);
+							});
 
-          deleteConfirm.setNegativeButton(R.string.cancel, (param1, param2) -> {});
-          deleteConfirm.create().show();
-        });
-  }
+					deleteConfirm.setNegativeButton(R.string.cancel, (param1, param2) -> {
+					});
+					deleteConfirm.create().show();
+				});
+	}
 }

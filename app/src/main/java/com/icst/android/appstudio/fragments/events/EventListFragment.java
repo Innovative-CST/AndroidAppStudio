@@ -49,95 +49,97 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 public class EventListFragment extends Fragment {
-  private FragmentEventListBinding binding;
-  private ModuleModel module;
-  /*
-   * Contains the location of currently selected file model.
-   * For example: /../../Project/100/../abc/FileModel
-   */
-  private File fileModelDirectory;
-  /*
-   * Contains the location of event list path.
-   * For example: /../../Project/100/../../Events/Config
-   */
-  private File eventListPath;
-  private boolean disableNewEvents;
+	private FragmentEventListBinding binding;
+	private ModuleModel module;
+	/*
+	 * Contains the location of currently selected file model.
+	 * For example: /../../Project/100/../abc/FileModel
+	 */
+	private File fileModelDirectory;
+	/*
+	 * Contains the location of event list path.
+	 * For example: /../../Project/100/../../Events/Config
+	 */
+	private File eventListPath;
+	private boolean disableNewEvents;
 
-  private static final int LOADING_SECTION = 0;
-  private static final int LIST_SECTION = 1;
-  private static final int INFO_SECTION = 2;
+	private static final int LOADING_SECTION = 0;
+	private static final int LIST_SECTION = 1;
+	private static final int INFO_SECTION = 2;
 
-  public EventListFragment(
-      ModuleModel module, File fileModelDirectory, File eventListPath, boolean disableNewEvents) {
-    this.module = module;
-    this.eventListPath = eventListPath;
-    this.fileModelDirectory = fileModelDirectory;
-    this.disableNewEvents = disableNewEvents;
-  }
+	public EventListFragment(
+			ModuleModel module, File fileModelDirectory, File eventListPath, boolean disableNewEvents) {
+		this.module = module;
+		this.eventListPath = eventListPath;
+		this.fileModelDirectory = fileModelDirectory;
+		this.disableNewEvents = disableNewEvents;
+	}
 
-  public EventListFragment() {}
+	public EventListFragment() {
+	}
 
-  @Override
-  @MainThread
-  public void onSaveInstanceState(Bundle bundle) {
-    super.onSaveInstanceState(bundle);
-    bundle.putString("module", module.module);
-    bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
-    bundle.putString("fileModelDirectory", fileModelDirectory.getAbsolutePath());
-    bundle.putString("eventListPath", eventListPath.getAbsolutePath());
-    bundle.putBoolean("disableNewEvents", disableNewEvents);
-  }
+	@Override
+	@MainThread
+	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+		bundle.putString("module", module.module);
+		bundle.putString("projectRootDirectory", module.projectRootDirectory.getAbsolutePath());
+		bundle.putString("fileModelDirectory", fileModelDirectory.getAbsolutePath());
+		bundle.putString("eventListPath", eventListPath.getAbsolutePath());
+		bundle.putBoolean("disableNewEvents", disableNewEvents);
+	}
 
-  @Override
-  @MainThread
-  @Nullable
-  public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
+	@Override
+	@MainThread
+	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle savedInstanceState) {
 
-    if (savedInstanceState != null) {
-      module = new ModuleModel();
-      module.init(
-          savedInstanceState.getString("module"),
-          new File(savedInstanceState.getString("projectRootDirectory")));
-      disableNewEvents = savedInstanceState.getBoolean("disableNewEvents");
-      fileModelDirectory = new File(savedInstanceState.getString("fileModelDirectory"));
-      eventListPath = new File(savedInstanceState.getString("eventListPath"));
-    }
+		if (savedInstanceState != null) {
+			module = new ModuleModel();
+			module.init(
+					savedInstanceState.getString("module"),
+					new File(savedInstanceState.getString("projectRootDirectory")));
+			disableNewEvents = savedInstanceState.getBoolean("disableNewEvents");
+			fileModelDirectory = new File(savedInstanceState.getString("fileModelDirectory"));
+			eventListPath = new File(savedInstanceState.getString("eventListPath"));
+		}
 
-    binding = FragmentEventListBinding.inflate(inflator);
-    switchSection(LOADING_SECTION);
+		binding = FragmentEventListBinding.inflate(inflator);
+		switchSection(LOADING_SECTION);
 
-    if (disableNewEvents) binding.fab.setVisibility(View.GONE);
+		if (disableNewEvents)
+			binding.fab.setVisibility(View.GONE);
 
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              ArrayList<Object> events = EventUtils.getEvents(eventListPath);
-              getActivity()
-                  .runOnUiThread(
-                      () -> {
-                        if (events.size() == 0) {
-                          showInfo(R.string.no_events_yet);
-                          return;
-                        }
-                        binding.list.setAdapter(
-                            new EventAdapter(
-                                events, getActivity(), module, fileModelDirectory, eventListPath));
-                        binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        switchSection(LIST_SECTION);
-                      });
-            });
+		Executors.newSingleThreadExecutor()
+				.execute(
+						() -> {
+							ArrayList<Object> events = EventUtils.getEvents(eventListPath);
+							getActivity()
+									.runOnUiThread(
+											() -> {
+												if (events.isEmpty()) {
+													showInfo(R.string.no_events_yet);
+													return;
+												}
+												binding.list.setAdapter(
+														new EventAdapter(
+																events, getActivity(), module, fileModelDirectory,
+																eventListPath));
+												binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+												switchSection(LIST_SECTION);
+											});
+						});
 
-    return binding.getRoot();
-  }
+		return binding.getRoot();
+	}
 
-  private void switchSection(int section) {
-    binding.loadingSection.setVisibility(LOADING_SECTION == section ? View.VISIBLE : View.GONE);
-    binding.listSection.setVisibility(LIST_SECTION == section ? View.VISIBLE : View.GONE);
-    binding.infoSection.setVisibility(INFO_SECTION == section ? View.VISIBLE : View.GONE);
-  }
+	private void switchSection(int section) {
+		binding.loadingSection.setVisibility(LOADING_SECTION == section ? View.VISIBLE : View.GONE);
+		binding.listSection.setVisibility(LIST_SECTION == section ? View.VISIBLE : View.GONE);
+		binding.infoSection.setVisibility(INFO_SECTION == section ? View.VISIBLE : View.GONE);
+	}
 
-  private void showInfo(int info) {
-    switchSection(INFO_SECTION);
-    binding.info.setText(info);
-  }
+	private void showInfo(int info) {
+		switchSection(INFO_SECTION);
+		binding.info.setText(info);
+	}
 }

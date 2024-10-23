@@ -35,22 +35,20 @@ import com.icst.logic.editor.R;
 
 public final class BlockImageUtills {
 
-  public static int getImage(Image image) {
-    if (Image.EVENT_BLOCK_ROUND_EDGE_TOP.ordinal() == image.ordinal()) {
-      return R.drawable.event_blockbean_top;
-    }
-    if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
-      return R.drawable.block_element_layer_backdrop;
-    } else if (Image.BLOCK_BOTTOM.ordinal() == image.ordinal()) {
-      return R.drawable.block_bottom;
-    } else {
-      return 0;
-    }
-  }
+	public static int getImage(Image image) {
+		if (Image.EVENT_BLOCK_ROUND_EDGE_TOP.ordinal() == image.ordinal()) {
+			return R.drawable.event_blockbean_top;
+		}
+		if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
+			return R.drawable.block_element_layer_backdrop;
+		} else if (Image.BLOCK_BOTTOM.ordinal() == image.ordinal()) {
+			return R.drawable.block_bottom;
+		} else {
+			return 0;
+		}
+	}
 
-  public enum Image {
-    EVENT_BLOCK_ROUND_EDGE_TOP,
-    BLOCK_ELEMENT_LAYER_BACKDROP,
-    BLOCK_BOTTOM;
-  }
+	public enum Image {
+		EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, BLOCK_BOTTOM;
+	}
 }

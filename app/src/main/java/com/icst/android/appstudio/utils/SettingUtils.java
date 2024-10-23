@@ -36,31 +36,31 @@ import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 
 public final class SettingUtils {
-  public static final String DARK_MODE = "darkMode";
-  public static final String DYNAMIC_THEME = "DynamicTheme";
+	public static final String DARK_MODE = "darkMode";
+	public static final String DYNAMIC_THEME = "DynamicTheme";
 
-  public static SettingModel readSettings(File file) {
-    return DeserializerUtils.deserialize(file, SettingModel.class);
-  }
+	public static SettingModel readSettings(File file) {
+		return DeserializerUtils.deserialize(file, SettingModel.class);
+	}
 
-  public static boolean getBooleanPreference(String key, SettingModel setting) {
-    switch (key) {
-      case DARK_MODE:
-        return setting.isEnabledDarkMode();
-      case DYNAMIC_THEME:
-        return setting.isEnabledDynamicTheme();
-    }
-    return false;
-  }
+	public static boolean getBooleanPreference(String key, SettingModel setting) {
+		switch (key) {
+			case DARK_MODE:
+				return setting.isEnabledDarkMode();
+			case DYNAMIC_THEME:
+				return setting.isEnabledDynamicTheme();
+		}
+		return false;
+	}
 
-  public static void setBooleanPreference(String key, boolean value, SettingModel setting) {
-    switch (key) {
-      case DARK_MODE:
-        setting.setEnableDarkMode(value);
-        break;
-      case DYNAMIC_THEME:
-        setting.setEnabledDynamicTheme(value);
-        break;
-    }
-  }
+	public static void setBooleanPreference(String key, boolean value, SettingModel setting) {
+		switch (key) {
+			case DARK_MODE:
+				setting.setEnableDarkMode(value);
+				break;
+			case DYNAMIC_THEME:
+				setting.setEnabledDynamicTheme(value);
+				break;
+		}
+	}
 }

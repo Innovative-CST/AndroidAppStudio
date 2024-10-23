@@ -45,26 +45,25 @@ import com.icst.android.appstudio.block.model.BlockValueFieldModel;
 import java.util.HashMap;
 
 public class BlockFieldExtensionViewOnly extends LinearLayout {
-  public BlockFieldExtensionViewOnly(
-      Context context,
-      BlockView blockView,
-      BlockValueFieldModel blockFieldModel,
-      EventEditor editor) {
-    super(context);
+	public BlockFieldExtensionViewOnly(
+			Context context,
+			BlockView blockView,
+			BlockValueFieldModel blockFieldModel,
+			EventEditor editor) {
+		super(context);
 
-    Drawable drawable =
-        ContextCompat.getDrawable(getContext(), R.drawable.block_field_extension_view_only);
-    drawable.setTint(Color.parseColor("#ffffff"));
-    drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-    setBackground(drawable);
+		Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_field_extension_view_only);
+		drawable.setTint(Color.parseColor("#ffffff"));
+		drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+		setBackground(drawable);
 
-    TextView text = new TextView(context);
+		TextView text = new TextView(context);
 
-    HashMap<String, Object> variables = editor.getVariables();
+		HashMap<String, Object> variables = editor.getVariables();
 
-    text.setText(blockFieldModel.getCode(variables));
-    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-    text.setSingleLine(true);
-    addView(text);
-  }
+		text.setText(blockFieldModel.getCode(variables));
+		text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+		text.setSingleLine(true);
+		addView(text);
+	}
 }

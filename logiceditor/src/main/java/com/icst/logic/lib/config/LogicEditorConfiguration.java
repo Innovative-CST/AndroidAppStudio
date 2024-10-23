@@ -32,23 +32,23 @@
 package com.icst.logic.lib.config;
 
 public final class LogicEditorConfiguration {
-  private TextSize textSize = TextSize.DEFAULT;
+	private TextSize textSize = TextSize.DEFAULT;
 
-  public TextSize getTextSize() {
-    return this.textSize;
-  }
+	public TextSize getTextSize() {
+		return this.textSize;
+	}
 
-  public enum TextSize {
-    DEFAULT(12);
+	public enum TextSize {
+		DEFAULT(12);
 
-    private final int textSize;
+		private final int textSize;
 
-    TextSize(int textSize) {
-      this.textSize = textSize;
-    }
+		TextSize(int textSize) {
+			this.textSize = textSize;
+		}
 
-    public int getTextSize() {
-      return this.textSize;
-    }
-  }
+		public int getTextSize() {
+			return this.textSize;
+		}
+	}
 }

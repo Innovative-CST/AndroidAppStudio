@@ -46,56 +46,54 @@ import java.util.ArrayList;
  */
 
 public class PaneAdapter extends RecyclerView.Adapter<PaneAdapter.ViewHolder> {
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 
-  private ArrayList<WorkSpacePane> panes;
-  private CodeEditorActivity editorActivity;
+	private ArrayList<WorkSpacePane> panes;
+	private CodeEditorActivity editorActivity;
 
-  public PaneAdapter(ArrayList<WorkSpacePane> panes, CodeEditorActivity editorActivity) {
-    this.panes = panes;
-    this.editorActivity = editorActivity;
-  }
+	public PaneAdapter(ArrayList<WorkSpacePane> panes, CodeEditorActivity editorActivity) {
+		this.panes = panes;
+		this.editorActivity = editorActivity;
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    ViewHolderPaneBinding binding =
-        ViewHolderPaneBinding.inflate(editorActivity.getLayoutInflater());
-    RecyclerView.LayoutParams layoutParams =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(layoutParams);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+		ViewHolderPaneBinding binding = ViewHolderPaneBinding.inflate(editorActivity.getLayoutInflater());
+		RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(layoutParams);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    ViewHolderPaneBinding binding = ViewHolderPaneBinding.bind(holder.itemView);
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		ViewHolderPaneBinding binding = ViewHolderPaneBinding.bind(holder.itemView);
 
-    binding.name.setText(panes.get(position).getWorkSpacePaneName());
-    binding.icon.setImageDrawable(panes.get(position).getWorkSpacePaneIcon());
+		binding.name.setText(panes.get(position).getWorkSpacePaneName());
+		binding.icon.setImageDrawable(panes.get(position).getWorkSpacePaneIcon());
 
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              if (panes.get(position) instanceof CodeEditorPaneView editorPane) {
-                editorActivity.switchSection(CodeEditorActivity.WORKSPACE);
-                editorActivity.binding.workspaceContainer.removeAllViews();
-                editorActivity.binding.workspaceContainer.addView(editorPane);
-              }else if (panes.get(position) instanceof TerminalPaneView terminalPane) {
-                editorActivity.switchSection(CodeEditorActivity.WORKSPACE);
-                editorActivity.binding.workspaceContainer.removeAllViews();
-                editorActivity.binding.workspaceContainer.addView(terminalPane);
-              }
-            });
-  }
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							if (panes.get(position) instanceof CodeEditorPaneView editorPane) {
+								editorActivity.switchSection(CodeEditorActivity.WORKSPACE);
+								editorActivity.binding.workspaceContainer.removeAllViews();
+								editorActivity.binding.workspaceContainer.addView(editorPane);
+							} else if (panes.get(position) instanceof TerminalPaneView terminalPane) {
+								editorActivity.switchSection(CodeEditorActivity.WORKSPACE);
+								editorActivity.binding.workspaceContainer.removeAllViews();
+								editorActivity.binding.workspaceContainer.addView(terminalPane);
+							}
+						});
+	}
 
-  @Override
-  public int getItemCount() {
-    return panes.size();
-  }
+	@Override
+	public int getItemCount() {
+		return panes.size();
+	}
 }

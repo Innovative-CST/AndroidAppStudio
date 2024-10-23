@@ -35,33 +35,33 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BlockHolderModel implements Serializable {
-  public static final long serialVersionUID = 10L;
+	public static final long serialVersionUID = 10L;
 
-  private String name;
-  private String color;
-  private ArrayList<Object> list;
+	private String name;
+	private String color;
+	private ArrayList<Object> list;
 
-  public ArrayList<Object> getList() {
-    return this.list;
-  }
+	public ArrayList<Object> getList() {
+		return this.list;
+	}
 
-  public void setList(ArrayList<Object> list) {
-    this.list = list;
-  }
+	public void setList(ArrayList<Object> list) {
+		this.list = list;
+	}
 
-  public String getColor() {
-    return this.color;
-  }
+	public String getColor() {
+		return this.color;
+	}
 
-  public void setColor(String color) {
-    this.color = color;
-  }
+	public void setColor(String color) {
+		this.color = color;
+	}
 
-  public String getName() {
-    return this.name;
-  }
+	public String getName() {
+		return this.name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 }

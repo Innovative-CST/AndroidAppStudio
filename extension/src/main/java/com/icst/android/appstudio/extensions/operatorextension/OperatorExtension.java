@@ -35,12 +35,12 @@ import com.icst.android.appstudio.models.ExtensionBundle;
 
 public final class OperatorExtension {
 
-  public static ExtensionBundle getExtensionBundle() {
-    ExtensionBundle extension = new ExtensionBundle();
-	extension.setName("Control Blocks Extension");
-	extension.setVersion(1);
-	extension.setHolders(OperatorHolders.getHolders());
-	extension.setBlocks(OperatorBlocks.getBlocks());
-    return extension;
-  }
+	public static ExtensionBundle getExtensionBundle() {
+		ExtensionBundle extension = new ExtensionBundle();
+		extension.setName("Control Blocks Extension");
+		extension.setVersion(1);
+		extension.setHolders(OperatorHolders.getHolders());
+		extension.setBlocks(OperatorBlocks.getBlocks());
+		return extension;
+	}
 }

@@ -46,71 +46,71 @@ import com.icst.android.appstudio.utils.serialization.ProjectModelSerializationU
 import java.io.File;
 
 public class ResourceManagerActivity extends BaseActivity {
-  // SECTION Constants
-  public static final int RESOURCES_SECTION = 0;
-  public static final int INFO_SECTION = 1;
-  public static final int LOADING_SECTION = 2;
+	// SECTION Constants
+	public static final int RESOURCES_SECTION = 0;
+	public static final int INFO_SECTION = 1;
+	public static final int LOADING_SECTION = 2;
 
-  private ActivityResourceManagerBinding binding;
+	private ActivityResourceManagerBinding binding;
 
-  private ModuleModel module;
+	private ModuleModel module;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityResourceManagerBinding.inflate(getLayoutInflater());
+		binding = ActivityResourceManagerBinding.inflate(getLayoutInflater());
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 
-    module = new ModuleModel();
-    module.init(
-        getIntent().getStringExtra("module"),
-        new File(getIntent().getStringExtra("projectRootDirectory")));
-    switchSection(LOADING_SECTION);
+		module = new ModuleModel();
+		module.init(
+				getIntent().getStringExtra("module"),
+				new File(getIntent().getStringExtra("projectRootDirectory")));
+		switchSection(LOADING_SECTION);
 
-    ProjectModelSerializationUtils.deserialize(
-        new File(module.projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
-        new ProjectModelSerializationUtils.DeserializerListener() {
+		ProjectModelSerializationUtils.deserialize(
+				new File(module.projectRootDirectory, EnvironmentUtils.PROJECT_CONFIGRATION),
+				new ProjectModelSerializationUtils.DeserializerListener() {
 
-          @Override
-          public void onSuccessfullyDeserialized(ProjectModel object) {
-            switchSection(RESOURCES_SECTION);
-            binding.resList.setAdapter(
-                new ResourceManagerAdapter(
-                    FileModelUtils.getFileModelList(
-                        new File(module.resourceDirectory, EnvironmentUtils.FILES)),
-                    ResourceManagerActivity.this,
-                    module));
-            binding.resList.setLayoutManager(new LinearLayoutManager(ResourceManagerActivity.this));
-          }
+					@Override
+					public void onSuccessfullyDeserialized(ProjectModel object) {
+						switchSection(RESOURCES_SECTION);
+						binding.resList.setAdapter(
+								new ResourceManagerAdapter(
+										FileModelUtils.getFileModelList(
+												new File(module.resourceDirectory, EnvironmentUtils.FILES)),
+										ResourceManagerActivity.this,
+										module));
+						binding.resList.setLayoutManager(new LinearLayoutManager(ResourceManagerActivity.this));
+					}
 
-          @Override
-          public void onFailed(int errorCode, Exception e) {
-            setError(e.getMessage());
-          }
-        });
-  }
+					@Override
+					public void onFailed(int errorCode, Exception e) {
+						setError(e.getMessage());
+					}
+				});
+	}
 
-  public void switchSection(int section) {
-    binding.resourceView.setVisibility(section == RESOURCES_SECTION ? View.VISIBLE : View.GONE);
-    binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
-    binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
-  }
+	public void switchSection(int section) {
+		binding.resourceView.setVisibility(section == RESOURCES_SECTION ? View.VISIBLE : View.GONE);
+		binding.infoSection.setVisibility(section == INFO_SECTION ? View.VISIBLE : View.GONE);
+		binding.loading.setVisibility(section == LOADING_SECTION ? View.VISIBLE : View.GONE);
+	}
 
-  public void setError(String error) {
-    switchSection(INFO_SECTION);
-    binding.infoText.setText(error);
-  }
+	public void setError(String error) {
+		switchSection(INFO_SECTION);
+		binding.infoText.setText(error);
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 }

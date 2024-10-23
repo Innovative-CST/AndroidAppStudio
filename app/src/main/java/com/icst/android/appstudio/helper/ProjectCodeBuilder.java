@@ -50,284 +50,291 @@ import java.util.regex.Pattern;
 
 public final class ProjectCodeBuilder {
 
-  public static void generateModulesCode(
-      File projectRootDirectory,
-      String moduleName,
-      boolean rebuild,
-      ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cancelToken) {
+	public static void generateModulesCode(
+			File projectRootDirectory,
+			String moduleName,
+			boolean rebuild,
+			ProjectCodeBuildListener listener,
+			ProjectCodeBuilderCancelToken cancelToken) {
 
-    FileModel folder =
-        DeserializerUtils.deserialize(
-            new File(
-                EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
-                EnvironmentUtils.FILE_MODEL),
-            FileModel.class);
-    if (folder != null) {
-      if (folder.isAndroidAppModule() || folder.isAndroidLibrary()) {
-        ModuleModel module = new ModuleModel();
-        module.init(moduleName, projectRootDirectory);
-        generateModuleCode(module, rebuild, listener, cancelToken);
-        return;
-      }
-    }
+		FileModel folder = DeserializerUtils.deserialize(
+				new File(
+						EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
+						EnvironmentUtils.FILE_MODEL),
+				FileModel.class);
+		if (folder != null) {
+			if (folder.isAndroidAppModule() || folder.isAndroidLibrary()) {
+				ModuleModel module = new ModuleModel();
+				module.init(moduleName, projectRootDirectory);
+				generateModuleCode(module, rebuild, listener, cancelToken);
+				return;
+			}
+		}
 
-    ArrayList<FileModel> files =
-        FileModelUtils.getFileModelList(
-            moduleName.equals("")
-                ? EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName)
-                : new File(
-                    EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
-                    EnvironmentUtils.FILES));
-    if (files == null) {
-      return;
-    } else if (files.size() == 0) {
-      return;
-    }
+		ArrayList<FileModel> files = FileModelUtils.getFileModelList(
+				moduleName.isEmpty()
+						? EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName)
+						: new File(
+								EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
+								EnvironmentUtils.FILES));
+		if (files == null) {
+			return;
+		} else if (files.size() == 0) {
+			return;
+		}
 
-    for (int i = 0; i < files.size(); ++i) {
-      if (files.get(i).isAndroidAppModule() || files.get(i).isAndroidLibrary()) {
-        ModuleModel module = new ModuleModel();
-        module.init(moduleName + ":" + files.get(i).getName(), projectRootDirectory);
-        generateModuleCode(module, rebuild, listener, cancelToken);
-      } else if (files.get(i).isFolder()) {
-        generateModulesCode(
-            projectRootDirectory,
-            moduleName + ":" + files.get(i).getName(),
-            rebuild,
-            listener,
-            cancelToken);
-      }
-    }
-  }
+		for (int i = 0; i < files.size(); ++i) {
+			if (files.get(i).isAndroidAppModule() || files.get(i).isAndroidLibrary()) {
+				ModuleModel module = new ModuleModel();
+				module.init(moduleName + ":" + files.get(i).getName(), projectRootDirectory);
+				generateModuleCode(module, rebuild, listener, cancelToken);
+			} else if (files.get(i).isFolder()) {
+				generateModulesCode(
+						projectRootDirectory,
+						moduleName + ":" + files.get(i).getName(),
+						rebuild,
+						listener,
+						cancelToken);
+			}
+		}
+	}
 
-  public static void generateModuleCode(
-      ModuleModel module,
-      boolean rebuild,
-      ProjectCodeBuildListener listener,
-      ProjectCodeBuilderCancelToken cancelToken) {
+	public static void generateModuleCode(
+			ModuleModel module,
+			boolean rebuild,
+			ProjectCodeBuildListener listener,
+			ProjectCodeBuilderCancelToken cancelToken) {
 
-    long executionStartTime = System.currentTimeMillis();
-    if (listener != null) listener.onBuildStart();
+		long executionStartTime = System.currentTimeMillis();
+		if (listener != null)
+			listener.onBuildStart();
 
-    /************************************
-     * Generate Module Output Directory *
-     ************************************/
+		/************************************
+		 * Generate Module Output Directory *
+		 ************************************/
 
-    if (listener != null) {
-      listener.onBuildProgressLog("Run task : [" + module.module + ":generateCode]\n");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog("Run task : [" + module.module + ":generateCode]\n");
+		}
 
-    if (rebuild) {
-      if (listener != null) {
-        listener.onBuildProgressLog("Regenerating whole module code : [" + module.module + "]\n");
-      }
-    } else {
-      if (listener != null) {
-        listener.onBuildProgressLog(
-            "Generating partially code of module : [" + module.module + "]\n");
-      }
-    }
-    if (module.moduleOutputDirectory.exists()) {
-      if (rebuild) {
-        cleanFile(module.moduleOutputDirectory, listener, cancelToken);
-      }
-    } else {
-      module.moduleOutputDirectory.mkdirs();
-    }
+		if (rebuild) {
+			if (listener != null) {
+				listener.onBuildProgressLog("Regenerating whole module code : [" + module.module + "]\n");
+			}
+		} else {
+			if (listener != null) {
+				listener.onBuildProgressLog(
+						"Generating partially code of module : [" + module.module + "]\n");
+			}
+		}
+		if (module.moduleOutputDirectory.exists()) {
+			if (rebuild) {
+				cleanFile(module.moduleOutputDirectory, listener, cancelToken);
+			}
+		} else {
+			module.moduleOutputDirectory.mkdirs();
+		}
 
-    /*******************************
-     * Generate Module Gradle File *
-     *******************************/
+		/*******************************
+		 * Generate Module Gradle File *
+		 *******************************/
 
-    if (listener != null) {
-      listener.onBuildProgressLog("> Task " + module.module + ":generateGradleFile");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog("> Task " + module.module + ":generateGradleFile");
+		}
 
-    FileModelCodeHelper gradleFileGenerator = new FileModelCodeHelper();
-    gradleFileGenerator.setProjectRootDirectory(module.projectRootDirectory);
-    gradleFileGenerator.setFileModel(
-        DeserializerUtils.deserialize(
-            new File(module.gradleFileDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class));
-    gradleFileGenerator.setEventsDirectory(
-        new File(module.gradleFileDirectory, EnvironmentUtils.EVENTS_DIR));
+		FileModelCodeHelper gradleFileGenerator = new FileModelCodeHelper();
+		gradleFileGenerator.setProjectRootDirectory(module.projectRootDirectory);
+		gradleFileGenerator.setFileModel(
+				DeserializerUtils.deserialize(
+						new File(module.gradleFileDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class));
+		gradleFileGenerator.setEventsDirectory(
+				new File(module.gradleFileDirectory, EnvironmentUtils.EVENTS_DIR));
 
-    if (!module.gradleOutputFile.exists()) {
-      FileUtils.writeFile(
-          module.gradleOutputFile.getAbsolutePath(),
-          gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
-    } else {
-      if (rebuild) {
-        FileUtils.writeFile(
-            module.gradleOutputFile.getAbsolutePath(),
-            gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
-      }
-    }
+		if (!module.gradleOutputFile.exists()) {
+			FileUtils.writeFile(
+					module.gradleOutputFile.getAbsolutePath(),
+					gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
+		} else {
+			if (rebuild) {
+				FileUtils.writeFile(
+						module.gradleOutputFile.getAbsolutePath(),
+						gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
+			}
+		}
 
-    /**************************
-     * Generate Manifest File *
-     **************************/
+		/**************************
+		 * Generate Manifest File *
+		 **************************/
 
-    if (listener != null) {
-      listener.onBuildProgressLog("> Task " + module.module + ":generateAndroidManifestFile");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog("> Task " + module.module + ":generateAndroidManifestFile");
+		}
 
-    AndroidManifestBuilder manifestBuilder = new AndroidManifestBuilder();
-    manifestBuilder.setModule(module);
-    manifestBuilder.setRebuild(rebuild);
-    manifestBuilder.setListener(listener);
-    manifestBuilder.setCancelToken(cancelToken);
-    manifestBuilder.build();
+		AndroidManifestBuilder manifestBuilder = new AndroidManifestBuilder();
+		manifestBuilder.setModule(module);
+		manifestBuilder.setRebuild(rebuild);
+		manifestBuilder.setListener(listener);
+		manifestBuilder.setCancelToken(cancelToken);
+		manifestBuilder.build();
 
-    /*****************************
-     * Generate Resource Folders *
-     *****************************/
+		/*****************************
+		 * Generate Resource Folders *
+		 *****************************/
 
-    if (listener != null) {
-      listener.onBuildProgressLog("> Task " + module.module + ":generateResourceFolder");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog("> Task " + module.module + ":generateResourceFolder");
+		}
 
-    if (module.resourceOutputDirectory.exists()) {
-      if (rebuild) {
-        cleanFile(module.resourceOutputDirectory, listener, cancelToken);
-      }
-    } else {
-      module.resourceOutputDirectory.mkdirs();
-    }
+		if (module.resourceOutputDirectory.exists()) {
+			if (rebuild) {
+				cleanFile(module.resourceOutputDirectory, listener, cancelToken);
+			}
+		} else {
+			module.resourceOutputDirectory.mkdirs();
+		}
 
-    ArrayList<FileModel> resFolders =
-        FileModelUtils.getFileModelList(new File(module.resourceDirectory, EnvironmentUtils.FILES));
+		ArrayList<FileModel> resFolders = FileModelUtils
+				.getFileModelList(new File(module.resourceDirectory, EnvironmentUtils.FILES));
 
-    if (resFolders != null) {
+		if (resFolders != null) {
 
-      for (int position = 0; position < resFolders.size(); ++position) {
-        new File(module.resourceOutputDirectory, resFolders.get(position).getName()).mkdirs();
+			for (int position = 0; position < resFolders.size(); ++position) {
+				new File(module.resourceOutputDirectory, resFolders.get(position).getName()).mkdirs();
 
-        if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
-            .matcher(resFolders.get(position).getName())
-            .matches()) {
-          LayoutSourceBuilder resMainSourceBuilder = new LayoutSourceBuilder();
-          resMainSourceBuilder.setModule(module);
-          resMainSourceBuilder.setRebuild(rebuild);
-          resMainSourceBuilder.setLayoutDirName(resFolders.get(position).getName());
-          resMainSourceBuilder.setListener(listener);
-          resMainSourceBuilder.setCancelToken(cancelToken);
-          resMainSourceBuilder.build();
-        }
-      }
-    }
+				if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
+						.matcher(resFolders.get(position).getName())
+						.matches()) {
+					LayoutSourceBuilder resMainSourceBuilder = new LayoutSourceBuilder();
+					resMainSourceBuilder.setModule(module);
+					resMainSourceBuilder.setRebuild(rebuild);
+					resMainSourceBuilder.setLayoutDirName(resFolders.get(position).getName());
+					resMainSourceBuilder.setListener(listener);
+					resMainSourceBuilder.setCancelToken(cancelToken);
+					resMainSourceBuilder.build();
+				}
+			}
+		}
 
-    /***********************
-     * Generate Java Files *
-     ***********************/
+		/***********************
+		 * Generate Java Files *
+		 ***********************/
 
-    if (listener != null) {
-      listener.onBuildProgressLog("> Task " + module.module + ":generateJavaFiles");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog("> Task " + module.module + ":generateJavaFiles");
+		}
 
-    JavaSourceBuilder mainJavaSrcBuilder = new JavaSourceBuilder();
-    mainJavaSrcBuilder.setModule(module);
-    mainJavaSrcBuilder.setRebuild(rebuild);
-    mainJavaSrcBuilder.setPackageName("");
-    mainJavaSrcBuilder.setInputDir(new File(module.javaSourceDirectory, EnvironmentUtils.FILES));
-    mainJavaSrcBuilder.setOutputDir(module.javaSourceOutputDirectory);
-    mainJavaSrcBuilder.setListener(listener);
-    mainJavaSrcBuilder.setCancelToken(cancelToken);
-    mainJavaSrcBuilder.build();
+		JavaSourceBuilder mainJavaSrcBuilder = new JavaSourceBuilder();
+		mainJavaSrcBuilder.setModule(module);
+		mainJavaSrcBuilder.setRebuild(rebuild);
+		mainJavaSrcBuilder.setPackageName("");
+		mainJavaSrcBuilder.setInputDir(new File(module.javaSourceDirectory, EnvironmentUtils.FILES));
+		mainJavaSrcBuilder.setOutputDir(module.javaSourceOutputDirectory);
+		mainJavaSrcBuilder.setListener(listener);
+		mainJavaSrcBuilder.setCancelToken(cancelToken);
+		mainJavaSrcBuilder.build();
 
-    if (listener != null) {
-      listener.onBuildProgressLog("\n");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog("\n");
+		}
 
-    /*
-     * Download used dependecies in project.
-     * Only same dependecies download one time.
-     * If two versions are specified then consider the 1st founded version only.
-     */
+		/*
+		 * Download used dependecies in project.
+		 * Only same dependecies download one time.
+		 * If two versions are specified then consider the 1st founded version only.
+		 */
 
-    // Note: In Currently available blocks dependency feature is not available but it is implemented
-    // in block generators library...
-    ArrayList<DependencyTag> dependencies = mainJavaSrcBuilder.getDependencies();
-    ArrayList<String> alreadyAddedDeps = new ArrayList<String>();
-    for (int i = 0; i < dependencies.size(); ++i) {
-      String group = dependencies.get(i).getDependencyGroup();
-      String name = dependencies.get(i).getDependencyName();
-      String version = dependencies.get(i).getVersion();
-      boolean isDepUsed = false;
-      for (int i2 = 0; i2 < alreadyAddedDeps.size(); ++i2) {
-        if (alreadyAddedDeps
-            .get(i2)
-            .equals(group.concat(":").concat(name).concat(":").concat(version))) {
-          isDepUsed = true;
-        }
-      }
-      if (!isDepUsed) {
-        alreadyAddedDeps.add(group.concat(":").concat(name).concat(":").concat(version));
-        if (listener != null) {
-          listener.onBuildProgressLog(
-              "Using dependency in project : " + group + ":" + name + ":" + version);
-        }
+		// Note: In Currently available blocks dependency feature is not available but
+		// it is implemented
+		// in block generators library...
+		ArrayList<DependencyTag> dependencies = mainJavaSrcBuilder.getDependencies();
+		ArrayList<String> alreadyAddedDeps = new ArrayList<String>();
+		for (int i = 0; i < dependencies.size(); ++i) {
+			String group = dependencies.get(i).getDependencyGroup();
+			String name = dependencies.get(i).getDependencyName();
+			String version = dependencies.get(i).getVersion();
+			boolean isDepUsed = false;
+			for (int i2 = 0; i2 < alreadyAddedDeps.size(); ++i2) {
+				if (alreadyAddedDeps
+						.get(i2)
+						.equals(group.concat(":").concat(name).concat(":").concat(version))) {
+					isDepUsed = true;
+				}
+			}
+			if (!isDepUsed) {
+				alreadyAddedDeps.add(group.concat(":").concat(name).concat(":").concat(version));
+				if (listener != null) {
+					listener.onBuildProgressLog(
+							"Using dependency in project : " + group + ":" + name + ":" + version);
+				}
 
-        // Logic to download dependency
-        // Dependency must be downloaded to module.getModuleLibsDirectory() with folder name
-        // `name-group-version`
-        // and files must be stored in it eg. configuration (Info of dependency like source), jar
-        // file with any name.
-        // All jar files present will be added to it.
-      }
-    }
+				// Logic to download dependency
+				// Dependency must be downloaded to module.getModuleLibsDirectory() with folder
+				// name
+				// `name-group-version`
+				// and files must be stored in it eg. configuration (Info of dependency like
+				// source), jar
+				// file with any name.
+				// All jar files present will be added to it.
+			}
+		}
 
-    AppBuilder apkBuilder = new AppBuilder();
-    apkBuilder.build(
-        new BuildListener() {
-          @Override
-          public void onBuildFinish() {}
+		AppBuilder apkBuilder = new AppBuilder();
+		apkBuilder.build(
+				new BuildListener() {
+					@Override
+					public void onBuildFinish() {
+					}
 
-          @Override
-          public void onBuildProgress(String arg) {
-            if (listener != null) {
-              listener.onBuildProgressLog(arg);
-            }
-          }
-        },
-        module);
+					@Override
+					public void onBuildProgress(String arg) {
+						if (listener != null) {
+							listener.onBuildProgressLog(arg);
+						}
+					}
+				},
+				module);
 
-    long endExectionTime = System.currentTimeMillis();
-    long executionTime = endExectionTime - executionStartTime;
-    if (listener != null) {
-      listener.onBuildComplete(executionTime);
-    }
-  }
+		long endExectionTime = System.currentTimeMillis();
+		long executionTime = endExectionTime - executionStartTime;
+		if (listener != null) {
+			listener.onBuildComplete(executionTime);
+		}
+	}
 
-  /*
-   * Delete the directory or files
-   * Parameters:
-   * @File file: Directory or file to delete.
-   * @ProjectCodeBuildListener: listener: Listener for progress listener.
-   * @ProjectCodeBuilderCancelToken cancelToken: A cancel token to stop ongoing process.
-   */
-  private static boolean cleanFile(
-      File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
-    if (!file.exists()) {
-      return true;
-    }
-    if (file.isFile()) {
-      return file.delete();
-    } else {
-      if (file.listFiles().length == 0) {
-        if (listener != null) {
-          file.delete();
-        }
-        return true;
-      } else {
-        for (File subFile : file.listFiles()) {
-          if (!cleanFile(subFile, listener, cancelToken)) {
-            return false;
-          }
-        }
-        file.delete();
-        return true;
-      }
-    }
-  }
+	/*
+	 * Delete the directory or files
+	 * Parameters:
+	 * 
+	 * @File file: Directory or file to delete.
+	 * 
+	 * @ProjectCodeBuildListener: listener: Listener for progress listener.
+	 * 
+	 * @ProjectCodeBuilderCancelToken cancelToken: A cancel token to stop ongoing
+	 * process.
+	 */
+	private static boolean cleanFile(
+			File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
+		if (!file.exists()) {
+			return true;
+		}
+		if (file.isFile()) {
+			return file.delete();
+		} else {
+			if (file.listFiles().length == 0) {
+				if (listener != null) {
+					file.delete();
+				}
+				return true;
+			} else {
+				for (File subFile : file.listFiles()) {
+					if (!cleanFile(subFile, listener, cancelToken)) {
+						return false;
+					}
+				}
+				file.delete();
+				return true;
+			}
+		}
+	}
 }

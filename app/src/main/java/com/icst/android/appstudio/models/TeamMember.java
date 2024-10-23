@@ -34,58 +34,58 @@ package com.icst.android.appstudio.models;
 import java.util.ArrayList;
 
 public class TeamMember {
-  private long id;
-  private String name;
-  private String profilePhotoUrl;
-  private String description;
-  private String tag;
-  private ArrayList<SocialProfile> socialProfiles;
+	private long id;
+	private String name;
+	private String profilePhotoUrl;
+	private String description;
+	private String tag;
+	private ArrayList<SocialProfile> socialProfiles;
 
-  public String getProfilePhotoUrl() {
-    return this.profilePhotoUrl;
-  }
+	public String getProfilePhotoUrl() {
+		return this.profilePhotoUrl;
+	}
 
-  public void setProfilePhotoUrl(String profilePhotoUrl) {
-    this.profilePhotoUrl = profilePhotoUrl;
-  }
+	public void setProfilePhotoUrl(String profilePhotoUrl) {
+		this.profilePhotoUrl = profilePhotoUrl;
+	}
 
-  public String getName() {
-    return this.name;
-  }
+	public String getName() {
+		return this.name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getDescription() {
-    return this.description;
-  }
+	public String getDescription() {
+		return this.description;
+	}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-  public String getTag() {
-    return this.tag;
-  }
+	public String getTag() {
+		return this.tag;
+	}
 
-  public void setTag(String tag) {
-    this.tag = tag;
-  }
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 
-  public ArrayList<SocialProfile> getSocialProfiles() {
-    return this.socialProfiles;
-  }
+	public ArrayList<SocialProfile> getSocialProfiles() {
+		return this.socialProfiles;
+	}
 
-  public void setSocialProfiles(ArrayList<SocialProfile> socialProfiles) {
-    this.socialProfiles = socialProfiles;
-  }
+	public void setSocialProfiles(ArrayList<SocialProfile> socialProfiles) {
+		this.socialProfiles = socialProfiles;
+	}
 
-  public long getId() {
-    return this.id;
-  }
+	public long getId() {
+		return this.id;
+	}
 
-  public void setId(long id) {
-    this.id = id;
-  }
+	public void setId(long id) {
+		this.id = id;
+	}
 }

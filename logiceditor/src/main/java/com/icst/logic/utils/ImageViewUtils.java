@@ -39,14 +39,14 @@ import androidx.core.content.ContextCompat;
 
 public final class ImageViewUtils {
 
-  public static Drawable getImageView(Context context, int res) {
-    return ContextCompat.getDrawable(context, res);
-  }
+	public static Drawable getImageView(Context context, int res) {
+		return ContextCompat.getDrawable(context, res);
+	}
 
-  public static Drawable getImageView(Context context, String color, int res) {
-    Drawable mDrawable = getImageView(context, res);
-	mDrawable.setTint(Color.parseColor(color));
-    mDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-    return mDrawable;
-  }
+	public static Drawable getImageView(Context context, String color, int res) {
+		Drawable mDrawable = getImageView(context, res);
+		mDrawable.setTint(Color.parseColor(color));
+		mDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+		return mDrawable;
+	}
 }

@@ -36,22 +36,22 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
 public class SerializerUtil {
-  public static void serialize(Object object, File path, SerializerCompletionListener listener) {
-    try {
-      FileOutputStream fileOutputStream = new FileOutputStream(path);
-      ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-      objectOutputStream.writeObject(object);
-      fileOutputStream.close();
-      objectOutputStream.close();
-      listener.onSerializeComplete();
-    } catch (Exception e) {
-      listener.onFailedToSerialize(e);
-    }
-  }
+	public static void serialize(Object object, File path, SerializerCompletionListener listener) {
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(path);
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(object);
+			fileOutputStream.close();
+			objectOutputStream.close();
+			listener.onSerializeComplete();
+		} catch (Exception e) {
+			listener.onFailedToSerialize(e);
+		}
+	}
 
-  public interface SerializerCompletionListener {
-    void onSerializeComplete();
+	public interface SerializerCompletionListener {
+		void onSerializeComplete();
 
-    void onFailedToSerialize(Exception exception);
-  }
+		void onFailedToSerialize(Exception exception);
+	}
 }

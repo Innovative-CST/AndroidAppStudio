@@ -51,90 +51,90 @@ import java.util.ArrayList;
 
 public class ExtensionsManagerActivity extends BaseActivity {
 
-  private ActivityExtensionsManagerBinding binding;
-  private DatabaseReference extensionDatabase;
-  private ArrayList<ExtensionAdapterModel> availableExtensions;
-  private boolean isInitialized;
+	private ActivityExtensionsManagerBinding binding;
+	private DatabaseReference extensionDatabase;
+	private ArrayList<ExtensionAdapterModel> availableExtensions;
+	private boolean isInitialized;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    extensionDatabase = FirebaseDatabase.getInstance().getReference("extensions");
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		extensionDatabase = FirebaseDatabase.getInstance().getReference("extensions");
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityExtensionsManagerBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
+		binding = ActivityExtensionsManagerBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    fetchChildValues();
-    isInitialized = true;
-  }
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		fetchChildValues();
+		isInitialized = true;
+	}
 
-  private void fetchChildValues() {
-    binding.loading.setVisibility(View.VISIBLE);
-    binding.nestedScrollView.setVisibility(View.GONE);
-    extensionDatabase.addListenerForSingleValueEvent(
-        new ValueEventListener() {
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
-            availableExtensions = new ArrayList<>();
-            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-              ExtensionAdapterModel extension = new ExtensionAdapterModel();
-              if (childSnapshot.child("title").exists()) {
-                extension.setTitle(childSnapshot.child("title").getValue(String.class));
-              }
-              if (childSnapshot.child("latest_version").exists()) {
-                extension.setLatestVersion(
-                    childSnapshot.child("latest_version").getValue(Integer.class));
-              }
+	private void fetchChildValues() {
+		binding.loading.setVisibility(View.VISIBLE);
+		binding.nestedScrollView.setVisibility(View.GONE);
+		extensionDatabase.addListenerForSingleValueEvent(
+				new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot dataSnapshot) {
+						availableExtensions = new ArrayList<>();
+						for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+							ExtensionAdapterModel extension = new ExtensionAdapterModel();
+							if (childSnapshot.child("title").exists()) {
+								extension.setTitle(childSnapshot.child("title").getValue(String.class));
+							}
+							if (childSnapshot.child("latest_version").exists()) {
+								extension.setLatestVersion(
+										childSnapshot.child("latest_version").getValue(Integer.class));
+							}
 
-              if (childSnapshot.child("file_name").exists()) {
-                if (new File(
-                        EnvironmentUtils.EXTENSION_DIR,
-                        childSnapshot.child("file_name").getValue(String.class))
-                    .exists()) {
-                  extension.setIsInstalled(true);
+							if (childSnapshot.child("file_name").exists()) {
+								if (new File(
+										EnvironmentUtils.EXTENSION_DIR,
+										childSnapshot.child("file_name").getValue(String.class))
+										.exists()) {
+									extension.setIsInstalled(true);
 
-                  ExtensionBundle bundle =
-                      DeserializerUtils.deserialize(
-                          new File(
-                              EnvironmentUtils.EXTENSION_DIR,
-                              childSnapshot.child("file_name").getValue(String.class)),
-                          ExtensionBundle.class);
-                  extension.setInstalledVersion(bundle.getVersion());
-                }
-              }
+									ExtensionBundle bundle = DeserializerUtils.deserialize(
+											new File(
+													EnvironmentUtils.EXTENSION_DIR,
+													childSnapshot.child("file_name").getValue(String.class)),
+											ExtensionBundle.class);
+									extension.setInstalledVersion(bundle.getVersion());
+								}
+							}
 
-              if (childSnapshot.child("authors").exists()) {
-                extension.setAuthors(childSnapshot.child("authors").getValue(String.class));
-              }
+							if (childSnapshot.child("authors").exists()) {
+								extension.setAuthors(childSnapshot.child("authors").getValue(String.class));
+							}
 
-              extension.setChildKey(childSnapshot.getKey());
+							extension.setChildKey(childSnapshot.getKey());
 
-              availableExtensions.add(extension);
-              binding.nestedScrollView.setVisibility(View.VISIBLE);
-              binding.loading.setVisibility(View.GONE);
-              binding.extensions.setAdapter(
-                  new ExtensionAdapter(availableExtensions, ExtensionsManagerActivity.this));
-              binding.extensions.setLayoutManager(
-                  new LinearLayoutManager(ExtensionsManagerActivity.this));
-            }
-          }
+							availableExtensions.add(extension);
+							binding.nestedScrollView.setVisibility(View.VISIBLE);
+							binding.loading.setVisibility(View.GONE);
+							binding.extensions.setAdapter(
+									new ExtensionAdapter(availableExtensions, ExtensionsManagerActivity.this));
+							binding.extensions.setLayoutManager(
+									new LinearLayoutManager(ExtensionsManagerActivity.this));
+						}
+					}
 
-          @Override
-          public void onCancelled(DatabaseError databaseError) {}
-        });
-  }
+					@Override
+					public void onCancelled(DatabaseError databaseError) {
+					}
+				});
+	}
 
-  @Override
-  protected void onResume() {
-    super.onResume();
+	@Override
+	protected void onResume() {
+		super.onResume();
 
-    if (isInitialized) {
-      fetchChildValues();
-    }
-  }
+		if (isInitialized) {
+			fetchChildValues();
+		}
+	}
 }

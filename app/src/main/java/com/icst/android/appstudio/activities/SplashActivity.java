@@ -32,24 +32,22 @@
 package com.icst.android.appstudio.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 import com.icst.android.appstudio.R;
 
 public class SplashActivity extends BaseActivity {
-  @Override
-  protected void onCreate(Bundle bundle) {
-    super.onCreate(bundle);
+	@Override
+	protected void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
 
-    setContentView(R.layout.activity_splash);
-    new Handler(getMainLooper())
-        .postDelayed(
-            () -> {
-              startActivity(new Intent(this, ProjectManagerActivity.class));
-              finish();
-            },
-            3000);
-  }
+		setContentView(R.layout.activity_splash);
+		new Handler(getMainLooper())
+				.postDelayed(
+						() -> {
+							startActivity(new Intent(this, ProjectManagerActivity.class));
+							finish();
+						},
+						3000);
+	}
 }

@@ -37,8 +37,8 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.DialogProjectBuilderBinding;
-import com.icst.android.appstudio.helper.ProjectCodeBuildProgress;
 import com.icst.android.appstudio.exception.ProjectCodeBuildException;
+import com.icst.android.appstudio.helper.ProjectCodeBuildProgress;
 import com.icst.android.appstudio.helper.ProjectCodeBuilder;
 import com.icst.android.appstudio.helper.ProjectCodeBuilderCancelToken;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
@@ -51,120 +51,120 @@ import java.io.File;
 import java.util.concurrent.Executors;
 
 public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
-  private BaseActivity activity;
-  private File outpurDir;
-  private File file;
-  private ProjectCodeBuildListener listener;
-  private ProjectCodeBuilderCancelToken cancelToken;
-  private DialogProjectBuilderBinding binding;
+	private BaseActivity activity;
+	private File outpurDir;
+	private File file;
+	private ProjectCodeBuildListener listener;
+	private ProjectCodeBuilderCancelToken cancelToken;
+	private DialogProjectBuilderBinding binding;
 
-  public ProjectBuilderDialog(BaseActivity activity, File projectRootDir, String module) {
-    super(activity);
+	public ProjectBuilderDialog(BaseActivity activity, File projectRootDir, String module) {
+		super(activity);
 
-    this.activity = activity;
-    this.outpurDir = outpurDir;
-    this.file = file;
+		this.activity = activity;
+		this.outpurDir = outpurDir;
+		this.file = file;
 
-    binding = DialogProjectBuilderBinding.inflate(LayoutInflater.from(activity));
+		binding = DialogProjectBuilderBinding.inflate(LayoutInflater.from(activity));
 
-    setView(binding.getRoot());
+		setView(binding.getRoot());
 
-    FileProviderRegistry.getInstance()
-        .addFileProvider(new AssetsFileResolver(activity.getAssets()));
-    try {
-      TextMateProvider.loadGrammars();
-    } catch (Exception e) {
-      Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
-    }
-    var editor = binding.editor;
-    editor.setEditable(false);
+		FileProviderRegistry.getInstance()
+				.addFileProvider(new AssetsFileResolver(activity.getAssets()));
+		try {
+			TextMateProvider.loadGrammars();
+		} catch (Exception e) {
+			Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+		var editor = binding.editor;
+		editor.setEditable(false);
 
-    if (activity.getSetting().isEnabledDarkMode()) {
-      editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
-    } else {
-      editor.setTheme(Themes.SoraEditorTheme.Light.Default);
-    }
-    binding.indicator.setVisibility(View.GONE);
+		if (activity.getSetting().isEnabledDarkMode()) {
+			editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+		} else {
+			editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+		}
+		binding.indicator.setVisibility(View.GONE);
 
-    StringBuilder log = new StringBuilder();
-    listener =
-        new ProjectCodeBuildListener() {
+		StringBuilder log = new StringBuilder();
+		listener = new ProjectCodeBuildListener() {
 
-          @Override
-          public void onBuildStart() {
-            activity.runOnUiThread(
-                () -> {
-                  binding.indicator.setVisibility(View.VISIBLE);
-                  binding.currentLog.setVisibility(View.VISIBLE);
-                  binding.editor.setVisibility(View.GONE);
-                });
-          }
+			@Override
+			public void onBuildStart() {
+				activity.runOnUiThread(
+						() -> {
+							binding.indicator.setVisibility(View.VISIBLE);
+							binding.currentLog.setVisibility(View.VISIBLE);
+							binding.editor.setVisibility(View.GONE);
+						});
+			}
 
-          @Override
-          public void onBuildComplete(long buildTime) {
-            activity.runOnUiThread(
-                () -> {
-                  log.append("\n");
-                  log.append("Build successful in ".concat(TimeUtils.convertTime(buildTime)));
-                  log.append("\n");
-                  binding.indicator.setVisibility(View.GONE);
-                  binding.currentLog.setVisibility(View.GONE);
-                  binding.editor.setVisibility(View.VISIBLE);
-                  editor.setText(log.toString());
-                });
-          }
+			@Override
+			public void onBuildComplete(long buildTime) {
+				activity.runOnUiThread(
+						() -> {
+							log.append("\n");
+							log.append("Build successful in ".concat(TimeUtils.convertTime(buildTime)));
+							log.append("\n");
+							binding.indicator.setVisibility(View.GONE);
+							binding.currentLog.setVisibility(View.GONE);
+							binding.editor.setVisibility(View.VISIBLE);
+							editor.setText(log.toString());
+						});
+			}
 
-          @Override
-          public void onBuildProgress(ProjectCodeBuildProgress progress) {
-            log.append(progress.getMessage());
-            log.append("\n");
-            activity.runOnUiThread(
-                () -> {
-                  binding.currentLog.setText(progress.getMessage());
-                });
-          }
+			@Override
+			public void onBuildProgress(ProjectCodeBuildProgress progress) {
+				log.append(progress.getMessage());
+				log.append("\n");
+				activity.runOnUiThread(
+						() -> {
+							binding.currentLog.setText(progress.getMessage());
+						});
+			}
 
-          @Override
-          public void onBuildProgressLog(String logMessage) {
-            log.append(logMessage);
-            log.append("\n");
-            activity.runOnUiThread(
-                () -> {
-                  binding.currentLog.setText(logMessage);
-                });
-          }
+			@Override
+			public void onBuildProgressLog(String logMessage) {
+				log.append(logMessage);
+				log.append("\n");
+				activity.runOnUiThread(
+						() -> {
+							binding.currentLog.setText(logMessage);
+						});
+			}
 
-          @Override
-          public void onBuildCancelled() {
-            activity.runOnUiThread(
-                () -> {
-                  binding.indicator.setVisibility(View.GONE);
-                  binding.currentLog.setVisibility(View.GONE);
-                  binding.editor.setVisibility(View.VISIBLE);
-                  editor.setText(log.toString());
-                });
-          }
+			@Override
+			public void onBuildCancelled() {
+				activity.runOnUiThread(
+						() -> {
+							binding.indicator.setVisibility(View.GONE);
+							binding.currentLog.setVisibility(View.GONE);
+							binding.editor.setVisibility(View.VISIBLE);
+							editor.setText(log.toString());
+						});
+			}
 
-          @Override
-          public void onBuildFailed(ProjectCodeBuildException e) {
-            log.append(e.getMessage());
-            log.append("\n");
-            activity.runOnUiThread(
-                () -> {
-                  binding.indicator.setVisibility(View.GONE);
-                  binding.currentLog.setVisibility(View.GONE);
-                  binding.editor.setVisibility(View.VISIBLE);
-                  editor.setText(log.toString());
-                });
-          }
-        };
-    setCancelable(false);
-    setPositiveButton("Cancel", (p1, p2) -> {});
-    Executors.newSingleThreadExecutor()
-        .execute(
-            () -> {
-              ProjectCodeBuilder.generateModulesCode(
-                  projectRootDir, module, true, listener, cancelToken);
-            });
-  }
+			@Override
+			public void onBuildFailed(ProjectCodeBuildException e) {
+				log.append(e.getMessage());
+				log.append("\n");
+				activity.runOnUiThread(
+						() -> {
+							binding.indicator.setVisibility(View.GONE);
+							binding.currentLog.setVisibility(View.GONE);
+							binding.editor.setVisibility(View.VISIBLE);
+							editor.setText(log.toString());
+						});
+			}
+		};
+		setCancelable(false);
+		setPositiveButton("Cancel", (p1, p2) -> {
+		});
+		Executors.newSingleThreadExecutor()
+				.execute(
+						() -> {
+							ProjectCodeBuilder.generateModulesCode(
+									projectRootDir, module, true, listener, cancelToken);
+						});
+	}
 }

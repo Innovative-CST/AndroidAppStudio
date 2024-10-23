@@ -22,18 +22,18 @@ package com.downloader;
 
 public enum Status {
 
-    QUEUED,
+	QUEUED,
 
-    RUNNING,
+	RUNNING,
 
-    PAUSED,
+	PAUSED,
 
-    COMPLETED,
+	COMPLETED,
 
-    CANCELLED,
+	CANCELLED,
 
-    FAILED,
+	FAILED,
 
-    UNKNOWN
+	UNKNOWN
 
 }

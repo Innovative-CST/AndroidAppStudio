@@ -34,7 +34,7 @@ package com.icst.android.appstudio.listener;
 import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
 
 public interface LayoutVariableModelChangeListener {
-  void onLayoutVariableModelUpdate(LayoutVariableModel model);
+	void onLayoutVariableModelUpdate(LayoutVariableModel model);
 
-  void onLayoutVariableModelDelete();
+	void onLayoutVariableModelDelete();
 }

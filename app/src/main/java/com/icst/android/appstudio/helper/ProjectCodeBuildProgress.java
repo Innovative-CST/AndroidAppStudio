@@ -35,31 +35,31 @@ import com.icst.android.appstudio.block.model.FileModel;
 import java.io.File;
 
 public class ProjectCodeBuildProgress {
-  private FileModel progressingFileModel;
-  private File outputPath;
-  private String message;
+	private FileModel progressingFileModel;
+	private File outputPath;
+	private String message;
 
-  public FileModel getProgressingFileModel() {
-    return this.progressingFileModel;
-  }
+	public FileModel getProgressingFileModel() {
+		return this.progressingFileModel;
+	}
 
-  public void setProgressingFileModel(FileModel progressingFileModel) {
-    this.progressingFileModel = progressingFileModel;
-  }
+	public void setProgressingFileModel(FileModel progressingFileModel) {
+		this.progressingFileModel = progressingFileModel;
+	}
 
-  public File getOutputPath() {
-    return this.outputPath;
-  }
+	public File getOutputPath() {
+		return this.outputPath;
+	}
 
-  public void setOutputPath(File outputPath) {
-    this.outputPath = outputPath;
-  }
+	public void setOutputPath(File outputPath) {
+		this.outputPath = outputPath;
+	}
 
-  public String getMessage() {
-    return this.message;
-  }
+	public String getMessage() {
+		return this.message;
+	}
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

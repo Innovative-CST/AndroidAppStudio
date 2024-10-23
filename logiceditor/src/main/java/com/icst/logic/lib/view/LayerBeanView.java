@@ -35,44 +35,44 @@ import android.content.Context;
 import android.widget.LinearLayout;
 
 public abstract class LayerBeanView extends LinearLayout {
-  private int layerPosition;
-  private boolean isFirstLayer;
-  private boolean isLastLayer;
-  private String color;
+	private int layerPosition;
+	private boolean isFirstLayer;
+	private boolean isLastLayer;
+	private String color;
 
-  public LayerBeanView(Context context) {
-    super(context);
-  }
+	public LayerBeanView(Context context) {
+		super(context);
+	}
 
-  public int getLayerPosition() {
-    return this.layerPosition;
-  }
+	public int getLayerPosition() {
+		return this.layerPosition;
+	}
 
-  public void setLayerPosition(int layerPosition) {
-    this.layerPosition = layerPosition;
-  }
+	public void setLayerPosition(int layerPosition) {
+		this.layerPosition = layerPosition;
+	}
 
-  public boolean isFirstLayer() {
-    return this.isFirstLayer;
-  }
+	public boolean isFirstLayer() {
+		return this.isFirstLayer;
+	}
 
-  public void setFirstLayer(boolean isFirstLayer) {
-    this.isFirstLayer = isFirstLayer;
-  }
+	public void setFirstLayer(boolean isFirstLayer) {
+		this.isFirstLayer = isFirstLayer;
+	}
 
-  public boolean isLastLayer() {
-    return this.isLastLayer;
-  }
+	public boolean isLastLayer() {
+		return this.isLastLayer;
+	}
 
-  public void setLastLayer(boolean isLastLayer) {
-    this.isLastLayer = isLastLayer;
-  }
+	public void setLastLayer(boolean isLastLayer) {
+		this.isLastLayer = isLastLayer;
+	}
 
-  public String getColor() {
-    return this.color;
-  }
+	public String getColor() {
+		return this.color;
+	}
 
-  public void setColor(String color) {
-    this.color = color;
-  }
+	public void setColor(String color) {
+		this.color = color;
+	}
 }

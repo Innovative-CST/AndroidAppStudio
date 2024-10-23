@@ -42,85 +42,85 @@ import java.io.File;
 import java.util.ArrayList;
 
 public final class ExtensionUtils {
-  public static ArrayList<ExtensionBundle> getInstalledExtensions() {
-    ArrayList<ExtensionBundle> extensions = new ArrayList<ExtensionBundle>();
+	public static ArrayList<ExtensionBundle> getInstalledExtensions() {
+		ArrayList<ExtensionBundle> extensions = new ArrayList<ExtensionBundle>();
 
-    if (!EnvironmentUtils.EXTENSION_DIR.exists()) {
-      return extensions;
-    }
+		if (!EnvironmentUtils.EXTENSION_DIR.exists()) {
+			return extensions;
+		}
 
-    for (File file : EnvironmentUtils.EXTENSION_DIR.listFiles()) {
-      ExtensionBundle extension = DeserializerUtils.deserialize(file, ExtensionBundle.class);
-      if (extension != null) {
-        extensions.add(extension);
-      }
-    }
+		for (File file : EnvironmentUtils.EXTENSION_DIR.listFiles()) {
+			ExtensionBundle extension = DeserializerUtils.deserialize(file, ExtensionBundle.class);
+			if (extension != null) {
+				extensions.add(extension);
+			}
+		}
 
-    return extensions;
-  }
+		return extensions;
+	}
 
-  public static ArrayList<Event> extractEventsFromExtensions() {
-    ArrayList<Event> events = new ArrayList<Event>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+	public static ArrayList<Event> extractEventsFromExtensions() {
+		ArrayList<Event> events = new ArrayList<Event>();
+		ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getEvents() != null) {
-        events.addAll(extensions.get(i).getEvents());
-      }
-    }
+		for (int i = 0; i < extensions.size(); ++i) {
+			if (extensions.get(i).getEvents() != null) {
+				events.addAll(extensions.get(i).getEvents());
+			}
+		}
 
-    return events;
-  }
+		return events;
+	}
 
-  public static ArrayList<BlockHolderModel> extractBlockHoldersFromExtensions() {
-    ArrayList<BlockHolderModel> holder = new ArrayList<BlockHolderModel>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+	public static ArrayList<BlockHolderModel> extractBlockHoldersFromExtensions() {
+		ArrayList<BlockHolderModel> holder = new ArrayList<BlockHolderModel>();
+		ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getHolders() != null) {
-        holder.addAll(extensions.get(i).getHolders());
-      }
-    }
+		for (int i = 0; i < extensions.size(); ++i) {
+			if (extensions.get(i).getHolders() != null) {
+				holder.addAll(extensions.get(i).getHolders());
+			}
+		}
 
-    return holder;
-  }
+		return holder;
+	}
 
-  public static ArrayList<EventHolder> extractEventHoldersFromExtensions() {
-    ArrayList<EventHolder> holder = new ArrayList<EventHolder>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+	public static ArrayList<EventHolder> extractEventHoldersFromExtensions() {
+		ArrayList<EventHolder> holder = new ArrayList<EventHolder>();
+		ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getEventHolders() != null) {
-        holder.addAll(extensions.get(i).getEventHolders());
-      }
-    }
+		for (int i = 0; i < extensions.size(); ++i) {
+			if (extensions.get(i).getEventHolders() != null) {
+				holder.addAll(extensions.get(i).getEventHolders());
+			}
+		}
 
-    return holder;
-  }
+		return holder;
+	}
 
-  public static ArrayList<BlockModel> extractBlocksFromExtensions() {
-    ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+	public static ArrayList<BlockModel> extractBlocksFromExtensions() {
+		ArrayList<BlockModel> blocks = new ArrayList<BlockModel>();
+		ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getBlocks() != null) {
-        blocks.addAll(extensions.get(i).getBlocks());
-      }
-    }
+		for (int i = 0; i < extensions.size(); ++i) {
+			if (extensions.get(i).getBlocks() != null) {
+				blocks.addAll(extensions.get(i).getBlocks());
+			}
+		}
 
-    return blocks;
-  }
+		return blocks;
+	}
 
-  public static ArrayList<VariableModel> extractVariablesFromExtensions() {
-    ArrayList<VariableModel> holders = new ArrayList<VariableModel>();
-    ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
+	public static ArrayList<VariableModel> extractVariablesFromExtensions() {
+		ArrayList<VariableModel> holders = new ArrayList<VariableModel>();
+		ArrayList<ExtensionBundle> extensions = getInstalledExtensions();
 
-    for (int i = 0; i < extensions.size(); ++i) {
-      if (extensions.get(i).getVariables() != null) {
-        holders.addAll(extensions.get(i).getVariables());
-      }
-    }
+		for (int i = 0; i < extensions.size(); ++i) {
+			if (extensions.get(i).getVariables() != null) {
+				holders.addAll(extensions.get(i).getVariables());
+			}
+		}
 
-    return holders;
-  }
+		return holders;
+	}
 }

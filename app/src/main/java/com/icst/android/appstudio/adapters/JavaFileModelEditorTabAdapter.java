@@ -41,36 +41,36 @@ import java.util.ArrayList;
 
 public class JavaFileModelEditorTabAdapter extends FragmentStateAdapter {
 
-  private ArrayList<Fragment> fragments;
-  private ModuleModel module;
-  private String packageName;
-  private String className;
-  private boolean disableNewEvents;
+	private ArrayList<Fragment> fragments;
+	private ModuleModel module;
+	private String packageName;
+	private String className;
+	private boolean disableNewEvents;
 
-  public JavaFileModelEditorTabAdapter(
-      BaseActivity activity,
-      ModuleModel module,
-      String packageName,
-      String className,
-      boolean disableNewEvents) {
-    super(activity);
-    this.module = module;
-    this.packageName = packageName;
-    this.className = className;
-    this.disableNewEvents = disableNewEvents;
+	public JavaFileModelEditorTabAdapter(
+			BaseActivity activity,
+			ModuleModel module,
+			String packageName,
+			String className,
+			boolean disableNewEvents) {
+		super(activity);
+		this.module = module;
+		this.packageName = packageName;
+		this.className = className;
+		this.disableNewEvents = disableNewEvents;
 
-    fragments = new ArrayList<Fragment>();
-	fragments.add(new JavaVariableManagerFragment(module, packageName, className));
-	fragments.add(new JavaEventManagerFragment(module, packageName, className, disableNewEvents));
-  }
+		fragments = new ArrayList<Fragment>();
+		fragments.add(new JavaVariableManagerFragment(module, packageName, className));
+		fragments.add(new JavaEventManagerFragment(module, packageName, className, disableNewEvents));
+	}
 
-  @Override
-  public int getItemCount() {
-    return fragments.size();
-  }
+	@Override
+	public int getItemCount() {
+		return fragments.size();
+	}
 
-  @Override
-  public Fragment createFragment(int position) {
-    return fragments.get(position);
-  }
+	@Override
+	public Fragment createFragment(int position) {
+		return fragments.get(position);
+	}
 }

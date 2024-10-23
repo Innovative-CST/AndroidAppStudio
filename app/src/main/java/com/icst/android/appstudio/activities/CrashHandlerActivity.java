@@ -35,41 +35,39 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.Toast;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.databinding.ActivityCrashHandlerBinding;
 
 public class CrashHandlerActivity extends BaseActivity {
-  private ActivityCrashHandlerBinding binding;
+	private ActivityCrashHandlerBinding binding;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    String error = getIntent().getStringExtra("error");
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		String error = getIntent().getStringExtra("error");
 
-    binding = ActivityCrashHandlerBinding.inflate(getLayoutInflater());
-    // set content view to binding's root.
-    setContentView(binding.getRoot());
+		binding = ActivityCrashHandlerBinding.inflate(getLayoutInflater());
+		// set content view to binding's root.
+		setContentView(binding.getRoot());
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-	binding.errorText.setText(error);
-	binding.errorText.setOnLongClickListener(
-        v -> {
-          ClipboardManager clipboard =
-              (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-          ClipData clip = ClipData.newPlainText("label", error);
-          clipboard.setPrimaryClip(clip);
-          return true;
-        });
-  }
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.errorText.setText(error);
+		binding.errorText.setOnLongClickListener(
+				v -> {
+					ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("label", error);
+					clipboard.setPrimaryClip(clip);
+					return true;
+				});
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 }

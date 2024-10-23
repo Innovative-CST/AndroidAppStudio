@@ -40,69 +40,69 @@ import java.util.ArrayList;
 
 public class ExtensionBundle implements Serializable {
 
-  public static final long serialVersionUID = 23L;
+	public static final long serialVersionUID = 23L;
 
-  private String name;
-  private int version;
-  private ArrayList<Event> events;
-  private ArrayList<BlockModel> blocks;
-  private ArrayList<BlockHolderModel> blockHolders;
-  private ArrayList<EventHolder> eventHolders;
-  private ArrayList<VariableModel> variables;
+	private String name;
+	private int version;
+	private ArrayList<Event> events;
+	private ArrayList<BlockModel> blocks;
+	private ArrayList<BlockHolderModel> blockHolders;
+	private ArrayList<EventHolder> eventHolders;
+	private ArrayList<VariableModel> variables;
 
-  public String getName() {
-    return this.name;
-  }
+	public String getName() {
+		return this.name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public int getVersion() {
-    return this.version;
-  }
+	public int getVersion() {
+		return this.version;
+	}
 
-  public void setVersion(int version) {
-    this.version = version;
-  }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-  public ArrayList<Event> getEvents() {
-    return this.events;
-  }
+	public ArrayList<Event> getEvents() {
+		return this.events;
+	}
 
-  public void setEvents(ArrayList<Event> events) {
-    this.events = events;
-  }
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
 
-  public ArrayList<BlockModel> getBlocks() {
-    return this.blocks;
-  }
+	public ArrayList<BlockModel> getBlocks() {
+		return this.blocks;
+	}
 
-  public void setBlocks(ArrayList<BlockModel> blocks) {
-    this.blocks = blocks;
-  }
+	public void setBlocks(ArrayList<BlockModel> blocks) {
+		this.blocks = blocks;
+	}
 
-  public ArrayList<BlockHolderModel> getHolders() {
-    return this.blockHolders;
-  }
+	public ArrayList<BlockHolderModel> getHolders() {
+		return this.blockHolders;
+	}
 
-  public void setHolders(ArrayList<BlockHolderModel> blockHolders) {
-    this.blockHolders = blockHolders;
-  }
+	public void setHolders(ArrayList<BlockHolderModel> blockHolders) {
+		this.blockHolders = blockHolders;
+	}
 
-  public ArrayList<VariableModel> getVariables() {
-    return this.variables;
-  }
+	public ArrayList<VariableModel> getVariables() {
+		return this.variables;
+	}
 
-  public void setVariables(ArrayList<VariableModel> variables) {
-    this.variables = variables;
-  }
+	public void setVariables(ArrayList<VariableModel> variables) {
+		this.variables = variables;
+	}
 
-  public ArrayList<EventHolder> getEventHolders() {
-    return this.eventHolders;
-  }
+	public ArrayList<EventHolder> getEventHolders() {
+		return this.eventHolders;
+	}
 
-  public void setEventHolders(ArrayList<EventHolder> eventHolders) {
-    this.eventHolders = eventHolders;
-  }
+	public void setEventHolders(ArrayList<EventHolder> eventHolders) {
+		this.eventHolders = eventHolders;
+	}
 }

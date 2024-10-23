@@ -44,107 +44,109 @@ import java.util.regex.Pattern;
 
 public class InputTypeValidatorEditText extends TextInputEditText {
 
-  private static final Pattern VALID_STRING_PATTERN = Pattern.compile("^(?:[^\"\\\\]|\\\\.)*$");
-  private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("^#?([A-Fa-f0-9]{6})$");
+	private static final Pattern VALID_STRING_PATTERN = Pattern.compile("^(?:[^\"\\\\]|\\\\.)*$");
+	private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("^#?([A-Fa-f0-9]{6})$");
 
-  private Context context;
-  public TextInputLayout textInputLayout;
-  private boolean isValid;
-  private InputTypes inputType;
+	private Context context;
+	public TextInputLayout textInputLayout;
+	private boolean isValid;
+	private InputTypes inputType;
 
-  public InputTypeValidatorEditText(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    this.context = context;
-  }
+	public InputTypeValidatorEditText(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		this.context = context;
+	}
 
-  public void setInputType(InputTypes inputType) {
-    this.inputType = inputType;
-    addTextChangedListener(
-        new TextWatcher() {
-          @Override
-          public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+	public void setInputType(InputTypes inputType) {
+		this.inputType = inputType;
+		addTextChangedListener(
+				new TextWatcher() {
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
 
-          @Override
-          public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (isValid(inputType)) {
-              textInputLayout.setErrorEnabled(false);
-            } else {
-              textInputLayout.setErrorEnabled(true);
-              textInputLayout.setError(getError(inputType));
-            }
-          }
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						if (isValid(inputType)) {
+							textInputLayout.setErrorEnabled(false);
+						} else {
+							textInputLayout.setErrorEnabled(true);
+							textInputLayout.setError(getError(inputType));
+						}
+					}
 
-          @Override
-          public void afterTextChanged(Editable s) {}
-        });
-  }
+					@Override
+					public void afterTextChanged(Editable s) {
+					}
+				});
+	}
 
-  public String getError(InputTypes inputType) {
-    if (inputType == InputTypes.INPUT_TYPE_BYTE) {
-      return "Out of Range!";
-    } else if (inputType == InputTypes.INPUT_TYPE_SHORT) {
-      return "Out of Range!";
-    } else if (inputType == InputTypes.INPUT_TYPE_INT) {
-      return "Out of Range!";
-    } else if (inputType == InputTypes.INPUT_TYPE_LONG) {
-      return "Out of Range!";
-    } else if (inputType == InputTypes.INPUT_TYPE_FLOAT) {
-      return "Out of Range!";
-    } else if (inputType == InputTypes.INPUT_TYPE_DOUBLE) {
-      return "Out of Range!";
-    } else if (inputType == InputTypes.INPUT_TYPE_STRING) {
-      return "This input is invalid string please make sure that string is properly escaped.";
-    } else if (inputType == InputTypes.INPUT_TYPE_COLOR) {
-      return "Invalid hexadecimal color code";
-    } else if (inputType == InputTypes.UNKNOWN) {
-      return "";
-    }
-    return "";
-  }
+	public String getError(InputTypes inputType) {
+		if (inputType == InputTypes.INPUT_TYPE_BYTE) {
+			return "Out of Range!";
+		} else if (inputType == InputTypes.INPUT_TYPE_SHORT) {
+			return "Out of Range!";
+		} else if (inputType == InputTypes.INPUT_TYPE_INT) {
+			return "Out of Range!";
+		} else if (inputType == InputTypes.INPUT_TYPE_LONG) {
+			return "Out of Range!";
+		} else if (inputType == InputTypes.INPUT_TYPE_FLOAT) {
+			return "Out of Range!";
+		} else if (inputType == InputTypes.INPUT_TYPE_DOUBLE) {
+			return "Out of Range!";
+		} else if (inputType == InputTypes.INPUT_TYPE_STRING) {
+			return "This input is invalid string please make sure that string is properly escaped.";
+		} else if (inputType == InputTypes.INPUT_TYPE_COLOR) {
+			return "Invalid hexadecimal color code";
+		} else if (inputType == InputTypes.UNKNOWN) {
+			return "";
+		}
+		return "";
+	}
 
-  private boolean isValid(InputTypes inputType) {
-    if (inputType == InputTypes.INPUT_TYPE_BYTE) {
-      return NumberRangeValidator.isValidByte(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_SHORT) {
-      return NumberRangeValidator.isValidShort(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_INT) {
-      return NumberRangeValidator.isValidInt(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_LONG) {
-      return NumberRangeValidator.isValidLong(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_FLOAT) {
-      return NumberRangeValidator.isValidFloat(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_DOUBLE) {
-      return NumberRangeValidator.isValidDouble(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_STRING) {
-      return isValidString(getText().toString());
-    } else if (inputType == InputTypes.INPUT_TYPE_COLOR) {
-      return isValidHexColor(getText().toString());
-    } else if (inputType == InputTypes.UNKNOWN) {
-      return true;
-    }
-    return true;
-  }
+	private boolean isValid(InputTypes inputType) {
+		if (inputType == InputTypes.INPUT_TYPE_BYTE) {
+			return NumberRangeValidator.isValidByte(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_SHORT) {
+			return NumberRangeValidator.isValidShort(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_INT) {
+			return NumberRangeValidator.isValidInt(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_LONG) {
+			return NumberRangeValidator.isValidLong(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_FLOAT) {
+			return NumberRangeValidator.isValidFloat(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_DOUBLE) {
+			return NumberRangeValidator.isValidDouble(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_STRING) {
+			return isValidString(getText().toString());
+		} else if (inputType == InputTypes.INPUT_TYPE_COLOR) {
+			return isValidHexColor(getText().toString());
+		} else if (inputType == InputTypes.UNKNOWN) {
+			return true;
+		}
+		return true;
+	}
 
-  public void setError() {
-    if (isValid(inputType)) {
-      textInputLayout.setErrorEnabled(false);
-    } else {
-      textInputLayout.setErrorEnabled(false);
-      textInputLayout.setError(getError(inputType));
-    }
-  }
+	public void setError() {
+		if (isValid(inputType)) {
+			textInputLayout.setErrorEnabled(false);
+		} else {
+			textInputLayout.setErrorEnabled(false);
+			textInputLayout.setError(getError(inputType));
+		}
+	}
 
-  private static boolean isValidString(String input) {
-    Matcher matcher = VALID_STRING_PATTERN.matcher(input);
-    return matcher.matches();
-  }
+	private static boolean isValidString(String input) {
+		Matcher matcher = VALID_STRING_PATTERN.matcher(input);
+		return matcher.matches();
+	}
 
-  public static boolean isValidHexColor(String input) {
-    Matcher matcher = HEX_COLOR_PATTERN.matcher(input);
-    return matcher.matches();
-  }
+	public static boolean isValidHexColor(String input) {
+		Matcher matcher = HEX_COLOR_PATTERN.matcher(input);
+		return matcher.matches();
+	}
 
-  public boolean isValid() {
-    return isValid(inputType);
-  }
+	public boolean isValid() {
+		return isValid(inputType);
+	}
 }

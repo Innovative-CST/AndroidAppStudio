@@ -41,36 +41,36 @@ import com.icst.android.appstudio.block.model.VariableModel;
 import java.util.ArrayList;
 
 public class ChooseVariablesDialog extends MaterialAlertDialogBuilder {
-  private ArrayList<VariableModel> variables;
-  private Context context;
-  private DialogVariableChooserBinding binding;
-  private AddVariableListAdapter adapter;
-  private AlertDialog dialog;
+	private ArrayList<VariableModel> variables;
+	private Context context;
+	private DialogVariableChooserBinding binding;
+	private AddVariableListAdapter adapter;
+	private AlertDialog dialog;
 
-  public ChooseVariablesDialog(Context context, ArrayList<VariableModel> variables) {
-    super(context);
-    this.variables = variables;
-    this.context = context;
+	public ChooseVariablesDialog(Context context, ArrayList<VariableModel> variables) {
+		super(context);
+		this.variables = variables;
+		this.context = context;
 
-    binding = DialogVariableChooserBinding.inflate(LayoutInflater.from(context));
-    adapter =
-        new AddVariableListAdapter(context, variables) {
-          @Override
-          public void setSelectedVariable(VariableModel selectedVariable) {
-            super.setSelectedVariable(selectedVariable);
-            onSelectedVariable(selectedVariable);
-            dialog.dismiss();
-          }
-        };
-    binding.gridView.setAdapter(adapter);
-	setTitle("Add variables");
-	setView(binding.getRoot());
-    dialog = show();
-  }
+		binding = DialogVariableChooserBinding.inflate(LayoutInflater.from(context));
+		adapter = new AddVariableListAdapter(context, variables) {
+			@Override
+			public void setSelectedVariable(VariableModel selectedVariable) {
+				super.setSelectedVariable(selectedVariable);
+				onSelectedVariable(selectedVariable);
+				dialog.dismiss();
+			}
+		};
+		binding.gridView.setAdapter(adapter);
+		setTitle("Add variables");
+		setView(binding.getRoot());
+		dialog = show();
+	}
 
-  public void onSelectedVariable(VariableModel selectedVariable) {}
+	public void onSelectedVariable(VariableModel selectedVariable) {
+	}
 
-  public VariableModel getSelectedVariableModel() {
-    return adapter.getSelectedVariable();
-  }
+	public VariableModel getSelectedVariableModel() {
+		return adapter.getSelectedVariable();
+	}
 }

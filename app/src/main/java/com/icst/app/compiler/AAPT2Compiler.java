@@ -32,7 +32,6 @@
 package com.icst.app.compiler;
 
 import com.blankj.utilcode.util.FileUtils;
-import com.icst.android.appstudio.MyApplication;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.app.compiler.progress.BuildEventProgressListener;
@@ -40,62 +39,62 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class AAPT2Compiler {
-  private ModuleModel module;
-  private File binDir;
-  private File genDir;
-  private File outputPath;
-  private File resPath;
-  private BuildEventProgressListener listener;
-  private CommandExecutor executer;
+	private ModuleModel module;
+	private File binDir;
+	private File genDir;
+	private File outputPath;
+	private File resPath;
+	private BuildEventProgressListener listener;
+	private CommandExecutor executer;
 
-  public AAPT2Compiler(ModuleModel module, BuildEventProgressListener listener) {
-    this.module = module;
-    this.listener = listener;
-    binDir = new File(module.moduleOutputDirectory, "build/bin");
-    genDir = new File(module.moduleOutputDirectory, "build/gen");
+	public AAPT2Compiler(ModuleModel module, BuildEventProgressListener listener) {
+		this.module = module;
+		this.listener = listener;
+		binDir = new File(module.moduleOutputDirectory, "build/bin");
+		genDir = new File(module.moduleOutputDirectory, "build/gen");
 
-    // Clean bin directory before compilation except for resource directory
-    File[] childs = binDir.listFiles();
-    if (childs != null) {
-      for (File child : childs) {
-        if (child.getName().equals("res")) {
-          continue;
-        }
-        child.delete();
-      }
-    }
+		// Clean bin directory before compilation except for resource directory
+		File[] childs = binDir.listFiles();
+		if (childs != null) {
+			for (File child : childs) {
+				if (child.getName().equals("res")) {
+					continue;
+				}
+				child.delete();
+			}
+		}
 
-    // Make binDir and genDir directories
-    binDir.mkdirs();
-    genDir.mkdirs();
-  }
+		// Make binDir and genDir directories
+		binDir.mkdirs();
+		genDir.mkdirs();
+	}
 
-  public void compile() {
-    ArrayList<String> arguments = new ArrayList<String>();
+	public void compile() {
+		ArrayList<String> arguments = new ArrayList<String>();
 
-    if (listener != null) {
-      listener.onProgress("AAPT2 > Compiling resources...");
-    }
+		if (listener != null) {
+			listener.onProgress("AAPT2 > Compiling resources...");
+		}
 
-    arguments.add(new File(EnvironmentUtils.BIN_DIR, "aapt2").getAbsolutePath());
-    arguments.add("compile");
-    arguments.add("--dir");
-    arguments.add(module.resourceOutputDirectory.getAbsolutePath());
-    arguments.add("-o");
+		arguments.add(new File(EnvironmentUtils.BIN_DIR, "aapt2").getAbsolutePath());
+		arguments.add("compile");
+		arguments.add("--dir");
+		arguments.add(module.resourceOutputDirectory.getAbsolutePath());
+		arguments.add("-o");
 
-    new File(binDir, "res").mkdirs();
-    File outputFile = new File(new File(binDir, "res"), "project.zip");
-    FileUtils.createOrExistsFile(new File(new File(binDir, "res"), "project.zip"));
+		new File(binDir, "res").mkdirs();
+		File outputFile = new File(new File(binDir, "res"), "project.zip");
+		FileUtils.createOrExistsFile(new File(new File(binDir, "res"), "project.zip"));
 
-    arguments.add(outputFile.getAbsolutePath());
+		arguments.add(outputFile.getAbsolutePath());
 
-    arguments.add("-v");
+		arguments.add("-v");
 
-    executer = new CommandExecutor(listener);
-    executer.setCommands(arguments);
+		executer = new CommandExecutor(listener);
+		executer.setCommands(arguments);
 
-    if (listener != null) {
-      listener.onProgress(executer.execute());
-    }
-  }
+		if (listener != null) {
+			listener.onProgress(executer.execute());
+		}
+	}
 }

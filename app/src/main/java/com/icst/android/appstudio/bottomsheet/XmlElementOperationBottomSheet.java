@@ -39,56 +39,56 @@ import com.icst.android.appstudio.databinding.BottomsheetXmlElementOperationBind
 import com.icst.android.appstudio.xml.XmlModel;
 
 public class XmlElementOperationBottomSheet extends BottomSheetDialog {
-  private Context context;
-  private XmlElementOperation operationListener;
-  private XmlModel xmlModel;
+	private Context context;
+	private XmlElementOperation operationListener;
+	private XmlModel xmlModel;
 
-  public XmlElementOperationBottomSheet(
-      Context context, XmlElementOperation operationListener, XmlModel xml) {
-    super(context);
-    this.context = context;
-    this.operationListener = operationListener;
-    this.xmlModel = xml;
+	public XmlElementOperationBottomSheet(
+			Context context, XmlElementOperation operationListener, XmlModel xml) {
+		super(context);
+		this.context = context;
+		this.operationListener = operationListener;
+		this.xmlModel = xml;
 
-    BottomsheetXmlElementOperationBinding binding =
-        BottomsheetXmlElementOperationBinding.inflate(LayoutInflater.from(context));
+		BottomsheetXmlElementOperationBinding binding = BottomsheetXmlElementOperationBinding
+				.inflate(LayoutInflater.from(context));
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    if (xmlModel == null) {
-      binding.delete.setVisibility(View.GONE);
-    }
+		if (xmlModel == null) {
+			binding.delete.setVisibility(View.GONE);
+		}
 
-    if (xmlModel != null) {
-      if (xml.getName() != null) {
-        binding.elementName.setText(xmlModel.getName());
-      }
-    }
+		if (xmlModel != null) {
+			if (xml.getName() != null) {
+				binding.elementName.setText(xmlModel.getName());
+			}
+		}
 
-    binding.delete.setOnClickListener(
-        v -> {
-          operationListener.onDelete();
-          dismiss();
-        });
-    binding.done.setOnClickListener(
-        v -> {
-          if (binding.elementName.getText().toString().equals("")) {
-            dismiss();
-            return;
-          }
-          if (xml == null) {
-            xmlModel = new XmlModel();
-          }
-          xmlModel.setName(binding.elementName.getText().toString());
-          xmlModel.setId(binding.elementName.getText().toString());
-          operationListener.onModify(xmlModel);
-          dismiss();
-        });
-  }
+		binding.delete.setOnClickListener(
+				v -> {
+					operationListener.onDelete();
+					dismiss();
+				});
+		binding.done.setOnClickListener(
+				v -> {
+					if (binding.elementName.getText().toString().equals("")) {
+						dismiss();
+						return;
+					}
+					if (xml == null) {
+						xmlModel = new XmlModel();
+					}
+					xmlModel.setName(binding.elementName.getText().toString());
+					xmlModel.setId(binding.elementName.getText().toString());
+					operationListener.onModify(xmlModel);
+					dismiss();
+				});
+	}
 
-  public interface XmlElementOperation {
-    void onDelete();
+	public interface XmlElementOperation {
+		void onDelete();
 
-    void onModify(XmlModel xmlModel);
-  }
+		void onModify(XmlModel xmlModel);
+	}
 }

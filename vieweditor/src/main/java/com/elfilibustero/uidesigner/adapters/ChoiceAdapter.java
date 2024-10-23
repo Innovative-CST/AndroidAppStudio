@@ -3,9 +3,9 @@ package com.elfilibustero.uidesigner.adapters;
 import java.util.List;
 
 public interface ChoiceAdapter<T> {
-    T getSelectedItem();
+	T getSelectedItem();
 
-    void setSelectedItem(T item);
+	void setSelectedItem(T item);
 
-    void setItemList(List<?> list);
+	void setItemList(List<?> list);
 }

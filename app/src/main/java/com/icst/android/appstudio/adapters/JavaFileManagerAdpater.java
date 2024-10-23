@@ -46,87 +46,85 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class JavaFileManagerAdpater
-    extends RecyclerView.Adapter<JavaFileManagerAdpater.ViewHolder> {
-  private ModuleModel module;
-  private String packageName;
-  private ArrayList<FileModel> folderList;
-  private ArrayList<JavaFileModel> javaFilesList;
-  private ArrayList<File> pathList;
-  private JavaFileManagerActivity activity;
+		extends RecyclerView.Adapter<JavaFileManagerAdpater.ViewHolder> {
+	private ModuleModel module;
+	private String packageName;
+	private ArrayList<FileModel> folderList;
+	private ArrayList<JavaFileModel> javaFilesList;
+	private ArrayList<File> pathList;
+	private JavaFileManagerActivity activity;
 
-  public JavaFileManagerAdpater(
-      JavaFileManagerActivity activity,
-      ArrayList<FileModel> folderList,
-      ArrayList<JavaFileModel> javaFilesList,
-      ArrayList<File> pathList,
-      ModuleModel module,
-      String packageName) {
-    this.activity = activity;
-    this.folderList = folderList;
-    this.javaFilesList = javaFilesList;
-    this.pathList = pathList;
-    this.module = module;
-    this.packageName = packageName;
-  }
+	public JavaFileManagerAdpater(
+			JavaFileManagerActivity activity,
+			ArrayList<FileModel> folderList,
+			ArrayList<JavaFileModel> javaFilesList,
+			ArrayList<File> pathList,
+			ModuleModel module,
+			String packageName) {
+		this.activity = activity;
+		this.folderList = folderList;
+		this.javaFilesList = javaFilesList;
+		this.pathList = pathList;
+		this.module = module;
+		this.packageName = packageName;
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-    AdapterJavaFileManagerBinding binding =
-        AdapterJavaFileManagerBinding.inflate(activity.getLayoutInflater());
-    RecyclerView.LayoutParams layoutParam =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(layoutParam);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+		AdapterJavaFileManagerBinding binding = AdapterJavaFileManagerBinding.inflate(activity.getLayoutInflater());
+		RecyclerView.LayoutParams layoutParam = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(layoutParam);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    if (folderList.size() != 0 && position < folderList.size()) {
-      AdapterJavaFileManagerBinding binding = AdapterJavaFileManagerBinding.bind(holder.itemView);
-      binding.title.setText(folderList.get(position).getFileName());
-      binding.icon.setImageResource(R.drawable.ic_folder);
-      binding
-          .getRoot()
-          .setOnClickListener(
-              v -> {
-                Intent javaManager = new Intent(activity, JavaFileManagerActivity.class);
-                javaManager.putExtra("module", module);
-                if (packageName.equals("")) {
-                  javaManager.putExtra("packageName", folderList.get(position).getFileName());
-                } else {
-                  javaManager.putExtra(
-                      "packageName",
-                      packageName.concat(".").concat(folderList.get(position).getFileName()));
-                }
-                activity.startActivity(javaManager);
-              });
-    } else {
-      AdapterJavaFileManagerBinding binding = AdapterJavaFileManagerBinding.bind(holder.itemView);
-      binding.title.setText(javaFilesList.get(position - folderList.size()).getFileName());
-      binding.icon.setImageResource(R.drawable.ic_java);
-      binding
-          .getRoot()
-          .setOnClickListener(
-              v -> {
-                Intent editor = new Intent(activity, JavaFileModelEditorActivity.class);
-                editor.putExtra("module", module);
-                editor.putExtra(
-                    "fileName", javaFilesList.get(position - folderList.size()).getFileName());
-                editor.putExtra("packageName", packageName);
-                activity.startActivity(editor);
-              });
-    }
-  }
+	@Override
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		if (folderList.size() != 0 && position < folderList.size()) {
+			AdapterJavaFileManagerBinding binding = AdapterJavaFileManagerBinding.bind(holder.itemView);
+			binding.title.setText(folderList.get(position).getFileName());
+			binding.icon.setImageResource(R.drawable.ic_folder);
+			binding
+					.getRoot()
+					.setOnClickListener(
+							v -> {
+								Intent javaManager = new Intent(activity, JavaFileManagerActivity.class);
+								javaManager.putExtra("module", module);
+								if (packageName.isEmpty()) {
+									javaManager.putExtra("packageName", folderList.get(position).getFileName());
+								} else {
+									javaManager.putExtra(
+											"packageName",
+											packageName.concat(".").concat(folderList.get(position).getFileName()));
+								}
+								activity.startActivity(javaManager);
+							});
+		} else {
+			AdapterJavaFileManagerBinding binding = AdapterJavaFileManagerBinding.bind(holder.itemView);
+			binding.title.setText(javaFilesList.get(position - folderList.size()).getFileName());
+			binding.icon.setImageResource(R.drawable.ic_java);
+			binding
+					.getRoot()
+					.setOnClickListener(
+							v -> {
+								Intent editor = new Intent(activity, JavaFileModelEditorActivity.class);
+								editor.putExtra("module", module);
+								editor.putExtra(
+										"fileName", javaFilesList.get(position - folderList.size()).getFileName());
+								editor.putExtra("packageName", packageName);
+								activity.startActivity(editor);
+							});
+		}
+	}
 
-  @Override
-  public int getItemCount() {
-    return folderList.size() + javaFilesList.size();
-  }
+	@Override
+	public int getItemCount() {
+		return folderList.size() + javaFilesList.size();
+	}
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View v) {
-      super(v);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View v) {
+			super(v);
+		}
+	}
 }

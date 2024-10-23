@@ -13,94 +13,94 @@ import androidx.annotation.Nullable;
 
 public class AlphaPatternDrawable extends Drawable {
 
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private int size;
-    private int colorOdd;
-    private int colorEven;
-    
-    public static Builder builder() {
-        return new Builder();
-    }
+	private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	private int size;
+	private int colorOdd;
+	private int colorEven;
 
-    public static AlphaPatternDrawable create() {
-        return new AlphaPatternDrawable(builder());
-    }
+	public static Builder builder() {
+		return new Builder();
+	}
 
-    private AlphaPatternDrawable(Builder builder) {
-        this.size = builder.size;
-        this.colorOdd = builder.colorOdd;
-        this.colorEven = builder.colorEven;
-        configurePaint();
-    }
+	public static AlphaPatternDrawable create() {
+		return new AlphaPatternDrawable(builder());
+	}
 
-    private void configurePaint() {
-        Bitmap bitmap = Bitmap.createBitmap(size * 2, size * 2, Bitmap.Config.ARGB_8888);
+	private AlphaPatternDrawable(Builder builder) {
+		this.size = builder.size;
+		this.colorOdd = builder.colorOdd;
+		this.colorEven = builder.colorEven;
+		configurePaint();
+	}
 
-        Paint bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        bitmapPaint.setStyle(Paint.Style.FILL);
+	private void configurePaint() {
+		Bitmap bitmap = Bitmap.createBitmap(size * 2, size * 2, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(bitmap);
+		Paint bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		bitmapPaint.setStyle(Paint.Style.FILL);
 
-        Rect rect = new Rect(0, 0, size, size);
-        bitmapPaint.setColor(colorOdd);
-        canvas.drawRect(rect, bitmapPaint);
+		Canvas canvas = new Canvas(bitmap);
 
-        rect.offset(size, size);
-        canvas.drawRect(rect, bitmapPaint);
+		Rect rect = new Rect(0, 0, size, size);
+		bitmapPaint.setColor(colorOdd);
+		canvas.drawRect(rect, bitmapPaint);
 
-        bitmapPaint.setColor(colorEven);
-        rect.offset(-size, 0);
-        canvas.drawRect(rect, bitmapPaint);
+		rect.offset(size, size);
+		canvas.drawRect(rect, bitmapPaint);
 
-        rect.offset(size, -size);
-        canvas.drawRect(rect, bitmapPaint);
+		bitmapPaint.setColor(colorEven);
+		rect.offset(-size, 0);
+		canvas.drawRect(rect, bitmapPaint);
 
-        paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
-    }
+		rect.offset(size, -size);
+		canvas.drawRect(rect, bitmapPaint);
 
-    @Override
-    public void draw(@NonNull Canvas canvas) {
-        canvas.drawPaint(paint);
-    }
+		paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
+	}
 
-    @Override
-    public void setAlpha(int alpha) {
-        paint.setAlpha(alpha);
-    }
+	@Override
+	public void draw(@NonNull Canvas canvas) {
+		canvas.drawPaint(paint);
+	}
 
-    @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
-        paint.setColorFilter(colorFilter);
-    }
+	@Override
+	public void setAlpha(int alpha) {
+		paint.setAlpha(alpha);
+	}
 
-    @Override
-    public int getOpacity() {
-        return PixelFormat.OPAQUE;
-    }
-    
-    public static final class Builder {
+	@Override
+	public void setColorFilter(@Nullable ColorFilter colorFilter) {
+		paint.setColorFilter(colorFilter);
+	}
 
-        private int size = 40;
-        private int colorOdd = 0xFFC2C2C2;
-        private int colorEven = 0xFFF3F3F3;
+	@Override
+	public int getOpacity() {
+		return PixelFormat.OPAQUE;
+	}
 
-        public Builder size(int size) {
-            this.size = size;
-            return this;
-        }
+	public static final class Builder {
 
-        public Builder colorOdd(int color) {
-            colorOdd = color;
-            return this;
-        }
+		private int size = 40;
+		private int colorOdd = 0xFFC2C2C2;
+		private int colorEven = 0xFFF3F3F3;
 
-        public Builder colorEven(int color) {
-            colorEven = color;
-            return this;
-        }
+		public Builder size(int size) {
+			this.size = size;
+			return this;
+		}
 
-        public AlphaPatternDrawable build() {
-            return new AlphaPatternDrawable(this);
-        }
-    }
+		public Builder colorOdd(int color) {
+			colorOdd = color;
+			return this;
+		}
+
+		public Builder colorEven(int color) {
+			colorEven = color;
+			return this;
+		}
+
+		public AlphaPatternDrawable build() {
+			return new AlphaPatternDrawable(this);
+		}
+	}
 }

@@ -49,119 +49,115 @@ import java.io.File;
 
 public class JavaFileModelEditorActivity extends BaseActivity {
 
-  private ActivityJavaFileModelEditorBinding binding;
-  private ModuleModel module;
-  private String packageName;
-  private String fileName;
-  private JavaFileModel fileModel;
-  private File variablesFile;
-  private File staticVariablesFile;
-  private MenuItem showSourceCode;
+	private ActivityJavaFileModelEditorBinding binding;
+	private ModuleModel module;
+	private String packageName;
+	private String fileName;
+	private JavaFileModel fileModel;
+	private File variablesFile;
+	private File staticVariablesFile;
+	private MenuItem showSourceCode;
 
-  @Override
-  @SuppressWarnings("deprecation")
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    binding = ActivityJavaFileModelEditorBinding.inflate(getLayoutInflater());
+		binding = ActivityJavaFileModelEditorBinding.inflate(getLayoutInflater());
 
-    setContentView(binding.getRoot());
+		setContentView(binding.getRoot());
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      module = getIntent().getParcelableExtra("module", ModuleModel.class);
-    } else {
-      module = (ModuleModel) getIntent().getParcelableExtra("module");
-    }
-    packageName = getIntent().getStringExtra("packageName");
-    fileName = getIntent().getStringExtra("fileName");
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			module = getIntent().getParcelableExtra("module", ModuleModel.class);
+		} else {
+			module = (ModuleModel) getIntent().getParcelableExtra("module");
+		}
+		packageName = getIntent().getStringExtra("packageName");
+		fileName = getIntent().getStringExtra("fileName");
 
-    binding.toolbar.setTitle(R.string.app_name);
-    setSupportActionBar(binding.toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    binding.viewpager.setAdapter(
-        new JavaFileModelEditorTabAdapter(this, module, packageName, fileName, false));
-    new TabLayoutMediator(
-            binding.tab,
-            binding.viewpager,
-            (tab, position) -> {
-              if (position == 0) {
-                tab.setText("Variables");
-              } else if (position == 1) {
-                tab.setText("Events");
-              }
-            })
-        .attach();
-    fileModel =
-        DeserializerUtils.deserialize(
-            new File(
-                new File(
-                    EnvironmentUtils.getJavaDirectory(module, packageName),
-                    fileName.concat(".java")),
-                EnvironmentUtils.JAVA_FILE_MODEL),
-            JavaFileModel.class);
-    variablesFile =
-        new File(
-            new File(
-                EnvironmentUtils.getJavaDirectory(module, packageName), fileName.concat(".java")),
-            EnvironmentUtils.VARIABLES);
-    staticVariablesFile =
-        new File(
-            new File(
-                EnvironmentUtils.getJavaDirectory(module, packageName), fileName.concat(".java")),
-            EnvironmentUtils.STATIC_VARIABLES);
-  }
+		binding.toolbar.setTitle(R.string.app_name);
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.viewpager.setAdapter(
+				new JavaFileModelEditorTabAdapter(this, module, packageName, fileName, false));
+		new TabLayoutMediator(
+				binding.tab,
+				binding.viewpager,
+				(tab, position) -> {
+					if (position == 0) {
+						tab.setText("Variables");
+					} else if (position == 1) {
+						tab.setText("Events");
+					}
+				})
+				.attach();
+		fileModel = DeserializerUtils.deserialize(
+				new File(
+						new File(
+								EnvironmentUtils.getJavaDirectory(module, packageName),
+								fileName.concat(".java")),
+						EnvironmentUtils.JAVA_FILE_MODEL),
+				JavaFileModel.class);
+		variablesFile = new File(
+				new File(
+						EnvironmentUtils.getJavaDirectory(module, packageName), fileName.concat(".java")),
+				EnvironmentUtils.VARIABLES);
+		staticVariablesFile = new File(
+				new File(
+						EnvironmentUtils.getJavaDirectory(module, packageName), fileName.concat(".java")),
+				EnvironmentUtils.STATIC_VARIABLES);
+	}
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    binding = null;
-  }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		binding = null;
+	}
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.menu_show_code, menu);
-    return true;
-  }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.menu_show_code, menu);
+		return true;
+	}
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    showSourceCode = menu.findItem(R.id.show_source_code);
-    if (fileModel == null) {
-      if (showSourceCode != null) {
-        showSourceCode.setVisible(false);
-      }
-    } else {
-      if (showSourceCode != null) {
-        showSourceCode.setVisible(true);
-      }
-    }
-    return super.onPrepareOptionsMenu(menu);
-  }
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		showSourceCode = menu.findItem(R.id.show_source_code);
+		if (fileModel == null) {
+			if (showSourceCode != null) {
+				showSourceCode.setVisible(false);
+			}
+		} else {
+			if (showSourceCode != null) {
+				showSourceCode.setVisible(true);
+			}
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem menuItem) {
-    if (menuItem.getItemId() == R.id.show_source_code) {
-      if (fileModel != null) {
-        FileModelCodeHelper helper = new FileModelCodeHelper();
-        helper.setFileModel(fileModel);
-        helper.setEventsDirectory(
-            new File(
-                new File(
-                    EnvironmentUtils.getJavaDirectory(module, packageName),
-                    fileName.concat(".java")),
-                EnvironmentUtils.EVENTS_DIR));
-        helper.setModule(module);
-        helper.setProjectRootDirectory(module.projectRootDirectory);
-        SourceCodeViewerDialog sourceCodeDialog =
-            new SourceCodeViewerDialog(
-                this, fileModel, helper.getCode(packageName, variablesFile, staticVariablesFile));
-        sourceCodeDialog.create().show();
-      }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		if (menuItem.getItemId() == R.id.show_source_code) {
+			if (fileModel != null) {
+				FileModelCodeHelper helper = new FileModelCodeHelper();
+				helper.setFileModel(fileModel);
+				helper.setEventsDirectory(
+						new File(
+								new File(
+										EnvironmentUtils.getJavaDirectory(module, packageName),
+										fileName.concat(".java")),
+								EnvironmentUtils.EVENTS_DIR));
+				helper.setModule(module);
+				helper.setProjectRootDirectory(module.projectRootDirectory);
+				SourceCodeViewerDialog sourceCodeDialog = new SourceCodeViewerDialog(
+						this, fileModel, helper.getCode(packageName, variablesFile, staticVariablesFile));
+				sourceCodeDialog.create().show();
+			}
+		}
 
-    return super.onOptionsItemSelected(menuItem);
-  }
+		return super.onOptionsItemSelected(menuItem);
+	}
 }

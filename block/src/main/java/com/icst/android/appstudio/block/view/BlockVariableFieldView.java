@@ -47,133 +47,132 @@ import com.icst.android.appstudio.block.tag.BlockDroppableTag;
 import java.util.ArrayList;
 
 public class BlockVariableFieldView extends LinearLayout {
-  private BlockView mBlock;
-  private BlockValueFieldModel blockFieldModel;
-  private EventEditor editor;
+	private BlockView mBlock;
+	private BlockValueFieldModel blockFieldModel;
+	private EventEditor editor;
 
-  public BlockVariableFieldView(
-      Context context,
-      BlockValueFieldModel blockFieldModel,
-      BlockView blockView,
-      ArrayList<LinearLayout> droppables,
-      EventEditor editor,
-      boolean darkMode) {
-    super(context);
-    this.blockFieldModel = blockFieldModel;
-    this.editor = editor;
-    if (blockFieldModel.getBlockModel() == null) {
-      Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_variable_field);
-      drawable.setTint(Color.parseColor("#ffffff"));
-      drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
-      setBackground(drawable);
-    } else {
-      setBackground(null);
-      mBlock = new BlockView(editor, context, blockFieldModel.getBlockModel(), darkMode);
-      mBlock.setInsideEditor(true);
-      mBlock.setEnableEditing(true);
-      mBlock.setEnableDragDrop(true);
-      addView(mBlock);
-    }
+	public BlockVariableFieldView(
+			Context context,
+			BlockValueFieldModel blockFieldModel,
+			BlockView blockView,
+			ArrayList<LinearLayout> droppables,
+			EventEditor editor,
+			boolean darkMode) {
+		super(context);
+		this.blockFieldModel = blockFieldModel;
+		this.editor = editor;
+		if (blockFieldModel.getBlockModel() == null) {
+			Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.block_variable_field);
+			drawable.setTint(Color.parseColor("#ffffff"));
+			drawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+			setBackground(drawable);
+		} else {
+			setBackground(null);
+			mBlock = new BlockView(editor, context, blockFieldModel.getBlockModel(), darkMode);
+			mBlock.setInsideEditor(true);
+			mBlock.setEnableEditing(true);
+			mBlock.setEnableDragDrop(true);
+			addView(mBlock);
+		}
 
-    if (blockFieldModel.isEnabledEdit()) {
-      BlockDroppableTag tag = new BlockDroppableTag();
-      tag.setDropProperty(blockFieldModel);
-      tag.setBlockDroppableType(BlockDroppableTag.BLOCK_VARIABLE_DROPPER);
-      setTag(tag);
-      droppables.add(this);
-    }
-  }
+		if (blockFieldModel.isEnabledEdit()) {
+			BlockDroppableTag tag = new BlockDroppableTag();
+			tag.setDropProperty(blockFieldModel);
+			tag.setBlockDroppableType(BlockDroppableTag.BLOCK_VARIABLE_DROPPER);
+			setTag(tag);
+			droppables.add(this);
+		}
+	}
 
-  @Override
-  public void addView(View view) {
-    if (view instanceof BlockView) {
-      if (getChildCount() == 1) {
-        if (getChildAt(0) instanceof BlockView oldBlockView) {
-          if (editor != null) {
-            FrameLayout.LayoutParams blockParams =
-                new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+	@Override
+	public void addView(View view) {
+		if (view instanceof BlockView) {
+			if (getChildCount() == 1) {
+				if (getChildAt(0) instanceof BlockView oldBlockView) {
+					if (editor != null) {
+						FrameLayout.LayoutParams blockParams = new FrameLayout.LayoutParams(
+								FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 
-            blockParams.setMargins(
-                editor.binding.canva.getScrollX() - editor.binding.codeEditor.getPaddingStart(),
-                editor.binding.canva.getScrollY() - editor.binding.codeEditor.getPaddingTop(),
-                0,
-                0);
+						blockParams.setMargins(
+								editor.binding.canva.getScrollX() - editor.binding.codeEditor.getPaddingStart(),
+								editor.binding.canva.getScrollY() - editor.binding.codeEditor.getPaddingTop(),
+								0,
+								0);
 
-            if (oldBlockView.getParent() != null) {
-              ((ViewGroup) oldBlockView.getParent()).removeView(oldBlockView);
-            }
+						if (oldBlockView.getParent() != null) {
+							((ViewGroup) oldBlockView.getParent()).removeView(oldBlockView);
+						}
 
-            editor.binding.canva.addView(oldBlockView);
-            oldBlockView.setLayoutParams(blockParams);
-          }
-        }
-      }
-      super.removeAllViews();
-    }
-    if (view instanceof BlockPreview) {
-      if (getChildCount() == 1) {
-        getChildAt(0).setVisibility(View.GONE);
-      }
-    }
-    super.addView(view);
-    ensureFieldBackground();
-    if (view instanceof BlockView) {
-      setBlock((BlockView) view);
-    }
-  }
+						editor.binding.canva.addView(oldBlockView);
+						oldBlockView.setLayoutParams(blockParams);
+					}
+				}
+			}
+			super.removeAllViews();
+		}
+		if (view instanceof BlockPreview) {
+			if (getChildCount() == 1) {
+				getChildAt(0).setVisibility(View.GONE);
+			}
+		}
+		super.addView(view);
+		ensureFieldBackground();
+		if (view instanceof BlockView) {
+			setBlock((BlockView) view);
+		}
+	}
 
-  @Override
-  public void removeView(View view) {
-    super.removeView(view);
-    if (view instanceof BlockPreview) {
-      if (getChildCount() == 1) {
-        getChildAt(0).setVisibility(View.VISIBLE);
-      }
-      if (editor != null) {
-        if (editor.draggingBlock != null) {
-          if (editor.draggingBlock.isInsideEditor()) {
-            editor.draggingBlock.setVisibility(View.GONE);
-          }
-        }
-      }
-    }
-    if (view instanceof BlockView) {
-      setBlock(null);
-    }
-    ensureFieldBackground();
-  }
+	@Override
+	public void removeView(View view) {
+		super.removeView(view);
+		if (view instanceof BlockPreview) {
+			if (getChildCount() == 1) {
+				getChildAt(0).setVisibility(View.VISIBLE);
+			}
+			if (editor != null) {
+				if (editor.draggingBlock != null) {
+					if (editor.draggingBlock.isInsideEditor()) {
+						editor.draggingBlock.setVisibility(View.GONE);
+					}
+				}
+			}
+		}
+		if (view instanceof BlockView) {
+			setBlock(null);
+		}
+		ensureFieldBackground();
+	}
 
-  public void ensureFieldBackground() {
-    boolean hasVisibleChild = false;
-    for (int i = 0; i < getChildCount(); ++i) {
-      if (getChildAt(i).getVisibility() == View.VISIBLE) {
-        if (getChildAt(i) instanceof BlockView) {
-          hasVisibleChild = true;
-        }
-        if (getChildAt(i) instanceof BlockPreview) {
-          hasVisibleChild = true;
-        }
-      }
-    }
-    if (hasVisibleChild) {
-      setBackground(null);
-      setPadding(0, 0, 0, 0);
-    } else {
-      BlockView.setDrawable(this, R.drawable.block_variable_field, Color.parseColor("#ffffff"));
-    }
-  }
+	public void ensureFieldBackground() {
+		boolean hasVisibleChild = false;
+		for (int i = 0; i < getChildCount(); ++i) {
+			if (getChildAt(i).getVisibility() == View.VISIBLE) {
+				if (getChildAt(i) instanceof BlockView) {
+					hasVisibleChild = true;
+				}
+				if (getChildAt(i) instanceof BlockPreview) {
+					hasVisibleChild = true;
+				}
+			}
+		}
+		if (hasVisibleChild) {
+			setBackground(null);
+			setPadding(0, 0, 0, 0);
+		} else {
+			BlockView.setDrawable(this, R.drawable.block_variable_field, Color.parseColor("#ffffff"));
+		}
+	}
 
-  public BlockView getBlock() {
-    return this.mBlock;
-  }
+	public BlockView getBlock() {
+		return this.mBlock;
+	}
 
-  public void setBlock(BlockView mBlock) {
-    this.mBlock = mBlock;
-    if (mBlock != null) {
-      blockFieldModel.setBlockModel(mBlock.getBlockModel());
-    } else {
-      blockFieldModel.setBlockModel(null);
-    }
-  }
+	public void setBlock(BlockView mBlock) {
+		this.mBlock = mBlock;
+		if (mBlock != null) {
+			blockFieldModel.setBlockModel(mBlock.getBlockModel());
+		} else {
+			blockFieldModel.setBlockModel(null);
+		}
+	}
 }

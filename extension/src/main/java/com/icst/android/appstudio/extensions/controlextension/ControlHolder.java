@@ -35,18 +35,18 @@ import com.icst.android.appstudio.block.model.BlockHolderModel;
 import java.util.ArrayList;
 
 public final class ControlHolder {
-  public static ArrayList<BlockHolderModel> getHolders() {
-    ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
+	public static ArrayList<BlockHolderModel> getHolders() {
+		ArrayList<BlockHolderModel> holders = new ArrayList<BlockHolderModel>();
 
-    holders.add(getControlBlockHolder());
+		holders.add(getControlBlockHolder());
 
-    return holders;
-  }
+		return holders;
+	}
 
-  private static BlockHolderModel getControlBlockHolder() {
-    BlockHolderModel controlHolder = new BlockHolderModel();
-    controlHolder.setName("Control");
-    controlHolder.setColor("#17A2AF");
-    return controlHolder;
-  }
+	private static BlockHolderModel getControlBlockHolder() {
+		BlockHolderModel controlHolder = new BlockHolderModel();
+		controlHolder.setName("Control");
+		controlHolder.setColor("#17A2AF");
+		return controlHolder;
+	}
 }

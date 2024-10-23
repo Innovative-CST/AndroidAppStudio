@@ -37,113 +37,113 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class BlockValueFieldModel extends BlockFieldModel implements Serializable, Cloneable {
-  public static final long serialVersionUID = 11L;
+	public static final long serialVersionUID = 11L;
 
-  private boolean enableEdit;
-  private String acceptors[];
-  private String replacer;
-  private BlockModel blockModel;
-  private AdditionalCodeHelperTag[] additionalTags;
-  private int fieldType;
-  private String pattern; // Only works if fieldType is pattern validator.
+	private boolean enableEdit;
+	private String acceptors[];
+	private String replacer;
+	private BlockModel blockModel;
+	private AdditionalCodeHelperTag[] additionalTags;
+	private int fieldType;
+	private String pattern; // Only works if fieldType is pattern validator.
 
-  public final class FieldType {
-    public static final int FIELD_TYPE_NOT_SET = 0;
-    public static final int FIELD_INPUT_ONLY = 1;
-    public static final int FIELD_EXTENSION_VIEW_ONLY = 2;
-    public static final int FIELD_BOOLEAN = 3;
-	public static final int FIELD_NUMBER = 4;
-  }
+	public final class FieldType {
+		public static final int FIELD_TYPE_NOT_SET = 0;
+		public static final int FIELD_INPUT_ONLY = 1;
+		public static final int FIELD_EXTENSION_VIEW_ONLY = 2;
+		public static final int FIELD_BOOLEAN = 3;
+		public static final int FIELD_NUMBER = 4;
+	}
 
-  public String[] getAcceptors() {
-    return this.acceptors;
-  }
+	public String[] getAcceptors() {
+		return this.acceptors;
+	}
 
-  public void setAcceptors(String[] acceptors) {
-    this.acceptors = acceptors;
-  }
+	public void setAcceptors(String[] acceptors) {
+		this.acceptors = acceptors;
+	}
 
-  public boolean isEnabledEdit() {
-    return this.enableEdit;
-  }
+	public boolean isEnabledEdit() {
+		return this.enableEdit;
+	}
 
-  public void setEnableEdit(boolean enableEdit) {
-    this.enableEdit = enableEdit;
-  }
+	public void setEnableEdit(boolean enableEdit) {
+		this.enableEdit = enableEdit;
+	}
 
-  public BlockModel getBlockModel() {
-    return this.blockModel;
-  }
+	public BlockModel getBlockModel() {
+		return this.blockModel;
+	}
 
-  public void setBlockModel(BlockModel blockModel) {
-    if (blockModel != null) {
-      setValue(null);
-    }
-    this.blockModel = blockModel;
-  }
+	public void setBlockModel(BlockModel blockModel) {
+		if (blockModel != null) {
+			setValue(null);
+		}
+		this.blockModel = blockModel;
+	}
 
-  public String getPattern() {
-    return this.pattern;
-  }
+	public String getPattern() {
+		return this.pattern;
+	}
 
-  public void setPattern(String pattern) {
-    this.pattern = pattern;
-  }
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
 
-  public String getReplacer() {
-    return this.replacer;
-  }
+	public String getReplacer() {
+		return this.replacer;
+	}
 
-  public void setReplacer(String replacer) {
-    this.replacer = replacer;
-  }
+	public void setReplacer(String replacer) {
+		this.replacer = replacer;
+	}
 
-  public int getFieldType() {
-    return this.fieldType;
-  }
+	public int getFieldType() {
+		return this.fieldType;
+	}
 
-  public void setFieldType(int fieldType) {
-    this.fieldType = fieldType;
-  }
+	public void setFieldType(int fieldType) {
+		this.fieldType = fieldType;
+	}
 
-  @Override
-  public void setValue(String value) {
-    super.setValue(value);
-    if (value != null) {
-      setBlockModel(null);
-    }
-  }
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
+		if (value != null) {
+			setBlockModel(null);
+		}
+	}
 
-  public String getCode(HashMap<String, Object> variables) {
-    return getBlockModel() != null ? getBlockModel().getCode(variables) : getValue();
-  }
+	public String getCode(HashMap<String, Object> variables) {
+		return getBlockModel() != null ? getBlockModel().getCode(variables) : getValue();
+	}
 
-  public AdditionalCodeHelperTag[] getAdditionalTags() {
-    return this.additionalTags;
-  }
+	public AdditionalCodeHelperTag[] getAdditionalTags() {
+		return this.additionalTags;
+	}
 
-  public void setAdditionalTags(AdditionalCodeHelperTag[] additionalTags) {
-    this.additionalTags = additionalTags;
-  }
+	public void setAdditionalTags(AdditionalCodeHelperTag[] additionalTags) {
+		this.additionalTags = additionalTags;
+	}
 
-  @Override
-  public BlockValueFieldModel clone() {
-    BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
-    blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : null);
-    blockValueFieldModel.setReplacer(getReplacer() != null ? getReplacer() : null);
-    blockValueFieldModel.setEnableEdit(new Boolean(isEnabledEdit()));
-    blockValueFieldModel.setBlockModel(getBlockModel() != null ? getBlockModel() : null);
-    blockValueFieldModel.setFieldType(new Integer(getFieldType()));
-    blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : null);
-	blockValueFieldModel.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
-    if (getAcceptors() != null) {
-      String[] acceptors = new String[getAcceptors().length];
+	@Override
+	public BlockValueFieldModel clone() {
+		BlockValueFieldModel blockValueFieldModel = new BlockValueFieldModel();
+		blockValueFieldModel.setValue(getValue() != null ? new String(getValue()) : null);
+		blockValueFieldModel.setReplacer(getReplacer() != null ? getReplacer() : null);
+		blockValueFieldModel.setEnableEdit(new Boolean(isEnabledEdit()));
+		blockValueFieldModel.setBlockModel(getBlockModel() != null ? getBlockModel() : null);
+		blockValueFieldModel.setFieldType(new Integer(getFieldType()));
+		blockValueFieldModel.setPattern(getPattern() != null ? new String(getPattern()) : null);
+		blockValueFieldModel.setAdditionalTags(ArrayUtils.clone(getAdditionalTags()));
+		if (getAcceptors() != null) {
+			String[] acceptors = new String[getAcceptors().length];
 
-      for (int position = 0; position < getAcceptors().length; ++position) {
-        acceptors[position] = new String(getAcceptors()[position]);
-      }
-      blockValueFieldModel.setAcceptors(acceptors);
-    }
-    return blockValueFieldModel;
-  }
+			for (int position = 0; position < getAcceptors().length; ++position) {
+				acceptors[position] = new String(getAcceptors()[position]);
+			}
+			blockValueFieldModel.setAcceptors(acceptors);
+		}
+		return blockValueFieldModel;
+	}
 }

@@ -22,6 +22,6 @@ package com.downloader;
 
 public interface OnStartOrResumeListener {
 
-    void onStartOrResume();
+	void onStartOrResume();
 
 }

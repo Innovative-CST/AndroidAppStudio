@@ -22,13 +22,13 @@ import android.util.TypedValue;
 import androidx.annotation.ColorInt;
 
 public class ColorUtils {
-  public static String materialIntToHexColor(Context context, int res) {
-    return String.format("#%06X", (0xFFFFFF & getColor(context, res)));
-  }
+	public static String materialIntToHexColor(Context context, int res) {
+		return String.format("#%06X", (0xFFFFFF & getColor(context, res)));
+	}
 
-  public static @ColorInt int getColor(Context context, int res) {
-    TypedValue typedValue = new TypedValue();
-    context.getTheme().resolveAttribute(res, typedValue, true);
-    return typedValue.data;
-  }
+	public static @ColorInt int getColor(Context context, int res) {
+		TypedValue typedValue = new TypedValue();
+		context.getTheme().resolveAttribute(res, typedValue, true);
+		return typedValue.data;
+	}
 }

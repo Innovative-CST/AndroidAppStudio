@@ -38,99 +38,111 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class FileModelUtils {
-  public static FileModel getFolderModel(String folderName) {
-    FileModel folderModel = new FileModel();
-    folderModel.setFileName(folderName);
-    folderModel.setFolder(true);
-    return folderModel;
-  }
+	public static FileModel getFolderModel(String folderName) {
+		FileModel folderModel = new FileModel();
+		folderModel.setFileName(folderName);
+		folderModel.setFolder(true);
+		return folderModel;
+	}
 
-  public static ArrayList<FileModel> getFileModelList(File path) {
-    ArrayList<FileModel> fileList = new ArrayList<FileModel>();
-    for (File file : path.listFiles()) {
-      if (file.isFile()) continue;
+	public static ArrayList<FileModel> getFileModelList(File path) {
+		ArrayList<FileModel> fileList = new ArrayList<FileModel>();
+		for (File file : path.listFiles()) {
+			if (file.isFile())
+				continue;
 
-      if (!new File(file, EnvironmentUtils.FILE_MODEL).exists()) continue;
+			if (!new File(file, EnvironmentUtils.FILE_MODEL).exists())
+				continue;
 
-      DeserializerUtils.deserialize(
-          new File(file, EnvironmentUtils.FILE_MODEL),
-          new DeserializerUtils.DeserializerListener() {
+			DeserializerUtils.deserialize(
+					new File(file, EnvironmentUtils.FILE_MODEL),
+					new DeserializerUtils.DeserializerListener() {
 
-            @Override
-            public void onSuccessfullyDeserialized(Object object) {
-              if (object instanceof FileModel) {
-                fileList.add((FileModel) object);
-              }
-            }
+						@Override
+						public void onSuccessfullyDeserialized(Object object) {
+							if (object instanceof FileModel) {
+								fileList.add((FileModel) object);
+							}
+						}
 
-            @Override
-            public void onFailed(int errorCode, Exception e) {}
-          });
-    }
-    return fileList;
-  }
+						@Override
+						public void onFailed(int errorCode, Exception e) {
+						}
+					});
+		}
+		return fileList;
+	}
 
-  public static boolean generateFolders(String[] foldersQuery, File path) {
-    int foldersGenerated = 0;
-    for (int i = 0; i < foldersQuery.length; ++i) {
-      File folderDir = new File(path, foldersQuery[i]);
-      File fileModelPath = new File(folderDir, EnvironmentUtils.FILE_MODEL);
-      File folderFileDir = new File(folderDir, EnvironmentUtils.FILES);
+	public static boolean generateFolders(String[] foldersQuery, File path) {
+		int foldersGenerated = 0;
+		for (int i = 0; i < foldersQuery.length; ++i) {
+			File folderDir = new File(path, foldersQuery[i]);
+			File fileModelPath = new File(folderDir, EnvironmentUtils.FILE_MODEL);
+			File folderFileDir = new File(folderDir, EnvironmentUtils.FILES);
 
-      if (!folderDir.exists()) folderDir.mkdirs();
-      if (!folderFileDir.exists()) folderFileDir.mkdirs();
+			if (!folderDir.exists())
+				folderDir.mkdirs();
+			if (!folderFileDir.exists())
+				folderFileDir.mkdirs();
 
-      if (!fileModelPath.exists()) {
-        FileModel folder = getFolderModel(foldersQuery[i]);
-        SerializerUtil.serialize(
-            folder,
-            fileModelPath,
-            new SerializerUtil.SerializerCompletionListener() {
+			if (!fileModelPath.exists()) {
+				FileModel folder = getFolderModel(foldersQuery[i]);
+				SerializerUtil.serialize(
+						folder,
+						fileModelPath,
+						new SerializerUtil.SerializerCompletionListener() {
 
-              @Override
-              public void onSerializeComplete() {}
+							@Override
+							public void onSerializeComplete() {
+							}
 
-              @Override
-              public void onFailedToSerialize(Exception exception) {}
-            });
-        foldersGenerated = foldersGenerated + 1;
-      }
-    }
-    return foldersGenerated != 0;
-  }
+							@Override
+							public void onFailedToSerialize(Exception exception) {
+							}
+						});
+				foldersGenerated += 1;
+			}
+		}
+		return foldersGenerated != 0;
+	}
 
-  public static File generateFolderTreeIfNotExists(String[] foldersQuery, File path) {
-    if (!path.exists()) path.mkdirs();
-    File destination = path;
+	public static File generateFolderTreeIfNotExists(String[] foldersQuery, File path) {
+		if (!path.exists())
+			path.mkdirs();
+		File destination = path;
 
-    for (int i = 0; i < foldersQuery.length; ++i) {
+		for (int i = 0; i < foldersQuery.length; ++i) {
 
-      File folderDir = new File(destination, foldersQuery[i]);
-      File fileModelPath = new File(folderDir, EnvironmentUtils.FILE_MODEL);
-      File folderFileDir = new File(folderDir, EnvironmentUtils.FILES);
+			File folderDir = new File(destination, foldersQuery[i]);
+			File fileModelPath = new File(folderDir, EnvironmentUtils.FILE_MODEL);
+			File folderFileDir = new File(folderDir, EnvironmentUtils.FILES);
 
-      if (!folderDir.exists()) folderDir.mkdirs();
-      if (!folderFileDir.exists()) folderFileDir.mkdirs();
+			if (!folderDir.exists())
+				folderDir.mkdirs();
+			if (!folderFileDir.exists())
+				folderFileDir.mkdirs();
 
-      FileModel folder = getFolderModel(foldersQuery[i]);
+			FileModel folder = getFolderModel(foldersQuery[i]);
 
-      if (!fileModelPath.exists()) {
-        SerializerUtil.serialize(
-            folder,
-            fileModelPath,
-            new SerializerUtil.SerializerCompletionListener() {
+			if (!fileModelPath.exists()) {
+				SerializerUtil.serialize(
+						folder,
+						fileModelPath,
+						new SerializerUtil.SerializerCompletionListener() {
 
-              @Override
-              public void onSerializeComplete() {}
+							@Override
+							public void onSerializeComplete() {
+							}
 
-              @Override
-              public void onFailedToSerialize(Exception exception) {}
-            });
-      }
+							@Override
+							public void onFailedToSerialize(Exception exception) {
+							}
+						});
+			}
 
-      destination = folderFileDir;
-    }
+			destination = folderFileDir;
+		}
 
-    return destination;
-  }
+		return destination;
+	}
 }

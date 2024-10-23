@@ -42,13 +42,13 @@ import android.graphics.drawable.Drawable;
 
 public interface WorkSpacePane {
 
-  Drawable getWorkSpacePaneIcon();
+	Drawable getWorkSpacePaneIcon();
 
-  String getWorkSpacePaneName();
+	String getWorkSpacePaneName();
 
-  Drawable getWorkSpaceStatus();
+	Drawable getWorkSpaceStatus();
 
-  void onReleaseRequest();
+	void onReleaseRequest();
 
-  void onRelease();
+	void onRelease();
 }

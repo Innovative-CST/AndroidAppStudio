@@ -43,67 +43,65 @@ import com.icst.android.appstudio.models.ExtensionAdapterModel;
 import java.util.ArrayList;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
-  private ArrayList<ExtensionAdapterModel> extensions;
-  private BaseActivity activity;
+	private ArrayList<ExtensionAdapterModel> extensions;
+	private BaseActivity activity;
 
-  public ExtensionAdapter(ArrayList<ExtensionAdapterModel> extensions, BaseActivity activity) {
-    this.extensions = extensions;
-    this.activity = activity;
-  }
+	public ExtensionAdapter(ArrayList<ExtensionAdapterModel> extensions, BaseActivity activity) {
+		this.extensions = extensions;
+		this.activity = activity;
+	}
 
-  public class ViewHolder extends RecyclerView.ViewHolder {
-    public ViewHolder(View view) {
-      super(view);
-    }
-  }
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View view) {
+			super(view);
+		}
+	}
 
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
-    AdapterExtensionBinding binding =
-        AdapterExtensionBinding.inflate(LayoutInflater.from(arg0.getContext()));
-    RecyclerView.LayoutParams layoutParam =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    binding.getRoot().setLayoutParams(layoutParam);
-    return new ViewHolder(binding.getRoot());
-  }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+		AdapterExtensionBinding binding = AdapterExtensionBinding.inflate(LayoutInflater.from(arg0.getContext()));
+		RecyclerView.LayoutParams layoutParam = new RecyclerView.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		binding.getRoot().setLayoutParams(layoutParam);
+		return new ViewHolder(binding.getRoot());
+	}
 
-  @Override
-  public int getItemCount() {
-    return extensions.size();
-  }
+	@Override
+	public int getItemCount() {
+		return extensions.size();
+	}
 
-  @Override
-  public void onBindViewHolder(ViewHolder arg0, final int arg1) {
-    ExtensionAdapterModel extension = extensions.get(arg1);
-    AdapterExtensionBinding binding = AdapterExtensionBinding.bind(arg0.itemView);
+	@Override
+	public void onBindViewHolder(ViewHolder arg0, final int arg1) {
+		ExtensionAdapterModel extension = extensions.get(arg1);
+		AdapterExtensionBinding binding = AdapterExtensionBinding.bind(arg0.itemView);
 
-    binding.extensionName.setText(extension.getTitle());
+		binding.extensionName.setText(extension.getTitle());
 
-    StringBuilder details = new StringBuilder();
-    if (extension.getIsInstalled()) {
-      if (extension.getInstalledVersion() < extension.getLatestVersion()) {
-        details.append("Update");
-        details.append(String.valueOf(extension.getInstalledVersion()));
-        details.append(" to ");
-        details.append(String.valueOf(extension.getLatestVersion()));
-      } else {
-        details.append("Installed ");
-        details.append(String.valueOf(extension.getInstalledVersion()));
-      }
-    } else {
-      details.append("Not installed");
-    }
+		StringBuilder details = new StringBuilder();
+		if (extension.getIsInstalled()) {
+			if (extension.getInstalledVersion() < extension.getLatestVersion()) {
+				details.append("Update");
+				details.append(String.valueOf(extension.getInstalledVersion()));
+				details.append(" to ");
+				details.append(String.valueOf(extension.getLatestVersion()));
+			} else {
+				details.append("Installed ");
+				details.append(String.valueOf(extension.getInstalledVersion()));
+			}
+		} else {
+			details.append("Not installed");
+		}
 
-    binding.details.setText(details.toString());
+		binding.details.setText(details.toString());
 
-    binding
-        .getRoot()
-        .setOnClickListener(
-            v -> {
-              Intent extensionActivity = new Intent(activity, ExtensionActivity.class);
-              extensionActivity.putExtra("childKey", extension.getChildKey());
-              activity.startActivity(extensionActivity);
-            });
-  }
+		binding
+				.getRoot()
+				.setOnClickListener(
+						v -> {
+							Intent extensionActivity = new Intent(activity, ExtensionActivity.class);
+							extensionActivity.putExtra("childKey", extension.getChildKey());
+							activity.startActivity(extensionActivity);
+						});
+	}
 }

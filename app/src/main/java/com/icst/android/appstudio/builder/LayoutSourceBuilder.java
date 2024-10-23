@@ -41,84 +41,84 @@ import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.File;
 
 public class LayoutSourceBuilder {
-  private ModuleModel module;
-  private boolean rebuild;
-  private String layoutDirName;
-  private ProjectCodeBuildListener listener;
-  private ProjectCodeBuilderCancelToken cancelToken;
+	private ModuleModel module;
+	private boolean rebuild;
+	private String layoutDirName;
+	private ProjectCodeBuildListener listener;
+	private ProjectCodeBuilderCancelToken cancelToken;
 
-  public void build() {
+	public void build() {
 
-    if (module == null || layoutDirName == null) {
-      if (listener != null) {
-        listener.onBuildProgressLog("Null values are passed to LayoutSourceBuilder");
-      }
-      return;
-    }
+		if (module == null || layoutDirName == null) {
+			if (listener != null) {
+				listener.onBuildProgressLog("Null values are passed to LayoutSourceBuilder");
+			}
+			return;
+		}
 
-    if (listener != null) {
-      listener.onBuildProgressLog(
-          "> Task " + module.module + ":generateLayoutsFile[" + layoutDirName + "]");
-    }
+		if (listener != null) {
+			listener.onBuildProgressLog(
+					"> Task " + module.module + ":generateLayoutsFile[" + layoutDirName + "]");
+		}
 
-    File layoutsDir =
-        new File(
-            new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirName),
-            EnvironmentUtils.FILES);
-    if (!layoutsDir.exists()) return;
+		File layoutsDir = new File(
+				new File(new File(module.resourceDirectory, EnvironmentUtils.FILES), layoutDirName),
+				EnvironmentUtils.FILES);
+		if (!layoutsDir.exists())
+			return;
 
-    for (File layoutFile : layoutsDir.listFiles()) {
-      LayoutModel layout = DeserializerUtils.deserialize(layoutFile, LayoutModel.class);
-      if (layout == null) {
-        continue;
-      }
+		for (File layoutFile : layoutsDir.listFiles()) {
+			LayoutModel layout = DeserializerUtils.deserialize(layoutFile, LayoutModel.class);
+			if (layout == null) {
+				continue;
+			}
 
-      FileUtils.writeFile(
-          new File(
-                  new File(module.resourceOutputDirectory, layoutDirName),
-                  layout.getLayoutName().concat(".xml"))
-              .getAbsolutePath(),
-          layout.getCode());
-    }
-  }
+			FileUtils.writeFile(
+					new File(
+							new File(module.resourceOutputDirectory, layoutDirName),
+							layout.getLayoutName().concat(".xml"))
+							.getAbsolutePath(),
+					layout.getCode());
+		}
+	}
 
-  public ModuleModel getModule() {
-    return this.module;
-  }
+	public ModuleModel getModule() {
+		return this.module;
+	}
 
-  public void setModule(ModuleModel module) {
-    this.module = module;
-  }
+	public void setModule(ModuleModel module) {
+		this.module = module;
+	}
 
-  public boolean getRebuild() {
-    return this.rebuild;
-  }
+	public boolean getRebuild() {
+		return this.rebuild;
+	}
 
-  public void setRebuild(boolean rebuild) {
-    this.rebuild = rebuild;
-  }
+	public void setRebuild(boolean rebuild) {
+		this.rebuild = rebuild;
+	}
 
-  public String getLayoutDirName() {
-    return this.layoutDirName;
-  }
+	public String getLayoutDirName() {
+		return this.layoutDirName;
+	}
 
-  public void setLayoutDirName(String layoutDirName) {
-    this.layoutDirName = layoutDirName;
-  }
+	public void setLayoutDirName(String layoutDirName) {
+		this.layoutDirName = layoutDirName;
+	}
 
-  public ProjectCodeBuildListener getListener() {
-    return this.listener;
-  }
+	public ProjectCodeBuildListener getListener() {
+		return this.listener;
+	}
 
-  public void setListener(ProjectCodeBuildListener listener) {
-    this.listener = listener;
-  }
+	public void setListener(ProjectCodeBuildListener listener) {
+		this.listener = listener;
+	}
 
-  public ProjectCodeBuilderCancelToken getCancelToken() {
-    return this.cancelToken;
-  }
+	public ProjectCodeBuilderCancelToken getCancelToken() {
+		return this.cancelToken;
+	}
 
-  public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
-    this.cancelToken = cancelToken;
-  }
+	public void setCancelToken(ProjectCodeBuilderCancelToken cancelToken) {
+		this.cancelToken = cancelToken;
+	}
 }
