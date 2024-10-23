@@ -38,6 +38,7 @@ public abstract class LayerBeanView extends LinearLayout {
   private int layerPosition;
   private boolean isFirstLayer;
   private boolean isLastLayer;
+  private String color;
 
   public LayerBeanView(Context context) {
     super(context);
@@ -65,5 +66,13 @@ public abstract class LayerBeanView extends LinearLayout {
 
   public void setLastLayer(boolean isLastLayer) {
     this.isLastLayer = isLastLayer;
+  }
+
+  public String getColor() {
+    return this.color;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
   }
 }

@@ -62,8 +62,14 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
       removeAllViews();
       return;
     }
-
-    addView(new EventBlockBeanView(getContext(), eventBean.getEventDefinationBlockBean()));
+    EventBlockBeanView headerBlock =
+        new EventBlockBeanView(getContext(), eventBean.getEventDefinationBlockBean());
+    addView(headerBlock);
+    LogicEditorScrollView.LayoutParams lp =
+        new LogicEditorScrollView.LayoutParams(
+            LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
+            LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
+    headerBlock.setLayoutParams(lp);
   }
 
   @Override

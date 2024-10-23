@@ -32,9 +32,22 @@
 package com.icst.logic.lib.view;
 
 import android.content.Context;
+import com.icst.logic.utils.BlockImageUtills;
+import com.icst.logic.utils.ImageViewUtils;
 
 public class BlockElementLayerBeanView extends LayerBeanView {
   public BlockElementLayerBeanView(Context context) {
     super(context);
+  }
+
+  @Override
+  public void setColor(String color) {
+    super.setColor(color);
+    setBackgroundDrawable(
+        ImageViewUtils.getImageView(
+            getContext(),
+            getColor(),
+            BlockImageUtills.getImage(BlockImageUtills.Image.BLOCK_ELEMENT_LAYER_BACKDROP)));
+    invalidate();
   }
 }
