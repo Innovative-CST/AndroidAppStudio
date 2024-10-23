@@ -29,35 +29,29 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.android.appstudio.test.logiceditor
 
-import android.app.Application;
-import android.os.Environment;
-import android.os.Process;
-import android.util.Log;
-import com.blankj.utilcode.util.FileIOUtils;
-import com.quickersilver.themeengine.Theme;
-import com.quickersilver.themeengine.ThemeEngine;
-import java.io.File;
+import android.app.Application
+import android.os.Environment
+import android.os.Process
+import android.util.Log
+import com.blankj.utilcode.util.FileIOUtils
+import com.quickersilver.themeengine.Theme
+import com.quickersilver.themeengine.ThemeEngine
+import java.io.File
 
-public class MyApplication extends Application {
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE);
-		ThemeEngine.applyToActivities(this);
+class MyApplication : Application() {
+    override fun onCreate(): Unit {
+        super.onCreate()
+        ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE)
+        ThemeEngine.applyToActivities(this)
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            var logFile: File = File(Environment.getExternalStorageDirectory(), "logicEditor.log")
+            FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable))
+            Process.killProcess(Process.myPid())
+            System.exit(1)
 
-		Thread.setDefaultUncaughtExceptionHandler(
-				new Thread.UncaughtExceptionHandler() {
-					@Override
-					public void uncaughtException(Thread thread, Throwable throwable) {
-						File logFile = new File(Environment.getExternalStorageDirectory(), "logicEditor.log");
-						FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable));
-						Process.killProcess(Process.myPid());
-						System.exit(1);
-
-						Thread.getDefaultUncaughtExceptionHandler().uncaughtException(thread, throwable);
-					}
-				});
-	}
+            Thread.getDefaultUncaughtExceptionHandler()?.uncaughtException(thread, throwable)
+        }
+    }
 }
