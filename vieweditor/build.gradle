@@ -30,51 +30,50 @@
  */
 
 plugins {
-  id 'com.android.library'
+	id 'com.android.library'
 }
 
 android {
-  namespace 'com.icst.android.appstudio.vieweditor'
-  compileSdk 34
+	namespace 'com.icst.android.appstudio.vieweditor'
+	compileSdk 34
 
-  defaultConfig {
-    minSdk 21
-    targetSdk 34
-    versionCode 1
-    vectorDrawables { 
-      useSupportLibrary true
-    }
-  }
+	defaultConfig {
+		minSdk 21
+		targetSdk 34
+		versionCode 1
+		vectorDrawables {
+			useSupportLibrary true
+		}
+	}
 
-  buildTypes {
-    release {
-      minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-    }
-  }
+	buildTypes {
+		release {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_17
-    targetCompatibility JavaVersion.VERSION_17
-  }
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
 
-  buildFeatures {
-    viewBinding true
-    buildConfig true
-  }
-  
+	buildFeatures {
+		viewBinding true
+		buildConfig true
+	}
 }
 
 dependencies {
-  implementation("com.google.android.material:material:$material_design_version")
-  implementation("com.google.guava:guava:33.0.0-jre")
-  implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
+	implementation("com.google.android.material:material:$material_design_version")
+	implementation("com.google.guava:guava:33.0.0-jre")
+	implementation("com.blankj:utilcodex:$blankj_utilcodex_version")
 
-  def editorGroupId = "io.github.Rosemoe.sora-editor"
-  implementation platform("$editorGroupId:bom:$sora_editor_version")
-  implementation("$editorGroupId:editor")
-  implementation("$editorGroupId:language-textmate")
+	def editorGroupId = "io.github.Rosemoe.sora-editor"
+	implementation platform("$editorGroupId:bom:$sora_editor_version")
+	implementation("$editorGroupId:editor")
+	implementation("$editorGroupId:language-textmate")
 
-  implementation project(":core")
-  implementation project(":editor")
+	implementation project(":core")
+	implementation project(":editor")
 }

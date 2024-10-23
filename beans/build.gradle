@@ -30,14 +30,14 @@
  */
 
 plugins {
-  id("java-library")
-  id("org.jetbrains.dokka")
+	id("java-library")
+	id("org.jetbrains.dokka")
 }
 
 dokkaHtml {
-  dokkaSourceSets {
-    create("main") {
-      sourceRoots.from(file("src/main/java"))
-    }
-  }
+	dokkaSourceSets {
+		create("main") {
+			sourceRoots.from(file("src/main/java"))
+		}
+	}
 }

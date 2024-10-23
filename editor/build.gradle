@@ -30,44 +30,44 @@
  */
 
 plugins {
-  id 'com.android.library'
+	id 'com.android.library'
 }
 
 android {
-  compileSdk 34
-  buildToolsVersion "34.0.0"
-  useLibrary 'org.apache.http.legacy'
-  namespace "com.icst.editor"
+	compileSdk 34
+	buildToolsVersion "34.0.0"
+	useLibrary 'org.apache.http.legacy'
+	namespace "com.icst.editor"
 
-  defaultConfig {
-    minSdk 21
-    targetSdk 34
-    compileSdkVersion 34
-  }
+	defaultConfig {
+		minSdk 21
+		targetSdk 34
+		compileSdkVersion 34
+	}
 
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-    }
-  }
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_17
-    targetCompatibility JavaVersion.VERSION_17
-  }
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
 
-  buildFeatures {
-    viewBinding true
-  }
+	buildFeatures {
+		viewBinding true
+	}
 }
 
 dependencies {
-  implementation("com.google.code.gson:gson:$gson_version")
+	implementation("com.google.code.gson:gson:$gson_version")
 
-  def editorGroupId = "io.github.Rosemoe.sora-editor"
-  implementation platform("$editorGroupId:bom:$sora_editor_version")
-  implementation("$editorGroupId:editor")
-  implementation("$editorGroupId:language-textmate")
-  implementation("$editorGroupId:language-java")
+	def editorGroupId = "io.github.Rosemoe.sora-editor"
+	implementation platform("$editorGroupId:bom:$sora_editor_version")
+	implementation("$editorGroupId:editor")
+	implementation("$editorGroupId:language-textmate")
+	implementation("$editorGroupId:language-java")
 }

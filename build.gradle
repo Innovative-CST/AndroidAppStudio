@@ -1,30 +1,38 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-  id "com.android.application" version "8.6.0" apply false
-  id "com.android.library" version "8.6.0" apply false
-  id "org.jetbrains.kotlin.android" version "1.8.21" apply false
-  id "com.google.gms.google-services" version "4.4.2" apply false
-  id "de.undercouch.download" version "5.6.0" apply false
-  id "org.jetbrains.dokka" version "1.9.20" apply false
-  id "com.diffplug.spotless" version "7.0.0.BETA3" apply true
+	id "com.android.application" version "8.6.0" apply false
+	id "com.android.library" version "8.6.0" apply false
+	id "org.jetbrains.kotlin.android" version "1.8.21" apply false
+	id "com.google.gms.google-services" version "4.4.2" apply false
+	id "de.undercouch.download" version "5.6.0" apply false
+	id "org.jetbrains.dokka" version "1.9.20" apply false
+	id "com.diffplug.spotless" version "7.0.0.BETA3" apply true
 }
 
 ext {
-  appcompat_version = "1.6.1"
-  material_design_version = "1.13.0-alpha03"
-  sora_editor_version = "0.22.0"
-  blankj_utilcodex_version = "1.31.1"
-  gson_version = "2.8.7"
+	appcompat_version = "1.6.1"
+	material_design_version = "1.13.0-alpha03"
+	sora_editor_version = "0.22.0"
+	blankj_utilcodex_version = "1.31.1"
+	gson_version = "2.8.7"
 }
 
 spotless {
-  java {
-    target "*/src/*/java/**/*.java"
-    target "test/logiceditor/src/*/java/**/*.java"
-    importOrder()
-    removeUnusedImports()
-    cleanthat()
-    eclipse('4.26').configFile('eclipse-formatter.xml')
-    formatAnnotations()
-  }
+	java {
+		target "*/src/*/java/**/*.java"
+		target "test/logiceditor/src/*/java/**/*.java"
+		importOrder()
+		removeUnusedImports()
+		cleanthat()
+		eclipse('4.26').configFile('eclipse-formatter.xml')
+		formatAnnotations()
+	}
+
+	groovyGradle {
+		target "*.gradle"
+		target "**/*.gradle"
+		importOrder()
+		removeSemicolons()
+		greclipse()
+	}
 }
