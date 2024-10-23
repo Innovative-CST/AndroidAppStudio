@@ -15,6 +15,7 @@ ext {
 	sora_editor_version = "0.22.0"
 	blankj_utilcodex_version = "1.31.1"
 	gson_version = "2.8.7"
+	kotlin_version = "1.8.21"
 }
 
 spotless {
@@ -40,10 +41,10 @@ spotless {
 		target "*/src/*/java/**/*.kt"
 		target "test/logiceditor/src/*/java/**/*.kt"
 		ktfmt("0.51").googleStyle().configure {
-			it.setMaxWidth(80)
+			it.setMaxWidth(120)
 			it.setBlockIndent(4)
 			it.setContinuationIndent(4)
-			it.setRemoveUnusedImports(false)
+			it.setRemoveUnusedImports(true)
 			it.setManageTrailingCommas(false)
 		}
 	}
