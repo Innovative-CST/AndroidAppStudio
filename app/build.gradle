@@ -59,10 +59,10 @@ if (localPropsFile.exists()) {
 		properties.load(inputStream)
 	}
 } else {
-	printInBox("""
+	printInfoBox("""
 If you are running this project locally, please set up the following properties in local.properties:
-
-Properties            Values                  Description
+----------------------------------------------------------------------------------------------------
+Properties            Values                Description
 
 keyStorePassword      [password]            The app will be signed if a password is provided for the keystore (app/keystore.jks).
 isDeveloperMode       [true, false]         Must be set to true for the following properties to work.
@@ -82,9 +82,9 @@ if (KEYSTOREPASSWORD != null) {
 }
 
 if(localPropsFile.exists()){
-	printInBox("""
-Setting up properties from environment and local.properties\n
-
+	printInfoBox("""
+Setting up properties from environment and local.properties
+-----------------------------------------------------------
 Properties          Values
 
 isDeveloperMode     ${properties.getProperty("isDeveloperMode", "NOT_SET")}
@@ -224,7 +224,19 @@ android {
 	}
 }
 
-def printInBox(String text) {
+def printInfoBox(String additionalText) {
+	def generalInfo = """
+Notice for contributors
+-----------------------
+- Do not push the code without running ./gradlew spotlessApply after you have modified the code.
+- Do not add/change any pre-existing propeties file.
+
+Social
+------
+Discord      http://discord.gg/RM5qaZs4kd
+Youtube      https://youtube.com/@innovative-cst
+"""
+	def text = generalInfo.concat(additionalText)
 	println()
 	def lines = text.split("\n")
 	def maxLength = lines.collect { it.length() }.max()
