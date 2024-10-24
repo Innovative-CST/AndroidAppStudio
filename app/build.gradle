@@ -53,6 +53,7 @@ def localPropsFile = rootProject.file("local.properties")
 def properties = new Properties()
 def signingEnabled = false
 def password = ""
+def runSpotlessApplyAfterAssembleDebug = false
 
 if (localPropsFile.exists()) {
 	localPropsFile.withInputStream { inputStream ->
@@ -62,12 +63,13 @@ if (localPropsFile.exists()) {
 	printInfoBox("""
 If you are running this project locally, please set up the following properties in local.properties:
 ----------------------------------------------------------------------------------------------------
-Properties            Values                Description
+Properties                             Values                Description
 
-keyStorePassword      [password]            The app will be signed if a password is provided for the keystore (app/keystore.jks).
-isDeveloperMode       [true, false]         Must be set to true for the following properties to work.
-STORAGE               [path]                The storage path that the app will use to store projects or read/install extensions.
-installExtensions     [true, false]         Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.
+keyStorePassword                       [password]            The app will be signed if a password is provided for the keystore (app/keystore.jks).
+isDeveloperMode                        [true, false]         Must be set to true for the following properties to work.
+STORAGE                                [path]                The storage path that the app will use to store projects or read/install extensions.
+installExtensions                      [true, false]         Set to true to install extensions in the specified storage.Depends on isDeveloperMode, STORAGE.
+runSpotlessApplyAfterAssembleDebug     [true, false]         Formats, reorder imports and remove unused imports when project assemble task is finished.
 """)
 }
 
@@ -79,18 +81,20 @@ if (KEYSTOREPASSWORD != null) {
 		password = properties.getProperty("keyStorePassword")
 		signingEnabled = true
 	}
+	runSpotlessApplyAfterAssembleDebug = new Boolean(properties.getProperty("runSpotlessApplyAfterAssembleDebug", "false"))
 }
 
 if(localPropsFile.exists()){
 	printInfoBox("""
 Setting up properties from environment and local.properties
 -----------------------------------------------------------
-Properties          Values
+Properties                           Values
 
-isDeveloperMode     ${properties.getProperty("isDeveloperMode", "NOT_SET")}
-STORAGE             ${properties.getProperty("STORAGE", "NOT_SET")}
-keyStorePassword    ${password.equals("") ? "NOT_SET" : "****************" }
-installExtensions   ${properties.getProperty("installExtensions", "NOT_SET")}
+isDeveloperMode                      ${properties.getProperty("isDeveloperMode", "NOT_SET")}
+STORAGE                              ${properties.getProperty("STORAGE", "NOT_SET")}
+keyStorePassword                     ${password.equals("") ? "NOT_SET" : "****************" }
+installExtensions                    ${properties.getProperty("installExtensions", "NOT_SET")}
+runSpotlessApplyAfterAssembleDebug   ${properties.getProperty("runSpotlessApplyAfterAssembleDebug", "false")}
 """)
 }
 
@@ -362,12 +366,26 @@ project.afterEvaluate {
 		if (shouldInstallExtension()) {
 			dependsOn project(":extension").tasks.named("generateExtensions")
 		}
+
+		if(runSpotlessApplyAfterAssembleDebug){
+			rootProject.tasks.named("spotlessApply").configure {
+				mustRunAfter(tasks.named("assembleArmDebug"))
+			}
+			finalizedBy(rootProject.tasks.named("spotlessApply"))
+		}
 	}
 
 	tasks.named("assembleAarch64Debug").configure {
 		dependsOn downloadBootstrapAarch64
 		if (shouldInstallExtension()) {
 			dependsOn project(":extension").tasks.named("generateExtensions")
+		}
+
+		if(runSpotlessApplyAfterAssembleDebug){
+			rootProject.tasks.named("spotlessApply").configure {
+				mustRunAfter(tasks.named("assembleAarch64Debug"))
+			}
+			finalizedBy(rootProject.tasks.named("spotlessApply"))
 		}
 	}
 
@@ -376,12 +394,26 @@ project.afterEvaluate {
 		if (shouldInstallExtension()) {
 			dependsOn project(":extension").tasks.named("generateExtensions")
 		}
+
+		if(runSpotlessApplyAfterAssembleDebug){
+			rootProject.tasks.named("spotlessApply").configure {
+				mustRunAfter(tasks.named("assembleX86Debug"))
+			}
+			finalizedBy(rootProject.tasks.named("spotlessApply"))
+		}
 	}
 
 	tasks.named("assembleX86_64Debug").configure {
 		dependsOn downloadx86_64
 		if (shouldInstallExtension()) {
 			dependsOn project(":extension").tasks.named("generateExtensions")
+		}
+
+		if(runSpotlessApplyAfterAssembleDebug){
+			rootProject.tasks.named("spotlessApply").configure {
+				mustRunAfter(tasks.named("assembleX86_64Debug"))
+			}
+			finalizedBy(rootProject.tasks.named("spotlessApply"))
 		}
 	}
 }

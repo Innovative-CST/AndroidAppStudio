@@ -34,6 +34,18 @@ plugins {
 	id "org.jetbrains.kotlin.android"
 }
 
+def runSpotlessApplyAfterAssembleDebug = false
+def localPropsFile = new File(rootProject.projectDir, "local.properties")
+def properties = new Properties()
+
+if (localPropsFile.exists()) {
+
+	localPropsFile.withInputStream { inputStream ->
+		properties.load(inputStream)
+	}
+	runSpotlessApplyAfterAssembleDebug = new Boolean(properties.getProperty("runSpotlessApplyAfterAssembleDebug", "false"))
+}
+
 android {
 	namespace "com.icst.android.appstudio.test.logiceditor"
 	compileSdk 34
@@ -82,4 +94,16 @@ dependencies {
 	implementation project(":themeEngine")
 	implementation project(":beans")
 	implementation project(":logiceditor")
+}
+
+project.afterEvaluate {
+	tasks.matching { it.name.startsWith('assemble') }.all { assembleTask ->
+		if(runSpotlessApplyAfterAssembleDebug){
+			rootProject.tasks.named("spotlessApply").configure {
+				mustRunAfter(assembleTask)
+			}
+
+			assembleTask.finalizedBy(rootProject.tasks.named("spotlessApply"))
+		}
+	}
 }
