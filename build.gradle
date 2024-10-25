@@ -20,8 +20,7 @@ ext {
 
 spotless {
 	java {
-		target "*/src/*/java/**/*.java"
-		target "test/logiceditor/src/*/java/**/*.java"
+		target "*/src/*/java/**/*.java", "test/logiceditor/src/*/java/**/*.java"
 		importOrder()
 		removeUnusedImports()
 		cleanthat()
@@ -30,16 +29,14 @@ spotless {
 	}
 
 	groovyGradle {
-		target "*.gradle"
-		target "**/*.gradle"
+		target "*.gradle", "**/*.gradle"
 		importOrder()
 		removeSemicolons()
 		greclipse()
 	}
 
 	kotlin {
-		target "*/src/*/java/**/*.kt"
-		target "test/logiceditor/src/*/java/**/*.kt"
+		target "*/src/*/java/**/*.kt", "test/logiceditor/src/*/java/**/*.kt"
 		ktfmt("0.51").googleStyle().configure {
 			it.setMaxWidth(120)
 			it.setBlockIndent(4)
