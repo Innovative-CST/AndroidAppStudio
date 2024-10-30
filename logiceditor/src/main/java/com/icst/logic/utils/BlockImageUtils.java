@@ -29,25 +29,26 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.view;
+package com.icst.logic.utils;
 
-import android.content.Context;
-import com.icst.logic.utils.BlockImageUtils;
-import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.editor.R;
 
-public class BlockElementLayerBeanView extends LayerBeanView {
-	public BlockElementLayerBeanView(Context context) {
-		super(context);
+public final class BlockImageUtils {
+
+	public static int getImage(Image image) {
+		if (Image.EVENT_BLOCK_ROUND_EDGE_TOP.ordinal() == image.ordinal()) {
+			return R.drawable.event_blockbean_top;
+		}
+		if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
+			return R.drawable.block_element_layer_backdrop;
+		} else if (Image.BLOCK_BOTTOM.ordinal() == image.ordinal()) {
+			return R.drawable.block_bottom;
+		} else {
+			return 0;
+		}
 	}
 
-	@Override
-	public void setColor(String color) {
-		super.setColor(color);
-		setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						getColor(),
-						BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP)));
-		invalidate();
+	public enum Image {
+		EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, BLOCK_BOTTOM;
 	}
 }

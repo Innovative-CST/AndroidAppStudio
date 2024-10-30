@@ -29,25 +29,23 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.view;
+package com.icst.android.appstudio.beans;
 
-import android.content.Context;
-import com.icst.logic.utils.BlockImageUtils;
-import com.icst.logic.utils.ImageViewUtils;
+/**
+ * TerminatorBlockBean: Can hold RegularBlockBean (nested blocks),
+ * BlockElementBean but differs from
+ * RegularBlockBean because this must be the last block bean and after that no
+ * action block can be
+ * placed.
+ */
+public class TerminatorBlockBean extends ActionBlockBean {
+	private String codeSyntax;
 
-public class BlockElementLayerBeanView extends LayerBeanView {
-	public BlockElementLayerBeanView(Context context) {
-		super(context);
+	public String getCodeSyntax() {
+		return this.codeSyntax;
 	}
 
-	@Override
-	public void setColor(String color) {
-		super.setColor(color);
-		setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						getColor(),
-						BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP)));
-		invalidate();
+	public void setCodeSyntax(String codeSyntax) {
+		this.codeSyntax = codeSyntax;
 	}
 }

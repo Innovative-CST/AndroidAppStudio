@@ -29,25 +29,23 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.view;
+package com.icst.android.appstudio.beans;
 
-import android.content.Context;
-import com.icst.logic.utils.BlockImageUtils;
-import com.icst.logic.utils.ImageViewUtils;
+import java.util.ArrayList;
 
-public class BlockElementLayerBeanView extends LayerBeanView {
-	public BlockElementLayerBeanView(Context context) {
-		super(context);
+/**
+ * A Bean that holds a group of ActionBlocks and can hold one
+ * TerminatorBlockBean. Used to store the
+ * nested BlockBeans, and does not hold BlockElementBean directly into it.
+ */
+public class ActionBlockLayerBean extends LayerBean {
+	private ArrayList<ActionBlockBean> actionBlockBean;
+
+	public ArrayList<ActionBlockBean> getActionBlockBean() {
+		return this.actionBlockBean;
 	}
 
-	@Override
-	public void setColor(String color) {
-		super.setColor(color);
-		setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						getColor(),
-						BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP)));
-		invalidate();
+	public void setActionBlockBean(ArrayList<ActionBlockBean> actionBlockBean) {
+		this.actionBlockBean = actionBlockBean;
 	}
 }

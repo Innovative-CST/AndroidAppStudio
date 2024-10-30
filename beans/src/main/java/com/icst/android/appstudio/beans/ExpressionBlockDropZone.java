@@ -34,11 +34,10 @@ package com.icst.android.appstudio.beans;
 import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 
 /**
- * Abstract class representing the ExpressionBlockBean drop zone supposed to be
- * used within the
- * LogicEditor.
+ * ExpressionBlockBean drop zone supposed to be
+ * used within the LogicEditor.
  */
-public abstract class ExpressionBlockDropZone {
+public abstract class ExpressionBlockDropZone extends BlockDropZone {
 
 	/**
 	 * Marks whether ExpressionBlockDropZone is empty or occupied by a
