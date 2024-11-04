@@ -14,13 +14,13 @@ Currently this app is under development so it doesn't have much features.
 ## Preview
 
 <div align="center">
-  <img src="assets/screenshots/screenshot1.png" alt="Screenshot 1" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
-  <img src="assets/screenshots/screenshot2.png" alt="Screenshot 2" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
-  <img src="assets/screenshots/screenshot3.png" alt="Screenshot 3" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
-  <img src="assets/screenshots/screenshot4.png" alt="Screenshot 4" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
-  <img src="assets/screenshots/screenshot5.png" alt="Screenshot 5" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
-  <img src="assets/screenshots/screenshot6.png" alt="Screenshot 6" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
-  <img src="assets/screenshots/screenshot7.png" alt="Screenshot 7" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot1.png" alt="Screenshot 1" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot2.png" alt="Screenshot 2" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot3.png" alt="Screenshot 3" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot4.png" alt="Screenshot 4" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot5.png" alt="Screenshot 5" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot6.png" alt="Screenshot 6" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot7.png" alt="Screenshot 7" style="width: 40%; height: auto; margin: 5px; border-radius: 9px;">
 </div>
 
 ## Getting Started
