@@ -13,15 +13,15 @@ Currently this app is under development so it doesn't have much features.
 
 ## Preview
 
-Here are some screenshots of the current interface and features:
-
-![Screenshot 1](assets/screenshots/screenshot1.png)
-![Screenshot 2](assets/screenshots/screenshot2.png)
-![Screenshot 3](assets/screenshots/screenshot3.png)
-![Screenshot 4](assets/screenshots/screenshot4.png)
-![Screenshot 5](assets/screenshots/screenshot5.png)
-![Screenshot 6](assets/screenshots/screenshot6.png)
-![Screenshot 7](assets/screenshots/screenshot7.png)
+<div align="center">
+  <img src="assets/screenshots/screenshot1.png" alt="Screenshot 1" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot2.png" alt="Screenshot 2" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot3.png" alt="Screenshot 3" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot4.png" alt="Screenshot 4" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot5.png" alt="Screenshot 5" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot6.png" alt="Screenshot 6" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+  <img src="assets/screenshots/screenshot7.png" alt="Screenshot 7" style="width: 50%; height: auto; margin: 5px; border-radius: 9px;">
+</div>
 
 ## Getting Started
 
