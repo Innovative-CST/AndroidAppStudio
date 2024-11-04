@@ -39,7 +39,7 @@ This project is currently in its early stages, and there's a lot to be done. If 
   - [x] Nano editor
 - [x] Dynamic Themes
 - [x] Manifest editor (Manually only)
-- [ ] Integrated mini code editor
+- [x] Integrated mini code editor
 
 
 # Discord
