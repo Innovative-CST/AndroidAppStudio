@@ -11,6 +11,18 @@
 Welcome to the Android App Studio! This project enables building Android applications using a drag-and-drop interface.
 Currently this app is under development so it doesn't have much features.
 
+## Preview
+
+Here are some screenshots of the current interface and features:
+
+![Screenshot 1](assets/screenshots/screenshot1.png)
+![Screenshot 2](assets/screenshots/screenshot2.png)
+![Screenshot 3](assets/screenshots/screenshot3.png)
+![Screenshot 4](assets/screenshots/screenshot4.png)
+![Screenshot 5](assets/screenshots/screenshot5.png)
+![Screenshot 6](assets/screenshots/screenshot6.png)
+![Screenshot 7](assets/screenshots/screenshot7.png)
+
 ## Getting Started
 
 This project is currently in its early stages, and there's a lot to be done. If you're interested in contributing, please follow the guidelines.
