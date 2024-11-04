@@ -50,6 +50,8 @@ public class RegularBlockBeanView extends LinearLayout {
 	private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
+	private View header;
+	private RegularBlockBeanView.LayoutParams headerLayoutParam;
 
 	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean) {
 		super(context);
@@ -68,22 +70,23 @@ public class RegularBlockBeanView extends LinearLayout {
 	}
 
 	private void addHeader() {
-		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(
+		headerLayoutParam = new RegularBlockBeanView.LayoutParams(
 				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
 				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
 
-		View header = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.EVENT_BLOCK_ROUND_EDGE_TOP);
+		header = new LinearLayout(context);
+		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
 		Drawable headerDrawable = ImageViewUtils.getImageView(context, regularBlockBean.getColor(), res);
 		header.setBackgroundDrawable(headerDrawable);
 		addView(header);
-		header.setLayoutParams(lp);
+		header.setLayoutParams(headerLayoutParam);
 	}
 
 	private void addLayers() {
 		ArrayList<LayerBean> layers = regularBlockBean.getLayers();
 
 		for (int i = 0; i < layers.size(); ++i) {
+
 			LinearLayout.LayoutParams mLayoutParam = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -97,6 +100,14 @@ public class RegularBlockBeanView extends LinearLayout {
 			layersView.addView(layerView);
 			layerView.setLayoutParams(mLayoutParam);
 			this.layers.add(layerView);
+
+			if (i == 0 && header != null) {
+				headerLayoutParam = new RegularBlockBeanView.LayoutParams(
+						RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
+						RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
+				headerLayoutParam.width = layerView.getWidth();
+				header.setLayoutParams(headerLayoutParam);
+			}
 		}
 
 		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(

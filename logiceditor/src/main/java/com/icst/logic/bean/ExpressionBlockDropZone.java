@@ -29,8 +29,10 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.logic.bean;
 
+import com.icst.android.appstudio.beans.DatatypeBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 
 /**

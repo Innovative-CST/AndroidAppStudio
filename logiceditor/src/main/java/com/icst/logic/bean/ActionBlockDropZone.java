@@ -29,7 +29,16 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.logic.bean;
 
-public abstract class BlockDropZone {
+/**
+ * ActionBlock(void, or assignment) drop zone supposed to be used within the
+ * LogicEditor.
+ */
+public abstract class ActionBlockDropZone extends BlockDropZone {
+
+	/**
+	 * @return Return false if last block in this drop zone is TerminatorBlock
+	 */
+	protected abstract boolean isTerminated();
 }
