@@ -37,78 +37,99 @@ import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
-import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.exception.TerminatedDropZoneException;
+import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
 import java.util.ArrayList;
 
 public class ActionBlockDropZoneView extends LinearLayout {
-    private Context context;
-    private ArrayList<ActionBlockBean> blockBeans;
-    private ActionBlockDropZone actionBlockDropZone;
+	private Context context;
+	private ArrayList<ActionBlockBean> blockBeans;
+	private ActionBlockDropZone actionBlockDropZone;
 
-    public ActionBlockDropZoneView(Context context) {
-        super(context);
-        this.context = context;
-        blockBeans = new ArrayList<ActionBlockBean>();
-        actionBlockDropZone =
-                new ActionBlockDropZone() {
+	public ActionBlockDropZoneView(Context context) {
+		super(context);
+		this.context = context;
+		blockBeans = new ArrayList<ActionBlockBean>();
+		actionBlockDropZone = new ActionBlockDropZone() {
 
-                    @Override
-                    public boolean isTerminated() {
-                        if (blockBeans == null) return false;
-                        if (blockBeans.size() == 0) return false;
-                        return blockBeans.get(blockBeans.size() - 1) instanceof TerminatorBlockBean;
-                    }
-                };
-    }
+			@Override
+			public boolean isTerminated() {
+				if (blockBeans == null)
+					return false;
+				if (blockBeans.size() == 0)
+					return true;
+				return blockBeans.get(blockBeans.size() - 1) instanceof TerminatorBlockBean;
+			}
+		};
+	}
 
-    // Always throw this error to make sure no unexpected view is added.
-    @Override
-    public void addView(View view) {
-        throw new UnexpectedViewAddedException(this, view);
-    }
+	// Always throw this error to make sure no unexpected view is added.
+	@Override
+	public void addView(View view) {
+		throw new UnexpectedViewAddedException(this, view);
+	}
 
-    // Always throw this error to make sure no unexpected view is added.
-    @Override
-    public void addView(View view, int index) {
-        throw new UnexpectedViewAddedException(this, view);
-    }
+	// Always throw this error to make sure no unexpected view is added.
+	@Override
+	public void addView(View view, int index) {
+		throw new UnexpectedViewAddedException(this, view);
+	}
 
-    public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
-        if (index > blockBeans.size()) {
-            if (blockBeans.size() == index) {
-                if (isTerminated()) return false;
-                else true;
-            } else return true;
-        } else return false;
-    }
+	public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
+		if (index > blockBeans.size()) {
+			if (blockBeans.size() == index) {
+				if (isTerminated())
+					return false;
+				else {
+					if (actionBlocks.size() == 0)
+						return true;
+					return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
+				}
+			} else {
+				if (actionBlocks.size() == 0)
+					return true;
+				return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
+			}
+		} else
+			return false;
+	}
 
-    public void addActionBlocksBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
-        if (blockBeans == null) {
-            blockBeans = new ArrayList<ActionBlockBean>();
-        }
-        if (index > blockBeans.size()) {
-            if (blockBeans.size() == index) {
-                if (isTerminated()) throw new TerminatedDropZoneException();
-                else addBlockBeans(actionBlocks, index);
-            } else addBlockBeans(actionBlocks, index);
-        } else throw new IndexOutOfBoundsException(index);
-    }
+	public void addActionBlocksBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
+		if (blockBeans == null) {
+			blockBeans = new ArrayList<ActionBlockBean>();
+		}
+		if (index > blockBeans.size()) {
+			if (blockBeans.size() == index) {
+				if (isTerminated())
+					throw new TerminatedDropZoneException();
+				else
+					addBlockBeans(actionBlocks, index);
+			} else {
+				if (actionBlocks.size() == 0)
+					return;
+				if (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean))
+					addBlockBeans(actionBlocks, index);
+				else
+					throw new UnexpectedTerminatedException();
+			}
+		} else
+			throw new IndexOutOfBoundsException(index);
+	}
 
-    private void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
-        // Add block beans
-    }
+	private void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
+		// Add block beans
+	}
 
-    public int getBlocksSize() {
-        return blockBeans.size();
-    }
+	public int getBlocksSize() {
+		return blockBeans.size();
+	}
 
-    public boolean isTerminated() {
-        return actionBlockDropZone.isTerminated();
-    }
+	public boolean isTerminated() {
+		return actionBlockDropZone.isTerminated();
+	}
 
-    public ActionBlockDropZone getActionBlockDropZone() {
-        return this.actionBlockDropZone;
-    }
+	public ActionBlockDropZone getActionBlockDropZone() {
+		return this.actionBlockDropZone;
+	}
 }

@@ -31,8 +31,8 @@
 
 package com.icst.logic.exception;
 
-public class TerminatedDropZoneException extends RuntimeException {
-	public TerminatedDropZoneException() {
-		super("The drop zone was terminated but ActionBlockBean was tried to add at the terminal.");
+public class UnexpectedTerminatedException extends RuntimeException {
+	public UnexpectedTerminatedException() {
+		super("ActionBlockDropZone was terminated at a unexpectedly index.");
 	}
 }
