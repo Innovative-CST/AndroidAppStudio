@@ -29,16 +29,41 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.bean;
+package com.icst.logic.exception;
+
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
- * ActionBlock(void, or assignment) drop zone supposed to be used within the
- * LogicEditor.
+ * UnexpectedViewAddedException ia thrown, when a Unexpected view is tried to
+ * add to a View like
+ * ActionBlockDropZoneView, ExpressionBlockDropZoneView.
  */
-public abstract class ActionBlockDropZone extends BlockDropZone {
+public class UnexpectedViewAddedException extends RuntimeException {
+	private ViewGroup parent;
+	private View unexpectedView;
 
-	/**
-	 * @return Return false if last block in this drop zone is TerminatorBlock
-	 */
-	public abstract boolean isTerminated();
+	public UnexpectedViewAddedException(ViewGroup parent, View unexpectedView) {
+		super(
+				new String("A unexpected view(")
+						.concat(unexpectedView.getClass().getName())
+						.concat(") is tried to add to the ")
+						.concat(parent.getClass().getName()));
+	}
+
+	public ViewGroup getParent() {
+		return this.parent;
+	}
+
+	public void setParent(ViewGroup parent) {
+		this.parent = parent;
+	}
+
+	public View getUnexpectedView() {
+		return this.unexpectedView;
+	}
+
+	public void setUnexpectedView(View unexpectedView) {
+		this.unexpectedView = unexpectedView;
+	}
 }

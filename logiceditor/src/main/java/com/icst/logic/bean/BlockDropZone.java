@@ -31,5 +31,4 @@
 
 package com.icst.logic.bean;
 
-public abstract class BlockDropZone {
-}
+public abstract class BlockDropZone {}

@@ -44,7 +44,7 @@ import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ImageViewUtils;
 import java.util.ArrayList;
 
-public class RegularBlockBeanView extends LinearLayout {
+public class RegularBlockBeanView extends ActionBlockBeanView {
 	private Context context;
 	private RegularBlockBean regularBlockBean;
 	private LogicEditorConfiguration configuration = new LogicEditorConfiguration();

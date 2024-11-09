@@ -29,16 +29,10 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.bean;
+package com.icst.logic.exception;
 
-/**
- * ActionBlock(void, or assignment) drop zone supposed to be used within the
- * LogicEditor.
- */
-public abstract class ActionBlockDropZone extends BlockDropZone {
-
-	/**
-	 * @return Return false if last block in this drop zone is TerminatorBlock
-	 */
-	public abstract boolean isTerminated();
+public class TerminatedDropZoneException extends RuntimeException {
+    public TerminatedDropZoneException() {
+        super("The drop zone was terminated but ActionBlockBean was tried to add at the terminal.");
+    }
 }

@@ -29,16 +29,13 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.bean;
+package com.icst.logic.block.view;
 
-/**
- * ActionBlock(void, or assignment) drop zone supposed to be used within the
- * LogicEditor.
- */
-public abstract class ActionBlockDropZone extends BlockDropZone {
+import android.content.Context;
+import android.widget.LinearLayout;
 
-	/**
-	 * @return Return false if last block in this drop zone is TerminatorBlock
-	 */
-	public abstract boolean isTerminated();
+public class ActionBlockBeanView extends LinearLayout {
+	public ActionBlockBeanView(Context context) {
+		super(context);
+	}
 }
