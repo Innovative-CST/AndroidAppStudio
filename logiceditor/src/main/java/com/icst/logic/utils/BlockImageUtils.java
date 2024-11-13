@@ -38,8 +38,7 @@ public final class BlockImageUtils {
 	public static int getImage(Image image) {
 		if (Image.EVENT_BLOCK_ROUND_EDGE_TOP.ordinal() == image.ordinal()) {
 			return R.drawable.event_blockbean_top;
-		}
-		if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
+		} else if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
 			return R.drawable.block_element_layer_backdrop;
 		} else if (Image.BLOCK_BOTTOM.ordinal() == image.ordinal()) {
 			return R.drawable.block_bottom;
