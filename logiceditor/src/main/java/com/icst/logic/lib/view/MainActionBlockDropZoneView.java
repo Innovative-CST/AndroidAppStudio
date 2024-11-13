@@ -46,6 +46,7 @@ import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
 import com.icst.logic.utils.ActionBlockUtils;
+import com.icst.logic.utils.UnitUtils;
 import java.util.ArrayList;
 
 public class MainActionBlockDropZoneView extends LinearLayout {
@@ -171,7 +172,8 @@ public class MainActionBlockDropZoneView extends LinearLayout {
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			lp.setMargins(0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN), 0,
+					0);
 			actionBlockBeanView.setLayoutParams(lp);
 		}
 	}

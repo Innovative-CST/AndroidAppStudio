@@ -29,8 +29,15 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.core;
+package com.icst.logic.utils;
 
-public final class BlockMarginConstants {
-	public static final int CHAINED_ACTION_BLOCK_TOP_MARGIN = -3;
+import android.content.Context;
+import android.util.DisplayMetrics;
+
+public final class UnitUtils {
+	public static int dpToPx(Context context, float dp) {
+		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+		int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+		return px;
+	}
 }
