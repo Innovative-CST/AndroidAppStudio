@@ -34,6 +34,7 @@ package com.icst.logic.block.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
@@ -51,7 +52,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
 	private View header;
-	private RegularBlockBeanView.LayoutParams headerLayoutParam;
+	private ViewGroup.LayoutParams headerLayoutParam;
 
 	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean) {
 		super(context);
@@ -102,11 +103,14 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			this.layers.add(layerView);
 
 			if (i == 0 && header != null) {
-				headerLayoutParam = new RegularBlockBeanView.LayoutParams(
-						RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-						RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
-				headerLayoutParam.width = layerView.getWidth();
-				header.setLayoutParams(headerLayoutParam);
+				layerView
+						.getViewTreeObserver()
+						.addOnGlobalLayoutListener(
+								() -> {
+									headerLayoutParam = header.getLayoutParams();
+									headerLayoutParam.width = layerView.getWidth();
+									header.setLayoutParams(headerLayoutParam);
+								});
 			}
 		}
 

@@ -45,8 +45,8 @@ public final class ImageViewUtils {
 
 	public static Drawable getImageView(Context context, String color, int res) {
 		Drawable mDrawable = getImageView(context, res);
-		mDrawable.setTint(Color.parseColor(color));
 		mDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+		mDrawable.setTint(Color.parseColor(color));
 		return mDrawable;
 	}
 }
