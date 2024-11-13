@@ -35,25 +35,46 @@ import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
+import com.icst.logic.block.view.EventBlockBeanView;
 import com.icst.logic.core.BlockMarginConstants;
+import com.icst.logic.exception.EventDefinationBlockNotFound;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
 import com.icst.logic.utils.ActionBlockUtils;
 import java.util.ArrayList;
 
-public class ActionBlockDropZoneView extends LinearLayout {
+public class MainActionBlockDropZoneView extends LinearLayout {
+	private EventBlockBean eventDefination;
+	private EventBlockBeanView eventDefinationBlockView;
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
 
-	public ActionBlockDropZoneView(Context context) {
+	public MainActionBlockDropZoneView(Context context, EventBlockBean eventDefination) {
 		super(context);
 		this.context = context;
+		this.eventDefination = eventDefination;
+
 		setOrientation(VERTICAL);
+
+		if (eventDefination == null) {
+			throw new EventDefinationBlockNotFound();
+		}
+
+		eventDefinationBlockView = new EventBlockBeanView(context, eventDefination);
+
+		addView(eventDefinationBlockView);
+		LinearLayout.LayoutParams eventDefBlockLp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		eventDefinationBlockView.setLayoutParams(eventDefBlockLp);
+
 		blockBeans = new ArrayList<ActionBlockBean>();
 		actionBlockDropZone = new ActionBlockDropZone() {
 
@@ -71,13 +92,24 @@ public class ActionBlockDropZoneView extends LinearLayout {
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view) {
-		throw new UnexpectedViewAddedException(this, view);
+
+		if (view instanceof ActionBlockBeanView) {
+			super.addView(view);
+		} else if (getChildCount() == 0) {
+			super.addView(view);
+		} else
+			throw new UnexpectedViewAddedException(this, view);
 	}
 
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view, int index) {
-		throw new UnexpectedViewAddedException(this, view);
+		if (view instanceof EventBlockBeanView eventDefBlockView) {
+			super.addView(view, index);
+		} else if (view instanceof ActionBlockBeanView actionBlockView) {
+			super.addView(actionBlockView, index);
+		} else
+			throw new UnexpectedViewAddedException(this, view);
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
@@ -103,7 +135,7 @@ public class ActionBlockDropZoneView extends LinearLayout {
 		if (blockBeans == null) {
 			blockBeans = new ArrayList<ActionBlockBean>();
 		}
-		if (index > blockBeans.size()) {
+		if (index >= blockBeans.size()) {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
 					throw new TerminatedDropZoneException();
@@ -131,10 +163,9 @@ public class ActionBlockDropZoneView extends LinearLayout {
 			if (actionBlockBeanView == null)
 				continue;
 
-			addView(actionBlockBeanView, i + index);
-
-			if (i == 0 && index == 0)
-				continue;
+			addView(
+					actionBlockBeanView,
+					i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
 
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,

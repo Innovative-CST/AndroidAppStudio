@@ -35,14 +35,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockElementBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
-import com.icst.logic.block.view.EventBlockBeanView;
-import com.icst.logic.block.view.RegularBlockBeanView;
+import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import java.util.ArrayList;
 
 /**
@@ -71,13 +71,12 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 			removeAllViews();
 			return;
 		}
-		EventBlockBeanView headerBlock = new EventBlockBeanView(getContext(), eventBean.getEventDefinationBlockBean());
-		addView(headerBlock);
+
+		MainActionBlockDropZoneView mainChainDropZone = new MainActionBlockDropZoneView(
+				getContext(), eventBean.getEventDefinationBlockBean());
 		LogicEditorScrollView.LayoutParams lp = new LogicEditorScrollView.LayoutParams(
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
-		headerBlock.setLayoutParams(lp);
-
 		// Test
 
 		RegularBlockBean testRBlock = new RegularBlockBean();
@@ -98,14 +97,12 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		layers.add(layer1);
 		testRBlock.setLayers(layers);
 
-		RegularBlockBeanView testBlock = new RegularBlockBeanView(getContext(), testRBlock);
-		addView(testBlock);
-		LogicEditorScrollView.LayoutParams lp2 = new LogicEditorScrollView.LayoutParams(
-				LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
-				LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
-		// lp2.setMargins(0, ((int)(headerBlock.getY())) + headerBlock.getHeight() - 1,
-		// 0, 0);
-		testBlock.setLayoutParams(lp2);
+		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+		blocks.add(testRBlock);
+		mainChainDropZone.addActionBlocksBeans(blocks, 0);
+
+		addView(mainChainDropZone);
+		mainChainDropZone.setLayoutParams(lp);
 	}
 
 	@Override
