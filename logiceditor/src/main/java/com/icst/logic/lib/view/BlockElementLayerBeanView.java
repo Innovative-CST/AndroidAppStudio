@@ -32,6 +32,7 @@
 package com.icst.logic.lib.view;
 
 import android.content.Context;
+import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ImageViewUtils;
 
@@ -43,11 +44,18 @@ public class BlockElementLayerBeanView extends LayerBeanView {
 	@Override
 	public void setColor(String color) {
 		super.setColor(color);
+		BlockImageUtils.Image image = null;
+
+		if (getBlock() instanceof EventBlockBean) {
+			image = BlockImageUtils.Image.EVENT_BLOCK_TOP_BLOCK_ELEMENT_LAYER_BACKDROP;
+		} else {
+			image = isFirstLayer()
+					? BlockImageUtils.Image.TOP_BLOCK_ELEMENT_LAYER_BACKDROP
+					: BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP;
+		}
 		setBackgroundDrawable(
 				ImageViewUtils.getImageView(
-						getContext(),
-						getColor(),
-						BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP)));
+						getContext(), getColor(), BlockImageUtils.getImage(image)));
 		invalidate();
 	}
 }

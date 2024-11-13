@@ -89,7 +89,8 @@ public class EventBlockBeanView extends LinearLayout {
 					LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			BlockElementLayerBean elementLayer = layers.get(i);
-			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(context, elementLayer, configuration);
+			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(context, eventBlockBean, elementLayer,
+					configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));

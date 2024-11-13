@@ -44,12 +44,16 @@ public final class BlockImageUtils {
 			return R.drawable.block_bottom;
 		} else if (Image.ACTION_BLOCK_TOP.ordinal() == image.ordinal()) {
 			return R.drawable.action_block_top;
+		} else if (Image.TOP_BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
+			return R.drawable.top_block_element_layer_backdrop;
+		} else if (Image.EVENT_BLOCK_TOP_BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
+			return R.drawable.event_block_top_block_element_layer_backdrop;
 		} else {
 			return 0;
 		}
 	}
 
 	public enum Image {
-		ACTION_BLOCK_TOP, EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, BLOCK_BOTTOM;
+		ACTION_BLOCK_TOP, EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, TOP_BLOCK_ELEMENT_LAYER_BACKDROP, EVENT_BLOCK_TOP_BLOCK_ELEMENT_LAYER_BACKDROP, BLOCK_BOTTOM;
 	}
 }

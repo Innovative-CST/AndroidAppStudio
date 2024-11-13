@@ -92,7 +92,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(context, layers.get(i), configuration);
+			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(context, regularBlockBean, layers.get(i),
+					configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));

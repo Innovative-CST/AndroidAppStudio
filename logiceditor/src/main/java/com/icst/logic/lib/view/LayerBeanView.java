@@ -33,12 +33,14 @@ package com.icst.logic.lib.view;
 
 import android.content.Context;
 import android.widget.LinearLayout;
+import com.icst.android.appstudio.beans.BlockBean;
 
 public abstract class LayerBeanView extends LinearLayout {
 	private int layerPosition;
 	private boolean isFirstLayer;
 	private boolean isLastLayer;
 	private String color;
+	private BlockBean block;
 
 	public LayerBeanView(Context context) {
 		super(context);
@@ -74,5 +76,13 @@ public abstract class LayerBeanView extends LinearLayout {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public BlockBean getBlock() {
+		return this.block;
+	}
+
+	public void setBlock(BlockBean block) {
+		this.block = block;
 	}
 }

@@ -34,6 +34,7 @@ package com.icst.logic.lib.builder;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
@@ -45,22 +46,22 @@ import com.icst.logic.lib.view.LayerBeanView;
 public final class LayerBuilder {
 
 	public static LayerBeanView buildBlockLayerView(
-			Context context, LayerBean layerBean, LogicEditorConfiguration configuration) {
+			Context context, BlockBean blockBean, LayerBean layerBean, LogicEditorConfiguration configuration) {
 		if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
-			return buildBlockElementLayerView(context, mBlockElementLayerBean, configuration);
+			return buildBlockElementLayerView(context, blockBean, mBlockElementLayerBean, configuration);
 		} else
 			return null;
 	}
 
 	// Build the block element layer
 	private static LayerBeanView buildBlockElementLayerView(
-			Context context,
+			Context context, BlockBean blockBean,
 			BlockElementLayerBean mBlockElementLayerBean,
 			LogicEditorConfiguration configuration) {
 
 		BlockElementLayerBeanView view = new BlockElementLayerBeanView(context);
 		view.setOrientation(BlockElementLayerBeanView.HORIZONTAL);
-
+		view.setBlock(blockBean);
 		mBlockElementLayerBean
 				.getBlockElementBeans()
 				.forEach(
