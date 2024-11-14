@@ -48,7 +48,6 @@ import java.util.ArrayList;
 public class RegularBlockBeanView extends ActionBlockBeanView {
 	private Context context;
 	private RegularBlockBean regularBlockBean;
-	private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
 	private View header;
@@ -56,8 +55,9 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private ViewGroup.LayoutParams headerLayoutParam;
 	private ViewGroup.LayoutParams footerLayoutParam;
 
-	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean) {
-		super(context);
+	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean,
+			LogicEditorConfiguration logicEditorConfiguration) {
+		super(context, logicEditorConfiguration);
 		this.context = context;
 		this.regularBlockBean = regularBlockBean;
 		layers = new ArrayList<LayerBeanView>();
@@ -96,7 +96,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(
-					context, regularBlockBean, layers.get(i), configuration);
+					context, regularBlockBean, layers.get(i), getLogicEditorConfiguration());
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));

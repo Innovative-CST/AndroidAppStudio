@@ -42,6 +42,7 @@ import com.icst.logic.core.BlockMarginConstants;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
 import java.util.ArrayList;
 
@@ -49,9 +50,11 @@ public class ActionBlockDropZoneView extends LinearLayout {
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
+	private LogicEditorConfiguration logicEditorConfiguration;
 
-	public ActionBlockDropZoneView(Context context) {
+	public ActionBlockDropZoneView(Context context, LogicEditorConfiguration logicEditorConfiguration) {
 		super(context);
+		this.logicEditorConfiguration = logicEditorConfiguration;
 		this.context = context;
 		setOrientation(VERTICAL);
 		blockBeans = new ArrayList<ActionBlockBean>();
@@ -126,7 +129,8 @@ public class ActionBlockDropZoneView extends LinearLayout {
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
-			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock);
+			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock,
+					logicEditorConfiguration);
 
 			if (actionBlockBeanView == null)
 				continue;

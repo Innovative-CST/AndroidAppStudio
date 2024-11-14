@@ -42,6 +42,7 @@ import com.icst.android.appstudio.beans.EventBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		setClipChildren(true);
 	}
 
-	public void openEventInCanva(EventBean eventBean) {
+	public void openEventInCanva(EventBean eventBean, LogicEditorConfiguration logicEditorConfiguration) {
 		this.eventBean = eventBean;
 		if (eventBean == null) {
 			removeAllViews();
@@ -73,7 +74,7 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		}
 
 		MainActionBlockDropZoneView mainChainDropZone = new MainActionBlockDropZoneView(
-				getContext(), eventBean.getEventDefinationBlockBean());
+				getContext(), eventBean.getEventDefinationBlockBean(), logicEditorConfiguration);
 		LogicEditorScrollView.LayoutParams lp = new LogicEditorScrollView.LayoutParams(
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT);

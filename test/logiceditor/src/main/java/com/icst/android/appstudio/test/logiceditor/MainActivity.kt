@@ -34,6 +34,7 @@ package com.icst.android.appstudio.test.logiceditor
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding
+import com.icst.logic.lib.config.LogicEditorConfiguration
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -53,6 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        binding.logicEditor.openEventInCanva(DummyBeans.getDummyEvent())
+        binding.logicEditor.openEventInCanva(DummyBeans.getDummyEvent(), LogicEditorConfiguration())
     }
 }

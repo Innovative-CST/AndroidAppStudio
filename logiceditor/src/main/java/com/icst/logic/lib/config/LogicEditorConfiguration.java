@@ -39,7 +39,7 @@ public final class LogicEditorConfiguration {
 	}
 
 	public enum TextSize {
-		DEFAULT(12);
+		DEFAULT(12), SMALL(10);
 
 		private final int textSize;
 

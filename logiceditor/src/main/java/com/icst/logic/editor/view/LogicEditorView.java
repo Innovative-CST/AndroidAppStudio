@@ -29,21 +29,38 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.block.view;
+package com.icst.logic.editor.view;
 
 import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import com.icst.android.appstudio.beans.EventBean;
+import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 
-public class ActionBlockBeanView extends LinearLayout {
-	private LogicEditorConfiguration logicEditorConfiguration;
+/* Main LogicEditor View */
+public class LogicEditorView extends LinearLayout {
 
-	public ActionBlockBeanView(Context context, LogicEditorConfiguration logicEditorConfiguration) {
-		super(context);
-		this.logicEditorConfiguration = logicEditorConfiguration;
+	private EventBean event;
+	private LayoutLogicEditorBinding binding;
+
+	public LogicEditorView(final Context context, final AttributeSet set) {
+		super(context, set);
+		binding = LayoutLogicEditorBinding.inflate(LayoutInflater.from(context));
+
+		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(LogicEditorView.LayoutParams.MATCH_PARENT,
+				LogicEditorView.LayoutParams.MATCH_PARENT);
+		binding.getRoot().setLayoutParams(lp);
+		addView(binding.getRoot());
 	}
 
-	public LogicEditorConfiguration getLogicEditorConfiguration() {
-		return this.logicEditorConfiguration;
+	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
+		this.event = event;
+		binding.logicEditorCanvaView.openEventInCanva(event, configuration);
+	}
+
+	public LogicEditorCanvaView getLogicEditorCanva() {
+		return binding.logicEditorCanvaView;
 	}
 }

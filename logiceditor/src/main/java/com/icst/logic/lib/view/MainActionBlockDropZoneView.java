@@ -45,6 +45,7 @@ import com.icst.logic.exception.EventDefinationBlockNotFound;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
 import com.icst.logic.utils.UnitUtils;
 import java.util.ArrayList;
@@ -55,11 +56,16 @@ public class MainActionBlockDropZoneView extends LinearLayout {
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
+	private LogicEditorConfiguration logicEditorConfiguration;
 
-	public MainActionBlockDropZoneView(Context context, EventBlockBean eventDefination) {
+	public MainActionBlockDropZoneView(
+			Context context,
+			EventBlockBean eventDefination,
+			LogicEditorConfiguration logicEditorConfiguration) {
 		super(context);
 		this.context = context;
 		this.eventDefination = eventDefination;
+		this.logicEditorConfiguration = logicEditorConfiguration;
 
 		setOrientation(VERTICAL);
 
@@ -159,7 +165,8 @@ public class MainActionBlockDropZoneView extends LinearLayout {
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
-			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock);
+			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock,
+					logicEditorConfiguration);
 
 			if (actionBlockBeanView == null)
 				continue;
@@ -172,7 +179,11 @@ public class MainActionBlockDropZoneView extends LinearLayout {
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			lp.setMargins(0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN), 0,
+			lp.setMargins(
+					0,
+					UnitUtils.dpToPx(
+							getContext(), BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN),
+					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);
 		}
