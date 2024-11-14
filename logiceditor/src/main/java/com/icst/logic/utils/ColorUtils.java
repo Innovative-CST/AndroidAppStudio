@@ -29,51 +29,39 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.editor.view;
+package com.icst.logic.utils;
 
+import android.R;
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-import com.icst.android.appstudio.beans.EventBean;
-import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.color.utilities.Blend;
 
-/* Main LogicEditor View */
-public class LogicEditorView extends LinearLayout {
+public class ColorUtils {
+	public static String harmonizeHexColor(Context context, String hexColor) {
+		int colorInt = Color.parseColor(hexColor);
+		int targetInt = getColor(context, R.attr.colorPrimary);
 
-	private EventBean event;
-	private LayoutLogicEditorBinding binding;
-	private boolean isBlockPallateVisible = false;
+		int harmonizedColorInt = Blend.harmonize(colorInt, targetInt);
 
-	public LogicEditorView(final Context context, final AttributeSet set) {
-		super(context, set);
-		binding = LayoutLogicEditorBinding.inflate(LayoutInflater.from(context));
-
-		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(
-				LogicEditorView.LayoutParams.MATCH_PARENT,
-				LogicEditorView.LayoutParams.MATCH_PARENT);
-		binding.getRoot().setLayoutParams(lp);
-
-		binding.fab.setOnClickListener(
-				v -> {
-					isBlockPallateVisible = !isBlockPallateVisible;
-					showBlocksPallete(isBlockPallateVisible);
-				});
-
-		addView(binding.getRoot());
+		return String.format("#%06X", (0xFFFFFF & harmonizedColorInt));
 	}
 
-	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
-		this.event = event;
-		binding.logicEditorCanvaView.openEventInCanva(event, configuration);
-	}
+	public static int getColor(Context context, int res) {
+		int color;
 
-	public void showBlocksPallete(boolean show) {
-		binding.blockArea.setVisibility(show ? VISIBLE : GONE);
-	}
-
-	public LogicEditorCanvaView getLogicEditorCanva() {
-		return binding.logicEditorCanvaView;
+		if (DynamicColors.isDynamicColorAvailable()) {
+			Resources.Theme theme = context.getTheme();
+			TypedArray typedArray = theme.obtainStyledAttributes(new int[] { res });
+			color = typedArray.getColor(0, 0);
+			typedArray.recycle();
+			if (color != 0) {
+				return color;
+			}
+		}
+		return MaterialColors.getColor(context, res, 0);
 	}
 }

@@ -33,6 +33,7 @@ package com.icst.logic.lib.view;
 
 import android.content.Context;
 import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
 
 public class BlockElementLayerBeanView extends LayerBeanView {
@@ -50,7 +51,8 @@ public class BlockElementLayerBeanView extends LayerBeanView {
 
 		setBackgroundDrawable(
 				ImageViewUtils.getImageView(
-						getContext(), getColor(), BlockImageUtils.getImage(image)));
+						getContext(), ColorUtils.harmonizeHexColor(getContext(), getColor()),
+						BlockImageUtils.getImage(image)));
 		invalidate();
 	}
 }

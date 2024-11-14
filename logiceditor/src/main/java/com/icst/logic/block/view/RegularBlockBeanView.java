@@ -42,6 +42,7 @@ import com.icst.logic.lib.builder.LayerBuilder;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
 import java.util.ArrayList;
 
@@ -80,7 +81,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 		header = new LinearLayout(context);
 		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(context, regularBlockBean.getColor(), res);
+		Drawable headerDrawable = ImageViewUtils.getImageView(context,
+				ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor()), res);
 		header.setBackgroundDrawable(headerDrawable);
 		addView(header);
 		header.setLayoutParams(headerLayoutParam);
@@ -155,7 +157,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		this.footer = new LinearLayout(context);
 		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
 		Drawable footerRes = ImageViewUtils.getImageView(
-				context, regularBlockBean.getColor(), footerBackDropRes);
+				context, ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor()), footerBackDropRes);
 		this.footer.setBackgroundDrawable(footerRes);
 		addView(this.footer);
 		this.footer.setLayoutParams(footerLayoutParam);
@@ -166,7 +168,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 		View footer = new LinearLayout(context);
 		int res = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
-		Drawable footerDrawable = ImageViewUtils.getImageView(context, regularBlockBean.getColor(), res);
+		Drawable footerDrawable = ImageViewUtils.getImageView(context,
+				ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor()), res);
 		footer.setBackgroundDrawable(footerDrawable);
 		addView(footer);
 		footer.setLayoutParams(lp);

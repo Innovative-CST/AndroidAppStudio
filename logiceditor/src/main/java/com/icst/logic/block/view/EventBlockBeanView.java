@@ -42,6 +42,7 @@ import com.icst.logic.lib.builder.LayerBuilder;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
 import java.util.ArrayList;
 
@@ -80,7 +81,8 @@ public class EventBlockBeanView extends LinearLayout {
 
 		header = new LinearLayout(context);
 		int res = BlockImageUtils.getImage(BlockImageUtils.Image.EVENT_BLOCK_ROUND_EDGE_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
+		Drawable headerDrawable = ImageViewUtils.getImageView(context,
+				ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor()), res);
 		header.setBackgroundDrawable(headerDrawable);
 		addView(header);
 		header.setLayoutParams(headerLayoutParam);
@@ -156,7 +158,8 @@ public class EventBlockBeanView extends LinearLayout {
 
 		this.footer = new LinearLayout(context);
 		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), footerBackDropRes);
+		Drawable footerRes = ImageViewUtils.getImageView(context,
+				ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor()), footerBackDropRes);
 		this.footer.setBackgroundDrawable(footerRes);
 		addView(this.footer);
 		this.footer.setLayoutParams(footerLayoutParam);
@@ -167,7 +170,8 @@ public class EventBlockBeanView extends LinearLayout {
 
 		View footer = new LinearLayout(context);
 		int res = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
-		Drawable footerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
+		Drawable footerDrawable = ImageViewUtils.getImageView(context,
+				ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor()), res);
 		footer.setBackgroundDrawable(footerDrawable);
 		addView(footer);
 		footer.setLayoutParams(lp);
