@@ -106,22 +106,20 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			layerView.setLayoutParams(mLayoutParam);
 			this.layers.add(layerView);
 
-			if (i == 0 && header != null) {
-				layerView
-						.getViewTreeObserver()
-						.addOnGlobalLayoutListener(
-								() -> {
-									headerLayoutParam = header.getLayoutParams();
-									headerLayoutParam.width = getMaxLayerWidth();
-									header.setLayoutParams(headerLayoutParam);
+			layerView
+					.getViewTreeObserver()
+					.addOnGlobalLayoutListener(
+							() -> {
+								headerLayoutParam = header.getLayoutParams();
+								headerLayoutParam.width = getMaxLayerWidth();
+								header.setLayoutParams(headerLayoutParam);
 
-									footerLayoutParam = footer.getLayoutParams();
-									footerLayoutParam.width = getMaxLayerWidth();
-									footer.setLayoutParams(footerLayoutParam);
+								footerLayoutParam = footer.getLayoutParams();
+								footerLayoutParam.width = getMaxLayerWidth();
+								footer.setLayoutParams(footerLayoutParam);
 
-									updateLayerWidthsToMax();
-								});
-			}
+								updateLayerWidthsToMax();
+							});
 		}
 
 		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(
@@ -156,7 +154,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 		this.footer = new LinearLayout(context);
 		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(context, regularBlockBean.getColor(), footerBackDropRes);
+		Drawable footerRes = ImageViewUtils.getImageView(
+				context, regularBlockBean.getColor(), footerBackDropRes);
 		this.footer.setBackgroundDrawable(footerRes);
 		addView(this.footer);
 		this.footer.setLayoutParams(footerLayoutParam);
