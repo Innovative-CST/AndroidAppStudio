@@ -40,20 +40,17 @@ public final class BlockImageUtils {
 			return R.drawable.event_blockbean_top;
 		} else if (Image.BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
 			return R.drawable.block_element_layer_backdrop;
-		} else if (Image.BLOCK_BOTTOM.ordinal() == image.ordinal()) {
-			return R.drawable.block_bottom;
+		} else if (Image.REGULAR_BLOCK_BOTTOM.ordinal() == image.ordinal()) {
+			return R.drawable.regular_block_bottom;
 		} else if (Image.ACTION_BLOCK_TOP.ordinal() == image.ordinal()) {
 			return R.drawable.action_block_top;
-		} else if (Image.TOP_BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
-			return R.drawable.top_block_element_layer_backdrop;
-		} else if (Image.EVENT_BLOCK_TOP_BLOCK_ELEMENT_LAYER_BACKDROP.ordinal() == image.ordinal()) {
-			return R.drawable.event_block_top_block_element_layer_backdrop;
-		} else {
+		} else if (Image.ACTION_BLOCK_BOTTOM.ordinal() == image.ordinal()) {
+			return R.drawable.action_block_bottom_backdrop;
+		} else
 			return 0;
-		}
 	}
 
 	public enum Image {
-		ACTION_BLOCK_TOP, EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, TOP_BLOCK_ELEMENT_LAYER_BACKDROP, EVENT_BLOCK_TOP_BLOCK_ELEMENT_LAYER_BACKDROP, BLOCK_BOTTOM;
+		ACTION_BLOCK_TOP, ACTION_BLOCK_BOTTOM, EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, REGULAR_BLOCK_BOTTOM;
 	}
 }

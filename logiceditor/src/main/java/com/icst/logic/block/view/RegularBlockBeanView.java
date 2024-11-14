@@ -52,7 +52,9 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
 	private View header;
+	private View footer;
 	private ViewGroup.LayoutParams headerLayoutParam;
+	private ViewGroup.LayoutParams footerLayoutParam;
 
 	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean) {
 		super(context);
@@ -60,6 +62,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		this.regularBlockBean = regularBlockBean;
 		layers = new ArrayList<LayerBeanView>();
 		layersView = new LinearLayout(context);
+		layersView.setOrientation(VERTICAL);
 		setOrientation(VERTICAL);
 		init();
 	}
@@ -92,8 +95,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(context, regularBlockBean, layers.get(i),
-					configuration);
+			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(
+					context, regularBlockBean, layers.get(i), configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
@@ -109,8 +112,14 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 						.addOnGlobalLayoutListener(
 								() -> {
 									headerLayoutParam = header.getLayoutParams();
-									headerLayoutParam.width = layerView.getWidth();
+									headerLayoutParam.width = getMaxLayerWidth();
 									header.setLayoutParams(headerLayoutParam);
+
+									footerLayoutParam = footer.getLayoutParams();
+									footerLayoutParam.width = getMaxLayerWidth();
+									footer.setLayoutParams(footerLayoutParam);
+
+									updateLayerWidthsToMax();
 								});
 			}
 		}
@@ -122,18 +131,50 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		layersView.setLayoutParams(lp);
 	}
 
+	private void updateLayerWidthsToMax() {
+		int maxWidth = getMaxLayerWidth();
+
+		for (LayerBeanView layer : layers) {
+			layer.setMinimumWidth(maxWidth);
+		}
+	}
+
+	// Method to calculate the maximum width from the list of layers
+	private int getMaxLayerWidth() {
+		int maxWidth = 0;
+		for (LayerBeanView layer : layers) {
+			layer.getWidth();
+			maxWidth = Math.max(layer.getWidth(), maxWidth);
+		}
+		return maxWidth;
+	}
+
 	private void addFooter() {
+		footerLayoutParam = new RegularBlockBeanView.LayoutParams(
+				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
+				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
+
+		this.footer = new LinearLayout(context);
+		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
+		Drawable footerRes = ImageViewUtils.getImageView(context, regularBlockBean.getColor(), footerBackDropRes);
+		this.footer.setBackgroundDrawable(footerRes);
+		addView(this.footer);
+		this.footer.setLayoutParams(footerLayoutParam);
 
 		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(
 				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
 				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
 
 		View footer = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_BOTTOM);
+		int res = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
 		Drawable footerDrawable = ImageViewUtils.getImageView(context, regularBlockBean.getColor(), res);
 		footer.setBackgroundDrawable(footerDrawable);
 		addView(footer);
 		footer.setLayoutParams(lp);
+
+		footerLayoutParam = new RegularBlockBeanView.LayoutParams(
+				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
+				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
 	}
 
 	private void setEventBlockBean(RegularBlockBean regularBlockBean) {

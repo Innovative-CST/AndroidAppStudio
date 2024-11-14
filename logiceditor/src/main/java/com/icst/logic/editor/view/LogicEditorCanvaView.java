@@ -95,6 +95,18 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		layer1.setBlockElementBeans(layer1Elements);
 
 		layers.add(layer1);
+
+		BlockElementLayerBean layer2 = new BlockElementLayerBean();
+		ArrayList<BlockElementBean> layer2Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel2 = new LabelBlockElementBean();
+		onTestLabel2.setLabel("showToast");
+
+		layer2Elements.add(onTestLabel2);
+		layer2.setBlockElementBeans(layer2Elements);
+
+		layers.add(layer2);
+
 		testRBlock.setLayers(layers);
 
 		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();

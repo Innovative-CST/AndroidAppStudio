@@ -115,7 +115,7 @@ public class EventBlockBeanView extends LinearLayout {
 				EventBlockBeanView.LayoutParams.WRAP_CONTENT);
 
 		View footer = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_BOTTOM);
+		int res = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
 		Drawable footerDrawable = ImageViewUtils.getImageView(context, eventBlockBean.getColor(), res);
 		footer.setBackgroundDrawable(footerDrawable);
 		addView(footer);

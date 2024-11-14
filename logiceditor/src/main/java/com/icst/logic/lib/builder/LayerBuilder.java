@@ -60,7 +60,6 @@ public final class LayerBuilder {
 			LogicEditorConfiguration configuration) {
 
 		BlockElementLayerBeanView view = new BlockElementLayerBeanView(context);
-		view.setOrientation(BlockElementLayerBeanView.HORIZONTAL);
 		view.setBlock(blockBean);
 		mBlockElementLayerBean
 				.getBlockElementBeans()
