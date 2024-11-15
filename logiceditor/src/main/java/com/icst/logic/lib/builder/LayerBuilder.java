@@ -32,6 +32,7 @@
 package com.icst.logic.lib.builder;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 import com.icst.android.appstudio.beans.BlockBean;
@@ -42,20 +43,26 @@ import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.BlockElementLayerBeanView;
 import com.icst.logic.lib.view.LayerBeanView;
+import com.icst.logic.utils.ColorUtils;
 
 public final class LayerBuilder {
 
 	public static LayerBeanView buildBlockLayerView(
-			Context context, BlockBean blockBean, LayerBean layerBean, LogicEditorConfiguration configuration) {
+			Context context,
+			BlockBean blockBean,
+			LayerBean layerBean,
+			LogicEditorConfiguration configuration) {
 		if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
-			return buildBlockElementLayerView(context, blockBean, mBlockElementLayerBean, configuration);
+			return buildBlockElementLayerView(
+					context, blockBean, mBlockElementLayerBean, configuration);
 		} else
 			return null;
 	}
 
 	// Build the block element layer
 	private static LayerBeanView buildBlockElementLayerView(
-			Context context, BlockBean blockBean,
+			Context context,
+			BlockBean blockBean,
 			BlockElementLayerBean mBlockElementLayerBean,
 			LogicEditorConfiguration configuration) {
 
@@ -66,10 +73,13 @@ public final class LayerBuilder {
 				.forEach(
 						element -> {
 							if (element instanceof LabelBlockElementBean labelBean) {
-								view.addView(buildLabelView(labelBean, context, configuration));
+								view.addView(
+										buildLabelView(
+												labelBean, blockBean, context, configuration));
 							} else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
 								view.addView(
-										buildExpressionBlockBeanView(mExpressionBlockBean, context, configuration));
+										buildExpressionBlockBeanView(
+												mExpressionBlockBean, context, configuration));
 							}
 						});
 
@@ -77,7 +87,10 @@ public final class LayerBuilder {
 	}
 
 	private static View buildLabelView(
-			LabelBlockElementBean labelBean, Context context, LogicEditorConfiguration configuration) {
+			LabelBlockElementBean labelBean,
+			BlockBean blockBean,
+			Context context,
+			LogicEditorConfiguration configuration) {
 
 		TextView labelTextView = new TextView(context);
 		labelTextView.setText(labelBean.getLabel());
@@ -86,6 +99,9 @@ public final class LayerBuilder {
 				LayerBeanView.LayoutParams.WRAP_CONTENT, // Width
 				LayerBeanView.LayoutParams.WRAP_CONTENT // Height
 		);
+		labelTextView.setTextColor(
+				ColorUtils.getTextColorForColor(Color.parseColor(
+						ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
 		labelTextView.setLayoutParams(layerLayoutParams);
 		labelTextView.setPadding(8, 8, 8, 8);
 		return labelTextView;

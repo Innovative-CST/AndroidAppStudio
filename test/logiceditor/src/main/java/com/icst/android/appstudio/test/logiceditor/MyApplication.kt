@@ -43,7 +43,7 @@ import java.io.File
 class MyApplication : Application() {
     override fun onCreate(): Unit {
         super.onCreate()
-        ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE)
+        ThemeEngine.getInstance(this).setStaticTheme(Theme.TEAL)
         ThemeEngine.applyToActivities(this)
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             var logFile: File = File(Environment.getExternalStorageDirectory(), "logicEditor.log")

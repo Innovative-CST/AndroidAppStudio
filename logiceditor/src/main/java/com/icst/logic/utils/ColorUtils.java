@@ -49,6 +49,11 @@ public class ColorUtils {
 
 		return String.format("#%06X", (0xFFFFFF & harmonizedColorInt));
 	}
+	
+	public static int getTextColorForColor(int color) {
+		double brightness = androidx.core.graphics.ColorUtils.calculateLuminance(color);
+		return brightness > 0.5 ? Color.BLACK : Color.WHITE;
+	}
 
 	public static int getColor(Context context, int res) {
 		int color;
