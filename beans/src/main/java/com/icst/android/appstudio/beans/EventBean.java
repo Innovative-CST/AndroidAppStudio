@@ -31,12 +31,15 @@
 
 package com.icst.android.appstudio.beans;
 
+import java.util.ArrayList;
+
 public class EventBean {
 	private String name;
 	private String title;
 	private String description;
 	private String abstractCode;
 	private EventBlockBean eventDefinationBlockBean;
+	private ArrayList<ActionBlockBean> actionBlockBeans;
 	private DatatypeBean[] importClasses;
 	private String holderName;
 	private byte[] icon;
@@ -103,5 +106,13 @@ public class EventBean {
 
 	public void setIcon(byte[] icon) {
 		this.icon = icon;
+	}
+
+	public ArrayList<ActionBlockBean> getActionBlockBeans() {
+		return this.actionBlockBeans;
+	}
+
+	public void setActionBlockBeans(ArrayList<ActionBlockBean> actionBlockBeans) {
+		this.actionBlockBeans = actionBlockBeans;
 	}
 }
