@@ -38,7 +38,7 @@ package com.icst.logic.bean;
 public abstract class ActionBlockDropZone extends BlockDropZone {
 
 	/**
-	 * @return Return false if last block in this drop zone is TerminatorBlock
+	 * @return Return true if last block in this drop zone is TerminatorBlock
 	 */
 	public abstract boolean isTerminated();
 }
