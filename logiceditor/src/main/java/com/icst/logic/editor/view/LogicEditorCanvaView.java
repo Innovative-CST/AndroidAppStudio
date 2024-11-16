@@ -35,14 +35,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import com.icst.android.appstudio.beans.ActionBlockBean;
-import com.icst.android.appstudio.beans.BlockElementBean;
-import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBean;
-import com.icst.android.appstudio.beans.LabelBlockElementBean;
-import com.icst.android.appstudio.beans.LayerBean;
-import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.lib.view.BlockDropZoneView;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import java.util.ArrayList;
 
@@ -61,12 +56,15 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		initializeCanva();
 	}
 
-	private void initializeCanva() {
+	public void initializeCanva() {
 		setAllowScroll(true);
 		setClipChildren(true);
 	}
 
-	public void openEventInCanva(EventBean eventBean, LogicEditorConfiguration logicEditorConfiguration) {
+	public void openEventInCanva(
+			EventBean eventBean,
+			LogicEditorConfiguration logicEditorConfiguration,
+			LogicEditorView logicEditor) {
 		this.eventBean = eventBean;
 		if (eventBean == null) {
 			removeAllViews();
@@ -74,48 +72,23 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		}
 
 		MainActionBlockDropZoneView mainChainDropZone = new MainActionBlockDropZoneView(
-				getContext(), eventBean.getEventDefinationBlockBean(), logicEditorConfiguration);
+				getContext(),
+				eventBean.getEventDefinationBlockBean(),
+				logicEditorConfiguration);
 		LogicEditorScrollView.LayoutParams lp = new LogicEditorScrollView.LayoutParams(
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
-		// Test
 
-		RegularBlockBean testRBlock = new RegularBlockBean();
-		testRBlock.setColor("#3345ff");
-		testRBlock.setDragAllowed(true);
-
-		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
-		BlockElementLayerBean layer1 = new BlockElementLayerBean();
-
-		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
-
-		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
-		onTestLabel.setLabel("showToast");
-
-		layer1Elements.add(onTestLabel);
-		layer1.setBlockElementBeans(layer1Elements);
-
-		layers.add(layer1);
-
-		BlockElementLayerBean layer2 = new BlockElementLayerBean();
-		ArrayList<BlockElementBean> layer2Elements = new ArrayList<BlockElementBean>();
-
-		LabelBlockElementBean onTestLabel2 = new LabelBlockElementBean();
-		onTestLabel2.setLabel("showToast");
-
-		layer2Elements.add(onTestLabel2);
-		layer2.setBlockElementBeans(layer2Elements);
-
-		layers.add(layer2);
-
-		testRBlock.setLayers(layers);
-
-		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
-		blocks.add(testRBlock);
-		mainChainDropZone.addActionBlocksBeans(blocks, 0);
+		mainChainDropZone.addActionBlocksBeans(eventBean.getActionBlockBeans(), 0);
 
 		addView(mainChainDropZone);
 		mainChainDropZone.setLayoutParams(lp);
+
+		// For ArrayList only, not for adding view in logic editor as it is done in
+		// Canva.
+		ArrayList<BlockDropZoneView> blockDropZones = new ArrayList<BlockDropZoneView>();
+		blockDropZones.add(mainChainDropZone);
+		logicEditor.setBlockDropZones(blockDropZones);
 	}
 
 	@Override

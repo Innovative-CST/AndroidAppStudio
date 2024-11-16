@@ -46,12 +46,13 @@ public class LogicEditorView extends LinearLayout {
 
 	private EventBean event;
 	private LayoutLogicEditorBinding binding;
-	private boolean isBlockPallateVisible = false;
 	private ArrayList<BlockDropZoneView> blockDropZones;
+	private boolean isBlockPallateVisible = false;
 
 	public LogicEditorView(final Context context, final AttributeSet set) {
 		super(context, set);
 		binding = LayoutLogicEditorBinding.inflate(LayoutInflater.from(context));
+		blockDropZones = new ArrayList<BlockDropZoneView>();
 
 		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(
 				LogicEditorView.LayoutParams.MATCH_PARENT,
@@ -69,7 +70,7 @@ public class LogicEditorView extends LinearLayout {
 
 	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
 		this.event = event;
-		binding.logicEditorCanvaView.openEventInCanva(event, configuration);
+		binding.logicEditorCanvaView.openEventInCanva(event, configuration, this);
 	}
 
 	public void showBlocksPallete(boolean show) {
@@ -78,5 +79,13 @@ public class LogicEditorView extends LinearLayout {
 
 	public LogicEditorCanvaView getLogicEditorCanva() {
 		return binding.logicEditorCanvaView;
+	}
+
+	public ArrayList<BlockDropZoneView> getBlockDropZones() {
+		return this.blockDropZones;
+	}
+
+	public void setBlockDropZones(ArrayList<BlockDropZoneView> blockDropZones) {
+		this.blockDropZones = blockDropZones;
 	}
 }

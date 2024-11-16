@@ -36,6 +36,8 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.LayerBean;
+import com.icst.android.appstudio.beans.RegularBlockBean;
 import java.util.ArrayList;
 
 public class DummyBeans {
@@ -45,6 +47,39 @@ public class DummyBeans {
 		event.setEventDefinationBlockBean(getDummyEventDefBlockBean());
 
 		return event;
+	}
+
+	public static RegularBlockBean getDummyBlock() {
+		RegularBlockBean testRBlock = new RegularBlockBean();
+		testRBlock.setColor("#3345ff");
+		testRBlock.setDragAllowed(true);
+
+		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+		onTestLabel.setLabel("showToast");
+
+		layer1Elements.add(onTestLabel);
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		BlockElementLayerBean layer2 = new BlockElementLayerBean();
+		ArrayList<BlockElementBean> layer2Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel2 = new LabelBlockElementBean();
+		onTestLabel2.setLabel("showToast");
+
+		layer2Elements.add(onTestLabel2);
+		layer2.setBlockElementBeans(layer2Elements);
+
+		layers.add(layer2);
+
+		testRBlock.setLayers(layers);
+		return testRBlock;
 	}
 
 	private static EventBlockBean getDummyEventDefBlockBean() {
