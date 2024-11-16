@@ -50,7 +50,7 @@ import com.icst.logic.utils.ActionBlockUtils;
 import com.icst.logic.utils.UnitUtils;
 import java.util.ArrayList;
 
-public class MainActionBlockDropZoneView extends LinearLayout {
+public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	private EventBlockBean eventDefination;
 	private EventBlockBeanView eventDefinationBlockView;
 	private Context context;

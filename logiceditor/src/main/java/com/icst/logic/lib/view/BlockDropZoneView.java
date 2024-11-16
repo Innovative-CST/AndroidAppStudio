@@ -29,54 +29,14 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.editor.view;
+package com.icst.logic.lib.view;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-import com.icst.android.appstudio.beans.EventBean;
-import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
-import com.icst.logic.lib.view.BlockDropZoneView;
-import java.util.ArrayList;
 
-/* Main LogicEditor View */
-public class LogicEditorView extends LinearLayout {
-
-	private EventBean event;
-	private LayoutLogicEditorBinding binding;
-	private boolean isBlockPallateVisible = false;
-	private ArrayList<BlockDropZoneView> blockDropZones;
-
-	public LogicEditorView(final Context context, final AttributeSet set) {
-		super(context, set);
-		binding = LayoutLogicEditorBinding.inflate(LayoutInflater.from(context));
-
-		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(
-				LogicEditorView.LayoutParams.MATCH_PARENT,
-				LogicEditorView.LayoutParams.MATCH_PARENT);
-		binding.getRoot().setLayoutParams(lp);
-
-		binding.fab.setOnClickListener(
-				v -> {
-					isBlockPallateVisible = !isBlockPallateVisible;
-					showBlocksPallete(isBlockPallateVisible);
-				});
-
-		addView(binding.getRoot());
-	}
-
-	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
-		this.event = event;
-		binding.logicEditorCanvaView.openEventInCanva(event, configuration);
-	}
-
-	public void showBlocksPallete(boolean show) {
-		binding.blockArea.setVisibility(show ? VISIBLE : GONE);
-	}
-
-	public LogicEditorCanvaView getLogicEditorCanva() {
-		return binding.logicEditorCanvaView;
+/** A view representing a block drop zone */
+public abstract class BlockDropZoneView extends LinearLayout {
+	public BlockDropZoneView(Context context) {
+		super(context);
 	}
 }

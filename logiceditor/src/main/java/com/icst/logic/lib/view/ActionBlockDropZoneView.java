@@ -46,7 +46,7 @@ import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
 import java.util.ArrayList;
 
-public class ActionBlockDropZoneView extends LinearLayout {
+public class ActionBlockDropZoneView extends BlockDropZoneView {
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
