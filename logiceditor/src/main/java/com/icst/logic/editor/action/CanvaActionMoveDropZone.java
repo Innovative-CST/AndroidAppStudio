@@ -35,30 +35,30 @@ import com.icst.logic.editor.CanvaAction;
 import com.icst.logic.lib.view.BlockDropZoneView;
 
 public class CanvaActionMoveDropZone implements CanvaAction {
-	private boolean oldPositionX;
-	private boolean oldPositionY;
+	private int oldPositionX;
+	private int oldPositionY;
 	private BlockDropZoneView dropZoneView;
 
 	public CanvaActionMoveDropZone(
-			boolean oldPositionX, boolean oldPositionY, BlockDropZoneView dropZoneView) {
+			int oldPositionX, int oldPositionY, BlockDropZoneView dropZoneView) {
 		this.oldPositionX = oldPositionX;
 		this.oldPositionY = oldPositionY;
 		this.dropZoneView = dropZoneView;
 	}
 
-	public boolean getOldPositionX() {
+	public int getOldPositionX() {
 		return this.oldPositionX;
 	}
 
-	public void setOldPositionX(boolean oldPositionX) {
+	public void setOldPositionX(int oldPositionX) {
 		this.oldPositionX = oldPositionX;
 	}
 
-	public boolean getOldPositionY() {
+	public int getOldPositionY() {
 		return this.oldPositionY;
 	}
 
-	public void setOldPositionY(boolean oldPositionY) {
+	public void setOldPositionY(int oldPositionY) {
 		this.oldPositionY = oldPositionY;
 	}
 
