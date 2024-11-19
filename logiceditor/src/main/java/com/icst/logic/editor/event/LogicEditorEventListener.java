@@ -29,35 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.block.view;
+package com.icst.logic.editor.event;
 
-import android.content.Context;
-import android.widget.LinearLayout;
-import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
-
-public class BlockBeanView extends LinearLayout {
-	private LogicEditorConfiguration logicEditorConfiguration;
-	private LogicEditorView logicEditor;
-
-	public BlockBeanView(
-			Context context,
-			LogicEditorConfiguration logicEditorConfiguration,
-			LogicEditorView logicEditor) {
-		super(context);
-		this.logicEditorConfiguration = logicEditorConfiguration;
-		this.logicEditor = logicEditor;
-	}
-
-	public LogicEditorConfiguration getLogicEditorConfiguration() {
-		return this.logicEditorConfiguration;
-	}
-
-	private boolean canDragged() {
-		return logicEditor != null;
-	}
-
-	public LogicEditorView getLogicEditor() {
-		return this.logicEditor;
-	}
+public abstract class LogicEditorEventListener {
 }

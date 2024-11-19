@@ -31,5 +31,8 @@
 
 package com.icst.logic.editor.event;
 
-public abstract class LogicEditorEvent {
+import com.icst.logic.block.view.BlockBeanView;
+
+public abstract class LogicEditorBlockDragStartEvent extends LogicEditorEventListener {
+	abstract void onBlockDragged(BlockBeanView draggedBlockView);
 }

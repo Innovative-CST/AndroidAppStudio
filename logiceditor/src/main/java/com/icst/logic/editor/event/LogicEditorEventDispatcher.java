@@ -31,16 +31,25 @@
 
 package com.icst.logic.editor.event;
 
+import com.icst.logic.block.view.BlockBeanView;
 import java.util.ArrayList;
 
-public class LogicEditorEventDispatcher {
-	private ArrayList<LogicEditorEvent> events;
+public class LogicEditorEventDispatcher extends LogicEditorEventListener {
+	private ArrayList<LogicEditorEventListener> listener;
 
-	public ArrayList<LogicEditorEvent> getEvents() {
-		return this.events;
+	public ArrayList<LogicEditorEventListener> getEventListener() {
+		return this.listener;
 	}
 
-	public void setEvents(ArrayList<LogicEditorEvent> events) {
-		this.events = events;
+	public void setEventListener(ArrayList<LogicEditorEventListener> listener) {
+		this.listener = listener;
+	}
+
+	public void onBlockDragged(BlockBeanView blockView) {
+		for (LogicEditorEventListener eventListener : listener) {
+			if (eventListener instanceof LogicEditorBlockDragStartEvent draggedEvent) {
+				draggedEvent.onBlockDragged(blockView);
+			}
+		}
 	}
 }

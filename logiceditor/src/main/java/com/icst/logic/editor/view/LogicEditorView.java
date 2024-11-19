@@ -36,10 +36,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.EventBean;
+import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.editor.HistoryManager;
 import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
-import com.icst.logic.editor.event.LogicEditorEvent;
 import com.icst.logic.editor.event.LogicEditorEventDispatcher;
+import com.icst.logic.editor.event.LogicEditorEventListener;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.BlockDropZoneView;
 import java.util.ArrayList;
@@ -80,16 +81,23 @@ public class LogicEditorView extends LinearLayout {
 		binding.logicEditorCanvaView.openEventInCanva(event, configuration, this);
 	}
 
-	public void addLogicEditorEventListener(LogicEditorEvent event) {
-		eventDispatcher.getEvents().add(event);
+	public void dragBlock(BlockBeanView block) {
+		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
+		eventDispatcher.onBlockDragged(block);
+		// TODO: Drag block logic...
 	}
 
-	public void removeLogicEditorEventListener(LogicEditorEvent event) {
-		eventDispatcher.getEvents().remove(event);
+	public void addLogicEditorEventListener(
+			LogicEditorEventListener eventListener) {
+		eventDispatcher.getEventListener().add(eventListener);
+	}
+
+	public void removeLogicEditorEventListener(LogicEditorEventListener listener) {
+		eventDispatcher.getEventListener().remove(listener);
 	}
 
 	public void removeAllLogicEditorEventListener() {
-		eventDispatcher.getEvents().clear();
+		eventDispatcher.getEventListener().clear();
 	}
 
 	public void showBlocksPallete(boolean show) {
