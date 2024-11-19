@@ -41,6 +41,7 @@ import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.EventBlockBeanView;
 import com.icst.logic.core.BlockMarginConstants;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.exception.EventDefinationBlockNotFound;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
@@ -56,16 +57,14 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
-	private LogicEditorConfiguration logicEditorConfiguration;
 
 	public MainActionBlockDropZoneView(
 			Context context,
 			EventBlockBean eventDefination,
-			LogicEditorConfiguration logicEditorConfiguration) {
-		super(context);
+			LogicEditorConfiguration logicEditorConfiguration, LogicEditorView logicEditor) {
+		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
 		this.eventDefination = eventDefination;
-		this.logicEditorConfiguration = logicEditorConfiguration;
 
 		setOrientation(VERTICAL);
 
@@ -73,7 +72,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			throw new EventDefinationBlockNotFound();
 		}
 
-		eventDefinationBlockView = new EventBlockBeanView(context, eventDefination);
+		eventDefinationBlockView = new EventBlockBeanView(context, eventDefination, getConfiguration(),
+				getLogicEditor());
 
 		addView(eventDefinationBlockView);
 		LinearLayout.LayoutParams eventDefBlockLp = new LinearLayout.LayoutParams(
@@ -166,7 +166,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock,
-					logicEditorConfiguration);
+					getConfiguration(), getLogicEditor());
 
 			if (actionBlockBeanView == null)
 				continue;

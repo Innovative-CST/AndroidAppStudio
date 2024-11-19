@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.builder.LayerBuilder;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.LayerBeanView;
@@ -46,7 +47,7 @@ import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
 import java.util.ArrayList;
 
-public class EventBlockBeanView extends LinearLayout {
+public class EventBlockBeanView extends BlockBeanView {
 	private Context context;
 	private EventBlockBean eventBlockBean;
 	private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
@@ -58,8 +59,9 @@ public class EventBlockBeanView extends LinearLayout {
 	private ViewGroup.LayoutParams headerLayoutParam;
 	private ViewGroup.LayoutParams footerLayoutParam;
 
-	public EventBlockBeanView(Context context, EventBlockBean eventBlockBean) {
-		super(context);
+	public EventBlockBeanView(Context context, EventBlockBean eventBlockBean, LogicEditorConfiguration configuration,
+			LogicEditorView logicEditor) {
+		super(context, configuration, logicEditor);
 		this.context = context;
 		this.eventBlockBean = eventBlockBean;
 		layers = new ArrayList<LayerBeanView>();

@@ -39,6 +39,7 @@ import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.core.BlockMarginConstants;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
@@ -50,11 +51,12 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
-	private LogicEditorConfiguration logicEditorConfiguration;
 
-	public ActionBlockDropZoneView(Context context, LogicEditorConfiguration logicEditorConfiguration) {
-		super(context);
-		this.logicEditorConfiguration = logicEditorConfiguration;
+	public ActionBlockDropZoneView(
+			Context context,
+			LogicEditorConfiguration logicEditorConfiguration,
+			LogicEditorView logicEditor) {
+		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
 		setOrientation(VERTICAL);
 		blockBeans = new ArrayList<ActionBlockBean>();
@@ -130,7 +132,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock,
-					logicEditorConfiguration);
+					getConfiguration(), getLogicEditor());
 
 			if (actionBlockBeanView == null)
 				continue;

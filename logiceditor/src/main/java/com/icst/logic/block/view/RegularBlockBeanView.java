@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.builder.LayerBuilder;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.LayerBeanView;
@@ -57,8 +58,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private ViewGroup.LayoutParams footerLayoutParam;
 
 	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean,
-			LogicEditorConfiguration logicEditorConfiguration) {
-		super(context, logicEditorConfiguration);
+			LogicEditorConfiguration logicEditorConfiguration, LogicEditorView logicEditor) {
+		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
 		this.regularBlockBean = regularBlockBean;
 		layers = new ArrayList<LayerBeanView>();

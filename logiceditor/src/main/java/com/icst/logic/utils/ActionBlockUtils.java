@@ -36,13 +36,14 @@ import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 
 public final class ActionBlockUtils {
 	public static ActionBlockBeanView getBlockView(Context context, ActionBlockBean actionBlock,
-			LogicEditorConfiguration logicEditorConfiguration) {
+			LogicEditorConfiguration logicEditorConfiguration, LogicEditorView logicEditor) {
 		if (actionBlock instanceof RegularBlockBean regularBlockBean) {
-			return new RegularBlockBeanView(context, regularBlockBean, logicEditorConfiguration);
+			return new RegularBlockBeanView(context, regularBlockBean, logicEditorConfiguration, logicEditor);
 		} else
 			return null;
 	}

@@ -33,10 +33,26 @@ package com.icst.logic.lib.view;
 
 import android.content.Context;
 import android.widget.LinearLayout;
+import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 
 /** A view representing a block drop zone */
 public abstract class BlockDropZoneView extends LinearLayout {
-	public BlockDropZoneView(Context context) {
+	private LogicEditorConfiguration configuration;
+	private LogicEditorView logicEditor;
+
+	public BlockDropZoneView(
+			Context context, LogicEditorConfiguration configuration, LogicEditorView logicEditor) {
 		super(context);
+		this.configuration = configuration;
+		this.logicEditor = logicEditor;
+	}
+
+	public LogicEditorConfiguration getConfiguration() {
+		return this.configuration;
+	}
+
+	public LogicEditorView getLogicEditor() {
+		return this.logicEditor;
 	}
 }
