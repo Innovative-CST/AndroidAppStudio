@@ -32,10 +32,18 @@
 package com.icst.logic.block.view;
 
 import android.content.Context;
+import android.widget.LinearLayout;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 
-public class ActionBlockBeanView extends BlockBeanView {
-	public ActionBlockBeanView(Context context, LogicEditorConfiguration logicEditorConfiguration) {
-		super(context, logicEditorConfiguration);
+public class BlockBeanView extends LinearLayout {
+	private LogicEditorConfiguration logicEditorConfiguration;
+
+	public BlockBeanView(Context context, LogicEditorConfiguration logicEditorConfiguration) {
+		super(context);
+		this.logicEditorConfiguration = logicEditorConfiguration;
+	}
+
+	public LogicEditorConfiguration getLogicEditorConfiguration() {
+		return this.logicEditorConfiguration;
 	}
 }
