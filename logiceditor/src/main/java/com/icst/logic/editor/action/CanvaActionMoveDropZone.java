@@ -29,66 +29,44 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.editor.view;
+package com.icst.logic.editor.action;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-import com.icst.android.appstudio.beans.EventBean;
-import com.icst.logic.editor.HistoryManager;
-import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.editor.CanvaAction;
 import com.icst.logic.lib.view.BlockDropZoneView;
-import java.util.ArrayList;
 
-/* Main LogicEditor View */
-public class LogicEditorView extends LinearLayout {
+public class CanvaActionMoveDropZone implements CanvaAction {
+	private boolean oldPositionX;
+	private boolean oldPositionY;
+	private BlockDropZoneView dropZoneView;
 
-	private EventBean event;
-	private LayoutLogicEditorBinding binding;
-	private ArrayList<BlockDropZoneView> blockDropZones;
-	private HistoryManager historyManager;
-	private boolean isBlockPallateVisible = false;
-
-	public LogicEditorView(final Context context, final AttributeSet set) {
-		super(context, set);
-		binding = LayoutLogicEditorBinding.inflate(LayoutInflater.from(context));
-		blockDropZones = new ArrayList<BlockDropZoneView>();
-
-		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(
-				LogicEditorView.LayoutParams.MATCH_PARENT,
-				LogicEditorView.LayoutParams.MATCH_PARENT);
-		binding.getRoot().setLayoutParams(lp);
-
-		binding.fab.setOnClickListener(
-				v -> {
-					isBlockPallateVisible = !isBlockPallateVisible;
-					showBlocksPallete(isBlockPallateVisible);
-				});
-
-		addView(binding.getRoot());
+	public CanvaActionMoveDropZone(
+			boolean oldPositionX, boolean oldPositionY, BlockDropZoneView dropZoneView) {
+		this.oldPositionX = oldPositionX;
+		this.oldPositionY = oldPositionY;
+		this.dropZoneView = dropZoneView;
 	}
 
-	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
-		this.event = event;
-		this.historyManager = new HistoryManager(this);
-		binding.logicEditorCanvaView.openEventInCanva(event, configuration, this);
+	public boolean getOldPositionX() {
+		return this.oldPositionX;
 	}
 
-	public void showBlocksPallete(boolean show) {
-		binding.blockArea.setVisibility(show ? VISIBLE : GONE);
+	public void setOldPositionX(boolean oldPositionX) {
+		this.oldPositionX = oldPositionX;
 	}
 
-	public LogicEditorCanvaView getLogicEditorCanva() {
-		return binding.logicEditorCanvaView;
+	public boolean getOldPositionY() {
+		return this.oldPositionY;
 	}
 
-	public ArrayList<BlockDropZoneView> getBlockDropZones() {
-		return this.blockDropZones;
+	public void setOldPositionY(boolean oldPositionY) {
+		this.oldPositionY = oldPositionY;
 	}
 
-	public void setBlockDropZones(ArrayList<BlockDropZoneView> blockDropZones) {
-		this.blockDropZones = blockDropZones;
+	public BlockDropZoneView getDropZoneView() {
+		return this.dropZoneView;
+	}
+
+	public void setDropZoneView(BlockDropZoneView dropZoneView) {
+		this.dropZoneView = dropZoneView;
 	}
 }
