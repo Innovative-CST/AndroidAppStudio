@@ -29,29 +29,10 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.android.appstudio.beans.utils;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
-import java.io.Serializable;
-import java.util.ArrayList;
-
-/**
- * A basic BlockBean model that just hold fields layer (not nested block) and
- * does not return any
- * code from it.
- */
-public abstract class BaseBlockBean extends BlockBean implements Serializable {
-
-	public static final long serialVersionUID = SerializationUIDConstants.BASE_BLOCK_BEAN;
-
-	/** All the layers of block elememts that holds content of block. */
-	private ArrayList<BlockElementLayerBean> elementsLayers;
-
-	public ArrayList<BlockElementLayerBean> getElementsLayers() {
-		return this.elementsLayers;
-	}
-
-	public void setElementsLayers(ArrayList<BlockElementLayerBean> elementsLayers) {
-		this.elementsLayers = elementsLayers;
-	}
+public class SerializationUIDConstants {
+	public static final long BLOCK_BEAN = 1L;
+	public static final long BASE_BLOCK_BEAN = 2L;
+	public static final long ACTION_BLOCK_BEAN = 3L;
 }

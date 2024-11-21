@@ -31,10 +31,14 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** ActionBlockBean, BlockBean that perform action. */
-public abstract class ActionBlockBean extends BlockBean {
+public abstract class ActionBlockBean extends BlockBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.ACTION_BLOCK_BEAN;
 
 	/** All the layers of block that holds content of block. */
 	private ArrayList<LayerBean> layers;

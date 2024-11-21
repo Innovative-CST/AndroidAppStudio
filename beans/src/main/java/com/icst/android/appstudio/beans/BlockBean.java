@@ -31,11 +31,16 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
 /**
  * Abstract class representing the base block supposed to be used within the
  * LogicEditor.
  */
-public abstract class BlockBean {
+public abstract class BlockBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
 
 	private String blockBeanKey;
 
@@ -88,8 +93,8 @@ public abstract class BlockBean {
 	 * Sets whether dragging the block is allowed. Supposed to be used only by
 	 * internal library and
 	 * for purpose of pre-build EventBean. You must see its implementation somewhere
-	 * in app, guess its
-	 * usage because it is not designed mainly for consumers.
+	 * in app, guess
+	 * its usage because it is not designed mainly for consumers.
 	 *
 	 * @param dragAllowed
 	 *            true to allow dragging, false otherwise.
