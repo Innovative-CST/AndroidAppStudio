@@ -31,12 +31,18 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
 /**
  * A class of Datatype, to compare that the two Datatypes are different or not
  * by comparing class
  * name and import. This Bean can also be used to store data.
  */
-public class DatatypeBean {
+public class DatatypeBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.DATATYPE_BEAN_BEAN;
+
 	private String className;
 	private String classImport;
 	private boolean isImportNecessary;

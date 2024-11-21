@@ -31,9 +31,14 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class EventBean {
+public class EventBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.EVENT_BEAN;
+
 	private String name;
 	private String title;
 	private String description;

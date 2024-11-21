@@ -42,4 +42,6 @@ public class SerializationUIDConstants {
 	public static final long LAYER_BEAN = 1L;
 	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
 	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
+	public static final long DATATYPE_BEAN_BEAN = 1L;
+	public static final long EVENT_BEAN = 1L;
 }
