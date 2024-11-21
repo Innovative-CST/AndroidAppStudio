@@ -42,9 +42,6 @@ public abstract class BlockBean {
 	// The color of the block
 	private String color;
 
-	// Whether the block is currently inside the LogicEditorCanva
-	private boolean insideEditor;
-
 	// Whether the block can be dragged
 	private boolean dragAllowed;
 
@@ -76,27 +73,6 @@ public abstract class BlockBean {
 	 */
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	/**
-	 * Checks if the block is inside the LogicEditorCanva.
-	 *
-	 * @return true if the block is inside the editor, false otherwise.
-	 */
-	public boolean isInsideEditor() {
-		return insideEditor;
-	}
-
-	/**
-	 * Sets the inside editor state of the block. Supposed to be used only by
-	 * internal library not by
-	 * library consumers.
-	 *
-	 * @param insideEditor
-	 *            true if the block is inside the LogicEditorCanva, false otherwise.
-	 */
-	public void setInsideEditor(boolean insideEditor) {
-		this.insideEditor = insideEditor;
 	}
 
 	/**

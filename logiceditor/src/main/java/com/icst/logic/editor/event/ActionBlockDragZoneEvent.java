@@ -29,44 +29,11 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.block.view;
+package com.icst.logic.editor.event;
 
-import android.content.Context;
-import android.widget.LinearLayout;
-import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.bean.ActionBlockDropZone;
 
-public class BlockBeanView extends LinearLayout {
-	private LogicEditorConfiguration logicEditorConfiguration;
-	private LogicEditorView logicEditor;
-	private boolean isInsideCanva;
-
-	public BlockBeanView(
-			Context context,
-			LogicEditorConfiguration logicEditorConfiguration,
-			LogicEditorView logicEditor) {
-		super(context);
-		this.logicEditorConfiguration = logicEditorConfiguration;
-		this.logicEditor = logicEditor;
-	}
-
-	public LogicEditorConfiguration getLogicEditorConfiguration() {
-		return this.logicEditorConfiguration;
-	}
-
-	private boolean canDragged() {
-		return logicEditor != null;
-	}
-
-	public LogicEditorView getLogicEditor() {
-		return this.logicEditor;
-	}
-
-	public boolean isInsideCanva() {
-		return this.isInsideCanva;
-	}
-
-	public void setInsideCanva(boolean isInsideCanva) {
-		this.isInsideCanva = isInsideCanva;
-	}
+public abstract class ActionBlockDragZoneEvent extends LogicEditorEventListener {
+	abstract void onDragStart(ActionBlockDropZone actionBlockDropZone, ActionBlockDropZone draggedFrom,
+			int indexFromDrag);
 }

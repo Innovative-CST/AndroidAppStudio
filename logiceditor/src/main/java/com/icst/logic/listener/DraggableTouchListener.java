@@ -29,44 +29,77 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.block.view;
+package com.icst.logic.listener;
 
-import android.content.Context;
-import android.widget.LinearLayout;
+import android.os.Handler;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.utils.CanvaMathUtils;
 
-public class BlockBeanView extends LinearLayout {
-	private LogicEditorConfiguration logicEditorConfiguration;
+public class DraggableTouchListener implements View.OnTouchListener {
+
 	private LogicEditorView logicEditor;
-	private boolean isInsideCanva;
+	private View touchingView;
+	private boolean isDragging;
+	private Runnable dragStartRunnable;
+	private Handler dragHandler;
+	private float x, y;
 
-	public BlockBeanView(
-			Context context,
-			LogicEditorConfiguration logicEditorConfiguration,
-			LogicEditorView logicEditor) {
-		super(context);
-		this.logicEditorConfiguration = logicEditorConfiguration;
+	public DraggableTouchListener(LogicEditorView logicEditor) {
 		this.logicEditor = logicEditor;
-	}
-
-	public LogicEditorConfiguration getLogicEditorConfiguration() {
-		return this.logicEditorConfiguration;
-	}
-
-	private boolean canDragged() {
-		return logicEditor != null;
+		dragStartRunnable = new Runnable() {
+			@Override
+			public void run() {
+				if (touchingView instanceof RegularBlockBeanView regularBlockBeanView) {
+					isDragging = true;
+					getLogicEditor().setDraggingView(regularBlockBeanView, x, y);
+				}
+			}
+		};
+		dragHandler = new Handler();
 	}
 
 	public LogicEditorView getLogicEditor() {
 		return this.logicEditor;
 	}
 
-	public boolean isInsideCanva() {
-		return this.isInsideCanva;
+	public void setLogicEditor(LogicEditorView logicEditor) {
+		this.logicEditor = logicEditor;
 	}
 
-	public void setInsideCanva(boolean isInsideCanva) {
-		this.isInsideCanva = isInsideCanva;
+	@Override
+	public boolean onTouch(View view, MotionEvent motionEvent) {
+		touchingView = view;
+		x = motionEvent.getX()
+				+ CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[0] - 100;
+		y = motionEvent.getY()
+				+ CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[1] - 100;
+
+		switch (motionEvent.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				if (!isDragging) {
+					dragHandler.postDelayed(
+							dragStartRunnable, ViewConfiguration.getLongPressTimeout());
+				}
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (isDragging) {
+					getLogicEditor().moveDraggingView(this.x, this.y);
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+				if (isDragging) {
+					getLogicEditor().dropDraggingView(this.x, this.y);
+				}
+				isDragging = false;
+				touchingView = null;
+				dragHandler.removeCallbacks(dragStartRunnable);
+				break;
+		}
+
+		return true;
 	}
 }

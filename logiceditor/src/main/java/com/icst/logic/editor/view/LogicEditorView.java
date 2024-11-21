@@ -34,25 +34,31 @@ package com.icst.logic.editor.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.EventBean;
-import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.editor.HistoryManager;
 import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
 import com.icst.logic.editor.event.LogicEditorEventDispatcher;
 import com.icst.logic.editor.event.LogicEditorEventListener;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.BlockDropZoneView;
+import com.icst.logic.listener.DraggableTouchListener;
 import java.util.ArrayList;
 
 /* Main LogicEditor View */
-public class LogicEditorView extends LinearLayout {
+public class LogicEditorView extends RelativeLayout {
 
 	private EventBean event;
 	private LayoutLogicEditorBinding binding;
 	private ArrayList<BlockDropZoneView> blockDropZones;
 	private HistoryManager historyManager;
 	private LogicEditorEventDispatcher eventDispatcher;
+	private DraggableTouchListener mDraggableTouchListener;
+	private View draggingView;
 	private boolean isBlockPallateVisible = false;
 
 	public LogicEditorView(final Context context, final AttributeSet set) {
@@ -60,7 +66,7 @@ public class LogicEditorView extends LinearLayout {
 		binding = LayoutLogicEditorBinding.inflate(LayoutInflater.from(context));
 		blockDropZones = new ArrayList<BlockDropZoneView>();
 		eventDispatcher = new LogicEditorEventDispatcher();
-
+		mDraggableTouchListener = new DraggableTouchListener(this);
 		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(
 				LogicEditorView.LayoutParams.MATCH_PARENT,
 				LogicEditorView.LayoutParams.MATCH_PARENT);
@@ -75,20 +81,60 @@ public class LogicEditorView extends LinearLayout {
 		addView(binding.getRoot());
 	}
 
+	public void setDraggingView(View draggingView, float x, float y) {
+		if (draggingView == null)
+			return;
+		this.draggingView = draggingView;
+		if (draggingView.getParent() != null) {
+			if (draggingView.getParent() instanceof ViewGroup parent) {
+				parent.removeView(draggingView);
+			}
+		}
+
+		addView(draggingView);
+		draggingView.setX(x);
+		draggingView.setY(y);
+	}
+
+	public void moveDraggingView(float x, float y) {
+		draggingView.setX(x);
+		draggingView.setY(y);
+		draggingView.requestLayout();
+	}
+
+	public void dropDraggingView(float x, float y) {
+		if (draggingView.getParent() != null) {
+			if (draggingView.getParent() instanceof ViewGroup parent) {
+				parent.removeView(draggingView);
+			}
+		}
+	}
+
 	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
 		this.event = event;
 		this.historyManager = new HistoryManager(this);
 		binding.logicEditorCanvaView.openEventInCanva(event, configuration, this);
 	}
 
-	public void dragBlock(BlockBeanView block) {
+	public void dragBlockBean(BlockBean blockBean, float x, float y) {
 		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
-		eventDispatcher.onBlockDragged(block);
+		eventDispatcher.onBlockDragged(blockBean);
 		// TODO: Drag block logic...
 	}
 
-	public void addLogicEditorEventListener(
-			LogicEditorEventListener eventListener) {
+	public void dragBlockBeans(ArrayList<BlockBean> blockBeans, float x, float y) {
+	}
+
+	public void dragActionBlockDropZone(
+			ActionBlockDropZone actionBlockDropZone,
+			ActionBlockDropZone draggedFrom,
+			int indexOfDrag) {
+		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
+		eventDispatcher.onActionBlockDropZoneDragged(actionBlockDropZone, draggedFrom, indexOfDrag);
+		// TODO: Action block drop zone block logic...
+	}
+
+	public void addLogicEditorEventListener(LogicEditorEventListener eventListener) {
 		eventDispatcher.getEventListener().add(eventListener);
 	}
 
@@ -114,5 +160,9 @@ public class LogicEditorView extends LinearLayout {
 
 	public void setBlockDropZones(ArrayList<BlockDropZoneView> blockDropZones) {
 		this.blockDropZones = blockDropZones;
+	}
+
+	public DraggableTouchListener getDraggableTouchListener() {
+		return this.mDraggableTouchListener;
 	}
 }
