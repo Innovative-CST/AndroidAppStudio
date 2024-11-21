@@ -31,8 +31,14 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
 /** A simple BlockElement that just display text on block */
-public class LabelBlockElementBean implements BlockElementBean {
+public class LabelBlockElementBean implements BlockElementBean, Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.LABEL_BLOCK_ELEMENT_BEAN;
+
 	private String label;
 
 	public String getLabel() {
