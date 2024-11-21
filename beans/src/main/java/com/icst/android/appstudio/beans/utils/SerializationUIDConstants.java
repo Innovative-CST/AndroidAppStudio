@@ -33,6 +33,6 @@ package com.icst.android.appstudio.beans.utils;
 
 public class SerializationUIDConstants {
 	public static final long BLOCK_BEAN = 1L;
-	public static final long BASE_BLOCK_BEAN = 2L;
-	public static final long ACTION_BLOCK_BEAN = 3L;
+	public static final long BASE_BLOCK_BEAN = 1L;
+	public static final long ACTION_BLOCK_BEAN = 1L;
 }
