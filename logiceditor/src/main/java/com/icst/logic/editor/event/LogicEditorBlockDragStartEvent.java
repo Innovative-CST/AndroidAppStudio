@@ -31,8 +31,8 @@
 
 package com.icst.logic.editor.event;
 
-import com.icst.logic.block.view.BlockBeanView;
+import com.icst.android.appstudio.beans.BlockBean;
 
 public abstract class LogicEditorBlockDragStartEvent extends LogicEditorEventListener {
-	abstract void onBlockDragged(BlockBeanView draggedBlockView);
+	abstract void onBlockDragged(BlockBean blockBean);
 }

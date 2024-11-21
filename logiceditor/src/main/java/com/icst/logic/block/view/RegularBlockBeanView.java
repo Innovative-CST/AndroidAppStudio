@@ -73,6 +73,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		addHeader();
 		addLayers();
 		addFooter();
+		setOnTouchListener(getLogicEditor().getDraggableTouchListener());
 	}
 
 	private void addHeader() {
@@ -174,16 +175,16 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		footer.setBackgroundDrawable(footerDrawable);
 		addView(footer);
 		footer.setLayoutParams(lp);
-
-		footerLayoutParam = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
 	}
 
-	private void setEventBlockBean(RegularBlockBean regularBlockBean) {
+	public void setRegularBlockBean(RegularBlockBean regularBlockBean) {
 		this.regularBlockBean = regularBlockBean;
 		layers = new ArrayList<LayerBeanView>();
 		removeAllViews();
 		init();
+	}
+
+	public RegularBlockBean getRegularBlockBean() {
+		return regularBlockBean;
 	}
 }

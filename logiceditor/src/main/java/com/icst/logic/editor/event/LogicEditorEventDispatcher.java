@@ -31,7 +31,8 @@
 
 package com.icst.logic.editor.event;
 
-import com.icst.logic.block.view.BlockBeanView;
+import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.logic.bean.ActionBlockDropZone;
 import java.util.ArrayList;
 
 public class LogicEditorEventDispatcher extends LogicEditorEventListener {
@@ -45,10 +46,21 @@ public class LogicEditorEventDispatcher extends LogicEditorEventListener {
 		this.listener = listener;
 	}
 
-	public void onBlockDragged(BlockBeanView blockView) {
+	public void onBlockDragged(BlockBean blockBean) {
 		for (LogicEditorEventListener eventListener : listener) {
 			if (eventListener instanceof LogicEditorBlockDragStartEvent draggedEvent) {
-				draggedEvent.onBlockDragged(blockView);
+				draggedEvent.onBlockDragged(blockBean);
+			}
+		}
+	}
+
+	public void onActionBlockDropZoneDragged(
+			ActionBlockDropZone draggingActionBlockDropZone,
+			ActionBlockDropZone draggedFrom,
+			int index) {
+		for (LogicEditorEventListener eventListener : listener) {
+			if (eventListener instanceof ActionBlockDragZoneEvent actionBlockDragZoneEvent) {
+				actionBlockDragZoneEvent.onDragStart(draggingActionBlockDropZone, draggedFrom, index);
 			}
 		}
 	}

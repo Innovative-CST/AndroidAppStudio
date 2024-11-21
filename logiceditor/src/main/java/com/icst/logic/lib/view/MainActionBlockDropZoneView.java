@@ -167,6 +167,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock,
 					getConfiguration(), getLogicEditor());
+			actionBlockBeanView.setInsideCanva(true);
 
 			if (actionBlockBeanView == null)
 				continue;
