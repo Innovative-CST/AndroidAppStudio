@@ -39,4 +39,7 @@ public class SerializationUIDConstants {
 	public static final long EXPRESSION_BLOCK_BEAN = 1L;
 	public static final long REGULAR_BLOCK_BEAN = 1L;
 	public static final long TERMINATOR_BLOCK_BEAN = 1L;
+	public static final long LAYER_BEAN = 1L;
+	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
+	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
 }

@@ -31,6 +31,9 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
 /**
  * A abstract class, to be inherited by types Layer, It provides a interface for
  * types of Layer of
@@ -39,5 +42,6 @@ package com.icst.android.appstudio.beans;
  * rendered below from point of new layer (e.g: Like we press enter to put long
  * text on next line)
  */
-public abstract class LayerBean {
+public abstract class LayerBean implements Serializable {
+	public static final long serialVersionUID = SerializationUIDConstants.LAYER_BEAN;
 }

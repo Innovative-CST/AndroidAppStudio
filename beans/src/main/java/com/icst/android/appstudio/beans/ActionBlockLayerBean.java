@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +40,10 @@ import java.util.ArrayList;
  * TerminatorBlockBean. Used to store the
  * nested BlockBeans, and does not hold BlockElementBean directly into it.
  */
-public class ActionBlockLayerBean extends LayerBean {
+public class ActionBlockLayerBean extends LayerBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.ACTION_ELEMENT_LAYER_BEAN;
+
 	private ArrayList<ActionBlockBean> actionBlockBean;
 
 	public ArrayList<ActionBlockBean> getActionBlockBean() {

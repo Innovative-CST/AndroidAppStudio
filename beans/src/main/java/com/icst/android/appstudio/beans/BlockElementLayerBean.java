@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +40,10 @@ import java.util.ArrayList;
  * block elements but
  * does not hold nested blocks.
  */
-public class BlockElementLayerBean extends LayerBean {
+public class BlockElementLayerBean extends LayerBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_ELEMENT_LAYER_BEAN;
+
 	private ArrayList<BlockElementBean> blockElementBeans;
 
 	public ArrayList<BlockElementBean> getBlockElementBeans() {
