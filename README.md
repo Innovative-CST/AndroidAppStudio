@@ -1,5 +1,10 @@
 # Android AppStudio
 
+<div align="center">
+  <img src="app/src/main/res/drawable-xxxhdpi/logo.jpg" alt="App Logo" style="width: 60%; height: auto; margin: 5px; border-radius: 0.5em;">
+</div>
+
+
 [![Android CI](https://github.com/Innovative-CST/AndroidAppStudio/actions/workflows/android.yml/badge.svg)](https://github.com/Innovative-CST/AndroidAppStudio/actions/workflows/android.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/94a4082a551c496cae031bcdb6f2040d)](https://codacy.com/gh/Innovative-CST/AndroidAppStudio/dashboard)
 ![Commit Activity](https://img.shields.io/github/commit-activity/m/TS-Code-Editor/AndroidAppStudio)
