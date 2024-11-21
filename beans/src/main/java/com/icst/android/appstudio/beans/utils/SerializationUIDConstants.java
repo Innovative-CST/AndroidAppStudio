@@ -35,4 +35,7 @@ public class SerializationUIDConstants {
 	public static final long BLOCK_BEAN = 1L;
 	public static final long BASE_BLOCK_BEAN = 1L;
 	public static final long ACTION_BLOCK_BEAN = 1L;
+	public static final long EVENT_BLOCK_BEAN = 1L;
+	public static final long EXPRESSION_BLOCK_BEAN = 1L;
+
 }

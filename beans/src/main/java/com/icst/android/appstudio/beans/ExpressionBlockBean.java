@@ -31,7 +31,12 @@
 
 package com.icst.android.appstudio.beans;
 
-public class ExpressionBlockBean extends BaseBlockBean implements BlockElementBean {
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
+public class ExpressionBlockBean extends BaseBlockBean implements BlockElementBean, Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.EXPRESSION_BLOCK_BEAN;
 
 	private DatatypeBean[] returnDatatypes;
 
