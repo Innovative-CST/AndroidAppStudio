@@ -31,13 +31,15 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
 
 /**
  * RegularBlockBean: Can hold RegularBlockBean (nested blocks), BlockElementBean
  */
-public class RegularBlockBean extends ActionBlockBean implements Serializable {
+public class RegularBlockBean extends ActionBlockBean<RegularBlockBean>
+		implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
 
@@ -49,5 +51,17 @@ public class RegularBlockBean extends ActionBlockBean implements Serializable {
 
 	public void setCodeSyntax(String codeSyntax) {
 		this.codeSyntax = codeSyntax;
+	}
+
+	@Override
+	public RegularBlockBean cloneBean() {
+		RegularBlockBean clone = new RegularBlockBean();
+		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
+		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+		clone.setColor(getColor() == null ? null : new String(getColor()));
+		clone.setDragAllowed(new Boolean(isDragAllowed()));
+		clone.setLayers(BeanArrayCloneUtils.clone(getLayers()));
+		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		return clone;
 	}
 }

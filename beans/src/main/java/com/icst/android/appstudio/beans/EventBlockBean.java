@@ -34,11 +34,16 @@ package com.icst.android.appstudio.beans;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
 
-public class EventBlockBean extends BaseBlockBean implements Serializable {
+public class EventBlockBean extends BaseBlockBean<EventBlockBean> implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.EVENT_BLOCK_BEAN;
 
 	public void getValueFromKey(String key) {
 		// TODO: Implementation to get the values from block element using key...
+	}
+
+	@Override
+	public EventBlockBean cloneBean() {
+		return null;
 	}
 }

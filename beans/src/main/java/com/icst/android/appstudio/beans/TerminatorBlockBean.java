@@ -41,7 +41,8 @@ import java.io.Serializable;
  * action block can be
  * placed.
  */
-public class TerminatorBlockBean extends ActionBlockBean implements Serializable {
+public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
+		implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
 
@@ -53,5 +54,10 @@ public class TerminatorBlockBean extends ActionBlockBean implements Serializable
 
 	public void setCodeSyntax(String codeSyntax) {
 		this.codeSyntax = codeSyntax;
+	}
+
+	@Override
+	public TerminatorBlockBean cloneBean() {
+		return null;
 	}
 }

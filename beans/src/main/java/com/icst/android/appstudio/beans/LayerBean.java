@@ -42,6 +42,6 @@ import java.io.Serializable;
  * rendered below from point of new layer (e.g: Like we press enter to put long
  * text on next line)
  */
-public abstract class LayerBean implements Serializable {
+public abstract class LayerBean<T> implements Serializable, CloneableBean<T> {
 	public static final long serialVersionUID = SerializationUIDConstants.LAYER_BEAN;
 }

@@ -31,32 +31,7 @@
 
 package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
-import java.io.Serializable;
-import java.util.ArrayList;
+public interface CloneableBean<T> {
 
-/**
- * A Bean that holds a group of Block elements. Used to store the Block items,
- * block elements but
- * does not hold nested blocks.
- */
-public class BlockElementLayerBean extends LayerBean<BlockElementLayerBean>
-		implements Serializable {
-
-	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_ELEMENT_LAYER_BEAN;
-
-	private ArrayList<BlockElementBean> blockElementBeans;
-
-	public ArrayList<BlockElementBean> getBlockElementBeans() {
-		return this.blockElementBeans;
-	}
-
-	public void setBlockElementBeans(ArrayList<BlockElementBean> blockElementBeans) {
-		this.blockElementBeans = blockElementBeans;
-	}
-
-	@Override
-	public BlockElementLayerBean cloneBean() {
-		return null;
-	}
+	T cloneBean();
 }

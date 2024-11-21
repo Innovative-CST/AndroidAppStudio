@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * does not return any
  * code from it.
  */
-public abstract class BaseBlockBean extends BlockBean implements Serializable {
+public abstract class BaseBlockBean<T> extends BlockBean<T> implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.BASE_BLOCK_BEAN;
 

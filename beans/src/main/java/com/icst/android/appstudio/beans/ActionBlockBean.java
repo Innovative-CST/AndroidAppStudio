@@ -36,7 +36,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /** ActionBlockBean, BlockBean that perform action. */
-public abstract class ActionBlockBean extends BlockBean implements Serializable {
+public abstract class ActionBlockBean<T> extends BlockBean<T> implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.ACTION_BLOCK_BEAN;
 

@@ -38,7 +38,7 @@ import java.io.Serializable;
  * Abstract class representing the base block supposed to be used within the
  * LogicEditor.
  */
-public abstract class BlockBean implements Serializable {
+public abstract class BlockBean<T> implements Serializable, CloneableBean<T> {
 
 	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
 
