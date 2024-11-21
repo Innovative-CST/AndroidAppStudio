@@ -76,6 +76,9 @@ public class DraggingBlockDummy extends LinearLayout {
 						regularBlockFooterRes);
 				regularBlockFooter.setBackgroundDrawable(regularBlockFooterDrawable);
 				addView(regularBlockFooter);
+
+				LayoutParams footerLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				regularBlockFooter.setLayoutParams(footerLp);
 			}
 		}
 	}
@@ -102,12 +105,12 @@ public class DraggingBlockDummy extends LinearLayout {
 							footerLayoutParam.width = getMaxLayerWidth();
 							footer.setLayoutParams(footerLayoutParam);
 						});
+		LayoutParams lp = new LayoutParams(160, 40);
+		layerView.setLayoutParams(lp);
 	}
 
 	private void addFooter() {
-		footerLayoutParam = new LayoutParams(
-				LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
+		footerLayoutParam = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 		footer = new LinearLayout(getContext());
 		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
@@ -128,9 +131,7 @@ public class DraggingBlockDummy extends LinearLayout {
 	}
 
 	public void addHeader() {
-		headerLayoutParam = new LayoutParams(
-				LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
+		headerLayoutParam = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 		header = new LinearLayout(getContext());
 		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
