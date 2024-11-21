@@ -31,10 +31,16 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
 /**
  * RegularBlockBean: Can hold RegularBlockBean (nested blocks), BlockElementBean
  */
-public class RegularBlockBean extends ActionBlockBean {
+public class RegularBlockBean extends ActionBlockBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
+
 	private String codeSyntax;
 
 	public String getCodeSyntax() {

@@ -31,6 +31,9 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import java.io.Serializable;
+
 /**
  * TerminatorBlockBean: Can hold RegularBlockBean (nested blocks),
  * BlockElementBean but differs from
@@ -38,7 +41,10 @@ package com.icst.android.appstudio.beans;
  * action block can be
  * placed.
  */
-public class TerminatorBlockBean extends ActionBlockBean {
+public class TerminatorBlockBean extends ActionBlockBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
+
 	private String codeSyntax;
 
 	public String getCodeSyntax() {
