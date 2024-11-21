@@ -39,6 +39,7 @@ import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.view.DraggingBlockDummy;
 import com.icst.logic.utils.CanvaMathUtils;
+import com.icst.logic.utils.UnitUtils;
 
 public class DraggableTouchListener implements View.OnTouchListener {
 
@@ -84,13 +85,13 @@ public class DraggableTouchListener implements View.OnTouchListener {
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent) {
 		touchingView = view;
-		x = motionEvent.getX() + initialRelativeCoordinateX - 50;
-		y = motionEvent.getY() + initialRelativeCoordinateY - 50;
+		initialRelativeCoordinateX = CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[0];
+		initialRelativeCoordinateY = CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[1];
+		x = motionEvent.getX() + initialRelativeCoordinateX - UnitUtils.dpToPx(getLogicEditor().getContext(), 80);
+		y = motionEvent.getY() + initialRelativeCoordinateY - UnitUtils.dpToPx(getLogicEditor().getContext(), 80);
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				initialRelativeCoordinateX = CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[0];
-				initialRelativeCoordinateY = CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[1];
 				if (!isDragging) {
 					dragHandler.postDelayed(
 							dragStartRunnable, ViewConfiguration.getLongPressTimeout());
