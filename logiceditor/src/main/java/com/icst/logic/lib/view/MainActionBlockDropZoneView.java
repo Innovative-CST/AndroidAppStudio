@@ -61,7 +61,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	public MainActionBlockDropZoneView(
 			Context context,
 			EventBlockBean eventDefination,
-			LogicEditorConfiguration logicEditorConfiguration, LogicEditorView logicEditor) {
+			LogicEditorConfiguration logicEditorConfiguration,
+			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
 		this.eventDefination = eventDefination;
@@ -72,8 +73,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			throw new EventDefinationBlockNotFound();
 		}
 
-		eventDefinationBlockView = new EventBlockBeanView(context, eventDefination, getConfiguration(),
-				getLogicEditor());
+		eventDefinationBlockView = new EventBlockBeanView(
+				context, eventDefination, getConfiguration(), getLogicEditor());
 
 		addView(eventDefinationBlockView);
 		LinearLayout.LayoutParams eventDefBlockLp = new LinearLayout.LayoutParams(
@@ -165,8 +166,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
-			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(context, actionBlock,
-					getConfiguration(), getLogicEditor());
+			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
+					context, actionBlock, getConfiguration(), getLogicEditor());
 			actionBlockBeanView.setInsideCanva(true);
 
 			if (actionBlockBeanView == null)
@@ -202,5 +203,9 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 
 	public ActionBlockDropZone getActionBlockDropZone() {
 		return this.actionBlockDropZone;
+	}
+
+	public ArrayList<ActionBlockBean> getBlockBeans() {
+		return this.blockBeans;
 	}
 }

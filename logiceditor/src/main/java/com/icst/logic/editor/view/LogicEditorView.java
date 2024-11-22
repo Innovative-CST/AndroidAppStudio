@@ -34,19 +34,23 @@ package com.icst.logic.editor.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.bean.ActionBlockDropZone;
+import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.editor.HistoryManager;
 import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
 import com.icst.logic.editor.event.LogicEditorEventDispatcher;
 import com.icst.logic.editor.event.LogicEditorEventListener;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.lib.view.ActionBlockDropZoneView;
 import com.icst.logic.lib.view.BlockDropZoneView;
 import com.icst.logic.lib.view.DraggingBlockDummy;
+import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import com.icst.logic.listener.DraggableTouchListener;
+import com.icst.logic.utils.CanvaMathUtils;
 import java.util.ArrayList;
 
 /* Main LogicEditor View */
@@ -59,6 +63,7 @@ public class LogicEditorView extends RelativeLayout {
 	private LogicEditorEventDispatcher eventDispatcher;
 	private DraggableTouchListener mDraggableTouchListener;
 	private DraggingBlockDummy draggingView;
+	private Object draggingBean;
 	private boolean isBlockPallateVisible = false;
 
 	public LogicEditorView(final Context context, final AttributeSet set) {
@@ -96,6 +101,11 @@ public class LogicEditorView extends RelativeLayout {
 		draggingView.setY(y);
 	}
 
+	public void startDrag(Object draggingBean, DraggingBlockDummy draggingView, float x, float y) {
+		this.draggingBean = draggingBean;
+		setDraggingView(draggingView, x, y);
+	}
+
 	public void moveDraggingView(float x, float y) {
 		draggingView.setX(x);
 		draggingView.setY(y);
@@ -108,21 +118,47 @@ public class LogicEditorView extends RelativeLayout {
 				parent.removeView(draggingView);
 			}
 		}
+		if (canDropDraggingView(x, y)) {
+
+		} else {
+			if (draggingView.isDraggedFromCanva()) {
+				resetFromDragging();
+			}
+		}
+	}
+
+	public void resetFromDragging() {
+		View touchingView = mDraggableTouchListener.getTouchingView();
+
+		if (touchingView instanceof ActionBlockBeanView actionBlockBeanView) {
+
+			if (actionBlockBeanView.getParent() == null)
+				return;
+
+			int index = 0;
+			if (actionBlockBeanView.getParent() instanceof MainActionBlockDropZoneView mainChain) {
+				index = mainChain.indexOfChild(actionBlockBeanView) - 1;
+				for (int i = index; i < mainChain.getBlocksSize(); ++i) {
+					mainChain.getChildAt(i + 1).setVisibility(View.VISIBLE);
+				}
+			} else if (actionBlockBeanView.getParent() instanceof ActionBlockDropZoneView regularChain) {
+				index = regularChain.indexOfChild(actionBlockBeanView);
+				for (int i = index; i < regularChain.getChildCount(); ++i) {
+					regularChain.getChildAt(i).setVisibility(View.VISIBLE);
+				}
+			}
+
+		}
+	}
+
+	public boolean canDropDraggingView(float x, float y) {
+		return CanvaMathUtils.isCoordinatesInsideTargetView(binding.editorSection, this, x, y);
 	}
 
 	public void openEventInCanva(EventBean event, LogicEditorConfiguration configuration) {
 		this.event = event;
 		this.historyManager = new HistoryManager(this);
 		binding.logicEditorCanvaView.openEventInCanva(event, configuration, this);
-	}
-
-	public void dragBlockBean(BlockBean blockBean, float x, float y) {
-		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
-		eventDispatcher.onBlockDragged(blockBean);
-		// TODO: Drag block logic...
-	}
-
-	public void dragBlockBeans(ArrayList<BlockBean> blockBeans, float x, float y) {
 	}
 
 	public void dragActionBlockDropZone(

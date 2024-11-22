@@ -35,11 +35,17 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.lib.view.ActionBlockDropZoneView;
 import com.icst.logic.lib.view.DraggingBlockDummy;
+import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.UnitUtils;
+import java.util.ArrayList;
 
 public class DraggableTouchListener implements View.OnTouchListener {
 
@@ -56,18 +62,68 @@ public class DraggableTouchListener implements View.OnTouchListener {
 		dragStartRunnable = new Runnable() {
 			@Override
 			public void run() {
-				if (touchingView instanceof RegularBlockBeanView regularBlockBeanView) {
+				if (touchingView instanceof ActionBlockBeanView actionBlockBeanView) {
 					isDragging = true;
+					Object draggingBean = null;
 					getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-					if (regularBlockBeanView.isInsideCanva()) {
-						regularBlockBeanView.setVisibility(View.GONE);
+					if (actionBlockBeanView.isInsideCanva()) {
+
+						if (actionBlockBeanView.getParent() == null)
+							return;
+						if (actionBlockBeanView.getParent() instanceof ViewGroup actionBlockDropZone) {
+
+							ArrayList<ActionBlockBean> draggingBlocks = new ArrayList<ActionBlockBean>();
+
+							ArrayList<ActionBlockBean> blocksList = null;
+
+							int index = 0;
+							if (actionBlockDropZone instanceof MainActionBlockDropZoneView mainChain) {
+								blocksList = mainChain.getBlockBeans();
+								index = mainChain.indexOfChild(actionBlockBeanView) - 1;
+								for (int i = index; i < mainChain.getBlocksSize(); ++i) {
+									actionBlockDropZone
+											.getChildAt(i + 1)
+											.setVisibility(View.GONE);
+									draggingBlocks.add(blocksList.get(i));
+								}
+							} else if (actionBlockDropZone instanceof ActionBlockDropZoneView regularChain) {
+								index = regularChain.indexOfChild(actionBlockBeanView);
+								blocksList = regularChain.getBlockBeans();
+
+								for (int i = index; i < actionBlockDropZone.getChildCount(); ++i) {
+									actionBlockDropZone
+											.getChildAt(i)
+											.setVisibility(View.GONE);
+									draggingBlocks.add(blocksList.get(i));
+								}
+							}
+
+							draggingBean = draggingBlocks;
+
+							DraggingBlockDummy draggingView = new DraggingBlockDummy(
+									getLogicEditor().getContext(),
+									draggingBlocks.get(0));
+							draggingView.setDraggedFromCanva(
+									actionBlockBeanView.isInsideCanva());
+
+							getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+						}
+
+					} else {
+
+						if (actionBlockBeanView instanceof RegularBlockBeanView regularBlockBeanView) {
+							draggingBean = regularBlockBeanView.getRegularBlockBean().cloneBean();
+							DraggingBlockDummy draggingView = new DraggingBlockDummy(
+									getLogicEditor().getContext(),
+									regularBlockBeanView
+											.getRegularBlockBean()
+											.cloneBean());
+							draggingView.setDraggedFromCanva(
+									actionBlockBeanView.isInsideCanva());
+
+							getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+						}
 					}
-
-					DraggingBlockDummy draggingView = new DraggingBlockDummy(
-							getLogicEditor().getContext(),
-							regularBlockBeanView.getRegularBlockBean());
-
-					getLogicEditor().setDraggingView(draggingView, x, y);
 				}
 			}
 		};
@@ -87,8 +143,12 @@ public class DraggableTouchListener implements View.OnTouchListener {
 		touchingView = view;
 		initialRelativeCoordinateX = CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[0];
 		initialRelativeCoordinateY = CanvaMathUtils.getRelativeCoordinates(touchingView, getLogicEditor())[1];
-		x = motionEvent.getX() + initialRelativeCoordinateX - UnitUtils.dpToPx(getLogicEditor().getContext(), 80);
-		y = motionEvent.getY() + initialRelativeCoordinateY - UnitUtils.dpToPx(getLogicEditor().getContext(), 80);
+		x = motionEvent.getX()
+				+ initialRelativeCoordinateX
+				- UnitUtils.dpToPx(getLogicEditor().getContext(), 80);
+		y = motionEvent.getY()
+				+ initialRelativeCoordinateY
+				- UnitUtils.dpToPx(getLogicEditor().getContext(), 80);
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN:
@@ -114,5 +174,9 @@ public class DraggableTouchListener implements View.OnTouchListener {
 		}
 
 		return true;
+	}
+
+	public View getTouchingView() {
+		return this.touchingView;
 	}
 }

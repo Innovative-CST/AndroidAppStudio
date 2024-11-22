@@ -36,6 +36,7 @@ import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 
 public class ActionBlockBeanView extends BlockBeanView {
+
 	public ActionBlockBeanView(
 			Context context,
 			LogicEditorConfiguration logicEditorConfiguration,

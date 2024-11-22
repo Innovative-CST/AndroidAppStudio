@@ -46,6 +46,7 @@ import com.icst.logic.utils.ImageViewUtils;
 
 public class DraggingBlockDummy extends LinearLayout {
 
+	private boolean draggedFromCanva;
 	private BlockBean block;
 	private View header;
 	private View footer;
@@ -148,5 +149,13 @@ public class DraggingBlockDummy extends LinearLayout {
 		this.block = blockBean;
 		removeAllViews();
 		init();
+	}
+
+	public boolean isDraggedFromCanva() {
+		return this.draggedFromCanva;
+	}
+
+	public void setDraggedFromCanva(boolean draggedFromCanva) {
+		this.draggedFromCanva = draggedFromCanva;
 	}
 }

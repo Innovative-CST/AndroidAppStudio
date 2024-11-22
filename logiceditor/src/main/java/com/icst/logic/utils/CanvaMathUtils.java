@@ -46,4 +46,27 @@ public class CanvaMathUtils {
 
 		return new int[] { relativeX, relativeY };
 	}
+
+	public static boolean isCoordinatesInsideTargetView(
+			View target, View relativeTo, float x, float y) {
+		int[] relativePosition = getRelativeCoordinates(target, relativeTo);
+
+		return isCoordinatesInsideRectangle(
+				x,
+				y,
+				relativePosition[0],
+				relativePosition[1],
+				relativePosition[0] + target.getWidth(),
+				relativePosition[1] + target.getHeight());
+	}
+
+	public static boolean isCoordinatesInsideRectangle(
+			float x, float y, float a, float b, float c, float d) {
+		float left = Math.min(a, c);
+		float right = Math.max(a, c);
+		float top = Math.min(b, d);
+		float bottom = Math.max(b, d);
+
+		return x >= left && x <= right && y >= top && y <= bottom;
+	}
 }
