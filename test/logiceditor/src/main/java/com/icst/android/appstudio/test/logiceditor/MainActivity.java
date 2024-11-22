@@ -29,31 +29,27 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor
+package com.icst.android.appstudio.test.logiceditor;
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding
-import com.icst.logic.lib.config.LogicEditorConfiguration
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 
-class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+public class MainActivity extends AppCompatActivity {
+	private ActivityMainBinding binding;
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(getLayoutInflater())
-        setContentView(binding.getRoot())
-
-        binding.toolbar.title = getString(R.string.app_name)
-
-        setSupportActionBar(binding.toolbar)
-
-        getSupportActionBar()?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeButtonEnabled(true)
-        }
-
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        binding.logicEditor.openEventInCanva(DummyBeans.getDummyEvent(), LogicEditorConfiguration())
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		binding = ActivityMainBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
+		binding.toolbar.setTitle(getString(R.string.app_name));
+		setSupportActionBar(binding.toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+		binding.logicEditor.openEventInCanva(
+				DummyBeans.getDummyEvent(), new LogicEditorConfiguration());
+	}
 }

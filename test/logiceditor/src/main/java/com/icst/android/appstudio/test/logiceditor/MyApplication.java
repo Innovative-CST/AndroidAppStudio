@@ -29,29 +29,33 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor
+package com.icst.android.appstudio.test.logiceditor;
 
-import android.app.Application
-import android.os.Environment
-import android.os.Process
-import android.util.Log
-import com.blankj.utilcode.util.FileIOUtils
-import com.quickersilver.themeengine.Theme
-import com.quickersilver.themeengine.ThemeEngine
-import java.io.File
+import android.app.Application;
+import android.os.Environment;
+import android.os.Process;
+import android.util.Log;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.quickersilver.themeengine.Theme;
+import com.quickersilver.themeengine.ThemeEngine;
+import java.io.File;
 
-class MyApplication : Application() {
-    override fun onCreate(): Unit {
-        super.onCreate()
-        ThemeEngine.getInstance(this).setStaticTheme(Theme.TEAL)
-        ThemeEngine.applyToActivities(this)
-        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
-            var logFile: File = File(Environment.getExternalStorageDirectory(), "logicEditor.log")
-            FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable))
-            Process.killProcess(Process.myPid())
-            System.exit(1)
+public class MyApplication extends Application {
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		ThemeEngine.getInstance(this).setStaticTheme(Theme.TEAL);
+		ThemeEngine.applyToActivities(this);
 
-            Thread.getDefaultUncaughtExceptionHandler()?.uncaughtException(thread, throwable)
-        }
-    }
+		Thread.setDefaultUncaughtExceptionHandler(
+				(thread, throwable) -> {
+					File logFile = new File(Environment.getExternalStorageDirectory(), "logicEditor.log");
+					FileIOUtils.writeFileFromString(logFile, Log.getStackTraceString(throwable));
+					Process.killProcess(Process.myPid());
+					System.exit(1);
+
+					Thread.getDefaultUncaughtExceptionHandler()
+							.uncaughtException(thread, throwable);
+				});
+	}
 }
