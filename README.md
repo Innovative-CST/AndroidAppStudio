@@ -70,3 +70,6 @@ Please be aware that you will be listed as a contributor on other software proje
 # Special Thanks to
 [rooki_eplay](https://www.instagram.com/rooki_eplay) for UI designing helping.
 [JonForShort](https://github.com/JonForShort) for providing android-tools binaries [files](https://github.com/JonForShort/android-tools).
+
+<a href="https://www.flaticon.com/free-icons/pointer" title="pointer icons">Pointer icons created by Pixel perfect - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/not" title="not icons">Drop not allowed icons created by berkahicon - Flaticon</a>

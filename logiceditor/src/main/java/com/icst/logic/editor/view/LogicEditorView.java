@@ -111,6 +111,7 @@ public class LogicEditorView extends RelativeLayout {
 	public void moveDraggingView(float x, float y) {
 		draggingView.setX(x);
 		draggingView.setY(y);
+		draggingView.setAllowedDropIcon(canDropDraggingView(x, y));
 		draggingView.requestLayout();
 	}
 
@@ -149,7 +150,6 @@ public class LogicEditorView extends RelativeLayout {
 					regularChain.getChildAt(i).setVisibility(View.VISIBLE);
 				}
 			}
-
 		}
 	}
 

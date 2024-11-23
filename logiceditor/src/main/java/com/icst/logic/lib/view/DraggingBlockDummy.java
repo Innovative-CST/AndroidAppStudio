@@ -34,15 +34,18 @@ package com.icst.logic.lib.view;
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.logic.editor.R;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class DraggingBlockDummy extends LinearLayout {
@@ -55,15 +58,25 @@ public class DraggingBlockDummy extends LinearLayout {
 	private ViewGroup.LayoutParams footerLayoutParam;
 	private LogicEditorConfiguration logicEditorConfiguration;
 	private LinearLayout layerView;
+	private LinearLayout blockDummy;
+	private ImageView cursorIcon;
 
-	public DraggingBlockDummy(Context context, BlockBean block) {
+	public DraggingBlockDummy(Context context, BlockBean block, boolean allowDrop) {
 		super(context);
 		this.block = block;
-		setOrientation(VERTICAL);
-		init();
+		init(allowDrop);
 	}
 
-	private void init() {
+	private void init(boolean allowDrop) {
+		cursorIcon = new ImageView(getContext());
+		LayoutParams cursorIconLp = new LayoutParams(
+				UnitUtils.dpToPx(getContext(), 16), UnitUtils.dpToPx(getContext(), 16));
+		cursorIcon.setLayoutParams(cursorIconLp);
+		setAllowedDropIcon(allowDrop);
+		addView(cursorIcon);
+		blockDummy = new LinearLayout(getContext());
+		blockDummy.setOrientation(VERTICAL);
+		addView(blockDummy);
 		if (block instanceof ActionBlockBean) {
 			addHeader();
 			addDummyLayer();
@@ -77,7 +90,7 @@ public class DraggingBlockDummy extends LinearLayout {
 						ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
 						regularBlockFooterRes);
 				regularBlockFooter.setBackgroundDrawable(regularBlockFooterDrawable);
-				addView(regularBlockFooter);
+				blockDummy.addView(regularBlockFooter);
 
 				LayoutParams footerLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				regularBlockFooter.setLayoutParams(footerLp);
@@ -93,7 +106,7 @@ public class DraggingBlockDummy extends LinearLayout {
 				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
 				res);
 		layerView.setBackgroundDrawable(drawable);
-		addView(layerView);
+		blockDummy.addView(layerView);
 
 		layerView
 				.getViewTreeObserver()
@@ -121,7 +134,7 @@ public class DraggingBlockDummy extends LinearLayout {
 				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
 				footerBackDropRes);
 		footer.setBackgroundDrawable(footerRes);
-		addView(footer);
+		blockDummy.addView(footer);
 		footer.setLayoutParams(footerLayoutParam);
 	}
 
@@ -142,14 +155,14 @@ public class DraggingBlockDummy extends LinearLayout {
 				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
 				res);
 		header.setBackgroundDrawable(headerDrawable);
-		addView(header);
+		blockDummy.addView(header);
 		header.setLayoutParams(headerLayoutParam);
 	}
 
-	public void setBlockBean(BlockBean blockBean) {
+	public void setBlockBean(BlockBean blockBean, boolean allowDrop) {
 		this.block = blockBean;
 		removeAllViews();
-		init();
+		init(allowDrop);
 	}
 
 	public boolean isDraggedFromCanva() {
@@ -158,5 +171,12 @@ public class DraggingBlockDummy extends LinearLayout {
 
 	public void setDraggedFromCanva(boolean draggedFromCanva) {
 		this.draggedFromCanva = draggedFromCanva;
+	}
+
+	public void setAllowedDropIcon(boolean allow) {
+		if (cursorIcon != null) {
+			cursorIcon.setImageResource(
+					allow ? R.drawable.cursor : R.drawable.cursor_drop_not_allowed);
+		}
 	}
 }
