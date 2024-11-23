@@ -31,14 +31,16 @@
 
 package com.icst.android.appstudio.adapters;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.fragments.projectmodelconfig.ProjectModelAppConfigrationFragment;
 import com.icst.android.appstudio.fragments.projectmodelconfig.ProjectModelAppSetupFragment;
 import com.icst.android.appstudio.fragments.projectmodelconfig.ProjectModelConfigBaseFragment;
 import com.icst.android.appstudio.models.ProjectModel;
-import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class ProjectModelConfigAdapter extends FragmentStateAdapter {
 	public ArrayList<ProjectModelConfigBaseFragment> fragments;

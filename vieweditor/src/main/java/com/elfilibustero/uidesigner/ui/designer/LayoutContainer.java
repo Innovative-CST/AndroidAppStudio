@@ -1,5 +1,20 @@
 package com.elfilibustero.uidesigner.ui.designer;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
+import com.elfilibustero.uidesigner.lib.utils.Constants;
+import com.elfilibustero.uidesigner.lib.utils.RecylerViewItemAnimator;
+import com.elfilibustero.uidesigner.lib.utils.Utils;
+import com.elfilibustero.uidesigner.lib.view.ShadowView;
+import com.elfilibustero.uidesigner.ui.designer.items.UnknownView;
+
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Rect;
@@ -10,23 +25,11 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.blankj.utilcode.util.ToastUtils;
-import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
-import com.elfilibustero.uidesigner.lib.utils.Constants;
-import com.elfilibustero.uidesigner.lib.utils.RecylerViewItemAnimator;
-import com.elfilibustero.uidesigner.lib.utils.Utils;
-import com.elfilibustero.uidesigner.lib.view.ShadowView;
-import com.elfilibustero.uidesigner.ui.designer.items.UnknownView;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class LayoutContainer extends FrameLayout {
 	private float defaultWidthHeight;

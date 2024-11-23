@@ -1,17 +1,20 @@
 package com.elfilibustero.uidesigner.lib.utils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import com.elfilibustero.uidesigner.AppLoader;
+import com.icst.android.appstudio.vieweditor.R;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
+
 import androidx.core.content.ContextCompat;
-import com.elfilibustero.uidesigner.AppLoader;
-import com.icst.android.appstudio.vieweditor.R;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Utils {
 

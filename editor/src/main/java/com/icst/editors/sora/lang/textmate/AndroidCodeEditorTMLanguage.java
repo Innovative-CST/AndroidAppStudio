@@ -17,11 +17,12 @@
 
 package com.icst.editor.editors.sora.lang.textmate;
 
+import org.eclipse.tm4e.core.grammar.IGrammar;
+import org.eclipse.tm4e.languageconfiguration.model.LanguageConfiguration;
+
 import io.github.rosemoe.sora.langs.textmate.TextMateLanguage;
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
-import org.eclipse.tm4e.core.grammar.IGrammar;
-import org.eclipse.tm4e.languageconfiguration.model.LanguageConfiguration;
 
 public class AndroidCodeEditorTMLanguage extends TextMateLanguage {
 	public final String languageScope;

@@ -31,15 +31,11 @@
 
 package com.icst.android.appstudio.view;
 
-import android.graphics.drawable.Drawable;
-import android.system.ErrnoException;
-import android.system.Os;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import java.io.File;
+import java.util.Map;
+
+import org.json.JSONException;
+
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.icst.android.appstudio.R;
@@ -55,9 +51,17 @@ import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
 import com.termux.terminal.TerminalSessionClient;
 import com.termux.view.TerminalViewClient;
-import java.io.File;
-import java.util.Map;
-import org.json.JSONException;
+
+import android.graphics.drawable.Drawable;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 /*
  * A WorkSpacePane for Terminal.

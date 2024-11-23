@@ -31,9 +31,8 @@
 
 package com.icst.android.appstudio.dialogs;
 
-import android.app.Activity;
-import android.view.LayoutInflater;
-import androidx.appcompat.app.AlertDialog;
+import java.util.concurrent.CompletableFuture;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.DialogBootstrapInstallerBinding;
@@ -41,9 +40,14 @@ import com.icst.android.appstudio.utils.BootstrapInstallerUtils;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Themes;
+
+import android.app.Activity;
+import android.view.LayoutInflater;
+
+import androidx.appcompat.app.AlertDialog;
+
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
-import java.util.concurrent.CompletableFuture;
 
 public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 	private Activity activity;

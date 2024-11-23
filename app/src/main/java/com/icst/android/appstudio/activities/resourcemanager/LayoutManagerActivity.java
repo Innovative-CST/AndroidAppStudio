@@ -31,10 +31,10 @@
 
 package com.icst.android.appstudio.activities.resourcemanager;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.adapters.resourcemanager.LayoutManagerAdapter;
@@ -44,9 +44,12 @@ import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class LayoutManagerActivity extends BaseActivity {
 	// SECTION Constants

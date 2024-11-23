@@ -1,19 +1,22 @@
 package com.elfilibustero.uidesigner.adapters;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
-import com.icst.android.appstudio.vieweditor.R;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
+import com.icst.android.appstudio.vieweditor.R;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MultiChoiceAdapter<T> extends RecyclerView.Adapter<MultiChoiceAdapter<T>.ViewHolder>
 		implements ChoiceAdapter<List<T>> {

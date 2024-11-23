@@ -1,9 +1,11 @@
 package com.elfilibustero.uidesigner.ui.designer.properties;
 
-import android.content.Context;
-import androidx.appcompat.app.AlertDialog;
 import com.elfilibustero.uidesigner.lib.base.BaseDialog;
 import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
+
+import android.content.Context;
+
+import androidx.appcompat.app.AlertDialog;
 
 public abstract class PropertyDialog extends BaseDialog {
 

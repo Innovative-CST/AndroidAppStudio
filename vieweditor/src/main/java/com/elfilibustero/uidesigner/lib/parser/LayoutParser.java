@@ -1,17 +1,5 @@
 package com.elfilibustero.uidesigner.lib.parser;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.View;
-import android.view.ViewGroup;
-import com.elfilibustero.uidesigner.lib.handler.PropertiesHandler;
-import com.elfilibustero.uidesigner.lib.progress.ProgressIndicator;
-import com.elfilibustero.uidesigner.lib.progress.ProgressManager;
-import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
-import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
-import com.elfilibustero.uidesigner.lib.tool.ViewIdentifierFactory;
-import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,9 +10,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+
+import com.elfilibustero.uidesigner.lib.handler.PropertiesHandler;
+import com.elfilibustero.uidesigner.lib.progress.ProgressIndicator;
+import com.elfilibustero.uidesigner.lib.progress.ProgressManager;
+import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
+import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
+import com.elfilibustero.uidesigner.lib.tool.ViewIdentifierFactory;
+import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class LayoutParser {
 

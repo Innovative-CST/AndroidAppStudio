@@ -1,9 +1,11 @@
 package com.elfilibustero.uidesigner.lib.base;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import android.content.Context;
 import android.view.View;
+
 import androidx.appcompat.app.AlertDialog;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public abstract class BaseDialog extends MaterialAlertDialogBuilder {
 

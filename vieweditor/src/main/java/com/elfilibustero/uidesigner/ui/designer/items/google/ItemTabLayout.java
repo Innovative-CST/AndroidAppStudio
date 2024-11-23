@@ -1,9 +1,10 @@
 package com.elfilibustero.uidesigner.ui.designer.items.google;
 
-import android.content.Context;
-import android.view.MotionEvent;
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.google.android.material.tabs.TabLayout;
+
+import android.content.Context;
+import android.view.MotionEvent;
 
 public class ItemTabLayout extends TabLayout implements DesignerItem {
 

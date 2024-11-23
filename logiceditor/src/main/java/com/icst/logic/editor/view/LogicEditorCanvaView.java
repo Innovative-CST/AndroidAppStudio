@@ -31,17 +31,19 @@
 
 package com.icst.logic.editor.view;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.editor.CanvaAction;
 import com.icst.logic.editor.action.CanvaActionMoveDropZone;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.BlockDropZoneView;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 
 /**
  * Logic Editor Canva, It is tha canva that can be scrolled according to the

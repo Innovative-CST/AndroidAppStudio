@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 /**
  * A class of Datatype, to compare that the two Datatypes are different or not

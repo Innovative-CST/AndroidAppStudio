@@ -31,13 +31,9 @@
 
 package com.icst.android.appstudio.view;
 
-import android.code.editor.common.utils.FileUtils;
-import android.graphics.drawable.Drawable;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-import androidx.drawerlayout.widget.DrawerLayout;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.blankj.utilcode.util.FileIOUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
@@ -50,10 +46,18 @@ import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
 import com.icst.editor.widget.CodeEditorLayout;
+
+import android.code.editor.common.utils.FileUtils;
+import android.graphics.drawable.Drawable;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
-import java.io.File;
-import java.util.ArrayList;
 
 /*
  * A WorkSpacePane for Code Editor.

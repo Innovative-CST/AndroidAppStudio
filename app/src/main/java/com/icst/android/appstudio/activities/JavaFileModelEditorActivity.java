@@ -31,10 +31,8 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import java.io.File;
+
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.JavaFileModelEditorTabAdapter;
@@ -45,7 +43,11 @@ import com.icst.android.appstudio.helper.FileModelCodeHelper;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class JavaFileModelEditorActivity extends BaseActivity {
 

@@ -1,5 +1,7 @@
 package com.elfilibustero.uidesigner.ui.designer.items;
 
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,7 +12,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 
 // Inherit from ViewGroup to prevent views within unknown tags from being parsed to the same level
 public class UnknownView extends FrameLayout implements DesignerItem {

@@ -31,11 +31,9 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.EventsActivity;
 import com.icst.android.appstudio.activities.JavaFileManagerActivity;
@@ -46,8 +44,13 @@ import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.databinding.AdapterFileModelListItemBinding;
 import com.icst.android.appstudio.databinding.LayoutProjectEditorNavigationBinding;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class GradleFileModelListAdapter
 		extends RecyclerView.Adapter<GradleFileModelListAdapter.ViewHolder> {

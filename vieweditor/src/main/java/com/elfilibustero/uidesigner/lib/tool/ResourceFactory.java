@@ -1,18 +1,20 @@
 package com.elfilibustero.uidesigner.lib.tool;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.TypedValue;
-import com.elfilibustero.uidesigner.enums.ResourceType;
-import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
-import com.elfilibustero.uidesigner.lib.utils.Utils;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.elfilibustero.uidesigner.enums.ResourceType;
+import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
+import com.elfilibustero.uidesigner.lib.utils.Utils;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 
 public class ResourceFactory {
 

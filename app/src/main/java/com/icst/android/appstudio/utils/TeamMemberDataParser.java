@@ -31,12 +31,14 @@
 
 package com.icst.android.appstudio.utils;
 
-import com.icst.android.appstudio.models.SocialProfile;
-import com.icst.android.appstudio.models.TeamMember;
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.icst.android.appstudio.models.SocialProfile;
+import com.icst.android.appstudio.models.TeamMember;
 
 public class TeamMemberDataParser {
 	public static ArrayList<TeamMember> getMembers(

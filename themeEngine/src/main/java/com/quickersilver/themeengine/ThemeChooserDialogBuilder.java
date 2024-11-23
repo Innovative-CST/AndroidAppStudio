@@ -1,16 +1,19 @@
 package com.quickersilver.themeengine;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.quickersilver.themeengine.databinding.RecyclerviewBinding;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.quickersilver.themeengine.databinding.RecyclerviewBinding;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Builder class to create a Theme Chooser Dialog

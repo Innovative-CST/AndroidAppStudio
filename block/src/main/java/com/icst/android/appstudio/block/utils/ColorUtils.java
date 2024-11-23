@@ -31,11 +31,12 @@
 
 package com.icst.android.appstudio.block.utils;
 
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.color.MaterialColors;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import com.google.android.material.color.DynamicColors;
-import com.google.android.material.color.MaterialColors;
 
 public class ColorUtils {
 	public static int getColor(Context context, int res) {

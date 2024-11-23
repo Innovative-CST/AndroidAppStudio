@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 /**
  * A Bean that holds a group of Block elements. Used to store the Block items,

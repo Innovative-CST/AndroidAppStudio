@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.io.File;
+
 import com.icst.android.appstudio.models.SettingModel;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
 
 public final class SettingUtils {
 	public static final String DARK_MODE = "darkMode";

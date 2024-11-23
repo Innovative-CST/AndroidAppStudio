@@ -31,24 +31,10 @@
 
 package com.icst.android.appstudio.fragments.events;
 
-import android.app.Activity;
-import android.code.editor.common.utils.ColorUtils;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.MainThread;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.EventEditorActivity;
 import com.icst.android.appstudio.block.model.Event;
@@ -62,9 +48,26 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.EventUtils;
 import com.icst.android.appstudio.utils.EventsHolderUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
+
+import android.app.Activity;
+import android.code.editor.common.utils.ColorUtils;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class JavaEventManagerFragment extends Fragment {
 	private FragmentJavaEventManagerBinding binding;

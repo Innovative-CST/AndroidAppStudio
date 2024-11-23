@@ -31,9 +31,8 @@
 
 package com.icst.logic.lib.view;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.LinearLayout;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
@@ -45,7 +44,10 @@ import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class ActionBlockDropZoneView extends BlockDropZoneView {
 	private Context context;

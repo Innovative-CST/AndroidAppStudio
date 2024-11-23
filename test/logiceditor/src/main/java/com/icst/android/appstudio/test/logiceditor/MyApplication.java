@@ -31,14 +31,16 @@
 
 package com.icst.android.appstudio.test.logiceditor;
 
+import java.io.File;
+
+import com.blankj.utilcode.util.FileIOUtils;
+import com.quickersilver.themeengine.Theme;
+import com.quickersilver.themeengine.ThemeEngine;
+
 import android.app.Application;
 import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
-import com.blankj.utilcode.util.FileIOUtils;
-import com.quickersilver.themeengine.Theme;
-import com.quickersilver.themeengine.ThemeEngine;
-import java.io.File;
 
 public class MyApplication extends Application {
 	@Override

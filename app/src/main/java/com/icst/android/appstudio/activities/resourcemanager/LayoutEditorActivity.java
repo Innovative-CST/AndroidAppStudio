@@ -31,18 +31,8 @@
 
 package com.icst.android.appstudio.activities.resourcemanager;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-import androidx.annotation.CallSuper;
-import androidx.annotation.MainThread;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.core.view.MenuProvider;
-import androidx.lifecycle.Lifecycle;
+import java.io.File;
+
 import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.ActivityLayoutEditorBinding;
@@ -54,7 +44,20 @@ import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import com.icst.android.appstudio.vieweditor.R;
 import com.icst.android.appstudio.vieweditor.editor.ViewEditor;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
-import java.io.File;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.MenuProvider;
+import androidx.lifecycle.Lifecycle;
 
 public class LayoutEditorActivity extends BaseActivity {
 	// Contants for showing the section easily

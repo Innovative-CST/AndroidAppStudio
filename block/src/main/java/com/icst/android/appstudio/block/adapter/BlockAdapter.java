@@ -31,17 +31,20 @@
 
 package com.icst.android.appstudio.block.adapter;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.editor.EventEditor;
+import com.icst.android.appstudio.block.model.BlockModel;
+import com.icst.android.appstudio.block.utils.UnitUtils;
+import com.icst.android.appstudio.block.view.BlockView;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.block.editor.EventEditor;
-import com.icst.android.appstudio.block.model.BlockModel;
-import com.icst.android.appstudio.block.utils.UnitUtils;
-import com.icst.android.appstudio.block.view.BlockView;
-import java.util.ArrayList;
 
 public class BlockAdapter extends RecyclerView.Adapter<BlockAdapter.ViewHolder> {
 

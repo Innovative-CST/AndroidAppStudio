@@ -1,5 +1,19 @@
 package com.elfilibustero.uidesigner.lib.handler;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import com.elfilibustero.uidesigner.lib.utils.Constants;
+import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import android.content.Context;
 import android.util.Pair;
 import android.view.View;
@@ -13,22 +27,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.lib.utils.Constants;
-import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 public class AttributeSetHandler {
 	private final Context ctx;

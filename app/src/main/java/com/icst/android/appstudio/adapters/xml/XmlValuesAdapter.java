@@ -31,11 +31,6 @@
 
 package com.icst.android.appstudio.adapters.xml;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
 import com.icst.android.appstudio.activities.manifest.AttributesManagerActivity;
 import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
 import com.icst.android.appstudio.bottomsheet.XmlElementOperationBottomSheet;
@@ -43,6 +38,13 @@ import com.icst.android.appstudio.databinding.AdapterXmlAttributeBinding;
 import com.icst.android.appstudio.databinding.AdapterXmlElementBinding;
 import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
+
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.ViewHolder> {
 	public class ViewHolder extends RecyclerView.ViewHolder {

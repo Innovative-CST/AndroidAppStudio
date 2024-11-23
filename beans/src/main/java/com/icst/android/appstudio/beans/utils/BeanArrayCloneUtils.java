@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.beans.utils;
 
-import com.icst.android.appstudio.beans.CloneableBean;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.CloneableBean;
 
 public final class BeanArrayCloneUtils {
 	public static <T extends CloneableBean> ArrayList<T> clone(ArrayList<T> beans) {

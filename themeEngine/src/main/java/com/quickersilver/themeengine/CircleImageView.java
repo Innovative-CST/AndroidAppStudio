@@ -1,5 +1,10 @@
 package com.quickersilver.themeengine;
 
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.shape.CornerSize;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.shape.ShapeAppearanceModel;
+
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,12 +12,9 @@ import android.content.res.ColorStateList;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
 import androidx.annotation.ColorRes;
 import androidx.core.content.res.ResourcesCompat;
-import com.google.android.material.imageview.ShapeableImageView;
-import com.google.android.material.shape.CornerSize;
-import com.google.android.material.shape.MaterialShapeDrawable;
-import com.google.android.material.shape.ShapeAppearanceModel;
 
 public class CircleImageView extends ShapeableImageView {
 

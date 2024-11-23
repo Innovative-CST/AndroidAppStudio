@@ -1,12 +1,7 @@
 package com.elfilibustero.uidesigner.ui.designer.properties;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import androidx.appcompat.app.AlertDialog;
+import java.util.regex.Pattern;
+
 import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
 import com.elfilibustero.uidesigner.lib.tool.ViewIdentifierFactory;
 import com.elfilibustero.uidesigner.lib.utils.Constants;
@@ -15,7 +10,15 @@ import com.elfilibustero.uidesigner.lib.utils.SimpleTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.icst.android.appstudio.vieweditor.databinding.PropertyInputItemBinding;
-import java.util.regex.Pattern;
+
+import android.content.Context;
+import android.text.Editable;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class PropertyInputDialog extends PropertyDialog {
 

@@ -16,11 +16,12 @@
 
 package com.downloader.httpclient;
 
-import com.downloader.request.DownloadRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import com.downloader.request.DownloadRequest;
 
 /**
  * Created by amitshekhar on 13/11/17.

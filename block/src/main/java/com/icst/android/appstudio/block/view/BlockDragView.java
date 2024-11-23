@@ -31,6 +31,10 @@
 
 package com.icst.android.appstudio.block.view;
 
+import com.icst.android.appstudio.block.R;
+import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
+import com.icst.android.appstudio.block.model.BlockModel;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -39,10 +43,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import androidx.core.content.ContextCompat;
-import com.icst.android.appstudio.block.R;
-import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
-import com.icst.android.appstudio.block.model.BlockModel;
 
 public class BlockDragView extends LinearLayout {
 	private Context context;

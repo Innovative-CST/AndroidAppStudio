@@ -31,14 +31,9 @@
 
 package com.icst.android.appstudio.fragments.variablemanager;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.MainThread;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.adapters.LayoutVariableAdapter;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
@@ -50,8 +45,16 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class LayoutVariableManagerFragment extends Fragment {
 

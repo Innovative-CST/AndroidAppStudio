@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 public class ExpressionBlockBean extends BaseBlockBean<ExpressionBlockBean>
 		implements BlockElementBean, Serializable {

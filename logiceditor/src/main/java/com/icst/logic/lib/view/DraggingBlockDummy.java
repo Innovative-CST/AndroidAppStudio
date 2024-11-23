@@ -31,11 +31,6 @@
 
 package com.icst.logic.lib.view;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
@@ -43,6 +38,12 @@ import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 public class DraggingBlockDummy extends LinearLayout {
 

@@ -31,9 +31,10 @@
 
 package com.icst.logic.lib.view;
 
+import com.icst.android.appstudio.beans.BlockBean;
+
 import android.content.Context;
 import android.widget.LinearLayout;
-import com.icst.android.appstudio.beans.BlockBean;
 
 public abstract class LayerBeanView extends LinearLayout {
 	private int layerPosition;

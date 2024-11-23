@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.VariableModel;
-import java.util.ArrayList;
 
 public class VariablesUtils {
 

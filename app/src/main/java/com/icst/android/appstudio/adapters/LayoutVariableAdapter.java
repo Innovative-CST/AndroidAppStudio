@@ -31,10 +31,8 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.bottomsheet.EditLayoutVariableModelBottomSheet;
 import com.icst.android.appstudio.databinding.AdapterLayoutVariableBinding;
@@ -42,7 +40,12 @@ import com.icst.android.appstudio.fragments.variablemanager.LayoutVariableManage
 import com.icst.android.appstudio.listener.LayoutVariableModelChangeListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
-import java.util.ArrayList;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LayoutVariableAdapter extends RecyclerView.Adapter<LayoutVariableAdapter.ViewHolder> {
 	public class ViewHolder extends RecyclerView.ViewHolder {

@@ -31,13 +31,14 @@
 
 package com.icst.android.appstudio.extensions.commentextension;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
 import com.icst.android.appstudio.block.model.BlockFieldModel;
 import com.icst.android.appstudio.block.model.BlockLayerModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.BlockValueFieldModel;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
-import java.util.ArrayList;
 
 public class CommentBlocks {
 

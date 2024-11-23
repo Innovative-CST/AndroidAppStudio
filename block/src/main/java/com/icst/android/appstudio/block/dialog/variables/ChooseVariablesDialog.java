@@ -31,14 +31,17 @@
 
 package com.icst.android.appstudio.block.dialog.variables;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import androidx.appcompat.app.AlertDialog;
+import java.util.ArrayList;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.block.adapter.AddVariableListAdapter;
 import com.icst.android.appstudio.block.databinding.DialogVariableChooserBinding;
 import com.icst.android.appstudio.block.model.VariableModel;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class ChooseVariablesDialog extends MaterialAlertDialogBuilder {
 	private ArrayList<VariableModel> variables;

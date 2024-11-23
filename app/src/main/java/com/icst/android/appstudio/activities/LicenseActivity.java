@@ -31,15 +31,19 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.code.editor.common.utils.FileUtils;
-import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.LicenseListAdapter;
 import com.icst.android.appstudio.databinding.ActivityLicenseBinding;
-import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
+
+import android.code.editor.common.utils.FileUtils;
+import android.os.Bundle;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class LicenseActivity extends BaseActivity {
 	private ActivityLicenseBinding binding;

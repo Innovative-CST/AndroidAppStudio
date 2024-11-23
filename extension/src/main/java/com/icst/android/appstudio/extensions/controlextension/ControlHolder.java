@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.extensions.controlextension;
 
-import com.icst.android.appstudio.block.model.BlockHolderModel;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.model.BlockHolderModel;
 
 public final class ControlHolder {
 	public static ArrayList<BlockHolderModel> getHolders() {

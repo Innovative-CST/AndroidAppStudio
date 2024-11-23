@@ -31,13 +31,6 @@
 
 package com.icst.android.appstudio.block.dialog;
 
-import android.graphics.drawable.Drawable;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.block.databinding.DialogInputNumberBinding;
 import com.icst.android.appstudio.block.editor.EventEditor;
@@ -46,6 +39,15 @@ import com.icst.android.appstudio.block.utils.ArrayUtils;
 import com.icst.android.appstudio.block.utils.ColorUtils;
 import com.icst.android.appstudio.block.utils.NumberRangeValidator;
 import com.icst.android.appstudio.block.view.NumberView;
+
+import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class NumericalValueEditorDialog extends MaterialAlertDialogBuilder {
 	public static final int INPUT_TYPE_UNKNOWN = 0;

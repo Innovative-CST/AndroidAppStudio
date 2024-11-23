@@ -1,10 +1,11 @@
 package com.icst.android.appstudio.utils.terminal;
 
-import android.view.KeyEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.view.KeyEvent;
 
 public class VirtualKeysConstants {
 

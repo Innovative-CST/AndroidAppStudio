@@ -31,11 +31,12 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import java.io.File;
-import java.util.ArrayList;
 
 public class FileModelUtils {
 	public static FileModel getFolderModel(String folderName) {

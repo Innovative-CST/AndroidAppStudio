@@ -31,12 +31,8 @@
 
 package com.icst.android.appstudio.activities.manifest;
 
-import android.content.Intent;
-import android.os.Bundle;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import java.io.File;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.ActivityAndroidManifestManagerBinding;
@@ -44,7 +40,14 @@ import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import com.icst.android.appstudio.xml.XmlModel;
-import java.io.File;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 public class AndroidManifestManager extends BaseActivity {
 

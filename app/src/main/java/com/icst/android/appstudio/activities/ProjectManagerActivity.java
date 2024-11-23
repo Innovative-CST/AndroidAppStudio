@@ -31,21 +31,10 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.ProjectListAdapter;
 import com.icst.android.appstudio.databinding.ActivityProjectManagerBinding;
@@ -54,9 +43,23 @@ import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.PermissionUtils;
 import com.icst.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class ProjectManagerActivity extends BaseActivity {
 	private ActivityProjectManagerBinding binding;

@@ -31,16 +31,19 @@
 
 package com.icst.android.appstudio.activities;
 
+import java.util.HashMap;
+
+import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.databinding.ActivityAboutTeamBinding;
+import com.icst.android.appstudio.utils.TeamMemberDataParser;
+
 import android.code.editor.utils.RequestNetwork;
 import android.code.editor.utils.RequestNetworkController;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.databinding.ActivityAboutTeamBinding;
-import com.icst.android.appstudio.utils.TeamMemberDataParser;
-import java.util.HashMap;
 
 public class AboutTeamActivity extends BaseActivity {
 	private ActivityAboutTeamBinding binding;

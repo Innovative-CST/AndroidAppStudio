@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.test.logiceditor;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockElementBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
@@ -39,7 +41,6 @@ import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
-import java.util.ArrayList;
 
 public class DummyBeans {
 	public static EventBean getDummyEvent() {

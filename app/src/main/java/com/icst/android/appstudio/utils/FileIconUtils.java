@@ -31,10 +31,12 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.io.File;
+
+import com.icst.android.appstudio.R;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import com.icst.android.appstudio.R;
-import java.io.File;
 
 public final class FileIconUtils {
 

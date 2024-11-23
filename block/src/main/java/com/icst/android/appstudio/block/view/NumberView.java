@@ -31,6 +31,14 @@
 
 package com.icst.android.appstudio.block.view;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.R;
+import com.icst.android.appstudio.block.dialog.NumericalValueEditorDialog;
+import com.icst.android.appstudio.block.editor.EventEditor;
+import com.icst.android.appstudio.block.model.BlockValueFieldModel;
+import com.icst.android.appstudio.block.tag.BlockDroppableTag;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.TypedValue;
@@ -40,12 +48,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.icst.android.appstudio.block.R;
-import com.icst.android.appstudio.block.dialog.NumericalValueEditorDialog;
-import com.icst.android.appstudio.block.editor.EventEditor;
-import com.icst.android.appstudio.block.model.BlockValueFieldModel;
-import com.icst.android.appstudio.block.tag.BlockDroppableTag;
-import java.util.ArrayList;
 
 public class NumberView extends LinearLayout {
 	private BlockView numberBlock;

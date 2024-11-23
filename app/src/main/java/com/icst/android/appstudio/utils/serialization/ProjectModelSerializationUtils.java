@@ -1,7 +1,8 @@
 package com.icst.android.appstudio.utils.serialization;
 
-import com.icst.android.appstudio.models.ProjectModel;
 import java.io.File;
+
+import com.icst.android.appstudio.models.ProjectModel;
 
 public class ProjectModelSerializationUtils {
 	/*

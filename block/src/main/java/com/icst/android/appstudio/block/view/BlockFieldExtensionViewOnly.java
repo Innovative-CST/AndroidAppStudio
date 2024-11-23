@@ -31,6 +31,12 @@
 
 package com.icst.android.appstudio.block.view;
 
+import java.util.HashMap;
+
+import com.icst.android.appstudio.block.R;
+import com.icst.android.appstudio.block.editor.EventEditor;
+import com.icst.android.appstudio.block.model.BlockValueFieldModel;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -38,11 +44,8 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.core.content.ContextCompat;
-import com.icst.android.appstudio.block.R;
-import com.icst.android.appstudio.block.editor.EventEditor;
-import com.icst.android.appstudio.block.model.BlockValueFieldModel;
-import java.util.HashMap;
 
 public class BlockFieldExtensionViewOnly extends LinearLayout {
 	public BlockFieldExtensionViewOnly(

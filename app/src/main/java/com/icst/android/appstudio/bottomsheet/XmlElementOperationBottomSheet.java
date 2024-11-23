@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.bottomsheet;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.icst.android.appstudio.databinding.BottomsheetXmlElementOperationBinding;
 import com.icst.android.appstudio.xml.XmlModel;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 
 public class XmlElementOperationBottomSheet extends BottomSheetDialog {
 	private Context context;

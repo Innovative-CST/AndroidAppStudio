@@ -31,10 +31,11 @@
 
 package com.icst.logic.lib.view;
 
-import android.content.Context;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
+
+import android.content.Context;
 
 public class BlockElementLayerBeanView extends LayerBeanView {
 	public BlockElementLayerBeanView(Context context) {

@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.os.Build;
-import android.os.Bundle;
+import java.io.File;
+import java.util.HashMap;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.FileModel;
@@ -46,8 +47,9 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.SettingUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import java.io.File;
-import java.util.HashMap;
+
+import android.os.Build;
+import android.os.Bundle;
 
 public class EventEditorActivity extends BaseActivity {
 	private ActivityEventEditorBinding binding;

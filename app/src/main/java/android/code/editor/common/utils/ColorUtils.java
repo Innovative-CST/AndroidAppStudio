@@ -19,6 +19,7 @@ package android.code.editor.common.utils;
 
 import android.content.Context;
 import android.util.TypedValue;
+
 import androidx.annotation.ColorInt;
 
 public class ColorUtils {

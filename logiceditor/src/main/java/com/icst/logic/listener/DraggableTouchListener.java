@@ -31,11 +31,8 @@
 
 package com.icst.logic.listener;
 
-import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
@@ -45,7 +42,12 @@ import com.icst.logic.lib.view.DraggingBlockDummy;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.UnitUtils;
-import java.util.ArrayList;
+
+import android.os.Handler;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 
 public class DraggableTouchListener implements View.OnTouchListener {
 

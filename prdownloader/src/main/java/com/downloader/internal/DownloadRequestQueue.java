@@ -16,12 +16,13 @@
 
 package com.downloader.internal;
 
-import com.downloader.Status;
-import com.downloader.core.Core;
-import com.downloader.request.DownloadRequest;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.downloader.Status;
+import com.downloader.core.Core;
+import com.downloader.request.DownloadRequest;
 
 /**
  * Created by amitshekhar on 13/11/17.

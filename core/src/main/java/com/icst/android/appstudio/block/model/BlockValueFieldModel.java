@@ -31,10 +31,11 @@
 
 package com.icst.android.appstudio.block.model;
 
-import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.icst.android.appstudio.block.utils.ArrayUtils;
 import java.io.Serializable;
 import java.util.HashMap;
+
+import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
+import com.icst.android.appstudio.block.utils.ArrayUtils;
 
 public class BlockValueFieldModel extends BlockFieldModel implements Serializable, Cloneable {
 	public static final long serialVersionUID = 11L;

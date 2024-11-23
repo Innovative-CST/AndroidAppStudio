@@ -1,5 +1,9 @@
 package com.icst.android.appstudio.fragments.projectmodelconfig;
 
+import com.icst.android.appstudio.databinding.FragmentProjectModelAppConfigrationLayoutBinding;
+import com.icst.android.appstudio.models.ProjectModel;
+import com.icst.android.appstudio.utils.Validator;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -7,11 +11,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
-import com.icst.android.appstudio.databinding.FragmentProjectModelAppConfigrationLayoutBinding;
-import com.icst.android.appstudio.models.ProjectModel;
-import com.icst.android.appstudio.utils.Validator;
 
 public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseFragment {
 	private FragmentProjectModelAppConfigrationLayoutBinding binding;

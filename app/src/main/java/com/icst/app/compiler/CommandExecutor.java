@@ -31,11 +31,12 @@
 
 package com.icst.app.compiler;
 
-import com.icst.app.compiler.progress.BuildEventProgressListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.icst.app.compiler.progress.BuildEventProgressListener;
 
 public class CommandExecutor {
 	private final ProcessBuilder mProcess = new ProcessBuilder();

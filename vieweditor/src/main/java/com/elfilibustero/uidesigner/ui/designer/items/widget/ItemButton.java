@@ -1,8 +1,9 @@
 package com.elfilibustero.uidesigner.ui.designer.items.widget;
 
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+
 import android.content.Context;
 import android.widget.Button;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 
 public class ItemButton extends Button implements DesignerItem {
 

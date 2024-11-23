@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.block.view;
 
-import android.content.Context;
-import android.util.TypedValue;
-import android.widget.TextView;
 import com.icst.android.appstudio.block.model.BlockFieldModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.utils.ColorPalleteUtils;
+
+import android.content.Context;
+import android.util.TypedValue;
+import android.widget.TextView;
 
 public class BlockFieldView extends TextView {
 	private Context context;

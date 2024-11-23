@@ -31,17 +31,20 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.CodeEditorActivity;
 import com.icst.android.appstudio.activities.FileManagerActivity;
 import com.icst.android.appstudio.databinding.AdapterFileBinding;
 import com.icst.android.appstudio.utils.FileIconUtils;
-import java.io.File;
+
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FilesListAdapter extends RecyclerView.Adapter<FilesListAdapter.ViewHolder> {
 	private FileManagerActivity activity;

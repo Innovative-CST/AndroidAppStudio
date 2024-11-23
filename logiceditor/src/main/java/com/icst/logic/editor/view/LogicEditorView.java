@@ -31,12 +31,8 @@
 
 package com.icst.logic.editor.view;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
@@ -51,7 +47,13 @@ import com.icst.logic.lib.view.DraggingBlockDummy;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import com.icst.logic.listener.DraggableTouchListener;
 import com.icst.logic.utils.CanvaMathUtils;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 /* Main LogicEditor View */
 public class LogicEditorView extends RelativeLayout {

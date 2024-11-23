@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.extensions.commentextension;
 
-import com.icst.android.appstudio.block.model.BlockHolderModel;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.model.BlockHolderModel;
 
 public class CommentBlocksHolder {
 	public static ArrayList<BlockHolderModel> getHolders() {

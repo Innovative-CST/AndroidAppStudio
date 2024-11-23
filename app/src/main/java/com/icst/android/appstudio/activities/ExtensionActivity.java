@@ -31,8 +31,8 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.os.Bundle;
-import android.widget.Toast;
+import java.io.File;
+
 import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
@@ -46,7 +46,9 @@ import com.icst.android.appstudio.databinding.ActivityExtensionBinding;
 import com.icst.android.appstudio.models.ExtensionBundle;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
+
+import android.os.Bundle;
+import android.widget.Toast;
 
 public class ExtensionActivity extends BaseActivity {
 	private ActivityExtensionBinding binding;

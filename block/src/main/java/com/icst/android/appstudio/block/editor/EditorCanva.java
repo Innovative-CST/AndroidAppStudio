@@ -31,16 +31,17 @@
 
 package com.icst.android.appstudio.block.editor;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.LinearLayout;
 import com.icst.android.appstudio.block.R;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.utils.BlockMarginConstants;
 import com.icst.android.appstudio.block.utils.UnitUtils;
 import com.icst.android.appstudio.block.view.BlockView;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class EditorCanva extends EditorScrollView {
 	private boolean b1 = false;

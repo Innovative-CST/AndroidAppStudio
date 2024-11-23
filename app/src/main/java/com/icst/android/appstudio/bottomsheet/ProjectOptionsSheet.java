@@ -31,16 +31,18 @@
 
 package com.icst.android.appstudio.bottomsheet;
 
-import android.code.editor.common.interfaces.FileDeleteListener;
-import android.code.editor.common.utils.FileDeleteUtils;
-import android.content.Intent;
+import java.io.File;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.ProjectManagerActivity;
 import com.icst.android.appstudio.activities.ProjectModelConfigrationActivity;
 import com.icst.android.appstudio.databinding.BottomsheetProjectOptionBinding;
-import java.io.File;
+
+import android.code.editor.common.interfaces.FileDeleteListener;
+import android.code.editor.common.utils.FileDeleteUtils;
+import android.content.Intent;
 
 public class ProjectOptionsSheet extends BottomSheetDialog {
 	private BottomsheetProjectOptionBinding binding;

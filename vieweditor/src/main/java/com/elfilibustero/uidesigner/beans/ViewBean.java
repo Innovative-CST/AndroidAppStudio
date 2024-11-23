@@ -1,11 +1,13 @@
 package com.elfilibustero.uidesigner.beans;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import com.google.errorprone.annotations.Immutable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import com.google.errorprone.annotations.Immutable;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 /** Represents an item that can be drag and dropped to the editor */
 @Immutable

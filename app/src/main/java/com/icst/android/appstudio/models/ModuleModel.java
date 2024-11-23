@@ -31,10 +31,12 @@
 
 package com.icst.android.appstudio.models;
 
+import java.io.File;
+
+import com.icst.android.appstudio.utils.EnvironmentUtils;
+
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.icst.android.appstudio.utils.EnvironmentUtils;
-import java.io.File;
 
 public class ModuleModel implements Parcelable, Cloneable {
 	/*

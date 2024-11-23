@@ -31,13 +31,14 @@
 
 package com.icst.logic.utils;
 
-import android.content.Context;
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+
+import android.content.Context;
 
 public final class ActionBlockUtils {
 	public static ActionBlockBeanView getBlockView(Context context, ActionBlockBean actionBlock,

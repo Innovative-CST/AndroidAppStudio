@@ -16,12 +16,13 @@
 
 package com.downloader.core;
 
-import com.downloader.internal.DownloadRunnable;
 import java.util.concurrent.Future;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import com.downloader.internal.DownloadRunnable;
 
 /**
  * Created by amitshekhar on 13/11/17.

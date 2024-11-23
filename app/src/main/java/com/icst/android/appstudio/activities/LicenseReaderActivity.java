@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.activities;
 
+import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.databinding.ActivityLicenseReaderBinding;
+
 import android.code.editor.common.utils.FileUtils;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.databinding.ActivityLicenseReaderBinding;
 
 public class LicenseReaderActivity extends BaseActivity {
 	private ActivityLicenseReaderBinding binding;

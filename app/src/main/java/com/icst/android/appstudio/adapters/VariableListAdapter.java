@@ -31,6 +31,18 @@
 
 package com.icst.android.appstudio.adapters;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.dialog.variables.EditVariableDialog;
+import com.icst.android.appstudio.block.model.VariableModel;
+import com.icst.android.appstudio.databinding.AdapterVariableBinding;
+import com.icst.android.appstudio.fragments.variablemanager.NonStaticVariableManagerFragment;
+import com.icst.android.appstudio.fragments.variablemanager.StaticVariableManagerFragment;
+import com.icst.android.appstudio.models.ModuleModel;
+import com.icst.android.appstudio.utils.EnvironmentUtils;
+import com.icst.android.appstudio.utils.serialization.SerializerUtil;
+
 import android.code.editor.common.utils.ColorUtils;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -43,18 +55,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.block.dialog.variables.EditVariableDialog;
-import com.icst.android.appstudio.block.model.VariableModel;
-import com.icst.android.appstudio.databinding.AdapterVariableBinding;
-import com.icst.android.appstudio.fragments.variablemanager.NonStaticVariableManagerFragment;
-import com.icst.android.appstudio.fragments.variablemanager.StaticVariableManagerFragment;
-import com.icst.android.appstudio.models.ModuleModel;
-import com.icst.android.appstudio.utils.EnvironmentUtils;
-import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import java.io.File;
-import java.util.ArrayList;
 
 public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapter.ViewHolder> {
 	private ArrayList<VariableModel> variables;

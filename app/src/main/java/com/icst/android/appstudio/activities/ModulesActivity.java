@@ -31,11 +31,10 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.GradleFileModelListAdapter;
 import com.icst.android.appstudio.block.model.FileModel;
@@ -46,9 +45,13 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.GradleFileUtils;
 import com.icst.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class ModulesActivity extends BaseActivity {
 	public ActivityModulesBinding binding;

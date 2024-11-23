@@ -16,6 +16,13 @@
 
 package com.downloader.internal;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+
 import com.downloader.Constants;
 import com.downloader.Error;
 import com.downloader.Progress;
@@ -28,12 +35,6 @@ import com.downloader.internal.stream.FileDownloadOutputStream;
 import com.downloader.internal.stream.FileDownloadRandomAccessFile;
 import com.downloader.request.DownloadRequest;
 import com.downloader.utils.Utils;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 
 /**
  * Created by amitshekhar on 13/11/17.

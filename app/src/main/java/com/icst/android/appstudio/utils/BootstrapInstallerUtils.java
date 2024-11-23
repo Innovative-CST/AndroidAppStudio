@@ -31,13 +31,6 @@
 
 package com.icst.android.appstudio.utils;
 
-import android.content.Context;
-import android.system.ErrnoException;
-import android.system.Os;
-import android.util.Pair;
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.ResourceUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +45,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.ResourceUtils;
+
+import android.content.Context;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.util.Pair;
 
 public class BootstrapInstallerUtils {
 

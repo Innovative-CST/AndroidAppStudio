@@ -31,15 +31,18 @@
 
 package com.icst.android.appstudio.adapters;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.activities.LicenseActivity;
+import com.icst.android.appstudio.activities.LicenseReaderActivity;
+import com.icst.android.appstudio.databinding.LayoutLicenseListItemBinding;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.activities.LicenseActivity;
-import com.icst.android.appstudio.activities.LicenseReaderActivity;
-import com.icst.android.appstudio.databinding.LayoutLicenseListItemBinding;
-import java.util.ArrayList;
 
 public class LicenseListAdapter extends RecyclerView.Adapter<LicenseListAdapter.ViewHolder> {
 

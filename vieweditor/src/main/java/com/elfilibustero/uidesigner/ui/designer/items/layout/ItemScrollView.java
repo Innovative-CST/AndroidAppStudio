@@ -1,5 +1,8 @@
 package com.elfilibustero.uidesigner.ui.designer.items.layout;
 
+import com.elfilibustero.uidesigner.lib.utils.Utils;
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -7,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
-import com.elfilibustero.uidesigner.lib.utils.Utils;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 
 public class ItemScrollView extends ScrollView implements DesignerItem {
 

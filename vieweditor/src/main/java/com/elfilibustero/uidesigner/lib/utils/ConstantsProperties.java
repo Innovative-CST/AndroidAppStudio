@@ -1,15 +1,16 @@
 package com.elfilibustero.uidesigner.lib.utils;
 
-import android.graphics.Typeface;
-import android.text.InputType;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import android.graphics.Typeface;
+import android.text.InputType;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class ConstantsProperties {
 	public static Map<String, Map<String, String>> MAP_ENUM = new HashMap<>();

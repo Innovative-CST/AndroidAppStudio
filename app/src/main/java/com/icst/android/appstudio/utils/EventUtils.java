@@ -31,6 +31,9 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.EventGroupModel;
 import com.icst.android.appstudio.block.model.FileModel;
@@ -38,8 +41,6 @@ import com.icst.android.appstudio.builtin.events.GradleBuiltInEvents;
 import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import java.io.File;
-import java.util.ArrayList;
 
 public class EventUtils {
 	public static ArrayList<Object> getEvents(File file) {

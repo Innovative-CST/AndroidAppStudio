@@ -31,6 +31,10 @@
 
 package com.icst.android.appstudio.helper;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.EventGroupModel;
 import com.icst.android.appstudio.block.model.FileModel;
@@ -43,9 +47,6 @@ import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.EventUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FileModelCodeHelper {
 	private File eventsDirectory;

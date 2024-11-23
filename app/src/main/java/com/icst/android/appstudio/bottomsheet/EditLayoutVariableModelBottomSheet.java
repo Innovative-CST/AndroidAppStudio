@@ -31,11 +31,10 @@
 
 package com.icst.android.appstudio.bottomsheet;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.widget.ArrayAdapter;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.block.model.FileModel;
@@ -47,9 +46,12 @@ import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import com.icst.android.appstudio.vieweditor.models.LayoutVariableModel;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.widget.ArrayAdapter;
 
 public class EditLayoutVariableModelBottomSheet extends BottomSheetDialog {
 

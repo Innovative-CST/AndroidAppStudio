@@ -31,10 +31,11 @@
 
 package com.icst.android.appstudio.dialogs;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.Toast;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.JavaFileManagerActivity;
@@ -46,10 +47,11 @@ import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Toast;
 
 public class JavaFileManagerDialog extends MaterialAlertDialogBuilder {
 	private JavaFileManagerActivity activity;

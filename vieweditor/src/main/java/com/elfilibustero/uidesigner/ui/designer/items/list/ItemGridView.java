@@ -1,11 +1,12 @@
 package com.elfilibustero.uidesigner.ui.designer.items.list;
 
-import android.content.Context;
-import android.widget.GridView;
 import com.elfilibustero.uidesigner.adapters.SimpleListAdapter;
 import com.elfilibustero.uidesigner.lib.utils.Utils;
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
+
+import android.content.Context;
+import android.widget.GridView;
 
 public class ItemGridView extends GridView implements DesignerItem, DesignerListItem {
 

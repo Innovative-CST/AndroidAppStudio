@@ -31,9 +31,8 @@
 
 package com.icst.android.appstudio.activities.resourcemanager;
 
-import android.os.Bundle;
-import android.view.View;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.adapters.resourcemanager.ResourceManagerAdapter;
@@ -43,7 +42,11 @@ import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
-import java.io.File;
+
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class ResourceManagerActivity extends BaseActivity {
 	// SECTION Constants

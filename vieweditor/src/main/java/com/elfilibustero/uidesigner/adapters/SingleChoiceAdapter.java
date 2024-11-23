@@ -1,17 +1,20 @@
 package com.elfilibustero.uidesigner.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
+import com.icst.android.appstudio.vieweditor.R;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
-import com.icst.android.appstudio.vieweditor.R;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class SingleChoiceAdapter<T> extends RecyclerView.Adapter<SingleChoiceAdapter<T>.ViewHolder>
 		implements ChoiceAdapter<T> {

@@ -31,13 +31,14 @@
 
 package com.icst.android.appstudio.extensions.basicvariables;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.icst.android.appstudio.ImageUtils;
 import com.icst.android.appstudio.block.enums.InputTypes;
 import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class BasicVariables {
 

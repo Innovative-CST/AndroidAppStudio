@@ -31,13 +31,16 @@
 
 package com.icst.android.appstudio.bottomsheet;
 
-import android.app.Activity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.util.ArrayList;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.icst.android.appstudio.adapters.SocialProfileAdapter;
 import com.icst.android.appstudio.databinding.BottomsheetSocialProfileBottomSheetBinding;
 import com.icst.android.appstudio.models.SocialProfile;
-import java.util.ArrayList;
+
+import android.app.Activity;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class SocialProfileBottomSheet extends BottomSheetDialog {
 	public SocialProfileBottomSheet(ArrayList<SocialProfile> socialProfiles, Activity activity) {

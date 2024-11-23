@@ -1,8 +1,9 @@
 package com.elfilibustero.uidesigner.ui.designer.items.widget;
 
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+
 import android.content.Context;
 import android.widget.EditText;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 
 public class ItemEditText extends EditText implements DesignerItem {
 

@@ -31,10 +31,9 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.content.Intent;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.JavaFileManagerActivity;
 import com.icst.android.appstudio.activities.JavaFileModelEditorActivity;
@@ -42,8 +41,12 @@ import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.databinding.AdapterJavaFileManagerBinding;
 import com.icst.android.appstudio.models.ModuleModel;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class JavaFileManagerAdpater
 		extends RecyclerView.Adapter<JavaFileManagerAdpater.ViewHolder> {

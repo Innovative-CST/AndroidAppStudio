@@ -31,7 +31,6 @@
 
 package com.icst.android.appstudio;
 
-import com.icst.android.appstudio.models.ExtensionBundle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -39,6 +38,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.icst.android.appstudio.models.ExtensionBundle;
 
 public class ExtensionsMetaDataGenerator {
 

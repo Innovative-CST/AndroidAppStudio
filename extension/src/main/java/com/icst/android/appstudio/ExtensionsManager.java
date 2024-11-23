@@ -31,13 +31,14 @@
 
 package com.icst.android.appstudio;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.icst.android.appstudio.extensions.activityextension.ActivityExtension;
 import com.icst.android.appstudio.extensions.basicvariables.BasicVariablesExtensions;
 import com.icst.android.appstudio.extensions.commentextension.CommentExtension;
 import com.icst.android.appstudio.extensions.controlextension.ControlExtension;
 import com.icst.android.appstudio.extensions.controlextension.OperatorExtension;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ExtensionsManager {
 	public static final String EXTENSION_FILE_NAME = "extensionFileName";

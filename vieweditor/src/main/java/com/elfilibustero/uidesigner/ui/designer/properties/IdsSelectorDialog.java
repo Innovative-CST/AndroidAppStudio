@@ -1,17 +1,20 @@
 package com.elfilibustero.uidesigner.ui.designer.properties;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.elfilibustero.uidesigner.adapters.SingleChoiceAdapter;
 import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
 import com.icst.android.appstudio.vieweditor.databinding.PropertySelectorItemBinding;
-import java.util.ArrayList;
-import java.util.List;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class IdsSelectorDialog extends PropertyDialog {
 

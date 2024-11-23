@@ -1,13 +1,15 @@
 package com.elfilibustero.uidesigner.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SimpleListAdapter extends BaseAdapter {
 

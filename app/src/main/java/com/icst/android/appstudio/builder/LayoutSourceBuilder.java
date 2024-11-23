@@ -31,14 +31,16 @@
 
 package com.icst.android.appstudio.builder;
 
-import android.code.editor.common.utils.FileUtils;
+import java.io.File;
+
 import com.icst.android.appstudio.helper.ProjectCodeBuilderCancelToken;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
-import java.io.File;
+
+import android.code.editor.common.utils.FileUtils;
 
 public class LayoutSourceBuilder {
 	private ModuleModel module;

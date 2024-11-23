@@ -31,9 +31,9 @@
 
 package com.icst.android.appstudio.dialogs;
 
-import android.view.View;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.adapters.AddEventsAdapter;
 import com.icst.android.appstudio.block.model.Event;
@@ -41,8 +41,11 @@ import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.databinding.DialogAddEventBinding;
 import com.icst.android.appstudio.fragments.events.JavaEventManagerFragment;
 import com.icst.android.appstudio.utils.EventUtils;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class AddEventDialog extends MaterialAlertDialogBuilder {
 	private static final int INFO_SECTION = 0;

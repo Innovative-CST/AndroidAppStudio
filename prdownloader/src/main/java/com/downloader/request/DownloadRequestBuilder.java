@@ -16,10 +16,11 @@
 
 package com.downloader.request;
 
-import com.downloader.Priority;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.downloader.Priority;
 
 /**
  * Created by amitshekhar on 13/11/17.

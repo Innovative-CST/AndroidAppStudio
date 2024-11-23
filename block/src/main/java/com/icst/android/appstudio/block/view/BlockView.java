@@ -31,16 +31,8 @@
 
 package com.icst.android.appstudio.block.view;
 
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import androidx.core.content.ContextCompat;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.R;
 import com.icst.android.appstudio.block.editor.EventEditor;
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
@@ -54,7 +46,18 @@ import com.icst.android.appstudio.block.utils.ColorPalleteUtils;
 import com.icst.android.appstudio.block.utils.LayerBuilder;
 import com.icst.android.appstudio.block.utils.TargetUtils;
 import com.icst.android.appstudio.block.utils.UnitUtils;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import androidx.core.content.ContextCompat;
 
 public class BlockView extends LinearLayout {
 	private EventEditor editor;

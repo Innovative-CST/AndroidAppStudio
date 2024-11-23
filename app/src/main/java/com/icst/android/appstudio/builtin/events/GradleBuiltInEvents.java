@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.builtin.events;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
 import com.icst.android.appstudio.block.model.BlockFieldModel;
 import com.icst.android.appstudio.block.model.BlockLayerModel;
@@ -38,7 +40,6 @@ import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 import com.icst.android.appstudio.builtin.blocks.GradleDepedencyBlocks;
-import java.util.ArrayList;
 
 public class GradleBuiltInEvents {
 

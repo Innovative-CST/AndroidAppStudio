@@ -1,21 +1,24 @@
 package com.elfilibustero.uidesigner.ui.designer.items.androidx;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import com.elfilibustero.uidesigner.lib.utils.Utils;
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.lib.utils.Utils;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
-import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class ItemRecyclerView extends RecyclerView implements DesignerItem, DesignerListItem {
 

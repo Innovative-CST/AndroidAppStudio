@@ -31,15 +31,6 @@
 
 package com.icst.android.appstudio;
 
-import android.app.AlarmManager;
-import android.app.Application;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Process;
-import android.util.Log;
 import com.downloader.PRDownloader;
 import com.downloader.PRDownloaderConfig;
 import com.elfilibustero.uidesigner.AppLoader;
@@ -49,6 +40,16 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.SettingUtils;
 import com.quickersilver.themeengine.ThemeEngine;
 import com.quickersilver.themeengine.ThemeMode;
+
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Process;
+import android.util.Log;
 
 public class MyApplication extends Application {
 	// Social links

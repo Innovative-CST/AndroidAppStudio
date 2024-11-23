@@ -31,13 +31,15 @@
 
 package com.icst.android.appstudio.adapters;
 
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.fragments.events.JavaEventManagerFragment;
 import com.icst.android.appstudio.fragments.variablemanager.JavaVariableManagerFragment;
 import com.icst.android.appstudio.models.ModuleModel;
-import java.util.ArrayList;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class JavaFileModelEditorTabAdapter extends FragmentStateAdapter {
 

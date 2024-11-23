@@ -1,17 +1,19 @@
 package com.elfilibustero.uidesigner.lib.progress;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import com.google.common.util.concurrent.AsyncCallable;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+
+import com.google.common.util.concurrent.AsyncCallable;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 public class ProgressManager {
 

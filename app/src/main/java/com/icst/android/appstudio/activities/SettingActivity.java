@@ -31,10 +31,6 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-import androidx.viewbinding.ViewBinding;
 import com.icst.android.appstudio.MyApplication;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.databinding.ActivitySettingBinding;
@@ -45,6 +41,12 @@ import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.SettingUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import com.quickersilver.themeengine.ThemeChooserDialogBuilder;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.viewbinding.ViewBinding;
 
 public class SettingActivity extends BaseActivity {
 

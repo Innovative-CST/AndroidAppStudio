@@ -31,9 +31,9 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.os.Bundle;
-import android.view.View;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +46,11 @@ import com.icst.android.appstudio.models.ExtensionAdapterModel;
 import com.icst.android.appstudio.models.ExtensionBundle;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class ExtensionsManagerActivity extends BaseActivity {
 

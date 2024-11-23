@@ -31,6 +31,9 @@
 
 package com.icst.android.appstudio.extensions.activityextension;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.ImageUtils;
 import com.icst.android.appstudio.MethodEventUtils;
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
@@ -41,8 +44,6 @@ import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
 import com.icst.android.appstudio.block.tag.ImportTag;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ActivityEvents {
 	public static ArrayList<Event> getAllEvents() {

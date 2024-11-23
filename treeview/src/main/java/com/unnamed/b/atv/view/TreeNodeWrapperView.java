@@ -1,12 +1,13 @@
 package com.unnamed.b.atv.view;
 
+import com.unnamed.b.atv.R;
+
 import android.content.Context;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.unnamed.b.atv.R;
 
 /** Created by Bogdan Melnychuk on 2/10/15. */
 public class TreeNodeWrapperView extends LinearLayout {

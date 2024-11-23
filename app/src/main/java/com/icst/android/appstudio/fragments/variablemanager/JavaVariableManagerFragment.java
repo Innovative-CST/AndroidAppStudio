@@ -31,17 +31,20 @@
 
 package com.icst.android.appstudio.fragments.variablemanager;
 
+import java.io.File;
+
+import com.icst.android.appstudio.R.id;
+import com.icst.android.appstudio.databinding.FragmentJavaVariableManagerBinding;
+import com.icst.android.appstudio.models.ModuleModel;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.icst.android.appstudio.R.id;
-import com.icst.android.appstudio.databinding.FragmentJavaVariableManagerBinding;
-import com.icst.android.appstudio.models.ModuleModel;
-import java.io.File;
 
 public class JavaVariableManagerFragment extends Fragment {
 	private FragmentJavaVariableManagerBinding binding;

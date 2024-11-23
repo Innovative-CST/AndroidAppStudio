@@ -31,11 +31,8 @@
 
 package com.icst.logic.block.view;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -45,7 +42,12 @@ import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 public class EventBlockBeanView extends BlockBeanView {
 	private Context context;

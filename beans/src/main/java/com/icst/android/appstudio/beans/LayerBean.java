@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 /**
  * A abstract class, to be inherited by types Layer, It provides a interface for

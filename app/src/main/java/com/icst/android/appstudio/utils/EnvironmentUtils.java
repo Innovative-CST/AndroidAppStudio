@@ -31,19 +31,21 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.icst.android.appstudio.BuildConfig;
+import com.icst.android.appstudio.models.ModuleModel;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.system.ErrnoException;
 import android.system.Os;
-import com.icst.android.appstudio.BuildConfig;
-import com.icst.android.appstudio.models.ModuleModel;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public final class EnvironmentUtils {
 	public static File STORAGE;

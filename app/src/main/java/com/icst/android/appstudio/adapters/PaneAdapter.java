@@ -31,15 +31,18 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.activities.CodeEditorActivity;
 import com.icst.android.appstudio.databinding.ViewHolderPaneBinding;
 import com.icst.android.appstudio.interfaces.WorkSpacePane;
 import com.icst.android.appstudio.view.CodeEditorPaneView;
 import com.icst.android.appstudio.view.TerminalPaneView;
-import java.util.ArrayList;
+
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /*
  * Adapter for Recycler view in CodeEditorActivity to list TerminalPane and CodeEditorPane.

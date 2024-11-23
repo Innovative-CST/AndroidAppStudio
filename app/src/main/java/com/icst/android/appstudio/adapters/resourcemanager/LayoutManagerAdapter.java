@@ -31,17 +31,20 @@
 
 package com.icst.android.appstudio.adapters.resourcemanager;
 
-import android.content.Intent;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.activities.resourcemanager.LayoutEditorActivity;
 import com.icst.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.icst.android.appstudio.databinding.AdapterManagerLayoutBinding;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LayoutManagerAdapter extends RecyclerView.Adapter<LayoutManagerAdapter.ViewHolder> {
 

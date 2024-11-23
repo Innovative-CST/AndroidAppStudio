@@ -31,10 +31,6 @@
 
 package com.icst.logic.lib.builder;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.view.View;
-import android.widget.TextView;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
@@ -44,6 +40,11 @@ import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.BlockElementLayerBeanView;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.ColorUtils;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.TextView;
 
 public final class LayerBuilder {
 

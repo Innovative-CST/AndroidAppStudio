@@ -1,13 +1,10 @@
 package com.elfilibustero.uidesigner.ui.designer.properties;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.elfilibustero.uidesigner.adapters.SingleChoiceAdapter;
 import com.elfilibustero.uidesigner.lib.utils.ConstantsProperties;
 import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
@@ -17,10 +14,16 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.icst.android.appstudio.vieweditor.databinding.PropertySizeItemBinding;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import android.content.Context;
+import android.text.Editable;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PropertySizeDialog extends PropertyDialog {
 

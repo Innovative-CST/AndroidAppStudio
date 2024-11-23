@@ -1,5 +1,15 @@
 package com.unnamed.b.atv.view;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.unnamed.b.atv.R;
+import com.unnamed.b.atv.holder.SimpleViewHolder;
+import com.unnamed.b.atv.model.TreeNode;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -9,14 +19,6 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import com.unnamed.b.atv.R;
-import com.unnamed.b.atv.holder.SimpleViewHolder;
-import com.unnamed.b.atv.model.TreeNode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /** Created by Bogdan Melnychuk on 2/10/15. */
 public class AndroidTreeView {

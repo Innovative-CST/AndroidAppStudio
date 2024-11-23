@@ -1,12 +1,15 @@
 package com.elfilibustero.uidesigner.ui.designer.tree;
 
-import android.view.View;
-import androidx.annotation.DrawableRes;
-import com.elfilibustero.uidesigner.lib.handler.ViewPaletteHandler;
-import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.elfilibustero.uidesigner.lib.handler.ViewPaletteHandler;
+import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
+
+import android.view.View;
+
+import androidx.annotation.DrawableRes;
 
 public class TreeNode {
 	private View view;

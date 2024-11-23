@@ -31,16 +31,19 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.activities.ExtensionActivity;
 import com.icst.android.appstudio.databinding.AdapterExtensionBinding;
 import com.icst.android.appstudio.models.ExtensionAdapterModel;
-import java.util.ArrayList;
+
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
 	private ArrayList<ExtensionAdapterModel> extensions;

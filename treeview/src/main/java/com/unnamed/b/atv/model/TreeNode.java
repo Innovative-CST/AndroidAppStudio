@@ -1,15 +1,17 @@
 package com.unnamed.b.atv.model;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import com.unnamed.b.atv.R;
-import com.unnamed.b.atv.view.AndroidTreeView;
-import com.unnamed.b.atv.view.TreeNodeWrapperView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import com.unnamed.b.atv.R;
+import com.unnamed.b.atv.view.AndroidTreeView;
+import com.unnamed.b.atv.view.TreeNodeWrapperView;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 /** Created by Bogdan Melnychuk on 2/10/15. */
 public class TreeNode {

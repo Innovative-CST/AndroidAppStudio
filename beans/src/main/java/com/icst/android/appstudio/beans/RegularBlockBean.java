@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.beans;
 
+import java.io.Serializable;
+
 import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
-import java.io.Serializable;
 
 /**
  * RegularBlockBean: Can hold RegularBlockBean (nested blocks), BlockElementBean

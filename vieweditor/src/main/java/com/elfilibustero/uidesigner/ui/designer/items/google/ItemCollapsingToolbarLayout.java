@@ -1,11 +1,14 @@
 package com.elfilibustero.uidesigner.ui.designer.items.google;
 
+import java.lang.reflect.Field;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 import android.content.Context;
 import android.view.View;
+
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import java.lang.reflect.Field;
 
 public class ItemCollapsingToolbarLayout extends CollapsingToolbarLayout {
 

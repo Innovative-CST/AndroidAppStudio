@@ -31,14 +31,16 @@
 
 package com.icst.android.appstudio.dialogs;
 
-import android.app.Activity;
-import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Themes;
 import com.icst.editor.widget.CodeEditorLayout;
+
+import android.app.Activity;
+import android.widget.Toast;
+
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 

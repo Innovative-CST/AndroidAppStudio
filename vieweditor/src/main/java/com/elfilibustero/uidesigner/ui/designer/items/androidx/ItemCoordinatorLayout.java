@@ -1,10 +1,12 @@
 package com.elfilibustero.uidesigner.ui.designer.items.androidx;
 
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+
 import android.content.Context;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 
 public class ItemCoordinatorLayout extends CoordinatorLayout implements DesignerItem {
 

@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.fragments.projectmodelconfig;
 
-import androidx.fragment.app.Fragment;
 import com.icst.android.appstudio.models.ProjectModel;
+
+import androidx.fragment.app.Fragment;
 
 public class ProjectModelConfigBaseFragment extends Fragment {
 	private boolean isNewProject;

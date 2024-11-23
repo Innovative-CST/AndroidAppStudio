@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.extensions.controlextension;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
 import com.icst.android.appstudio.block.model.BlockFieldModel;
 import com.icst.android.appstudio.block.model.BlockHolderLayer;
@@ -39,7 +41,6 @@ import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.BlockValueFieldModel;
 import com.icst.android.appstudio.block.tag.BlockModelTag;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
-import java.util.ArrayList;
 
 public final class ControlBlocks {
 	public static ArrayList<BlockModel> getBlocks() {

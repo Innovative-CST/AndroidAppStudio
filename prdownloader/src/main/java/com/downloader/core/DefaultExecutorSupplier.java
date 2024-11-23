@@ -16,10 +16,11 @@
 
 package com.downloader.core;
 
-import android.os.Process;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+
+import android.os.Process;
 
 /**
  * Created by amitshekhar on 13/11/17.

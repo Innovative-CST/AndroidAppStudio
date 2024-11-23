@@ -1,16 +1,19 @@
 package com.elfilibustero.uidesigner.adapters;
 
+import java.util.List;
+
+import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
+import com.icst.android.appstudio.vieweditor.R;
+
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
-import com.icst.android.appstudio.vieweditor.R;
-import java.util.List;
 
 public class AttributesAdapter extends RecyclerView.Adapter<AttributesAdapter.VH> {
 

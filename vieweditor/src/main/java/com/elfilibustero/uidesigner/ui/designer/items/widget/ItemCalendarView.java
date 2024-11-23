@@ -1,9 +1,10 @@
 package com.elfilibustero.uidesigner.ui.designer.items.widget;
 
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+
 import android.content.Context;
 import android.view.MotionEvent;
 import android.widget.CalendarView;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 
 public class ItemCalendarView extends CalendarView implements DesignerItem {
 

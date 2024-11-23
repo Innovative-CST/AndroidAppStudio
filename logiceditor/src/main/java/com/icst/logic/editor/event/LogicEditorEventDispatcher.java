@@ -31,9 +31,10 @@
 
 package com.icst.logic.editor.event;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
-import java.util.ArrayList;
 
 public class LogicEditorEventDispatcher extends LogicEditorEventListener {
 	private ArrayList<LogicEditorEventListener> listener;

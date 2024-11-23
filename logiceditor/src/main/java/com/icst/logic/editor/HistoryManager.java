@@ -31,8 +31,9 @@
 
 package com.icst.logic.editor;
 
-import com.icst.logic.editor.view.LogicEditorView;
 import java.util.Stack;
+
+import com.icst.logic.editor.view.LogicEditorView;
 
 public class HistoryManager {
 

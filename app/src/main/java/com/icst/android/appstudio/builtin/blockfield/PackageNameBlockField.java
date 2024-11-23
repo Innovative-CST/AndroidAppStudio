@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.builtin.blockfield;
 
+import java.util.HashMap;
+
 import com.icst.android.appstudio.block.model.BlockValueFieldModel;
 import com.icst.android.appstudio.models.ProjectModel;
-import java.util.HashMap;
 
 public class PackageNameBlockField extends BlockValueFieldModel {
 	public PackageNameBlockField() {

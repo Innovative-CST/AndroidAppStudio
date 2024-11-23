@@ -1,8 +1,9 @@
 package com.icst.android.appstudio.utils.terminal;
 
-import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.widget.Button;
 
 /** The {@link Class} that maintains a state of a {@link SpecialButton} */
 public class SpecialButtonState {

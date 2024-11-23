@@ -31,7 +31,10 @@
 
 package com.icst.android.appstudio.helper;
 
-import android.code.editor.common.utils.FileUtils;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.tag.DependencyTag;
 import com.icst.android.appstudio.builder.AndroidManifestBuilder;
@@ -44,9 +47,8 @@ import com.icst.android.appstudio.utils.FileModelUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.app.builder.AppBuilder;
 import com.icst.app.builder.BuildListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import android.code.editor.common.utils.FileUtils;
 
 public final class ProjectCodeBuilder {
 

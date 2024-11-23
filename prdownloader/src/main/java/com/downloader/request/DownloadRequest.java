@@ -16,6 +16,10 @@
 
 package com.downloader.request;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.Future;
+
 import com.downloader.Error;
 import com.downloader.OnCancelListener;
 import com.downloader.OnDownloadListener;
@@ -30,9 +34,6 @@ import com.downloader.internal.ComponentHolder;
 import com.downloader.internal.DownloadRequestQueue;
 import com.downloader.internal.SynchronousCall;
 import com.downloader.utils.Utils;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Future;
 
 /**
  * Created by amitshekhar on 13/11/17.

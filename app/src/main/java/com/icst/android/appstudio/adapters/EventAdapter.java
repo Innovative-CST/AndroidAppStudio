@@ -31,6 +31,14 @@
 
 package com.icst.android.appstudio.adapters;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.activities.EventEditorActivity;
+import com.icst.android.appstudio.block.model.Event;
+import com.icst.android.appstudio.databinding.AdapterEventBinding;
+import com.icst.android.appstudio.models.ModuleModel;
+
 import android.app.Activity;
 import android.code.editor.common.utils.ColorUtils;
 import android.content.Intent;
@@ -41,13 +49,8 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.activities.EventEditorActivity;
-import com.icst.android.appstudio.block.model.Event;
-import com.icst.android.appstudio.databinding.AdapterEventBinding;
-import com.icst.android.appstudio.models.ModuleModel;
-import java.io.File;
-import java.util.ArrayList;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 	public class ViewHolder extends RecyclerView.ViewHolder {

@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.builtin.xml;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.xml.XmlAttributeModel;
 import com.icst.android.appstudio.xml.XmlModel;
-import java.util.ArrayList;
 
 public class BuiltInAndroidManifest {
 	public static XmlModel get(String project) {

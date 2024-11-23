@@ -1,12 +1,15 @@
 package com.icst.android.appstudio.utils.terminal;
 
-import android.view.View;
-import android.widget.Button;
-import androidx.annotation.NonNull;
-import com.icst.android.appstudio.utils.terminal.VirtualKeysConstants.EXTRA_KEY_DISPLAY_MAPS;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.icst.android.appstudio.utils.terminal.VirtualKeysConstants.EXTRA_KEY_DISPLAY_MAPS;
+
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
 
 /**
  * A {@link Class} that defines the info needed by {@link VirtualKeysView} to

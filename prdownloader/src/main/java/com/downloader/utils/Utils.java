@@ -16,12 +16,6 @@
 
 package com.downloader.utils;
 
-import com.downloader.Constants;
-import com.downloader.core.Core;
-import com.downloader.database.DownloadModel;
-import com.downloader.httpclient.HttpClient;
-import com.downloader.internal.ComponentHolder;
-import com.downloader.request.DownloadRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,6 +23,13 @@ import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import com.downloader.Constants;
+import com.downloader.core.Core;
+import com.downloader.database.DownloadModel;
+import com.downloader.httpclient.HttpClient;
+import com.downloader.internal.ComponentHolder;
+import com.downloader.request.DownloadRequest;
 
 /**
  * Created by amitshekhar on 13/11/17.

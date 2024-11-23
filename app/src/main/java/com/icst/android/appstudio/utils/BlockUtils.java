@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockHolderModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.tag.BlockModelTag;
-import java.util.ArrayList;
 
 public final class BlockUtils {
 	public static ArrayList<BlockHolderModel> loadBlockHolders(FileModel file, Event event) {

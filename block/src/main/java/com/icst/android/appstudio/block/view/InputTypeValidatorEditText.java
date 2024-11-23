@@ -31,16 +31,18 @@
 
 package com.icst.android.appstudio.block.view;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.AttributeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.icst.android.appstudio.block.enums.InputTypes;
 import com.icst.android.appstudio.block.utils.NumberRangeValidator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
 
 public class InputTypeValidatorEditText extends TextInputEditText {
 

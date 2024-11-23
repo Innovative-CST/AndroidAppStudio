@@ -17,16 +17,19 @@
 
 package com.icst.editor.editors.sora.lang.textmate.provider;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+
+import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 
 public class TextMateProvider {
 	public static void loadGrammars() {

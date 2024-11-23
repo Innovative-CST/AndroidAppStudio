@@ -31,18 +31,21 @@
 
 package com.icst.android.appstudio.adapters;
 
-import android.content.Intent;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.activities.ModulesActivity;
 import com.icst.android.appstudio.activities.ProjectManagerActivity;
 import com.icst.android.appstudio.bottomsheet.ProjectOptionsSheet;
 import com.icst.android.appstudio.databinding.AdapterProjectBinding;
 import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.ViewHolder> {
 	private ArrayList<ProjectModel> projectList;

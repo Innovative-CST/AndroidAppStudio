@@ -31,15 +31,9 @@
 
 package com.icst.android.appstudio.block.editor;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.icst.android.appstudio.block.R;
 import com.icst.android.appstudio.block.adapter.BlocksHolderAdapter;
 import com.icst.android.appstudio.block.databinding.EventEditorLayoutBinding;
@@ -52,8 +46,17 @@ import com.icst.android.appstudio.block.utils.TargetUtils;
 import com.icst.android.appstudio.block.view.BlockDragView;
 import com.icst.android.appstudio.block.view.BlockPreview;
 import com.icst.android.appstudio.block.view.BlockView;
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class EventEditor extends RelativeLayout {
 

@@ -1,14 +1,15 @@
 package com.elfilibustero.uidesigner.ui.designer.items;
 
+import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
+import com.elfilibustero.uidesigner.lib.utils.Utils;
+import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
+import com.google.android.material.textview.MaterialTextView;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils.TruncateAt;
 import android.view.Gravity;
 import android.view.View;
-import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
-import com.elfilibustero.uidesigner.lib.utils.Utils;
-import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
-import com.google.android.material.textview.MaterialTextView;
 
 public class DefaultView extends MaterialTextView implements DesignerItem {
 

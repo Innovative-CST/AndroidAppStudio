@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.block.view;
 
-import android.graphics.Color;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import com.icst.android.appstudio.block.R;
 import com.icst.android.appstudio.block.editor.EventEditor;
 import com.icst.android.appstudio.block.model.BlockModel;
+
+import android.graphics.Color;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 public class BlockPreview extends LinearLayout {
 	private BlockModel block;

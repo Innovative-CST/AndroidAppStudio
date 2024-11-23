@@ -31,9 +31,9 @@
 
 package com.icst.android.appstudio.dialogs;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Toast;
+import java.io.File;
+import java.util.concurrent.Executors;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.databinding.DialogProjectBuilderBinding;
@@ -45,10 +45,13 @@ import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.utils.TimeUtils;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Themes;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Toast;
+
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
-import java.io.File;
-import java.util.concurrent.Executors;
 
 public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
 	private BaseActivity activity;

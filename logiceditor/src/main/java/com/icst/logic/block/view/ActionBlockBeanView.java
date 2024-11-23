@@ -31,9 +31,10 @@
 
 package com.icst.logic.block.view;
 
-import android.content.Context;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+
+import android.content.Context;
 
 public class ActionBlockBeanView extends BlockBeanView {
 

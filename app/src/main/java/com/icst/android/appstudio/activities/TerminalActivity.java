@@ -31,17 +31,11 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.system.ErrnoException;
-import android.system.Os;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.WindowManager;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import java.io.File;
+import java.util.Map;
+
+import org.json.JSONException;
+
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.icst.android.appstudio.databinding.ActivityTerminalBinding;
@@ -55,9 +49,19 @@ import com.termux.terminal.TerminalSession;
 import com.termux.terminal.TerminalSessionClient;
 import com.termux.view.TerminalView;
 import com.termux.view.TerminalViewClient;
-import java.io.File;
-import java.util.Map;
-import org.json.JSONException;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class TerminalActivity extends BaseActivity
 		implements TerminalSessionClient, TerminalViewClient {

@@ -31,7 +31,9 @@
 
 package com.icst.android.appstudio.builder;
 
-import android.code.editor.common.utils.FileUtils;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.model.JavaFileModel;
 import com.icst.android.appstudio.block.tag.DependencyTag;
@@ -41,8 +43,8 @@ import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.code.editor.common.utils.FileUtils;
 
 public class JavaSourceBuilder {
 	private ModuleModel module;

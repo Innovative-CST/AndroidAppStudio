@@ -1,5 +1,22 @@
 package com.elfilibustero.uidesigner.lib.handler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import com.elfilibustero.uidesigner.beans.ViewBean;
+import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.common.collect.ImmutableMap;
+import com.icst.android.appstudio.vieweditor.R;
+
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -22,6 +39,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -32,21 +50,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import com.elfilibustero.uidesigner.beans.ViewBean;
-import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import com.google.common.collect.ImmutableMap;
-import com.icst.android.appstudio.vieweditor.R;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class ViewPaletteHandler {
 

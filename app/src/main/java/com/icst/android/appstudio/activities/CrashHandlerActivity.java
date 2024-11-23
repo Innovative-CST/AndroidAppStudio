@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.activities;
 
+import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.databinding.ActivityCrashHandlerBinding;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.databinding.ActivityCrashHandlerBinding;
 
 public class CrashHandlerActivity extends BaseActivity {
 	private ActivityCrashHandlerBinding binding;

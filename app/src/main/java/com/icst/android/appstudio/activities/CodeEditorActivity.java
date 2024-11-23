@@ -31,17 +31,9 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.code.editor.common.utils.ColorUtils;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.PaneAdapter;
 import com.icst.android.appstudio.databinding.ActivityCodeEditorBinding;
@@ -53,8 +45,19 @@ import com.icst.android.appstudio.viewholder.FileTreeViewHolder;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 import com.unnamed.b.atv.view.TreeNodeWrapperView;
-import java.io.File;
-import java.util.ArrayList;
+
+import android.code.editor.common.utils.ColorUtils;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class CodeEditorActivity extends BaseActivity {
 	public ActivityCodeEditorBinding binding;

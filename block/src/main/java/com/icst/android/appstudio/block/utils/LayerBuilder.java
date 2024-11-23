@@ -31,19 +31,22 @@
 
 package com.icst.android.appstudio.block.utils;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import androidx.core.content.ContextCompat;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.R;
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
 import com.icst.android.appstudio.block.model.BlockHolderLayer;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.tag.BlockDroppableTag;
 import com.icst.android.appstudio.block.view.BlockView;
-import java.util.ArrayList;
+
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import androidx.core.content.ContextCompat;
 
 public class LayerBuilder {
 

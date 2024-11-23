@@ -31,10 +31,11 @@
 
 package com.icst.android.appstudio.utils;
 
-import com.icst.android.appstudio.models.EventHolder;
-import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import java.io.File;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.models.EventHolder;
+import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 
 public class EventsHolderUtils {
 	public static ArrayList<EventHolder> getEventHolder(File eventDir) {

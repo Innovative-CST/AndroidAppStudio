@@ -2,6 +2,15 @@ package com.elfilibustero.uidesigner.lib.handler;
 
 import static com.elfilibustero.uidesigner.lib.utils.Utils.getDip;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
+import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
+import com.elfilibustero.uidesigner.lib.tool.ViewIdentifierFactory;
+import com.elfilibustero.uidesigner.lib.utils.InvokeUtil;
+import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -12,19 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
-import com.elfilibustero.uidesigner.lib.tool.ViewIdentifierFactory;
-import com.elfilibustero.uidesigner.lib.utils.InvokeUtil;
-import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
 
 public class PropertiesHandler {
 	private final Context context;

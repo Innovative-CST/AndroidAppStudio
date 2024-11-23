@@ -1,7 +1,8 @@
 package com.icst.android.appstudio.utils.terminal;
 
-import androidx.annotation.NonNull;
 import java.util.HashMap;
+
+import androidx.annotation.NonNull;
 
 /**
  * The {@link Class} that implements special buttons for

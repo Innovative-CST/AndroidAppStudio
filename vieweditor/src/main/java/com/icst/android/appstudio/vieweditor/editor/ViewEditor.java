@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.vieweditor.editor;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.ViewGroup;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.elfilibustero.uidesigner.lib.builder.LayoutBuilder;
 import com.elfilibustero.uidesigner.lib.handler.AttributeSetHandler;
 import com.elfilibustero.uidesigner.lib.utils.Constants;
@@ -42,9 +43,10 @@ import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
 import com.icst.android.appstudio.vieweditor.models.AttributesModel;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import com.icst.android.appstudio.vieweditor.models.ViewModel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.ViewGroup;
 
 public class ViewEditor extends LayoutDesigner {
 

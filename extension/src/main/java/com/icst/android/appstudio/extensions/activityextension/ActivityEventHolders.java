@@ -31,10 +31,11 @@
 
 package com.icst.android.appstudio.extensions.activityextension;
 
-import com.icst.android.appstudio.ImageUtils;
-import com.icst.android.appstudio.models.EventHolder;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.ImageUtils;
+import com.icst.android.appstudio.models.EventHolder;
 
 public class ActivityEventHolders {
 	public static ArrayList<EventHolder> getHolders() {

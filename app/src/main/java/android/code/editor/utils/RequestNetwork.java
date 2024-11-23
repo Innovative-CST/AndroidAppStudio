@@ -1,7 +1,8 @@
 package android.code.editor.utils;
 
-import android.app.Activity;
 import java.util.HashMap;
+
+import android.app.Activity;
 
 public class RequestNetwork {
 	private HashMap<String, Object> params = new HashMap<>();

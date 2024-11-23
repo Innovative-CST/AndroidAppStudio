@@ -31,6 +31,14 @@
 
 package com.icst.android.appstudio.adapters;
 
+import java.util.ArrayList;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.icst.android.appstudio.databinding.AdapterSocialProfileBinding;
+import com.icst.android.appstudio.models.SocialProfile;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,13 +46,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.icst.android.appstudio.databinding.AdapterSocialProfileBinding;
-import com.icst.android.appstudio.models.SocialProfile;
-import java.util.ArrayList;
 
 public class SocialProfileAdapter extends RecyclerView.Adapter<SocialProfileAdapter.ViewHolder> {
 

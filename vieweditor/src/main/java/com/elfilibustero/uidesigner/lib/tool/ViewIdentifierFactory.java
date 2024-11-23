@@ -1,9 +1,10 @@
 package com.elfilibustero.uidesigner.lib.tool;
 
-import android.content.Context;
-import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.content.Context;
+import android.view.View;
 
 public class ViewIdentifierFactory {
 

@@ -16,9 +16,10 @@
 
 package com.downloader.core;
 
+import java.util.concurrent.FutureTask;
+
 import com.downloader.Priority;
 import com.downloader.internal.DownloadRunnable;
-import java.util.concurrent.FutureTask;
 
 /**
  * Created by amitshekhar on 13/11/17.

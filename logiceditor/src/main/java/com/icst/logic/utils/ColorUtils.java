@@ -31,14 +31,15 @@
 
 package com.icst.logic.utils;
 
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.color.utilities.Blend;
+
 import android.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import com.google.android.material.color.DynamicColors;
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.color.utilities.Blend;
 
 public class ColorUtils {
 	public static String harmonizeHexColor(Context context, String hexColor) {

@@ -17,19 +17,22 @@
 
 package com.icst.editor.widget;
 
-import android.content.Context;
-import android.graphics.Typeface;
-import android.util.AttributeSet;
+import org.eclipse.tm4e.core.registry.IThemeSource;
+
 import com.icst.editor.editors.sora.lang.textmate.AndroidCodeEditorTMLanguage;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
+
+import android.content.Context;
+import android.graphics.Typeface;
+import android.util.AttributeSet;
+
 import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel;
 import io.github.rosemoe.sora.widget.CodeEditor;
-import org.eclipse.tm4e.core.registry.IThemeSource;
 
 public class CodeEditorLayout extends CodeEditor {
 	private Context context;

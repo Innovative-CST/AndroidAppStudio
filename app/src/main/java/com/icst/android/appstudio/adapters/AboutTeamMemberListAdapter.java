@@ -31,19 +31,22 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.icst.android.appstudio.bottomsheet.SocialProfileBottomSheet;
 import com.icst.android.appstudio.databinding.AdapterAboutTeamMemberBinding;
 import com.icst.android.appstudio.models.TeamMember;
-import java.util.ArrayList;
+
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AboutTeamMemberListAdapter
 		extends RecyclerView.Adapter<AboutTeamMemberListAdapter.ViewHolder> {

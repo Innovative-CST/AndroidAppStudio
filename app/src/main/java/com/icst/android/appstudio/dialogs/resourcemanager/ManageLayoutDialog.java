@@ -31,19 +31,21 @@
 
 package com.icst.android.appstudio.dialogs.resourcemanager;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Toast;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.icst.android.appstudio.databinding.DialogCreateLayoutBinding;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
 import com.icst.android.appstudio.vieweditor.models.LayoutModel;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.Toast;
 
 public class ManageLayoutDialog extends MaterialAlertDialogBuilder {
 

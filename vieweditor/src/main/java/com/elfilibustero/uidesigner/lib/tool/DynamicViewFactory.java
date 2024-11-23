@@ -1,11 +1,8 @@
 package com.elfilibustero.uidesigner.lib.tool;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.ContextThemeWrapper;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.elfilibustero.uidesigner.ui.designer.items.DefaultView;
@@ -27,8 +24,14 @@ import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemCalendarView;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemEditText;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemSearchView;
 import com.icst.android.appstudio.vieweditor.R;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 public class DynamicViewFactory {
 	private static DynamicViewFactory instance;

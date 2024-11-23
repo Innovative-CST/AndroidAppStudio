@@ -31,10 +31,8 @@
 
 package com.icst.android.appstudio.adapters.resourcemanager;
 
-import android.content.Intent;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.resourcemanager.LayoutManagerActivity;
 import com.icst.android.appstudio.activities.resourcemanager.ResourceManagerActivity;
@@ -42,7 +40,12 @@ import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.databinding.AdapterResourceManagerBinding;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.IconUtils;
-import java.util.ArrayList;
+
+import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ResourceManagerAdapter
 		extends RecyclerView.Adapter<ResourceManagerAdapter.ViewHolder> {

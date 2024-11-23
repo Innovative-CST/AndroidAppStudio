@@ -31,6 +31,9 @@
 
 package com.icst.android.appstudio.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockHolderModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
@@ -38,8 +41,6 @@ import com.icst.android.appstudio.block.model.VariableModel;
 import com.icst.android.appstudio.models.EventHolder;
 import com.icst.android.appstudio.models.ExtensionBundle;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import java.io.File;
-import java.util.ArrayList;
 
 public final class ExtensionUtils {
 	public static ArrayList<ExtensionBundle> getInstalledExtensions() {

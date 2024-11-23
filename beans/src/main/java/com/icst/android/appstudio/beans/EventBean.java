@@ -31,9 +31,10 @@
 
 package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 public class EventBean implements Serializable {
 

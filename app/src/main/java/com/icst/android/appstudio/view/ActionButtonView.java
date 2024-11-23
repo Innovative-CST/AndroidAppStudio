@@ -31,15 +31,17 @@
 
 package com.icst.android.appstudio.view;
 
+import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.viewmodel.ActionButton;
+
 import android.code.editor.common.utils.ColorUtils;
 import android.content.Context;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.core.content.ContextCompat;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.viewmodel.ActionButton;
 
 public class ActionButtonView extends LinearLayout {
 	public ActionButtonView(Context context, ActionButton actionButton) {

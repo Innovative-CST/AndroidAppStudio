@@ -31,11 +31,12 @@
 
 package com.icst.android.appstudio;
 
+import java.io.IOException;
+
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
-import java.io.IOException;
 
 public class MethodEventUtils {
 	public static Event buildMethodEvent(

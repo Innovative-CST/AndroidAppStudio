@@ -1,16 +1,19 @@
 package com.elfilibustero.uidesigner.adapters;
 
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.beans.ViewBean;
-import com.elfilibustero.uidesigner.lib.view.PaletteButton;
-import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.elfilibustero.uidesigner.beans.ViewBean;
+import com.elfilibustero.uidesigner.lib.view.PaletteButton;
+import com.elfilibustero.uidesigner.ui.designer.LayoutDesigner;
+
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PaletteListAdapter extends RecyclerView.Adapter<PaletteListAdapter.ViewHolder> {
 

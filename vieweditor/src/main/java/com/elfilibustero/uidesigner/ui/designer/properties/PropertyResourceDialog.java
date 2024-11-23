@@ -1,13 +1,10 @@
 package com.elfilibustero.uidesigner.ui.designer.properties;
 
-import android.content.Context;
-import android.text.Editable;
-import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.elfilibustero.uidesigner.adapters.ResourceAdapter;
 import com.elfilibustero.uidesigner.enums.ResourceType;
 import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
@@ -18,10 +15,16 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.icst.android.appstudio.vieweditor.databinding.PropertyResourceItemBinding;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import android.content.Context;
+import android.text.Editable;
+import android.util.Pair;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PropertyResourceDialog extends PropertyDialog {
 

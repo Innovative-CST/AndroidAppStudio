@@ -31,6 +31,11 @@
 
 package com.icst.android.appstudio.adapters;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.model.Event;
+import com.icst.android.appstudio.databinding.AdapterEventAddBinding;
+
 import android.code.editor.common.utils.ColorUtils;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,10 +43,8 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.icst.android.appstudio.block.model.Event;
-import com.icst.android.appstudio.databinding.AdapterEventAddBinding;
-import java.util.ArrayList;
 
 public class AddEventsAdapter extends RecyclerView.Adapter<AddEventsAdapter.ViewHolder> {
 

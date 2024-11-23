@@ -31,10 +31,11 @@
 
 package com.icst.android.appstudio.builtin.filemodels;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 import com.icst.android.appstudio.builtin.events.GradleBuiltInEvents;
-import java.util.ArrayList;
 
 public class BuiltInGradleFileModel {
 	/*

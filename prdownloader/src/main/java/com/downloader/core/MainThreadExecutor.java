@@ -16,9 +16,10 @@
 
 package com.downloader.core;
 
+import java.util.concurrent.Executor;
+
 import android.os.Handler;
 import android.os.Looper;
-import java.util.concurrent.Executor;
 
 /**
  * Created by amitshekhar on 13/11/17.

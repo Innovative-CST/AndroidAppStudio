@@ -31,12 +31,13 @@
 
 package com.icst.app.compiler;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.blankj.utilcode.util.FileUtils;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.app.compiler.progress.BuildEventProgressListener;
-import java.io.File;
-import java.util.ArrayList;
 
 public class AAPT2Compiler {
 	private ModuleModel module;

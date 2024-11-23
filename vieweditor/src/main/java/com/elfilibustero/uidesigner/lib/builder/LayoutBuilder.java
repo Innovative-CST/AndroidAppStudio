@@ -1,14 +1,10 @@
 package com.elfilibustero.uidesigner.lib.builder;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
-import com.elfilibustero.uidesigner.lib.utils.Constants;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.IntStream;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,8 +13,16 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.elfilibustero.uidesigner.lib.tool.DynamicViewFactory;
+import com.elfilibustero.uidesigner.lib.utils.Constants;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class LayoutBuilder {
 

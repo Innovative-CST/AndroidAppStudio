@@ -31,19 +31,22 @@
 
 package com.icst.android.appstudio.activities;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.icst.android.appstudio.adapters.FilesListAdapter;
+import com.icst.android.appstudio.databinding.ActivityFileManagerBinding;
+
 import android.code.editor.common.utils.FileUtils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.icst.android.appstudio.adapters.FilesListAdapter;
-import com.icst.android.appstudio.databinding.ActivityFileManagerBinding;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FileManagerActivity extends BaseActivity {
 	private ActivityFileManagerBinding binding;

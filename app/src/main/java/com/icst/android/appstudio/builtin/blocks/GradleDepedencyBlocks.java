@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.builtin.blocks;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
 import com.icst.android.appstudio.block.model.BlockFieldModel;
 import com.icst.android.appstudio.block.model.BlockHolderLayer;
@@ -40,7 +42,6 @@ import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.BlockValueFieldModel;
 import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 import com.icst.android.appstudio.builtin.blockfield.PackageNameBlockField;
-import java.util.ArrayList;
 
 public class GradleDepedencyBlocks {
 	public static ArrayList<BlockHolderModel> getGradleDepedencyBlocks() {

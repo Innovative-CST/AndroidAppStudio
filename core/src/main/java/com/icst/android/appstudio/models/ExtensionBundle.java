@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.models;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.model.BlockHolderModel;
 import com.icst.android.appstudio.block.model.BlockModel;
 import com.icst.android.appstudio.block.model.Event;
 import com.icst.android.appstudio.block.model.VariableModel;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 public class ExtensionBundle implements Serializable {
 

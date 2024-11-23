@@ -31,12 +31,13 @@
 
 package com.icst.android.appstudio.block.model;
 
-import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
-import com.icst.android.appstudio.block.utils.ArrayUtils;
-import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.icst.android.appstudio.block.tag.AdditionalCodeHelperTag;
+import com.icst.android.appstudio.block.utils.ArrayUtils;
+import com.icst.android.appstudio.block.utils.RawCodeReplacer;
 
 public class Event implements Serializable, Cloneable {
 	public static final long serialVersionUID = 1L;

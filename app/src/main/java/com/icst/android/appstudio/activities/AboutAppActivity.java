@@ -31,6 +31,11 @@
 
 package com.icst.android.appstudio.activities;
 
+import com.icst.android.appstudio.BuildConfig;
+import com.icst.android.appstudio.MyApplication;
+import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.databinding.ActivityAboutAppBinding;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -38,10 +43,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
-import com.icst.android.appstudio.BuildConfig;
-import com.icst.android.appstudio.MyApplication;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.databinding.ActivityAboutAppBinding;
 
 public class AboutAppActivity extends BaseActivity {
 

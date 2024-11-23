@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.helper;
 
-import com.icst.android.appstudio.block.model.FileModel;
 import java.io.File;
+
+import com.icst.android.appstudio.block.model.FileModel;
 
 public class ProjectCodeBuildProgress {
 	private FileModel progressingFileModel;

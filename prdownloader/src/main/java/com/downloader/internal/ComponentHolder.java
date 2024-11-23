@@ -16,7 +16,6 @@
 
 package com.downloader.internal;
 
-import android.content.Context;
 import com.downloader.Constants;
 import com.downloader.PRDownloader;
 import com.downloader.PRDownloaderConfig;
@@ -25,6 +24,8 @@ import com.downloader.database.DbHelper;
 import com.downloader.database.NoOpsDbHelper;
 import com.downloader.httpclient.DefaultHttpClient;
 import com.downloader.httpclient.HttpClient;
+
+import android.content.Context;
 
 /**
  * Created by amitshekhar on 14/11/17.

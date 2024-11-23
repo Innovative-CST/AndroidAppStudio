@@ -31,21 +31,23 @@
 
 package com.icst.android.appstudio.viewholder;
 
-import android.code.editor.common.utils.FileUtils;
-import android.transition.ChangeImageTransform;
-import android.transition.TransitionManager;
-import android.view.View;
-import android.widget.LinearLayout;
-import com.icst.android.appstudio.R;
-import com.icst.android.appstudio.activities.CodeEditorActivity;
-import com.icst.android.appstudio.databinding.ViewHolderFileTreeBinding;
-import com.icst.android.appstudio.utils.FileIconUtils;
-import com.unnamed.b.atv.model.TreeNode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.Executors;
+
+import com.icst.android.appstudio.R;
+import com.icst.android.appstudio.activities.CodeEditorActivity;
+import com.icst.android.appstudio.databinding.ViewHolderFileTreeBinding;
+import com.icst.android.appstudio.utils.FileIconUtils;
+import com.unnamed.b.atv.model.TreeNode;
+
+import android.code.editor.common.utils.FileUtils;
+import android.transition.ChangeImageTransform;
+import android.transition.TransitionManager;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<File> {
 	private CodeEditorActivity activity;

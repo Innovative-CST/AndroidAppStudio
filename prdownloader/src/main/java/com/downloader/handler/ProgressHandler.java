@@ -16,12 +16,13 @@
 
 package com.downloader.handler;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import com.downloader.Constants;
 import com.downloader.OnProgressListener;
 import com.downloader.Progress;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 /**
  * Created by amitshekhar on 13/11/17.

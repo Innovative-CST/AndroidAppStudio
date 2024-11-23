@@ -17,11 +17,12 @@
 
 package android.code.editor.common.utils;
 
-import android.app.Activity;
-import android.code.editor.common.interfaces.FileDeleteListener;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import android.app.Activity;
+import android.code.editor.common.interfaces.FileDeleteListener;
 
 public class FileDeleteUtils {
 	public static int count = 0;

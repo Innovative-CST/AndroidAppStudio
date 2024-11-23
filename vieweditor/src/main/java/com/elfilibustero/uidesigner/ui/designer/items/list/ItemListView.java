@@ -1,11 +1,12 @@
 package com.elfilibustero.uidesigner.ui.designer.items.list;
 
-import android.content.Context;
-import android.widget.ListView;
 import com.elfilibustero.uidesigner.adapters.SimpleListAdapter;
 import com.elfilibustero.uidesigner.lib.utils.Utils;
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.elfilibustero.uidesigner.ui.designer.DesignerListItem;
+
+import android.content.Context;
+import android.widget.ListView;
 
 public class ItemListView extends ListView implements DesignerItem, DesignerListItem {
 

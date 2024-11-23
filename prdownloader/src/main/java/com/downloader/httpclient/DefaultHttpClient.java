@@ -16,8 +16,6 @@
 
 package com.downloader.httpclient;
 
-import com.downloader.Constants;
-import com.downloader.request.DownloadRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -28,6 +26,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import com.downloader.Constants;
+import com.downloader.request.DownloadRequest;
 
 /**
  * Created by amitshekhar on 13/11/17.

@@ -1,5 +1,14 @@
 package com.elfilibustero.uidesigner.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
+import com.elfilibustero.uidesigner.enums.ResourceType;
+import com.elfilibustero.uidesigner.lib.drawable.AlphaPatternDrawable;
+import com.icst.android.appstudio.vieweditor.R;
+
 import android.graphics.drawable.Drawable;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -8,16 +17,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
-import com.elfilibustero.uidesigner.enums.ResourceType;
-import com.elfilibustero.uidesigner.lib.drawable.AlphaPatternDrawable;
-import com.icst.android.appstudio.vieweditor.R;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class ResourceAdapter<T> extends RecyclerView.Adapter<ResourceAdapter<T>.ViewHolder>
 		implements ChoiceAdapter<T> {

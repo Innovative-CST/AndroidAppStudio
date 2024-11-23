@@ -1,12 +1,14 @@
 package com.elfilibustero.uidesigner.lib.view;
 
+import com.elfilibustero.uidesigner.beans.ViewBean;
+import com.icst.android.appstudio.vieweditor.databinding.PaletteButtonBinding;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
+
 import androidx.annotation.DrawableRes;
-import com.elfilibustero.uidesigner.beans.ViewBean;
-import com.icst.android.appstudio.vieweditor.databinding.PaletteButtonBinding;
 
 public class PaletteButton extends RelativeLayout {
 

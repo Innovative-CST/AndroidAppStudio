@@ -31,11 +31,12 @@
 
 package com.icst.android.appstudio.block.model;
 
-import com.icst.android.appstudio.block.utils.RawCodeReplacer;
-import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.icst.android.appstudio.block.utils.RawCodeReplacer;
+import com.icst.android.appstudio.vieweditor.models.LayoutModel;
 
 public class VariableModel implements Serializable {
 	public static final long serialVersionUID = 24L;

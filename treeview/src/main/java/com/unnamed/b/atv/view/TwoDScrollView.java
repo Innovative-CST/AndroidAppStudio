@@ -1,5 +1,7 @@
 package com.unnamed.b.atv.view;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -16,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
-import java.util.List;
 
 /**
  * Layout container for a view hierarchy that can be scrolled by the user,

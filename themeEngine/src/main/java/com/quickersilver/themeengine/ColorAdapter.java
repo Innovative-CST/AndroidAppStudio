@@ -1,10 +1,13 @@
 package com.quickersilver.themeengine;
 
+import java.util.List;
+
+import com.quickersilver.themeengine.databinding.ItemColorBinding;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.quickersilver.themeengine.databinding.ItemColorBinding;
-import java.util.List;
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
 

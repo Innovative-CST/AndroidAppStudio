@@ -1,11 +1,13 @@
 package com.elfilibustero.uidesigner.lib.utils;
 
-import android.util.Pair;
-import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
-import com.icst.android.appstudio.vieweditor.R;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.elfilibustero.uidesigner.lib.tool.ResourceFactory;
+import com.icst.android.appstudio.vieweditor.R;
+
+import android.util.Pair;
 
 public class PropertiesUtil {
 

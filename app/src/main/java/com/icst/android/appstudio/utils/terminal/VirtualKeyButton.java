@@ -1,12 +1,15 @@
 package com.icst.android.appstudio.utils.terminal;
 
-import android.text.TextUtils;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class VirtualKeyButton {
 

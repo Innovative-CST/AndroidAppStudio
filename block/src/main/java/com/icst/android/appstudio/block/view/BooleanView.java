@@ -31,6 +31,13 @@
 
 package com.icst.android.appstudio.block.view;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.block.R;
+import com.icst.android.appstudio.block.editor.EventEditor;
+import com.icst.android.appstudio.block.model.BlockValueFieldModel;
+import com.icst.android.appstudio.block.tag.BlockDroppableTag;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -39,12 +46,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 import androidx.core.content.ContextCompat;
-import com.icst.android.appstudio.block.R;
-import com.icst.android.appstudio.block.editor.EventEditor;
-import com.icst.android.appstudio.block.model.BlockValueFieldModel;
-import com.icst.android.appstudio.block.tag.BlockDroppableTag;
-import java.util.ArrayList;
 
 public class BooleanView extends LinearLayout {
 	private BlockView booleanBlock;

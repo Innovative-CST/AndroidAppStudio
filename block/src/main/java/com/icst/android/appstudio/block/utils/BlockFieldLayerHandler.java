@@ -31,9 +31,8 @@
 
 package com.icst.android.appstudio.block.utils;
 
-import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.block.editor.EventEditor;
 import com.icst.android.appstudio.block.model.BlockFieldLayerModel;
 import com.icst.android.appstudio.block.model.BlockFieldModel;
@@ -46,7 +45,10 @@ import com.icst.android.appstudio.block.view.BlockVariableFieldView;
 import com.icst.android.appstudio.block.view.BlockView;
 import com.icst.android.appstudio.block.view.BooleanView;
 import com.icst.android.appstudio.block.view.NumberView;
-import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 public class BlockFieldLayerHandler {
 	public static ViewGroup getBlockFieldLayerView(

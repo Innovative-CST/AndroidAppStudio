@@ -20,12 +20,13 @@ package com.downloader;
  * Created by amitshekhar on 12/11/17.
  */
 
-import android.content.Context;
 import com.downloader.core.Core;
 import com.downloader.internal.ComponentHolder;
 import com.downloader.internal.DownloadRequestQueue;
 import com.downloader.request.DownloadRequestBuilder;
 import com.downloader.utils.Utils;
+
+import android.content.Context;
 
 /**
  * PRDownloader entry point.

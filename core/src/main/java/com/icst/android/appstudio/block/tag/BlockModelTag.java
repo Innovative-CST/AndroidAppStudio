@@ -31,8 +31,9 @@
 
 package com.icst.android.appstudio.block.tag;
 
-import com.icst.android.appstudio.block.utils.ArrayUtils;
 import java.io.Serializable;
+
+import com.icst.android.appstudio.block.utils.ArrayUtils;
 
 public class BlockModelTag implements Serializable {
 	public static final long serialVersionUID = 13L;

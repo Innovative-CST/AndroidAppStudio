@@ -1,15 +1,18 @@
 package com.elfilibustero.uidesigner.lib.utils;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.tabs.TabLayout;
+
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.SearchView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.tabs.TabLayout;
-import java.util.Arrays;
-import java.util.List;
 
 public class Constants {
 	public static final int SELECTOR_TYPE_FLAG = 0;

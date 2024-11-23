@@ -1,9 +1,10 @@
 package com.unnamed.b.atv.holder;
 
+import com.unnamed.b.atv.model.TreeNode;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import com.unnamed.b.atv.model.TreeNode;
 
 /** Created by Bogdan Melnychuk on 2/11/15. */
 public class SimpleViewHolder extends TreeNode.BaseNodeViewHolder<Object> {

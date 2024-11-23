@@ -1,10 +1,11 @@
 package com.elfilibustero.uidesigner.ui.designer.items.google;
 
-import android.content.Context;
-import android.view.MotionEvent;
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.icst.android.appstudio.vieweditor.R;
+
+import android.content.Context;
+import android.view.MotionEvent;
 
 public class ItemBottomNavigationView extends BottomNavigationView implements DesignerItem {
 

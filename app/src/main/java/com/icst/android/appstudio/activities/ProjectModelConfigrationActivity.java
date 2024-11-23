@@ -31,10 +31,8 @@
 
 package com.icst.android.appstudio.activities;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-import androidx.viewpager2.widget.ViewPager2;
+import java.io.File;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.adapters.ProjectModelConfigAdapter;
@@ -43,7 +41,12 @@ import com.icst.android.appstudio.models.ProjectModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.ProjectModelSerializationUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import java.io.File;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.viewpager2.widget.ViewPager2;
 
 public class ProjectModelConfigrationActivity extends BaseActivity {
 	private ActivityProjectModelConfigrationBinding binding;

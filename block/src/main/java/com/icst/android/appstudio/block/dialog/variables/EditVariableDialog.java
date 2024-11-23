@@ -31,6 +31,18 @@
 
 package com.icst.android.appstudio.block.dialog.variables;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.android.appstudio.block.databinding.DialogEditVariableBinding;
+import com.icst.android.appstudio.block.databinding.InputTypeValidatorEdittextBinding;
+import com.icst.android.appstudio.block.enums.InputTypes;
+import com.icst.android.appstudio.block.model.VariableModel;
+import com.icst.android.appstudio.block.utils.ColorUtils;
+import com.icst.android.appstudio.block.view.InputTypeValidatorEditText;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,17 +54,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.android.appstudio.block.databinding.DialogEditVariableBinding;
-import com.icst.android.appstudio.block.databinding.InputTypeValidatorEdittextBinding;
-import com.icst.android.appstudio.block.enums.InputTypes;
-import com.icst.android.appstudio.block.model.VariableModel;
-import com.icst.android.appstudio.block.utils.ColorUtils;
-import com.icst.android.appstudio.block.view.InputTypeValidatorEditText;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EditVariableDialog extends MaterialAlertDialogBuilder {
 	private Context context;
