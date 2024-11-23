@@ -21,7 +21,14 @@ ext {
 spotless {
 	java {
 		target "*/src/*/java/**/*.java", "test/logiceditor/src/*/java/**/*.java"
-		importOrder()
+		importOrder(
+				"java",
+				"javax",
+				"org",
+				"com",
+				"android",
+				"androidx"
+				)
 		removeUnusedImports()
 		cleanthat()
 		eclipse('4.26').configFile('eclipse-formatter.xml')
