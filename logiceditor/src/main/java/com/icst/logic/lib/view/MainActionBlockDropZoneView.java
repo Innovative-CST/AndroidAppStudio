@@ -47,6 +47,7 @@ import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
+import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
@@ -107,6 +108,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			super.addView(view);
 		} else if (getChildCount() == 0) {
 			super.addView(view);
+		} else if (view instanceof NearestTargetHighlighterView) {
+			super.addView(view);
 		} else
 			throw new UnexpectedViewAddedException(this, view);
 	}
@@ -118,8 +121,60 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			super.addView(view, index);
 		} else if (view instanceof ActionBlockBeanView actionBlockView) {
 			super.addView(actionBlockView, index);
+		} else if (view instanceof NearestTargetHighlighterView) {
+			super.addView(view, index);
 		} else
 			throw new UnexpectedViewAddedException(this, view);
+	}
+
+	public int getIndex(float x, float y) {
+		int[] relativeCoordinates = CanvaMathUtils.getRelativeCoordinates(this, getLogicEditor());
+
+		int index = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (y - ((int) relativeCoordinates[1]) > child.getY() + (child.getHeight() / 2)) {
+				index = i + 1;
+			} else {
+				break;
+			}
+		}
+
+		return index;
+	}
+
+	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		if (canDrop(blocks, x, y)) {
+			getLogicEditor().removeDummyHighlighter();
+			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
+			getLogicEditor().setDummyHighlighter(highlighter);
+			addView(highlighter, getIndex(x, y));
+			highlighter.setLayoutParams(highlighterLp);
+		}
+	}
+
+	public void highlightNearestTarget(ActionBlockBean block, float x, float y) {
+		if (canDrop(block, x, y)) {
+			getLogicEditor().removeDummyHighlighter();
+			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
+			getLogicEditor().setDummyHighlighter(highlighter);
+			addView(highlighter, getIndex(x, y));
+			highlighter.setLayoutParams(highlighterLp);
+		}
+	}
+
+	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		return canDrop(blocks, getIndex(x, y));
+	}
+
+	public boolean canDrop(ActionBlockBean block, float x, float y) {
+		ArrayList<ActionBlockBean> blockArray = new ArrayList<>();
+		blockArray.add(block);
+		return canDrop(blockArray, getIndex(x, y));
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
@@ -137,8 +192,13 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 					return true;
 				return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
 			}
-		} else
-			return false;
+		} else {
+			if (actionBlocks.size() == 0) {
+				return true;
+			}
+
+			return (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean));
+		}
 	}
 
 	public void addActionBlocksBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {

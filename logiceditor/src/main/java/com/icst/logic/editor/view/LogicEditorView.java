@@ -33,6 +33,7 @@ package com.icst.logic.editor.view;
 
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
@@ -45,6 +46,7 @@ import com.icst.logic.lib.view.ActionBlockDropZoneView;
 import com.icst.logic.lib.view.BlockDropZoneView;
 import com.icst.logic.lib.view.DraggingBlockDummy;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
+import com.icst.logic.lib.view.NearestTargetHighlighterView;
 import com.icst.logic.listener.DraggableTouchListener;
 import com.icst.logic.utils.CanvaMathUtils;
 
@@ -65,6 +67,7 @@ public class LogicEditorView extends RelativeLayout {
 	private LogicEditorEventDispatcher eventDispatcher;
 	private DraggableTouchListener mDraggableTouchListener;
 	private DraggingBlockDummy draggingView;
+	private NearestTargetHighlighterView highlighter;
 	private Object draggingBean;
 	private boolean isBlockPallateVisible = false;
 
@@ -113,6 +116,46 @@ public class LogicEditorView extends RelativeLayout {
 		draggingView.setY(y);
 		draggingView.setAllowedDropIcon(canDropDraggingView(x, y));
 		draggingView.requestLayout();
+		if (canDropDraggingView(x, y)) {
+			highlightNearestTarget(x, y);
+		} else {
+			removeDummyHighlighter();
+		}
+	}
+
+	public void highlightNearestTarget(float x, float y) {
+		boolean hasNearbyTarget = false;
+		for (int i = blockDropZones.size() - 1; i >= 0; --i) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+					blockDropZones.get(i), binding.editorSection, x, y)) {
+				continue;
+			}
+
+			if (blockDropZones.get(i) instanceof MainActionBlockDropZoneView dropZone) {
+
+				if (draggingBean instanceof ArrayList blockArr) {
+					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
+					if (dropZone.canDrop(blocks, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.highlightNearestTarget(blocks, x, y);
+					}
+				} else if (draggingBean instanceof ActionBlockBean block) {
+					if (dropZone.canDrop(block, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.highlightNearestTarget(block, x, y);
+
+					}
+				}
+
+			} else if (blockDropZones.get(i) instanceof ActionBlockDropZoneView dropZone) {
+
+			} else
+				continue;
+		}
+
+		if (!hasNearbyTarget) {
+			removeDummyHighlighter();
+		}
 	}
 
 	public void dropDraggingView(float x, float y) {
@@ -170,6 +213,23 @@ public class LogicEditorView extends RelativeLayout {
 		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
 		eventDispatcher.onActionBlockDropZoneDragged(actionBlockDropZone, draggedFrom, indexOfDrag);
 		// TODO: Action block drop zone block logic...
+	}
+
+	public void setDummyHighlighter(NearestTargetHighlighterView highlighter) {
+		this.highlighter = highlighter;
+	}
+
+	public NearestTargetHighlighterView getDummyHighlighter() {
+		return highlighter;
+	}
+
+	public void removeDummyHighlighter() {
+		if (highlighter != null) {
+			if (highlighter.getParent() instanceof ViewGroup parent) {
+				parent.removeView(highlighter);
+			}
+			highlighter = null;
+		}
 	}
 
 	public void addLogicEditorEventListener(LogicEditorEventListener eventListener) {
