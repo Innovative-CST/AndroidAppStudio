@@ -150,7 +150,12 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
 			getLogicEditor().setDummyHighlighter(highlighter);
-			addView(highlighter, getIndex(x, y));
+			int index = getIndex(x, y);
+			if (index == 0) {
+				index = 1;
+			}
+			addView(highlighter, index);
+
 			highlighter.setLayoutParams(highlighterLp);
 		}
 	}
@@ -162,7 +167,11 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
 			getLogicEditor().setDummyHighlighter(highlighter);
-			addView(highlighter, getIndex(x, y));
+			int index = getIndex(x, y);
+			if (index == 0) {
+				index = 1;
+			}
+			addView(highlighter, index);
 			highlighter.setLayoutParams(highlighterLp);
 		}
 	}
