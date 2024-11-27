@@ -165,7 +165,7 @@ public class LogicEditorScrollView extends FrameLayout {
 						if (getScrollX() + parent.getWidth() < getWidth()) {
 							finalScrollX = deltaX;
 						} else {
-							finalScrollX = getScrollX();
+							finalScrollX = 0;
 						}
 					}
 				}
@@ -188,7 +188,7 @@ public class LogicEditorScrollView extends FrameLayout {
 						if (getScrollY() + parent.getHeight() < getHeight()) {
 							finalScrollY = deltaY;
 						} else {
-							finalScrollY = getScrollY();
+							finalScrollY = 0;
 						}
 					}
 				}
