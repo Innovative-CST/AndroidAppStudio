@@ -206,6 +206,33 @@ public class LogicEditorView extends RelativeLayout {
 				getLogicEditorCanva().addView(newZone);
 			}
 		}
+
+		removeOldReferences();
+	}
+
+	public void removeOldReferences() {
+		View touchingView = mDraggableTouchListener.getTouchingView();
+
+		if (touchingView instanceof ActionBlockBeanView actionBlockBeanView) {
+
+			if (actionBlockBeanView.getParent() == null)
+				return;
+
+			int index = 0;
+			if (actionBlockBeanView.getParent() instanceof MainActionBlockDropZoneView mainChain) {
+				index = mainChain.indexOfChild(actionBlockBeanView) - 1;
+				for (int i = index; i < mainChain.getBlocksSize(); ++i) {
+					mainChain.removeView(mainChain.getChildAt(index + 1));
+					mainChain.dereferenceActionBlocks(index);
+				}
+			} else if (actionBlockBeanView.getParent() instanceof ActionBlockDropZoneView regularChain) {
+				index = regularChain.indexOfChild(actionBlockBeanView);
+				for (int i = index; i < regularChain.getChildCount(); ++i) {
+					regularChain.removeView(regularChain.getChildAt(index));
+					regularChain.dereferenceActionBlocks(index);
+				}
+			}
+		}
 	}
 
 	public void dropDraggingView(float x, float y) {

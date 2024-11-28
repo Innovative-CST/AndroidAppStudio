@@ -75,6 +75,12 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		};
 	}
 
+	public void dereferenceActionBlocks(int index) {
+		for (int i = index; i < blockBeans.size(); ++i) {
+			blockBeans.remove(index);
+		}
+	}
+
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view) {

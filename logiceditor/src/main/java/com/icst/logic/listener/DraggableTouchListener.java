@@ -169,10 +169,10 @@ public class DraggableTouchListener implements View.OnTouchListener {
 				if (isDragging) {
 					getLogicEditor().dropDraggingView(this.x, this.y);
 				}
-				isDragging = false;
-				touchingView = null;
 				getLogicEditor().getLogicEditorCanva().setAllowScroll(true);
 				dragHandler.removeCallbacks(dragStartRunnable);
+				isDragging = false;
+				touchingView = null;
 				break;
 		}
 
