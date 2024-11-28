@@ -145,7 +145,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			if (actionBlockBeanView == null)
 				continue;
 
-			addView(actionBlockBeanView, i + index);
+			super.addView(actionBlockBeanView, i + index);
 
 			if (i == 0 && index == 0)
 				continue;
