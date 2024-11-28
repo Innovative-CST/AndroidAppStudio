@@ -31,5 +31,5 @@
 
 package com.icst.android.appstudio.beans;
 
-public abstract interface BlockElementBean {
+public interface BlockElementBean<T> extends CloneableBean<T> {
 }

@@ -36,7 +36,8 @@ import java.io.Serializable;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 /** A simple BlockElement that just display text on block */
-public class LabelBlockElementBean implements BlockElementBean, Serializable {
+public class LabelBlockElementBean
+		implements BlockElementBean<LabelBlockElementBean>, Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.LABEL_BLOCK_ELEMENT_BEAN;
 
@@ -48,5 +49,12 @@ public class LabelBlockElementBean implements BlockElementBean, Serializable {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	@Override
+	public LabelBlockElementBean cloneBean() {
+		LabelBlockElementBean clone = new LabelBlockElementBean();
+		clone.setLabel(getLabel() == null ? null : new String(getLabel()));
+		return clone;
 	}
 }

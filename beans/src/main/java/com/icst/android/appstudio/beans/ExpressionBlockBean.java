@@ -36,7 +36,7 @@ import java.io.Serializable;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 public class ExpressionBlockBean extends BaseBlockBean<ExpressionBlockBean>
-		implements BlockElementBean, Serializable {
+		implements BlockElementBean<ExpressionBlockBean>, Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.EXPRESSION_BLOCK_BEAN;
 

@@ -34,6 +34,7 @@ package com.icst.android.appstudio.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 /**
@@ -58,6 +59,8 @@ public class BlockElementLayerBean extends LayerBean<BlockElementLayerBean>
 
 	@Override
 	public BlockElementLayerBean cloneBean() {
-		return null;
+		BlockElementLayerBean clone = new BlockElementLayerBean();
+		clone.setBlockElementBeans(BeanArrayCloneUtils.clone(getBlockElementBeans()));
+		return clone;
 	}
 }
