@@ -191,11 +191,9 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
 					return false;
-				else {
-					if (actionBlocks.size() == 0)
-						return true;
-					return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
-				}
+				else
+					return true;
+
 			} else {
 				if (actionBlocks.size() == 0)
 					return true;
