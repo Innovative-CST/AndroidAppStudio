@@ -164,6 +164,7 @@ public class LogicEditorView extends RelativeLayout {
 				parent.removeView(draggingView);
 			}
 		}
+		removeDummyHighlighter();
 		if (canDropDraggingView(x, y)) {
 
 		} else {
