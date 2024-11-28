@@ -116,7 +116,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		if (blockBeans == null) {
 			blockBeans = new ArrayList<ActionBlockBean>();
 		}
-		if (index > blockBeans.size()) {
+		if (index <= blockBeans.size()) {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
 					throw new TerminatedDropZoneException();
