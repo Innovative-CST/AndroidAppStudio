@@ -143,7 +143,6 @@ public class LogicEditorView extends RelativeLayout {
 					if (dropZone.canDrop(block, x, y)) {
 						hasNearbyTarget = true;
 						dropZone.highlightNearestTarget(block, x, y);
-
 					}
 				}
 
@@ -158,6 +157,57 @@ public class LogicEditorView extends RelativeLayout {
 		}
 	}
 
+	public void dropBlock(float x, float y) {
+		boolean hasNearbyTarget = false;
+		for (int i = blockDropZones.size() - 1; i >= 0; --i) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+					blockDropZones.get(i), binding.editorSection, x, y)) {
+				continue;
+			}
+
+			if (blockDropZones.get(i) instanceof MainActionBlockDropZoneView dropZone) {
+
+				if (draggingBean instanceof ArrayList blockArr) {
+					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
+					if (dropZone.canDrop(blocks, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.dropToNearestTarget(blocks, x, y);
+					}
+				} else if (draggingBean instanceof ActionBlockBean block) {
+					if (dropZone.canDrop(block, x, y)) {
+					}
+				}
+
+			} else if (blockDropZones.get(i) instanceof ActionBlockDropZoneView dropZone) {
+
+			} else
+				continue;
+		}
+
+		if (!hasNearbyTarget) {
+
+			if (draggingBean instanceof ArrayList blockArr) {
+				ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
+
+				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
+						getContext(), new LogicEditorConfiguration(), this);
+				newZone.addActionBlocksBeans(blocks, 0);
+
+				getLogicEditorCanva().addView(newZone);
+
+			} else if (draggingBean instanceof ActionBlockBean block) {
+
+				ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+				blocks.add(block);
+
+				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
+						getContext(), new LogicEditorConfiguration(), this);
+				newZone.addActionBlocksBeans(blocks, 0);
+				getLogicEditorCanva().addView(newZone);
+			}
+		}
+	}
+
 	public void dropDraggingView(float x, float y) {
 		if (draggingView.getParent() != null) {
 			if (draggingView.getParent() instanceof ViewGroup parent) {
@@ -166,7 +216,7 @@ public class LogicEditorView extends RelativeLayout {
 		}
 		removeDummyHighlighter();
 		if (canDropDraggingView(x, y)) {
-
+			dropBlock(x, y);
 		} else {
 			if (draggingView.isDraggedFromCanva()) {
 				resetFromDragging();

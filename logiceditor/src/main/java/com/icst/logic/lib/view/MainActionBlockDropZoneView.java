@@ -176,6 +176,30 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 		}
 	}
 
+	public void dropToNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		if (canDrop(blocks, x, y)) {
+			LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			int index = getIndex(x, y);
+			if (index == 0) {
+				index = 1;
+			}
+			addBlockBeans(blocks, index);
+		}
+	}
+
+	public void dropToNearestTarget(ActionBlockBean block, float x, float y) {
+		if (canDrop(block, x, y)) {
+			int index = getIndex(x, y);
+			if (index == 0) {
+				index = 1;
+			}
+			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+			blocks.add(block);
+			addBlockBeans(blocks, index);
+		}
+	}
+
 	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
 		return canDrop(blocks, getIndex(x, y));
 	}
