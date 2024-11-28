@@ -192,7 +192,8 @@ public class LogicEditorView extends RelativeLayout {
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
 						getContext(), new LogicEditorConfiguration(), this);
 				newZone.addActionBlocksBeans(blocks, 0);
-
+				newZone.setX(x);
+				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
 
 			} else if (draggingBean instanceof ActionBlockBean block) {
@@ -203,6 +204,8 @@ public class LogicEditorView extends RelativeLayout {
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
 						getContext(), new LogicEditorConfiguration(), this);
 				newZone.addActionBlocksBeans(blocks, 0);
+				newZone.setX(x);
+				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
 			}
 		}
