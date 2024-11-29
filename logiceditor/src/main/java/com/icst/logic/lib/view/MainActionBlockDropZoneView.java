@@ -187,8 +187,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			int index = getIndex(x, y);
-			if (index == 0) {
-				index = 1;
+			if (index != 0) {
+				index -= 1;
 			}
 			addBlockBeans(blocks, index);
 		}
@@ -197,8 +197,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	public void dropToNearestTarget(ActionBlockBean block, float x, float y) {
 		if (canDrop(block, x, y)) {
 			int index = getIndex(x, y);
-			if (index == 0) {
-				index = 1;
+			if (index != 0) {
+				index -= 1;
 			}
 			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
 			blocks.add(block);
@@ -249,15 +249,19 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 				else
 					addBlockBeans(actionBlocks, index);
 			} else {
-				if (actionBlocks.size() == 0)
-					return;
-				if (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean))
-					addBlockBeans(actionBlocks, index);
+				if (isTerminated())
+					throw new TerminatedDropZoneException();
 				else
-					throw new UnexpectedTerminatedException();
+					addBlockBeans(actionBlocks, blockBeans.size());
 			}
-		} else
-			throw new IndexOutOfBoundsException(index);
+		} else {
+			if (actionBlocks.size() == 0)
+				return;
+			if (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean))
+				addBlockBeans(actionBlocks, index);
+			else
+				throw new UnexpectedTerminatedException();
+		}
 	}
 
 	private void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {

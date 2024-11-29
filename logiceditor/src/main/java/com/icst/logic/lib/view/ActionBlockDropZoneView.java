@@ -145,6 +145,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			if (actionBlockBeanView == null)
 				continue;
 
+			actionBlockBeanView.setInsideCanva(true);
 			super.addView(actionBlockBeanView, i + index);
 
 			if (i == 0 && index == 0)
