@@ -3,11 +3,10 @@ name: LogicEditor Test
 on:
   workflow_dispatch:
   push:
-    paths-ignore:
-      - assets/**
-      - README.md
-      - LICENSE
-      - .gitignore
+    paths:
+      - test/logiceditor
+      - beans
+      - logiceditor
 
 jobs:
   build:

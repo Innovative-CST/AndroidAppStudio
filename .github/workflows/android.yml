@@ -8,6 +8,9 @@ on:
       - README.md
       - LICENSE
       - .gitignore
+      - test/logiceditor
+      - beans
+      - logiceditor
 
 jobs:
   buildArmDebug:
