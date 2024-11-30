@@ -160,19 +160,6 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		}
 	}
 
-	public ActionBlockDropZoneView breakFromIndex(int index) {
-		ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-		for (int i = index; i < blockBeans.size(); ++i) {
-			blocks.add(blockBeans.get(i));
-			blockBeans.remove(i);
-		}
-
-		ActionBlockDropZoneView mActionBlockDropZoneView = new ActionBlockDropZoneView(context, getConfiguration(),
-				getLogicEditor());
-		mActionBlockDropZoneView.addBlockBeans(blocks, 0);
-		return mActionBlockDropZoneView;
-	}
-
 	public int getBlocksSize() {
 		return blockBeans.size();
 	}
