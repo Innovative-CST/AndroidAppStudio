@@ -16,9 +16,7 @@
 
 package com.downloader.core;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class Core {
 

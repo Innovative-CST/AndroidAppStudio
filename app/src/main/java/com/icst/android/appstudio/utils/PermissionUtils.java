@@ -48,11 +48,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class PermissionUtils {
-	/**
-	 * The `showStoragePermissionDialog` method displays an alert dialog asking the
+	/** The `showStoragePermissionDialog` method displays an alert dialog asking the
 	 * user to grant
-	 * storage permission.
-	 */
+	 * storage permission. */
 	public static void showStoragePermissionDialog(Activity activity) {
 		MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(activity);
 		dialog.setTitle(R.string.storage_permission_required);

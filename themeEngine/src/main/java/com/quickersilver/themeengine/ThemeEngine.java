@@ -37,10 +37,8 @@ public class ThemeEngine {
 		}
 	}
 
-	/**
-	 * Returns current theme mode. Setting this property applies the given theme
-	 * mode to the activity.
-	 */
+	/** Returns current theme mode. Setting this property applies the given theme
+	 * mode to the activity. */
 	public int getThemeMode() {
 		return prefs.getInt(THEME_MODE, ThemeMode.AUTO);
 	}
@@ -68,15 +66,13 @@ public class ThemeEngine {
 						: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
 	}
 
-	/**
-	 * Returns true if Dynamic Colors are enabled, false otherwise. Setting this
+	/** Returns true if Dynamic Colors are enabled, false otherwise. Setting this
 	 * property to true
 	 * enables dynamic colors, false disables dynamic colors. Keep in mind that
 	 * dynamic colors will
 	 * work only on Android 12 i.e. API 31 and higher devices. And call
 	 * Activity.recreate() after
-	 * changing this property so that the changes get applied to the activity.
-	 */
+	 * changing this property so that the changes get applied to the activity. */
 	public boolean isDynamicTheme() {
 		return prefs.getBoolean(DYNAMIC_THEME, Build.VERSION.SDK_INT >= Build.VERSION_CODES.S);
 	}
@@ -85,22 +81,18 @@ public class ThemeEngine {
 		prefs.edit().putBoolean(DYNAMIC_THEME, value).apply();
 	}
 
-	/**
-	 * Get current app theme.
+	/** Get current app theme.
 	 *
 	 * @return a dynamic theme if dynamic theme is enabled or a static theme
-	 *         otherwise.
-	 */
+	 *         otherwise. */
 	public int getTheme() {
 		return (hasS() && isDynamicTheme())
 				? R.style.Theme_ThemeEngine_Dynamic
 				: getStaticTheme().getThemeId();
 	}
 
-	/**
-	 * Get current static app theme, the theme which is used when dynamic color is
-	 * disabled
-	 */
+	/** Get current static app theme, the theme which is used when dynamic color is
+	 * disabled */
 	public Theme getStaticTheme() {
 		int ordinal = prefs.getInt(APP_THEME, 0);
 		return Theme.values()[ordinal];
@@ -146,24 +138,20 @@ public class ThemeEngine {
 		return INSTANCE;
 	}
 
-	/**
-	 * Applies themes and night mode to all activities by registering a
+	/** Applies themes and night mode to all activities by registering a
 	 * ActivityLifecycleCallbacks to
 	 * your application.
 	 *
 	 * @param application
-	 *            Target Application
-	 */
+	 *            Target Application */
 	public static void applyToActivities(@NonNull Application application) {
 		application.registerActivityLifecycleCallbacks(new ThemeEngineActivityCallback());
 	}
 
-	/**
-	 * Applies themes and night mode to given activity
+	/** Applies themes and night mode to given activity
 	 *
 	 * @param activity
-	 *            Target activity
-	 */
+	 *            Target activity */
 	public static void applyToActivity(@NonNull Activity activity) {
 		ThemeEngine instance = getInstance(activity);
 		activity.getTheme().applyStyle(instance.getTheme(), true);

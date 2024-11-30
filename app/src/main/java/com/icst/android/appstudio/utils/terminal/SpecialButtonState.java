@@ -14,26 +14,22 @@ public class SpecialButtonState {
 	/** If special button is active. */
 	boolean isActive = false;
 
-	/**
-	 * If special button is locked due to long hold on it and should not be
+	/** If special button is locked due to long hold on it and should not be
 	 * deactivated if its state
-	 * is read.
-	 */
+	 * is read. */
 	boolean isLocked = false;
 
 	List<Button> buttons = new ArrayList<>();
 
 	VirtualKeysView mVirtualKeysView;
 
-	/**
-	 * Initialize a {@link SpecialButtonState} to maintain state of a
+	/** Initialize a {@link SpecialButtonState} to maintain state of a
 	 * {@link SpecialButton}.
 	 *
 	 * @param extraKeysView
 	 *            The {@link VirtualKeysView} instance in which the
 	 *            {@link SpecialButton} is
-	 *            to be registered.
-	 */
+	 *            to be registered. */
 	public SpecialButtonState(VirtualKeysView extraKeysView) {
 		mVirtualKeysView = extraKeysView;
 	}

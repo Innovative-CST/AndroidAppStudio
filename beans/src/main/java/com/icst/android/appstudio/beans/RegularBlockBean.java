@@ -36,9 +36,8 @@ import java.io.Serializable;
 import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * RegularBlockBean: Can hold RegularBlockBean (nested blocks), BlockElementBean
- */
+/** RegularBlockBean: Can hold RegularBlockBean (nested blocks),
+ * BlockElementBean */
 public class RegularBlockBean extends ActionBlockBean<RegularBlockBean>
 		implements Serializable {
 

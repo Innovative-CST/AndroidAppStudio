@@ -21,9 +21,7 @@ import java.util.concurrent.FutureTask;
 import com.downloader.Priority;
 import com.downloader.internal.DownloadRunnable;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DownloadFutureTask extends FutureTask<DownloadRunnable> implements Comparable<DownloadFutureTask> {
 

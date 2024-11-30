@@ -19,9 +19,7 @@ package com.downloader;
 import com.downloader.httpclient.DefaultHttpClient;
 import com.downloader.httpclient.HttpClient;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class PRDownloaderConfig {
 

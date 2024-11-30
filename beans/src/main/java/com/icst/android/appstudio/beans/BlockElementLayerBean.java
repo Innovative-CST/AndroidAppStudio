@@ -37,11 +37,9 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * A Bean that holds a group of Block elements. Used to store the Block items,
+/** A Bean that holds a group of Block elements. Used to store the Block items,
  * block elements but
- * does not hold nested blocks.
- */
+ * does not hold nested blocks. */
 public class BlockElementLayerBean extends LayerBean<BlockElementLayerBean>
 		implements Serializable {
 

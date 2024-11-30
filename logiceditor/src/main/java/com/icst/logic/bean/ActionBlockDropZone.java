@@ -31,14 +31,10 @@
 
 package com.icst.logic.bean;
 
-/**
- * ActionBlock(void, or assignment) drop zone supposed to be used within the
- * LogicEditor.
- */
+/** ActionBlock(void, or assignment) drop zone supposed to be used within the
+ * LogicEditor. */
 public abstract class ActionBlockDropZone extends BlockDropZone {
 
-	/**
-	 * @return Return true if last block in this drop zone is TerminatorBlock
-	 */
+	/** @return Return true if last block in this drop zone is TerminatorBlock */
 	public abstract boolean isTerminated();
 }

@@ -21,9 +21,7 @@ import java.util.concurrent.Executor;
 import android.os.Handler;
 import android.os.Looper;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class MainThreadExecutor implements Executor {
 

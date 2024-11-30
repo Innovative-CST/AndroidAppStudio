@@ -15,13 +15,11 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-/**
- * Builder class to create a Theme Chooser Dialog
+/** Builder class to create a Theme Chooser Dialog
  *
  * @param context
  *            Context to use
- * @return ThemeChooserDialogBuilder
- */
+ * @return ThemeChooserDialogBuilder */
 public class ThemeChooserDialogBuilder {
 
 	private final Context context;
@@ -49,30 +47,25 @@ public class ThemeChooserDialogBuilder {
 		builder = new MaterialAlertDialogBuilder(context).setView(binding.getRoot());
 	}
 
-	/**
-	 * Set title of the Dialog using the given string resource id
+	/** Set title of the Dialog using the given string resource id
 	 *
 	 * @param res
 	 *            id of string resource
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setTitle(@StringRes int res) {
 		builder.setTitle(res);
 		return this;
 	}
 
-	/**
-	 * Set icon for the Dialog using the given drawable resource id
+	/** Set icon for the Dialog using the given drawable resource id
 	 *
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setIcon(@DrawableRes int iconId) {
 		builder.setIcon(iconId);
 		return this;
 	}
 
-	/**
-	 * Set positive button text and a listener to be invoked when the positive
+	/** Set positive button text and a listener to be invoked when the positive
 	 * button of the dialog is
 	 * pressed
 	 *
@@ -80,8 +73,7 @@ public class ThemeChooserDialogBuilder {
 	 *            The text to display in the positive button
 	 * @param listener
 	 *            The OnClickListener to use when the button is clicked.
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setPositiveButton(String text, OnClickListener listener) {
 		builder.setPositiveButton(
 				text,
@@ -94,8 +86,7 @@ public class ThemeChooserDialogBuilder {
 		return this;
 	}
 
-	/**
-	 * Set positive button text and a listener to be invoked when the positive
+	/** Set positive button text and a listener to be invoked when the positive
 	 * button of the dialog is
 	 * pressed
 	 *
@@ -103,39 +94,33 @@ public class ThemeChooserDialogBuilder {
 	 *            id of string resource
 	 * @param listener
 	 *            The OnClickListener to use when the button is clicked.
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setPositiveButton(@StringRes int res, OnClickListener listener) {
 		setPositiveButton(context.getString(res), listener);
 		return this;
 	}
 
-	/**
-	 * Set negative button text
+	/** Set negative button text
 	 *
 	 * @param text
 	 *            The text to display in the negative button
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setNegativeButton(String text) {
 		builder.setNegativeButton(text, null);
 		return this;
 	}
 
-	/**
-	 * Set negative button text
+	/** Set negative button text
 	 *
 	 * @param res
 	 *            id of string resource
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setNegativeButton(@StringRes int res) {
 		builder.setNegativeButton(res, null);
 		return this;
 	}
 
-	/**
-	 * Set neutral button text and a listener to be invoked when the neutral button
+	/** Set neutral button text and a listener to be invoked when the neutral button
 	 * of the dialog is
 	 * pressed
 	 *
@@ -143,8 +128,7 @@ public class ThemeChooserDialogBuilder {
 	 *            The text to display in the neutral button
 	 * @param listener
 	 *            The OnClickListener to use when the button is clicked.
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setNeutralButton(String text, OnClickListener listener) {
 		builder.setNeutralButton(
 				text,
@@ -158,8 +142,7 @@ public class ThemeChooserDialogBuilder {
 		return this;
 	}
 
-	/**
-	 * Set neutral button text and a listener to be invoked when the neutral button
+	/** Set neutral button text and a listener to be invoked when the neutral button
 	 * of the dialog is
 	 * pressed
 	 *
@@ -167,8 +150,7 @@ public class ThemeChooserDialogBuilder {
 	 *            id of string resource
 	 * @param listener
 	 *            The OnClickListener to use when the button is clicked.
-	 * @return This Builder object to allow for chaining of calls to set methods
-	 */
+	 * @return This Builder object to allow for chaining of calls to set methods */
 	public ThemeChooserDialogBuilder setNeutralButton(@StringRes int res, OnClickListener listener) {
 		setNeutralButton(context.getString(res), listener);
 		return this;

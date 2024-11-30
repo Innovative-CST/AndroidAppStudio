@@ -23,9 +23,7 @@ import java.util.Map;
 
 import com.downloader.request.DownloadRequest;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public interface HttpClient extends Cloneable {
 

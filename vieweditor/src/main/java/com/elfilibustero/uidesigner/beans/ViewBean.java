@@ -30,9 +30,7 @@ public class ViewBean {
 		this.attributes = attributes;
 	}
 
-	/**
-	 * @return The class name that will be used to inflate the view
-	 */
+	/** @return The class name that will be used to inflate the view */
 	public String getClassName() {
 		return className;
 	}
@@ -46,9 +44,7 @@ public class ViewBean {
 		return icon;
 	}
 
-	/**
-	 * @return The default values that can be used when this palette is inflated
-	 */
+	/** @return The default values that can be used when this palette is inflated */
 	public Map<String, Object> getAttributes() {
 		return attributes;
 	}

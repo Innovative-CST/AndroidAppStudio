@@ -90,10 +90,10 @@ public class ProjectModelAppSetupFragment extends ProjectModelConfigBaseFragment
 		binding.projectName.setSingleLine(true);
 		binding.packageName.setSingleLine(true);
 
-		/*************************************************************************************************
-		 * Adding a TextWatcher to all TextFields to update the error status of fields
-		 * while editing. *
-		 *************************************************************************************************/
+		/************************************************************************************************* Adding
+		 * a TextWatcher to all TextFields to update the error status of fields
+		 * while editing.
+		 * * *************************************************************************************************/
 
 		binding.projectName.addTextChangedListener(
 				new TextWatcher() {

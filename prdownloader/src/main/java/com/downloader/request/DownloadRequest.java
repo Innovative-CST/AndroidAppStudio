@@ -35,9 +35,7 @@ import com.downloader.internal.DownloadRequestQueue;
 import com.downloader.internal.SynchronousCall;
 import com.downloader.utils.Utils;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DownloadRequest {
 

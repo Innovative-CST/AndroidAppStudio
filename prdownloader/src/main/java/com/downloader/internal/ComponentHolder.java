@@ -27,9 +27,7 @@ import com.downloader.httpclient.HttpClient;
 
 import android.content.Context;
 
-/**
- * Created by amitshekhar on 14/11/17.
- */
+/** Created by amitshekhar on 14/11/17. */
 
 public class ComponentHolder {
 

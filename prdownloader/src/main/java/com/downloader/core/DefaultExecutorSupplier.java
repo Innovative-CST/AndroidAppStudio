@@ -22,9 +22,7 @@ import java.util.concurrent.ThreadFactory;
 
 import android.os.Process;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DefaultExecutorSupplier implements ExecutorSupplier {
 

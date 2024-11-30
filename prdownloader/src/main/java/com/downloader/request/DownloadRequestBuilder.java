@@ -22,9 +22,7 @@ import java.util.List;
 
 import com.downloader.Priority;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DownloadRequestBuilder implements RequestBuilder {
 

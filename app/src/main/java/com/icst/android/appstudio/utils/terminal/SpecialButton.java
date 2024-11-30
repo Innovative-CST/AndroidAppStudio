@@ -4,10 +4,8 @@ import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 
-/**
- * The {@link Class} that implements special buttons for
- * {@link VirtualKeysView}.
- */
+/** The {@link Class} that implements special buttons for
+ * {@link VirtualKeysView}. */
 public class SpecialButton {
 
 	private static final HashMap<String, SpecialButton> map = new HashMap<>();
@@ -19,27 +17,23 @@ public class SpecialButton {
 	/** The special button key. */
 	private final String key;
 
-	/**
-	 * Initialize a {@link SpecialButton}.
+	/** Initialize a {@link SpecialButton}.
 	 *
 	 * @param key
 	 *            The unique key name for the special button. The key is registered
 	 *            in {@link #map}
 	 *            with which the {@link SpecialButton} can be retrieved via a call
 	 *            to {@link
-	 *            #valueOf(String)}.
-	 */
+	 *            #valueOf(String)}. */
 	public SpecialButton(@NonNull final String key) {
 		this.key = key;
 		map.put(key, this);
 	}
 
-	/**
-	 * Get the {@link SpecialButton} for {@code key}.
+	/** Get the {@link SpecialButton} for {@code key}.
 	 *
 	 * @param key
-	 *            The unique key name for the special button.
-	 */
+	 *            The unique key name for the special button. */
 	public static SpecialButton valueOf(String key) {
 		return map.get(key);
 	}

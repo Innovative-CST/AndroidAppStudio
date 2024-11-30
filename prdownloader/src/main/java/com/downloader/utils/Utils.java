@@ -31,9 +31,7 @@ import com.downloader.httpclient.HttpClient;
 import com.downloader.internal.ComponentHolder;
 import com.downloader.request.DownloadRequest;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public final class Utils {
 

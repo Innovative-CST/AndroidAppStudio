@@ -22,9 +22,7 @@ import com.downloader.Response;
 import com.downloader.Status;
 import com.downloader.request.DownloadRequest;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DownloadRunnable implements Runnable {
 

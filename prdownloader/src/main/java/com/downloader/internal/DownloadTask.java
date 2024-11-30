@@ -36,9 +36,7 @@ import com.downloader.internal.stream.FileDownloadRandomAccessFile;
 import com.downloader.request.DownloadRequest;
 import com.downloader.utils.Utils;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DownloadTask {
 

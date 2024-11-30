@@ -49,10 +49,8 @@ public class VirtualKeysConstants {
 		}
 	};
 
-	/**
-	 * Defines the repetitive keys that can be passed to {@link
-	 * VirtualKeysView#setRepetitiveKeys(List)}.
-	 */
+	/** Defines the repetitive keys that can be passed to {@link
+	 * VirtualKeysView#setRepetitiveKeys(List)}. */
 	public static List<String> PRIMARY_REPETITIVE_KEYS = Arrays.asList("UP", "DOWN", "LEFT", "RIGHT", "BKSP", "DEL");
 
 	/** Defines the {@link KeyEvent} for common keys. */
@@ -222,11 +220,9 @@ public class VirtualKeysConstants {
 		};
 	}
 
-	/**
-	 * HashMap that implements Python dict.get(key, default) function. Default
+	/** HashMap that implements Python dict.get(key, default) function. Default
 	 * java.util .get(key) is
-	 * then the same as .get(key, null);
-	 */
+	 * then the same as .get(key, null); */
 	static class CleverMap<K, V> extends HashMap<K, V> {
 		V get(K key, V defaultValue) {
 			if (containsKey(key))

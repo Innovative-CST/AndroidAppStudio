@@ -35,14 +35,13 @@ import java.io.Serializable;
 
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * A abstract class, to be inherited by types Layer, It provides a interface for
+/** A abstract class, to be inherited by types Layer, It provides a interface
+ * for
  * types of Layer of
  * Block. Layer is a meant to used to prevent long block from being so long and
  * hence can be
  * rendered below from point of new layer (e.g: Like we press enter to put long
- * text on next line)
- */
+ * text on next line) */
 public abstract class LayerBean<T> implements Serializable, CloneableBean<T> {
 	public static final long serialVersionUID = SerializationUIDConstants.LAYER_BEAN;
 }

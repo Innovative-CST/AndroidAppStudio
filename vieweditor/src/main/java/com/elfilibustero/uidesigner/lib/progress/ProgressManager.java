@@ -39,8 +39,7 @@ public class ProgressManager {
 		mThreadToIndicator = new WeakHashMap<>();
 	}
 
-	/**
-	 * Run a cancelable asynchronous task.
+	/** Run a cancelable asynchronous task.
 	 *
 	 * @param runnable
 	 *            The task to run
@@ -48,8 +47,7 @@ public class ProgressManager {
 	 *            The code to run when this task has been canceled, called from
 	 *            background thread
 	 * @param indicator
-	 *            The class used to control this task's execution
-	 */
+	 *            The class used to control this task's execution */
 	public void runAsync(
 			Runnable runnable,
 			Consumer<ProgressIndicator> cancelConsumer,
@@ -78,8 +76,8 @@ public class ProgressManager {
 		runAsync(runnable, i -> dialog.dismiss(), indicator);
 	}
 
-	/**
-	 * Run a non cancelable task in the background. If the task has been running for
+	/** Run a non cancelable task in the background. If the task has been running
+	 * for
 	 * more than two
 	 * seconds, The loadingRunnable will be run. If the task has finished before
 	 * 2000, the
@@ -91,8 +89,7 @@ public class ProgressManager {
 	 *            The runnable to run if the task has been running for more than 2
 	 *            seconds
 	 * @param finishRunnable
-	 *            The task to run after the task has finished
-	 */
+	 *            The task to run after the task has finished */
 	public void runNonCancelableAsync(
 			Runnable taskToRun, Runnable loadingRunnable, Runnable finishRunnable) {
 		runNonCancelableAsync(
@@ -104,12 +101,10 @@ public class ProgressManager {
 		runLater(loadingRunnable, 2000);
 	}
 
-	/**
-	 * Run an asynchronous operation that is not cancelable.
+	/** Run an asynchronous operation that is not cancelable.
 	 *
 	 * @param runnable
-	 *            The code to run
-	 */
+	 *            The code to run */
 	public void runNonCancelableAsync(Runnable runnable) {
 		mPool.execute(runnable);
 	}
@@ -118,22 +113,18 @@ public class ProgressManager {
 		return Futures.submitAsync(callable, mPool);
 	}
 
-	/**
-	 * Posts the runnable into the UI thread to be run later.
+	/** Posts the runnable into the UI thread to be run later.
 	 *
 	 * @param runnable
-	 *            The code to run
-	 */
+	 *            The code to run */
 	public void runLater(Runnable runnable) {
 		mMainHandler.post(runnable);
 	}
 
-	/**
-	 * Posts the runnable into the UI thread to be run later.
+	/** Posts the runnable into the UI thread to be run later.
 	 *
 	 * @param runnable
-	 *            The code to run
-	 */
+	 *            The code to run */
 	public void runLater(Runnable runnable, long delay) {
 		mMainHandler.postDelayed(runnable, delay);
 	}

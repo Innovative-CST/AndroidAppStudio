@@ -35,10 +35,8 @@ import java.io.Serializable;
 
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * Abstract class representing the base block supposed to be used within the
- * LogicEditor.
- */
+/** Abstract class representing the base block supposed to be used within the
+ * LogicEditor. */
 public abstract class BlockBean<T> implements Serializable, CloneableBean<T> {
 
 	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_BEAN;
@@ -62,63 +60,51 @@ public abstract class BlockBean<T> implements Serializable, CloneableBean<T> {
 		this.blockBeanKey = blockBeanKey;
 	}
 
-	/**
-	 * Gets the color of the block.
+	/** Gets the color of the block.
 	 *
-	 * @return the color of the block as a String in hexadecimal format.
-	 */
+	 * @return the color of the block as a String in hexadecimal format. */
 	public String getColor() {
 		return color;
 	}
 
-	/**
-	 * Sets the color of the block.
+	/** Sets the color of the block.
 	 *
 	 * @param color
-	 *            the new color for the block.
-	 */
+	 *            the new color for the block. */
 	public void setColor(String color) {
 		this.color = color;
 	}
 
-	/**
-	 * Checks if dragging the block is allowed.
+	/** Checks if dragging the block is allowed.
 	 *
-	 * @return true if dragging is allowed, false otherwise.
-	 */
+	 * @return true if dragging is allowed, false otherwise. */
 	public boolean isDragAllowed() {
 		return dragAllowed;
 	}
 
-	/**
-	 * Sets whether dragging the block is allowed. Supposed to be used only by
+	/** Sets whether dragging the block is allowed. Supposed to be used only by
 	 * internal library and
 	 * for purpose of pre-build EventBean. You must see its implementation somewhere
 	 * in app, guess
 	 * its usage because it is not designed mainly for consumers.
 	 *
 	 * @param dragAllowed
-	 *            true to allow dragging, false otherwise.
-	 */
+	 *            true to allow dragging, false otherwise. */
 	public void setDragAllowed(boolean dragAllowed) {
 		this.dragAllowed = dragAllowed;
 	}
 
-	/**
-	 * Checks if the block's value is read-only.
+	/** Checks if the block's value is read-only.
 	 *
-	 * @return true if the value is read-only, false otherwise.
-	 */
+	 * @return true if the value is read-only, false otherwise. */
 	public boolean isValueReadOnly() {
 		return valueReadOnly;
 	}
 
-	/**
-	 * Sets whether the block's value is read-only.
+	/** Sets whether the block's value is read-only.
 	 *
 	 * @param valueReadOnly
-	 *            true to make the value read-only, false otherwise.
-	 */
+	 *            true to make the value read-only, false otherwise. */
 	public void setValueReadOnly(boolean valueReadOnly) {
 		this.valueReadOnly = valueReadOnly;
 	}

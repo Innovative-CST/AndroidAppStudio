@@ -36,11 +36,9 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * A basic BlockBean model that just hold fields layer (not nested block) and
+/** A basic BlockBean model that just hold fields layer (not nested block) and
  * does not return any
- * code from it.
- */
+ * code from it. */
 public abstract class BaseBlockBean<T> extends BlockBean<T> implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.BASE_BLOCK_BEAN;

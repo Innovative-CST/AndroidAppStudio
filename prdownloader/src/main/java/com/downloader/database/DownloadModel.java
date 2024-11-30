@@ -16,9 +16,7 @@
 
 package com.downloader.database;
 
-/**
- * Created by anandgaurav on 14-11-2017.
- */
+/** Created by anandgaurav on 14-11-2017. */
 
 public class DownloadModel {
 

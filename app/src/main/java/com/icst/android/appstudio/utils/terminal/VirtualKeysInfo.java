@@ -11,8 +11,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
-/**
- * A {@link Class} that defines the info needed by {@link VirtualKeysView} to
+/** A {@link Class} that defines the info needed by {@link VirtualKeysView} to
  * display the extra key
  * views.
  *
@@ -317,15 +316,13 @@ import androidx.annotation.NonNull;
  * input the string "-_-" }
  *
  * <p>
- * For more info, check https://wiki.termux.com/wiki/Touch_Keyboard.
- */
+ * For more info, check https://wiki.termux.com/wiki/Touch_Keyboard. */
 public class VirtualKeysInfo {
 
 	/** Matrix of buttons to be displayed in {@link VirtualKeysView}. */
 	private final VirtualKeyButton[][] mButtons;
 
-	/**
-	 * Initialize {@link VirtualKeysInfo}.
+	/** Initialize {@link VirtualKeysInfo}.
 	 *
 	 * @param propertiesInfo
 	 *            The {@link String} containing the info to create the {@link
@@ -343,8 +340,7 @@ public class VirtualKeysInfo {
 	 *            the
 	 *            aliases for the actual key names. You can create your own or
 	 *            optionally pass {@link
-	 *            VirtualKeysConstants#CONTROL_CHARS_ALIASES}.
-	 */
+	 *            VirtualKeysConstants#CONTROL_CHARS_ALIASES}. */
 	public VirtualKeysInfo(
 			@NonNull String propertiesInfo,
 			String style,
@@ -397,11 +393,9 @@ public class VirtualKeysInfo {
 		return buttons;
 	}
 
-	/**
-	 * Convert "value" -> {"key": "value"}. Required by {@link
+	/** Convert "value" -> {"key": "value"}. Required by {@link
 	 * VirtualKeyButton#VirtualKeyButton(JSONObject, VirtualKeyButton,
-	 * VirtualKeysConstants.VirtualKeyDisplayMap, VirtualKeysConstants.VirtualKeyDisplayMap)}.
-	 */
+	 * VirtualKeysConstants.VirtualKeyDisplayMap, VirtualKeysConstants.VirtualKeyDisplayMap)}. */
 	private static JSONObject normalizeKeyConfig(Object key) throws JSONException {
 		JSONObject jobject;
 		if (key instanceof String) {
@@ -430,8 +424,7 @@ public class VirtualKeysInfo {
 		}
 	}
 
-	/**
-	 * Initialize {@link VirtualKeysInfo}.
+	/** Initialize {@link VirtualKeysInfo}.
 	 *
 	 * @param propertiesInfo
 	 *            The {@link String} containing the info to create the {@link
@@ -449,8 +442,7 @@ public class VirtualKeysInfo {
 	 *            the
 	 *            aliases for the actual key names. You can create your own or
 	 *            optionally pass {@link
-	 *            VirtualKeysConstants#CONTROL_CHARS_ALIASES}.
-	 */
+	 *            VirtualKeysConstants#CONTROL_CHARS_ALIASES}. */
 	public VirtualKeysInfo(
 			@NonNull String propertiesInfo,
 			@NonNull VirtualKeysConstants.VirtualKeyDisplayMap extraKeyDisplayMap,

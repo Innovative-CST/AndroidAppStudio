@@ -35,11 +35,9 @@ import java.io.Serializable;
 
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * A class of Datatype, to compare that the two Datatypes are different or not
+/** A class of Datatype, to compare that the two Datatypes are different or not
  * by comparing class
- * name and import. This Bean can also be used to store data.
- */
+ * name and import. This Bean can also be used to store data. */
 public class DatatypeBean implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.DATATYPE_BEAN_BEAN;
@@ -48,8 +46,7 @@ public class DatatypeBean implements Serializable {
 	private String classImport;
 	private boolean isImportNecessary;
 
-	/**
-	 * Compare two DatatypeBean by checking that its import and class name is same
+	/** Compare two DatatypeBean by checking that its import and class name is same
 	 * or not with other.
 	 *
 	 * <p>
@@ -59,8 +56,7 @@ public class DatatypeBean implements Serializable {
 	 *
 	 * @param mDatatypeBean
 	 *            DatatypeBean to compare with.
-	 * @return True if @mDatatypeBean is equal.
-	 */
+	 * @return True if @mDatatypeBean is equal. */
 	public boolean equals(DatatypeBean mDatatypeBean) {
 		if (mDatatypeBean == null) {
 			return false;

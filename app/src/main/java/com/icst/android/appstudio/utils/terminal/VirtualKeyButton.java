@@ -13,40 +13,30 @@ import androidx.annotation.Nullable;
 
 public class VirtualKeyButton {
 
-	/**
-	 * The key name for the name of the extra key if using a dict to define the
+	/** The key name for the name of the extra key if using a dict to define the
 	 * extra key. {key: name,
-	 * ...}
-	 */
+	 * ...} */
 	public static final String KEY_KEY_NAME = "key";
 
-	/**
-	 * The key name for the macro value of the extra key if using a dict to define
+	/** The key name for the macro value of the extra key if using a dict to define
 	 * the extra key.
-	 * {macro: value, ...}
-	 */
+	 * {macro: value, ...} */
 	public static final String KEY_MACRO = "macro";
 
-	/**
-	 * The key name for the alternate display name of the extra key if using a dict
+	/** The key name for the alternate display name of the extra key if using a dict
 	 * to define the
-	 * extra key. {display: name, ...}
-	 */
+	 * extra key. {display: name, ...} */
 	public static final String KEY_DISPLAY_NAME = "display";
 
-	/**
-	 * The key name for the nested dict to define popup extra key info if using a
+	/** The key name for the nested dict to define popup extra key info if using a
 	 * dict to define the
-	 * extra key. {popup: {key: name, ...}, ...}
-	 */
+	 * extra key. {popup: {key: name, ...}, ...} */
 	public static final String KEY_POPUP = "popup";
 
-	/**
-	 * The key that will be sent to the terminal, either a control character, like
+	/** The key that will be sent to the terminal, either a control character, like
 	 * defined in {@link
 	 * VirtualKeysConstants#PRIMARY_KEY_CODES_FOR_STRINGS} (LEFT, RIGHT, PGUP...) or
-	 * some text.
-	 */
+	 * some text. */
 	private final String key;
 
 	/** If the key is a macro, i.e. a sequence of keys separated by space. */
@@ -55,15 +45,12 @@ public class VirtualKeyButton {
 	/** The text that will be displayed on the button. */
 	private final String display;
 
-	/**
-	 * The {@link VirtualKeyButton} containing the information of the popup button
+	/** The {@link VirtualKeyButton} containing the information of the popup button
 	 * (triggered by swipe
-	 * up).
-	 */
+	 * up). */
 	@Nullable private final VirtualKeyButton popup;
 
-	/**
-	 * Initialize a {@link VirtualKeyButton}.
+	/** Initialize a {@link VirtualKeyButton}.
 	 *
 	 * @param config
 	 *            The {@link JSONObject} containing the info to create the {@link
@@ -76,8 +63,7 @@ public class VirtualKeyButton {
 	 * @param extraKeyAliasMap
 	 *            The {@link VirtualKeysConstants.VirtualKeyDisplayMap} that defines
 	 *            the
-	 *            aliases for the actual key names.
-	 */
+	 *            aliases for the actual key names. */
 	public VirtualKeyButton(
 			@NonNull JSONObject config,
 			@NonNull VirtualKeysConstants.VirtualKeyDisplayMap extraKeyDisplayMap,
@@ -86,8 +72,7 @@ public class VirtualKeyButton {
 		this(config, null, extraKeyDisplayMap, extraKeyAliasMap);
 	}
 
-	/**
-	 * Initialize a {@link VirtualKeyButton}.
+	/** Initialize a {@link VirtualKeyButton}.
 	 *
 	 * @param config
 	 *            The {@link JSONObject} containing the info to create the {@link
@@ -102,8 +87,7 @@ public class VirtualKeyButton {
 	 * @param extraKeyAliasMap
 	 *            The {@link VirtualKeysConstants.VirtualKeyDisplayMap} that defines
 	 *            the
-	 *            aliases for the actual key names.
-	 */
+	 *            aliases for the actual key names. */
 	public VirtualKeyButton(
 			@NonNull JSONObject config,
 			@Nullable VirtualKeyButton popup,

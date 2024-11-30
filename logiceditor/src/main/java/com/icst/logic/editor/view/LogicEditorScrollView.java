@@ -38,11 +38,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
-/**
- * Custom scrollable view for block-based editor, allowing controlled scrolling
+/** Custom scrollable view for block-based editor, allowing controlled scrolling
  * behavior with
- * options to restrict or force scroll actions.
- */
+ * options to restrict or force scroll actions. */
 public class LogicEditorScrollView extends FrameLayout {
 
 	private int scrollThreshold; // Minimum scroll distance required to consider scroll
@@ -68,11 +66,9 @@ public class LogicEditorScrollView extends FrameLayout {
 		scrollThreshold = ViewConfiguration.get(context).getScaledTouchSlop();
 	}
 
-	/**
-	 * Return false if you want the event to transfer to its child. Return true if
+	/** Return false if you want the event to transfer to its child. Return true if
 	 * you do not want the
-	 * event to transfer to its child.
-	 */
+	 * event to transfer to its child. */
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
 		// Transfer event to children if scroll is disabled.
@@ -123,11 +119,9 @@ public class LogicEditorScrollView extends FrameLayout {
 		}
 
 		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-			/**
-			 * Store initial x, y coordinates of touches to be -1 as view is released(after
+			/** Store initial x, y coordinates of touches to be -1 as view is released(after
 			 * threshold
-			 * scroll was met).
-			 */
+			 * scroll was met). */
 			initialScrollX = -1.0f;
 			initialScrollY = -1.0f;
 		}

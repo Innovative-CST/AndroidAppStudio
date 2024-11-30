@@ -24,9 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class ProgressHandler extends Handler {
 

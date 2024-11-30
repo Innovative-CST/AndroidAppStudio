@@ -111,9 +111,8 @@ public final class ProjectCodeBuilder {
 		if (listener != null)
 			listener.onBuildStart();
 
-		/************************************
-		 * Generate Module Output Directory *
-		 ************************************/
+		/************************************ Generate Module Output Directory
+		 * * ************************************/
 
 		if (listener != null) {
 			listener.onBuildProgressLog("Run task : [" + module.module + ":generateCode]\n");
@@ -137,9 +136,8 @@ public final class ProjectCodeBuilder {
 			module.moduleOutputDirectory.mkdirs();
 		}
 
-		/*******************************
-		 * Generate Module Gradle File *
-		 *******************************/
+		/******************************* Generate Module Gradle File
+		 * * *******************************/
 
 		if (listener != null) {
 			listener.onBuildProgressLog("> Task " + module.module + ":generateGradleFile");
@@ -165,9 +163,7 @@ public final class ProjectCodeBuilder {
 			}
 		}
 
-		/**************************
-		 * Generate Manifest File *
-		 **************************/
+		/************************** Generate Manifest File * **************************/
 
 		if (listener != null) {
 			listener.onBuildProgressLog("> Task " + module.module + ":generateAndroidManifestFile");
@@ -180,9 +176,8 @@ public final class ProjectCodeBuilder {
 		manifestBuilder.setCancelToken(cancelToken);
 		manifestBuilder.build();
 
-		/*****************************
-		 * Generate Resource Folders *
-		 *****************************/
+		/***************************** Generate Resource Folders
+		 * * *****************************/
 
 		if (listener != null) {
 			listener.onBuildProgressLog("> Task " + module.module + ":generateResourceFolder");
@@ -218,9 +213,7 @@ public final class ProjectCodeBuilder {
 			}
 		}
 
-		/***********************
-		 * Generate Java Files *
-		 ***********************/
+		/*********************** Generate Java Files * ***********************/
 
 		if (listener != null) {
 			listener.onBuildProgressLog("> Task " + module.module + ":generateJavaFiles");

@@ -35,13 +35,11 @@ import java.io.Serializable;
 
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/**
- * TerminatorBlockBean: Can hold RegularBlockBean (nested blocks),
+/** TerminatorBlockBean: Can hold RegularBlockBean (nested blocks),
  * BlockElementBean but differs from
  * RegularBlockBean because this must be the last block bean and after that no
  * action block can be
- * placed.
- */
+ * placed. */
 public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
 		implements Serializable {
 

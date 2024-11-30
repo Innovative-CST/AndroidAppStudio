@@ -24,9 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.downloader.internal.DownloadRunnable;
 
-/**
- * Created by amitshekhar on 13/11/17.
- */
+/** Created by amitshekhar on 13/11/17. */
 
 public class DownloadExecutor extends ThreadPoolExecutor {
 

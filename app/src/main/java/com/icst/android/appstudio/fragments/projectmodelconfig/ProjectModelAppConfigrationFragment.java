@@ -61,10 +61,10 @@ public class ProjectModelAppConfigrationFragment extends ProjectModelConfigBaseF
 		binding.minimumSdkVersion.setInputType(InputType.TYPE_CLASS_NUMBER);
 		binding.targetSdkVersion.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-		/*************************************************************************************************
-		 * Adding a TextWatcher to all TextFields to update the error status of fields
-		 * while editing. *
-		 *************************************************************************************************/
+		/************************************************************************************************* Adding
+		 * a TextWatcher to all TextFields to update the error status of fields
+		 * while editing.
+		 * * *************************************************************************************************/
 
 		binding.versionName.addTextChangedListener(
 				new TextWatcher() {

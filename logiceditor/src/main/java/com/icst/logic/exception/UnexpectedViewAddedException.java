@@ -34,11 +34,9 @@ package com.icst.logic.exception;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * UnexpectedViewAddedException ia thrown, when a Unexpected view is tried to
+/** UnexpectedViewAddedException ia thrown, when a Unexpected view is tried to
  * add to a View like
- * ActionBlockDropZoneView, ExpressionBlockDropZoneView.
- */
+ * ActionBlockDropZoneView, ExpressionBlockDropZoneView. */
 public class UnexpectedViewAddedException extends RuntimeException {
 	private ViewGroup parent;
 	private View unexpectedView;

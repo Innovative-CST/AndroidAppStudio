@@ -30,8 +30,7 @@ import android.widget.PopupWindow;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-/**
- * A {@link View} showing extra keys (such as Escape, Ctrl, Alt) not normally
+/** A {@link View} showing extra keys (such as Escape, Ctrl, Alt) not normally
  * available on an Android soft
  * keyboards.
  *
@@ -81,8 +80,7 @@ import androidx.annotation.Nullable;
  * The client used is TermuxTerminalVirtualKeys, which extends
  * {@link com.termux.shared.terminal.io.TerminalVirtualKeys} to handle Termux
  * app specific logic and
- * leave the rest to the super class.
- */
+ * leave the rest to the super class. */
 public final class VirtualKeysView extends GridLayout {
 
 	/** Defines the default value for {@link #mButtonTextColor}. */
@@ -97,107 +95,77 @@ public final class VirtualKeysView extends GridLayout {
 	/** Defines the default value for {@link #mButtonActiveBackgroundColor}. */
 	public static final int DEFAULT_BUTTON_ACTIVE_BACKGROUND_COLOR = 0xFF7F7F7F;
 
-	/**
-	 * Defines the minimum allowed duration in milliseconds for
-	 * {@link #mLongPressTimeout}.
-	 */
+	/** Defines the minimum allowed duration in milliseconds for
+	 * {@link #mLongPressTimeout}. */
 	public static final int MIN_LONG_PRESS_DURATION = 200;
 
-	/**
-	 * Defines the maximum allowed duration in milliseconds for
-	 * {@link #mLongPressTimeout}.
-	 */
+	/** Defines the maximum allowed duration in milliseconds for
+	 * {@link #mLongPressTimeout}. */
 	public static final int MAX_LONG_PRESS_DURATION = 3000;
 
-	/**
-	 * Defines the fallback duration in milliseconds for {@link #mLongPressTimeout}.
-	 */
+	/** Defines the fallback duration in milliseconds for
+	 * {@link #mLongPressTimeout}. */
 	public static final int FALLBACK_LONG_PRESS_DURATION = 400;
 
-	/**
-	 * Defines the minimum allowed duration in milliseconds for
-	 * {@link #mLongPressRepeatDelay}.
-	 */
+	/** Defines the minimum allowed duration in milliseconds for
+	 * {@link #mLongPressRepeatDelay}. */
 	public static final int MIN_LONG_PRESS__REPEAT_DELAY = 5;
 
-	/**
-	 * Defines the maximum allowed duration in milliseconds for
-	 * {@link #mLongPressRepeatDelay}.
-	 */
+	/** Defines the maximum allowed duration in milliseconds for
+	 * {@link #mLongPressRepeatDelay}. */
 	public static final int MAX_LONG_PRESS__REPEAT_DELAY = 2000;
 
-	/**
-	 * Defines the default duration in milliseconds for
-	 * {@link #mLongPressRepeatDelay}.
-	 */
+	/** Defines the default duration in milliseconds for
+	 * {@link #mLongPressRepeatDelay}. */
 	public static final int DEFAULT_LONG_PRESS_REPEAT_DELAY = 80;
 
-	/**
-	 * The implementation of the {@link IVirtualKeysView} that acts as a client for
+	/** The implementation of the {@link IVirtualKeysView} that acts as a client for
 	 * the {@link
-	 * VirtualKeysView}.
-	 */
+	 * VirtualKeysView}. */
 	private IVirtualKeysView mVirtualKeysViewClient;
 
-	/**
-	 * The map for the {@link SpecialButton} and their {@link SpecialButtonState}.
+	/** The map for the {@link SpecialButton} and their {@link SpecialButtonState}.
 	 * Defaults to the one
-	 * returned by {@link #getDefaultSpecialButtons(VirtualKeysView)}.
-	 */
+	 * returned by {@link #getDefaultSpecialButtons(VirtualKeysView)}. */
 	private Map<SpecialButton, SpecialButtonState> mSpecialButtons;
 
-	/**
-	 * The keys for the {@link SpecialButton} added to {@link #mSpecialButtons}.
+	/** The keys for the {@link SpecialButton} added to {@link #mSpecialButtons}.
 	 * This is automatically
-	 * set when the call to {@link #setSpecialButtons(Map)} is made.
-	 */
+	 * set when the call to {@link #setSpecialButtons(Map)} is made. */
 	private Set<String> mSpecialButtonsKeys;
 
-	/**
-	 * The list of keys for which auto repeat of key should be triggered if its
+	/** The list of keys for which auto repeat of key should be triggered if its
 	 * extra keys button is
 	 * long pressed. This is done by calling
 	 * {@link IVirtualKeysView#onVirtualKeyButtonClick(View,
 	 * VirtualKeyButton, Button)} every {@link #mLongPressRepeatDelay} seconds after
 	 * {@link
 	 * #mLongPressTimeout} has passed. The default keys are defined by {@link
-	 * VirtualKeysConstants#PRIMARY_REPETITIVE_KEYS}.
-	 */
+	 * VirtualKeysConstants#PRIMARY_REPETITIVE_KEYS}. */
 	private List<String> mRepetitiveKeys;
 
-	/**
-	 * The text color for the extra keys button. Defaults to
-	 * {@link #DEFAULT_BUTTON_TEXT_COLOR}.
-	 */
+	/** The text color for the extra keys button. Defaults to
+	 * {@link #DEFAULT_BUTTON_TEXT_COLOR}. */
 	private int mButtonTextColor;
 
-	/**
-	 * The text color for the extra keys button when its active. Defaults to {@link
-	 * #DEFAULT_BUTTON_ACTIVE_TEXT_COLOR}.
-	 */
+	/** The text color for the extra keys button when its active. Defaults to {@link
+	 * #DEFAULT_BUTTON_ACTIVE_TEXT_COLOR}. */
 	private int mButtonActiveTextColor;
 
-	/**
-	 * The background color for the extra keys button. Defaults to {@link
-	 * #DEFAULT_BUTTON_BACKGROUND_COLOR}.
-	 */
+	/** The background color for the extra keys button. Defaults to {@link
+	 * #DEFAULT_BUTTON_BACKGROUND_COLOR}. */
 	private int mButtonBackgroundColor;
 
-	/**
-	 * The background color for the extra keys button when its active. Defaults to
+	/** The background color for the extra keys button when its active. Defaults to
 	 * {@link
-	 * #DEFAULT_BUTTON_ACTIVE_BACKGROUND_COLOR}.
-	 */
+	 * #DEFAULT_BUTTON_ACTIVE_BACKGROUND_COLOR}. */
 	private int mButtonActiveBackgroundColor;
 
-	/**
-	 * Defines whether text for the extra keys button should be all capitalized
-	 * automatically.
-	 */
+	/** Defines whether text for the extra keys button should be all capitalized
+	 * automatically. */
 	private boolean mButtonTextAllCaps = true;
 
-	/**
-	 * Defines the duration in milliseconds before a press turns into a long press.
+	/** Defines the duration in milliseconds before a press turns into a long press.
 	 * The default
 	 * duration used is the one returned by a call to
 	 * {@link ViewConfiguration#getLongPressTimeout()}
@@ -205,27 +173,22 @@ public final class VirtualKeysView extends GridLayout {
 	 * accessibility settings.
 	 * The duration must be in between {@link #MIN_LONG_PRESS_DURATION} and {@link
 	 * #MAX_LONG_PRESS_DURATION}, otherwise {@link #FALLBACK_LONG_PRESS_DURATION} is
-	 * used.
-	 */
+	 * used. */
 	private int mLongPressTimeout;
 
-	/**
-	 * Defines the duration in milliseconds for the delay between trigger of each
+	/** Defines the duration in milliseconds for the delay between trigger of each
 	 * repeat of {@link
 	 * #mRepetitiveKeys}. The default value is defined by
 	 * {@link #DEFAULT_LONG_PRESS_REPEAT_DELAY}.
 	 * The duration must be in between {@link #MIN_LONG_PRESS__REPEAT_DELAY} and
 	 * {@link
 	 * #MAX_LONG_PRESS__REPEAT_DELAY}, otherwise
-	 * {@link #DEFAULT_LONG_PRESS_REPEAT_DELAY} is used.
-	 */
+	 * {@link #DEFAULT_LONG_PRESS_REPEAT_DELAY} is used. */
 	private int mLongPressRepeatDelay;
 
-	/**
-	 * The popup window shown if {@link VirtualKeyButton#getPopup()} returns a
+	/** The popup window shown if {@link VirtualKeyButton#getPopup()} returns a
 	 * {@code non-null} value
-	 * and a swipe up action is done on an extra key.
-	 */
+	 * and a swipe up action is done on an extra key. */
 	private PopupWindow mPopupWindow;
 
 	private ScheduledExecutorService mScheduledExecutor;
@@ -247,8 +210,7 @@ public final class VirtualKeysView extends GridLayout {
 		setLongPressRepeatDelay(DEFAULT_LONG_PRESS_REPEAT_DELAY);
 	}
 
-	/**
-	 * Set the {@link VirtualKeysView} button colors.
+	/** Set the {@link VirtualKeysView} button colors.
 	 *
 	 * @param buttonTextColor
 	 *            The value for {@link #mButtonTextColor}.
@@ -257,8 +219,7 @@ public final class VirtualKeysView extends GridLayout {
 	 * @param buttonBackgroundColor
 	 *            The value for {@link #mButtonBackgroundColor}.
 	 * @param buttonActiveBackgroundColor
-	 *            The value for {@link #mButtonActiveBackgroundColor}.
-	 */
+	 *            The value for {@link #mButtonActiveBackgroundColor}. */
 	public void setButtonColors(
 			int buttonTextColor,
 			int buttonActiveTextColor,
@@ -403,15 +364,13 @@ public final class VirtualKeysView extends GridLayout {
 		}
 	}
 
-	/**
-	 * Reload this instance of {@link VirtualKeysView} with the info passed in
+	/** Reload this instance of {@link VirtualKeysView} with the info passed in
 	 * {@code extraKeysInfo}.
 	 *
 	 * @param extraKeysInfo
 	 *            The {@link VirtualKeysInfo} that defines the necessary info for
 	 *            the extra
-	 *            keys.
-	 */
+	 *            keys. */
 	@SuppressLint("ClickableViewAccessibility")
 	public void reload(VirtualKeysInfo extraKeysInfo) {
 		if (extraKeysInfo == null)
@@ -672,8 +631,7 @@ public final class VirtualKeysView extends GridLayout {
 		return m;
 	}
 
-	/**
-	 * Read whether {@link SpecialButton} registered in {@link #mSpecialButtons} is
+	/** Read whether {@link SpecialButton} registered in {@link #mSpecialButtons} is
 	 * active or not.
 	 *
 	 * @param specialButton
@@ -686,8 +644,7 @@ public final class VirtualKeysView extends GridLayout {
 	 *         {@link #mSpecialButtons}. If button
 	 *         exists, then returns {@code true} if the button is created in
 	 *         {@link VirtualKeysView} and
-	 *         is active, otherwise {@code false}.
-	 */
+	 *         is active, otherwise {@code false}. */
 	@Nullable public Boolean readSpecialButton(SpecialButton specialButton, boolean autoSetInActive) {
 		SpecialButtonState state = mSpecialButtons.get(specialButton);
 		if (state == null)
@@ -721,8 +678,7 @@ public final class VirtualKeysView extends GridLayout {
 	/** The client for the {@link VirtualKeysView}. */
 	public interface IVirtualKeysView {
 
-		/**
-		 * This is called by {@link VirtualKeysView} when a button is clicked. This is
+		/** This is called by {@link VirtualKeysView} when a button is clicked. This is
 		 * also called for
 		 * {@link #mRepetitiveKeys} and {@link VirtualKeyButton} that have a popup set.
 		 * However, this is
@@ -739,12 +695,10 @@ public final class VirtualKeysView extends GridLayout {
 		 *            checked with a call to
 		 *            {@link VirtualKeyButton#isMacro()}.
 		 * @param button
-		 *            The {@link Button} that was clicked.
-		 */
+		 *            The {@link Button} that was clicked. */
 		void onVirtualKeyButtonClick(View view, VirtualKeyButton buttonInfo, Button button);
 
-		/**
-		 * This is called by {@link VirtualKeysView} when a button is clicked so that
+		/** This is called by {@link VirtualKeysView} when a button is clicked so that
 		 * the client can
 		 * perform any hepatic feedback. This is only called in the
 		 * {@link Button.OnClickListener} and
@@ -760,8 +714,7 @@ public final class VirtualKeysView extends GridLayout {
 		 *         {@code false} so
 		 *         that
 		 *         {@link VirtualKeysView#performVirtualKeyButtonHapticFeedback(View, VirtualKeyButton,
-		 *         Button)} can handle it depending on system settings.
-		 */
+		 *         Button)} can handle it depending on system settings. */
 		boolean performVirtualKeyButtonHapticFeedback(
 				View view, VirtualKeyButton buttonInfo, Button button);
 	}

@@ -24,9 +24,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-/**
- * Created by anandgaurav on 14-11-2017.
- */
+/** Created by anandgaurav on 14-11-2017. */
 
 public class AppDbHelper implements DbHelper {
 
