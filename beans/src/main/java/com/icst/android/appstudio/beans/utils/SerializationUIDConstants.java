@@ -45,4 +45,5 @@ public class SerializationUIDConstants {
 	public static final long DATATYPE_BEAN_BEAN = 1L;
 	public static final long EVENT_BEAN = 1L;
 	public static final long LABEL_BLOCK_ELEMENT_BEAN = 1L;
+	public static final long BLOCK_PALETTE_BEAN = 1L;
 }

@@ -29,30 +29,51 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.logic.lib.view;
 
-import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.logic.utils.UnitUtils;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.graphics.Color;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class BlockPaletteView extends LinearLayout {
 
-public class MainActivity extends AppCompatActivity {
-	private ActivityMainBinding binding;
+	private BlockPaletteBean palette;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		binding = ActivityMainBinding.inflate(getLayoutInflater());
-		setContentView(binding.getRoot());
-		binding.toolbar.setTitle(getString(R.string.app_name));
-		setSupportActionBar(binding.toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-		binding.logicEditor.openEventInCanva(
-				DummyBeans.getDummyEvent(), new LogicEditorConfiguration());
-		binding.logicEditor.preparePallete(DummyPalette.getDummyList());
+	public BlockPaletteView(Context context) {
+		super(context);
+	}
+
+	public void setPalette(BlockPaletteBean palette) {
+		this.palette = palette;
+		init();
+	}
+
+	private void init() {
+		removeAllViews();
+		if (palette == null) {
+			return;
+		}
+		setOrientation(HORIZONTAL);
+
+		LinearLayout color = new LinearLayout(getContext());
+		LayoutParams colorLp = new LinearLayout.LayoutParams(
+				UnitUtils.dpToPx(getContext(), 5), LayoutParams.MATCH_PARENT);
+		colorLp.setMarginEnd(UnitUtils.dpToPx(getContext(), 8));
+		color.setLayoutParams(colorLp);
+		color.setBackgroundColor(Color.parseColor(palette.getColor()));
+		addView(color);
+
+		TextView label = new TextView(getContext());
+		label.setText(palette.getName());
+		addView(label);
+		setPadding(
+				UnitUtils.dpToPx(getContext(), 2),
+				UnitUtils.dpToPx(getContext(), 2),
+				UnitUtils.dpToPx(getContext(), 2),
+				UnitUtils.dpToPx(getContext(), 2));
 	}
 }

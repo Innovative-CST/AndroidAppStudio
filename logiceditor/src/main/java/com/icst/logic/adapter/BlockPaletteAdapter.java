@@ -29,30 +29,50 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.logic.adapter;
 
-import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import java.util.ArrayList;
 
-import android.os.Bundle;
+import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.logic.lib.view.BlockPaletteView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class MainActivity extends AppCompatActivity {
-	private ActivityMainBinding binding;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
+public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapter.ViewHolder> {
+	private ArrayList<BlockPaletteBean> palette;
+
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View view) {
+			super(view);
+		}
+	}
+
+	public BlockPaletteAdapter(ArrayList<BlockPaletteBean> palette) {
+		this.palette = palette;
+	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		binding = ActivityMainBinding.inflate(getLayoutInflater());
-		setContentView(binding.getRoot());
-		binding.toolbar.setTitle(getString(R.string.app_name));
-		setSupportActionBar(binding.toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-		binding.logicEditor.openEventInCanva(
-				DummyBeans.getDummyEvent(), new LogicEditorConfiguration());
-		binding.logicEditor.preparePallete(DummyPalette.getDummyList());
+	public int getItemCount() {
+		return palette.size();
+	}
+
+	@Override
+	public void onBindViewHolder(ViewHolder arg0, int position) {
+		BlockPaletteView paletteView = (BlockPaletteView) arg0.itemView;
+		paletteView.setPalette(palette.get(position));
+	}
+
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+		View view = new BlockPaletteView(arg0.getContext());
+		RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
+				RecyclerView.LayoutParams.MATCH_PARENT,
+				RecyclerView.LayoutParams.WRAP_CONTENT);
+		view.setLayoutParams(layoutParams);
+		return new ViewHolder(view);
 	}
 }

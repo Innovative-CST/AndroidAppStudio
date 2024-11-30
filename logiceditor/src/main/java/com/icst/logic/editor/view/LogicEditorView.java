@@ -34,7 +34,9 @@ package com.icst.logic.editor.view;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.EventBean;
+import com.icst.logic.adapter.BlockPaletteAdapter;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.editor.HistoryManager;
@@ -56,6 +58,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 /* Main LogicEditor View */
 public class LogicEditorView extends RelativeLayout {
@@ -104,6 +108,11 @@ public class LogicEditorView extends RelativeLayout {
 		addView(draggingView);
 		draggingView.setX(x);
 		draggingView.setY(y);
+	}
+
+	public void preparePallete(ArrayList<BlockPaletteBean> mBlockPaletteBean) {
+		binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
+		binding.blocksHolderList.setAdapter(new BlockPaletteAdapter(mBlockPaletteBean));
 	}
 
 	public void startDrag(Object draggingBean, DraggingBlockDummy draggingView, float x, float y) {

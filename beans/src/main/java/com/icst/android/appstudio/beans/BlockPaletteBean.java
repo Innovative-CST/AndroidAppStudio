@@ -29,30 +29,50 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.android.appstudio.beans;
 
-import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-import android.os.Bundle;
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class BlockPaletteBean implements Serializable {
+	public static final long serialVersionUID = SerializationUIDConstants.BLOCK_PALETTE_BEAN;
 
-public class MainActivity extends AppCompatActivity {
-	private ActivityMainBinding binding;
+	private ArrayList<BlockBean> blocks;
+	private String color;
+	private String name;
+	private String id;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		binding = ActivityMainBinding.inflate(getLayoutInflater());
-		setContentView(binding.getRoot());
-		binding.toolbar.setTitle(getString(R.string.app_name));
-		setSupportActionBar(binding.toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-		binding.logicEditor.openEventInCanva(
-				DummyBeans.getDummyEvent(), new LogicEditorConfiguration());
-		binding.logicEditor.preparePallete(DummyPalette.getDummyList());
+	public ArrayList<BlockBean> getBlocks() {
+		return this.blocks;
+	}
+
+	public void setBlocks(ArrayList<BlockBean> blocks) {
+		this.blocks = blocks;
+	}
+
+	public String getColor() {
+		return this.color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

@@ -31,28 +31,24 @@
 
 package com.icst.android.appstudio.test.logiceditor;
 
-import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import java.util.ArrayList;
 
-import android.os.Bundle;
+import com.icst.android.appstudio.beans.BlockPaletteBean;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class DummyPalette {
+	public static ArrayList<BlockPaletteBean> getDummyList() {
+		ArrayList<BlockPaletteBean> list = new ArrayList<BlockPaletteBean>();
 
-public class MainActivity extends AppCompatActivity {
-	private ActivityMainBinding binding;
+		BlockPaletteBean control = new BlockPaletteBean();
+		control.setColor("#832399");
+		control.setName("Control");
+		list.add(control);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		binding = ActivityMainBinding.inflate(getLayoutInflater());
-		setContentView(binding.getRoot());
-		binding.toolbar.setTitle(getString(R.string.app_name));
-		setSupportActionBar(binding.toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-		binding.logicEditor.openEventInCanva(
-				DummyBeans.getDummyEvent(), new LogicEditorConfiguration());
-		binding.logicEditor.preparePallete(DummyPalette.getDummyList());
+		BlockPaletteBean debugging = new BlockPaletteBean();
+		debugging.setColor("#ff5555");
+		debugging.setName("Debugging");
+		list.add(debugging);
+
+		return list;
 	}
 }
