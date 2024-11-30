@@ -32,10 +32,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: logiceditor-test
-          path: app/build/outputs/apk/debug/logiceditor-debug.apk
+          path: test/logiceditor/build/outputs/apk/debug/logiceditor-debug.apk
 
-      - name: Upload arm output metadata
+      - name: Upload build output metadata
         uses: actions/upload-artifact@v3
         with:
           name: output-metadata-logiceditor-test
-          path: app/build/outputs/apk/debug/output-metadata.json
+          path: test/logiceditor/build/outputs/apk/debug/output-metadata.json
