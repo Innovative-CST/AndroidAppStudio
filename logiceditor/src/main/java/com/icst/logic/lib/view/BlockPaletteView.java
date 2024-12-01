@@ -103,4 +103,13 @@ public class BlockPaletteView extends LinearLayout {
 		// So reinit again...
 		init();
 	}
+
+	public BlockPaletteBean getPalette() {
+		return this.palette;
+	}
+
+	public void setPalette(BlockPaletteBean palette) {
+		this.palette = palette;
+		init();
+	}
 }
