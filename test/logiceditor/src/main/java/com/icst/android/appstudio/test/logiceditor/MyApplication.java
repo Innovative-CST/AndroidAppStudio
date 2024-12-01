@@ -46,7 +46,7 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		ThemeEngine.getInstance(this).setStaticTheme(Theme.TEAL);
+		ThemeEngine.getInstance(this).setStaticTheme(Theme.BLUE);
 		ThemeEngine.applyToActivities(this);
 
 		Thread.setDefaultUncaughtExceptionHandler(

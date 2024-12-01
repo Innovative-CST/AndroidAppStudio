@@ -112,7 +112,7 @@ public class LogicEditorView extends RelativeLayout {
 
 	public void preparePallete(ArrayList<BlockPaletteBean> mBlockPaletteBean) {
 		binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
-		binding.blocksHolderList.setAdapter(new BlockPaletteAdapter(mBlockPaletteBean));
+		binding.blocksHolderList.setAdapter(new BlockPaletteAdapter(mBlockPaletteBean, binding.blockList));
 	}
 
 	public void startDrag(Object draggingBean, DraggingBlockDummy draggingView, float x, float y) {

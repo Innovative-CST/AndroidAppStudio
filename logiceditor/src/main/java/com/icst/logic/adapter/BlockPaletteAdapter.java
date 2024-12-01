@@ -44,6 +44,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapter.ViewHolder> {
 	private ArrayList<BlockPaletteBean> palette;
+	private RecyclerView blocksRecyclerView;
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public ViewHolder(View view) {
@@ -51,8 +52,10 @@ public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapte
 		}
 	}
 
-	public BlockPaletteAdapter(ArrayList<BlockPaletteBean> palette) {
+	public BlockPaletteAdapter(
+			ArrayList<BlockPaletteBean> palette, RecyclerView blocksRecyclerView) {
 		this.palette = palette;
+		this.blocksRecyclerView = blocksRecyclerView;
 	}
 
 	@Override
@@ -64,6 +67,10 @@ public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapte
 	public void onBindViewHolder(ViewHolder arg0, int position) {
 		BlockPaletteView paletteView = (BlockPaletteView) arg0.itemView;
 		paletteView.setPalette(palette.get(position));
+		paletteView.setOnClickListener(
+				v -> {
+					paletteView.setSelected(!paletteView.isSelected());
+				});
 	}
 
 	@Override
