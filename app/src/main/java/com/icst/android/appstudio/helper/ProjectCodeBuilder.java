@@ -35,11 +35,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import org.cosmic.ide.dependency.resolver.UtilsKt;
+import org.cosmic.ide.dependency.resolver.api.Artifact;
+import org.cosmic.ide.dependency.resolver.api.EventReciever;
+
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.block.tag.DependencyTag;
 import com.icst.android.appstudio.builder.AndroidManifestBuilder;
 import com.icst.android.appstudio.builder.JavaSourceBuilder;
 import com.icst.android.appstudio.builder.LayoutSourceBuilder;
+import com.icst.android.appstudio.exception.ProjectCodeBuildException;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
@@ -61,7 +66,8 @@ public final class ProjectCodeBuilder {
 
 		FileModel folder = DeserializerUtils.deserialize(
 				new File(
-						EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
+						EnvironmentUtils.getModuleDirectory(
+								projectRootDirectory, moduleName),
 						EnvironmentUtils.FILE_MODEL),
 				FileModel.class);
 		if (folder != null) {
@@ -75,9 +81,11 @@ public final class ProjectCodeBuilder {
 
 		ArrayList<FileModel> files = FileModelUtils.getFileModelList(
 				moduleName.isEmpty()
-						? EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName)
+						? EnvironmentUtils.getModuleDirectory(
+								projectRootDirectory, moduleName)
 						: new File(
-								EnvironmentUtils.getModuleDirectory(projectRootDirectory, moduleName),
+								EnvironmentUtils.getModuleDirectory(
+										projectRootDirectory, moduleName),
 								EnvironmentUtils.FILES));
 		if (files == null) {
 			return;
@@ -120,7 +128,8 @@ public final class ProjectCodeBuilder {
 
 		if (rebuild) {
 			if (listener != null) {
-				listener.onBuildProgressLog("Regenerating whole module code : [" + module.module + "]\n");
+				listener.onBuildProgressLog(
+						"Regenerating whole module code : [" + module.module + "]\n");
 			}
 		} else {
 			if (listener != null) {
@@ -147,7 +156,8 @@ public final class ProjectCodeBuilder {
 		gradleFileGenerator.setProjectRootDirectory(module.projectRootDirectory);
 		gradleFileGenerator.setFileModel(
 				DeserializerUtils.deserialize(
-						new File(module.gradleFileDirectory, EnvironmentUtils.FILE_MODEL), FileModel.class));
+						new File(module.gradleFileDirectory, EnvironmentUtils.FILE_MODEL),
+						FileModel.class));
 		gradleFileGenerator.setEventsDirectory(
 				new File(module.gradleFileDirectory, EnvironmentUtils.EVENTS_DIR));
 
@@ -159,7 +169,9 @@ public final class ProjectCodeBuilder {
 			if (rebuild) {
 				FileUtils.writeFile(
 						module.gradleOutputFile.getAbsolutePath(),
-						gradleFileGenerator.getCode() == null ? "null" : gradleFileGenerator.getCode());
+						gradleFileGenerator.getCode() == null
+								? "null"
+								: gradleFileGenerator.getCode());
 			}
 		}
 
@@ -191,13 +203,14 @@ public final class ProjectCodeBuilder {
 			module.resourceOutputDirectory.mkdirs();
 		}
 
-		ArrayList<FileModel> resFolders = FileModelUtils
-				.getFileModelList(new File(module.resourceDirectory, EnvironmentUtils.FILES));
+		ArrayList<FileModel> resFolders = FileModelUtils.getFileModelList(
+				new File(module.resourceDirectory, EnvironmentUtils.FILES));
 
 		if (resFolders != null) {
 
 			for (int position = 0; position < resFolders.size(); ++position) {
-				new File(module.resourceOutputDirectory, resFolders.get(position).getName()).mkdirs();
+				new File(module.resourceOutputDirectory, resFolders.get(position).getName())
+						.mkdirs();
 
 				if (Pattern.compile("^layout(?:-[a-zA-Z0-9]+)?$")
 						.matcher(resFolders.get(position).getName())
@@ -223,7 +236,8 @@ public final class ProjectCodeBuilder {
 		mainJavaSrcBuilder.setModule(module);
 		mainJavaSrcBuilder.setRebuild(rebuild);
 		mainJavaSrcBuilder.setPackageName("");
-		mainJavaSrcBuilder.setInputDir(new File(module.javaSourceDirectory, EnvironmentUtils.FILES));
+		mainJavaSrcBuilder.setInputDir(
+				new File(module.javaSourceDirectory, EnvironmentUtils.FILES));
 		mainJavaSrcBuilder.setOutputDir(module.javaSourceOutputDirectory);
 		mainJavaSrcBuilder.setListener(listener);
 		mainJavaSrcBuilder.setCancelToken(cancelToken);
@@ -232,6 +246,183 @@ public final class ProjectCodeBuilder {
 		if (listener != null) {
 			listener.onBuildProgressLog("\n");
 		}
+
+		EventReciever dependencyEventReciever = new EventReciever() {
+
+			@Override
+			public void onArtifactFound(Artifact artifact) {
+				if (listener != null) {
+					StringBuilder log = new StringBuilder();
+					log.append("\t");
+					log.append(artifact.getArtifactId());
+					log.append(" artifact found is found in ");
+					log.append(artifact.getRepository());
+					listener.onBuildProgressLog(log.toString());
+				}
+			}
+
+			@Override
+			public void onArtifactNotFound(Artifact artifact) {
+				if (listener != null) {
+					ProjectCodeBuildException artifactNotFound = new ProjectCodeBuildException();
+					artifactNotFound.setMessage(
+							"Artifact not found: "
+									.concat(artifact.getArtifactId())
+									.concat(":")
+									.concat(artifact.getGroupId())
+									.concat(":")
+									.concat(artifact.getVersion()));
+					listener.onBuildFailed(artifactNotFound);
+				}
+			}
+
+			@Override
+			public void onDependenciesNotFound(Artifact artifact) {
+				ProjectCodeBuildException dependecyNotFound = new ProjectCodeBuildException();
+				dependecyNotFound.setMessage(
+						"A dependecy is required by a extension that you used which can't be found currently"
+								.concat(
+										artifact.getArtifactId()
+												.concat(":")
+												.concat(artifact.getGroupId())
+												.concat(":")
+												.concat(artifact.getVersion())));
+				listener.onBuildFailed(dependecyNotFound);
+			}
+
+			@Override
+			public void onDownloadEnd(Artifact artifact) {
+				StringBuilder log = new StringBuilder();
+				log.append("\t");
+				log.append(artifact.getArtifactId());
+				log.append(":");
+				log.append(artifact.getGroupId());
+				log.append(":");
+				log.append(artifact.getVersion());
+				log.append(" dependency download successfull");
+				listener.onBuildProgressLog(log.toString());
+			}
+
+			@Override
+			public void onDownloadError(Artifact artifact, Throwable error) {
+				if (listener != null) {
+					listener.onBuildProgressLog(error.getMessage());
+					ProjectCodeBuildException artifactNotFound = new ProjectCodeBuildException();
+					artifactNotFound.setMessage(
+							"Unable to download : "
+									.concat(artifact.getArtifactId())
+									.concat(":")
+									.concat(artifact.getGroupId())
+									.concat(":")
+									.concat(artifact.getVersion()));
+					listener.onBuildFailed(artifactNotFound);
+				}
+			}
+
+			@Override
+			public void onDownloadStart(Artifact artifact) {
+				StringBuilder log = new StringBuilder();
+				log.append("Started downloading ");
+				log.append("\t");
+				log.append(artifact.getArtifactId());
+				log.append(":");
+				log.append(artifact.getGroupId());
+				log.append(":");
+				log.append(artifact.getVersion());
+				listener.onBuildProgressLog(log.toString());
+			}
+
+			@Override
+			public void onFetchedLatestVersion(Artifact artifact, String latestVersion) {
+				StringBuilder log = new StringBuilder();
+				log.append("Latest version fetched of ");
+				log.append("\t");
+				log.append(artifact.getArtifactId());
+				log.append(":");
+				log.append(artifact.getGroupId());
+				log.append(":");
+				log.append(artifact.getVersion());
+				listener.onBuildProgressLog(log.toString());
+			}
+
+			@Override
+			public void onFetchingLatestVersion(Artifact artifact) {
+				StringBuilder log = new StringBuilder();
+				log.append("Fetching latest version of ");
+				log.append("\t");
+				log.append(artifact.getArtifactId());
+				log.append(":");
+				log.append(artifact.getGroupId());
+				log.append(":");
+				log.append(artifact.getVersion());
+				listener.onBuildProgressLog(log.toString());
+			}
+
+			@Override
+			public void onInvalidPOM(Artifact artifact) {
+				ProjectCodeBuildException invalidPOM = new ProjectCodeBuildException();
+				invalidPOM.setMessage(
+						"Invalid POM : "
+								.concat(artifact.getArtifactId())
+								.concat(":")
+								.concat(artifact.getGroupId())
+								.concat(":")
+								.concat(artifact.getVersion()));
+				listener.onBuildFailed(invalidPOM);
+			}
+
+			@Override
+			public void onInvalidScope(Artifact artifact, String scope) {
+				ProjectCodeBuildException invalidScope = new ProjectCodeBuildException();
+				invalidScope.setMessage("Invalid Scope : ".concat(scope));
+				listener.onBuildFailed(invalidScope);
+			}
+
+			@Override
+			public void onResolutionComplete(Artifact artifact) {
+			}
+
+			@Override
+			public void onResolving(Artifact parentArtifact, Artifact dependencyArtifact) {
+				StringBuilder log = new StringBuilder();
+				log.append("Resolving ");
+				log.append("\t");
+				log.append(parentArtifact.getArtifactId());
+				log.append(":");
+				log.append(parentArtifact.getGroupId());
+				log.append(":");
+				log.append(parentArtifact.getVersion());
+				listener.onBuildProgressLog(log.toString());
+			}
+
+			@Override
+			public void onSkippingResolution(Artifact artifact) {
+				StringBuilder log = new StringBuilder();
+				log.append("Skipping resolution of ");
+				log.append("\t");
+				log.append(artifact.getArtifactId());
+				log.append(":");
+				log.append(artifact.getGroupId());
+				log.append(":");
+				log.append(artifact.getVersion());
+				listener.onBuildProgressLog(log.toString());
+			}
+
+			@Override
+			public void onVersionNotFound(Artifact artifact) {
+				if (listener != null) {
+					ProjectCodeBuildException artifactNotFound = new ProjectCodeBuildException();
+					artifactNotFound.setMessage(
+							"Artifact version not found: "
+									.concat(artifact.getArtifactId())
+									.concat(":")
+									.concat(artifact.getGroupId())
+									.concat(":")
+									.concat(artifact.getVersion()));
+					listener.onBuildFailed(artifactNotFound);
+				}
+			}
+		};
 
 		/*
 		 * Download used dependecies in project.
@@ -271,6 +462,13 @@ public final class ProjectCodeBuilder {
 				// source), jar
 				// file with any name.
 				// All jar files present will be added to it.
+				UtilsKt.setEventReciever(dependencyEventReciever);
+				Artifact artifact = UtilsKt.getArtifact(name, group, version);
+				if (artifact != null) {
+					if (artifact.getRepository() != null) {
+						artifact.downloadTo(module.getModuleLibsDirectory());
+					}
+				}
 			}
 		}
 
@@ -300,16 +498,18 @@ public final class ProjectCodeBuilder {
 	/*
 	 * Delete the directory or files
 	 * Parameters:
-	 * 
+	 *
 	 * @File file: Directory or file to delete.
-	 * 
+	 *
 	 * @ProjectCodeBuildListener: listener: Listener for progress listener.
-	 * 
+	 *
 	 * @ProjectCodeBuilderCancelToken cancelToken: A cancel token to stop ongoing
 	 * process.
 	 */
 	private static boolean cleanFile(
-			File file, ProjectCodeBuildListener listener, ProjectCodeBuilderCancelToken cancelToken) {
+			File file,
+			ProjectCodeBuildListener listener,
+			ProjectCodeBuilderCancelToken cancelToken) {
 		if (!file.exists()) {
 			return true;
 		}
