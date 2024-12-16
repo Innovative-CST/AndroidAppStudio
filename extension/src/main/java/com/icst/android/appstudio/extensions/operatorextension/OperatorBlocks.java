@@ -166,9 +166,9 @@ public final class OperatorBlocks {
 		tag.setSupportedFileExtensions(new String[] { "java" });
 
 		DependencyTag testDeps = new DependencyTag();
-		testDeps.setDependencyGroup("group");
-		testDeps.setDependencyName("name");
-		testDeps.setVersion("version");
+		testDeps.setDependencyGroup("com.blankj");
+		testDeps.setDependencyName("utilcodex");
+		testDeps.setVersion("1.31.1");
 
 		tag.setAdditionalTags(new AdditionalCodeHelperTag[] { testDeps });
 		block.setTags(tag);

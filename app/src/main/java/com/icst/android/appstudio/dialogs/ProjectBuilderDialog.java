@@ -148,11 +148,14 @@ public class ProjectBuilderDialog extends MaterialAlertDialogBuilder {
 			}
 
 			@Override
-			public void onBuildFailed(ProjectCodeBuildException e) {
+			public void onBuildFailed(ProjectCodeBuildException e, long buildTime) {
 				log.append(e.getMessage());
 				log.append("\n");
 				activity.runOnUiThread(
 						() -> {
+							log.append("\n");
+							log.append("Build failed in ".concat(TimeUtils.convertTime(buildTime)));
+							log.append("\n");
 							binding.indicator.setVisibility(View.GONE);
 							binding.currentLog.setVisibility(View.GONE);
 							binding.editor.setVisibility(View.VISIBLE);

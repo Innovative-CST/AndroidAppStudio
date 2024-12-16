@@ -31,20 +31,14 @@
 
 package com.icst.android.appstudio.listener;
 
-import com.icst.android.appstudio.exception.ProjectCodeBuildException;
-import com.icst.android.appstudio.helper.ProjectCodeBuildProgress;
+public final class BuildFailListener {
+	boolean isFailed = false;
 
-public interface ProjectCodeBuildListener {
+	public void notifyBuildFailed() {
+		isFailed = true;
+	}
 
-	void onBuildStart();
-
-	void onBuildComplete(long buildTime);
-
-	void onBuildProgress(ProjectCodeBuildProgress progress);
-
-	void onBuildProgressLog(String log);
-
-	void onBuildCancelled();
-
-	void onBuildFailed(ProjectCodeBuildException e, long buildTime);
+	public boolean isFailed() {
+		return this.isFailed;
+	}
 }

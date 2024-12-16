@@ -45,6 +45,7 @@ import com.icst.android.appstudio.builder.AndroidManifestBuilder;
 import com.icst.android.appstudio.builder.JavaSourceBuilder;
 import com.icst.android.appstudio.builder.LayoutSourceBuilder;
 import com.icst.android.appstudio.exception.ProjectCodeBuildException;
+import com.icst.android.appstudio.listener.BuildFailListener;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
@@ -114,6 +115,8 @@ public final class ProjectCodeBuilder {
 			boolean rebuild,
 			ProjectCodeBuildListener listener,
 			ProjectCodeBuilderCancelToken cancelToken) {
+
+		BuildFailListener buildFailListener = new BuildFailListener();
 
 		long executionStartTime = System.currentTimeMillis();
 		if (listener != null)
@@ -272,7 +275,10 @@ public final class ProjectCodeBuilder {
 									.concat(artifact.getGroupId())
 									.concat(":")
 									.concat(artifact.getVersion()));
-					listener.onBuildFailed(artifactNotFound);
+					buildFailListener.notifyBuildFailed();
+					listener.onBuildFailed(
+							artifactNotFound,
+							System.currentTimeMillis() - executionStartTime);
 				}
 			}
 
@@ -287,7 +293,9 @@ public final class ProjectCodeBuilder {
 												.concat(artifact.getGroupId())
 												.concat(":")
 												.concat(artifact.getVersion())));
-				listener.onBuildFailed(dependecyNotFound);
+				buildFailListener.notifyBuildFailed();
+				listener.onBuildFailed(
+						dependecyNotFound, System.currentTimeMillis() - executionStartTime);
 			}
 
 			@Override
@@ -315,7 +323,10 @@ public final class ProjectCodeBuilder {
 									.concat(artifact.getGroupId())
 									.concat(":")
 									.concat(artifact.getVersion()));
-					listener.onBuildFailed(artifactNotFound);
+					buildFailListener.notifyBuildFailed();
+					listener.onBuildFailed(
+							artifactNotFound,
+							System.currentTimeMillis() - executionStartTime);
 				}
 			}
 
@@ -368,14 +379,18 @@ public final class ProjectCodeBuilder {
 								.concat(artifact.getGroupId())
 								.concat(":")
 								.concat(artifact.getVersion()));
-				listener.onBuildFailed(invalidPOM);
+				buildFailListener.notifyBuildFailed();
+				listener.onBuildFailed(
+						invalidPOM, System.currentTimeMillis() - executionStartTime);
 			}
 
 			@Override
 			public void onInvalidScope(Artifact artifact, String scope) {
 				ProjectCodeBuildException invalidScope = new ProjectCodeBuildException();
 				invalidScope.setMessage("Invalid Scope : ".concat(scope));
-				listener.onBuildFailed(invalidScope);
+				buildFailListener.notifyBuildFailed();
+				listener.onBuildFailed(
+						invalidScope, System.currentTimeMillis() - executionStartTime);
 			}
 
 			@Override
@@ -419,7 +434,10 @@ public final class ProjectCodeBuilder {
 									.concat(artifact.getGroupId())
 									.concat(":")
 									.concat(artifact.getVersion()));
-					listener.onBuildFailed(artifactNotFound);
+					buildFailListener.notifyBuildFailed();
+					listener.onBuildFailed(
+							artifactNotFound,
+							System.currentTimeMillis() - executionStartTime);
 				}
 			}
 		};
@@ -472,6 +490,10 @@ public final class ProjectCodeBuilder {
 			}
 		}
 
+		if (buildFailListener.isFailed()) {
+			return;
+		}
+
 		AppBuilder apkBuilder = new AppBuilder();
 		apkBuilder.build(
 				new BuildListener() {
@@ -488,10 +510,18 @@ public final class ProjectCodeBuilder {
 				},
 				module);
 
+		if (buildFailListener.isFailed()) {
+			return;
+		}
+
 		long endExectionTime = System.currentTimeMillis();
 		long executionTime = endExectionTime - executionStartTime;
 		if (listener != null) {
-			listener.onBuildComplete(executionTime);
+			if (buildFailListener.isFailed()) {
+				listener.onBuildComplete(executionTime);
+			} else {
+				listener.onBuildComplete(executionTime);
+			}
 		}
 	}
 
