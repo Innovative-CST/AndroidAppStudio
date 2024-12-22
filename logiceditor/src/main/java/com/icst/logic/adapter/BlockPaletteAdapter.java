@@ -45,6 +45,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapter.ViewHolder> {
 	private ArrayList<BlockPaletteBean> palette;
 	private RecyclerView blocksRecyclerView;
+	private int selectedPosition = -1; // No item selected initially
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public ViewHolder(View view) {
@@ -67,9 +68,12 @@ public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapte
 	public void onBindViewHolder(ViewHolder arg0, int position) {
 		BlockPaletteView paletteView = (BlockPaletteView) arg0.itemView;
 		paletteView.setPalette(palette.get(position));
+		paletteView.setSelected(selectedPosition == position);
 		paletteView.setOnClickListener(
 				v -> {
 					paletteView.setSelected(!paletteView.isSelected());
+					notifyItemChanged(selectedPosition);
+					selectedPosition = position;
 				});
 	}
 
