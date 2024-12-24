@@ -112,12 +112,18 @@ public class LogicEditorView extends RelativeLayout {
 
 	public void preparePallete(ArrayList<BlockPaletteBean> mBlockPaletteBean) {
 		binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(getContext()));
-		binding.blocksHolderList.setAdapter(new BlockPaletteAdapter(mBlockPaletteBean, binding.blockList));
+		binding.blocksHolderList.setAdapter(
+				new BlockPaletteAdapter(
+						mBlockPaletteBean,
+						binding.blockList,
+						getLogicEditorCanva().getLogicEditorConfiguration(),
+						this));
 	}
 
 	public void startDrag(Object draggingBean, DraggingBlockDummy draggingView, float x, float y) {
 		this.draggingBean = draggingBean;
 		setDraggingView(draggingView, x, y);
+		lockBlockListScroll(true);
 	}
 
 	public void moveDraggingView(float x, float y) {
@@ -262,6 +268,7 @@ public class LogicEditorView extends RelativeLayout {
 				resetFromDragging();
 			}
 		}
+		lockBlockListScroll(false);
 	}
 
 	public void resetFromDragging() {
@@ -321,6 +328,10 @@ public class LogicEditorView extends RelativeLayout {
 			}
 			highlighter = null;
 		}
+	}
+
+	public void lockBlockListScroll(boolean shouldLock) {
+		binding.blockList.requestDisallowInterceptTouchEvent(shouldLock);
 	}
 
 	public void addLogicEditorEventListener(LogicEditorEventListener eventListener) {

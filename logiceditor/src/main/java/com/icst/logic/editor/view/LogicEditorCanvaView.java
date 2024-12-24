@@ -45,13 +45,14 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-/** Logic Editor Canva, It is tha canva that can be scrolled according to the
- * contents. It adjusts
- * its height and width according to its content when scrolled it is increased
- * and renders. */
+/**
+ * Logic Editor Canva, It is tha canva that can be scrolled according to the contents. It adjusts
+ * its height and width according to its content when scrolled it is increased and renders.
+ */
 public class LogicEditorCanvaView extends LogicEditorScrollView {
 
 	private EventBean eventBean;
+	private LogicEditorConfiguration logicEditorConfiguration;
 
 	public LogicEditorCanvaView(final Context context, final AttributeSet set) {
 		super(context, set);
@@ -68,6 +69,7 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		this.eventBean = eventBean;
+		this.logicEditorConfiguration = logicEditorConfiguration;
 		if (eventBean == null) {
 			removeAllViews();
 			return;
@@ -151,13 +153,13 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 		WIDTH, HEIGHT
 	}
 
-	/** Calculates the maximum width or height for the canvas.
+	/**
+	 * Calculates the maximum width or height for the canvas.
 	 *
-	 * @param currentMax
-	 *            Current maximum value (width or height).
-	 * @param dimension
-	 *            Whether calculating for HEIGHT or WIDTH.
-	 * @return Updated(+150px) maximum dimension. */
+	 * @param currentMax Current maximum value (width or height).
+	 * @param dimension Whether calculating for HEIGHT or WIDTH.
+	 * @return Updated(+150px) maximum dimension.
+	 */
 	private int calculateMaxDimension(int currentMax, Dimension dimension) {
 		int max = currentMax;
 		for (int i = 0; i < getChildCount(); i++) {
@@ -180,5 +182,9 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 			max = Math.max(dimensionValue, max);
 		}
 		return max;
+	}
+
+	public LogicEditorConfiguration getLogicEditorConfiguration() {
+		return this.logicEditorConfiguration;
 	}
 }

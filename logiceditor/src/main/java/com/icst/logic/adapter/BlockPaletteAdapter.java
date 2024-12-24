@@ -34,29 +34,40 @@ package com.icst.logic.adapter;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.BlockPaletteView;
 
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapter.ViewHolder> {
 	private ArrayList<BlockPaletteBean> palette;
 	private RecyclerView blocksRecyclerView;
+	private LogicEditorConfiguration config;
+	private LogicEditorView logicEditor;
+
+	public BlockPaletteAdapter(
+			ArrayList<BlockPaletteBean> palette,
+			RecyclerView blocksRecyclerView,
+			LogicEditorConfiguration config,
+			LogicEditorView logicEditor) {
+		this.palette = palette;
+		this.blocksRecyclerView = blocksRecyclerView;
+		this.config = config;
+		this.logicEditor = logicEditor;
+	}
+
 	private int selectedPosition = -1; // No item selected initially
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public ViewHolder(View view) {
 			super(view);
 		}
-	}
-
-	public BlockPaletteAdapter(
-			ArrayList<BlockPaletteBean> palette, RecyclerView blocksRecyclerView) {
-		this.palette = palette;
-		this.blocksRecyclerView = blocksRecyclerView;
 	}
 
 	@Override
@@ -74,6 +85,11 @@ public class BlockPaletteAdapter extends RecyclerView.Adapter<BlockPaletteAdapte
 					paletteView.setSelected(!paletteView.isSelected());
 					notifyItemChanged(selectedPosition);
 					selectedPosition = position;
+					blocksRecyclerView.setAdapter(
+							new BlockListAdapter(
+									palette.get(position).getBlocks(), config, logicEditor));
+					blocksRecyclerView.setLayoutManager(
+							new LinearLayoutManager(arg0.itemView.getContext()));
 				});
 	}
 

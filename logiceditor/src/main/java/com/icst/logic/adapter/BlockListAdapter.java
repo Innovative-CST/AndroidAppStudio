@@ -29,34 +29,76 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.logic.adapter;
 
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.block.view.RegularBlockBeanView;
+import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.lib.config.LogicEditorConfiguration;
 
-public class DummyPalette {
-	public static ArrayList<BlockPaletteBean> getDummyList() {
-		ArrayList<BlockPaletteBean> list = new ArrayList<BlockPaletteBean>();
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 
-		BlockPaletteBean control = new BlockPaletteBean();
-		control.setColor("#832399");
-		control.setName("Control");
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-		ArrayList<BlockBean> controlBlock = new ArrayList<BlockBean>();
-		controlBlock.add(DummyBeans.getToastBlock());
-		control.setBlocks(controlBlock);
-		list.add(control);
+public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.ViewHolder> {
+	private ArrayList<BlockBean> blocks;
+	private LogicEditorConfiguration config;
+	private LogicEditorView logicEditor;
 
-		BlockPaletteBean debugging = new BlockPaletteBean();
-		ArrayList<BlockBean> dbgBlock = new ArrayList<BlockBean>();
-		dbgBlock.add(DummyBeans.getDummyBlock());
-		debugging.setBlocks(dbgBlock);
-		debugging.setColor("#ff5555");
-		debugging.setName("Debugging");
-		list.add(debugging);
+	public BlockListAdapter(
+			ArrayList<BlockBean> blocks,
+			LogicEditorConfiguration config,
+			LogicEditorView logicEditor) {
+		this.blocks = blocks;
+		this.config = config;
+		this.logicEditor = logicEditor;
+	}
 
-		return list;
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View view) {
+			super(view);
+		}
+	}
+
+	@Override
+	public int getItemCount() {
+		return blocks.size();
+	}
+
+	@Override
+	public void onBindViewHolder(ViewHolder arg0, int position) {
+		HorizontalScrollView hScrollView = (HorizontalScrollView) arg0.itemView;
+		BlockBeanView blockBeanView = null;
+
+		if (blocks.get(position) instanceof RegularBlockBean regularBlock) {
+			blockBeanView = new RegularBlockBeanView(
+					arg0.itemView.getContext(), regularBlock, config, logicEditor);
+		}
+		hScrollView.setPadding(8, 8, 0, 0);
+		hScrollView.addView(blockBeanView);
+	}
+
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup arg0, int arg1) {
+		View view = new HorizontalScrollView(arg0.getContext()) {
+			@Override
+			public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+				return !logicEditor.getDraggableTouchListener().isDragging()
+						&& super.onInterceptTouchEvent(motionEvent);
+			}
+		};
+		RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(
+				RecyclerView.LayoutParams.MATCH_PARENT,
+				RecyclerView.LayoutParams.WRAP_CONTENT);
+		view.setLayoutParams(layoutParams);
+		return new ViewHolder(view);
 	}
 }

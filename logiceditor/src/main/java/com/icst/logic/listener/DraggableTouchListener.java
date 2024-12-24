@@ -104,7 +104,8 @@ public class DraggableTouchListener implements View.OnTouchListener {
 
 							DraggingBlockDummy draggingView = new DraggingBlockDummy(
 									getLogicEditor().getContext(),
-									draggingBlocks.get(0), getLogicEditor().canDropDraggingView(x, y));
+									draggingBlocks.get(0),
+									getLogicEditor().canDropDraggingView(x, y));
 							draggingView.setDraggedFromCanva(
 									actionBlockBeanView.isInsideCanva());
 
@@ -165,6 +166,7 @@ public class DraggableTouchListener implements View.OnTouchListener {
 					getLogicEditor().moveDraggingView(this.x, this.y);
 				}
 				break;
+			case MotionEvent.ACTION_CANCEL:
 			case MotionEvent.ACTION_UP:
 				if (isDragging) {
 					getLogicEditor().dropDraggingView(this.x, this.y);
@@ -181,5 +183,9 @@ public class DraggableTouchListener implements View.OnTouchListener {
 
 	public View getTouchingView() {
 		return this.touchingView;
+	}
+
+	public boolean isDragging() {
+		return isDragging;
 	}
 }

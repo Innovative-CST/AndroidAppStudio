@@ -106,4 +106,26 @@ public class DummyBeans {
 
 		return blockBean;
 	}
+
+	public static RegularBlockBean getToastBlock() {
+		RegularBlockBean toast = new RegularBlockBean();
+		toast.setColor("#3345ff");
+		toast.setDragAllowed(true);
+
+		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+		onTestLabel.setLabel("showToast");
+
+		layer1Elements.add(onTestLabel);
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		toast.setLayers(layers);
+		return toast;
+	}
 }
