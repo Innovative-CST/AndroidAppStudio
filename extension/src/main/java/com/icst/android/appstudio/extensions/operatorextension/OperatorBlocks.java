@@ -166,9 +166,9 @@ public final class OperatorBlocks {
 		tag.setSupportedFileExtensions(new String[] { "java" });
 
 		DependencyTag testDeps = new DependencyTag();
-		testDeps.setDependencyGroup("com.blankj");
-		testDeps.setDependencyName("utilcodex");
-		testDeps.setVersion("1.31.1");
+		testDeps.setDependencyGroup("com.google.android.material");
+		testDeps.setDependencyName("material");
+		testDeps.setVersion("1.13.0-alpha03");
 
 		tag.setAdditionalTags(new AdditionalCodeHelperTag[] { testDeps });
 		block.setTags(tag);
