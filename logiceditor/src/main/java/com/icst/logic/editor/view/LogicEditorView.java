@@ -39,6 +39,7 @@ import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.adapter.BlockPaletteAdapter;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
+import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.editor.HistoryManager;
 import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
 import com.icst.logic.editor.event.LogicEditorEventDispatcher;
@@ -57,6 +58,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -173,6 +175,11 @@ public class LogicEditorView extends RelativeLayout {
 	}
 
 	public void dropBlock(float x, float y) {
+		if (mDraggableTouchListener.getTouchingView() instanceof BlockBeanView draggingBlockView) {
+			if (draggingBlockView.isInsideCanva()) {
+				removeOldReferences();
+			}
+		}
 		boolean hasNearbyTarget = false;
 		for (int i = blockDropZones.size() - 1; i >= 0; --i) {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
@@ -225,31 +232,27 @@ public class LogicEditorView extends RelativeLayout {
 				getLogicEditorCanva().addView(newZone);
 			}
 		}
-
-		removeOldReferences();
 	}
 
 	public void removeOldReferences() {
 		View touchingView = mDraggableTouchListener.getTouchingView();
 
 		if (touchingView instanceof ActionBlockBeanView actionBlockBeanView) {
-
-			if (actionBlockBeanView.getParent() == null)
+			ViewParent parent = actionBlockBeanView.getParent();
+			if (parent == null)
 				return;
 
 			int index = 0;
-			if (actionBlockBeanView.getParent() instanceof MainActionBlockDropZoneView mainChain) {
+			if (parent instanceof MainActionBlockDropZoneView mainChain) {
 				index = mainChain.indexOfChild(actionBlockBeanView) - 1;
-				for (int i = index; i < mainChain.getBlocksSize(); ++i) {
-					mainChain.removeView(mainChain.getChildAt(index + 1));
-					mainChain.dereferenceActionBlocks(index);
-				}
-			} else if (actionBlockBeanView.getParent() instanceof ActionBlockDropZoneView regularChain) {
+				mainChain.getChildAt(index).setOnTouchListener(null);
+				mainChain.removeViews(index, mainChain.getChildCount() - index);
+				mainChain.dereferenceActionBlocks(index);
+			} else if (parent instanceof ActionBlockDropZoneView regularChain) {
 				index = regularChain.indexOfChild(actionBlockBeanView);
-				for (int i = index; i < regularChain.getChildCount(); ++i) {
-					regularChain.removeView(regularChain.getChildAt(index));
-					regularChain.dereferenceActionBlocks(index);
-				}
+				regularChain.getChildAt(index).setOnTouchListener(null);
+				regularChain.removeViews(index, regularChain.getBlocksSize() - index);
+				regularChain.dereferenceActionBlocks(index);
 			}
 		}
 	}
