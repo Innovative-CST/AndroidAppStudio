@@ -198,6 +198,7 @@ public class LogicEditorView extends RelativeLayout {
 				} else if (draggingBean instanceof ActionBlockBean block) {
 					if (dropZone.canDrop(block, x, y)) {
 						hasNearbyTarget = true;
+						dropZone.dropToNearestTarget(block, x, y);
 					}
 				}
 
