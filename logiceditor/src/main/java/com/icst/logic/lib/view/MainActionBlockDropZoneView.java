@@ -277,8 +277,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 				continue;
 
 			addView(
-					actionBlockBeanView,
-					i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
+					actionBlockBeanView, index +
+							i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
 
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
