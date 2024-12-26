@@ -29,22 +29,80 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-public class SerializationUIDConstants {
-	public static final long BLOCK_BEAN = 1L;
-	public static final long BASE_BLOCK_BEAN = 1L;
-	public static final long ACTION_BLOCK_BEAN = 1L;
-	public static final long EVENT_BLOCK_BEAN = 1L;
-	public static final long EXPRESSION_BLOCK_BEAN = 1L;
-	public static final long REGULAR_BLOCK_BEAN = 1L;
-	public static final long TERMINATOR_BLOCK_BEAN = 1L;
-	public static final long LAYER_BEAN = 1L;
-	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
-	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
-	public static final long DATATYPE_BEAN_BEAN = 1L;
-	public static final long EVENT_BEAN = 1L;
-	public static final long LABEL_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long BLOCK_PALETTE_BEAN = 1L;
-	public static final long ARTIFACT_BEAN = 1L;
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+
+/** Represents an artifact in a repository. */
+public class ArtifactBean implements Serializable {
+
+	public static final long serialVersionUID = SerializationUIDConstants.ARTIFACT_BEAN;
+
+	// Group ID of the artifact (e.g., "com.example")
+	private String groupId;
+
+	// Artifact ID of the artifact (e.g., "my-library")
+	private String artifactId;
+
+	// Version of the artifact (e.g., "1.0.0")
+	private String version;
+
+	// Name of the repository where the artifact is hosted
+	private String repositoryName;
+
+	// URL of the repository
+	private String repositoryUrl;
+
+	// File extension of the artifact (e.g., "jar", "aar")
+	private String extension;
+
+	public String getGroupId() {
+		return this.groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getArtifactId() {
+		return this.artifactId;
+	}
+
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
+	}
+
+	public String getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getRepositoryName() {
+		return this.repositoryName;
+	}
+
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+
+	public String getRepositoryUrl() {
+		return this.repositoryUrl;
+	}
+
+	public void setRepositoryUrl(String repositoryUrl) {
+		this.repositoryUrl = repositoryUrl;
+	}
+
+	public String getExtension() {
+		return this.extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 }
