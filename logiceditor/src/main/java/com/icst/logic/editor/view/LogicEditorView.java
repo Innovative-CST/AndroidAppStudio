@@ -175,11 +175,6 @@ public class LogicEditorView extends RelativeLayout {
 	}
 
 	public void dropBlock(float x, float y) {
-		if (mDraggableTouchListener.getTouchingView() instanceof BlockBeanView draggingBlockView) {
-			if (draggingBlockView.isInsideCanva()) {
-				removeOldReferences();
-			}
-		}
 		boolean hasNearbyTarget = false;
 		for (int i = blockDropZones.size() - 1; i >= 0; --i) {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
@@ -231,6 +226,12 @@ public class LogicEditorView extends RelativeLayout {
 				newZone.setX(x);
 				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
+			}
+		}
+
+		if (mDraggableTouchListener.getTouchingView() instanceof BlockBeanView draggingBlockView) {
+			if (draggingBlockView.isInsideCanva()) {
+				removeOldReferences();
 			}
 		}
 	}
