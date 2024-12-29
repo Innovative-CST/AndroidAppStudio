@@ -101,7 +101,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void dereferenceActionBlocks(int index) {
-		for (int i = index; i < blockBeans.size(); ++i) {
+		for (int i = index; i <= blockBeans.size(); ++i) {
 			blockBeans.remove(index);
 		}
 	}
@@ -277,8 +277,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 				continue;
 
 			addView(
-					actionBlockBeanView, index +
-							i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
+					actionBlockBeanView,
+					index + i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
 
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,

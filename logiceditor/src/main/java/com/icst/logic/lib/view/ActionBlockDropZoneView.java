@@ -76,7 +76,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void dereferenceActionBlocks(int index) {
-		for (int i = index; i < blockBeans.size(); ++i) {
+		for (int i = index; i <= blockBeans.size(); ++i) {
 			blockBeans.remove(index);
 		}
 	}

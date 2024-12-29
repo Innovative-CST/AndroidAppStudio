@@ -244,14 +244,13 @@ public class LogicEditorView extends RelativeLayout {
 			if (parent == null)
 				return;
 
-			int index = 0;
 			if (parent instanceof MainActionBlockDropZoneView mainChain) {
-				index = mainChain.indexOfChild(actionBlockBeanView) - 1;
+				int index = mainChain.indexOfChild(actionBlockBeanView);
 				mainChain.getChildAt(index).setOnTouchListener(null);
 				mainChain.removeViews(index, mainChain.getChildCount() - index);
-				mainChain.dereferenceActionBlocks(index);
+				mainChain.dereferenceActionBlocks(index - 1);
 			} else if (parent instanceof ActionBlockDropZoneView regularChain) {
-				index = regularChain.indexOfChild(actionBlockBeanView);
+				int index = regularChain.indexOfChild(actionBlockBeanView);
 				regularChain.getChildAt(index).setOnTouchListener(null);
 				regularChain.removeViews(index, regularChain.getBlocksSize() - index);
 				regularChain.dereferenceActionBlocks(index);
