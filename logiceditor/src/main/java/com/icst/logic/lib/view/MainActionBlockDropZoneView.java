@@ -217,7 +217,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
-		if (index > blockBeans.size()) {
+		if (index >= blockBeans.size()) {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
 					return false;

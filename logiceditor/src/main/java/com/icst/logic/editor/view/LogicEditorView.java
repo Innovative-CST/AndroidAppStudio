@@ -165,6 +165,19 @@ public class LogicEditorView extends RelativeLayout {
 
 			} else if (blockDropZones.get(i) instanceof ActionBlockDropZoneView dropZone) {
 
+				if (draggingBean instanceof ArrayList blockArr) {
+					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
+					if (dropZone.canDrop(blocks, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.highlightNearestTarget(blocks, x, y);
+					}
+				} else if (draggingBean instanceof ActionBlockBean block) {
+					if (dropZone.canDrop(block, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.highlightNearestTarget(block, x, y);
+					}
+				}
+
 			} else
 				continue;
 		}
@@ -199,6 +212,19 @@ public class LogicEditorView extends RelativeLayout {
 
 			} else if (blockDropZones.get(i) instanceof ActionBlockDropZoneView dropZone) {
 
+				if (draggingBean instanceof ArrayList blockArr) {
+					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
+					if (dropZone.canDrop(blocks, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.dropToNearestTarget(blocks, x, y);
+					}
+				} else if (draggingBean instanceof ActionBlockBean block) {
+					if (dropZone.canDrop(block, x, y)) {
+						hasNearbyTarget = true;
+						dropZone.dropToNearestTarget(block, x, y);
+					}
+				}
+
 			} else
 				continue;
 		}
@@ -214,6 +240,7 @@ public class LogicEditorView extends RelativeLayout {
 				newZone.setX(x);
 				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
+				blockDropZones.add(newZone);
 
 			} else if (draggingBean instanceof ActionBlockBean block) {
 
@@ -226,6 +253,7 @@ public class LogicEditorView extends RelativeLayout {
 				newZone.setX(x);
 				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
+				blockDropZones.add(newZone);
 			}
 		}
 
