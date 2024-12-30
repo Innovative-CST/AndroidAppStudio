@@ -236,10 +236,16 @@ public class LogicEditorView extends RelativeLayout {
 
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
 						getContext(), new LogicEditorConfiguration(), this);
+
+				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
+						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
+						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
+
 				newZone.addActionBlocksBeans(blocks, 0);
 				newZone.setX(x);
 				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
+				newZone.setLayoutParams(lp);
 				blockDropZones.add(newZone);
 
 			} else if (draggingBean instanceof ActionBlockBean block) {
@@ -249,10 +255,16 @@ public class LogicEditorView extends RelativeLayout {
 
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
 						getContext(), new LogicEditorConfiguration(), this);
+
+				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
+						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
+						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
+
 				newZone.addActionBlocksBeans(blocks, 0);
 				newZone.setX(x);
 				newZone.setY(y);
 				getLogicEditorCanva().addView(newZone);
+				newZone.setLayoutParams(lp);
 				blockDropZones.add(newZone);
 			}
 		}
@@ -280,7 +292,7 @@ public class LogicEditorView extends RelativeLayout {
 			} else if (parent instanceof ActionBlockDropZoneView regularChain) {
 				int index = regularChain.indexOfChild(actionBlockBeanView);
 				regularChain.getChildAt(index).setOnTouchListener(null);
-				regularChain.removeViews(index, regularChain.getBlocksSize() - index);
+				regularChain.removeViews(index, regularChain.getChildCount() - index);
 				regularChain.dereferenceActionBlocks(index);
 			}
 		}
