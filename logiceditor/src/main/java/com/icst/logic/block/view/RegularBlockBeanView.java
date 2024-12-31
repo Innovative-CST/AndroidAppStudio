@@ -108,11 +108,11 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			layerView.setLastLayer(i == (layers.size() - 1));
 			layerView.setColor(regularBlockBean.getColor());
 
-			layersView.addView(layerView);
-			layerView.setLayoutParams(mLayoutParam);
+			layersView.addView(layerView.getView());
+			layerView.getView().setLayoutParams(mLayoutParam);
 			this.layers.add(layerView);
 
-			layerView
+			layerView.getView()
 					.getViewTreeObserver()
 					.addOnGlobalLayoutListener(
 							() -> {
@@ -139,7 +139,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		int maxWidth = getMaxLayerWidth();
 
 		for (LayerBeanView layer : layers) {
-			layer.setMinimumWidth(maxWidth);
+			layer.getView().setMinimumWidth(maxWidth);
 		}
 	}
 
@@ -147,8 +147,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			layer.getWidth();
-			maxWidth = Math.max(layer.getWidth(), maxWidth);
+			layer.getView().getWidth();
+			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
 		}
 		return maxWidth;
 	}

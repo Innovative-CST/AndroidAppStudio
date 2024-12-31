@@ -52,6 +52,7 @@ public class DummyPalette {
 		BlockPaletteBean debugging = new BlockPaletteBean();
 		ArrayList<BlockBean> dbgBlock = new ArrayList<BlockBean>();
 		dbgBlock.add(DummyBeans.getDummyBlock());
+		dbgBlock.add(DummyBeans.getDummyBlock2());
 		debugging.setBlocks(dbgBlock);
 		debugging.setColor("#ff5555");
 		debugging.setName("Debugging");

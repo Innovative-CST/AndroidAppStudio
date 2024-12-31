@@ -34,6 +34,7 @@ package com.icst.android.appstudio.test.logiceditor;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.ActionBlockLayerBean;
 import com.icst.android.appstudio.beans.BlockElementBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBean;
@@ -105,6 +106,31 @@ public class DummyBeans {
 		blockBean.setElementsLayers(layers);
 
 		return blockBean;
+	}
+
+	public static RegularBlockBean getDummyBlock2() {
+		RegularBlockBean testRBlock = new RegularBlockBean();
+		testRBlock.setColor("#552367");
+		testRBlock.setDragAllowed(true);
+
+		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+		onTestLabel.setLabel("showToast");
+
+		layer1Elements.add(onTestLabel);
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		ActionBlockLayerBean layer2 = new ActionBlockLayerBean();
+		layers.add(layer2);
+
+		testRBlock.setLayers(layers);
+		return testRBlock;
 	}
 
 	public static RegularBlockBean getToastBlock() {

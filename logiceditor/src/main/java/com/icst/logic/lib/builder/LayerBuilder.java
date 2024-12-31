@@ -44,6 +44,7 @@ import com.icst.logic.utils.ColorUtils;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public final class LayerBuilder {
@@ -57,8 +58,18 @@ public final class LayerBuilder {
 			return buildBlockElementLayerView(
 					context, blockBean, mBlockElementLayerBean, configuration);
 		} else
+			/*return buildActionBlockLayerView(
+					context, blockBean, mBlockElementLayerBean, configuration);*/
 			return null;
 	}
+
+	/*private static LayerBeanView<LinearLayout> buildActionBlockLayerView(
+		    Context context,
+			BlockBean blockBean,
+			BlockElementLayerBean mBlockElementLayerBean,
+			LogicEditorConfiguration configuration){
+				
+	}*/
 
 	// Build the block element layer
 	private static LayerBeanView buildBlockElementLayerView(
@@ -96,9 +107,9 @@ public final class LayerBuilder {
 		TextView labelTextView = new TextView(context);
 		labelTextView.setText(labelBean.getLabel());
 		labelTextView.setTextSize(configuration.getTextSize().getTextSize());
-		LayerBeanView.LayoutParams layerLayoutParams = new LayerBeanView.LayoutParams(
-				LayerBeanView.LayoutParams.WRAP_CONTENT, // Width
-				LayerBeanView.LayoutParams.WRAP_CONTENT // Height
+		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+				LinearLayout.LayoutParams.WRAP_CONTENT // Height
 		);
 		labelTextView.setTextColor(
 				ColorUtils.getTextColorForColor(Color.parseColor(

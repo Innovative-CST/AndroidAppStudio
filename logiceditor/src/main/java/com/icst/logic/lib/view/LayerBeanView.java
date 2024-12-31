@@ -33,57 +33,29 @@ package com.icst.logic.lib.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
 
-import android.content.Context;
 import android.widget.LinearLayout;
 
-public abstract class LayerBeanView extends LinearLayout {
-	private int layerPosition;
-	private boolean isFirstLayer;
-	private boolean isLastLayer;
-	private String color;
-	private BlockBean block;
+public interface LayerBeanView<T extends LinearLayout> {
 
-	public LayerBeanView(Context context) {
-		super(context);
-	}
+	int getLayerPosition();
 
-	public int getLayerPosition() {
-		return this.layerPosition;
-	}
+	void setLayerPosition(int layerPosition);
 
-	public void setLayerPosition(int layerPosition) {
-		this.layerPosition = layerPosition;
-	}
+	boolean isFirstLayer();
 
-	public boolean isFirstLayer() {
-		return this.isFirstLayer;
-	}
+	void setFirstLayer(boolean isFirstLayer);
 
-	public void setFirstLayer(boolean isFirstLayer) {
-		this.isFirstLayer = isFirstLayer;
-	}
+	boolean isLastLayer();
 
-	public boolean isLastLayer() {
-		return this.isLastLayer;
-	}
+	void setLastLayer(boolean isLastLayer);
 
-	public void setLastLayer(boolean isLastLayer) {
-		this.isLastLayer = isLastLayer;
-	}
+	String getColor();
 
-	public String getColor() {
-		return this.color;
-	}
+	void setColor(String color);
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+	BlockBean getBlock();
 
-	public BlockBean getBlock() {
-		return this.block;
-	}
+	void setBlock(BlockBean block);
 
-	public void setBlock(BlockBean block) {
-		this.block = block;
-	}
+	T getView();
 }
