@@ -31,12 +31,15 @@
 
 package com.icst.logic.lib.builder;
 
+import com.icst.android.appstudio.beans.ActionBlockLayerBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.lib.view.ActionBlockLayerView;
 import com.icst.logic.lib.view.BlockElementLayerBeanView;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.ColorUtils;
@@ -53,23 +56,28 @@ public final class LayerBuilder {
 			Context context,
 			BlockBean blockBean,
 			LayerBean layerBean,
+			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
 		if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
 			return buildBlockElementLayerView(
 					context, blockBean, mBlockElementLayerBean, configuration);
+		} else if (layerBean instanceof ActionBlockLayerBean actionBlockLayerBean) {
+			return buildActionBlockLayerView(
+					context, blockBean, actionBlockLayerBean, logicEdtitor, configuration);
 		} else
-			/*return buildActionBlockLayerView(
-					context, blockBean, mBlockElementLayerBean, configuration);*/
 			return null;
 	}
 
-	/*private static LayerBeanView<LinearLayout> buildActionBlockLayerView(
-		    Context context,
+	private static LayerBeanView buildActionBlockLayerView(
+			Context context,
 			BlockBean blockBean,
-			BlockElementLayerBean mBlockElementLayerBean,
-			LogicEditorConfiguration configuration){
-				
-	}*/
+			ActionBlockLayerBean actionBlockLayerBean,
+			LogicEditorView logicEdtitor,
+			LogicEditorConfiguration configuration) {
+		ActionBlockLayerView actionBlockLayerView = new ActionBlockLayerView(context, configuration, logicEdtitor);
+		actionBlockLayerView.addActionBlocksBeans(actionBlockLayerBean.getActionBlockBean(), 0);
+		return actionBlockLayerView;
+	}
 
 	// Build the block element layer
 	private static LayerBeanView buildBlockElementLayerView(
@@ -112,8 +120,9 @@ public final class LayerBuilder {
 				LinearLayout.LayoutParams.WRAP_CONTENT // Height
 		);
 		labelTextView.setTextColor(
-				ColorUtils.getTextColorForColor(Color.parseColor(
-						ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
+				ColorUtils.getTextColorForColor(
+						Color.parseColor(
+								ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
 		labelTextView.setLayoutParams(layerLayoutParams);
 		labelTextView.setPadding(8, 8, 8, 8);
 		return labelTextView;

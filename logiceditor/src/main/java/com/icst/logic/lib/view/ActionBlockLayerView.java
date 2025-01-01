@@ -1,13 +1,19 @@
 package com.icst.logic.lib.view;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.logic.block.view.ActionBlockBeanView;
+import com.icst.logic.core.BlockMarginConstants;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
-import com.icst.logic.utils.BlockImageUtils;
-import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.utils.ActionBlockUtils;
+import com.icst.logic.utils.CanvaMathUtils;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class ActionBlockLayerView extends ActionBlockDropZoneView
 		implements LayerBeanView<ActionBlockLayerView> {
@@ -18,25 +24,114 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	private String color;
 	private BlockBean block;
 
-	public ActionBlockLayerView(Context context,
+	private LinearLayout blockLayout;
+
+	public ActionBlockLayerView(
+			Context context,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
+
+		blockLayout = new LinearLayout(context);
+		blockLayout.setOrientation(VERTICAL);
+		addView(blockLayout);
+
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		blockLayout.setLayoutParams(lp);
 	}
 
 	@Override
 	public void setColor(String color) {
 		this.color = color;
-		BlockImageUtils.Image image = null;
+		//        BlockImageUtils.Image image = null;
+		//
+		//        image = BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP;
+		//
+		//        setBackgroundDrawable(
+		//                ImageViewUtils.getImageView(
+		//                        getContext(),
+		//                        ColorUtils.harmonizeHexColor(getContext(), getColor()),
+		//                        BlockImageUtils.getImage(image)));
+		//        invalidate();
+	}
 
-		image = BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP;
+	// Configured for ActionBlockLayerView
+	@Override
+	public int getIndex(float x, float y) {
+		int[] relativeCoordinates = CanvaMathUtils.getRelativeCoordinates(this, getLogicEditor());
 
-		setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						ColorUtils.harmonizeHexColor(getContext(), getColor()),
-						BlockImageUtils.getImage(image)));
-		invalidate();
+		int index = 0;
+		for (int i = 0; i < blockLayout.getChildCount(); i++) {
+			View child = blockLayout.getChildAt(i);
+			if (y - ((int) relativeCoordinates[1]) > child.getY() + (child.getHeight() / 2)) {
+				index = i + 1;
+			} else {
+				break;
+			}
+		}
+
+		return index;
+	}
+
+	// Configured for ActionBlockLayerView
+	@Override
+	protected void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
+		this.getBlockBeans().addAll(index, actionBlocks);
+
+		for (int i = 0; i < actionBlocks.size(); ++i) {
+			ActionBlockBean actionBlock = actionBlocks.get(i);
+			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
+					getContext(), actionBlock, getConfiguration(), getLogicEditor());
+
+			if (actionBlockBeanView == null)
+				continue;
+
+			actionBlockBeanView.setInsideCanva(true);
+			blockLayout.addView(actionBlockBeanView, i + index);
+
+			if (i == 0 && index == 0)
+				continue;
+
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
+
+			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			actionBlockBeanView.setLayoutParams(lp);
+		}
+	}
+
+	// Configured for ActionBlockLayerView
+	@Override
+	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		if (canDrop(blocks, x, y)) {
+			getLogicEditor().removeDummyHighlighter();
+			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
+			getLogicEditor().setDummyHighlighter(highlighter);
+			int index = getIndex(x, y);
+			blockLayout.addView(highlighter, index);
+
+			highlighter.setLayoutParams(highlighterLp);
+		}
+	}
+
+	// Configured for ActionBlockLayerView
+	@Override
+	public void highlightNearestTarget(ActionBlockBean block, float x, float y) {
+		if (canDrop(block, x, y)) {
+			getLogicEditor().removeDummyHighlighter();
+			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
+			getLogicEditor().setDummyHighlighter(highlighter);
+			int index = getIndex(x, y);
+			blockLayout.addView(highlighter, index);
+			highlighter.setLayoutParams(highlighterLp);
+		}
 	}
 
 	@Override

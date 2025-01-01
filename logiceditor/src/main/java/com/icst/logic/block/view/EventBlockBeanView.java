@@ -103,7 +103,7 @@ public class EventBlockBeanView extends BlockBeanView {
 
 			BlockElementLayerBean elementLayer = layers.get(i);
 			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(
-					context, eventBlockBean, elementLayer, configuration);
+					context, eventBlockBean, elementLayer, getLogicEditor(), configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));

@@ -86,13 +86,25 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view) {
-		throw new UnexpectedViewAddedException(this, view);
+		if (view instanceof LinearLayout) {
+			super.addView(view);
+		} else if (view instanceof ActionBlockBeanView) {
+			super.addView(view);
+		} else {
+			throw new UnexpectedViewAddedException(this, view);
+		}
 	}
 
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view, int index) {
-		throw new UnexpectedViewAddedException(this, view);
+		if (view instanceof LinearLayout) {
+			super.addView(view, index);
+		} else if (view instanceof ActionBlockBeanView) {
+			super.addView(view, index);
+		} else {
+			throw new UnexpectedViewAddedException(this, view);
+		}
 	}
 
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
@@ -124,8 +136,6 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 
 	public void dropToNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
 		if (canDrop(blocks, x, y)) {
-			LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			int index = getIndex(x, y);
 			addBlockBeans(blocks, index);
 		}
@@ -198,6 +208,9 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		if (blockBeans == null) {
 			blockBeans = new ArrayList<ActionBlockBean>();
 		}
+		if (actionBlocks == null) {
+			return;
+		}
 		if (index <= blockBeans.size()) {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
@@ -216,7 +229,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			throw new IndexOutOfBoundsException(index);
 	}
 
-	private void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
+	protected void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
 		this.blockBeans.addAll(index, actionBlocks);
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {

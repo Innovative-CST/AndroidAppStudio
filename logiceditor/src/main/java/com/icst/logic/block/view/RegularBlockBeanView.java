@@ -102,7 +102,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(
-					context, regularBlockBean, layers.get(i), getLogicEditorConfiguration());
+					context, regularBlockBean, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
