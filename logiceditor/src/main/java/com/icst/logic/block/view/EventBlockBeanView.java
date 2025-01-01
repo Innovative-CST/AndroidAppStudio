@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.builder.LayerBuilder;
+import com.icst.logic.lib.builder.LayerViewFactory;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
@@ -102,7 +102,7 @@ public class EventBlockBeanView extends BlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			BlockElementLayerBean elementLayer = layers.get(i);
-			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(
+			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
 					context, eventBlockBean, elementLayer, getLogicEditor(), configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);

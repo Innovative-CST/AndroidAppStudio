@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.builder.LayerBuilder;
+import com.icst.logic.lib.builder.LayerViewFactory;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
@@ -101,7 +101,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			LayerBeanView layerView = LayerBuilder.buildBlockLayerView(
+			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
 					context, regularBlockBean, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);

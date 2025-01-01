@@ -50,7 +50,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public final class LayerBuilder {
+public final class LayerViewFactory {
 
 	public static LayerBeanView buildBlockLayerView(
 			Context context,
