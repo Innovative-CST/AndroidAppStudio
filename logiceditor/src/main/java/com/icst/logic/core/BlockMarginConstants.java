@@ -33,4 +33,5 @@ package com.icst.logic.core;
 
 public final class BlockMarginConstants {
 	public static final int CHAINED_ACTION_BLOCK_TOP_MARGIN = -3;
+	public static final int CHAINED_ACTION_BLOCK_IN_LAYER_TOP_MARGIN = -6;
 }

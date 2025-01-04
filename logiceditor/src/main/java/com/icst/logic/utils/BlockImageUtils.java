@@ -42,6 +42,12 @@ public final class BlockImageUtils {
 			return R.drawable.block_element_layer_backdrop;
 		} else if (Image.REGULAR_BLOCK_BOTTOM.ordinal() == image.ordinal()) {
 			return R.drawable.regular_block_bottom;
+		} else if (Image.ACTION_BLOCK_LAYER_TOP.ordinal() == image.ordinal()) {
+			return R.drawable.action_block_layer_top;
+		} else if (Image.ACTION_BLOCK_LAYER_BACKDROP.ordinal() == image.ordinal()) {
+			return R.drawable.action_block_layer_backdrop;
+		} else if (Image.ACTION_BLOCK_LAYER_BOTTOM.ordinal() == image.ordinal()) {
+			return R.drawable.action_block_layer_bottom;
 		} else if (Image.ACTION_BLOCK_TOP.ordinal() == image.ordinal()) {
 			return R.drawable.action_block_top;
 		} else if (Image.ACTION_BLOCK_BOTTOM.ordinal() == image.ordinal()) {
@@ -51,6 +57,6 @@ public final class BlockImageUtils {
 	}
 
 	public enum Image {
-		ACTION_BLOCK_TOP, ACTION_BLOCK_BOTTOM, EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, REGULAR_BLOCK_BOTTOM;
+		ACTION_BLOCK_LAYER_TOP, ACTION_BLOCK_LAYER_BACKDROP, ACTION_BLOCK_LAYER_BOTTOM, ACTION_BLOCK_TOP, ACTION_BLOCK_BOTTOM, EVENT_BLOCK_ROUND_EDGE_TOP, BLOCK_ELEMENT_LAYER_BACKDROP, REGULAR_BLOCK_BOTTOM;
 	}
 }

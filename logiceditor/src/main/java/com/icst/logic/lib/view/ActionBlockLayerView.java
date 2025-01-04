@@ -9,7 +9,10 @@ import com.icst.logic.core.BlockMarginConstants;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
+import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.CanvaMathUtils;
+import com.icst.logic.utils.ColorUtils;
+import com.icst.logic.utils.ImageViewUtils;
 
 import android.content.Context;
 import android.view.View;
@@ -24,37 +27,55 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	private String color;
 	private BlockBean block;
 
+	private LinearLayout actionBlockLayerTop;
 	private LinearLayout blockLayout;
+	private LinearLayout actionBlockLayerBottom;
 
 	public ActionBlockLayerView(
 			Context context,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
-
-		blockLayout = new LinearLayout(context);
-		blockLayout.setOrientation(VERTICAL);
-		addView(blockLayout);
+		actionBlockLayerTop = new LinearLayout(context);
+		addView(actionBlockLayerTop);
 
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_IN_LAYER_TOP_MARGIN, 0, 0);
+		blockLayout = new LinearLayout(context);
+		blockLayout.setOrientation(VERTICAL);
+		addView(blockLayout);
 		blockLayout.setLayoutParams(lp);
+
+		actionBlockLayerBottom = new LinearLayout(context);
+		addView(actionBlockLayerBottom);
 	}
 
 	@Override
 	public void setColor(String color) {
 		this.color = color;
-		//        BlockImageUtils.Image image = null;
-		//
-		//        image = BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP;
-		//
-		//        setBackgroundDrawable(
-		//                ImageViewUtils.getImageView(
-		//                        getContext(),
-		//                        ColorUtils.harmonizeHexColor(getContext(), getColor()),
-		//                        BlockImageUtils.getImage(image)));
-		//        invalidate();
+
+		actionBlockLayerTop.setBackgroundDrawable(
+				ImageViewUtils.getImageView(
+						getContext(),
+						ColorUtils.harmonizeHexColor(getContext(), getColor()),
+						BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_LAYER_TOP)));
+
+		blockLayout.setBackgroundDrawable(
+				ImageViewUtils.getImageView(
+						getContext(),
+						ColorUtils.harmonizeHexColor(getContext(), getColor()),
+						BlockImageUtils.getImage(
+								BlockImageUtils.Image.ACTION_BLOCK_LAYER_BACKDROP)));
+
+		actionBlockLayerBottom.setBackgroundDrawable(
+				ImageViewUtils.getImageView(
+						getContext(),
+						ColorUtils.harmonizeHexColor(getContext(), getColor()),
+						BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_LAYER_BOTTOM)));
+		invalidate();
 	}
 
 	// Configured for ActionBlockLayerView
@@ -98,7 +119,7 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_IN_LAYER_TOP_MARGIN, 0, 0);
 			actionBlockBeanView.setLayoutParams(lp);
 		}
 	}
