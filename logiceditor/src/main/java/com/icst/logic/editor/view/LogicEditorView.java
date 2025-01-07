@@ -46,6 +46,7 @@ import com.icst.logic.editor.event.LogicEditorEventDispatcher;
 import com.icst.logic.editor.event.LogicEditorEventListener;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.ActionBlockDropZoneView;
+import com.icst.logic.lib.view.ActionBlockLayerView;
 import com.icst.logic.lib.view.BlockDropZoneView;
 import com.icst.logic.lib.view.DraggingBlockDummy;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
@@ -333,6 +334,13 @@ public class LogicEditorView extends RelativeLayout {
 				index = regularChain.indexOfChild(actionBlockBeanView);
 				for (int i = index; i < regularChain.getChildCount(); ++i) {
 					regularChain.getChildAt(i).setVisibility(View.VISIBLE);
+				}
+			} else if (actionBlockBeanView.getParent().getParent() != null) {
+				if (actionBlockBeanView.getParent().getParent() instanceof ActionBlockLayerView regularChain) {
+					index = regularChain.getBlockLayout().indexOfChild(actionBlockBeanView);
+					for (int i = index; i < regularChain.getBlocksSize(); ++i) {
+						regularChain.getBlockLayout().getChildAt(i).setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		}

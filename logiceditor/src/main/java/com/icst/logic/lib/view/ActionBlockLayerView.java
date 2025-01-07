@@ -99,7 +99,7 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	// Configured for ActionBlockLayerView
 	@Override
 	protected void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
-		this.getBlockBeans().addAll(index, actionBlocks);
+		getBlockBeans().addAll(index, actionBlocks);
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
@@ -203,5 +203,9 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	@Override
 	public ActionBlockLayerView getView() {
 		return this;
+	}
+
+	public LinearLayout getBlockLayout() {
+		return this.blockLayout;
 	}
 }

@@ -38,6 +38,7 @@ import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.view.ActionBlockDropZoneView;
+import com.icst.logic.lib.view.ActionBlockLayerView;
 import com.icst.logic.lib.view.DraggingBlockDummy;
 import com.icst.logic.lib.view.MainActionBlockDropZoneView;
 import com.icst.logic.utils.CanvaMathUtils;
@@ -96,6 +97,18 @@ public class DraggableTouchListener implements View.OnTouchListener {
 											.getChildAt(i)
 											.setVisibility(View.GONE);
 									draggingBlocks.add(blocksList.get(i));
+								}
+							} else if (actionBlockDropZone.getParent() != null) {
+								if (actionBlockDropZone.getParent() instanceof ActionBlockLayerView regularChain) {
+									int index = regularChain
+											.getBlockLayout()
+											.indexOfChild(actionBlockBeanView);
+									blocksList = regularChain.getBlockBeans();
+
+									for (int i = index; i < regularChain.getBlocksSize(); ++i) {
+										regularChain.getBlockLayout().getChildAt(i).setVisibility(View.GONE);
+										draggingBlocks.add(blocksList.get(i));
+									}
 								}
 							}
 
