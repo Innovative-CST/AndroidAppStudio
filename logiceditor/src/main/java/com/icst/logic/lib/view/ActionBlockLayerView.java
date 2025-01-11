@@ -127,15 +127,30 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	// Configured for ActionBlockLayerView
 	@Override
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		if (canDrop(blocks, x, y)) {
+		int index = 0;
+		for (int i = 0; i < blockLayout.getChildCount(); i++) {
+			View child = blockLayout.getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (blockLayout.getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				blockBeanView.highlightNearestTarget(blocks, x, y);
+				return;
+			}
+		}
+
+		index = getIndex(x, y);
+		if (canDrop(blocks, index)) {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
 			getLogicEditor().setDummyHighlighter(highlighter);
-			int index = getIndex(x, y);
 			blockLayout.addView(highlighter, index);
-
 			highlighter.setLayoutParams(highlighterLp);
 		}
 	}
@@ -143,13 +158,29 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	// Configured for ActionBlockLayerView
 	@Override
 	public void highlightNearestTarget(ActionBlockBean block, float x, float y) {
+		int index = 0;
+		for (int i = 0; i < blockLayout.getChildCount(); i++) {
+			View child = blockLayout.getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (blockLayout.getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(block, x, y)) {
+				blockBeanView.highlightNearestTarget(block, x, y);
+				return;
+			}
+		}
+
+		index = getIndex(x, y);
 		if (canDrop(block, x, y)) {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
 			getLogicEditor().setDummyHighlighter(highlighter);
-			int index = getIndex(x, y);
 			blockLayout.addView(highlighter, index);
 			highlighter.setLayoutParams(highlighterLp);
 		}
