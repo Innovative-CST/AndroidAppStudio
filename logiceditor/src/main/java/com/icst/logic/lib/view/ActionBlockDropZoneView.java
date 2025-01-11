@@ -168,19 +168,31 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void dropToNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		if (canDrop(blocks, x, y)) {
-			int index = getIndex(x, y);
+		int index = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				blockBeanView.drop(blocks, x, y);
+				return;
+			}
+		}
+		index = getIndex(x, y);
+		if (canDrop(blocks, index)) {
 			addBlockBeans(blocks, index);
 		}
 	}
 
 	public void dropToNearestTarget(ActionBlockBean block, float x, float y) {
-		if (canDrop(block, x, y)) {
-			int index = getIndex(x, y);
-			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
-			blocks.add(block);
-			addBlockBeans(blocks, index);
-		}
+		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+		blocks.add(block);
+		dropToNearestTarget(blocks, x, y);
 	}
 
 	public int getIndex(float x, float y) {
