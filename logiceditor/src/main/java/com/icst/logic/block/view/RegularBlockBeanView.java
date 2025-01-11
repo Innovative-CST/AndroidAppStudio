@@ -40,8 +40,10 @@ import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.builder.LayerViewFactory;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.lib.view.ActionBlockLayerView;
 import com.icst.logic.lib.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
 
@@ -194,27 +196,69 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 	@Override
 	public boolean canDrop(BlockBean block, float x, float y) {
+		if (block instanceof ActionBlockBean mActionBlockBean) {
+			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
+			blocks.add(mActionBlockBean);
+			return canDrop(blocks, x, y);
+		}
 		return false;
 	}
 
 	@Override
-	public boolean canDrop(ArrayList<ActionBlockBean> block, float x, float y) {
+	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		for (int i = 0; i < layers.size(); ++i) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
+					getLogicEditor().getEditorSectionView(), x, y)) {
+				continue;
+			}
+			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
+				return layerView.canDrop(blocks, x, y);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void highlightNearestTarget(BlockBean block, float x, float y) {
+		if (block instanceof ActionBlockBean mActionBlockBean) {
+			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
+			blocks.add(mActionBlockBean);
+			highlightNearestTarget(blocks, x, y);
+		}
 	}
 
 	@Override
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		for (int i = 0; i < layers.size(); ++i) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
+					getLogicEditor().getEditorSectionView(), x, y)) {
+				continue;
+			}
+			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
+				layerView.highlightNearestTarget(blocks, x, y);
+			}
+		}
 	}
 
 	@Override
 	public void drop(BlockBean block, float x, float y) {
+		if (block instanceof ActionBlockBean mActionBlockBean) {
+			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
+			blocks.add(mActionBlockBean);
+			highlightNearestTarget(blocks, x, y);
+		}
 	}
 
 	@Override
 	public void drop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		for (int i = 0; i < layers.size(); ++i) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
+					getLogicEditor().getEditorSectionView(), x, y)) {
+				continue;
+			}
+			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
+				layerView.dropToNearestTarget(blocks, x, y);
+			}
+		}
 	}
 }
