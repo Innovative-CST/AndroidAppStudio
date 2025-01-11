@@ -33,6 +33,8 @@ package com.icst.logic.block.view;
 
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -188,5 +190,23 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 	public RegularBlockBean getRegularBlockBean() {
 		return regularBlockBean;
+	}
+
+	@Override
+	public boolean canDrop(BlockBean block, float x, float y) {
+		return false;
+	}
+
+	@Override
+	public boolean canDrop(ArrayList<ActionBlockBean> block, float x, float y) {
+		return false;
+	}
+
+	@Override
+	public void drop(BlockBean block, float x, float y) {
+	}
+
+	@Override
+	public void drop(ArrayList<ActionBlockBean> blocks, float x, float y) {
 	}
 }

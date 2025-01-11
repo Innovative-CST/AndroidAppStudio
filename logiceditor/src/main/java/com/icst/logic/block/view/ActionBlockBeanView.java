@@ -31,12 +31,15 @@
 
 package com.icst.logic.block.view;
 
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 
 import android.content.Context;
 
-public class ActionBlockBeanView extends BlockBeanView {
+public abstract class ActionBlockBeanView extends BlockBeanView {
 
 	public ActionBlockBeanView(
 			Context context,
@@ -44,4 +47,8 @@ public class ActionBlockBeanView extends BlockBeanView {
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 	}
+
+	public abstract boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y);
+
+	public abstract void drop(ArrayList<ActionBlockBean> blocks, float x, float y);
 }

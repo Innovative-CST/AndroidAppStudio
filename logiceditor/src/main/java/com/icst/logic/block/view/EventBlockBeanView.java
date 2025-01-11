@@ -33,6 +33,7 @@ package com.icst.logic.block.view;
 
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -190,5 +191,14 @@ public class EventBlockBeanView extends BlockBeanView {
 		layers = new ArrayList<LayerBeanView>();
 		removeAllViews();
 		init();
+	}
+
+	@Override
+	public boolean canDrop(BlockBean block, float x, float y) {
+		return false;
+	}
+
+	@Override
+	public void drop(BlockBean block, float x, float y) {
 	}
 }

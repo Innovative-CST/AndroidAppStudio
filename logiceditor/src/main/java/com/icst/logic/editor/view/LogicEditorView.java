@@ -60,6 +60,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -420,5 +421,9 @@ public class LogicEditorView extends RelativeLayout {
 
 	public DraggingBlockDummy getDraggingView() {
 		return draggingView;
+	}
+
+	public LinearLayout getEditorSectionView() {
+		return binding.editorSection;
 	}
 }

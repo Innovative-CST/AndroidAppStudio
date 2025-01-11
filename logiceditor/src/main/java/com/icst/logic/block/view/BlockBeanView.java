@@ -31,13 +31,14 @@
 
 package com.icst.logic.block.view;
 
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 
-public class BlockBeanView extends LinearLayout {
+public abstract class BlockBeanView extends LinearLayout {
 	private LogicEditorConfiguration logicEditorConfiguration;
 	private LogicEditorView logicEditor;
 	private boolean isInsideCanva;
@@ -70,4 +71,8 @@ public class BlockBeanView extends LinearLayout {
 	public void setInsideCanva(boolean isInsideCanva) {
 		this.isInsideCanva = isInsideCanva;
 	}
+
+	public abstract boolean canDrop(BlockBean block, float x, float y);
+
+	public abstract void drop(BlockBean block, float x, float y);
 }
