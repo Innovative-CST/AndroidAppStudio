@@ -199,6 +199,10 @@ public class EventBlockBeanView extends BlockBeanView {
 	}
 
 	@Override
+	public void highlightNearestTarget(BlockBean block, float x, float y) {
+	}
+
+	@Override
 	public void drop(BlockBean block, float x, float y) {
 	}
 }

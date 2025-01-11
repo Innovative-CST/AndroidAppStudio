@@ -203,6 +203,14 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	}
 
 	@Override
+	public void highlightNearestTarget(BlockBean block, float x, float y) {
+	}
+
+	@Override
+	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	}
+
+	@Override
 	public void drop(BlockBean block, float x, float y) {
 	}
 

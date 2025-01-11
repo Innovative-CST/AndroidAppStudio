@@ -119,7 +119,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		}
 		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
 			if (blockBeanView.canDrop(blocks, x, y)) {
-				blockBeanView.drop(blocks, x, y);
+				blockBeanView.highlightNearestTarget(blocks, x, y);
 				return;
 			}
 		}
@@ -151,7 +151,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		}
 		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
 			if (blockBeanView.canDrop(actionBlocks, x, y)) {
-				blockBeanView.drop(actionBlocks, x, y);
+				blockBeanView.highlightNearestTarget(actionBlocks, x, y);
 				return;
 			}
 		}

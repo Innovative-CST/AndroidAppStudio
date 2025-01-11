@@ -50,5 +50,7 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 
 	public abstract boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y);
 
+	public abstract void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y);
+
 	public abstract void drop(ArrayList<ActionBlockBean> blocks, float x, float y);
 }

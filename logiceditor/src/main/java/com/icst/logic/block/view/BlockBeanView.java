@@ -74,5 +74,7 @@ public abstract class BlockBeanView extends LinearLayout {
 
 	public abstract boolean canDrop(BlockBean block, float x, float y);
 
+	public abstract void highlightNearestTarget(BlockBean block, float x, float y);
+
 	public abstract void drop(BlockBean block, float x, float y);
 }
