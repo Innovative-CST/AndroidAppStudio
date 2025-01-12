@@ -35,8 +35,10 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
+import com.icst.logic.block.view.TerminatorBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 
@@ -81,6 +83,9 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 		if (blocks.get(position) instanceof RegularBlockBean regularBlock) {
 			blockBeanView = new RegularBlockBeanView(
 					arg0.itemView.getContext(), regularBlock, config, logicEditor);
+		} else if (blocks.get(position) instanceof TerminatorBlockBean terminatorBlock) {
+			blockBeanView = new TerminatorBlockBeanView(
+					arg0.itemView.getContext(), terminatorBlock, config, logicEditor);
 		}
 		hScrollView.setPadding(8, 8, 0, 0);
 		hScrollView.addView(blockBeanView);
