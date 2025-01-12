@@ -45,12 +45,12 @@ import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
 import com.icst.logic.editor.event.LogicEditorEventDispatcher;
 import com.icst.logic.editor.event.LogicEditorEventListener;
 import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.lib.view.ActionBlockDropZoneView;
-import com.icst.logic.lib.view.ActionBlockLayerView;
-import com.icst.logic.lib.view.BlockDropZoneView;
-import com.icst.logic.lib.view.DraggingBlockDummy;
-import com.icst.logic.lib.view.MainActionBlockDropZoneView;
-import com.icst.logic.lib.view.NearestTargetHighlighterView;
+import com.icst.logic.view.ActionBlockDropZoneView;
+import com.icst.logic.view.ActionBlockLayerView;
+import com.icst.logic.view.BlockDropZoneView;
+import com.icst.logic.view.DraggingBlockDummy;
+import com.icst.logic.view.MainActionBlockDropZoneView;
+import com.icst.logic.view.NearestTargetHighlighterView;
 import com.icst.logic.listener.DraggableTouchListener;
 import com.icst.logic.utils.CanvaMathUtils;
 

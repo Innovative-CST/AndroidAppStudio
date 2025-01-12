@@ -39,7 +39,7 @@ import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.lib.view.LayerBeanView;
+import com.icst.logic.view.LayerBeanView;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;

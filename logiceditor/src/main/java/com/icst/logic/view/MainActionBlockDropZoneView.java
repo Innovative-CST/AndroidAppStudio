@@ -29,39 +29,63 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.view;
+package com.icst.logic.view;
 
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
+import com.icst.logic.block.view.EventBlockBeanView;
 import com.icst.logic.config.BlockMarginConstants;
 import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.exception.EventDefinationBlockNotFound;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
 import com.icst.logic.utils.CanvaMathUtils;
+import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class ActionBlockDropZoneView extends BlockDropZoneView {
+public class MainActionBlockDropZoneView extends BlockDropZoneView {
+	private EventBlockBean eventDefination;
+	private EventBlockBeanView eventDefinationBlockView;
 	private Context context;
 	private ArrayList<ActionBlockBean> blockBeans;
 	private ActionBlockDropZone actionBlockDropZone;
 
-	public ActionBlockDropZoneView(
+	public MainActionBlockDropZoneView(
 			Context context,
+			EventBlockBean eventDefination,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
+		this.eventDefination = eventDefination;
+
 		setOrientation(VERTICAL);
+
+		if (eventDefination == null) {
+			throw new EventDefinationBlockNotFound();
+		}
+
+		eventDefinationBlockView = new EventBlockBeanView(
+				context, eventDefination, getConfiguration(), getLogicEditor());
+
+		addView(eventDefinationBlockView);
+		LinearLayout.LayoutParams eventDefBlockLp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		eventDefinationBlockView.setLayoutParams(eventDefBlockLp);
+
 		blockBeans = new ArrayList<ActionBlockBean>();
 		actionBlockDropZone = new ActionBlockDropZone() {
 
@@ -86,25 +110,44 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view) {
-		if (view instanceof LinearLayout) {
+
+		if (view instanceof ActionBlockBeanView) {
 			super.addView(view);
-		} else if (view instanceof ActionBlockBeanView) {
+		} else if (getChildCount() == 0) {
 			super.addView(view);
-		} else {
+		} else if (view instanceof NearestTargetHighlighterView) {
+			super.addView(view);
+		} else
 			throw new UnexpectedViewAddedException(this, view);
-		}
 	}
 
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view, int index) {
-		if (view instanceof LinearLayout) {
+		if (view instanceof EventBlockBeanView eventDefBlockView) {
 			super.addView(view, index);
-		} else if (view instanceof ActionBlockBeanView) {
-			super.addView(view, index);
-		} else {
+		} else if (view instanceof ActionBlockBeanView actionBlockView) {
+			super.addView(actionBlockView, index);
+		} else if (view instanceof NearestTargetHighlighterView) {
+			super.addView(view, index + (eventDefinationBlockView.getParent() == null ? 0 : 1));
+		} else
 			throw new UnexpectedViewAddedException(this, view);
+	}
+
+	public int getIndex(float x, float y) {
+		int[] relativeCoordinates = CanvaMathUtils.getRelativeCoordinates(this, getLogicEditor());
+
+		int index = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (y - ((int) relativeCoordinates[1]) > child.getY() + (child.getHeight() / 2)) {
+				index = i + 1;
+			} else {
+				break;
+			}
 		}
+
+		return index;
 	}
 
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
@@ -125,46 +168,24 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		}
 
 		index = getIndex(x, y);
+		if (index != 0) {
+			index -= 1;
+		}
 		if (canDrop(blocks, index)) {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
 			getLogicEditor().setDummyHighlighter(highlighter);
-			super.addView(highlighter, index);
-
+			addView(highlighter, index);
 			highlighter.setLayoutParams(highlighterLp);
 		}
 	}
 
 	public void highlightNearestTarget(ActionBlockBean block, float x, float y) {
-		ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
-		actionBlocks.add(block);
-		int index = 0;
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			if (CanvaMathUtils.isCoordinatesInsideTargetView(
-					child, getLogicEditor().getEditorSectionView(), x, y)) {
-				index = i;
-				break;
-			}
-		}
-		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
-			if (blockBeanView.canDrop(actionBlocks, x, y)) {
-				blockBeanView.highlightNearestTarget(actionBlocks, x, y);
-				return;
-			}
-		}
-		index = getIndex(x, y);
-		if (canDrop(block, index)) {
-			getLogicEditor().removeDummyHighlighter();
-			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
-			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
-			getLogicEditor().setDummyHighlighter(highlighter);
-			super.addView(highlighter, index);
-			highlighter.setLayoutParams(highlighterLp);
-		}
+		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+		blocks.add(block);
+		highlightNearestTarget(blocks, x, y);
 	}
 
 	public void dropToNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
@@ -183,8 +204,14 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 				return;
 			}
 		}
+
 		index = getIndex(x, y);
+		if (index != 0) {
+			index -= 1;
+		}
 		if (canDrop(blocks, index)) {
+			LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			addBlockBeans(blocks, index);
 		}
 	}
@@ -193,22 +220,6 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
 		blocks.add(block);
 		dropToNearestTarget(blocks, x, y);
-	}
-
-	public int getIndex(float x, float y) {
-		int[] relativeCoordinates = CanvaMathUtils.getRelativeCoordinates(this, getLogicEditor());
-
-		int index = 0;
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			if (y - ((int) relativeCoordinates[1]) > child.getY() + (child.getHeight() / 2)) {
-				index = i + 1;
-			} else {
-				break;
-			}
-		}
-
-		return index;
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
@@ -226,33 +237,17 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 				return true;
 			}
 		}
-		return canDrop(blocks, getIndex(x, y));
+		index = getIndex(x, y);
+		if (index != 0) {
+			index -= 1;
+		}
+		return canDrop(blocks, index);
 	}
 
 	public boolean canDrop(ActionBlockBean block, float x, float y) {
-		ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
-		actionBlocks.add(block);
-		int index = 0;
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			if (CanvaMathUtils.isCoordinatesInsideTargetView(
-					child, getLogicEditor().getEditorSectionView(), x, y)) {
-				index = i;
-				break;
-			}
-		}
-		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
-			if (blockBeanView.canDrop(actionBlocks, x, y)) {
-				return true;
-			}
-		}
-		return canDrop(block, getIndex(x, y));
-	}
-
-	public boolean canDrop(ActionBlockBean actionBlock, int index) {
-		ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
-		actionBlocks.add(actionBlock);
-		return canDrop(actionBlocks, index);
+		ArrayList<ActionBlockBean> blockArray = new ArrayList<>();
+		blockArray.add(block);
+		return canDrop(blockArray, x, y);
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
@@ -260,15 +255,13 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
 					return false;
-				else {
-					if (actionBlocks.size() == 0)
-						return true;
-					return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
-				}
+				else
+					return true;
+
 			} else {
 				if (actionBlocks.size() == 0)
 					return true;
-				return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
+				return !isTerminated();
 			}
 		} else {
 			if (actionBlocks.size() == 0) {
@@ -283,52 +276,59 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		if (blockBeans == null) {
 			blockBeans = new ArrayList<ActionBlockBean>();
 		}
-		if (actionBlocks == null) {
-			return;
-		}
-		if (index <= blockBeans.size()) {
+		if (index >= blockBeans.size()) {
 			if (blockBeans.size() == index) {
 				if (isTerminated())
 					throw new TerminatedDropZoneException();
 				else
 					addBlockBeans(actionBlocks, index);
 			} else {
-				if (actionBlocks.size() == 0)
-					return;
-				if (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean))
-					addBlockBeans(actionBlocks, index);
+				if (isTerminated())
+					throw new TerminatedDropZoneException();
 				else
-					throw new UnexpectedTerminatedException();
+					addBlockBeans(actionBlocks, blockBeans.size());
 			}
-		} else
-			throw new IndexOutOfBoundsException(index);
+		} else {
+			if (actionBlocks.size() == 0)
+				return;
+			if (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean))
+				addBlockBeans(actionBlocks, index);
+			else
+				throw new UnexpectedTerminatedException();
+		}
 	}
 
-	protected void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
+	private void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
 		this.blockBeans.addAll(index, actionBlocks);
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
 					context, actionBlock, getConfiguration(), getLogicEditor());
+			actionBlockBeanView.setInsideCanva(true);
 
 			if (actionBlockBeanView == null)
 				continue;
 
-			actionBlockBeanView.setInsideCanva(true);
-			super.addView(actionBlockBeanView, i + index);
-
-			if (i == 0 && index == 0)
-				continue;
+			addView(
+					actionBlockBeanView,
+					index + i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
 
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			lp.setMargins(
+					0,
+					UnitUtils.dpToPx(
+							getContext(), BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN),
+					0,
+					0);
 			actionBlockBeanView.setLayoutParams(lp);
 		}
 	}
+
+	// public ArrayList<ActionBlockBean> breakFromIndex(int index) {}
 
 	public int getBlocksSize() {
 		return blockBeans.size();

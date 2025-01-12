@@ -1,4 +1,4 @@
-package com.icst.logic.lib.view;
+package com.icst.logic.view;
 
 import java.util.ArrayList;
 

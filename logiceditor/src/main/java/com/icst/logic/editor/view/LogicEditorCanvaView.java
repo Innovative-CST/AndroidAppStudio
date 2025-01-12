@@ -37,8 +37,8 @@ import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.editor.CanvaAction;
 import com.icst.logic.editor.action.CanvaActionMoveDropZone;
 import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.lib.view.BlockDropZoneView;
-import com.icst.logic.lib.view.MainActionBlockDropZoneView;
+import com.icst.logic.view.BlockDropZoneView;
+import com.icst.logic.view.MainActionBlockDropZoneView;
 
 import android.content.Context;
 import android.util.AttributeSet;

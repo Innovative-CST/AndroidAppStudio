@@ -32,7 +32,7 @@
 package com.icst.logic.editor.action;
 
 import com.icst.logic.editor.CanvaAction;
-import com.icst.logic.lib.view.BlockDropZoneView;
+import com.icst.logic.view.BlockDropZoneView;
 
 public class CanvaActionMoveDropZone implements CanvaAction {
 	private int oldPositionX;

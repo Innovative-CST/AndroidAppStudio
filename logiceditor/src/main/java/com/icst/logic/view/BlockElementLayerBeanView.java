@@ -29,31 +29,91 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.view;
+package com.icst.logic.view;
 
-import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.ColorUtils;
+import com.icst.logic.utils.ImageViewUtils;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 
-/** A view representing a block drop zone */
-public abstract class BlockDropZoneView extends LinearLayout {
-	private LogicEditorConfiguration configuration;
-	private LogicEditorView logicEditor;
+public class BlockElementLayerBeanView extends LinearLayout
+		implements LayerBeanView<BlockElementLayerBeanView> {
+	private int layerPosition;
+	private boolean isFirstLayer;
+	private boolean isLastLayer;
+	private String color;
+	private BlockBean block;
 
-	public BlockDropZoneView(
-			Context context, LogicEditorConfiguration configuration, LogicEditorView logicEditor) {
+	public BlockElementLayerBeanView(Context context) {
 		super(context);
-		this.configuration = configuration;
-		this.logicEditor = logicEditor;
+		setOrientation(VERTICAL);
 	}
 
-	public LogicEditorConfiguration getConfiguration() {
-		return this.configuration;
+	@Override
+	public void setColor(String color) {
+		this.color = color;
+		BlockImageUtils.Image image = null;
+
+		image = BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP;
+
+		setBackgroundDrawable(
+				ImageViewUtils.getImageView(
+						getContext(),
+						ColorUtils.harmonizeHexColor(getContext(), getColor()),
+						BlockImageUtils.getImage(image)));
+		invalidate();
 	}
 
-	public LogicEditorView getLogicEditor() {
-		return this.logicEditor;
+	@Override
+	public BlockBean getBlock() {
+		return this.block;
+	}
+
+	@Override
+	public String getColor() {
+		return this.color;
+	}
+
+	@Override
+	public int getLayerPosition() {
+		return this.layerPosition;
+	}
+
+	@Override
+	public boolean isFirstLayer() {
+		return this.isFirstLayer;
+	}
+
+	@Override
+	public boolean isLastLayer() {
+		return this.isLastLayer;
+	}
+
+	@Override
+	public void setBlock(BlockBean block) {
+		this.block = block;
+	}
+
+	@Override
+	public void setFirstLayer(boolean isFirstLayer) {
+		this.isFirstLayer = isFirstLayer;
+	}
+
+	@Override
+	public void setLastLayer(boolean isLastLayer) {
+		this.isLastLayer = isLastLayer;
+	}
+
+	@Override
+	public void setLayerPosition(int layerPosition) {
+		this.layerPosition = layerPosition;
+	}
+
+	@Override
+	public BlockElementLayerBeanView getView() {
+		return this;
 	}
 }

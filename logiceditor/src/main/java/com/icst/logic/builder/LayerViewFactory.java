@@ -39,9 +39,9 @@ import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.lib.view.ActionBlockLayerView;
-import com.icst.logic.lib.view.BlockElementLayerBeanView;
-import com.icst.logic.lib.view.LayerBeanView;
+import com.icst.logic.view.ActionBlockLayerView;
+import com.icst.logic.view.BlockElementLayerBeanView;
+import com.icst.logic.view.LayerBeanView;
 import com.icst.logic.utils.ColorUtils;
 
 import android.content.Context;

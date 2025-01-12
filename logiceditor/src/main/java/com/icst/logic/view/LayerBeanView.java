@@ -29,81 +29,33 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.view;
+package com.icst.logic.view;
 
-import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.utils.BlockImageUtils;
-import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class NearestTargetHighlighterView extends LinearLayout {
+public interface LayerBeanView<T extends LinearLayout> {
 
-	private BlockBean block;
-	private View header;
-	private View footer;
-	private ViewGroup.LayoutParams headerLayoutParam;
-	private ViewGroup.LayoutParams footerLayoutParam;
-	private LogicEditorConfiguration logicEditorConfiguration;
-	private LinearLayout layerView;
-	private LinearLayout blockDummy;
-	private ImageView cursorIcon;
+	int getLayerPosition();
 
-	public NearestTargetHighlighterView(Context context, BlockBean block) {
-		super(context);
-		this.block = block;
-		init();
-	}
+	void setLayerPosition(int layerPosition);
 
-	private void init() {
-		blockDummy = new LinearLayout(getContext());
-		blockDummy.setOrientation(VERTICAL);
-		addView(blockDummy);
-		if (block instanceof ActionBlockBean) {
-			addHeader();
-			addFooter();
-		}
-	}
+	boolean isFirstLayer();
 
-	private void addFooter() {
-		footerLayoutParam = new LayoutParams(160, LayoutParams.WRAP_CONTENT);
+	void setFirstLayer(boolean isFirstLayer);
 
-		footer = new LinearLayout(getContext());
-		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				footerBackDropRes);
-		footer.setBackgroundDrawable(footerRes);
-		blockDummy.addView(footer);
-		footer.setLayoutParams(footerLayoutParam);
-	}
+	boolean isLastLayer();
 
-	private void addHeader() {
-		headerLayoutParam = new LayoutParams(160, LayoutParams.WRAP_CONTENT);
+	void setLastLayer(boolean isLastLayer);
 
-		header = new LinearLayout(getContext());
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				res);
-		header.setBackgroundDrawable(headerDrawable);
-		blockDummy.addView(header);
-		header.setLayoutParams(headerLayoutParam);
-	}
+	String getColor();
 
-	public void setBlockBean(BlockBean blockBean) {
-		this.block = blockBean;
-		removeAllViews();
-		init();
-	}
+	void setColor(String color);
+
+	BlockBean getBlock();
+
+	void setBlock(BlockBean block);
+
+	T getView();
 }
