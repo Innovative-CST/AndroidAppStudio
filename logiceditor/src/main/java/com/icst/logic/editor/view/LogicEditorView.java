@@ -295,6 +295,14 @@ public class LogicEditorView extends RelativeLayout {
 				regularChain.getChildAt(index).setOnTouchListener(null);
 				regularChain.removeViews(index, regularChain.getChildCount() - index);
 				regularChain.dereferenceActionBlocks(index);
+			} else if (parent.getParent() != null) {
+				if (parent.getParent() instanceof ActionBlockLayerView actionBlockLayerView) {
+					int index = actionBlockLayerView.getBlockLayout().indexOfChild(actionBlockBeanView);
+					actionBlockLayerView.getBlockLayout().getChildAt(index).setOnTouchListener(null);
+					actionBlockLayerView.getBlockLayout().removeViews(index,
+							actionBlockLayerView.getBlockLayout().getChildCount() - index);
+					actionBlockLayerView.dereferenceActionBlocks(index);
+				}
 			}
 		}
 	}
