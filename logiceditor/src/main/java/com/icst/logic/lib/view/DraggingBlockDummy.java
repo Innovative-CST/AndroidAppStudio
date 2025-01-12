@@ -35,7 +35,7 @@ import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.editor.R;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;

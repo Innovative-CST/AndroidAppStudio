@@ -38,7 +38,7 @@ import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.ActionBlockLayerView;
 import com.icst.logic.lib.view.BlockElementLayerBeanView;
 import com.icst.logic.lib.view.LayerBeanView;

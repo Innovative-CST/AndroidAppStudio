@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.config.LogicEditorConfiguration;
 
 import android.content.Context;
 

@@ -29,7 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.lib.config;
+package com.icst.logic.config;
 
 public final class LogicEditorConfiguration {
 	private TextSize textSize = TextSize.DEFAULT;

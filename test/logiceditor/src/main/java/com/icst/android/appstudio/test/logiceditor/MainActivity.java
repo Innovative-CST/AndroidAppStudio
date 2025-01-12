@@ -32,7 +32,7 @@
 package com.icst.android.appstudio.test.logiceditor;
 
 import com.icst.android.appstudio.test.logiceditor.databinding.ActivityMainBinding;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.config.LogicEditorConfiguration;
 
 import android.os.Bundle;
 

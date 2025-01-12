@@ -44,7 +44,7 @@ import com.icst.logic.editor.HistoryManager;
 import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
 import com.icst.logic.editor.event.LogicEditorEventDispatcher;
 import com.icst.logic.editor.event.LogicEditorEventListener;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.lib.view.ActionBlockDropZoneView;
 import com.icst.logic.lib.view.ActionBlockLayerView;
 import com.icst.logic.lib.view.BlockDropZoneView;

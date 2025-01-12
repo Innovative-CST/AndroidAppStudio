@@ -7,7 +7,7 @@ import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.config.BlockMarginConstants;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.lib.config.LogicEditorConfiguration;
+import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.CanvaMathUtils;
