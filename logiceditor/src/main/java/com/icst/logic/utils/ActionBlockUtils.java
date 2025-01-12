@@ -33,8 +33,10 @@ package com.icst.logic.utils;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
+import com.icst.logic.block.view.TerminatorBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 
@@ -45,6 +47,8 @@ public final class ActionBlockUtils {
 			LogicEditorConfiguration logicEditorConfiguration, LogicEditorView logicEditor) {
 		if (actionBlock instanceof RegularBlockBean regularBlockBean) {
 			return new RegularBlockBeanView(context, regularBlockBean, logicEditorConfiguration, logicEditor);
+		} else if (actionBlock instanceof TerminatorBlockBean terminatorBlock) {
+			return new TerminatorBlockBeanView(context, terminatorBlock, logicEditorConfiguration, logicEditor);
 		} else
 			return null;
 	}
