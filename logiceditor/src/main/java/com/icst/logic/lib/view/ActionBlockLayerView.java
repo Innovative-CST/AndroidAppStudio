@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
-import com.icst.logic.core.BlockMarginConstants;
+import com.icst.logic.config.BlockMarginConstants;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.lib.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;

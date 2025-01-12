@@ -29,7 +29,7 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.core;
+package com.icst.logic.config;
 
 public final class BlockMarginConstants {
 	public static final int CHAINED_ACTION_BLOCK_TOP_MARGIN = -3;

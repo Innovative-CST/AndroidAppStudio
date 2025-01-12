@@ -39,7 +39,7 @@ import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.EventBlockBeanView;
-import com.icst.logic.core.BlockMarginConstants;
+import com.icst.logic.config.BlockMarginConstants;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.exception.EventDefinationBlockNotFound;
 import com.icst.logic.exception.TerminatedDropZoneException;
