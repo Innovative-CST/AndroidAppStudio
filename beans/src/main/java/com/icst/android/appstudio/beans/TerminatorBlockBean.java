@@ -33,6 +33,7 @@ package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
 
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 /** TerminatorBlockBean: Can hold RegularBlockBean (nested blocks),
@@ -57,6 +58,13 @@ public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
 
 	@Override
 	public TerminatorBlockBean cloneBean() {
-		return null;
+		TerminatorBlockBean clone = new TerminatorBlockBean();
+		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
+		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+		clone.setColor(getColor() == null ? null : new String(getColor()));
+		clone.setDragAllowed(new Boolean(isDragAllowed()));
+		clone.setLayers(BeanArrayCloneUtils.clone(getLayers()));
+		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		return clone;
 	}
 }
