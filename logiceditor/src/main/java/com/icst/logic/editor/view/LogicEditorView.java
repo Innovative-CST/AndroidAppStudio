@@ -135,10 +135,9 @@ public class LogicEditorView extends RelativeLayout {
 		draggingView.setY(y);
 		draggingView.setAllowedDropIcon(canDropDraggingView(x, y));
 		draggingView.requestLayout();
+		removeDummyHighlighter();
 		if (canDropDraggingView(x, y)) {
 			highlightNearestTarget(x, y);
-		} else {
-			removeDummyHighlighter();
 		}
 	}
 

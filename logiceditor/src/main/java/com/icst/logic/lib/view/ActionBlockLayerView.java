@@ -126,6 +126,48 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 
 	// Configured for ActionBlockLayerView
 	@Override
+	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		int index = 0;
+		for (int i = 0; i < blockLayout.getChildCount(); i++) {
+			View child = blockLayout.getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (blockLayout.getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				return true;
+			}
+		}
+		return canDrop(blocks, getIndex(x, y));
+	}
+
+	// Configured for ActionBlockLayerView
+	@Override
+	public boolean canDrop(ActionBlockBean block, float x, float y) {
+		ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
+		actionBlocks.add(block);
+		int index = 0;
+		for (int i = 0; i < blockLayout.getChildCount(); i++) {
+			View child = blockLayout.getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (blockLayout.getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(actionBlocks, x, y)) {
+				return true;
+			}
+		}
+		return canDrop(block, getIndex(x, y));
+	}
+
+	// Configured for ActionBlockLayerView
+	@Override
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
 		int index = 0;
 		for (int i = 0; i < blockLayout.getChildCount(); i++) {
@@ -184,6 +226,36 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 			blockLayout.addView(highlighter, index);
 			highlighter.setLayoutParams(highlighterLp);
 		}
+	}
+
+	@Override
+	public void dropToNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+		int index = 0;
+		for (int i = 0; i < blockLayout.getChildCount(); i++) {
+			View child = blockLayout.getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (blockLayout.getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				blockBeanView.drop(blocks, x, y);
+				return;
+			}
+		}
+		index = getIndex(x, y);
+		if (canDrop(blocks, index)) {
+			addBlockBeans(blocks, index);
+		}
+	}
+
+	@Override
+	public void dropToNearestTarget(ActionBlockBean block, float x, float y) {
+		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+		blocks.add(block);
+		dropToNearestTarget(blocks, x, y);
 	}
 
 	@Override
