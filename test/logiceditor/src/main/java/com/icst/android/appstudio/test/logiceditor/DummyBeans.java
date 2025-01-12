@@ -42,6 +42,7 @@ import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.android.appstudio.beans.TerminatorBlockBean;
 
 public class DummyBeans {
 	public static EventBean getDummyEvent() {
@@ -131,6 +132,31 @@ public class DummyBeans {
 
 		testRBlock.setLayers(layers);
 		return testRBlock;
+	}
+
+	public static TerminatorBlockBean getStopBlock() {
+		TerminatorBlockBean stopBlock = new TerminatorBlockBean();
+		stopBlock.setColor("#E44180");
+		stopBlock.setDragAllowed(true);
+
+		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+		onTestLabel.setLabel("stop");
+
+		layer1Elements.add(onTestLabel);
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		ActionBlockLayerBean layer2 = new ActionBlockLayerBean();
+		layers.add(layer2);
+
+		stopBlock.setLayers(layers);
+		return stopBlock;
 	}
 
 	public static RegularBlockBean getToastBlock() {

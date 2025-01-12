@@ -46,6 +46,7 @@ public class DummyPalette {
 
 		ArrayList<BlockBean> controlBlock = new ArrayList<BlockBean>();
 		controlBlock.add(DummyBeans.getToastBlock());
+		controlBlock.add(DummyBeans.getStopBlock());
 		control.setBlocks(controlBlock);
 		list.add(control);
 
