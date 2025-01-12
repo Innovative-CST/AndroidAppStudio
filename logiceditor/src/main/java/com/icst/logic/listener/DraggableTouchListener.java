@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
+import com.icst.logic.block.view.TerminatorBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.UnitUtils;
@@ -132,6 +133,18 @@ public class DraggableTouchListener implements View.OnTouchListener {
 									getLogicEditor().getContext(),
 									regularBlockBeanView
 											.getRegularBlockBean()
+											.cloneBean(),
+									getLogicEditor().canDropDraggingView(x, y));
+							draggingView.setDraggedFromCanva(
+									actionBlockBeanView.isInsideCanva());
+
+							getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+						} else if (actionBlockBeanView instanceof TerminatorBlockBeanView terminatorBlockBeanView) {
+							draggingBean = terminatorBlockBeanView.getTerminatorBlockBean().cloneBean();
+							DraggingBlockDummy draggingView = new DraggingBlockDummy(
+									getLogicEditor().getContext(),
+									terminatorBlockBeanView
+											.getTerminatorBlockBean()
 											.cloneBean(),
 									getLogicEditor().canDropDraggingView(x, y));
 							draggingView.setDraggedFromCanva(
