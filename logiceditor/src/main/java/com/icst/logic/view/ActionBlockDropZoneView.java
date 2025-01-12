@@ -261,14 +261,12 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 				if (isTerminated())
 					return false;
 				else {
-					if (actionBlocks.size() == 0)
-						return true;
-					return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
+					return true;
 				}
 			} else {
 				if (actionBlocks.size() == 0)
 					return true;
-				return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
+				return !isTerminated();
 			}
 		} else {
 			if (actionBlocks.size() == 0) {
