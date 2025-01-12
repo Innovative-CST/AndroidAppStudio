@@ -129,7 +129,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 		} else if (view instanceof ActionBlockBeanView actionBlockView) {
 			super.addView(actionBlockView, index);
 		} else if (view instanceof NearestTargetHighlighterView) {
-			super.addView(view, index);
+			super.addView(view, index + (eventDefinationBlockView.getParent() == null ? 0 : 1));
 		} else
 			throw new UnexpectedViewAddedException(this, view);
 	}
@@ -151,70 +151,103 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		if (canDrop(blocks, x, y)) {
+		int index = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				blockBeanView.highlightNearestTarget(blocks, x, y);
+				return;
+			}
+		}
+
+		index = getIndex(x, y);
+		if (index != 0) {
+			index -= 1;
+		}
+		if (canDrop(blocks, index)) {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
 			getLogicEditor().setDummyHighlighter(highlighter);
-			int index = getIndex(x, y);
-			if (index == 0) {
-				index = 1;
-			}
 			addView(highlighter, index);
-
 			highlighter.setLayoutParams(highlighterLp);
 		}
 	}
 
 	public void highlightNearestTarget(ActionBlockBean block, float x, float y) {
-		if (canDrop(block, x, y)) {
-			getLogicEditor().removeDummyHighlighter();
-			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			highlighterLp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
-			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
-			getLogicEditor().setDummyHighlighter(highlighter);
-			int index = getIndex(x, y);
-			if (index == 0) {
-				index = 1;
-			}
-			addView(highlighter, index);
-			highlighter.setLayoutParams(highlighterLp);
-		}
+		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+		blocks.add(block);
+		highlightNearestTarget(blocks, x, y);
 	}
 
 	public void dropToNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		if (canDrop(blocks, x, y)) {
+		int index = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				blockBeanView.drop(blocks, x, y);
+				return;
+			}
+		}
+
+		index = getIndex(x, y);
+		if (index != 0) {
+			index -= 1;
+		}
+		if (canDrop(blocks, index)) {
 			LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
-			int index = getIndex(x, y);
-			if (index != 0) {
-				index -= 1;
-			}
 			addBlockBeans(blocks, index);
 		}
 	}
 
 	public void dropToNearestTarget(ActionBlockBean block, float x, float y) {
-		if (canDrop(block, x, y)) {
-			int index = getIndex(x, y);
-			if (index != 0) {
-				index -= 1;
-			}
-			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
-			blocks.add(block);
-			addBlockBeans(blocks, index);
-		}
+		ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
+		blocks.add(block);
+		dropToNearestTarget(blocks, x, y);
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		return canDrop(blocks, getIndex(x, y));
+		int index = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(
+					child, getLogicEditor().getEditorSectionView(), x, y)) {
+				index = i;
+				break;
+			}
+		}
+		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+			if (blockBeanView.canDrop(blocks, x, y)) {
+				return true;
+			}
+		}
+		index = getIndex(x, y);
+		if (index != 0) {
+			index -= 1;
+		}
+		return canDrop(blocks, index);
 	}
 
 	public boolean canDrop(ActionBlockBean block, float x, float y) {
 		ArrayList<ActionBlockBean> blockArray = new ArrayList<>();
 		blockArray.add(block);
-		return canDrop(blockArray, getIndex(x, y));
+		return canDrop(blockArray, x, y);
 	}
 
 	public boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
@@ -228,7 +261,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			} else {
 				if (actionBlocks.size() == 0)
 					return true;
-				return !(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean);
+				return !isTerminated();
 			}
 		} else {
 			if (actionBlocks.size() == 0) {
