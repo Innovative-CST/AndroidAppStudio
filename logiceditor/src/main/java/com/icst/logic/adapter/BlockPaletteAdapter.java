@@ -34,8 +34,8 @@ package com.icst.logic.adapter;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockPaletteBean;
-import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.view.BlockPaletteView;
 
 import android.view.View;

@@ -38,11 +38,11 @@ import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.config.BlockMarginConstants;
+import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.exception.TerminatedDropZoneException;
 import com.icst.logic.exception.UnexpectedTerminatedException;
 import com.icst.logic.exception.UnexpectedViewAddedException;
-import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.utils.ActionBlockUtils;
 import com.icst.logic.utils.CanvaMathUtils;
 

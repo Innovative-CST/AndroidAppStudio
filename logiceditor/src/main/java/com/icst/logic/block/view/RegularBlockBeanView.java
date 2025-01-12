@@ -37,15 +37,15 @@ import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
-import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.view.ActionBlockLayerView;
-import com.icst.logic.view.LayerBeanView;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.view.ActionBlockLayerView;
+import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

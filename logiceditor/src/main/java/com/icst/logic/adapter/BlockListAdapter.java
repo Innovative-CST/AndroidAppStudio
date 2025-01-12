@@ -37,8 +37,8 @@ import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
-import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.logic.editor.view.LogicEditorView;
 
 import android.view.MotionEvent;
 import android.view.View;

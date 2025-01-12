@@ -31,8 +31,8 @@
 
 package com.icst.logic.view;
 
-import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.logic.editor.view.LogicEditorView;
 
 import android.content.Context;
 import android.widget.LinearLayout;
