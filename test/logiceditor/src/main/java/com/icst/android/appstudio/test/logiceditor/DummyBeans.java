@@ -152,9 +152,6 @@ public class DummyBeans {
 
 		layers.add(layer1);
 
-		ActionBlockLayerBean layer2 = new ActionBlockLayerBean();
-		layers.add(layer2);
-
 		stopBlock.setLayers(layers);
 		return stopBlock;
 	}
