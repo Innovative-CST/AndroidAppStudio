@@ -29,23 +29,30 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-public class SerializationUIDConstants {
-	public static final long BLOCK_BEAN = 1L;
-	public static final long BASE_BLOCK_BEAN = 1L;
-	public static final long ACTION_BLOCK_BEAN = 1L;
-	public static final long EVENT_BLOCK_BEAN = 1L;
-	public static final long EXPRESSION_BLOCK_BEAN = 1L;
-	public static final long REGULAR_BLOCK_BEAN = 1L;
-	public static final long TERMINATOR_BLOCK_BEAN = 1L;
-	public static final long LAYER_BEAN = 1L;
-	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
-	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
-	public static final long DATATYPE_BEAN_BEAN = 1L;
-	public static final long EVENT_BEAN = 1L;
-	public static final long LABEL_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long STRING_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long BLOCK_PALETTE_BEAN = 1L;
-	public static final long ARTIFACT_BEAN = 1L;
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+
+public class StringBlockElementBean
+		implements BlockElementBean<StringBlockElementBean>, Serializable {
+	public static final long serialVersionUID = SerializationUIDConstants.STRING_BLOCK_ELEMENT_BEAN;
+
+	private String string;
+
+	public String getString() {
+		return this.string;
+	}
+
+	public void setString(String string) {
+		this.string = string;
+	}
+
+	@Override
+	public StringBlockElementBean cloneBean() {
+		StringBlockElementBean clone = new StringBlockElementBean();
+		clone.setString(getString() == null ? null : new String(getString()));
+		return clone;
+	}
 }
