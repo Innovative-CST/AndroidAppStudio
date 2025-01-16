@@ -25,6 +25,9 @@ classDiagram
         +setDragAllowed(boolean dragAllowed)
     }
     note for BlockBean "Abstract class representing the base block supposed to be used within the LogicEditor"
+    CloneableBean~T~ <|-- BlockBean~T~
+    Serializable <|-- BlockBean~T~
+
     class BaseBlockBean~T~ {
         <<Abstract>>
 
@@ -34,8 +37,6 @@ classDiagram
         +setElementsLayers(ArrayList~BlockElementLayerBean~)
     }
     note for BaseBlockBean "A basic BlockBean model that just hold fields layer (not nested block) and does not return any code from it"
-    CloneableBean~T~ <|-- BlockBean~T~
-    Serializable <|-- BlockBean~T~
     BlockBean~T~ <|-- BaseBlockBean~T~
     Serializable <|-- BaseBlockBean~T~
 ```
