@@ -25,7 +25,6 @@ classDiagram
         +setColor(String color)
         +setDragAllowed(boolean dragAllowed)
     }
-    note for BlockBean "Abstract class representing the base block supposed to be used within the LogicEditor"
     CloneableBean~T~ <|-- BlockBean~T~
     Serializable <|-- BlockBean~T~
 
@@ -37,7 +36,6 @@ classDiagram
         +getElementsLayers() ArrayList~BlockElementLayerBean~
         +setElementsLayers(ArrayList~BlockElementLayerBean~)
     }
-    note for BaseBlockBean "A basic BlockBean model that just hold fields layer (not nested block) and does not return any code from it"
     BlockBean~T~ <|-- BaseBlockBean~T~
 
     class ActionBlockBean~T~ {
@@ -48,7 +46,6 @@ classDiagram
         +getLayers() ArrayList~LayerBean~
         +setLayers(ArrayList~LayerBean~ layers)
     }
-    note for ActionBlockBean "ActionBlockBean, BlockBean that perform action but does not return anything"
     BlockBean~T~ <|-- ActionBlockBean~T~
 
     class RegularBlockBean {
@@ -59,5 +56,11 @@ classDiagram
     }
 
     ActionBlockBean~RegularBlockBean~ <|-- RegularBlockBean
-    note for RegularBlockBean "Can hold RegularBlockBean (nested blocks), BlockElementBean"
+    class TerminatorBlockBean {
+        -String codeSyntax
+
+        +getCodeSyntax() String
+        +setCodeSyntax(String codeSyntax)
+    }
+    ActionBlockBean~TerminatorBlockBean~ <|-- TerminatorBlockBean
 ```
