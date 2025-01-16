@@ -7,6 +7,7 @@ classDiagram
     class CloneableBean~T~ {
         +cloneBean() T
     }
+
     class BlockBean~T~ {
         <<Abstract>>
 
@@ -32,11 +33,23 @@ classDiagram
         <<Abstract>>
 
         -elementsLayers ArrayList~BlockElementLayerBean~
-        
+
         +getElementsLayers() ArrayList~BlockElementLayerBean~
         +setElementsLayers(ArrayList~BlockElementLayerBean~)
     }
     note for BaseBlockBean "A basic BlockBean model that just hold fields layer (not nested block) and does not return any code from it"
     BlockBean~T~ <|-- BaseBlockBean~T~
     Serializable <|-- BaseBlockBean~T~
+
+    class ActionBlockBean~T~ {
+        <<Abstract>>
+
+        -ArrayList~LayerBean~ layers
+
+        +getLayers() ArrayList~LayerBean~
+        +setLayers(ArrayList~LayerBean~ layers)
+    }
+    note for ActionBlockBean "ActionBlockBean, BlockBean that perform action but does not return anything"
+    BlockBean~T~ <|-- ActionBlockBean~T~
+    Serializable <|-- ActionBlockBean~T~
 ```
