@@ -1,23 +1,41 @@
 ```mermaid
 ---
-title: Beans
+title: Beans Classes Diagram
 ---
 classDiagram
     note "Beans store data not represent visually"
-    CloneableBean <|-- BlockBean
-    class CloneableBean {
-        T
-        T cloneBean()
+    class CloneableBean~T~ {
+        +cloneBean() T
     }
-    class BlockBean {
-        T = BlockBean
-        String getBlockBeanKey()
-        String getColor()
-        boolean isDragAllowed()
-        boolean isValueReadOnly()
-        setValueReadOnly(boolean valueReadOnly)
-        setBlockBeanKey(String blockBeanKey)
-        setColor(String color)
-        setDragAllowed(boolean dragAllowed)
+    class BlockBean~T~ {
+        <<Abstract>>
+
+        -String blockBeanKey
+	    -String color
+	    -boolean dragAllowed
+	    -boolean valueReadOnly
+
+        +getBlockBeanKey() String
+        +getColor() String
+        +isDragAllowed() boolean
+        +isValueReadOnly() boolean
+        +setValueReadOnly(boolean valueReadOnly)
+        +setBlockBeanKey(String blockBeanKey)
+        +setColor(String color)
+        +setDragAllowed(boolean dragAllowed)
     }
+    note for BlockBean "Abstract class representing the base block supposed to be used within the LogicEditor"
+    class BaseBlockBean~T~ {
+        <<Abstract>>
+
+        -elementsLayers ArrayList~BlockElementLayerBean~
+        
+        +getElementsLayers() ArrayList~BlockElementLayerBean~
+        +setElementsLayers(ArrayList~BlockElementLayerBean~)
+    }
+    note for BaseBlockBean "A basic BlockBean model that just hold fields layer (not nested block) and does not return any code from it"
+    CloneableBean~T~ <|-- BlockBean~T~
+    Serializable <|-- BlockBean~T~
+    BlockBean~T~ <|-- BaseBlockBean~T~
+    Serializable <|-- BaseBlockBean~T~
 ```
