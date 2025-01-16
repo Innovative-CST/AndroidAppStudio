@@ -28,13 +28,13 @@ jobs:
         run: ./gradlew :test:logiceditor:assembleDebug
           
       - name: Upload LogicEditor Test debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: logiceditor-test
           path: test/logiceditor/build/outputs/apk/debug/logiceditor-debug.apk
 
       - name: Upload build output metadata
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-metadata-logiceditor-test
           path: test/logiceditor/build/outputs/apk/debug/output-metadata.json

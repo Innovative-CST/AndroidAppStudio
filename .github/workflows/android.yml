@@ -48,13 +48,13 @@ jobs:
         run: ./gradlew assembleArmDebug
           
       - name: Upload arm debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-appstudio-armeabi-v7a
           path: app/build/outputs/apk/arm/debug/app-arm-debug.apk
 
       - name: Upload arm output metadata
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-metadata-armeabi-v7a
           path: app/build/outputs/apk/arm/debug/output-metadata.json
@@ -94,13 +94,13 @@ jobs:
         run: ./gradlew assembleAarch64Debug
 
       - name: Upload aarch64 debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-appstudio-arm64-v8a
           path: app/build/outputs/apk/aarch64/debug/app-aarch64-debug.apk
 
       - name: Upload aarch64 output metadata
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-metadata-arm64-v8a
           path: app/build/outputs/apk/aarch64/debug/output-metadata.json
@@ -140,19 +140,19 @@ jobs:
         run: ./gradlew assembleX86Debug
           
       - name: Upload arm debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-appstudio-armeabi-v7a
           path: app/build/outputs/apk/arm/debug/app-arm-debug.apk
 
       - name: Upload x86 debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-appstudio-x86
           path: app/build/outputs/apk/x86/debug/app-x86-debug.apk
 
       - name: Upload x86 output metadata
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-metadata-x86
           path: app/build/outputs/apk/x86/debug/output-metadata.json
@@ -192,13 +192,13 @@ jobs:
         run: ./gradlew assembleX86_64Debug
 
       - name: Upload x86_64 debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-appstudio-x86_64
           path: app/build/outputs/apk/x86_64/debug/app-x86_64-debug.apk
 
       - name: Upload x86_64 output metadata
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-metadata-x86_64
           path: app/build/outputs/apk/x86_64/debug/output-metadata.json
