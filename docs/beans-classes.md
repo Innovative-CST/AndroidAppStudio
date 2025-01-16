@@ -39,7 +39,6 @@ classDiagram
     }
     note for BaseBlockBean "A basic BlockBean model that just hold fields layer (not nested block) and does not return any code from it"
     BlockBean~T~ <|-- BaseBlockBean~T~
-    Serializable <|-- BaseBlockBean~T~
 
     class ActionBlockBean~T~ {
         <<Abstract>>
@@ -51,5 +50,14 @@ classDiagram
     }
     note for ActionBlockBean "ActionBlockBean, BlockBean that perform action but does not return anything"
     BlockBean~T~ <|-- ActionBlockBean~T~
-    Serializable <|-- ActionBlockBean~T~
+
+    class RegularBlockBean {
+        -String codeSyntax
+
+        +getCodeSyntax() String
+        +setCodeSyntax(String codeSyntax)
+    }
+
+    ActionBlockBean~RegularBlockBean~ <|-- RegularBlockBean
+    note for RegularBlockBean "Can hold RegularBlockBean (nested blocks), BlockElementBean"
 ```
