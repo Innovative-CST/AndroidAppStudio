@@ -38,6 +38,19 @@ classDiagram
     }
     BlockBean~T~ <|-- BaseBlockBean~T~
 
+    class EventBlockBean {
+        +getValueFromKey(String key)
+    }
+    BaseBlockBean~T~ <|-- EventBlockBean
+
+    class ExpressionBlockBean {
+        -DatatypeBean[] returnDatatypes
+
+        +getReturnDatatypes() DatatypeBean[]
+        +setReturnDatatypes(DatatypeBean[] returnDatatypes)
+    }
+    BaseBlockBean~T~ <|-- ExpressionBlockBean
+
     class ActionBlockBean~T~ {
         <<Abstract>>
 
