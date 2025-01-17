@@ -79,7 +79,7 @@ classDiagram
         <<Abstract>>
     }
     CloneableBean~T~ <|-- LayerBean~T~
-    Serializable~T~ <|-- LayerBean~T~
+    Serializable <|-- LayerBean~T~
 
     class ActionBlockLayerBean {
         -ArrayList<ActionBlockBean> actionBlockBean
@@ -97,4 +97,20 @@ classDiagram
     }
     LayerBean~T~ <|-- BlockElementLayerBean
 
+    class BlockPaletteBean {
+        -ArrayList~BlockBean~ blocks;
+	    -String color;
+	    -String name;
+	    -String id;
+
+        +setBlocks(ArrayList~BlockBean~ blocks)
+        +getBlocks() ArrayList~BlockBean~
+        +getColor() String
+        +setColor(String color)
+        +getName() String
+        +setName(String name)
+        +getId() String
+        +setId(String id)
+    }
+    Serializable <|-- BlockPaletteBean
 ```
