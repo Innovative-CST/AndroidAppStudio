@@ -98,10 +98,10 @@ classDiagram
     LayerBean~T~ <|-- BlockElementLayerBean
 
     class BlockPaletteBean {
-        -ArrayList~BlockBean~ blocks;
-	    -String color;
-	    -String name;
-	    -String id;
+        -ArrayList~BlockBean~ blocks
+	    -String color
+	    -String name
+	    -String id
 
         +setBlocks(ArrayList~BlockBean~ blocks)
         +getBlocks() ArrayList~BlockBean~
@@ -124,6 +124,7 @@ classDiagram
         +setLabel(String label)
         +getLabel() String
     }
+    BlockElementBean~T~ <|-- LabelBlockElementBean
 
     class ArtifactBean {
         -String groupId
