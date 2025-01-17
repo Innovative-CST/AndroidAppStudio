@@ -1,7 +1,5 @@
+# Classes in Beans
 ```mermaid
----
-title: Beans Classes Diagram
----
 classDiagram
     note "Beans store data not represent visually"
     class CloneableBean~T~ {
@@ -76,4 +74,27 @@ classDiagram
         +setCodeSyntax(String codeSyntax)
     }
     ActionBlockBean~TerminatorBlockBean~ <|-- TerminatorBlockBean
+
+    class LayerBean~T~ {
+        <<Abstract>>
+    }
+    CloneableBean~T~ <|-- LayerBean~T~
+    Serializable~T~ <|-- LayerBean~T~
+
+    class ActionBlockLayerBean {
+        -ArrayList<ActionBlockBean> actionBlockBean
+
+        +setActionBlockBean(ArrayList~ActionBlockBean~ actionBlockBean)
+        +getActionBlockBean() ArrayList~ActionBlockBean~
+    }
+    LayerBean~T~ <|-- ActionBlockLayerBean
+
+    class BlockElementLayerBean {
+        -ArrayList<BlockElementBean> blockElementBeans
+
+        +getBlockElementBeans() ArrayList~BlockElementBean~
+        +setBlockElementBeans(ArrayList~BlockElementBean~)
+    }
+    LayerBean~T~ <|-- BlockElementLayerBean
+
 ```
