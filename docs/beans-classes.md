@@ -1,7 +1,9 @@
 # Classes in Beans
 ```mermaid
+---
+title: Beans
+---
 classDiagram
-    note "Beans store data not represent visually"
     class CloneableBean~T~ {
         +cloneBean() T
     }
@@ -9,8 +11,8 @@ classDiagram
     class BlockBean~T~ {
         <<Abstract>>
 
-        -String blockBeanKey
-	    -String color
+      -String blockBeanKey
+      -String color
 	    -boolean dragAllowed
 	    -boolean valueReadOnly
 
@@ -24,7 +26,6 @@ classDiagram
         +setDragAllowed(boolean dragAllowed)
     }
     CloneableBean~T~ <|-- BlockBean~T~
-    Serializable <|-- BlockBean~T~
 
     class BaseBlockBean~T~ {
         <<Abstract>>
@@ -79,7 +80,6 @@ classDiagram
         <<Abstract>>
     }
     CloneableBean~T~ <|-- LayerBean~T~
-    Serializable <|-- LayerBean~T~
 
     class ActionBlockLayerBean {
         -ArrayList<ActionBlockBean> actionBlockBean
@@ -112,7 +112,6 @@ classDiagram
         +getId() String
         +setId(String id)
     }
-    Serializable <|-- BlockPaletteBean
 
     class BlockElementBean~T~ {
         <<Interface>>
@@ -124,6 +123,41 @@ classDiagram
 
         +setLabel(String label)
         +getLabel() String
+    }
+
+    class ArtifactBean {
+        -String groupId
+        -String artifactId
+        -String version
+        -String repositoryName
+        -String repositoryUrl
+        -String extension
+        +String getGroupId()
+        +void setGroupId(String groupId)
+        +String getArtifactId()
+        +void setArtifactId(String artifactId)
+        +String getVersion()
+        +void setVersion(String version)
+        +String getRepositoryName()
+        +void setRepositoryName(String repositoryName)
+        +String getRepositoryUrl()
+        +void setRepositoryUrl(String repositoryUrl)
+        +String getExtension()
+        +void setExtension(String extension)
+    }
+
+    class DatatypeBean {
+        +static long serialVersionUID
+        -String className
+        -String classImport
+        -boolean isImportNecessary
+        +boolean equals(DatatypeBean mDatatypeBean)
+        +String getClassName()
+        +void setClassName(String className)
+        +String getClassImport()
+        +void setClassImport(String classImport)
+        +boolean isImportNecessary()
+        +void setImportNecessary(boolean isImportNecessary)
     }
 
 ```
