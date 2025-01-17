@@ -113,4 +113,17 @@ classDiagram
         +setId(String id)
     }
     Serializable <|-- BlockPaletteBean
+
+    class BlockElementBean~T~ {
+        <<Interface>>
+    }
+    CloneableBean~T~ <|-- BlockElementBean~T~
+
+    class LabelBlockElementBean {
+        -String label
+
+        +setLabel(String label)
+        +getLabel() String
+    }
+
 ```
