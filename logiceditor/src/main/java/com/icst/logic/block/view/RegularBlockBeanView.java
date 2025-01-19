@@ -31,6 +31,8 @@
 
 package com.icst.logic.block.view;
 
+import android.graphics.Canvas;
+import com.icst.logic.utils.BlockShapesUtils;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
@@ -75,24 +77,9 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	}
 
 	private void init() {
-		addHeader();
 		addLayers();
 		addFooter();
 		setOnTouchListener(getLogicEditor().getDraggableTouchListener());
-	}
-
-	private void addHeader() {
-		headerLayoutParam = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
-
-		header = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(context,
-				ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor()), res);
-		header.setBackgroundDrawable(headerDrawable);
-		addView(header);
-		header.setLayoutParams(headerLayoutParam);
 	}
 
 	private void addLayers() {
@@ -119,10 +106,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					.getViewTreeObserver()
 					.addOnGlobalLayoutListener(
 							() -> {
-								headerLayoutParam = header.getLayoutParams();
-								headerLayoutParam.width = getMaxLayerWidth();
-								header.setLayoutParams(headerLayoutParam);
-
 								footerLayoutParam = footer.getLayoutParams();
 								footerLayoutParam.width = getMaxLayerWidth();
 								footer.setLayoutParams(footerLayoutParam);
@@ -294,4 +277,9 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
+
+@Override
+protected void dispatchDraw(Canvas canvas) {
+	BlockShapesUtils.drawActionBlockHeader(canvas,getContext(),0,0,getMeasuredWidth(),Color.parse(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
+}
 }
