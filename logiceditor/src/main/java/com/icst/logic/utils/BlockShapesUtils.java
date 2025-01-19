@@ -39,32 +39,30 @@ import android.util.DisplayMetrics;
 
 public final class BlockShapesUtils {
 
-    public static void drawActionBlockHeader(
-            Canvas canvas, Context context, float xOffset, float yOffset, float width, int color) {
-        Path actionBlockTop = new Path();
-        Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setStrokeWidth(5);
-        mPaint.setColor(color);
-        mPaint.setStyle(Paint.Style.FILL);
+	public static void drawActionBlockHeader(
+			Canvas canvas, Context context, float xOffset, float yOffset, float width, int color) {
+		Path actionBlockTop = new Path();
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
 
-        actionBlockTop.moveTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 16F) + xOffset, dpToPx(context, 0F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 26F) + xOffset, dpToPx(context, 7F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 40F) + xOffset, dpToPx(context, 7F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 50F) + xOffset, dpToPx(context, 0F) + yOffset);
-        actionBlockTop.lineTo(
-                Float.valueOf(width) - dpToPx(context, 5F) + xOffset,
-                dpToPx(context, 0F) + yOffset);
-        actionBlockTop.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 5F) + yOffset);
-        actionBlockTop.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 7F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 7F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 5F) + yOffset);
-        actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
+		actionBlockTop.moveTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 0F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 19F) + xOffset, dpToPx(context, 6F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 35F) + xOffset, dpToPx(context, 6F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 43F) + xOffset, dpToPx(context, 0F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) - dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 7F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 7F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
 
-        canvas.drawPath(actionBlockTop, mPaint);
-    }
+		canvas.drawPath(actionBlockTop, mPaint);
+	}
 
-public static float dpToPx(Context context, float dp) {
+	public static float dpToPx(Context context, float dp) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		return dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);
 	}

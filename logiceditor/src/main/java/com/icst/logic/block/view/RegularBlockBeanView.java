@@ -31,8 +31,6 @@
 
 package com.icst.logic.block.view;
 
-import android.graphics.Canvas;
-import com.icst.logic.utils.BlockShapesUtils;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
@@ -43,13 +41,17 @@ import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.BlockShapesUtils;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +79,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	}
 
 	private void init() {
+		setWillNotDraw(false);
 		addLayers();
 		addFooter();
 		setOnTouchListener(getLogicEditor().getDraggableTouchListener());
@@ -246,7 +249,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		int currentTop = 0;
+		int currentTop = UnitUtils.dpToPx(getContext(), 7);
 
 		// Layout each child
 		for (int i = 0; i < getChildCount(); i++) {
@@ -275,11 +278,14 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 
+		totalHeight += UnitUtils.dpToPx(getContext(), 7);
+
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
 
-@Override
-protected void dispatchDraw(Canvas canvas) {
-	BlockShapesUtils.drawActionBlockHeader(canvas,getContext(),0,0,getMeasuredWidth(),Color.parse(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
-}
+	@Override
+	protected void onDraw(Canvas canvas) {
+		BlockShapesUtils.drawActionBlockHeader(canvas, getContext(), 0, 0, getMeasuredWidth(),
+				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
+	}
 }
