@@ -251,7 +251,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		int currentTop = UnitUtils.dpToPx(getContext(), 7);
+		int currentTop = UnitUtils.dpToPx(getContext(), 7) - 1;
 
 		// Layout each child
 		for (int i = 0; i < getChildCount(); i++) {
@@ -280,7 +280,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 
-		totalHeight += UnitUtils.dpToPx(getContext(), 7);
+		totalHeight += UnitUtils.dpToPx(getContext(), 7) - 1;
 
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
