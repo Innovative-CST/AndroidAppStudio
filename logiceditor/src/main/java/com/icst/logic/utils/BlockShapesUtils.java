@@ -33,6 +33,7 @@ package com.icst.logic.utils;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.DisplayMetrics;
@@ -46,6 +47,7 @@ public final class BlockShapesUtils {
 		mPaint.setStrokeWidth(5);
 		mPaint.setColor(color);
 		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(3));
 
 		actionBlockTop.moveTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
 		actionBlockTop.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 0F) + yOffset);
