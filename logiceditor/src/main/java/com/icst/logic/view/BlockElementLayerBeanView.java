@@ -32,11 +32,10 @@
 package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.widget.LinearLayout;
 
 public class BlockElementLayerBeanView extends LinearLayout
@@ -50,21 +49,14 @@ public class BlockElementLayerBeanView extends LinearLayout
 	public BlockElementLayerBeanView(Context context) {
 		super(context);
 		setOrientation(VERTICAL);
+		setMinimumWidth(100);
+		setMinimumHeight(20);
 	}
 
 	@Override
 	public void setColor(String color) {
 		this.color = color;
-		BlockImageUtils.Image image = null;
-
-		image = BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP;
-
-		setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						ColorUtils.harmonizeHexColor(getContext(), getColor()),
-						BlockImageUtils.getImage(image)));
-		invalidate();
+		setBackgroundColor(Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), getColor())));
 	}
 
 	@Override
