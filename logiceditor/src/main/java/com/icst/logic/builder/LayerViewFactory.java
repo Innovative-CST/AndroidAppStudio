@@ -37,6 +37,7 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
+import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ColorUtils;
@@ -100,6 +101,9 @@ public final class LayerViewFactory {
 								view.addView(
 										buildExpressionBlockBeanView(
 												mExpressionBlockBean, context, configuration));
+							} else if (element instanceof StringBlockElementBean mStringBlockElement) {
+								view.addView(
+										buildStringFieldView(mStringBlockElement, blockBean, context, configuration));
 							}
 						});
 
@@ -125,6 +129,31 @@ public final class LayerViewFactory {
 								ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
 		labelTextView.setLayoutParams(layerLayoutParams);
 		labelTextView.setPadding(8, 8, 8, 8);
+		return labelTextView;
+	}
+
+	private static View buildStringFieldView(
+			StringBlockElementBean field,
+			BlockBean blockBean,
+			Context context,
+			LogicEditorConfiguration configuration) {
+
+		TextView labelTextView = new TextView(context);
+		if (field.getString() != null) {
+			labelTextView.setText(field.getString());
+		}
+		labelTextView.setTextSize(configuration.getTextSize().getTextSize());
+		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+				LinearLayout.LayoutParams.WRAP_CONTENT // Height
+		);
+		labelTextView.setTextColor(
+				ColorUtils.getTextColorForColor(
+						Color.parseColor(
+								ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
+		labelTextView.setLayoutParams(layerLayoutParams);
+		labelTextView.setPadding(8, 8, 8, 8);
+		labelTextView.setBackgroundColor(Color.WHITE);
 		return labelTextView;
 	}
 

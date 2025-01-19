@@ -70,8 +70,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		this.regularBlockBean = regularBlockBean;
 		layers = new ArrayList<LayerBeanView>();
 		layersView = new LinearLayout(context);
-		layersView.setOrientation(VERTICAL);
-		setOrientation(VERTICAL);
+		layersView.setOrientation(LinearLayout.VERTICAL);
 		init();
 	}
 
@@ -260,5 +259,39 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 				layerView.dropToNearestTarget(blocks, x, y);
 			}
 		}
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		int currentTop = 0;
+
+		// Layout each child
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			int left = getPaddingLeft();
+			int top = currentTop;
+			int right = left + child.getMeasuredWidth();
+			int bottom = top + child.getMeasuredHeight();
+
+			child.layout(left, top, right, bottom);
+
+			currentTop += child.getMeasuredHeight();
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		int totalHeight = 0;
+		int maxWidth = 0;
+
+		// Measure each child
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			measureChild(child, widthMeasureSpec, heightMeasureSpec);
+			totalHeight += child.getMeasuredHeight();
+			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
+		}
+
+		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
 }

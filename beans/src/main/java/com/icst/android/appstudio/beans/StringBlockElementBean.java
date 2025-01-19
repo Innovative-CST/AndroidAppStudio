@@ -36,10 +36,11 @@ import java.io.Serializable;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 public class StringBlockElementBean
-		implements BlockElementBean<StringBlockElementBean>, Serializable {
+		implements ValueInputBlockElementBean<StringBlockElementBean>, Serializable {
 	public static final long serialVersionUID = SerializationUIDConstants.STRING_BLOCK_ELEMENT_BEAN;
 
 	private String string;
+	private String key;
 
 	public String getString() {
 		return this.string;
@@ -49,10 +50,25 @@ public class StringBlockElementBean
 		this.string = string;
 	}
 
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	@Override
+	public String getValue() {
+		return getString();
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
 	@Override
 	public StringBlockElementBean cloneBean() {
 		StringBlockElementBean clone = new StringBlockElementBean();
 		clone.setString(getString() == null ? null : new String(getString()));
+		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
 	}
 }

@@ -35,33 +35,10 @@ import java.io.Serializable;
 
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-public class ExpressionBlockBean extends BaseBlockBean<ExpressionBlockBean>
-		implements BlockElementBean<ExpressionBlockBean>, Serializable {
+public abstract class ExpressionBlockBean<T> extends BaseBlockBean<T>
+		implements BlockElementBean<T>, Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.EXPRESSION_BLOCK_BEAN;
 
-	private DatatypeBean[] returnDatatypes;
-
-	//
-	// Detect whether block can be dropped in a ExpressionBlockDropZone or not.
-	//
-	// @return true if block can be dropped inside a given ExpressionBlockDropZone.
-	//
-	// public boolean canDropBlock(ExpressionBlockDropZone expressionBlockDropZone)
-	// {
-	// return expressionBlockDropZone.canDropBlockBean(this);
-	// }
-
-	public DatatypeBean[] getReturnDatatypes() {
-		return this.returnDatatypes;
-	}
-
-	public void setReturnDatatypes(DatatypeBean[] returnDatatypes) {
-		this.returnDatatypes = returnDatatypes;
-	}
-
-	@Override
-	public ExpressionBlockBean cloneBean() {
-		return null;
-	}
+	public abstract DatatypeBean[] getReturnDatatypes();
 }

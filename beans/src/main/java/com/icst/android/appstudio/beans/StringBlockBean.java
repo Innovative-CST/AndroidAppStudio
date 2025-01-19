@@ -29,37 +29,36 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.android.appstudio.beans;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 
-public class DummyPalette {
-	public static ArrayList<BlockPaletteBean> getDummyList() {
-		ArrayList<BlockPaletteBean> list = new ArrayList<BlockPaletteBean>();
+public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implements Serializable {
 
-		BlockPaletteBean control = new BlockPaletteBean();
-		control.setColor("#832399");
-		control.setName("Control");
+	@Override
+	public DatatypeBean[] getReturnDatatypes() {
+		DatatypeBean obj = new DatatypeBean();
+		obj.setClassImport("java.lang.Object");
+		obj.setClassName("Object");
+		obj.setImportNecessary(false);
 
-		ArrayList<BlockBean> controlBlock = new ArrayList<BlockBean>();
-		controlBlock.add(DummyBeans.getToastBlock());
-		controlBlock.add(DummyBeans.getStopBlock());
-		// controlBlock.add(DummyBeans.getNewStringBlock());
-		control.setBlocks(controlBlock);
-		list.add(control);
+		DatatypeBean string = new DatatypeBean();
+		string.setClassImport("java.lang.String");
+		string.setClassName("String");
+		string.setImportNecessary(false);
+		return new DatatypeBean[] { obj, string };
+	}
 
-		BlockPaletteBean debugging = new BlockPaletteBean();
-		ArrayList<BlockBean> dbgBlock = new ArrayList<BlockBean>();
-		dbgBlock.add(DummyBeans.getDummyBlock());
-		dbgBlock.add(DummyBeans.getDummyBlock2());
-		debugging.setBlocks(dbgBlock);
-		debugging.setColor("#ff5555");
-		debugging.setName("Debugging");
-		list.add(debugging);
-
-		return list;
+	@Override
+	public StringBlockBean cloneBean() {
+		StringBlockBean clone = new StringBlockBean();
+		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
+		clone.setColor(getColor() == null ? null : new String(getColor()));
+		clone.setDragAllowed(new Boolean(isValueReadOnly()));
+		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
+		return clone;
 	}
 }

@@ -36,9 +36,9 @@ import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 
 import android.content.Context;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
-public abstract class BlockBeanView extends LinearLayout {
+public abstract class BlockBeanView extends ViewGroup {
 	private LogicEditorConfiguration logicEditorConfiguration;
 	private LogicEditorView logicEditor;
 	private boolean isInsideCanva;

@@ -29,37 +29,12 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.test.logiceditor;
+package com.icst.android.appstudio.beans;
 
-import java.util.ArrayList;
+/** A type of BlockElementBean that inputes value from user and store in it. */
+public interface ValueInputBlockElementBean<T> extends BlockElementBean<T> {
 
-import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.android.appstudio.beans.BlockPaletteBean;
+	String getKey();
 
-public class DummyPalette {
-	public static ArrayList<BlockPaletteBean> getDummyList() {
-		ArrayList<BlockPaletteBean> list = new ArrayList<BlockPaletteBean>();
-
-		BlockPaletteBean control = new BlockPaletteBean();
-		control.setColor("#832399");
-		control.setName("Control");
-
-		ArrayList<BlockBean> controlBlock = new ArrayList<BlockBean>();
-		controlBlock.add(DummyBeans.getToastBlock());
-		controlBlock.add(DummyBeans.getStopBlock());
-		// controlBlock.add(DummyBeans.getNewStringBlock());
-		control.setBlocks(controlBlock);
-		list.add(control);
-
-		BlockPaletteBean debugging = new BlockPaletteBean();
-		ArrayList<BlockBean> dbgBlock = new ArrayList<BlockBean>();
-		dbgBlock.add(DummyBeans.getDummyBlock());
-		dbgBlock.add(DummyBeans.getDummyBlock2());
-		debugging.setBlocks(dbgBlock);
-		debugging.setColor("#ff5555");
-		debugging.setName("Debugging");
-		list.add(debugging);
-
-		return list;
-	}
+	String getValue();
 }

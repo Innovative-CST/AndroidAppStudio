@@ -42,6 +42,8 @@ import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.android.appstudio.beans.StringBlockBean;
+import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.android.appstudio.beans.TerminatorBlockBean;
 
 public class DummyBeans {
@@ -176,5 +178,34 @@ public class DummyBeans {
 
 		toast.setLayers(layers);
 		return toast;
+	}
+
+	public static StringBlockBean getNewStringBlock() {
+		StringBlockBean neStr = new StringBlockBean();
+		neStr.setColor("#008824");
+		neStr.setDragAllowed(true);
+
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean onTestLabel = new LabelBlockElementBean();
+		onTestLabel.setLabel("new string");
+
+		layer1Elements.add(onTestLabel);
+
+		StringBlockElementBean field = new StringBlockElementBean();
+		field.setKey("mkey");
+		field.setString("Test");
+
+		layer1Elements.add(field);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		neStr.setElementsLayers(layers);
+		return neStr;
 	}
 }
