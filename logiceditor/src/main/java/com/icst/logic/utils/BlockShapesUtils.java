@@ -40,8 +40,8 @@ import android.util.DisplayMetrics;
 
 public final class BlockShapesUtils {
 
-	public static void drawActionBlockHeader(
-			Canvas canvas, Context context, float xOffset, float yOffset, float width, int color) {
+	public static void drawActionBlockHeader(Canvas canvas, Context context, float xOffset, float yOffset, float width,
+			int color) {
 		Path actionBlockTop = new Path();
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(5);
@@ -61,6 +61,45 @@ public final class BlockShapesUtils {
 		actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 5F) + yOffset);
 		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
 
+		canvas.drawPath(actionBlockTop, mPaint);
+	}
+
+	public static void drawRegularBlockFooter(Canvas canvas, Context context, float xOffset, float yOffset, float width,
+			int color) {
+		Path actionBlockTop = new Path();
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(3));
+
+		actionBlockTop.moveTo(xOffset, yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 20F) + xOffset, dpToPx(context, 12F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 34F) + xOffset, dpToPx(context, 12F) + yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 43F) + xOffset, dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) + xOffset - dpToPx(context, 5F), dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, yOffset);
+		actionBlockTop.lineTo(xOffset, yOffset);
+		canvas.drawPath(actionBlockTop, mPaint);
+	}
+
+	public static void drawTerminatorBlockFooter(Canvas canvas, Context context, float xOffset, float yOffset,
+			float width,
+			int color) {
+		Path actionBlockTop = new Path();
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(3));
+
+		actionBlockTop.moveTo(xOffset, yOffset);
+		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) + xOffset - dpToPx(context, 5F), dpToPx(context, 5F) + yOffset);
+		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, yOffset);
+		actionBlockTop.lineTo(xOffset, yOffset);
 		canvas.drawPath(actionBlockTop, mPaint);
 	}
 

@@ -40,11 +40,9 @@ import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.BlockShapesUtils;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
 import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.LayerBeanView;
@@ -52,7 +50,6 @@ import com.icst.logic.view.LayerBeanView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -62,8 +59,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private RegularBlockBean regularBlockBean;
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
-	private View header;
-	private View footer;
 	private ViewGroup.LayoutParams headerLayoutParam;
 	private ViewGroup.LayoutParams footerLayoutParam;
 
@@ -81,7 +76,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private void init() {
 		setWillNotDraw(false);
 		addLayers();
-		addFooter();
 		setOnTouchListener(getLogicEditor().getDraggableTouchListener());
 	}
 
@@ -109,10 +103,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					.getViewTreeObserver()
 					.addOnGlobalLayoutListener(
 							() -> {
-								footerLayoutParam = footer.getLayoutParams();
-								footerLayoutParam.width = getMaxLayerWidth();
-								footer.setLayoutParams(footerLayoutParam);
-
 								updateLayerWidthsToMax();
 							});
 		}
@@ -140,32 +130,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
 		}
 		return maxWidth;
-	}
-
-	private void addFooter() {
-		footerLayoutParam = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
-
-		this.footer = new LinearLayout(context);
-		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(
-				context, ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor()), footerBackDropRes);
-		this.footer.setBackgroundDrawable(footerRes);
-		addView(this.footer);
-		this.footer.setLayoutParams(footerLayoutParam);
-
-		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
-
-		View footer = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
-		Drawable footerDrawable = ImageViewUtils.getImageView(context,
-				ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor()), res);
-		footer.setBackgroundDrawable(footerDrawable);
-		addView(footer);
-		footer.setLayoutParams(lp);
 	}
 
 	public void setRegularBlockBean(RegularBlockBean regularBlockBean) {
@@ -278,14 +242,23 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 
-		totalHeight += UnitUtils.dpToPx(getContext(), 7) - 1;
+		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 12) - 2;
 
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		BlockShapesUtils.drawActionBlockHeader(canvas, getContext(), 0, 0, getMeasuredWidth(),
+		BlockShapesUtils.drawActionBlockHeader(canvas, getContext(), 0, 0, getMaxLayerWidth(),
+				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
+
+		int totalHeight = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			totalHeight += child.getMeasuredHeight();
+		}
+		totalHeight += UnitUtils.dpToPx(getContext(), 7);
+		BlockShapesUtils.drawRegularBlockFooter(canvas, getContext(), 0, totalHeight - 1, getMaxLayerWidth(),
 				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
 	}
 }
