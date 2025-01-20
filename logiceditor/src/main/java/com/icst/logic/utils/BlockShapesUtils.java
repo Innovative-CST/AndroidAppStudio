@@ -103,6 +103,25 @@ public final class BlockShapesUtils {
 		canvas.drawPath(actionBlockTop, mPaint);
 	}
 
+	public static void drawEventBlockHeader(Canvas canvas, Context context, float xOffset, float yOffset, float width,
+			int color) {
+		Path actionBlockTop = new Path();
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(3));
+
+		actionBlockTop.moveTo(xOffset, yOffset + dpToPx(context, 10F));
+		actionBlockTop.arcTo(xOffset, yOffset, xOffset + dpToPx(context, 60), xOffset + dpToPx(context, 10), 180, 180,
+				false);
+		actionBlockTop.lineTo(xOffset + width - dpToPx(context, 5F), yOffset + dpToPx(context, 5F));
+		actionBlockTop.lineTo(xOffset + width, yOffset + dpToPx(context, 10F));
+		actionBlockTop.lineTo(xOffset + width, yOffset + dpToPx(context, 12F));
+		actionBlockTop.lineTo(xOffset, yOffset + dpToPx(context, 12F));
+		canvas.drawPath(actionBlockTop, mPaint);
+	}
+
 	public static float dpToPx(Context context, float dp) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		return dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);

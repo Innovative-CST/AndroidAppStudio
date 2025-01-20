@@ -39,19 +39,15 @@ import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.BlockShapesUtils;
 import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
 import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 public class EventBlockBeanView extends BlockBeanView {
@@ -60,10 +56,6 @@ public class EventBlockBeanView extends BlockBeanView {
 	private LogicEditorConfiguration configuration = new LogicEditorConfiguration();
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
-
-	private View header;
-	private ViewGroup.LayoutParams headerLayoutParam;
-	private ViewGroup.LayoutParams footerLayoutParam;
 
 	public EventBlockBeanView(Context context, EventBlockBean eventBlockBean, LogicEditorConfiguration configuration,
 			LogicEditorView logicEditor) {
@@ -78,22 +70,7 @@ public class EventBlockBeanView extends BlockBeanView {
 
 	private void init() {
 		setWillNotDraw(false);
-		addHeader();
 		addLayers();
-	}
-
-	private void addHeader() {
-		headerLayoutParam = new EventBlockBeanView.LayoutParams(
-				EventBlockBeanView.LayoutParams.WRAP_CONTENT,
-				EventBlockBeanView.LayoutParams.WRAP_CONTENT);
-
-		header = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.EVENT_BLOCK_ROUND_EDGE_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(context,
-				ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor()), res);
-		header.setBackgroundDrawable(headerDrawable);
-		addView(header);
-		header.setLayoutParams(headerLayoutParam);
 	}
 
 	private void addLayers() {
@@ -121,10 +98,6 @@ public class EventBlockBeanView extends BlockBeanView {
 					.getViewTreeObserver()
 					.addOnGlobalLayoutListener(
 							() -> {
-								headerLayoutParam = header.getLayoutParams();
-								headerLayoutParam.width = getMaxLayerWidth();
-								header.setLayoutParams(headerLayoutParam);
-
 								updateLayerWidthsToMax();
 							});
 		}
@@ -176,7 +149,7 @@ public class EventBlockBeanView extends BlockBeanView {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		int currentTop = 0;
+		int currentTop = UnitUtils.dpToPx(getContext(), 12) - 1;
 
 		// Layout each child
 		for (int i = 0; i < getChildCount(); i++) {
@@ -205,14 +178,16 @@ public class EventBlockBeanView extends BlockBeanView {
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 
-		totalHeight += UnitUtils.dpToPx(getContext(), 12) - 1;
+		totalHeight += UnitUtils.dpToPx(getContext(), 12) + UnitUtils.dpToPx(getContext(), 12) - 2;
 
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		int totalHeight = 0;
+		BlockShapesUtils.drawEventBlockHeader(canvas, getContext(), 0, 0, getMaxLayerWidth(),
+				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor())));
+		int totalHeight = UnitUtils.dpToPx(getContext(), 12);
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
 			totalHeight += child.getMeasuredHeight();
