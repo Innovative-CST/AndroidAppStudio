@@ -40,86 +40,93 @@ import android.util.DisplayMetrics;
 
 public final class BlockShapesUtils {
 
-	public static void drawActionBlockHeader(Canvas canvas, Context context, float xOffset, float yOffset, float width,
-			int color) {
-		Path actionBlockTop = new Path();
+	public static void drawActionBlockHeader(
+			Canvas canvas, Context context,
+			float xOffset, float yOffset,
+			float width, int color) {
+		Path mPath = new Path();
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(5);
 		mPaint.setColor(color);
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(3));
 
-		actionBlockTop.moveTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 0F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 19F) + xOffset, dpToPx(context, 6F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 35F) + xOffset, dpToPx(context, 6F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 43F) + xOffset, dpToPx(context, 0F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) - dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 7F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 7F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
+		mPath.moveTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
+		mPath.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 0F) + yOffset);
+		mPath.lineTo(dpToPx(context, 19F) + xOffset, dpToPx(context, 6F) + yOffset);
+		mPath.lineTo(dpToPx(context, 35F) + xOffset, dpToPx(context, 6F) + yOffset);
+		mPath.lineTo(dpToPx(context, 43F) + xOffset, dpToPx(context, 0F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) - dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) + xOffset, dpToPx(context, 7F) + yOffset);
+		mPath.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 7F) + yOffset);
+		mPath.lineTo(dpToPx(context, 0F) + xOffset, dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 0F) + yOffset);
 
-		canvas.drawPath(actionBlockTop, mPaint);
+		canvas.drawPath(mPath, mPaint);
 	}
 
-	public static void drawRegularBlockFooter(Canvas canvas, Context context, float xOffset, float yOffset, float width,
-			int color) {
-		Path actionBlockTop = new Path();
+	public static void drawRegularBlockFooter(
+			Canvas canvas, Context context,
+			float xOffset, float yOffset,
+			float width, int color) {
+		Path mPath = new Path();
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(5);
 		mPaint.setColor(color);
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(3));
 
-		actionBlockTop.moveTo(xOffset, yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 20F) + xOffset, dpToPx(context, 12F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 34F) + xOffset, dpToPx(context, 12F) + yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 43F) + xOffset, dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) + xOffset - dpToPx(context, 5F), dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, yOffset);
-		actionBlockTop.lineTo(xOffset, yOffset);
-		canvas.drawPath(actionBlockTop, mPaint);
+		mPath.moveTo(xOffset, yOffset);
+		mPath.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(dpToPx(context, 11F) + xOffset, dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(dpToPx(context, 20F) + xOffset, dpToPx(context, 12F) + yOffset);
+		mPath.lineTo(dpToPx(context, 34F) + xOffset, dpToPx(context, 12F) + yOffset);
+		mPath.lineTo(dpToPx(context, 43F) + xOffset, dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) + xOffset - dpToPx(context, 5F), dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) + xOffset, yOffset);
+		mPath.lineTo(xOffset, yOffset);
+		canvas.drawPath(mPath, mPaint);
 	}
 
-	public static void drawTerminatorBlockFooter(Canvas canvas, Context context, float xOffset, float yOffset,
-			float width,
-			int color) {
-		Path actionBlockTop = new Path();
+	public static void drawTerminatorBlockFooter(
+			Canvas canvas, Context context,
+			float xOffset, float yOffset,
+			float width, int color) {
+		Path mPath = new Path();
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(5);
 		mPaint.setColor(color);
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(3));
 
-		actionBlockTop.moveTo(xOffset, yOffset);
-		actionBlockTop.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) + xOffset - dpToPx(context, 5F), dpToPx(context, 5F) + yOffset);
-		actionBlockTop.lineTo(Float.valueOf(width) + xOffset, yOffset);
-		actionBlockTop.lineTo(xOffset, yOffset);
-		canvas.drawPath(actionBlockTop, mPaint);
+		mPath.moveTo(xOffset, yOffset);
+		mPath.lineTo(dpToPx(context, 5F) + xOffset, dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) + xOffset - dpToPx(context, 5F), dpToPx(context, 5F) + yOffset);
+		mPath.lineTo(Float.valueOf(width) + xOffset, yOffset);
+		mPath.lineTo(xOffset, yOffset);
+		canvas.drawPath(mPath, mPaint);
 	}
 
-	public static void drawEventBlockHeader(Canvas canvas, Context context, float xOffset, float yOffset, float width,
-			int color) {
-		Path actionBlockTop = new Path();
+	public static void drawEventBlockHeader(
+			Canvas canvas, Context context,
+			float xOffset, float yOffset,
+			float width, int color) {
+		Path mPath = new Path();
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(5);
 		mPaint.setColor(color);
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(3));
 
-		actionBlockTop.moveTo(xOffset, yOffset + dpToPx(context, 10F));
-		actionBlockTop.arcTo(xOffset, yOffset, xOffset + dpToPx(context, 60), xOffset + dpToPx(context, 10), 180, 180,
+		mPath.moveTo(xOffset, yOffset + dpToPx(context, 10F));
+		mPath.arcTo(xOffset, yOffset, xOffset + dpToPx(context, 60), xOffset + dpToPx(context, 10), 180, 180,
 				false);
-		actionBlockTop.lineTo(xOffset + width - dpToPx(context, 5F), yOffset + dpToPx(context, 5F));
-		actionBlockTop.lineTo(xOffset + width, yOffset + dpToPx(context, 10F));
-		actionBlockTop.lineTo(xOffset + width, yOffset + dpToPx(context, 12F));
-		actionBlockTop.lineTo(xOffset, yOffset + dpToPx(context, 12F));
-		canvas.drawPath(actionBlockTop, mPaint);
+		mPath.lineTo(xOffset + width - dpToPx(context, 5F), yOffset + dpToPx(context, 5F));
+		mPath.lineTo(xOffset + width, yOffset + dpToPx(context, 10F));
+		mPath.lineTo(xOffset + width, yOffset + dpToPx(context, 12F));
+		mPath.lineTo(xOffset, yOffset + dpToPx(context, 12F));
+		canvas.drawPath(mPath, mPaint);
 	}
 
 	public static float dpToPx(Context context, float dp) {
