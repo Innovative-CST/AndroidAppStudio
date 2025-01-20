@@ -40,11 +40,15 @@ import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.BlockShapesUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +62,6 @@ public class EventBlockBeanView extends BlockBeanView {
 	private LinearLayout layersView;
 
 	private View header;
-	private View footer;
 	private ViewGroup.LayoutParams headerLayoutParam;
 	private ViewGroup.LayoutParams footerLayoutParam;
 
@@ -74,9 +77,9 @@ public class EventBlockBeanView extends BlockBeanView {
 	}
 
 	private void init() {
+		setWillNotDraw(false);
 		addHeader();
 		addLayers();
-		addFooter();
 	}
 
 	private void addHeader() {
@@ -122,10 +125,6 @@ public class EventBlockBeanView extends BlockBeanView {
 								headerLayoutParam.width = getMaxLayerWidth();
 								header.setLayoutParams(headerLayoutParam);
 
-								footerLayoutParam = footer.getLayoutParams();
-								footerLayoutParam.width = getMaxLayerWidth();
-								footer.setLayoutParams(footerLayoutParam);
-
 								updateLayerWidthsToMax();
 							});
 		}
@@ -153,37 +152,6 @@ public class EventBlockBeanView extends BlockBeanView {
 			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
 		}
 		return maxWidth;
-	}
-
-	private void addFooter() {
-
-		footerLayoutParam = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
-
-		this.footer = new LinearLayout(context);
-		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(context,
-				ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor()), footerBackDropRes);
-		this.footer.setBackgroundDrawable(footerRes);
-		addView(this.footer);
-		this.footer.setLayoutParams(footerLayoutParam);
-
-		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
-
-		View footer = new LinearLayout(context);
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
-		Drawable footerDrawable = ImageViewUtils.getImageView(context,
-				ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor()), res);
-		footer.setBackgroundDrawable(footerDrawable);
-		addView(footer);
-		footer.setLayoutParams(lp);
-
-		footerLayoutParam = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
 	}
 
 	private void setEventBlockBean(EventBlockBean eventBlockBean) {
@@ -237,6 +205,20 @@ public class EventBlockBeanView extends BlockBeanView {
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 
+		totalHeight += UnitUtils.dpToPx(getContext(), 12) - 1;
+
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		int totalHeight = 0;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			totalHeight += child.getMeasuredHeight();
+		}
+		BlockShapesUtils.drawRegularBlockFooter(canvas, getContext(), 0, totalHeight - 1, getMaxLayerWidth(),
+				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor())));
+	}
+
 }
