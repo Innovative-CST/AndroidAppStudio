@@ -3,6 +3,7 @@ package com.icst.logic.view;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.ActionBlockLayerBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.config.BlockMarginConstants;
@@ -30,14 +31,17 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	private boolean isLastLayer;
 	private String color;
 	private BlockBean block;
+	private ActionBlockLayerBean layer;
 
 	private LinearLayout blockLayout;
 
 	public ActionBlockLayerView(
 			Context context,
+			ActionBlockLayerBean layer,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
+		this.layer = layer;
 
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -137,10 +141,17 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 		return index;
 	}
 
+	@Override
+	public void dereferenceActionBlocks(int index) {
+		super.dereferenceActionBlocks(index);
+		layer.setActionBlockBean(getBlockBeans());
+	}
+
 	// Configured for ActionBlockLayerView
 	@Override
 	protected void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
 		getBlockBeans().addAll(index, actionBlocks);
+		layer.setActionBlockBean(getBlockBeans());
 
 		for (int i = 0; i < actionBlocks.size(); ++i) {
 			ActionBlockBean actionBlock = actionBlocks.get(i);
