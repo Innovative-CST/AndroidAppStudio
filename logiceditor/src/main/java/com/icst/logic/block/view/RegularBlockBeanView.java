@@ -126,7 +126,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			layer.getView().getWidth();
+			if (layer instanceof ActionBlockLayerView)
+				continue;
 			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
 		}
 		return maxWidth;

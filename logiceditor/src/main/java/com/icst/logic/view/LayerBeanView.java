@@ -33,9 +33,9 @@ package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
 
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
-public interface LayerBeanView<T extends LinearLayout> {
+public interface LayerBeanView<T extends ViewGroup> {
 
 	int getLayerPosition();
 

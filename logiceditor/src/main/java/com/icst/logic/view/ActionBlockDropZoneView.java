@@ -316,15 +316,22 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			actionBlockBeanView.setInsideCanva(true);
 			super.addView(actionBlockBeanView, i + index);
 
-			if (i == 0 && index == 0)
-				continue;
+			if (i == 0 && index == 0) {
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
+				lp.setMargins(0, 0, 0, 0);
+				actionBlockBeanView.setLayoutParams(lp);
+			} else {
 
-			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
-			actionBlockBeanView.setLayoutParams(lp);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+
+				lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_TOP_MARGIN, 0, 0);
+				actionBlockBeanView.setLayoutParams(lp);
+			}
 		}
 	}
 

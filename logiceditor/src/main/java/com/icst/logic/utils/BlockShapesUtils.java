@@ -129,6 +129,34 @@ public final class BlockShapesUtils {
 		canvas.drawPath(mPath, mPaint);
 	}
 
+	public static void drawActionBlockLayer(
+			Canvas canvas, Context context,
+			float width, float height, int color) {
+		Path mPath = new Path();
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(3));
+
+		mPath.lineTo(width, 0);
+		mPath.lineTo(width - dpToPx(context, 5), dpToPx(context, 5));
+		mPath.lineTo(dpToPx(context, 54), dpToPx(context, 5));
+		mPath.lineTo(dpToPx(context, 46), dpToPx(context, 10));
+		mPath.lineTo(dpToPx(context, 33), dpToPx(context, 10));
+		mPath.lineTo(dpToPx(context, 23), dpToPx(context, 5));
+		mPath.lineTo(dpToPx(context, 15), dpToPx(context, 5));
+		mPath.lineTo(dpToPx(context, 10), dpToPx(context, 10));
+		mPath.lineTo(dpToPx(context, 10), height + dpToPx(context, 0));
+		mPath.lineTo(dpToPx(context, 15), height + dpToPx(context, 5));
+		mPath.lineTo(width - dpToPx(context, 5), height + dpToPx(context, 5));
+		mPath.lineTo(width, height + dpToPx(context, 10));
+		mPath.lineTo(0, height + dpToPx(context, 10));
+		mPath.lineTo(0, 0);
+
+		canvas.drawPath(mPath, mPaint);
+	}
+
 	public static float dpToPx(Context context, float dp) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		return dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);

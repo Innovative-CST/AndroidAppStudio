@@ -131,7 +131,8 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			layer.getView().getWidth();
+			if (layer instanceof ActionBlockLayerView)
+				continue;
 			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
 		}
 		return maxWidth;
@@ -247,7 +248,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 
-		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 12) - 2;
+		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 5) - 2;
 
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}

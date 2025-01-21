@@ -9,17 +9,21 @@ import com.icst.logic.config.BlockMarginConstants;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ActionBlockUtils;
-import com.icst.logic.utils.BlockImageUtils;
+import com.icst.logic.utils.BlockShapesUtils;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
 public class ActionBlockLayerView extends ActionBlockDropZoneView
 		implements LayerBeanView<ActionBlockLayerView> {
+
+	private final int LAYER_PADDING = 10;
 
 	private int layerPosition;
 	private boolean isFirstLayer;
@@ -27,54 +31,91 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	private String color;
 	private BlockBean block;
 
-	private LinearLayout actionBlockLayerTop;
 	private LinearLayout blockLayout;
-	private LinearLayout actionBlockLayerBottom;
 
 	public ActionBlockLayerView(
 			Context context,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
-		actionBlockLayerTop = new LinearLayout(context);
-		addView(actionBlockLayerTop);
 
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
-
-		lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_IN_LAYER_TOP_MARGIN, 0, 0);
+		setWillNotDraw(false);
 		blockLayout = new LinearLayout(context);
 		blockLayout.setOrientation(VERTICAL);
 		addView(blockLayout);
 		blockLayout.setLayoutParams(lp);
+	}
 
-		actionBlockLayerBottom = new LinearLayout(context);
-		addView(actionBlockLayerBottom);
+	@Override
+	protected void onDraw(Canvas canvas) {
+		int totalHeight = 0;
+
+		// Measure each child
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			totalHeight += child.getMeasuredHeight();
+		}
+		int maxWidth = Math.max(UnitUtils.dpToPx(getContext(), 60), getMinimumWidth());
+		if (totalHeight < UnitUtils.dpToPx(getContext(), 30)) {
+			totalHeight = UnitUtils.dpToPx(getContext(), 30);
+		}
+		BlockShapesUtils.drawActionBlockLayer(
+				canvas,
+				getContext(),
+				maxWidth,
+				totalHeight,
+				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), getColor())));
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		int currentTop = UnitUtils.dpToPx(getContext(), 5);
+
+		// Layout each child
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			int left = getPaddingLeft() + UnitUtils.dpToPx(getContext(), LAYER_PADDING) + 2;
+			int top = currentTop;
+			int right = left + child.getMeasuredWidth();
+			int bottom = top + child.getMeasuredHeight();
+
+			child.layout(left, top, right, bottom);
+
+			currentTop += child.getMeasuredHeight();
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		int totalHeight = 0;
+		int maxWidth = 0;
+		// Measure each child
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			measureChild(child, widthMeasureSpec, heightMeasureSpec);
+			totalHeight += child.getMeasuredHeight();
+			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
+		}
+		maxWidth += UnitUtils.dpToPx(getContext(), LAYER_PADDING) + 2;
+		maxWidth = Math.max(maxWidth, getMinimumWidth());
+		if (totalHeight < UnitUtils.dpToPx(getContext(), 30)) {
+			totalHeight = UnitUtils.dpToPx(getContext(), 30);
+		}
+		if (maxWidth < UnitUtils.dpToPx(getContext(), 60)) {
+			maxWidth = UnitUtils.dpToPx(getContext(), 60);
+		}
+		totalHeight += UnitUtils.dpToPx(getContext(), 10) - 1;
+		setMeasuredDimension(
+				resolveSize(maxWidth, widthMeasureSpec),
+				resolveSize(totalHeight, heightMeasureSpec));
 	}
 
 	@Override
 	public void setColor(String color) {
 		this.color = color;
-
-		actionBlockLayerTop.setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						ColorUtils.harmonizeHexColor(getContext(), getColor()),
-						BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_LAYER_TOP)));
-
-		blockLayout.setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						ColorUtils.harmonizeHexColor(getContext(), getColor()),
-						BlockImageUtils.getImage(
-								BlockImageUtils.Image.ACTION_BLOCK_LAYER_BACKDROP)));
-
-		actionBlockLayerBottom.setBackgroundDrawable(
-				ImageViewUtils.getImageView(
-						getContext(),
-						ColorUtils.harmonizeHexColor(getContext(), getColor()),
-						BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_LAYER_BOTTOM)));
 		invalidate();
 	}
 
@@ -111,16 +152,21 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 
 			actionBlockBeanView.setInsideCanva(true);
 			blockLayout.addView(actionBlockBeanView, i + index);
+			if (i == 0 && index == 0) {
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			if (i == 0 && index == 0)
-				continue;
+				lp.setMargins(0, 0, 0, 0);
+				actionBlockBeanView.setLayoutParams(lp);
+			} else {
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
 
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-
-			lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_IN_LAYER_TOP_MARGIN, 0, 0);
-			actionBlockBeanView.setLayoutParams(lp);
+				lp.setMargins(0, BlockMarginConstants.CHAINED_ACTION_BLOCK_IN_LAYER_TOP_MARGIN, 0, 0);
+				actionBlockBeanView.setLayoutParams(lp);
+			}
 		}
 	}
 
