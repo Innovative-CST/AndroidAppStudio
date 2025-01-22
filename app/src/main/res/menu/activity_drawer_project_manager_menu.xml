@@ -18,6 +18,11 @@
         android:icon="@drawable/ic_info"
         android:title="@string/about_app"
         app:showAsAction="ifRoom" />
+	<item
+        android:id="@+id/java_block_programming"
+        android:icon="@drawable/ic_java"
+        android:title="Block Program"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/extensions"
         android:icon="@drawable/ic_extension"

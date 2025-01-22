@@ -328,6 +328,9 @@ dependencies {
 	implementation project(":prdownloader")
 	implementation project(":themeEngine")
 	implementation project(":treeview")
+	implementation project(":logiceditor")
+	implementation project(":javablocks")
+	implementation project(":beans")
 }
 
 def shouldInstallExtension() {

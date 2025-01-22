@@ -123,6 +123,10 @@
             android:exported="true" />
 
         <activity
+            android:name="com.icst.android.appstudio.activities.JavaBlockProgrammingActivity"
+            android:exported="true" />
+
+        <activity
             android:name="com.icst.android.appstudio.activities.TerminalActivity"
             android:resizeableActivity="true"
             android:configChanges="orientation|screenSize|smallestScreenSize|density|screenLayout|keyboard|keyboardHidden|navigation"

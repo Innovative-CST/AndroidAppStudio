@@ -142,6 +142,11 @@ public class ProjectManagerActivity extends BaseActivity {
 						aboutTeam.setClass(this, AboutTeamActivity.class);
 						startActivity(aboutTeam);
 					}
+					if (menuItem.getItemId() == R.id.java_block_programming) {
+						Intent javaBlockProgramming = new Intent();
+						javaBlockProgramming.setClass(this, JavaBlockProgrammingActivity.class);
+						startActivity(javaBlockProgramming);
+					}
 					if (menuItem.getItemId() == R.id.fileManagerRoot) {
 						Intent fileManager = new Intent();
 						fileManager.putExtra("path", "/data/data/com.icst.android.appstudio/files");
