@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.databinding.ActivityJavaBlockProgrammingBinding;
+import com.icst.android.appstudio.javablocks.IOBlockBeans;
 import com.icst.android.appstudio.javablocks.MainJavaEventBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 
@@ -55,6 +56,8 @@ public class JavaBlockProgrammingActivity extends BaseActivity {
 		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		binding.logicEditor.openEventInCanva(
 				MainJavaEventBean.getJavaMainEvent(), new LogicEditorConfiguration());
-		binding.logicEditor.preparePallete(new ArrayList<BlockPaletteBean>());
+		ArrayList<BlockPaletteBean> palette = new ArrayList<BlockPaletteBean>();
+		palette.add(IOBlockBeans.getIOBlockPalette());
+		binding.logicEditor.preparePallete(palette);
 	}
 }

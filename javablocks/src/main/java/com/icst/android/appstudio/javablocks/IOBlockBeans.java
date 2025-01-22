@@ -29,10 +29,48 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.javablocks;
 
-dependencies {
-	api project(":beans")
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.BlockElementBean;
+import com.icst.android.appstudio.beans.BlockElementLayerBean;
+import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.LayerBean;
+import com.icst.android.appstudio.beans.RegularBlockBean;
+
+public final class IOBlockBeans {
+	public static BlockPaletteBean getIOBlockPalette() {
+		BlockPaletteBean mIOBlockPalette = new BlockPaletteBean();
+		mIOBlockPalette.setColor("#a360ff");
+		mIOBlockPalette.setName("IO Blocks");
+		ArrayList<BlockBean> blocks = new ArrayList<>();
+		blocks.add(printHelloWorld());
+		mIOBlockPalette.setBlocks(blocks);
+		return mIOBlockPalette;
+	}
+
+	private static RegularBlockBean printHelloWorld() {
+		RegularBlockBean block = new RegularBlockBean();
+		block.setColor("#a360ff");
+		block.setCodeSyntax("System.out.println(\"Hello World!\"");
+
+		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean sayHelloTest = new LabelBlockElementBean();
+		sayHelloTest.setLabel("Say \"Hello World\"");
+		layer1Elements.add(sayHelloTest);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setLayers(layers);
+		return block;
+	}
 }

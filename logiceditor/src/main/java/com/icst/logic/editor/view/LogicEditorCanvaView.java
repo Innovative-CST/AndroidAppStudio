@@ -31,6 +31,8 @@
 
 package com.icst.logic.editor.view;
 
+import java.util.ArrayList;
+
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.CanvaAction;
@@ -86,6 +88,11 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 
 		addView(mainChainDropZone);
 		mainChainDropZone.setLayoutParams(lp);
+		// For ArrayList only, not for adding view in logic editor as it is done in
+		// Canva.
+		ArrayList<BlockDropZoneView> blockDropZones = new ArrayList<BlockDropZoneView>();
+		blockDropZones.add(mainChainDropZone);
+		logicEditor.setBlockDropZones(blockDropZones);
 	}
 
 	public void performAction(CanvaAction action) {
