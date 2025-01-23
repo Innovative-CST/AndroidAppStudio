@@ -41,4 +41,6 @@ public abstract class ExpressionBlockBean<T> extends BaseBlockBean<T>
 	public static final long serialVersionUID = SerializationUIDConstants.EXPRESSION_BLOCK_BEAN;
 
 	public abstract DatatypeBean[] getReturnDatatypes();
+
+	public abstract String getCode();
 }

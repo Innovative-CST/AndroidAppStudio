@@ -33,9 +33,7 @@ package com.icst.logic.utils;
 
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.MaterialColors;
-import com.google.android.material.color.utilities.Blend;
 
-import android.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -44,10 +42,7 @@ import android.graphics.Color;
 public class ColorUtils {
 	public static String harmonizeHexColor(Context context, String hexColor) {
 		int colorInt = Color.parseColor(hexColor);
-		int targetInt = getColor(context, R.attr.colorPrimary);
-
-		int harmonizedColorInt = Blend.harmonize(colorInt, targetInt);
-
+		int harmonizedColorInt = MaterialColors.harmonizeWithPrimary(context, colorInt);
 		return String.format("#%06X", (0xFFFFFF & harmonizedColorInt));
 	}
 

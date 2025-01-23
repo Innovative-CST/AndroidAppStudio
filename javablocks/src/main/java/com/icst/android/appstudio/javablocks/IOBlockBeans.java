@@ -40,6 +40,7 @@ import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.android.appstudio.beans.StringBlockElementBean;
 
 public final class IOBlockBeans {
 	public static BlockPaletteBean getIOBlockPalette() {
@@ -47,12 +48,12 @@ public final class IOBlockBeans {
 		mIOBlockPalette.setColor("#a360ff");
 		mIOBlockPalette.setName("IO Blocks");
 		ArrayList<BlockBean> blocks = new ArrayList<>();
-		blocks.add(printHelloWorld());
+		blocks.add(print());
 		mIOBlockPalette.setBlocks(blocks);
 		return mIOBlockPalette;
 	}
 
-	private static RegularBlockBean printHelloWorld() {
+	private static RegularBlockBean print() {
 		RegularBlockBean block = new RegularBlockBean();
 		block.setColor("#a360ff");
 		block.setCodeSyntax("System.out.println(\"Hello World!\"");
@@ -62,9 +63,13 @@ public final class IOBlockBeans {
 
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
 
-		LabelBlockElementBean sayHelloTest = new LabelBlockElementBean();
-		sayHelloTest.setLabel("Say \"Hello World\"");
-		layer1Elements.add(sayHelloTest);
+		LabelBlockElementBean print = new LabelBlockElementBean();
+		print.setLabel("print");
+		layer1Elements.add(print);
+
+		StringBlockElementBean inputString = new StringBlockElementBean();
+		inputString.setKey("mString");
+		layer1Elements.add(inputString);
 
 		layer1.setBlockElementBeans(layer1Elements);
 

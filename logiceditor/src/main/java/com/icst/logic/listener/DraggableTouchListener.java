@@ -44,6 +44,7 @@ import com.icst.logic.view.ActionBlockDropZoneView;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.DraggingBlockDummy;
 import com.icst.logic.view.MainActionBlockDropZoneView;
+import com.icst.logic.view.StringBlockBeanView;
 
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -80,7 +81,7 @@ public class DraggableTouchListener implements View.OnTouchListener {
 
 							ArrayList<ActionBlockBean> blocksList = null;
 
-							if (actionBlockDropZone instanceof MainActionBlockDropZoneView mainChain) {
+							if (actionBlockBeanView.getParent() instanceof MainActionBlockDropZoneView mainChain) {
 								blocksList = mainChain.getBlockBeans();
 								int index = mainChain.indexOfChild(actionBlockBeanView) - 1;
 								for (int i = index; i < mainChain.getBlocksSize(); ++i) {
@@ -89,7 +90,8 @@ public class DraggableTouchListener implements View.OnTouchListener {
 											.getChildAt(i + 1)
 											.setVisibility(View.GONE);
 								}
-							} else if (actionBlockDropZone instanceof ActionBlockDropZoneView regularChain) {
+							} else if (actionBlockBeanView
+									.getParent() instanceof ActionBlockDropZoneView regularChain) {
 								int index = regularChain.indexOfChild(actionBlockBeanView);
 								blocksList = regularChain.getBlockBeans();
 
@@ -99,7 +101,7 @@ public class DraggableTouchListener implements View.OnTouchListener {
 											.setVisibility(View.GONE);
 									draggingBlocks.add(blocksList.get(i));
 								}
-							} else if (actionBlockDropZone.getParent() != null) {
+							} else if (actionBlockBeanView.getParent().getParent() != null) {
 								if (actionBlockDropZone.getParent() instanceof ActionBlockLayerView regularChain) {
 									int index = regularChain
 											.getBlockLayout()
@@ -152,6 +154,18 @@ public class DraggableTouchListener implements View.OnTouchListener {
 
 							getLogicEditor().startDrag(draggingBean, draggingView, x, y);
 						}
+					}
+				} else if (touchingView instanceof StringBlockBeanView stringBlockView) {
+					isDragging = true;
+					Object draggingBean = null;
+					getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
+					if (stringBlockView.isInsideCanva()) {
+						DraggingBlockDummy draggingView = new DraggingBlockDummy(
+								getLogicEditor().getContext(),
+								stringBlockView.getStringBlockBean().cloneBean(),
+								getLogicEditor().canDropDraggingView(x, y));
+						draggingView.setDraggedFromCanva(stringBlockView.isInsideCanva());
+						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
 					}
 				}
 			}

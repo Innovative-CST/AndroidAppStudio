@@ -40,6 +40,7 @@ public class StringBlockElementBean
 	public static final long serialVersionUID = SerializationUIDConstants.STRING_BLOCK_ELEMENT_BEAN;
 
 	private String string;
+	private StringBlockBean stringBlock;
 	private String key;
 
 	public String getString() {
@@ -54,8 +55,30 @@ public class StringBlockElementBean
 		this.key = key;
 	}
 
+	public void setValue(String str) {
+		if (str == null) {
+			return;
+		}
+		stringBlock = null;
+		string = str;
+	}
+
+	public void setValue(StringBlockBean strBlock) {
+		if (strBlock == null) {
+			return;
+		}
+		stringBlock = strBlock;
+		string = null;
+	}
+
 	@Override
 	public String getValue() {
+		if (string == null) {
+			if (getStringBlock().getCode() == null) {
+				return getStringBlock().getCode();
+			}
+			return "";
+		}
 		return getString();
 	}
 
@@ -68,7 +91,16 @@ public class StringBlockElementBean
 	public StringBlockElementBean cloneBean() {
 		StringBlockElementBean clone = new StringBlockElementBean();
 		clone.setString(getString() == null ? null : new String(getString()));
+		clone.setStringBlock(stringBlock == null ? null : stringBlock.cloneBean());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
+	}
+
+	public StringBlockBean getStringBlock() {
+		return this.stringBlock;
+	}
+
+	public void setStringBlock(StringBlockBean stringBlock) {
+		this.stringBlock = stringBlock;
 	}
 }

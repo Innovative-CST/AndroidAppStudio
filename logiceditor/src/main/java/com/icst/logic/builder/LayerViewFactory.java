@@ -41,9 +41,11 @@ import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ColorUtils;
+import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.LayerBeanView;
+import com.icst.logic.view.StringBlockElementBeanView;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -61,7 +63,7 @@ public final class LayerViewFactory {
 			LogicEditorConfiguration configuration) {
 		if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
 			return buildBlockElementLayerView(
-					context, blockBean, mBlockElementLayerBean, configuration);
+					context, blockBean, mBlockElementLayerBean, logicEdtitor, configuration);
 		} else if (layerBean instanceof ActionBlockLayerBean actionBlockLayerBean) {
 			return buildActionBlockLayerView(
 					context, blockBean, actionBlockLayerBean, logicEdtitor, configuration);
@@ -75,18 +77,19 @@ public final class LayerViewFactory {
 			ActionBlockLayerBean actionBlockLayerBean,
 			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
-		ActionBlockLayerView actionBlockLayerView = new ActionBlockLayerView(context, actionBlockLayerBean,
-				configuration, logicEdtitor);
+		ActionBlockLayerView actionBlockLayerView = new ActionBlockLayerView(
+				context, actionBlockLayerBean, configuration, logicEdtitor);
 		actionBlockLayerView.addActionBlocksBeans(actionBlockLayerBean.getActionBlockBean(), 0);
 		actionBlockLayerView.setBlock(blockBean);
 		return actionBlockLayerView;
 	}
 
 	// Build the block element layer
-	private static LayerBeanView buildBlockElementLayerView(
+	public static BlockElementLayerBeanView buildBlockElementLayerView(
 			Context context,
 			BlockBean blockBean,
 			BlockElementLayerBean mBlockElementLayerBean,
+			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
 
 		BlockElementLayerBeanView view = new BlockElementLayerBeanView(context);
@@ -96,16 +99,48 @@ public final class LayerViewFactory {
 				.forEach(
 						element -> {
 							if (element instanceof LabelBlockElementBean labelBean) {
-								view.addView(
-										buildLabelView(
-												labelBean, blockBean, context, configuration));
+								View mView = buildLabelView(
+										labelBean, blockBean, context, configuration);
+								view.addView(mView);
+								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
+								lp.setMargins(
+										UnitUtils.dpToPx(context, 2),
+										0,
+										UnitUtils.dpToPx(context, 2),
+										0);
+								mView.setLayoutParams(lp);
 							} else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
-								view.addView(
-										buildExpressionBlockBeanView(
-												mExpressionBlockBean, context, configuration));
+								View mView = buildExpressionBlockBeanView(
+										mExpressionBlockBean, context, configuration);
+								view.addView(mView);
+								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
+								lp.setMargins(
+										UnitUtils.dpToPx(context, 2),
+										0,
+										UnitUtils.dpToPx(context, 2),
+										0);
+								mView.setLayoutParams(lp);
 							} else if (element instanceof StringBlockElementBean mStringBlockElement) {
-								view.addView(
-										buildStringFieldView(mStringBlockElement, blockBean, context, configuration));
+								View mView = buildStringFieldView(
+										mStringBlockElement,
+										blockBean,
+										context,
+										logicEdtitor,
+										configuration);
+								view.addView(mView);
+								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
+								lp.setMargins(
+										UnitUtils.dpToPx(context, 2),
+										0,
+										UnitUtils.dpToPx(context, 2),
+										0);
+								mView.setLayoutParams(lp);
 							}
 						});
 
@@ -130,7 +165,6 @@ public final class LayerViewFactory {
 						Color.parseColor(
 								ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
 		labelTextView.setLayoutParams(layerLayoutParams);
-		labelTextView.setPadding(8, 8, 8, 8);
 		return labelTextView;
 	}
 
@@ -138,25 +172,15 @@ public final class LayerViewFactory {
 			StringBlockElementBean field,
 			BlockBean blockBean,
 			Context context,
+			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
-
-		TextView labelTextView = new TextView(context);
-		if (field.getString() != null) {
-			labelTextView.setText(field.getString());
-		}
-		labelTextView.setTextSize(configuration.getTextSize().getTextSize());
+		StringBlockElementBeanView fieldView = new StringBlockElementBeanView(context, field, configuration,
+				logicEdtitor);
 		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-				LinearLayout.LayoutParams.WRAP_CONTENT // Height
-		);
-		labelTextView.setTextColor(
-				ColorUtils.getTextColorForColor(
-						Color.parseColor(
-								ColorUtils.harmonizeHexColor(context, blockBean.getColor()))));
-		labelTextView.setLayoutParams(layerLayoutParams);
-		labelTextView.setPadding(8, 8, 8, 8);
-		labelTextView.setBackgroundColor(Color.WHITE);
-		return labelTextView;
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		fieldView.setLayoutParams(layerLayoutParams);
+		return fieldView;
 	}
 
 	private static View buildExpressionBlockBeanView(

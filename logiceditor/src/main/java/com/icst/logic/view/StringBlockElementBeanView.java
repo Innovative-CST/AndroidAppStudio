@@ -15,7 +15,7 @@
  * 3. **  Modification Documentation  **
  *    - All modifications made to the software must be documented and listed.
  *    - the owner may incorporate the modifications made by you to enhance this software.
- * 2. **  Consistent Licensing  **
+ * 4. **  Consistent Licensing  **
  *    - All copied or modified files must contain the same license text at the top of the files.
  * 5. **  Permission Reversal  **
  *    - If you are granted permission by the owner to copy this software, it can be revoked by the owner at any time. You will be notified at least one week in advance of any such reversal.
@@ -26,90 +26,74 @@
  *    - We will not notify you about license changes; you need to monitor the GitHub repository yourself (You can enable notifications or watch the repository to stay informed about such changes).
  * By using this software, you acknowledge and agree to the terms and conditions outlined in this license agreement. If you do not agree with these terms, you are not permitted to use, copy, modify, or distribute this software.
  *
- * Copyright © 2022 Dev Kumar
+ * Copyright © 2024 Dev Kumar
  */
 
 package com.icst.logic.view;
 
-import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.logic.utils.ColorUtils;
+import com.icst.android.appstudio.beans.StringBlockBean;
+import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class BlockElementLayerBeanView extends LinearLayout
-		implements LayerBeanView<BlockElementLayerBeanView> {
-	private int layerPosition;
-	private boolean isFirstLayer;
-	private boolean isLastLayer;
-	private String color;
-	private BlockBean block;
+public class StringBlockElementBeanView extends BlockDropZoneView {
+	private TextView label;
+	private StringBlockElementBean mStringBlockElementBean;
 
-	public BlockElementLayerBeanView(Context context) {
-		super(context);
-		setOrientation(HORIZONTAL);
+	public StringBlockElementBeanView(
+			Context context,
+			StringBlockElementBean mStringBlockElementBean,
+			LogicEditorConfiguration configuration,
+			LogicEditorView logicEditor) {
+		super(context, configuration, logicEditor);
+		this.mStringBlockElementBean = mStringBlockElementBean;
+		setMinimumWidth(UnitUtils.dpToPx(getContext(), 20));
+		setBackgroundColor(Color.WHITE);
 		setGravity(Gravity.CENTER_VERTICAL);
-		setPadding(UnitUtils.dpToPx(context, 2), 0, UnitUtils.dpToPx(context, 2), 0);
-		setMinimumWidth(100);
-		setMinimumHeight(20);
+		label = new TextView(context);
+		label.setTextSize(configuration.getTextSize().getTextSize());
+		if (mStringBlockElementBean.getStringBlock() != null) {
+			StringBlockBeanView blockView = new StringBlockBeanView(
+					getContext(), mStringBlockElementBean.getStringBlock(), getConfiguration(), getLogicEditor());
+			addView(blockView);
+		} else {
+			label.setText(mStringBlockElementBean.getString() == null ? "" : mStringBlockElementBean.getString());
+			addView(label);
+		}
+	}
+
+	public void setValue(String str) {
+		if (str == null) {
+			return;
+		}
+		if (label.getParent() == null) {
+			mStringBlockElementBean.setString(str);
+			label.setText(str);
+			removeAllViews();
+			addView(label);
+		}
+	}
+
+	public void setValue(StringBlockBean strBlock) {
+		if (strBlock == null) {
+			return;
+		}
+		removeAllViews();
+		StringBlockBeanView blockView = new StringBlockBeanView(
+				getContext(), strBlock, getConfiguration(), getLogicEditor());
+		addView(blockView);
 	}
 
 	@Override
-	public void setColor(String color) {
-		this.color = color;
-		setBackgroundColor(Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), getColor())));
-	}
-
-	@Override
-	public BlockBean getBlock() {
-		return this.block;
-	}
-
-	@Override
-	public String getColor() {
-		return this.color;
-	}
-
-	@Override
-	public int getLayerPosition() {
-		return this.layerPosition;
-	}
-
-	@Override
-	public boolean isFirstLayer() {
-		return this.isFirstLayer;
-	}
-
-	@Override
-	public boolean isLastLayer() {
-		return this.isLastLayer;
-	}
-
-	@Override
-	public void setBlock(BlockBean block) {
-		this.block = block;
-	}
-
-	@Override
-	public void setFirstLayer(boolean isFirstLayer) {
-		this.isFirstLayer = isFirstLayer;
-	}
-
-	@Override
-	public void setLastLayer(boolean isLastLayer) {
-		this.isLastLayer = isLastLayer;
-	}
-
-	@Override
-	public void setLayerPosition(int layerPosition) {
-		this.layerPosition = layerPosition;
-	}
-
-	@Override
-	public BlockElementLayerBeanView getView() {
-		return this;
+	protected LayoutParams generateDefaultLayoutParams() {
+		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		lp.setMargins(UnitUtils.dpToPx(getContext(), 4), 0, UnitUtils.dpToPx(getContext(), 4), 0);
+		return lp;
 	}
 }

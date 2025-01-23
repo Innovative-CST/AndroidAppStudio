@@ -61,4 +61,9 @@ public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implem
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		return clone;
 	}
+
+	@Override
+	public String getCode() {
+		return "Hello world!";
+	}
 }
