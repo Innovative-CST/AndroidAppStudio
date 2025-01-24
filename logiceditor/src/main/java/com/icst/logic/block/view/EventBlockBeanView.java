@@ -84,7 +84,7 @@ public class EventBlockBeanView extends BlockBeanView {
 
 			BlockElementLayerBean elementLayer = layers.get(i);
 			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
-					context, eventBlockBean, elementLayer, getLogicEditor(), configuration);
+					context, eventBlockBean, this, elementLayer, getLogicEditor(), configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
@@ -121,8 +121,8 @@ public class EventBlockBeanView extends BlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			layer.getView().getWidth();
-			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
+			layer.getView().setMinimumWidth(100);
+			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
 		}
 		return maxWidth;
 	}

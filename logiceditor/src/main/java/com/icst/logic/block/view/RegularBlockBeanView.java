@@ -89,7 +89,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
-					context, regularBlockBean, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
+					context, regularBlockBean, this, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
@@ -126,9 +126,12 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			if (layer instanceof ActionBlockLayerView)
+			if (layer instanceof ActionBlockLayerView) {
+				layer.getView().setMinimumWidth(100);
 				continue;
-			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
+			}
+			layer.getView().setMinimumWidth(100);
+			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
 		}
 		return maxWidth;
 	}

@@ -91,6 +91,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
 					context,
 					terminatorBlockBean,
+					this,
 					layers.get(i),
 					getLogicEditor(),
 					getLogicEditorConfiguration());
@@ -131,9 +132,12 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			if (layer instanceof ActionBlockLayerView)
+			if (layer instanceof ActionBlockLayerView) {
+				layer.getView().setMinimumWidth(100);
 				continue;
-			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
+			}
+			layer.getView().setMinimumWidth(100);
+			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
 		}
 		return maxWidth;
 	}

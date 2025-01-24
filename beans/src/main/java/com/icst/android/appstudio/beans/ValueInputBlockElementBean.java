@@ -37,4 +37,6 @@ public interface ValueInputBlockElementBean<T> extends BlockElementBean<T> {
 	String getKey();
 
 	String getValue();
+
+	DatatypeBean getAcceptedReturnType();
 }

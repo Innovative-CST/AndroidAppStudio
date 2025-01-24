@@ -29,89 +29,84 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.logic.view;
 
-import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-public class StringBlockElementBean
-		implements ValueInputBlockElementBean<StringBlockElementBean>, Serializable {
-	public static final long serialVersionUID = SerializationUIDConstants.STRING_BLOCK_ELEMENT_BEAN;
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
 
-	private String string;
-	private StringBlockBean stringBlock;
-	private String key;
+public class BlockElementInputEditText extends TextInputEditText {
 
-	public String getString() {
-		return this.string;
+	private static final Pattern VALID_STRING_PATTERN = Pattern.compile("^(?:[^\"\\\\]|\\\\.)*$");
+
+	public enum InputType {
+		STRING, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE;
 	}
 
-	public void setString(String string) {
-		this.string = string;
+	private InputType inputType;
+	private EditTextValueListener listener;
+	private TextInputLayout textInputLayout;
+	private Context context;
+
+	public BlockElementInputEditText(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		this.context = context;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setInputType(InputType inputType, TextInputLayout textInputLayout, EditTextValueListener listener) {
+		this.inputType = inputType;
+		this.textInputLayout = textInputLayout;
+		this.listener = listener;
+		addTextChangedListener(
+				new TextWatcher() {
+					@Override
+					public void beforeTextChanged(
+							CharSequence s, int start, int count, int after) {
+					}
+
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						listener.onValueChange(getText().toString());
+						if (BlockElementInputEditText.this.inputType == InputType.STRING) {
+							if (isValidString()) {
+								BlockElementInputEditText.this.textInputLayout.setErrorEnabled(false);
+							} else {
+								BlockElementInputEditText.this.textInputLayout.setErrorEnabled(true);
+								BlockElementInputEditText.this.textInputLayout.setError(getStringError());
+							}
+						}
+					}
+
+					@Override
+					public void afterTextChanged(Editable s) {
+					}
+				});
 	}
 
-	public void setValue(String str) {
-		if (str == null) {
-			return;
+	private boolean isValidString() {
+		Matcher matcher = VALID_STRING_PATTERN.matcher(getText().toString());
+		return matcher.matches();
+	}
+
+	private String getStringError() {
+		return "This input is invalid string please make sure that string is properly escaped.";
+	}
+
+	public boolean isValid() {
+		if (inputType == InputType.STRING) {
+			return isValidString();
 		}
-		stringBlock = null;
-		string = str;
+		return true;
 	}
 
-	public void setValue(StringBlockBean strBlock) {
-		if (strBlock == null) {
-			return;
-		}
-		stringBlock = strBlock;
-		string = null;
-	}
-
-	@Override
-	public String getValue() {
-		if (string == null) {
-			if (getStringBlock() != null) {
-				if (getStringBlock().getCode() != null) {
-					return getStringBlock().getCode();
-				}
-			}
-			return "";
-		}
-		return getString();
-	}
-
-	@Override
-	public String getKey() {
-		return key;
-	}
-
-	@Override
-	public DatatypeBean getAcceptedReturnType() {
-		DatatypeBean acceptedReturnType = new DatatypeBean();
-		acceptedReturnType.setImportNecessary(false);
-		acceptedReturnType.setClassImport("java.lang.String");
-		acceptedReturnType.setClassName("String");
-		return acceptedReturnType;
-	}
-
-	@Override
-	public StringBlockElementBean cloneBean() {
-		StringBlockElementBean clone = new StringBlockElementBean();
-		clone.setString(getString() == null ? null : new String(getString()));
-		clone.setStringBlock(stringBlock == null ? null : stringBlock.cloneBean());
-		clone.setKey(getKey() == null ? null : new String(getKey()));
-		return clone;
-	}
-
-	public StringBlockBean getStringBlock() {
-		return this.stringBlock;
-	}
-
-	public void setStringBlock(StringBlockBean stringBlock) {
-		this.stringBlock = stringBlock;
+	public interface EditTextValueListener {
+		void onValueChange(String value);
 	}
 }

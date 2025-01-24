@@ -33,8 +33,10 @@ package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.sheet.InputFieldBottomSheet;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
@@ -44,26 +46,52 @@ import android.widget.TextView;
 
 public class StringBlockElementBeanView extends BlockDropZoneView {
 	private TextView label;
+
+	// Block in which this StringBlockElementBeanView exists.
+	private BlockBeanView blockView;
 	private StringBlockElementBean mStringBlockElementBean;
 
 	public StringBlockElementBeanView(
 			Context context,
+			BlockBeanView blockView,
 			StringBlockElementBean mStringBlockElementBean,
 			LogicEditorConfiguration configuration,
 			LogicEditorView logicEditor) {
 		super(context, configuration, logicEditor);
 		this.mStringBlockElementBean = mStringBlockElementBean;
+		this.blockView = blockView;
 		setMinimumWidth(UnitUtils.dpToPx(getContext(), 20));
 		setBackgroundColor(Color.WHITE);
 		setGravity(Gravity.CENTER_VERTICAL);
 		label = new TextView(context);
 		label.setTextSize(configuration.getTextSize().getTextSize());
+		setOnClickListener(
+				v -> {
+					if (blockView.isInsideCanva() && label.getParent() != null) {
+						InputFieldBottomSheet sheet = new InputFieldBottomSheet(
+								getContext(),
+								mStringBlockElementBean,
+								new InputFieldBottomSheet.ValueListener() {
+									@Override
+									public void onChange(String value) {
+										setValue(value);
+									}
+								});
+						sheet.show();
+					}
+				});
 		if (mStringBlockElementBean.getStringBlock() != null) {
-			StringBlockBeanView blockView = new StringBlockBeanView(
-					getContext(), mStringBlockElementBean.getStringBlock(), getConfiguration(), getLogicEditor());
-			addView(blockView);
+			StringBlockBeanView strBlockView = new StringBlockBeanView(
+					getContext(),
+					mStringBlockElementBean.getStringBlock(),
+					getConfiguration(),
+					getLogicEditor());
+			addView(strBlockView);
 		} else {
-			label.setText(mStringBlockElementBean.getString() == null ? "" : mStringBlockElementBean.getString());
+			label.setText(
+					mStringBlockElementBean.getString() == null
+							? ""
+							: mStringBlockElementBean.getString());
 			addView(label);
 		}
 	}
@@ -77,6 +105,9 @@ public class StringBlockElementBeanView extends BlockDropZoneView {
 			label.setText(str);
 			removeAllViews();
 			addView(label);
+		} else {
+			mStringBlockElementBean.setString(str);
+			label.setText(str);
 		}
 	}
 

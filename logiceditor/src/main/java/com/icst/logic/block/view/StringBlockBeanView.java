@@ -80,7 +80,7 @@ public class StringBlockBeanView extends BlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			BlockElementLayerBeanView layerView = LayerViewFactory.buildBlockElementLayerView(
-					context, stringBlockBean, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
+					context, stringBlockBean, this, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
@@ -115,7 +115,8 @@ public class StringBlockBeanView extends BlockBeanView {
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 		for (LayerBeanView layer : layers) {
-			maxWidth = Math.max(layer.getView().getWidth(), maxWidth);
+			layer.getView().setMinimumWidth(100);
+			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
 		}
 		return maxWidth;
 	}

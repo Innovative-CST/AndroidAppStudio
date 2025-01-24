@@ -29,89 +29,64 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.logic.sheet;
 
-import java.io.Serializable;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.icst.android.appstudio.beans.DatatypeBean;
+import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.android.appstudio.beans.ValueInputBlockElementBean;
+import com.icst.logic.editor.databinding.BottomsheetInputFieldBinding;
+import com.icst.logic.view.BlockElementInputEditText;
 
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
+import android.content.Context;
+import android.view.LayoutInflater;
 
-public class StringBlockElementBean
-		implements ValueInputBlockElementBean<StringBlockElementBean>, Serializable {
-	public static final long serialVersionUID = SerializationUIDConstants.STRING_BLOCK_ELEMENT_BEAN;
+public class InputFieldBottomSheet extends BottomSheetDialog {
 
-	private String string;
-	private StringBlockBean stringBlock;
-	private String key;
+	private BottomsheetInputFieldBinding binding;
 
-	public String getString() {
-		return this.string;
-	}
+	public InputFieldBottomSheet(
+			Context context,
+			ValueInputBlockElementBean mValueInputBlockElementBean,
+			ValueListener valueListener) {
+		super(context);
 
-	public void setString(String string) {
-		this.string = string;
-	}
+		binding = BottomsheetInputFieldBinding.inflate(LayoutInflater.from(context));
+		if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getStringDatatype())) {
+			if (mValueInputBlockElementBean instanceof StringBlockElementBean mStringBlockElementBean) {
+				binding.dialogTitle.setText("Enter String");
+				binding.message.setText(
+						"Please make sure you escape the String, otherwise you will encounter error.");
+				binding.mBlockElementInputEditText.setText(
+						mStringBlockElementBean.getString() == null ? "" : mStringBlockElementBean.getString());
+				binding.mBlockElementInputEditText.setInputType(
+						BlockElementInputEditText.InputType.STRING,
+						binding.mTextInputLayout,
+						new BlockElementInputEditText.EditTextValueListener() {
 
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public void setValue(String str) {
-		if (str == null) {
-			return;
-		}
-		stringBlock = null;
-		string = str;
-	}
-
-	public void setValue(StringBlockBean strBlock) {
-		if (strBlock == null) {
-			return;
-		}
-		stringBlock = strBlock;
-		string = null;
-	}
-
-	@Override
-	public String getValue() {
-		if (string == null) {
-			if (getStringBlock() != null) {
-				if (getStringBlock().getCode() != null) {
-					return getStringBlock().getCode();
-				}
+							@Override
+							public void onValueChange(String value) {
+								binding.done.setEnabled(binding.mBlockElementInputEditText.isValid());
+							}
+						});
 			}
-			return "";
 		}
-		return getString();
+		setContentView(binding.getRoot());
+		binding.done.setOnClickListener(v -> {
+			valueListener.onChange(binding.mBlockElementInputEditText.getText().toString());
+			dismiss();
+		});
 	}
 
-	@Override
-	public String getKey() {
-		return key;
+	public DatatypeBean getStringDatatype() {
+		DatatypeBean stringDatatype = new DatatypeBean();
+		stringDatatype.setImportNecessary(false);
+		stringDatatype.setClassImport("java.lang.String");
+		stringDatatype.setClassName("String");
+		return stringDatatype;
 	}
 
-	@Override
-	public DatatypeBean getAcceptedReturnType() {
-		DatatypeBean acceptedReturnType = new DatatypeBean();
-		acceptedReturnType.setImportNecessary(false);
-		acceptedReturnType.setClassImport("java.lang.String");
-		acceptedReturnType.setClassName("String");
-		return acceptedReturnType;
-	}
-
-	@Override
-	public StringBlockElementBean cloneBean() {
-		StringBlockElementBean clone = new StringBlockElementBean();
-		clone.setString(getString() == null ? null : new String(getString()));
-		clone.setStringBlock(stringBlock == null ? null : stringBlock.cloneBean());
-		clone.setKey(getKey() == null ? null : new String(getKey()));
-		return clone;
-	}
-
-	public StringBlockBean getStringBlock() {
-		return this.stringBlock;
-	}
-
-	public void setStringBlock(StringBlockBean stringBlock) {
-		this.stringBlock = stringBlock;
+	public interface ValueListener {
+		void onChange(String value);
 	}
 }

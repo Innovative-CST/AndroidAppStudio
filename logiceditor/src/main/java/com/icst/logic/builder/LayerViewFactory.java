@@ -38,6 +38,7 @@ import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ColorUtils;
@@ -58,12 +59,13 @@ public final class LayerViewFactory {
 	public static LayerBeanView buildBlockLayerView(
 			Context context,
 			BlockBean blockBean,
+			BlockBeanView blockView,
 			LayerBean layerBean,
 			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
 		if (layerBean instanceof BlockElementLayerBean mBlockElementLayerBean) {
 			return buildBlockElementLayerView(
-					context, blockBean, mBlockElementLayerBean, logicEdtitor, configuration);
+					context, blockBean, blockView, mBlockElementLayerBean, logicEdtitor, configuration);
 		} else if (layerBean instanceof ActionBlockLayerBean actionBlockLayerBean) {
 			return buildActionBlockLayerView(
 					context, blockBean, actionBlockLayerBean, logicEdtitor, configuration);
@@ -88,6 +90,7 @@ public final class LayerViewFactory {
 	public static BlockElementLayerBeanView buildBlockElementLayerView(
 			Context context,
 			BlockBean blockBean,
+			BlockBeanView blockView,
 			BlockElementLayerBean mBlockElementLayerBean,
 			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
@@ -128,6 +131,7 @@ public final class LayerViewFactory {
 								View mView = buildStringFieldView(
 										mStringBlockElement,
 										blockBean,
+										blockView,
 										context,
 										logicEdtitor,
 										configuration);
@@ -171,10 +175,11 @@ public final class LayerViewFactory {
 	private static View buildStringFieldView(
 			StringBlockElementBean field,
 			BlockBean blockBean,
+			BlockBeanView blockView,
 			Context context,
 			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
-		StringBlockElementBeanView fieldView = new StringBlockElementBeanView(context, field, configuration,
+		StringBlockElementBeanView fieldView = new StringBlockElementBeanView(context, blockView, field, configuration,
 				logicEdtitor);
 		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
