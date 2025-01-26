@@ -243,8 +243,8 @@ public class LogicEditorView extends RelativeLayout {
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
 
 				newZone.addActionBlocksBeans(blocks, 0);
-				newZone.setX(x);
-				newZone.setY(y);
+				newZone.setX(x + binding.logicEditorCanvaView.getScrollX());
+				newZone.setY(y + binding.logicEditorCanvaView.getScrollY());
 				getLogicEditorCanva().addView(newZone);
 				blockDropZones.add(newZone);
 				newZone.setLayoutParams(lp);
@@ -262,8 +262,8 @@ public class LogicEditorView extends RelativeLayout {
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
 
 				newZone.addActionBlocksBeans(blocks, 0);
-				newZone.setX(x);
-				newZone.setY(y);
+				newZone.setX(x + binding.logicEditorCanvaView.getScrollX());
+				newZone.setY(y + binding.logicEditorCanvaView.getScrollY());
 				getLogicEditorCanva().addView(newZone);
 				blockDropZones.add(newZone);
 				newZone.setLayoutParams(lp);
