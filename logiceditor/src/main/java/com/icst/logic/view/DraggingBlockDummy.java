@@ -31,20 +31,14 @@
 
 package com.icst.logic.view;
 
-import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.R;
-import com.icst.logic.utils.BlockImageUtils;
 import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.ViewGroup;
+import android.graphics.PorterDuff;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -52,13 +46,7 @@ public class DraggingBlockDummy extends LinearLayout {
 
 	private boolean draggedFromCanva;
 	private BlockBean block;
-	private View header;
-	private View footer;
-	private ViewGroup.LayoutParams headerLayoutParam;
-	private ViewGroup.LayoutParams footerLayoutParam;
 	private LogicEditorConfiguration logicEditorConfiguration;
-	private LinearLayout layerView;
-	private LinearLayout blockDummy;
 	private ImageView cursorIcon;
 
 	public DraggingBlockDummy(Context context, BlockBean block, boolean allowDrop) {
@@ -72,91 +60,10 @@ public class DraggingBlockDummy extends LinearLayout {
 		LayoutParams cursorIconLp = new LayoutParams(
 				UnitUtils.dpToPx(getContext(), 16), UnitUtils.dpToPx(getContext(), 16));
 		cursorIcon.setLayoutParams(cursorIconLp);
+		int tintColor = ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorOnSurface);
+		cursorIcon.setColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
 		setAllowedDropIcon(allowDrop);
 		addView(cursorIcon);
-		blockDummy = new LinearLayout(getContext());
-		blockDummy.setOrientation(VERTICAL);
-		addView(blockDummy);
-		if (block instanceof ActionBlockBean) {
-			addHeader();
-			addDummyLayer();
-			addFooter();
-
-			if (block instanceof RegularBlockBean) {
-				LinearLayout regularBlockFooter = new LinearLayout(getContext());
-				int regularBlockFooterRes = BlockImageUtils.getImage(BlockImageUtils.Image.REGULAR_BLOCK_BOTTOM);
-				Drawable regularBlockFooterDrawable = ImageViewUtils.getImageView(
-						getContext(),
-						ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-						regularBlockFooterRes);
-				regularBlockFooter.setBackgroundDrawable(regularBlockFooterDrawable);
-				blockDummy.addView(regularBlockFooter);
-
-				LayoutParams footerLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				regularBlockFooter.setLayoutParams(footerLp);
-			}
-		}
-	}
-
-	public void addDummyLayer() {
-		layerView = new LinearLayout(getContext());
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.BLOCK_ELEMENT_LAYER_BACKDROP);
-		Drawable drawable = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				res);
-		layerView.setBackgroundDrawable(drawable);
-		blockDummy.addView(layerView);
-
-		layerView
-				.getViewTreeObserver()
-				.addOnGlobalLayoutListener(
-						() -> {
-							headerLayoutParam = header.getLayoutParams();
-							headerLayoutParam.width = getMaxLayerWidth();
-							header.setLayoutParams(headerLayoutParam);
-
-							footerLayoutParam = footer.getLayoutParams();
-							footerLayoutParam.width = getMaxLayerWidth();
-							footer.setLayoutParams(footerLayoutParam);
-						});
-		LayoutParams lp = new LayoutParams(160, 40);
-		layerView.setLayoutParams(lp);
-	}
-
-	private void addFooter() {
-		footerLayoutParam = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-		footer = new LinearLayout(getContext());
-		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				footerBackDropRes);
-		footer.setBackgroundDrawable(footerRes);
-		blockDummy.addView(footer);
-		footer.setLayoutParams(footerLayoutParam);
-	}
-
-	// Method to calculate the maximum width from the list of layers
-	private int getMaxLayerWidth() {
-		int maxWidth = 0;
-		maxWidth = Math.max(layerView.getWidth(), maxWidth);
-		return maxWidth;
-	}
-
-	public void addHeader() {
-		headerLayoutParam = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-		header = new LinearLayout(getContext());
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				res);
-		header.setBackgroundDrawable(headerDrawable);
-		blockDummy.addView(header);
-		header.setLayoutParams(headerLayoutParam);
 	}
 
 	public void setBlockBean(BlockBean blockBean, boolean allowDrop) {
