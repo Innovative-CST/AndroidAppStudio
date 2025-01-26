@@ -42,6 +42,7 @@ import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.block.view.TerminatorBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.view.StringBlockBeanView;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -88,6 +89,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 			blockBeanView = new TerminatorBlockBeanView(
 					arg0.itemView.getContext(), terminatorBlock, config, logicEditor);
 		} else if (blocks.get(position) instanceof StringBlockBean stringBlockBean) {
+			blockBeanView = new StringBlockBeanView(arg0.itemView.getContext(), stringBlockBean, config, logicEditor);
 		}
 		hScrollView.setPadding(8, 8, 0, 0);
 		hScrollView.addView(blockBeanView);

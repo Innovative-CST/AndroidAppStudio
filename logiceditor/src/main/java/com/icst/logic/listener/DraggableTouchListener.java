@@ -156,16 +156,27 @@ public class DraggableTouchListener implements View.OnTouchListener {
 						}
 					}
 				} else if (touchingView instanceof StringBlockBeanView stringBlockView) {
-					isDragging = true;
-					Object draggingBean = null;
-					getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-					if (stringBlockView.isInsideCanva()) {
+					if (!stringBlockView.isInsideCanva()) {
+						isDragging = true;
+						Object draggingBean = stringBlockView.getStringBlockBean();
+						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
 						DraggingBlockDummy draggingView = new DraggingBlockDummy(
 								getLogicEditor().getContext(),
 								stringBlockView.getStringBlockBean().cloneBean(),
 								getLogicEditor().canDropDraggingView(x, y));
 						draggingView.setDraggedFromCanva(stringBlockView.isInsideCanva());
 						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+					} else {
+						isDragging = true;
+						Object draggingBean = stringBlockView.getStringBlockBean();
+						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
+						DraggingBlockDummy draggingView = new DraggingBlockDummy(
+								getLogicEditor().getContext(),
+								stringBlockView.getStringBlockBean().cloneBean(),
+								getLogicEditor().canDropDraggingView(x, y));
+						draggingView.setDraggedFromCanva(stringBlockView.isInsideCanva());
+						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+						stringBlockView.setVisibility(View.GONE);
 					}
 				}
 			}

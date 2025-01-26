@@ -29,37 +29,52 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.activities;
+package com.icst.android.appstudio.javablocks;
 
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.BlockElementBean;
+import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
-import com.icst.android.appstudio.databinding.ActivityJavaBlockProgrammingBinding;
-import com.icst.android.appstudio.javablocks.IOBlockBeans;
-import com.icst.android.appstudio.javablocks.MainJavaEventBean;
-import com.icst.android.appstudio.javablocks.OperatorBlockBeans;
-import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.StringBlockBean;
+import com.icst.android.appstudio.beans.StringBlockElementBean;
 
-import android.os.Bundle;
+public class OperatorBlockBeans {
 
-public class JavaBlockProgrammingActivity extends BaseActivity {
-	private ActivityJavaBlockProgrammingBinding binding;
-
-	@Override
-	protected void onCreate(Bundle bundle) {
-		super.onCreate(bundle);
-		binding = ActivityJavaBlockProgrammingBinding.inflate(getLayoutInflater());
-		setContentView(binding.getRoot());
-		binding.toolbar.setTitle("Block Program");
-		setSupportActionBar(binding.toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-		binding.logicEditor.openEventInCanva(
-				MainJavaEventBean.getJavaMainEvent(), new LogicEditorConfiguration());
-		ArrayList<BlockPaletteBean> palette = new ArrayList<BlockPaletteBean>();
-		palette.add(IOBlockBeans.getIOBlockPalette());
-		palette.add(OperatorBlockBeans.getOperatorBlockPalette());
-		binding.logicEditor.preparePallete(palette);
+	public static BlockPaletteBean getOperatorBlockPalette() {
+		BlockPaletteBean mOperatorBlockPalette = new BlockPaletteBean();
+		mOperatorBlockPalette.setColor("#50BE36");
+		mOperatorBlockPalette.setName("Operators");
+		ArrayList<BlockBean> blocks = new ArrayList<>();
+		blocks.add(trim());
+		mOperatorBlockPalette.setBlocks(blocks);
+		return mOperatorBlockPalette;
 	}
+
+	private static StringBlockBean trim() {
+		StringBlockBean block = new StringBlockBean();
+		block.setColor("#50BE36");
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean trim = new LabelBlockElementBean();
+		trim.setLabel("trim");
+		layer1Elements.add(trim);
+
+		StringBlockElementBean inputString = new StringBlockElementBean();
+		inputString.setKey("mString");
+		layer1Elements.add(inputString);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+		return block;
+	}
+
 }

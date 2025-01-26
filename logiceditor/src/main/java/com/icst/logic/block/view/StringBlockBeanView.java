@@ -40,6 +40,7 @@ import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -61,6 +62,8 @@ public class StringBlockBeanView extends BlockBeanView {
 		super(context, logicEditorConfiguration, logicEditor);
 		this.stringBlockBean = stringBlockBean;
 		this.context = context;
+		layersView = new LinearLayout(context);
+		layers = new ArrayList<>();
 		init();
 	}
 
@@ -135,7 +138,7 @@ public class StringBlockBeanView extends BlockBeanView {
 				maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
 			}
 		}
-
+		maxHeight += UnitUtils.dpToPx(getContext(), 8);
 		int width = resolveSize(totalWidth, widthMeasureSpec);
 		int height = resolveSize(maxHeight, heightMeasureSpec);
 
@@ -153,8 +156,8 @@ public class StringBlockBeanView extends BlockBeanView {
 				int childWidth = child.getMeasuredWidth();
 				int childHeight = child.getMeasuredHeight();
 
-				int top = t + (b - t - childHeight) / 2; // Center vertically
-				child.layout(currentLeft, top, currentLeft + childWidth, top + childHeight);
+				int top = UnitUtils.dpToPx(getContext(), 4);
+				child.layout(currentLeft, top, currentLeft + childWidth, childHeight);
 
 				currentLeft += childWidth; // Move to the next position
 			}
