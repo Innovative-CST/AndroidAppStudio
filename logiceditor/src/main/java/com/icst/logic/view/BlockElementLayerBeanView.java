@@ -32,12 +32,16 @@
 package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
+import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
+import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 
 public class BlockElementLayerBeanView extends LinearLayout
@@ -57,10 +61,34 @@ public class BlockElementLayerBeanView extends LinearLayout
 		setMinimumHeight(20);
 	}
 
+	public boolean canDrop(BlockBean mBlock, LinearLayout editorSectionView, float x, float y) {
+		if (mBlock instanceof ExpressionBlockBean mExpressionBlockBean) {
+			for (int i = 0; i < getChildCount(); ++i) {
+				View child = getChildAt(i);
+				boolean isInsideChild = CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, editorSectionView, x, y);
+				if (isInsideChild) {
+					if (child instanceof StringBlockElementBeanView mStringBlockElementBeanView) {
+						return BlockBeanUtils.arrayContainsDatatypeBeans(
+								mExpressionBlockBean.getReturnDatatypes(),
+								mStringBlockElementBeanView
+										.getStringBlockElementBean()
+										.getAcceptedReturnType());
+					}
+					break;
+				}
+			}
+			return false;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public void setColor(String color) {
 		this.color = color;
-		setBackgroundColor(Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), getColor())));
+		setBackgroundColor(
+				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), getColor())));
 	}
 
 	@Override

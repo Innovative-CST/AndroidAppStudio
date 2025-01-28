@@ -29,8 +29,21 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.config;
+package com.icst.logic.block.view;
 
-public final class BlockMarginConstants {
-	public static final int ACTION_BLOCK_TOP_MARGIN = -4;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
+import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.logic.editor.view.LogicEditorView;
+
+import android.content.Context;
+
+public abstract class ExpressionBlockBeanView extends BlockBeanView {
+	public ExpressionBlockBeanView(
+			Context context,
+			LogicEditorConfiguration logicEditorConfiguration,
+			LogicEditorView logicEditor) {
+		super(context, logicEditorConfiguration, logicEditor);
+	}
+
+	public abstract ExpressionBlockBean getExpressionBlockBean();
 }

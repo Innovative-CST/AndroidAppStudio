@@ -31,6 +31,7 @@
 
 package com.icst.logic.view;
 
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 
@@ -56,4 +57,10 @@ public abstract class BlockDropZoneView extends LinearLayout {
 	public LogicEditorView getLogicEditor() {
 		return this.logicEditor;
 	}
+
+	public abstract boolean canDrop(BlockBean block, float x, float y);
+
+	public abstract void dropBlockIfAllowed(BlockBean block, float x, float y);
+
+	public abstract void highlightNearestTargetIfAllowed(BlockBean block, float x, float y);
 }

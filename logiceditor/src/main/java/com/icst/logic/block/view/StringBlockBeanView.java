@@ -35,8 +35,9 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
-import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -47,7 +48,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class StringBlockBeanView extends BlockBeanView {
+public class StringBlockBeanView extends ExpressionBlockBeanView {
 
 	private StringBlockBean stringBlockBean;
 	private Context context;
@@ -175,6 +176,11 @@ public class StringBlockBeanView extends BlockBeanView {
 
 	@Override
 	public void drop(BlockBean block, float x, float y) {
+	}
+
+	@Override
+	public ExpressionBlockBean getExpressionBlockBean() {
+		return stringBlockBean;
 	}
 
 	public StringBlockBean getStringBlockBean() {

@@ -194,7 +194,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 				continue;
 			}
 			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-				layerView.highlightNearestTarget(blocks, x, y);
+				layerView.highlightNearestTargetIfAllowed(blocks, x, y);
 			}
 		}
 	}
@@ -204,7 +204,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
 			blocks.add(mActionBlockBean);
-			highlightNearestTarget(blocks, x, y);
+			drop(blocks, x, y);
 		}
 	}
 
@@ -216,7 +216,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 				continue;
 			}
 			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-				layerView.dropToNearestTarget(blocks, x, y);
+				layerView.dropBlockIfAllowed(blocks, x, y);
 			}
 		}
 	}

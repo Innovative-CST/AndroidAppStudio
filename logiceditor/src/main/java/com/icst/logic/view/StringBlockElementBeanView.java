@@ -31,6 +31,7 @@
 
 package com.icst.logic.view;
 
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.logic.block.view.BlockBeanView;
@@ -126,5 +127,22 @@ public class StringBlockElementBeanView extends BlockDropZoneView {
 		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.setMargins(UnitUtils.dpToPx(getContext(), 4), 0, UnitUtils.dpToPx(getContext(), 4), 0);
 		return lp;
+	}
+
+	public StringBlockElementBean getStringBlockElementBean() {
+		return this.mStringBlockElementBean;
+	}
+
+	@Override
+	public boolean canDrop(BlockBean block, float x, float y) {
+		return false;
+	}
+
+	@Override
+	public void highlightNearestTargetIfAllowed(BlockBean block, float x, float y) {
+	}
+
+	@Override
+	public void dropBlockIfAllowed(BlockBean block, float x, float y) {
 	}
 }

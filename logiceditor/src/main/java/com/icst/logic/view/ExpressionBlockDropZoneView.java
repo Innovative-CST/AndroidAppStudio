@@ -31,5 +31,49 @@
 
 package com.icst.logic.view;
 
-public class ExpressionBlockDropZoneView {
+import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.logic.block.view.ExpressionBlockBeanView;
+import com.icst.logic.config.LogicEditorConfiguration;
+import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.utils.CanvaMathUtils;
+
+import android.content.Context;
+
+public class ExpressionBlockDropZoneView extends BlockDropZoneView {
+
+	public ExpressionBlockDropZoneView(
+			Context context, LogicEditorConfiguration configuration, LogicEditorView logicEditor) {
+		super(context, configuration, logicEditor);
+	}
+
+	private ExpressionBlockBeanView mExpressionBlockBeanView;
+
+	public void setExpressionBlockBeanView() {
+		removeAllViews();
+		addView(mExpressionBlockBeanView);
+	}
+
+	@Override
+	public boolean canDrop(BlockBean block, float x, float y) {
+		boolean insideTarget = CanvaMathUtils.isCoordinatesInsideTargetView(
+				this, getLogicEditor().getEditorSectionView(), x, y);
+		if (insideTarget) {
+			return mExpressionBlockBeanView.canDrop(block, x, y);
+		} else
+			return false;
+	}
+
+	@Override
+	public void dropBlockIfAllowed(BlockBean block, float x, float y) {
+		if (canDrop(block, x, y)) {
+			mExpressionBlockBeanView.drop(block, x, y);
+		}
+	}
+
+	@Override
+	public void highlightNearestTargetIfAllowed(BlockBean block, float x, float y) {
+		if (canDrop(block, x, y)) {
+			mExpressionBlockBeanView.highlightNearestTarget(block, x, y);
+		}
+	}
 }
