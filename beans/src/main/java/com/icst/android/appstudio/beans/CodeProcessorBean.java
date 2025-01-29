@@ -31,61 +31,8 @@
 
 package com.icst.android.appstudio.beans;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+public interface CodeProcessorBean {
+	String getCodeSyntax();
 
-import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
-import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
-
-/** ActionBlockBean, BlockBean that perform action. */
-public abstract class ActionBlockBean<T> extends BlockBean<T>
-		implements CodeProcessorBean, Serializable {
-
-	public static final long serialVersionUID = SerializationUIDConstants.ACTION_BLOCK_BEAN;
-
-	/** All the layers of block that holds content of block. */
-	private ArrayList<LayerBean> layers;
-
-	public ArrayList<LayerBean> getLayers() {
-		return this.layers;
-	}
-
-	public void setLayers(ArrayList<LayerBean> layers) {
-		this.layers = layers;
-	}
-
-	@Override
-	public String getProcessedCode() {
-		String code = getCodeSyntax();
-
-		for (int i = 0; i < getLayers().size(); ++i) {
-			LayerBean layerBean = getLayers().get(i);
-			code = getLayerProcessedLayerCode(code, layerBean);
-		}
-
-		return code;
-	}
-
-	private String getLayerProcessedLayerCode(String code, LayerBean layerBean) {
-		if (layerBean instanceof BlockElementLayerBean blockElementLayerBean) {
-			return getElementLayerProcessedCode(code, blockElementLayerBean);
-		}
-		return code;
-	}
-
-	private String getElementLayerProcessedCode(
-			String code, BlockElementLayerBean blockElementLayerBean) {
-		for (int i = 0; i < blockElementLayerBean.getBlockElementBeans().size(); ++i) {
-			BlockElementBean blockElementBean = blockElementLayerBean.getBlockElementBeans().get(i);
-			if (blockElementBean instanceof ValueInputBlockElementBean valueInputBlockElementBean) {
-				code = getValueInputBlockElementProcessedCode(code, valueInputBlockElementBean);
-			}
-		}
-		return code;
-	}
-
-	private String getValueInputBlockElementProcessedCode(
-			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
-		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
-	}
+	String getProcessedCode();
 }
