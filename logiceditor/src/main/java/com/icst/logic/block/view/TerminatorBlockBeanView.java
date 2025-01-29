@@ -131,14 +131,16 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 	// Method to calculate the maximum width from the list of layers
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
+
 		for (LayerBeanView layer : layers) {
 			if (layer instanceof ActionBlockLayerView) {
-				layer.getView().setMinimumWidth(100);
 				continue;
 			}
-			layer.getView().setMinimumWidth(100);
-			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
+
+			View layerView = layer.getView();
+			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
 		}
+
 		return maxWidth;
 	}
 

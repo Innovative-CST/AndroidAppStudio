@@ -62,8 +62,11 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	private ViewGroup.LayoutParams headerLayoutParam;
 	private ViewGroup.LayoutParams footerLayoutParam;
 
-	public RegularBlockBeanView(Context context, RegularBlockBean regularBlockBean,
-			LogicEditorConfiguration logicEditorConfiguration, LogicEditorView logicEditor) {
+	public RegularBlockBeanView(
+			Context context,
+			RegularBlockBean regularBlockBean,
+			LogicEditorConfiguration logicEditorConfiguration,
+			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
 		this.regularBlockBean = regularBlockBean;
@@ -89,7 +92,12 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
-					context, regularBlockBean, this, layers.get(i), getLogicEditor(), getLogicEditorConfiguration());
+					context,
+					regularBlockBean,
+					this,
+					layers.get(i),
+					getLogicEditor(),
+					getLogicEditorConfiguration());
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
@@ -99,7 +107,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			layerView.getView().setLayoutParams(mLayoutParam);
 			this.layers.add(layerView);
 
-			layerView.getView()
+			layerView
+					.getView()
 					.getViewTreeObserver()
 					.addOnGlobalLayoutListener(
 							() -> {
@@ -125,14 +134,16 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	// Method to calculate the maximum width from the list of layers
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
+
 		for (LayerBeanView layer : layers) {
 			if (layer instanceof ActionBlockLayerView) {
-				layer.getView().setMinimumWidth(100);
 				continue;
 			}
-			layer.getView().setMinimumWidth(100);
-			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
+
+			View layerView = layer.getView();
+			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
 		}
+
 		return maxWidth;
 	}
 
@@ -160,8 +171,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	@Override
 	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
 		for (int i = 0; i < layers.size(); ++i) {
-			if (!CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
-					getLogicEditor().getEditorSectionView(), x, y)) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
 			}
 			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
@@ -183,8 +194,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	@Override
 	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
 		for (int i = 0; i < layers.size(); ++i) {
-			if (!CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
-					getLogicEditor().getEditorSectionView(), x, y)) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
 			}
 			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
@@ -205,8 +216,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	@Override
 	public void drop(ArrayList<ActionBlockBean> blocks, float x, float y) {
 		for (int i = 0; i < layers.size(); ++i) {
-			if (!CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
-					getLogicEditor().getEditorSectionView(), x, y)) {
+			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
 			}
 			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
@@ -248,13 +259,21 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 12) - 2;
 
-		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
+		setMeasuredDimension(
+				resolveSize(maxWidth, widthMeasureSpec),
+				resolveSize(totalHeight, heightMeasureSpec));
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		BlockShapesUtils.drawActionBlockHeader(canvas, getContext(), 0, 0, getMaxLayerWidth(),
-				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
+		BlockShapesUtils.drawActionBlockHeader(
+				canvas,
+				getContext(),
+				0,
+				0,
+				getMaxLayerWidth(),
+				Color.parseColor(
+						ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
 
 		int totalHeight = 0;
 		for (int i = 0; i < getChildCount(); i++) {
@@ -262,7 +281,13 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			totalHeight += child.getMeasuredHeight();
 		}
 		totalHeight += UnitUtils.dpToPx(getContext(), 7);
-		BlockShapesUtils.drawRegularBlockFooter(canvas, getContext(), 0, totalHeight - 1, getMaxLayerWidth(),
-				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
+		BlockShapesUtils.drawRegularBlockFooter(
+				canvas,
+				getContext(),
+				0,
+				totalHeight - 1,
+				getMaxLayerWidth(),
+				Color.parseColor(
+						ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
 	}
 }

@@ -118,10 +118,12 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 	// Method to calculate the maximum width from the list of layers
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
+
 		for (LayerBeanView layer : layers) {
-			layer.getView().setMinimumWidth(100);
-			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
+			View layerView = layer.getView();
+			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
 		}
+
 		return maxWidth;
 	}
 

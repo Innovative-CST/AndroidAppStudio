@@ -57,7 +57,10 @@ public class EventBlockBeanView extends BlockBeanView {
 	private ArrayList<LayerBeanView> layers;
 	private LinearLayout layersView;
 
-	public EventBlockBeanView(Context context, EventBlockBean eventBlockBean, LogicEditorConfiguration configuration,
+	public EventBlockBeanView(
+			Context context,
+			EventBlockBean eventBlockBean,
+			LogicEditorConfiguration configuration,
 			LogicEditorView logicEditor) {
 		super(context, configuration, logicEditor);
 		this.context = context;
@@ -84,7 +87,12 @@ public class EventBlockBeanView extends BlockBeanView {
 
 			BlockElementLayerBean elementLayer = layers.get(i);
 			LayerBeanView layerView = LayerViewFactory.buildBlockLayerView(
-					context, eventBlockBean, this, elementLayer, getLogicEditor(), configuration);
+					context,
+					eventBlockBean,
+					this,
+					elementLayer,
+					getLogicEditor(),
+					configuration);
 			layerView.setLayerPosition(i);
 			layerView.setFirstLayer(i == 0);
 			layerView.setLastLayer(i == (layers.size() - 1));
@@ -94,7 +102,8 @@ public class EventBlockBeanView extends BlockBeanView {
 			layerView.getView().setLayoutParams(lp);
 			this.layers.add(layerView);
 
-			layerView.getView()
+			layerView
+					.getView()
 					.getViewTreeObserver()
 					.addOnGlobalLayoutListener(
 							() -> {
@@ -120,10 +129,12 @@ public class EventBlockBeanView extends BlockBeanView {
 	// Method to calculate the maximum width from the list of layers
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
+
 		for (LayerBeanView layer : layers) {
-			layer.getView().setMinimumWidth(100);
-			maxWidth = Math.max(layer.getView().getMeasuredWidth(), maxWidth);
+			View layerView = layer.getView();
+			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
 		}
+
 		return maxWidth;
 	}
 
@@ -180,20 +191,33 @@ public class EventBlockBeanView extends BlockBeanView {
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 12) + UnitUtils.dpToPx(getContext(), 12) - 2;
 
-		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
+		setMeasuredDimension(
+				resolveSize(maxWidth, widthMeasureSpec),
+				resolveSize(totalHeight, heightMeasureSpec));
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		BlockShapesUtils.drawEventBlockHeader(canvas, getContext(), 0, 0, getMaxLayerWidth(),
-				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor())));
+		BlockShapesUtils.drawEventBlockHeader(
+				canvas,
+				getContext(),
+				0,
+				0,
+				getMaxLayerWidth(),
+				Color.parseColor(
+						ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor())));
 		int totalHeight = UnitUtils.dpToPx(getContext(), 12);
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
 			totalHeight += child.getMeasuredHeight();
 		}
-		BlockShapesUtils.drawRegularBlockFooter(canvas, getContext(), 0, totalHeight - 1, getMaxLayerWidth(),
-				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor())));
+		BlockShapesUtils.drawRegularBlockFooter(
+				canvas,
+				getContext(),
+				0,
+				totalHeight - 1,
+				getMaxLayerWidth(),
+				Color.parseColor(
+						ColorUtils.harmonizeHexColor(getContext(), eventBlockBean.getColor())));
 	}
-
 }
