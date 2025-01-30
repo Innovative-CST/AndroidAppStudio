@@ -39,6 +39,7 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.android.appstudio.beans.EventBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public final class MainJavaEventBean {
 
@@ -46,6 +47,13 @@ public final class MainJavaEventBean {
 		EventBean event = new EventBean();
 		event.setActionBlockBeans(new ArrayList<ActionBlockBean>());
 		event.setEventDefinationBlockBean(getJavaMainEventBlock());
+
+		StringBuilder code = new StringBuilder();
+		code.append("public static void main(String[] args) {\n\t");
+		code.append(CodeFormatterUtils.getKeySyntaxString("EventCode"));
+		code.append("\n}");
+
+		event.setCodeSyntax(code.toString());
 		return event;
 	}
 

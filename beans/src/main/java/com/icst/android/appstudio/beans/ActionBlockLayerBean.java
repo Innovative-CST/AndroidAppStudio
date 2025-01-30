@@ -37,27 +37,47 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-/** A Bean that holds a group of ActionBlocks and can hold one
- * TerminatorBlockBean. Used to store the
- * nested BlockBeans, and does not hold BlockElementBean directly into it. */
+/**
+ * A Bean that holds a group of ActionBlocks and can hold one TerminatorBlockBean. Used to store the
+ * nested BlockBeans, and does not hold BlockElementBean directly into it.
+ */
 public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implements Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.ACTION_ELEMENT_LAYER_BEAN;
 
-	private ArrayList<ActionBlockBean> actionBlockBean;
+	private ArrayList<ActionBlockBean> actionBlockBeans;
+	private String key;
 
-	public ArrayList<ActionBlockBean> getActionBlockBean() {
-		return this.actionBlockBean;
+	public ArrayList<ActionBlockBean> getActionBlockBeans() {
+		return this.actionBlockBeans;
 	}
 
-	public void setActionBlockBean(ArrayList<ActionBlockBean> actionBlockBean) {
-		this.actionBlockBean = actionBlockBean;
+	public void setActionBlockBeans(ArrayList<ActionBlockBean> actionBlockBeans) {
+		this.actionBlockBeans = actionBlockBeans;
+	}
+
+	public String getKey() {
+		return this.key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getProcessedCode() {
+		StringBuilder code = new StringBuilder();
+		actionBlockBeans.forEach(actionBlockBean -> {
+			code.append(actionBlockBean.getProcessedCode());
+			code.append("\n");
+		});
+		return code.toString();
 	}
 
 	@Override
 	public ActionBlockLayerBean cloneBean() {
 		ActionBlockLayerBean clone = new ActionBlockLayerBean();
-		clone.setActionBlockBean(BeanArrayCloneUtils.clone(getActionBlockBean()));
+		clone.setActionBlockBeans(BeanArrayCloneUtils.clone(getActionBlockBeans()));
+		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
 	}
 }

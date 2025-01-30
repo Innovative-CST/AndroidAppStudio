@@ -53,6 +53,7 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 
 	private EventBean eventBean;
 	private LogicEditorConfiguration logicEditorConfiguration;
+	protected MainActionBlockDropZoneView mainChainDropZone;
 
 	public LogicEditorCanvaView(final Context context, final AttributeSet set) {
 		super(context, set);
@@ -75,7 +76,7 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 			return;
 		}
 
-		MainActionBlockDropZoneView mainChainDropZone = new MainActionBlockDropZoneView(
+		mainChainDropZone = new MainActionBlockDropZoneView(
 				getContext(),
 				eventBean.getEventDefinationBlockBean(),
 				logicEditorConfiguration,

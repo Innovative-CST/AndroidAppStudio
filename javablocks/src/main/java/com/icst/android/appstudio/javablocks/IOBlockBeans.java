@@ -41,6 +41,7 @@ import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public final class IOBlockBeans {
 	public static BlockPaletteBean getIOBlockPalette() {
@@ -56,7 +57,6 @@ public final class IOBlockBeans {
 	private static RegularBlockBean print() {
 		RegularBlockBean block = new RegularBlockBean();
 		block.setColor("#a360ff");
-		block.setCodeSyntax("System.out.println(\"Hello World!\"");
 
 		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
 		BlockElementLayerBean layer1 = new BlockElementLayerBean();
@@ -76,6 +76,14 @@ public final class IOBlockBeans {
 		layers.add(layer1);
 
 		block.setLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append("System.out.println(");
+		code.append(CodeFormatterUtils.getKeySyntaxString("mString"));
+		code.append(");");
+
+		block.setCodeSyntax(code.toString());
+
 		return block;
 	}
 }

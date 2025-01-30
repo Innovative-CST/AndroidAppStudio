@@ -60,31 +60,51 @@ public abstract class ActionBlockBean<T> extends BlockBean<T>
 
 		for (int i = 0; i < getLayers().size(); ++i) {
 			LayerBean layerBean = getLayers().get(i);
-			code = getLayerProcessedLayerCode(code, layerBean);
+			code = processLayerCode(code, layerBean);
 		}
 
 		return code;
 	}
 
-	private String getLayerProcessedLayerCode(String code, LayerBean layerBean) {
+	private String processLayerCode(String code, LayerBean layerBean) {
 		if (layerBean instanceof BlockElementLayerBean blockElementLayerBean) {
-			return getElementLayerProcessedCode(code, blockElementLayerBean);
+			return processElementLayerCode(code, blockElementLayerBean);
+		} else if (layerBean instanceof ActionBlockLayerBean actionBlockLayerBean) {
+			return processActionBlockLayerCode(code, actionBlockLayerBean);
 		}
 		return code;
 	}
 
-	private String getElementLayerProcessedCode(
+	private String processActionBlockLayerCode(
+			String code, ActionBlockLayerBean actionBlockLayerBean) {
+
+		String key = actionBlockLayerBean.getKey();
+		String replacingCode = CodeFormatterUtils.getKeySyntaxString(key);
+		int intendation = CodeFormatterUtils.getIntendation(code, replacingCode);
+
+		String layerCode = actionBlockLayerBean.getProcessedCode();
+		String layerIntendedCode = CodeFormatterUtils.addIntendation(layerCode, intendation);
+
+		// Undo intendation from first line...
+		layerIntendedCode = layerIntendedCode.substring(0, intendation);
+
+		code = code.replace(replacingCode, layerIntendedCode);
+
+		return code;
+	}
+
+	private String processElementLayerCode(
 			String code, BlockElementLayerBean blockElementLayerBean) {
 		for (int i = 0; i < blockElementLayerBean.getBlockElementBeans().size(); ++i) {
 			BlockElementBean blockElementBean = blockElementLayerBean.getBlockElementBeans().get(i);
 			if (blockElementBean instanceof ValueInputBlockElementBean valueInputBlockElementBean) {
-				code = getValueInputBlockElementProcessedCode(code, valueInputBlockElementBean);
+				code = processValueInputBlockElementCode(code, valueInputBlockElementBean);
 			}
 		}
 		return code;
 	}
 
-	private String getValueInputBlockElementProcessedCode(
+	private String processValueInputBlockElementCode(
 			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
 		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
 	}

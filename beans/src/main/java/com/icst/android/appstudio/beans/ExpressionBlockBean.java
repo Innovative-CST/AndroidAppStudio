@@ -33,14 +33,52 @@ package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
 
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
 public abstract class ExpressionBlockBean<T> extends BaseBlockBean<T>
-		implements BlockElementBean<T>, Serializable {
+		implements BlockElementBean<T>, CodeProcessorBean, Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.EXPRESSION_BLOCK_BEAN;
 
+	private String codeSyntax;
+
+	@Override
+	public String getCodeSyntax() {
+		return this.codeSyntax;
+	}
+
+	public void setCodeSyntax(String codeSyntax) {
+		this.codeSyntax = codeSyntax;
+	}
+
 	public abstract DatatypeBean[] getReturnDatatypes();
 
-	public abstract String getCode();
+	@Override
+	public String getProcessedCode() {
+		String code = getCodeSyntax();
+
+		for (int i = 0; i < getElementsLayers().size(); ++i) {
+			BlockElementLayerBean layerBean = getElementsLayers().get(i);
+			code = processElementLayerCode(code, layerBean);
+		}
+
+		return code;
+	}
+
+	private String processElementLayerCode(
+			String code, BlockElementLayerBean blockElementLayerBean) {
+		for (int i = 0; i < blockElementLayerBean.getBlockElementBeans().size(); ++i) {
+			BlockElementBean blockElementBean = blockElementLayerBean.getBlockElementBeans().get(i);
+			if (blockElementBean instanceof ValueInputBlockElementBean valueInputBlockElementBean) {
+				code = processValueInputBlockElementCode(code, valueInputBlockElementBean);
+			}
+		}
+		return code;
+	}
+
+	private String processValueInputBlockElementCode(
+			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
+		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
+	}
 }

@@ -33,14 +33,26 @@ package com.icst.android.appstudio.activities;
 
 import java.util.ArrayList;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.databinding.ActivityJavaBlockProgrammingBinding;
 import com.icst.android.appstudio.javablocks.IOBlockBeans;
 import com.icst.android.appstudio.javablocks.MainJavaEventBean;
 import com.icst.android.appstudio.javablocks.OperatorBlockBeans;
+import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
+import com.icst.editor.tools.Themes;
+import com.icst.editor.widget.CodeEditorLayout;
 import com.icst.logic.config.LogicEditorConfiguration;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 
 public class JavaBlockProgrammingActivity extends BaseActivity {
 	private ActivityJavaBlockProgrammingBinding binding;
@@ -61,5 +73,53 @@ public class JavaBlockProgrammingActivity extends BaseActivity {
 		palette.add(IOBlockBeans.getIOBlockPalette());
 		palette.add(OperatorBlockBeans.getOperatorBlockPalette());
 		binding.logicEditor.preparePallete(palette);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.menu_show_code, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		if (menuItem.getItemId() == R.id.show_source_code) {
+			String code = binding.logicEditor.getPreparedEventBean().getProcessedCode();
+			SourceCodeViewerDialog sourceCodeDialog = new SourceCodeViewerDialog(this, code);
+			sourceCodeDialog.create().show();
+		}
+
+		return super.onOptionsItemSelected(menuItem);
+	}
+
+	public class SourceCodeViewerDialog extends MaterialAlertDialogBuilder {
+		private Activity activity;
+		private CodeEditorLayout editor;
+
+		public SourceCodeViewerDialog(BaseActivity activity, String code) {
+			super(activity);
+			this.activity = activity;
+			FileProviderRegistry.getInstance()
+					.addFileProvider(new AssetsFileResolver(activity.getAssets()));
+			try {
+				TextMateProvider.loadGrammars();
+			} catch (Exception e) {
+				Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+			}
+			editor = new CodeEditorLayout(activity);
+			editor.setEditable(false);
+			if (activity.getSetting().isEnabledDarkMode()) {
+				editor.setTheme(Themes.SoraEditorTheme.Dark.Monokai);
+			} else {
+				editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+			}
+			editor.setLanguageMode("java");
+			editor.setText(code);
+			setView(editor);
+			setTitle(R.string.source_code);
+			setPositiveButton(R.string.dismiss, (arg0, arg1) -> {
+			});
+		}
 	}
 }

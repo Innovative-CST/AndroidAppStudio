@@ -418,4 +418,9 @@ public class LogicEditorView extends RelativeLayout {
 	public LinearLayout getEditorSectionView() {
 		return binding.editorSection;
 	}
+
+	public EventBean getPreparedEventBean() {
+		event.setActionBlockBeans(binding.logicEditorCanvaView.mainChainDropZone.getBlockBeans());
+		return event;
+	}
 }

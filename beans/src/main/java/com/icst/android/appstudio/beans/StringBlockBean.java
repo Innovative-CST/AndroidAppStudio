@@ -59,11 +59,7 @@ public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implem
 		clone.setDragAllowed(new Boolean(isValueReadOnly()));
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
+		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		return clone;
-	}
-
-	@Override
-	public String getCode() {
-		return "Hello world!";
 	}
 }

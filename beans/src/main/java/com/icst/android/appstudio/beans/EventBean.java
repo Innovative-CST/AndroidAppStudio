@@ -34,16 +34,17 @@ package com.icst.android.appstudio.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-public class EventBean implements Serializable {
+public class EventBean implements CodeProcessorBean, Serializable {
 
 	public static final long serialVersionUID = SerializationUIDConstants.EVENT_BEAN;
 
 	private String name;
 	private String title;
 	private String description;
-	private String abstractCode;
+	private String codeSyntax;
 	private EventBlockBean eventDefinationBlockBean;
 	private ArrayList<ActionBlockBean> actionBlockBeans;
 	private DatatypeBean[] importClasses;
@@ -72,14 +73,6 @@ public class EventBean implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getAbstractCode() {
-		return this.abstractCode;
-	}
-
-	public void setAbstractCode(String abstractCode) {
-		this.abstractCode = abstractCode;
 	}
 
 	public EventBlockBean getEventDefinationBlockBean() {
@@ -120,5 +113,53 @@ public class EventBean implements Serializable {
 
 	public void setActionBlockBeans(ArrayList<ActionBlockBean> actionBlockBeans) {
 		this.actionBlockBeans = actionBlockBeans;
+	}
+
+	public void setCodeSyntax(String codeSyntax) {
+		this.codeSyntax = codeSyntax;
+	}
+
+	private String processElementLayerCode(
+			String code, BlockElementLayerBean blockElementLayerBean) {
+		for (int i = 0; i < blockElementLayerBean.getBlockElementBeans().size(); ++i) {
+			BlockElementBean blockElementBean = blockElementLayerBean.getBlockElementBeans().get(i);
+			if (blockElementBean instanceof ValueInputBlockElementBean valueInputBlockElementBean) {
+				code = processValueInputBlockElementCode(code, valueInputBlockElementBean);
+			}
+		}
+		return code;
+	}
+
+	private String processValueInputBlockElementCode(
+			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
+		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
+	}
+
+	@Override
+	public String getCodeSyntax() {
+		return this.codeSyntax;
+	}
+
+	@Override
+	public String getProcessedCode() {
+		String code = getCodeSyntax();
+
+		StringBuilder blocksCode = new StringBuilder();
+		actionBlockBeans.forEach(
+				actionBlockBean -> {
+					blocksCode.append(actionBlockBean.getProcessedCode());
+					blocksCode.append("\n");
+				});
+
+		String key = "EventCode";
+		String replacingCode = CodeFormatterUtils.getKeySyntaxString(key);
+		int intendation = CodeFormatterUtils.getIntendation(code, replacingCode);
+		String blocksIntendedCode = CodeFormatterUtils.addIntendation(blocksCode.toString(), intendation);
+		// Undo intendation from first line...
+		blocksIntendedCode = blocksIntendedCode.substring(0, intendation);
+
+		code = code.replace(replacingCode, blocksCode);
+
+		return code;
 	}
 }

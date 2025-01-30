@@ -37,7 +37,38 @@ public final class CodeFormatterUtils {
 
 	public static String formatCode(
 			String codeSyntax, ValueInputBlockElementBean mValueInputBlockElementBean) {
-		String replacer = new String("<CodeKey : ").concat(mValueInputBlockElementBean.getKey()).concat(">");
-		return codeSyntax.replace(codeSyntax, replacer);
+		return codeSyntax.replace(
+				getKeySyntaxString(mValueInputBlockElementBean.getKey()),
+				mValueInputBlockElementBean.getValue());
+	}
+
+	public static String getKeySyntaxString(String key) {
+		return new String("<CodeKey : ").concat(key).concat(">");
+	}
+
+	public static String addIntendation(String code, int intendation) {
+		StringBuilder intendedCode = new StringBuilder();
+		String[] lines = code.split("\n");
+		for (String line : lines) {
+			for (int i = 0; i < intendation; ++i) {
+				intendedCode.append("\t");
+			}
+			intendedCode.append(line);
+			intendedCode.append("\n");
+		}
+		return intendedCode.toString();
+	}
+
+	public static int getIntendation(String codeSyntax, String item) {
+
+		String[] codeLines = codeSyntax.split("\n");
+		for (String line : codeLines) {
+			if (line.contains(item)) {
+				int spaceCount = line.indexOf(item);
+				return spaceCount;
+			}
+		}
+
+		return 0;
 	}
 }
