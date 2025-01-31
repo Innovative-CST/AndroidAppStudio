@@ -49,9 +49,10 @@ public final class CodeFormatterUtils {
 	public static String addIntendation(String code, int intendation) {
 		StringBuilder intendedCode = new StringBuilder();
 		String[] lines = code.split("\n");
-		for (String line : lines) {
-			for (int i = 0; i < intendation; ++i) {
-				intendedCode.append("\t");
+		for (int i = 0; i < lines.length; ++i) {
+			String line = lines[i];
+			if (i != 0) {
+				intendedCode.append("\t".repeat(intendation));
 			}
 			intendedCode.append(line);
 			intendedCode.append("\n");

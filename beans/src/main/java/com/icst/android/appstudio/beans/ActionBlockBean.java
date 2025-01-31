@@ -85,9 +85,6 @@ public abstract class ActionBlockBean<T> extends BlockBean<T>
 		String layerCode = actionBlockLayerBean.getProcessedCode();
 		String layerIntendedCode = CodeFormatterUtils.addIntendation(layerCode, intendation);
 
-		// Undo intendation from first line...
-		layerIntendedCode = layerIntendedCode.substring(0, intendation);
-
 		code = code.replace(replacingCode, layerIntendedCode);
 
 		return code;
