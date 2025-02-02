@@ -34,18 +34,15 @@ package com.icst.logic.block.view;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
-import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.BlockShapesUtils;
-import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
-import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
@@ -160,109 +157,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 	}
 
 	@Override
-	public boolean canDrop(BlockBean block, float x, float y) {
-		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-			blocks.add(mActionBlockBean);
-			return canDrop(blocks, x, y);
-		} else {
-			for (int i = 0; i < layers.size(); ++i) {
-				if (CanvaMathUtils.isCoordinatesInsideTargetView(
-						layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
-					if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
-						return layerView.canDrop(
-								block, getLogicEditor().getEditorSectionView(), x, y);
-					} else if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-						return layerView.canDrop(block, x, y);
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		for (int i = 0; i < layers.size(); ++i) {
-			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
-					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
-				continue;
-			}
-			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-				return layerView.canDrop(blocks, x, y);
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public void highlightNearestTarget(BlockBean block, float x, float y) {
-		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-			blocks.add(mActionBlockBean);
-			highlightNearestTarget(blocks, x, y);
-		} else {
-			for (int i = 0; i < layers.size(); ++i) {
-				if (!CanvaMathUtils.isCoordinatesInsideTargetView(
-						layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
-					continue;
-				}
-				if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
-					layerView.highlightNearestTargetIfAllowed(
-							block, getLogicEditor().getEditorSectionView(), x, y);
-				} else if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-					layerView.highlightNearestTargetIfAllowed(block, x, y);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		for (int i = 0; i < layers.size(); ++i) {
-			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
-					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
-				continue;
-			}
-			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-				layerView.highlightNearestTargetIfAllowed(blocks, x, y);
-			}
-		}
-	}
-
-	@Override
-	public void drop(BlockBean block, float x, float y) {
-		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-			blocks.add(mActionBlockBean);
-			drop(blocks, x, y);
-		} else {
-			for (int i = 0; i < layers.size(); ++i) {
-				if (!CanvaMathUtils.isCoordinatesInsideTargetView(
-						layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
-					continue;
-				}
-				if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
-					layerView.dropToNearestTargetIfAllowed(
-							block, getLogicEditor().getEditorSectionView(), x, y);
-				} else if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-					layerView.dropBlockIfAllowed(block, x, y);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void drop(ArrayList<ActionBlockBean> blocks, float x, float y) {
-		for (int i = 0; i < layers.size(); ++i) {
-			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
-					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
-				continue;
-			}
-		}
-	}
-
-	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		int currentTop = UnitUtils.dpToPx(getContext(), 7) - 1;
 
@@ -326,4 +220,15 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 				Color.parseColor(
 						ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
 	}
+
+	@Override
+	public ArrayList<LayerBeanView> getLayers() {
+		return layers;
+	}
+
+	@Override
+	public ActionBlockBean getActionBlockBean() {
+		return regularBlockBean;
+	}
+
 }
