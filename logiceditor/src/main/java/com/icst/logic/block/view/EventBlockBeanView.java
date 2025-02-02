@@ -132,7 +132,13 @@ public class EventBlockBeanView extends BlockBeanView {
 
 		for (LayerBeanView layer : layers) {
 			View layerView = layer.getView();
+			int tempMinWidth = layerView.getMinimumWidth();
+			layerView.setMinimumWidth(0);
+			layerView.measure(
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
+			layerView.setMinimumWidth(tempMinWidth);
 		}
 
 		return maxWidth;

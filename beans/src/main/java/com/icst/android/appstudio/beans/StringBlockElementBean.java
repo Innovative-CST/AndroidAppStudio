@@ -73,15 +73,16 @@ public class StringBlockElementBean
 
 	@Override
 	public String getValue() {
-		if (string == null) {
-			if (getStringBlock() != null) {
-				if (getStringBlock().getCodeSyntax() != null) {
-					return getStringBlock().getProcessedCode();
-				}
+		if (getStringBlock() == null) {
+			if (getString() != null) {
+				return new String("\"").concat(getString()).concat("\"");
 			}
-			return "";
+		} else {
+			if (getStringBlock().getCodeSyntax() != null) {
+				return getStringBlock().getProcessedCode();
+			}
 		}
-		return new String("\"").concat(getString()).concat("\"");
+		return new String("\"").concat("\"");
 	}
 
 	@Override

@@ -136,9 +136,16 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 			}
 
 			View layerView = layer.getView();
+			int tempMinWidth = layerView.getMinimumWidth();
+			layerView.setMinimumWidth(0);
+			layerView.measure(
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
+			layerView.setMinimumWidth(tempMinWidth);
 		}
 
+		maxWidth += getPaddingLeft() + getPaddingRight();
 		return maxWidth;
 	}
 
@@ -185,7 +192,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 		}
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 5) - 2;
-
+		maxWidth += getPaddingLeft() + getPaddingRight();
 		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec), resolveSize(totalHeight, heightMeasureSpec));
 	}
 
@@ -200,7 +207,8 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 			totalHeight += child.getMeasuredHeight();
 		}
 		totalHeight += UnitUtils.dpToPx(getContext(), 7);
-		BlockShapesUtils.drawTerminatorBlockFooter(canvas, getContext(), 0, totalHeight - 1, getMaxLayerWidth(),
+		BlockShapesUtils.drawTerminatorBlockFooter(canvas, getContext(), 0, totalHeight - 1,
+				getMaxLayerWidth() + getPaddingLeft() + getPaddingRight(),
 				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), terminatorBlockBean.getColor())));
 	}
 

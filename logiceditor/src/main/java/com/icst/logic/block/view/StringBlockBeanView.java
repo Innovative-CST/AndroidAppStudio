@@ -123,49 +123,55 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 
 		for (LayerBeanView layer : layers) {
 			View layerView = layer.getView();
+			int tempMinWidth = layerView.getMinimumWidth();
+			layerView.setMinimumWidth(0);
+			layerView.measure(
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
+			layerView.setMinimumWidth(tempMinWidth);
 		}
 
+		maxWidth += getPaddingLeft();
 		return maxWidth;
 	}
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int totalWidth = 0;
-		int maxHeight = 0;
+		int totalHeight = 0;
+		int maxWidth = 0;
 
-		// Measure each child and calculate total width and maximum height
+		// Measure each child
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
-			if (child.getVisibility() != GONE) {
-				measureChild(child, widthMeasureSpec, heightMeasureSpec);
-				totalWidth += child.getMeasuredWidth();
-				maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
-			}
+			measureChild(child, widthMeasureSpec, heightMeasureSpec);
+			totalHeight += child.getMeasuredHeight();
+			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
-		maxHeight += UnitUtils.dpToPx(getContext(), 8);
-		int width = resolveSize(totalWidth, widthMeasureSpec);
-		int height = resolveSize(maxHeight, heightMeasureSpec);
 
-		setMeasuredDimension(width, height);
+		totalHeight += UnitUtils.dpToPx(getContext(), 4) + UnitUtils.dpToPx(getContext(), 4);
+		maxWidth += getPaddingLeft() + getPaddingRight();
+		setMeasuredDimension(
+				resolveSize(maxWidth, widthMeasureSpec),
+				resolveSize(totalHeight, heightMeasureSpec));
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		int currentLeft = l;
+		int totalWidth = 0;
+		int currentTop = UnitUtils.dpToPx(getContext(), 4);
 
-		// Position each child horizontally
+		// Layout each child
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
-			if (child.getVisibility() != GONE) {
-				int childWidth = child.getMeasuredWidth();
-				int childHeight = child.getMeasuredHeight();
+			int left = getPaddingLeft();
+			int top = currentTop;
+			int right = left + child.getMeasuredWidth();
+			int bottom = top + child.getMeasuredHeight();
 
-				int top = UnitUtils.dpToPx(getContext(), 4);
-				child.layout(currentLeft, top, currentLeft + childWidth, childHeight);
+			child.layout(left, top, right, bottom);
 
-				currentLeft += childWidth;
-			}
+			currentTop += child.getMeasuredHeight();
 		}
 	}
 

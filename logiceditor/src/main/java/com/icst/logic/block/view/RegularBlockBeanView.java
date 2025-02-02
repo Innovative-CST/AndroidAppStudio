@@ -137,10 +137,16 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			if (layer instanceof ActionBlockLayerView) {
 				continue;
 			}
-
 			View layerView = layer.getView();
+			int tempMinWidth = layerView.getMinimumWidth();
+			layerView.setMinimumWidth(0);
+			layerView.measure(
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
+			layerView.setMinimumWidth(tempMinWidth);
 		}
+		maxWidth += getPaddingLeft() + getPaddingRight();
 
 		return maxWidth;
 	}
@@ -188,7 +194,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 		}
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 12) - 2;
-
+		maxWidth += getPaddingLeft() + getPaddingRight();
 		setMeasuredDimension(
 				resolveSize(maxWidth, widthMeasureSpec),
 				resolveSize(totalHeight, heightMeasureSpec));
@@ -216,7 +222,7 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 				getContext(),
 				0,
 				totalHeight - 1,
-				getMaxLayerWidth(),
+				getMaxLayerWidth() + getPaddingLeft() + getPaddingRight(),
 				Color.parseColor(
 						ColorUtils.harmonizeHexColor(getContext(), regularBlockBean.getColor())));
 	}
