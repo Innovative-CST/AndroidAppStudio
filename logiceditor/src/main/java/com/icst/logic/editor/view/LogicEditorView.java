@@ -142,11 +142,11 @@ public class LogicEditorView extends RelativeLayout {
 		draggingView.requestLayout();
 		removeDummyHighlighter();
 		if (canDropDraggingView(x, y)) {
-			highlightNearestTargetIfAllowedIfAllowed(x, y);
+			highlightNearestTargetIfAllowed(x, y);
 		}
 	}
 
-	public void highlightNearestTargetIfAllowedIfAllowed(float x, float y) {
+	public void highlightNearestTargetIfAllowed(float x, float y) {
 		boolean hasNearbyTarget = false;
 		for (int i = blockDropZones.size() - 1; i >= 0; --i) {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
