@@ -45,6 +45,7 @@ import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
+import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
@@ -164,6 +165,16 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
 			blocks.add(mActionBlockBean);
 			return canDrop(blocks, x, y);
+		} else {
+			for (int i = 0; i < layers.size(); ++i) {
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
+					if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
+						return layerView.canDrop(
+								block, getLogicEditor().getEditorSectionView(), x, y);
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -188,6 +199,17 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
 			blocks.add(mActionBlockBean);
 			highlightNearestTarget(blocks, x, y);
+		} else {
+			for (int i = 0; i < layers.size(); ++i) {
+				if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+						layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
+					continue;
+				}
+				if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
+					layerView.highlightNearestTargetIfAllowed(
+							block, getLogicEditor().getEditorSectionView(), x, y);
+				}
+			}
 		}
 	}
 
@@ -210,6 +232,17 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
 			blocks.add(mActionBlockBean);
 			drop(blocks, x, y);
+		} else {
+			for (int i = 0; i < layers.size(); ++i) {
+				if (!CanvaMathUtils.isCoordinatesInsideTargetView(
+						layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
+					continue;
+				}
+				if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
+					layerView.dropToNearestTargetIfAllowed(
+							block, getLogicEditor().getEditorSectionView(), x, y);
+				}
+			}
 		}
 	}
 
@@ -219,9 +252,6 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
 					layers.get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
-			}
-			if (layers.get(i) instanceof ActionBlockLayerView layerView) {
-				layerView.dropBlockIfAllowed(blocks, x, y);
 			}
 		}
 	}

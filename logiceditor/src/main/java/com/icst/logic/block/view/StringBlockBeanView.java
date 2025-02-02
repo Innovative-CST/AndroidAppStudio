@@ -41,6 +41,7 @@ import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
@@ -162,22 +163,42 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 				int top = UnitUtils.dpToPx(getContext(), 4);
 				child.layout(currentLeft, top, currentLeft + childWidth, childHeight);
 
-				currentLeft += childWidth; // Move to the next position
+				currentLeft += childWidth;
 			}
 		}
 	}
 
 	@Override
 	public boolean canDrop(BlockBean block, float x, float y) {
+		for (int i = 0; i < layers.size(); ++i) {
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
+					getLogicEditor().getEditorSectionView(), x, y)) {
+				return layers.get(i).canDrop(block, getLogicEditor().getEditorSectionView(), x, y);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void highlightNearestTarget(BlockBean block, float x, float y) {
+		for (int i = 0; i < layers.size(); ++i) {
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
+					getLogicEditor().getEditorSectionView(), x, y)) {
+				layers.get(i).highlightNearestTargetIfAllowed(block, getLogicEditor().getEditorSectionView(), x, y);
+				return;
+			}
+		}
 	}
 
 	@Override
 	public void drop(BlockBean block, float x, float y) {
+		for (int i = 0; i < layers.size(); ++i) {
+			if (CanvaMathUtils.isCoordinatesInsideTargetView(layers.get(i).getView(),
+					getLogicEditor().getEditorSectionView(), x, y)) {
+				layers.get(i).dropToNearestTargetIfAllowed(block, getLogicEditor().getEditorSectionView(), x, y);
+				return;
+			}
+		}
 	}
 
 	@Override

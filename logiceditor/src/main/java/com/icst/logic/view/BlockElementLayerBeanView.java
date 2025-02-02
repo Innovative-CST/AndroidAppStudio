@@ -33,7 +33,6 @@ package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
-import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
@@ -61,6 +60,44 @@ public class BlockElementLayerBeanView extends LinearLayout
 		setMinimumHeight(20);
 	}
 
+	public void highlightNearestTargetIfAllowed(
+			BlockBean mBlock, LinearLayout editorSectionView, float x, float y) {
+		if (mBlock instanceof ExpressionBlockBean mExpressionBlockBean) {
+			for (int i = 0; i < getChildCount(); ++i) {
+				View child = getChildAt(i);
+				boolean isInsideChild = CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, editorSectionView, x, y);
+				if (isInsideChild) {
+					if (child instanceof StringBlockElementBeanView mStringBlockElementBeanView) {
+						if (mStringBlockElementBeanView.canDrop(mBlock, x, y)) {
+							mStringBlockElementBeanView.highlight(mBlock, x, y);
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	public void dropToNearestTargetIfAllowed(
+			BlockBean mBlock, LinearLayout editorSectionView, float x, float y) {
+		if (mBlock instanceof ExpressionBlockBean mExpressionBlockBean) {
+			for (int i = 0; i < getChildCount(); ++i) {
+				View child = getChildAt(i);
+				boolean isInsideChild = CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, editorSectionView, x, y);
+				if (isInsideChild) {
+					if (child instanceof StringBlockElementBeanView mStringBlockElementBeanView) {
+						if (mStringBlockElementBeanView.canDrop(mBlock, x, y)) {
+							mStringBlockElementBeanView.dropBlockIfAllowed(mBlock, x, y);
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+
 	public boolean canDrop(BlockBean mBlock, LinearLayout editorSectionView, float x, float y) {
 		if (mBlock instanceof ExpressionBlockBean mExpressionBlockBean) {
 			for (int i = 0; i < getChildCount(); ++i) {
@@ -69,11 +106,7 @@ public class BlockElementLayerBeanView extends LinearLayout
 						child, editorSectionView, x, y);
 				if (isInsideChild) {
 					if (child instanceof StringBlockElementBeanView mStringBlockElementBeanView) {
-						return BlockBeanUtils.arrayContainsDatatypeBeans(
-								mExpressionBlockBean.getReturnDatatypes(),
-								mStringBlockElementBeanView
-										.getStringBlockElementBean()
-										.getAcceptedReturnType());
+						return mStringBlockElementBeanView.canDrop(mBlock, x, y);
 					}
 					break;
 				}

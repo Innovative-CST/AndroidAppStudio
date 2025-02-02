@@ -37,10 +37,12 @@ import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.EventBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.logic.adapter.BlockPaletteAdapter;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.HistoryManager;
 import com.icst.logic.editor.databinding.LayoutLogicEditorBinding;
@@ -51,6 +53,7 @@ import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.view.ActionBlockDropZoneView;
 import com.icst.logic.view.BlockDropZoneView;
 import com.icst.logic.view.DraggingBlockDummy;
+import com.icst.logic.view.ExpressionBlockDropZoneView;
 import com.icst.logic.view.MainActionBlockDropZoneView;
 import com.icst.logic.view.NearestTargetHighlighterView;
 
@@ -179,6 +182,13 @@ public class LogicEditorView extends RelativeLayout {
 					}
 				}
 
+			} else if (blockDropZones.get(i) instanceof ExpressionBlockDropZoneView expressionBlockDropZoneView) {
+				if (draggingBean instanceof ExpressionBlockBean expressionBlockBean) {
+					if (expressionBlockDropZoneView.canDrop(expressionBlockBean, x, y)) {
+						hasNearbyTarget = true;
+						expressionBlockDropZoneView.highlightNearestTargetIfAllowed(expressionBlockBean, x, y);
+					}
+				}
 			} else
 				continue;
 		}
@@ -226,6 +236,13 @@ public class LogicEditorView extends RelativeLayout {
 					}
 				}
 
+			} else if (blockDropZones.get(i) instanceof ExpressionBlockDropZoneView expressionBlockDropZoneView) {
+				if (draggingBean instanceof ExpressionBlockBean expressionBlockBean) {
+					if (expressionBlockDropZoneView.canDrop(expressionBlockBean, x, y)) {
+						hasNearbyTarget = true;
+						expressionBlockDropZoneView.dropBlockIfAllowed(expressionBlockBean, x, y);
+					}
+				}
 			} else
 				continue;
 		}
@@ -267,6 +284,20 @@ public class LogicEditorView extends RelativeLayout {
 				getLogicEditorCanva().addView(newZone);
 				blockDropZones.add(newZone);
 				newZone.setLayoutParams(lp);
+			} else if (draggingBean instanceof ExpressionBlockBean expressionBlockBean) {
+				ExpressionBlockDropZoneView newZone = new ExpressionBlockDropZoneView(
+						getContext(), new LogicEditorConfiguration(), this);
+
+				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
+						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
+						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
+
+				newZone.setExpressionBlockBean(expressionBlockBean);
+				newZone.setX(x + binding.logicEditorCanvaView.getScrollX());
+				newZone.setY(y + binding.logicEditorCanvaView.getScrollY());
+				getLogicEditorCanva().addView(newZone);
+				blockDropZones.add(newZone);
+				newZone.setLayoutParams(lp);
 			}
 		}
 
@@ -295,6 +326,16 @@ public class LogicEditorView extends RelativeLayout {
 				regularChain.getChildAt(index).setOnTouchListener(null);
 				regularChain.removeViews(index, regularChain.getChildCount() - index);
 				regularChain.dereferenceActionBlocks(index);
+			}
+		} else if (touchingView instanceof ExpressionBlockBeanView expressionBlockBean) {
+			ViewParent parent = expressionBlockBean.getParent();
+			if (parent == null)
+				return;
+
+			if (parent instanceof ExpressionBlockDropZoneView expressionBlockDropZone) {
+				expressionBlockDropZone.getExpressionBlockBeanView().setOnTouchListener(null);
+				blockDropZones.remove(expressionBlockDropZone);
+				getLogicEditorCanva().removeView(expressionBlockDropZone);
 			}
 		}
 	}

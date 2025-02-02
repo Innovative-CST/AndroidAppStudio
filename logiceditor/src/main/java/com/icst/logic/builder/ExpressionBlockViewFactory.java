@@ -29,95 +29,28 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.logic.view;
+package com.icst.logic.builder;
 
-import com.icst.android.appstudio.beans.ActionBlockBean;
-import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
+import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
-import com.icst.logic.utils.BlockImageUtils;
-import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.ImageViewUtils;
+import com.icst.logic.editor.view.LogicEditorView;
+import com.icst.logic.view.StringBlockBeanView;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-public class NearestTargetHighlighterView extends LinearLayout {
+public final class ExpressionBlockViewFactory {
 
-	private BlockBean block;
-	private View header;
-	private View footer;
-	private ViewGroup.LayoutParams headerLayoutParam;
-	private ViewGroup.LayoutParams footerLayoutParam;
-	private LogicEditorConfiguration logicEditorConfiguration;
-	private LinearLayout layerView;
-	private LinearLayout blockDummy;
-	private ImageView cursorIcon;
-
-	public NearestTargetHighlighterView(Context context, BlockBean block) {
-		super(context);
-		this.block = block;
-		init();
-	}
-
-	private void init() {
-		blockDummy = new LinearLayout(getContext());
-		blockDummy.setOrientation(VERTICAL);
-		addView(blockDummy);
-		if (block instanceof ActionBlockBean) {
-			addHeader();
-			addFooter();
-			setBackgroundColor(Color.TRANSPARENT);
-		} else if (block instanceof StringBlockBean) {
-			setBackgroundColor(Color.BLACK);
+	public static final ExpressionBlockBeanView generateView(
+			ExpressionBlockBean expressionBlockBean,
+			Context context,
+			LogicEditorConfiguration configuration,
+			LogicEditorView logicEditor) {
+		if (expressionBlockBean instanceof StringBlockBean stringBlockBean) {
+			StringBlockBeanView view = new StringBlockBeanView(context, stringBlockBean, configuration, logicEditor);
+			return view;
 		}
-	}
-
-	@Override
-	protected void onMeasure(int arg0, int arg1) {
-		if (block instanceof StringBlockBean) {
-			setMeasuredDimension(0, 0);
-		} else {
-			super.onMeasure(arg0, arg1);
-		}
-	}
-
-	private void addFooter() {
-		footerLayoutParam = new LayoutParams(160, LayoutParams.WRAP_CONTENT);
-
-		footer = new LinearLayout(getContext());
-		int footerBackDropRes = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_BOTTOM);
-		Drawable footerRes = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				footerBackDropRes);
-		footer.setBackgroundDrawable(footerRes);
-		blockDummy.addView(footer);
-		footer.setLayoutParams(footerLayoutParam);
-	}
-
-	private void addHeader() {
-		headerLayoutParam = new LayoutParams(160, LayoutParams.WRAP_CONTENT);
-
-		header = new LinearLayout(getContext());
-		int res = BlockImageUtils.getImage(BlockImageUtils.Image.ACTION_BLOCK_TOP);
-		Drawable headerDrawable = ImageViewUtils.getImageView(
-				getContext(),
-				ColorUtils.harmonizeHexColor(getContext(), block.getColor()),
-				res);
-		header.setBackgroundDrawable(headerDrawable);
-		blockDummy.addView(header);
-		header.setLayoutParams(headerLayoutParam);
-	}
-
-	public void setBlockBean(BlockBean blockBean) {
-		this.block = blockBean;
-		removeAllViews();
-		init();
+		return null;
 	}
 }

@@ -32,8 +32,10 @@
 package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -43,14 +45,18 @@ import com.icst.logic.utils.UnitUtils;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class StringBlockElementBeanView extends BlockDropZoneView {
+public class StringBlockElementBeanView extends LinearLayout {
 	private TextView label;
-
-	// Block in which this StringBlockElementBeanView exists.
+	private StringBlockBeanView strBlockView;
 	private BlockBeanView blockView;
 	private StringBlockElementBean mStringBlockElementBean;
+	private LogicEditorConfiguration logicEditorConfiguration;
+	private LogicEditorView logicEditor;
+	private InputFieldBottomSheet currentSheet;
 
 	public StringBlockElementBeanView(
 			Context context,
@@ -58,9 +64,11 @@ public class StringBlockElementBeanView extends BlockDropZoneView {
 			StringBlockElementBean mStringBlockElementBean,
 			LogicEditorConfiguration configuration,
 			LogicEditorView logicEditor) {
-		super(context, configuration, logicEditor);
+		super(context);
 		this.mStringBlockElementBean = mStringBlockElementBean;
 		this.blockView = blockView;
+		this.logicEditorConfiguration = configuration;
+		this.logicEditor = logicEditor;
 		setMinimumWidth(UnitUtils.dpToPx(getContext(), 20));
 		setBackgroundColor(Color.WHITE);
 		setGravity(Gravity.CENTER_VERTICAL);
@@ -68,8 +76,8 @@ public class StringBlockElementBeanView extends BlockDropZoneView {
 		label.setTextSize(configuration.getTextSize().getTextSize());
 		setOnClickListener(
 				v -> {
-					if (blockView.isInsideCanva() && label.getParent() != null) {
-						InputFieldBottomSheet sheet = new InputFieldBottomSheet(
+					if (blockView.isInsideCanva()) {
+						currentSheet = new InputFieldBottomSheet(
 								getContext(),
 								mStringBlockElementBean,
 								new InputFieldBottomSheet.ValueListener() {
@@ -78,48 +86,55 @@ public class StringBlockElementBeanView extends BlockDropZoneView {
 										setValue(value);
 									}
 								});
-						sheet.show();
+						currentSheet.show();
 					}
 				});
+		init();
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		if (currentSheet != null && currentSheet.isShowing()) {
+			currentSheet.dismiss();
+		}
+		currentSheet = null;
+	}
+
+	private void init() {
+		removeAllViews();
 		if (mStringBlockElementBean.getStringBlock() != null) {
-			StringBlockBeanView strBlockView = new StringBlockBeanView(
+			strBlockView = new StringBlockBeanView(
 					getContext(),
 					mStringBlockElementBean.getStringBlock(),
-					getConfiguration(),
-					getLogicEditor());
+					logicEditorConfiguration,
+					logicEditor);
+			LayoutParams lp = generateDefaultLayoutParams();
+			lp.setMargins(0, 0, 0, 0);
+			strBlockView.setLayoutParams(lp);
 			addView(strBlockView);
 		} else {
 			label.setText(
-					mStringBlockElementBean.getString() == null
-							? ""
-							: mStringBlockElementBean.getString());
+					mStringBlockElementBean.getString() != null
+							? mStringBlockElementBean.getString()
+							: "");
 			addView(label);
 		}
 	}
 
 	public void setValue(String str) {
-		if (str == null) {
+		if (str == null)
 			return;
-		}
-		if (label.getParent() == null) {
-			mStringBlockElementBean.setString(str);
-			label.setText(str);
-			removeAllViews();
-			addView(label);
-		} else {
-			mStringBlockElementBean.setString(str);
-			label.setText(str);
-		}
+		mStringBlockElementBean.setValue(str);
+		strBlockView = null;
+		init();
 	}
 
 	public void setValue(StringBlockBean strBlock) {
-		if (strBlock == null) {
+		if (strBlock == null)
 			return;
-		}
-		removeAllViews();
-		StringBlockBeanView blockView = new StringBlockBeanView(
-				getContext(), strBlock, getConfiguration(), getLogicEditor());
-		addView(blockView);
+		mStringBlockElementBean.setStringBlock(strBlock);
+		init();
 	}
 
 	@Override
@@ -130,19 +145,72 @@ public class StringBlockElementBeanView extends BlockDropZoneView {
 	}
 
 	public StringBlockElementBean getStringBlockElementBean() {
-		return this.mStringBlockElementBean;
+		return mStringBlockElementBean;
 	}
 
-	@Override
 	public boolean canDrop(BlockBean block, float x, float y) {
+		if (block == null)
+			return false;
+		if (strBlockView != null) {
+			if (strBlockView.canDrop(block, x, y))
+				return true;
+		}
+		if (block instanceof ExpressionBlockBean expressionBlock) {
+			return BlockBeanUtils.arrayContainsDatatypeBeans(
+					expressionBlock.getReturnDatatypes(),
+					mStringBlockElementBean.getAcceptedReturnType());
+		}
 		return false;
 	}
 
-	@Override
-	public void highlightNearestTargetIfAllowed(BlockBean block, float x, float y) {
+	public void highlight(BlockBean block, float x, float y) {
+		if (mStringBlockElementBean.getStringBlock() != null) {
+			if (strBlockView.canDrop(block, x, y)) {
+				strBlockView.highlightNearestTarget(block, x, y);
+				return;
+			}
+		}
+		if (block instanceof StringBlockBean stringBlockBean) {
+			if (label.getParent() != null) {
+				label.setVisibility(INVISIBLE);
+			}
+			if (strBlockView != null) {
+				if (strBlockView.getParent() != null) {
+					strBlockView.setVisibility(INVISIBLE);
+				}
+			}
+			setBackgroundColor(Color.BLACK);
+			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
+			logicEditor.setDummyHighlighter(highlighter);
+			addView(highlighter);
+		}
 	}
 
 	@Override
+	public void removeView(View view) {
+		super.removeView(view);
+		if (view instanceof NearestTargetHighlighterView) {
+			if (label.getParent() != null) {
+				label.setVisibility(VISIBLE);
+			}
+			if (strBlockView != null) {
+				if (strBlockView.getParent() != null) {
+					strBlockView.setVisibility(VISIBLE);
+				}
+			}
+			setBackgroundColor(Color.WHITE);
+		}
+	}
+
 	public void dropBlockIfAllowed(BlockBean block, float x, float y) {
+		if (mStringBlockElementBean.getStringBlock() != null) {
+			if (strBlockView.canDrop(block, x, y)) {
+				strBlockView.drop(block, x, y);
+				return;
+			}
+		}
+		if (block instanceof StringBlockBean stringBlockBean) {
+			setValue(stringBlockBean);
+		}
 	}
 }

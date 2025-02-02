@@ -32,7 +32,9 @@
 package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.logic.block.view.ExpressionBlockBeanView;
+import com.icst.logic.builder.ExpressionBlockViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.CanvaMathUtils;
@@ -48,9 +50,16 @@ public class ExpressionBlockDropZoneView extends BlockDropZoneView {
 
 	private ExpressionBlockBeanView mExpressionBlockBeanView;
 
-	public void setExpressionBlockBeanView() {
+	public void setExpressionBlockBean(ExpressionBlockBean mExpressionBlockBean) {
 		removeAllViews();
+		mExpressionBlockBeanView = ExpressionBlockViewFactory.generateView(mExpressionBlockBean, getContext(),
+				getConfiguration(), getLogicEditor());
+		mExpressionBlockBeanView.setInsideCanva(true);
 		addView(mExpressionBlockBeanView);
+	}
+
+	public ExpressionBlockBeanView getExpressionBlockBeanView() {
+		return mExpressionBlockBeanView;
 	}
 
 	@Override

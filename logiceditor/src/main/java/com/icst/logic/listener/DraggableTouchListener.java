@@ -145,7 +145,7 @@ public class DraggableTouchListener implements View.OnTouchListener {
 				} else if (touchingView instanceof StringBlockBeanView stringBlockView) {
 					if (!stringBlockView.isInsideCanva()) {
 						isDragging = true;
-						Object draggingBean = stringBlockView.getStringBlockBean();
+						Object draggingBean = stringBlockView.getStringBlockBean().cloneBean();
 						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
 						DraggingBlockDummy draggingView = new DraggingBlockDummy(
 								getLogicEditor().getContext(),
