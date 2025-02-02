@@ -142,7 +142,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 		return maxWidth;
 	}
 
-	public void setRegularBlockBean(TerminatorBlockBean terminatorBlockBean) {
+	public void setTerminatorBlockBean(TerminatorBlockBean terminatorBlockBean) {
 		this.terminatorBlockBean = terminatorBlockBean;
 		layers = new ArrayList<LayerBeanView>();
 		removeAllViews();
