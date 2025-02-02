@@ -56,6 +56,8 @@ import com.icst.logic.view.DraggingBlockDummy;
 import com.icst.logic.view.ExpressionBlockDropZoneView;
 import com.icst.logic.view.MainActionBlockDropZoneView;
 import com.icst.logic.view.NearestTargetHighlighterView;
+import com.icst.logic.view.StringBlockBeanView;
+import com.icst.logic.view.StringBlockElementBeanView;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -336,6 +338,9 @@ public class LogicEditorView extends RelativeLayout {
 				expressionBlockDropZone.getExpressionBlockBeanView().setOnTouchListener(null);
 				blockDropZones.remove(expressionBlockDropZone);
 				getLogicEditorCanva().removeView(expressionBlockDropZone);
+			} else if (parent instanceof StringBlockElementBeanView stringBlockElementBeanView) {
+				expressionBlockBean.setOnTouchListener(null);
+				stringBlockElementBeanView.setValue("");
 			}
 		}
 	}
@@ -377,6 +382,8 @@ public class LogicEditorView extends RelativeLayout {
 					regularChain.getChildAt(i).setVisibility(View.VISIBLE);
 				}
 			}
+		} else if (touchingView instanceof StringBlockBeanView stringBlockBeanView) {
+			stringBlockBeanView.setVisibility(VISIBLE);
 		}
 	}
 
@@ -463,5 +470,9 @@ public class LogicEditorView extends RelativeLayout {
 	public EventBean getPreparedEventBean() {
 		event.setActionBlockBeans(binding.logicEditorCanvaView.mainChainDropZone.getBlockBeans());
 		return event;
+	}
+
+	public Object getDraggingBean() {
+		return draggingBean;
 	}
 }

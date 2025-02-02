@@ -42,6 +42,7 @@ import com.icst.logic.builder.LayerViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.CanvaMathUtils;
+import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
@@ -71,7 +72,7 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 
 	private void init() {
 		addLayers();
-		setBackgroundColor(Color.parseColor(stringBlockBean.getColor()));
+		setBackgroundColor(Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), stringBlockBean.getColor())));
 		setOnTouchListener(getLogicEditor().getDraggableTouchListener());
 	}
 

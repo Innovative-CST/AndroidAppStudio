@@ -108,17 +108,37 @@ public class StringBlockElementBeanView extends LinearLayout {
 					getContext(),
 					mStringBlockElementBean.getStringBlock(),
 					logicEditorConfiguration,
-					logicEditor);
+					logicEditor) {
+				@Override
+				public void setVisibility(int arg0) {
+					super.setVisibility(arg0);
+					if (arg0 == GONE) {
+						if (label.getParent() == null) {
+							StringBlockElementBeanView.this.addView(label);
+						}
+						label.setText("");
+					} else if (arg0 == VISIBLE) {
+						StringBlockElementBeanView.this.removeView(label);
+					}
+				}
+			};
 			LayoutParams lp = generateDefaultLayoutParams();
 			lp.setMargins(0, 0, 0, 0);
 			strBlockView.setLayoutParams(lp);
-			addView(strBlockView);
+			strBlockView.setInsideCanva(true);
+			if (strBlockView.getParent() == null) {
+				addView(strBlockView);
+				strBlockView.setVisibility(VISIBLE);
+			}
 		} else {
+			if (label.getParent() == null) {
+				addView(label);
+				label.setVisibility(VISIBLE);
+			}
 			label.setText(
 					mStringBlockElementBean.getString() != null
 							? mStringBlockElementBean.getString()
 							: "");
-			addView(label);
 		}
 	}
 
@@ -151,9 +171,11 @@ public class StringBlockElementBeanView extends LinearLayout {
 	public boolean canDrop(BlockBean block, float x, float y) {
 		if (block == null)
 			return false;
-		if (strBlockView != null) {
-			if (strBlockView.canDrop(block, x, y))
-				return true;
+		if (block != mStringBlockElementBean.getStringBlock()) {
+			if (strBlockView != null) {
+				if (strBlockView.canDrop(block, x, y))
+					return true;
+			}
 		}
 		if (block instanceof ExpressionBlockBean expressionBlock) {
 			return BlockBeanUtils.arrayContainsDatatypeBeans(
@@ -164,10 +186,12 @@ public class StringBlockElementBeanView extends LinearLayout {
 	}
 
 	public void highlight(BlockBean block, float x, float y) {
-		if (mStringBlockElementBean.getStringBlock() != null) {
-			if (strBlockView.canDrop(block, x, y)) {
-				strBlockView.highlightNearestTarget(block, x, y);
-				return;
+		if (block != mStringBlockElementBean.getStringBlock()) {
+			if (mStringBlockElementBean.getStringBlock() != null) {
+				if (strBlockView.canDrop(block, x, y)) {
+					strBlockView.highlightNearestTarget(block, x, y);
+					return;
+				}
 			}
 		}
 		if (block instanceof StringBlockBean stringBlockBean) {
@@ -176,7 +200,9 @@ public class StringBlockElementBeanView extends LinearLayout {
 			}
 			if (strBlockView != null) {
 				if (strBlockView.getParent() != null) {
-					strBlockView.setVisibility(INVISIBLE);
+					if (strBlockView.getVisibility() != GONE) {
+						strBlockView.setVisibility(INVISIBLE);
+					}
 				}
 			}
 			setBackgroundColor(Color.BLACK);
@@ -190,12 +216,20 @@ public class StringBlockElementBeanView extends LinearLayout {
 	public void removeView(View view) {
 		super.removeView(view);
 		if (view instanceof NearestTargetHighlighterView) {
-			if (label.getParent() != null) {
-				label.setVisibility(VISIBLE);
+			if (mStringBlockElementBean.getString() != null) {
+				if (label.getParent() != null) {
+					label.setVisibility(VISIBLE);
+				} else {
+					addView(label);
+					label.setText(mStringBlockElementBean.getString());
+				}
 			}
-			if (strBlockView != null) {
+
+			if (mStringBlockElementBean.getStringBlock() != null) {
 				if (strBlockView.getParent() != null) {
-					strBlockView.setVisibility(VISIBLE);
+					if (strBlockView.getVisibility() != GONE) {
+						strBlockView.setVisibility(VISIBLE);
+					}
 				}
 			}
 			setBackgroundColor(Color.WHITE);
@@ -203,10 +237,12 @@ public class StringBlockElementBeanView extends LinearLayout {
 	}
 
 	public void dropBlockIfAllowed(BlockBean block, float x, float y) {
-		if (mStringBlockElementBean.getStringBlock() != null) {
-			if (strBlockView.canDrop(block, x, y)) {
-				strBlockView.drop(block, x, y);
-				return;
+		if (block != mStringBlockElementBean.getStringBlock()) {
+			if (mStringBlockElementBean.getStringBlock() != null) {
+				if (strBlockView.canDrop(block, x, y)) {
+					strBlockView.drop(block, x, y);
+					return;
+				}
 			}
 		}
 		if (block instanceof StringBlockBean stringBlockBean) {
