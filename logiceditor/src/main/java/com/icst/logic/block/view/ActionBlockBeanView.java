@@ -47,6 +47,8 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 	}
+	
+	
 
 	public abstract boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y);
 

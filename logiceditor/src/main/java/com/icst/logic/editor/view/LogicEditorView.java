@@ -162,7 +162,7 @@ public class LogicEditorView extends RelativeLayout {
 						hasNearbyTarget = true;
 						dropZone.highlightNearestTargetIfAllowed(blocks, x, y);
 					}
-				} else if (draggingBean instanceof ActionBlockBean block) {
+				} else if (draggingBean instanceof BlockBean block) {
 					if (dropZone.canDrop(block, x, y)) {
 						hasNearbyTarget = true;
 						dropZone.highlightNearestTargetIfAllowed(block, x, y);
@@ -216,7 +216,7 @@ public class LogicEditorView extends RelativeLayout {
 						hasNearbyTarget = true;
 						dropZone.dropBlockIfAllowed(blocks, x, y);
 					}
-				} else if (draggingBean instanceof ActionBlockBean block) {
+				} else if (draggingBean instanceof BlockBean block) {
 					if (dropZone.canDrop(block, x, y)) {
 						hasNearbyTarget = true;
 						dropZone.dropBlockIfAllowed(block, x, y);

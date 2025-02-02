@@ -40,6 +40,7 @@ import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public class OperatorBlockBeans {
 
@@ -74,6 +75,12 @@ public class OperatorBlockBeans {
 		layers.add(layer1);
 
 		block.setElementsLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append(CodeFormatterUtils.getKeySyntaxString("mString"));
+		code.append(".trim()");
+
+		block.setCodeSyntax(code.toString());
 		return block;
 	}
 

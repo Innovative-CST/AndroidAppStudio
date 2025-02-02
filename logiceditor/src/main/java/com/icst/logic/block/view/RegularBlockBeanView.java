@@ -172,6 +172,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 					if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
 						return layerView.canDrop(
 								block, getLogicEditor().getEditorSectionView(), x, y);
+					} else if (layers.get(i) instanceof ActionBlockLayerView layerView) {
+						return layerView.canDrop(block, x, y);
 					}
 				}
 			}
@@ -208,6 +210,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 				if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
 					layerView.highlightNearestTargetIfAllowed(
 							block, getLogicEditor().getEditorSectionView(), x, y);
+				} else if (layers.get(i) instanceof ActionBlockLayerView layerView) {
+					layerView.highlightNearestTargetIfAllowed(block, x, y);
 				}
 			}
 		}
@@ -241,6 +245,8 @@ public class RegularBlockBeanView extends ActionBlockBeanView {
 				if (layers.get(i) instanceof BlockElementLayerBeanView layerView) {
 					layerView.dropToNearestTargetIfAllowed(
 							block, getLogicEditor().getEditorSectionView(), x, y);
+				} else if (layers.get(i) instanceof ActionBlockLayerView layerView) {
+					layerView.dropBlockIfAllowed(block, x, y);
 				}
 			}
 		}

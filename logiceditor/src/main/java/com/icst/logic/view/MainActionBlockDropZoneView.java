@@ -157,6 +157,19 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
 			blocks.add(actionBlockBean);
 			highlightNearestTargetIfAllowed(blocks, x, y);
+		} else {
+			int index = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, getLogicEditor().getEditorSectionView(), x, y)) {
+					index = i;
+					break;
+				}
+			}
+			if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+				blockBeanView.highlightNearestTarget(block, x, y);
+			}
 		}
 	}
 
@@ -166,10 +179,24 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
 			blocks.add(actionBlockBean);
 			dropBlockIfAllowed(blocks, x, y);
+		} else {
+			int index = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, getLogicEditor().getEditorSectionView(), x, y)) {
+					index = i;
+					break;
+				}
+			}
+			if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+				blockBeanView.drop(block, x, y);
+			}
 		}
 	}
 
-	public void highlightNearestTargetIfAllowed(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	public void highlightNearestTargetIfAllowed(
+			ArrayList<ActionBlockBean> blocks, float x, float y) {
 		int index = 0;
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
@@ -257,6 +284,19 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			ArrayList<ActionBlockBean> blockArray = new ArrayList<>();
 			blockArray.add(actionBlockBean);
 			return canDrop(blockArray, x, y);
+		} else {
+			int index = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, getLogicEditor().getEditorSectionView(), x, y)) {
+					index = i;
+					break;
+				}
+			}
+			if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+				return blockBeanView.canDrop(block, x, y);
+			}
 		}
 		return false;
 	}
@@ -331,8 +371,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 
 			lp.setMargins(
 					0,
-					UnitUtils.dpToPx(
-							getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+					UnitUtils.dpToPx(getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
 					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);

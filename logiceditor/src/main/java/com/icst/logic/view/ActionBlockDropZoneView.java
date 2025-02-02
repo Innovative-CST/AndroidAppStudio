@@ -116,6 +116,19 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
 			actionBlocks.add(mActionBlockBean);
 			highlightNearestTargetIfAllowed(actionBlocks, x, y);
+		} else {
+			int index = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, getLogicEditor().getEditorSectionView(), x, y)) {
+					index = i;
+					break;
+				}
+			}
+			if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+				blockBeanView.highlightNearestTarget(block, x, y);
+			}
 		}
 	}
 
@@ -125,6 +138,19 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
 			blocks.add(mActionBlockBean);
 			dropBlockIfAllowed(blocks, x, y);
+		} else {
+			int index = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, getLogicEditor().getEditorSectionView(), x, y)) {
+					index = i;
+					break;
+				}
+			}
+			if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+				blockBeanView.drop(block, x, y);
+			}
 		}
 	}
 
@@ -134,6 +160,19 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
 			actionBlocks.add(mActionBlockBean);
 			return canDrop(actionBlocks, x, y);
+		} else {
+			int index = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (CanvaMathUtils.isCoordinatesInsideTargetView(
+						child, getLogicEditor().getEditorSectionView(), x, y)) {
+					index = i;
+					break;
+				}
+			}
+			if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
+				return blockBeanView.canDrop(block, x, y);
+			}
 		}
 		return false;
 	}
@@ -305,7 +344,12 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 						LinearLayout.LayoutParams.WRAP_CONTENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT);
 
-				lp.setMargins(0, UnitUtils.dpToPx(getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN), 0, 0);
+				lp.setMargins(
+						0,
+						UnitUtils.dpToPx(
+								getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+						0,
+						0);
 				actionBlockBeanView.setLayoutParams(lp);
 			}
 		}
