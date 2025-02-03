@@ -153,6 +153,9 @@ public class StringBlockElementBeanView extends LinearLayout {
 	public void setValue(StringBlockBean strBlock) {
 		if (strBlock == null)
 			return;
+		if (strBlockView != null) {
+			strBlockView.setOnTouchListener(null);
+		}
 		mStringBlockElementBean.setStringBlock(strBlock);
 		init();
 	}
