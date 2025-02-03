@@ -92,6 +92,20 @@ public class StringBlockElementBeanView extends LinearLayout {
 		init();
 	}
 
+	private void init() {
+		removeAllViews();
+		if (mStringBlockElementBean.getStringBlock() != null) {
+			createStringBlockView();
+			configureStringBlockView();
+			addStringBlockViewToLayout();
+			showStringBlock();
+		} else {
+			addLabelViewToLayout();
+			showLabel();
+			updateLabelText();
+		}
+	}
+
 	@Override
 	protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
@@ -101,44 +115,88 @@ public class StringBlockElementBeanView extends LinearLayout {
 		currentSheet = null;
 	}
 
-	private void init() {
-		removeAllViews();
-		if (mStringBlockElementBean.getStringBlock() != null) {
-			strBlockView = new StringBlockBeanView(
-					getContext(),
-					mStringBlockElementBean.getStringBlock(),
-					logicEditorConfiguration,
-					logicEditor) {
-				@Override
-				public void setVisibility(int arg0) {
-					super.setVisibility(arg0);
-					if (arg0 == GONE) {
-						if (label.getParent() == null) {
-							StringBlockElementBeanView.this.addView(label);
-						}
-						label.setText("");
-					} else if (arg0 == VISIBLE) {
-						StringBlockElementBeanView.this.removeView(label);
-					}
-				}
-			};
-			LayoutParams lp = generateDefaultLayoutParams();
-			lp.setMargins(0, 0, 0, 0);
-			strBlockView.setLayoutParams(lp);
-			strBlockView.setInsideCanva(true);
-			if (strBlockView.getParent() == null) {
-				addView(strBlockView);
-				strBlockView.setVisibility(VISIBLE);
+	private void createStringBlockView() {
+		strBlockView = new StringBlockBeanView(
+				getContext(),
+				mStringBlockElementBean.getStringBlock(),
+				logicEditorConfiguration,
+				logicEditor) {
+			@Override
+			public void setVisibility(int arg0) {
+				super.setVisibility(arg0);
+				handleStringBlockVisibility();
 			}
-		} else {
+		};
+	}
+
+	private void configureStringBlockView() {
+		LayoutParams lp = generateDefaultLayoutParams();
+		lp.setMargins(0, 0, 0, 0);
+		strBlockView.setLayoutParams(lp);
+		strBlockView.setInsideCanva(true);
+	}
+
+	private void addStringBlockViewToLayout() {
+		if (strBlockView.getParent() == null) {
+			addView(strBlockView);
+		}
+		label.setText("");
+		removeView(label);
+	}
+
+	private void showStringBlock() {
+		strBlockView.setVisibility(VISIBLE);
+	}
+
+	private void invisibleStringBlockIfVisible() {
+		if (strBlockView == null) {
+			return;
+		}
+		int visibility = strBlockView.getVisibility();
+		if (visibility == VISIBLE) {
+			strBlockView.setVisibility(INVISIBLE);
+		}
+	}
+
+	private void showStringBlockIfInvisible() {
+		int visibility = strBlockView.getVisibility();
+		if (visibility == INVISIBLE) {
+			strBlockView.setVisibility(VISIBLE);
+		}
+	}
+
+	private void handleStringBlockVisibility() {
+		int visibility = strBlockView.getVisibility();
+		if (visibility == GONE) {
 			if (label.getParent() == null) {
 				addView(label);
-				label.setVisibility(VISIBLE);
 			}
-			label.setText(
-					mStringBlockElementBean.getString() != null
-							? mStringBlockElementBean.getString()
-							: "");
+			label.setText("");
+		} else if (visibility == VISIBLE) {
+			removeView(label);
+		}
+	}
+
+	private void addLabelViewToLayout() {
+		if (label.getParent() == null) {
+			addView(label);
+		}
+		removeView(strBlockView);
+	}
+
+	private void showLabel() {
+		label.setVisibility(VISIBLE);
+	}
+
+	private void invisibeLabel() {
+		label.setVisibility(INVISIBLE);
+	}
+
+	private void updateLabelText() {
+		if (mStringBlockElementBean.getString() != null) {
+			label.setText(mStringBlockElementBean.getString());
+		} else {
+			label.setText("");
 		}
 	}
 
@@ -198,44 +256,12 @@ public class StringBlockElementBeanView extends LinearLayout {
 			}
 		}
 		if (block instanceof StringBlockBean stringBlockBean) {
-			if (label.getParent() != null) {
-				label.setVisibility(INVISIBLE);
-			}
-			if (strBlockView != null) {
-				if (strBlockView.getParent() != null) {
-					if (strBlockView.getVisibility() != GONE) {
-						strBlockView.setVisibility(INVISIBLE);
-					}
-				}
-			}
+			invisibeLabel();
+			invisibleStringBlockIfVisible();
 			setBackgroundColor(Color.BLACK);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
 			logicEditor.setDummyHighlighter(highlighter);
 			addView(highlighter);
-		}
-	}
-
-	@Override
-	public void removeView(View view) {
-		super.removeView(view);
-		if (view instanceof NearestTargetHighlighterView) {
-			if (mStringBlockElementBean.getString() != null) {
-				if (label.getParent() != null) {
-					label.setVisibility(VISIBLE);
-				} else {
-					addView(label);
-					label.setText(mStringBlockElementBean.getString());
-				}
-			}
-
-			if (mStringBlockElementBean.getStringBlock() != null) {
-				if (strBlockView.getParent() != null) {
-					if (strBlockView.getVisibility() != GONE) {
-						strBlockView.setVisibility(VISIBLE);
-					}
-				}
-			}
-			setBackgroundColor(Color.WHITE);
 		}
 	}
 
@@ -250,6 +276,22 @@ public class StringBlockElementBeanView extends LinearLayout {
 		}
 		if (block instanceof StringBlockBean stringBlockBean) {
 			setValue(stringBlockBean);
+		}
+	}
+
+	@Override
+	public void removeView(View view) {
+		super.removeView(view);
+		if (view instanceof NearestTargetHighlighterView) {
+			if (mStringBlockElementBean.getString() != null) {
+				showLabel();
+				updateLabelText();
+			}
+
+			if (mStringBlockElementBean.getStringBlock() != null) {
+				showStringBlockIfInvisible();
+			}
+			setBackgroundColor(Color.WHITE);
 		}
 	}
 }
