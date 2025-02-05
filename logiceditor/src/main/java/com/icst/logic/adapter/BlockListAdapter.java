@@ -34,15 +34,15 @@ package com.icst.logic.adapter;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
-import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.TerminatorBlockBean;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.block.view.TerminatorBlockBeanView;
+import com.icst.logic.builder.ExpressionBlockViewFactory;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
-import com.icst.logic.view.StringBlockBeanView;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -88,8 +88,9 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 		} else if (blocks.get(position) instanceof TerminatorBlockBean terminatorBlock) {
 			blockBeanView = new TerminatorBlockBeanView(
 					arg0.itemView.getContext(), terminatorBlock, config, logicEditor);
-		} else if (blocks.get(position) instanceof StringBlockBean stringBlockBean) {
-			blockBeanView = new StringBlockBeanView(arg0.itemView.getContext(), stringBlockBean, config, logicEditor);
+		} else if (blocks.get(position) instanceof ExpressionBlockBean expressionBlockBean) {
+			blockBeanView = ExpressionBlockViewFactory.generateView(expressionBlockBean, arg0.itemView.getContext(),
+					config, logicEditor);
 		}
 		hScrollView.setPadding(8, 8, 0, 0);
 		hScrollView.addView(blockBeanView);

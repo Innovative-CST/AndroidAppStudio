@@ -29,36 +29,72 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans;
+package com.icst.logic.view;
 
-import java.io.Serializable;
+import com.icst.android.appstudio.beans.ValueInputBlockElementBean;
+import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.utils.ColorUtils;
+import com.icst.logic.utils.UnitUtils;
 
-import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.view.View;
 
-public class BooleanBlockBean extends ExpressionBlockBean<BooleanBlockBean> implements Serializable {
-	@Override
-	public DatatypeBean[] getReturnDatatypes() {
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
+public class LogicEditorSpinner extends View {
 
-		DatatypeBean string = new DatatypeBean();
-		string.setClassImport("java.lang.Boolean");
-		string.setClassName("Boolean");
-		string.setImportNecessary(false);
-		return new DatatypeBean[] { obj, string };
+	private ValueInputBlockElementBean valueInputBlockElementBean;
+	private BlockBeanView blockView;
+	private Paint text;
+	private int color;
+
+	public LogicEditorSpinner(Context context, ValueInputBlockElementBean valueInputBlockElementBean,
+			BlockBeanView blockView,
+			int color) {
+		super(context);
+		this.valueInputBlockElementBean = valueInputBlockElementBean;
+		this.blockView = blockView;
+		this.color = color;
+
+		text = new Paint();
+		text.setColor(ColorUtils.getTextColorForColor(color));
+		text.setTextSize(20);
+	}
+
+	private int dp(float px) {
+		return UnitUtils.dpToPx(getContext(), px);
 	}
 
 	@Override
-	public BooleanBlockBean cloneBean() {
-		BooleanBlockBean clone = new BooleanBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
-		clone.setColor(getColor() == null ? null : new String(getColor()));
-		clone.setDragAllowed(new Boolean(isValueReadOnly()));
-		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
-		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
-		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
-		return clone;
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		String className = valueInputBlockElementBean.getAcceptedReturnType().getClassName();
+		String value = valueInputBlockElementBean.getValue();
+
+		float width = dp(16) + text.measureText(className) + text.measureText(value);
+		setMeasuredDimension(
+				resolveSize((int) width, widthMeasureSpec),
+				resolveSize(dp(20), heightMeasureSpec));
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		String className = valueInputBlockElementBean.getAcceptedReturnType().getClassName();
+		canvas.drawText(className, dp(2), dp(14), text);
+
+		String value = valueInputBlockElementBean.getValue();
+		canvas.drawText(value, dp(4) + text.measureText(className), dp(14), text);
+
+		Paint trianglePaint = new Paint();
+		trianglePaint.setColor(ColorUtils.getTextColorForColor(color));
+		trianglePaint.setStyle(Paint.Style.FILL);
+		// trianglePaint.setPathEffect(new CornerPathEffect(5));
+
+		Path trianglePath = new Path();
+		trianglePath.moveTo(dp(6) + text.measureText(className) + text.measureText(value), dp(8));
+		trianglePath.lineTo(dp(16) + text.measureText(className) + text.measureText(value), dp(8));
+		trianglePath.lineTo(dp(11) + text.measureText(className) + text.measureText(value), dp(14));
+		trianglePath.close();
+		canvas.drawPath(trianglePath, trianglePaint);
 	}
 }

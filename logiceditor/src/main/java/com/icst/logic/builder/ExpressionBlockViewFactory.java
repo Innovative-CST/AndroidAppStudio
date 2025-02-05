@@ -31,8 +31,10 @@
 
 package com.icst.logic.builder;
 
+import com.icst.android.appstudio.beans.BooleanBlockBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
+import com.icst.logic.block.view.BooleanBlockView;
 import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -49,6 +51,9 @@ public final class ExpressionBlockViewFactory {
 			LogicEditorView logicEditor) {
 		if (expressionBlockBean instanceof StringBlockBean stringBlockBean) {
 			StringBlockBeanView view = new StringBlockBeanView(context, stringBlockBean, configuration, logicEditor);
+			return view;
+		} else if (expressionBlockBean instanceof BooleanBlockBean booleanBlockBean) {
+			BooleanBlockView view = new BooleanBlockView(context, booleanBlockBean, configuration, logicEditor);
 			return view;
 		}
 		return null;

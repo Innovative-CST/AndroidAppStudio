@@ -71,6 +71,14 @@ public class StringBlockElementBean
 		string = null;
 	}
 
+	public StringBlockBean getStringBlock() {
+		return this.stringBlock;
+	}
+
+	public void setStringBlock(StringBlockBean stringBlock) {
+		this.stringBlock = stringBlock;
+	}
+
 	@Override
 	public String getValue() {
 		if (getStringBlock() == null) {
@@ -106,13 +114,5 @@ public class StringBlockElementBean
 		clone.setStringBlock(stringBlock == null ? null : stringBlock.cloneBean());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
-	}
-
-	public StringBlockBean getStringBlock() {
-		return this.stringBlock;
-	}
-
-	public void setStringBlock(StringBlockBean stringBlock) {
-		this.stringBlock = stringBlock;
 	}
 }

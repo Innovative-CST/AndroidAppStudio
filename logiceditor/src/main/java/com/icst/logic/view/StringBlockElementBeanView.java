@@ -72,6 +72,7 @@ public class StringBlockElementBeanView extends LinearLayout {
 		setMinimumWidth(UnitUtils.dpToPx(getContext(), 20));
 		setBackgroundColor(Color.WHITE);
 		setGravity(Gravity.CENTER_VERTICAL);
+		setPadding(2, 2, 2, 2);
 		label = new TextView(context);
 		label.setTextSize(configuration.getTextSize().getTextSize());
 		setOnClickListener(
@@ -279,19 +280,23 @@ public class StringBlockElementBeanView extends LinearLayout {
 		}
 	}
 
+	private void handleHighlighterRemoval() {
+		if (mStringBlockElementBean.getString() != null) {
+			showLabel();
+			updateLabelText();
+		}
+
+		if (mStringBlockElementBean.getStringBlock() != null) {
+			showStringBlockIfInvisible();
+		}
+		setBackgroundColor(Color.WHITE);
+	}
+
 	@Override
 	public void removeView(View view) {
 		super.removeView(view);
 		if (view instanceof NearestTargetHighlighterView) {
-			if (mStringBlockElementBean.getString() != null) {
-				showLabel();
-				updateLabelText();
-			}
-
-			if (mStringBlockElementBean.getStringBlock() != null) {
-				showStringBlockIfInvisible();
-			}
-			setBackgroundColor(Color.WHITE);
+			handleHighlighterRemoval();
 		}
 	}
 }

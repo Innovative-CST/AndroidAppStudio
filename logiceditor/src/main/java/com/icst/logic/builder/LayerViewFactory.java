@@ -34,6 +34,7 @@ package com.icst.logic.builder;
 import com.icst.android.appstudio.beans.ActionBlockLayerBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
+import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
@@ -45,6 +46,7 @@ import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.BlockElementLayerBeanView;
+import com.icst.logic.view.BooleanBlockElementBeanView;
 import com.icst.logic.view.LayerBeanView;
 import com.icst.logic.view.StringBlockElementBeanView;
 
@@ -145,6 +147,24 @@ public final class LayerViewFactory {
 										UnitUtils.dpToPx(context, 2),
 										0);
 								mView.setLayoutParams(lp);
+							} else if (element instanceof BooleanBlockElementBean mBooleanBlockElementBean) {
+								View mView = buildBooleanFieldView(
+										mBooleanBlockElementBean,
+										blockBean,
+										blockView,
+										context,
+										logicEdtitor,
+										configuration);
+								view.addView(mView);
+								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
+										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
+								lp.setMargins(
+										UnitUtils.dpToPx(context, 2),
+										0,
+										UnitUtils.dpToPx(context, 2),
+										0);
+								mView.setLayoutParams(lp);
 							}
 						});
 
@@ -180,6 +200,23 @@ public final class LayerViewFactory {
 			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
 		StringBlockElementBeanView fieldView = new StringBlockElementBeanView(context, blockView, field, configuration,
+				logicEdtitor);
+		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		fieldView.setLayoutParams(layerLayoutParams);
+		return fieldView;
+	}
+
+	private static View buildBooleanFieldView(
+			BooleanBlockElementBean field,
+			BlockBean blockBean,
+			BlockBeanView blockView,
+			Context context,
+			LogicEditorView logicEdtitor,
+			LogicEditorConfiguration configuration) {
+		BooleanBlockElementBeanView fieldView = new BooleanBlockElementBeanView(context, blockView, field,
+				configuration,
 				logicEdtitor);
 		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,

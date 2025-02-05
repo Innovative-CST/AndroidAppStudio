@@ -33,32 +33,82 @@ package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
 
-import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+import com.icst.android.appstudio.beans.utils.SerializationUIDConstants;
 
-public class BooleanBlockBean extends ExpressionBlockBean<BooleanBlockBean> implements Serializable {
-	@Override
-	public DatatypeBean[] getReturnDatatypes() {
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
+public class BooleanBlockElementBean
+		implements ValueInputBlockElementBean<BooleanBlockElementBean>, Serializable {
 
-		DatatypeBean string = new DatatypeBean();
-		string.setClassImport("java.lang.Boolean");
-		string.setClassName("Boolean");
-		string.setImportNecessary(false);
-		return new DatatypeBean[] { obj, string };
+	public static final long serialVersionUID = SerializationUIDConstants.BOOLEAN_BLOCK_ELEMENT_BEAN;
+
+	private boolean bool;
+	private BooleanBlockBean booleanBlock;
+	private String key;
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	@Override
-	public BooleanBlockBean cloneBean() {
-		BooleanBlockBean clone = new BooleanBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
-		clone.setColor(getColor() == null ? null : new String(getColor()));
-		clone.setDragAllowed(new Boolean(isValueReadOnly()));
-		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
-		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
-		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+	public String getKey() {
+		return key;
+	}
+
+	public boolean getBool() {
+		return this.bool;
+	}
+
+	public void setBool(boolean bool) {
+		this.bool = bool;
+	}
+
+	public BooleanBlockBean getBooleanBlock() {
+		return this.booleanBlock;
+	}
+
+	public void setBooleanBlock(BooleanBlockBean booleanBlock) {
+		this.booleanBlock = booleanBlock;
+	}
+
+	public void setValue(boolean booleanVal) {
+		booleanBlock = null;
+		bool = booleanVal;
+	}
+
+	public void setValue(BooleanBlockBean boolBlock) {
+		if (boolBlock == null) {
+			return;
+		}
+		booleanBlock = boolBlock;
+		bool = false;
+	}
+
+	@Override
+	public String getValue() {
+		if (getBooleanBlock() == null) {
+			return String.valueOf(getBool());
+		} else {
+			if (getBooleanBlock().getCodeSyntax() != null) {
+				return getBooleanBlock().getProcessedCode();
+			}
+		}
+		return String.valueOf(getBool());
+	}
+
+	@Override
+	public DatatypeBean getAcceptedReturnType() {
+		DatatypeBean acceptedReturnType = new DatatypeBean();
+		acceptedReturnType.setImportNecessary(false);
+		acceptedReturnType.setClassImport("java.lang.Boolean");
+		acceptedReturnType.setClassName("Boolean");
+		return acceptedReturnType;
+	}
+
+	@Override
+	public BooleanBlockElementBean cloneBean() {
+		BooleanBlockElementBean clone = new BooleanBlockElementBean();
+		clone.setBool(new Boolean(getBool()));
+		clone.setBooleanBlock(getBooleanBlock() == null ? null : getBooleanBlock().cloneBean());
+		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
 	}
 }

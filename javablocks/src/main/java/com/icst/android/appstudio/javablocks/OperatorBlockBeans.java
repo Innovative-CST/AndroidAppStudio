@@ -37,6 +37,8 @@ import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
+import com.icst.android.appstudio.beans.BooleanBlockBean;
+import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
@@ -50,8 +52,65 @@ public class OperatorBlockBeans {
 		mOperatorBlockPalette.setName("Operators");
 		ArrayList<BlockBean> blocks = new ArrayList<>();
 		blocks.add(trim());
+		blocks.add(trueBlock());
+		blocks.add(notBlock());
 		mOperatorBlockPalette.setBlocks(blocks);
 		return mOperatorBlockPalette;
+	}
+
+	private static BooleanBlockBean notBlock() {
+		BooleanBlockBean block = new BooleanBlockBean();
+		block.setColor("#50BE36");
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean trueText = new LabelBlockElementBean();
+		trueText.setLabel("not");
+		layer1Elements.add(trueText);
+
+		BooleanBlockElementBean booleanField = new BooleanBlockElementBean();
+		booleanField.setKey("mBool");
+		layer1Elements.add(booleanField);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append("!");
+		code.append(CodeFormatterUtils.getKeySyntaxString("mBool"));
+
+		block.setCodeSyntax(code.toString());
+		return block;
+	}
+
+	private static BooleanBlockBean trueBlock() {
+		BooleanBlockBean block = new BooleanBlockBean();
+		block.setColor("#50BE36");
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean trueText = new LabelBlockElementBean();
+		trueText.setLabel("true");
+		layer1Elements.add(trueText);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append("true");
+
+		block.setCodeSyntax(code.toString());
+		return block;
 	}
 
 	private static StringBlockBean trim() {
