@@ -75,9 +75,6 @@ public class BooleanBlockElementBean
 	}
 
 	public void setValue(BooleanBlockBean boolBlock) {
-		if (boolBlock == null) {
-			return;
-		}
 		booleanBlock = boolBlock;
 		bool = false;
 	}

@@ -37,6 +37,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.databinding.ActivityJavaBlockProgrammingBinding;
+import com.icst.android.appstudio.javablocks.ControlBlockBeans;
 import com.icst.android.appstudio.javablocks.IOBlockBeans;
 import com.icst.android.appstudio.javablocks.MainJavaEventBean;
 import com.icst.android.appstudio.javablocks.OperatorBlockBeans;
@@ -72,6 +73,7 @@ public class JavaBlockProgrammingActivity extends BaseActivity {
 		ArrayList<BlockPaletteBean> palette = new ArrayList<BlockPaletteBean>();
 		palette.add(IOBlockBeans.getIOBlockPalette());
 		palette.add(OperatorBlockBeans.getOperatorBlockPalette());
+		palette.add(ControlBlockBeans.getControlBlockPalette());
 		binding.logicEditor.preparePallete(palette);
 	}
 

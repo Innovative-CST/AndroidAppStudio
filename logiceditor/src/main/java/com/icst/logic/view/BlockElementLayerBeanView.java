@@ -72,6 +72,10 @@ public class BlockElementLayerBeanView extends LinearLayout
 						if (mStringBlockElementBeanView.canDrop(mBlock, x, y)) {
 							mStringBlockElementBeanView.highlight(mBlock, x, y);
 						}
+					} else if (child instanceof BooleanBlockElementBeanView mBooleanBlockElementBeanView) {
+						if (mBooleanBlockElementBeanView.canDrop(mBlock, x, y)) {
+							mBooleanBlockElementBeanView.highlight(mBlock, x, y);
+						}
 					}
 					break;
 				}
@@ -91,6 +95,10 @@ public class BlockElementLayerBeanView extends LinearLayout
 						if (mStringBlockElementBeanView.canDrop(mBlock, x, y)) {
 							mStringBlockElementBeanView.dropBlockIfAllowed(mBlock, x, y);
 						}
+					} else if (child instanceof BooleanBlockElementBeanView mBooleanBlockElementBeanView) {
+						if (mBooleanBlockElementBeanView.canDrop(mBlock, x, y)) {
+							mBooleanBlockElementBeanView.dropBlockIfAllowed(mBlock, x, y);
+						}
 					}
 					break;
 				}
@@ -107,6 +115,8 @@ public class BlockElementLayerBeanView extends LinearLayout
 				if (isInsideChild) {
 					if (child instanceof StringBlockElementBeanView mStringBlockElementBeanView) {
 						return mStringBlockElementBeanView.canDrop(mBlock, x, y);
+					} else if (child instanceof BooleanBlockElementBeanView mBooleanBlockElementBeanView) {
+						return mBooleanBlockElementBeanView.canDrop(mBlock, x, y);
 					}
 					break;
 				}

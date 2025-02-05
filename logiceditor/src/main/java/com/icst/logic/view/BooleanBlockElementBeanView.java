@@ -222,6 +222,9 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 	public void handleBooleanBlockVisibilityChange() {
 		int visibility = booleanBlockView.getVisibility();
 		if (visibility == GONE) {
+			if (spinner.getVisibility() == GONE) {
+				spinner.setVisibility(VISIBLE);
+			}
 			if (spinner.getParent() == null) {
 				layout.addView(spinner);
 			}
@@ -282,6 +285,17 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 			}
 		}
 		if (block instanceof BooleanBlockBean booleanBlockBean) {
+			if (booleanBlockView != null) {
+				if (booleanBlockView.getVisibility() != GONE) {
+					booleanBlockView.setVisibility(INVISIBLE);
+				}
+			}
+
+			if (spinner != null) {
+				spinner.setVisibility(INVISIBLE);
+			}
+			setWillNotDraw(true);
+			setBackgroundColor(Color.BLACK);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
 			logicEditor.setDummyHighlighter(highlighter);
 			addView(highlighter);
@@ -305,11 +319,16 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 	private void handleHighlighterRemoval() {
 		if (mBooleanBlockElementBean.getBooleanBlock() != null) {
 			showBooleanBlockIfInvisible();
+			if (booleanBlockView.getVisibility() == GONE) {
+				showSpinner();
+				refreshSpinner();
+			}
 		} else {
 			showSpinner();
 			refreshSpinner();
 		}
-		// setBackgroundColor(Color.WHITE);
+		setBackgroundColor(Color.TRANSPARENT);
+		setWillNotDraw(false);
 	}
 
 	@Override

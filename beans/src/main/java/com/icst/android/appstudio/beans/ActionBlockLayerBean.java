@@ -66,6 +66,9 @@ public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implem
 
 	public String getProcessedCode() {
 		StringBuilder code = new StringBuilder();
+		if (actionBlockBeans == null) {
+			return "";
+		}
 		actionBlockBeans.forEach(actionBlockBean -> {
 			code.append(actionBlockBean.getProcessedCode());
 			code.append("\n");

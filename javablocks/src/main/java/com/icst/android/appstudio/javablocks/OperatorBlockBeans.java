@@ -113,6 +113,31 @@ public class OperatorBlockBeans {
 		return block;
 	}
 
+	private static BooleanBlockBean falseBlock() {
+		BooleanBlockBean block = new BooleanBlockBean();
+		block.setColor("#E30101");
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean falseText = new LabelBlockElementBean();
+		falseText.setLabel("false");
+		layer1Elements.add(falseText);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append("false");
+
+		block.setCodeSyntax(code.toString());
+		return block;
+	}
+
 	private static StringBlockBean trim() {
 		StringBlockBean block = new StringBlockBean();
 		block.setColor("#50BE36");

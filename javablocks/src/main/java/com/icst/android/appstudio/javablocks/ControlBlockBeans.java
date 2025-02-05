@@ -33,6 +33,7 @@ package com.icst.android.appstudio.javablocks;
 
 import java.util.ArrayList;
 
+import com.icst.android.appstudio.beans.ActionBlockLayerBean;
 import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
@@ -41,66 +42,33 @@ import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
-import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
-public final class IOBlockBeans {
-	public static BlockPaletteBean getIOBlockPalette() {
+public final class ControlBlockBeans {
+
+	public static BlockPaletteBean getControlBlockPalette() {
 		BlockPaletteBean mIOBlockPalette = new BlockPaletteBean();
-		mIOBlockPalette.setColor("#a360ff");
-		mIOBlockPalette.setName("IO Blocks");
+		mIOBlockPalette.setColor("#FFC041");
+		mIOBlockPalette.setName("Flow of Control");
 		ArrayList<BlockBean> blocks = new ArrayList<>();
-		blocks.add(print());
-		blocks.add(printBoolean());
+		blocks.add(ifBlock());
+		blocks.add(ifElseBlock());
 		mIOBlockPalette.setBlocks(blocks);
 		return mIOBlockPalette;
 	}
 
-	private static RegularBlockBean print() {
+	private static RegularBlockBean ifBlock() {
 		RegularBlockBean block = new RegularBlockBean();
-		block.setColor("#a360ff");
+		block.setColor("#FFC041");
 
 		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
 		BlockElementLayerBean layer1 = new BlockElementLayerBean();
 
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
 
-		LabelBlockElementBean print = new LabelBlockElementBean();
-		print.setLabel("print");
-		layer1Elements.add(print);
-
-		StringBlockElementBean inputString = new StringBlockElementBean();
-		inputString.setKey("mString");
-		layer1Elements.add(inputString);
-
-		layer1.setBlockElementBeans(layer1Elements);
-
-		layers.add(layer1);
-
-		block.setLayers(layers);
-
-		StringBuilder code = new StringBuilder();
-		code.append("System.out.println(");
-		code.append(CodeFormatterUtils.getKeySyntaxString("mString"));
-		code.append(");");
-
-		block.setCodeSyntax(code.toString());
-
-		return block;
-	}
-
-	private static RegularBlockBean printBoolean() {
-		RegularBlockBean block = new RegularBlockBean();
-		block.setColor("#a360ff");
-
-		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
-		BlockElementLayerBean layer1 = new BlockElementLayerBean();
-
-		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
-
-		LabelBlockElementBean print = new LabelBlockElementBean();
-		print.setLabel("print");
-		layer1Elements.add(print);
+		LabelBlockElementBean ifLabel = new LabelBlockElementBean();
+		ifLabel.setLabel("if");
+		layer1Elements.add(ifLabel);
 
 		BooleanBlockElementBean inputBoolean = new BooleanBlockElementBean();
 		inputBoolean.setKey("mBoolean");
@@ -110,12 +78,77 @@ public final class IOBlockBeans {
 
 		layers.add(layer1);
 
+		ActionBlockLayerBean statementLayer = new ActionBlockLayerBean();
+		statementLayer.setKey("statements");
+
+		layers.add(statementLayer);
 		block.setLayers(layers);
 
 		StringBuilder code = new StringBuilder();
-		code.append("System.out.println(");
+		code.append("if (");
 		code.append(CodeFormatterUtils.getKeySyntaxString("mBoolean"));
-		code.append(");");
+		code.append(") {\n\t");
+		code.append(CodeFormatterUtils.getKeySyntaxString("statements"));
+		code.append("\n}");
+
+		block.setCodeSyntax(code.toString());
+
+		return block;
+	}
+
+	private static RegularBlockBean ifElseBlock() {
+		RegularBlockBean block = new RegularBlockBean();
+		block.setColor("#FFC041");
+
+		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean ifLabel = new LabelBlockElementBean();
+		ifLabel.setLabel("if");
+		layer1Elements.add(ifLabel);
+
+		BooleanBlockElementBean inputBoolean = new BooleanBlockElementBean();
+		inputBoolean.setKey("mBoolean");
+		layer1Elements.add(inputBoolean);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		ActionBlockLayerBean statementLayer = new ActionBlockLayerBean();
+		statementLayer.setKey("statements");
+
+		layers.add(statementLayer);
+
+		BlockElementLayerBean layer3 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer3Elements = new ArrayList<BlockElementBean>();
+
+		LabelBlockElementBean elseLabel = new LabelBlockElementBean();
+		elseLabel.setLabel("else");
+		layer3Elements.add(elseLabel);
+
+		layer3.setBlockElementBeans(layer3Elements);
+
+		layers.add(layer3);
+
+		ActionBlockLayerBean elseStatementLayer = new ActionBlockLayerBean();
+		elseStatementLayer.setKey("elseStatement");
+
+		layers.add(elseStatementLayer);
+
+		block.setLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append("if (");
+		code.append(CodeFormatterUtils.getKeySyntaxString("mBoolean"));
+		code.append(") {\n\t");
+		code.append(CodeFormatterUtils.getKeySyntaxString("statements"));
+		code.append("\n} else {\n\t");
+		code.append(CodeFormatterUtils.getKeySyntaxString("elseStatement"));
+		code.append("\n}");
 
 		block.setCodeSyntax(code.toString());
 

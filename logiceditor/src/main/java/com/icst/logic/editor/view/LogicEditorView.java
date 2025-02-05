@@ -42,6 +42,7 @@ import com.icst.logic.adapter.BlockPaletteAdapter;
 import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.block.view.BooleanBlockView;
 import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.HistoryManager;
@@ -52,6 +53,7 @@ import com.icst.logic.listener.DraggableTouchListener;
 import com.icst.logic.utils.CanvaMathUtils;
 import com.icst.logic.view.ActionBlockDropZoneView;
 import com.icst.logic.view.BlockDropZoneView;
+import com.icst.logic.view.BooleanBlockElementBeanView;
 import com.icst.logic.view.DraggingBlockDummy;
 import com.icst.logic.view.ExpressionBlockDropZoneView;
 import com.icst.logic.view.MainActionBlockDropZoneView;
@@ -341,6 +343,9 @@ public class LogicEditorView extends RelativeLayout {
 			} else if (parent instanceof StringBlockElementBeanView stringBlockElementBeanView) {
 				expressionBlockBean.setOnTouchListener(null);
 				stringBlockElementBeanView.setValue("");
+			} else if (parent instanceof BooleanBlockElementBeanView booleanBlockElementBeanView) {
+				expressionBlockBean.setOnTouchListener(null);
+				booleanBlockElementBeanView.setValue(false);
 			}
 		}
 	}
@@ -384,6 +389,8 @@ public class LogicEditorView extends RelativeLayout {
 			}
 		} else if (touchingView instanceof StringBlockBeanView stringBlockBeanView) {
 			stringBlockBeanView.setVisibility(VISIBLE);
+		} else if (touchingView instanceof BooleanBlockView booleanBlockView) {
+			booleanBlockView.setVisibility(VISIBLE);
 		}
 	}
 
