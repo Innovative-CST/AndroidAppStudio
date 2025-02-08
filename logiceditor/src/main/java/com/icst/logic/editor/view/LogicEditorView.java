@@ -190,7 +190,8 @@ public class LogicEditorView extends RelativeLayout {
 				if (draggingBean instanceof ExpressionBlockBean expressionBlockBean) {
 					if (expressionBlockDropZoneView.canDrop(expressionBlockBean, x, y)) {
 						hasNearbyTarget = true;
-						expressionBlockDropZoneView.highlightNearestTargetIfAllowed(expressionBlockBean, x, y);
+						expressionBlockDropZoneView.highlightNearestTargetIfAllowed(
+								expressionBlockBean, x, y);
 					}
 				}
 			} else
@@ -343,9 +344,13 @@ public class LogicEditorView extends RelativeLayout {
 			} else if (parent instanceof StringBlockElementBeanView stringBlockElementBeanView) {
 				expressionBlockBean.setOnTouchListener(null);
 				stringBlockElementBeanView.setValue("");
-			} else if (parent instanceof BooleanBlockElementBeanView booleanBlockElementBeanView) {
-				expressionBlockBean.setOnTouchListener(null);
-				booleanBlockElementBeanView.setValue(false);
+			} else if (parent.getParent() != null) {
+
+				if (parent.getParent() instanceof BooleanBlockElementBeanView booleanBlockElementBeanView) {
+					expressionBlockBean.setOnTouchListener(null);
+					booleanBlockElementBeanView.setValue(false);
+				}
+
 			}
 		}
 	}

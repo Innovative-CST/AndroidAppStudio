@@ -70,13 +70,13 @@ public class BooleanBlockElementBean
 	}
 
 	public void setValue(boolean booleanVal) {
-		booleanBlock = null;
-		bool = booleanVal;
+		this.booleanBlock = null;
+		this.bool = booleanVal;
 	}
 
 	public void setValue(BooleanBlockBean boolBlock) {
-		booleanBlock = boolBlock;
-		bool = false;
+		this.booleanBlock = boolBlock;
+		this.bool = false;
 	}
 
 	@Override
