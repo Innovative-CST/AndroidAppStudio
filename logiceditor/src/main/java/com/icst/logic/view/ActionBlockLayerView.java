@@ -31,9 +31,12 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 			ActionBlockLayerBean layer,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
-		super(context, logicEditorConfiguration, logicEditor);
+		super(context, layer.getActionBlockBeans(), logicEditorConfiguration, logicEditor);
 		this.layer = layer;
 		setWillNotDraw(false);
+		if (layer.getActionBlockBeans() == null) {
+			layer.setActionBlockBeans(getBlockBeans());
+		}
 	}
 
 	@Override

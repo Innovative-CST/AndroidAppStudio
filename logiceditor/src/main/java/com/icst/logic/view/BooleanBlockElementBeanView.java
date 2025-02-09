@@ -61,6 +61,7 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 	private LogicEditorConfiguration logicEditorConfiguration;
 	private LogicEditorView logicEditor;
 	private LinearLayout layout;
+	private boolean enableHighlighterColor;
 
 	public BooleanBlockElementBeanView(
 			Context context,
@@ -151,8 +152,13 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		BlockShapesUtils.drawBooleanBlockElement(
-				canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+		if (enableHighlighterColor) {
+			BlockShapesUtils.drawBooleanBlockHighlighter(
+					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+		} else {
+			BlockShapesUtils.drawBooleanBlockElement(
+					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+		}
 	}
 
 	private void showSpinnerItems() {
@@ -294,11 +300,11 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 			if (spinner != null) {
 				spinner.setVisibility(INVISIBLE);
 			}
-			setWillNotDraw(true);
-			setBackgroundColor(Color.BLACK);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), block);
 			logicEditor.setDummyHighlighter(highlighter);
 			addView(highlighter);
+			enableHighlighterColor = true;
+			invalidate();
 		}
 	}
 
@@ -327,8 +333,8 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 			showSpinner();
 			refreshSpinner();
 		}
-		setBackgroundColor(Color.TRANSPARENT);
-		setWillNotDraw(false);
+		enableHighlighterColor = false;
+		invalidate();
 	}
 
 	@Override

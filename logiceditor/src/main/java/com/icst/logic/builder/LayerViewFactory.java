@@ -83,7 +83,6 @@ public final class LayerViewFactory {
 			LogicEditorConfiguration configuration) {
 		ActionBlockLayerView actionBlockLayerView = new ActionBlockLayerView(
 				context, actionBlockLayerBean, configuration, logicEdtitor);
-		actionBlockLayerView.addActionBlocksBeans(actionBlockLayerBean.getActionBlockBeans(), 0);
 		actionBlockLayerView.setBlock(blockBean);
 		return actionBlockLayerView;
 	}

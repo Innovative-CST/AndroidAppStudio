@@ -214,6 +214,32 @@ public final class BlockShapesUtils {
 		canvas.drawPath(triangle2, mPaint);
 	}
 
+	public static void drawBooleanBlockHighlighter(
+			Canvas canvas, Context context, int width, int height, int color) {
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(10);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+
+		Path triangle1 = new Path();
+		triangle1.moveTo(height / 2, 0);
+		triangle1.lineTo(height / 2, height);
+		triangle1.lineTo(0, height / 2);
+		triangle1.close();
+		canvas.drawPath(triangle1, mPaint);
+
+		Rect rectagle = new Rect();
+		rectagle.set(height / 2, 0, width - (height / 2), height);
+		canvas.drawRect(rectagle, mPaint);
+
+		Path triangle2 = new Path();
+		triangle2.moveTo(width - (height / 2), 0);
+		triangle2.lineTo(width, height / 2);
+		triangle2.lineTo(width - (height / 2), height);
+		triangle2.close();
+		canvas.drawPath(triangle2, mPaint);
+	}
+
 	public static float dpToPx(Context context, float dp) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		return dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);

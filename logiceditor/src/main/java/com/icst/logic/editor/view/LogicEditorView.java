@@ -258,13 +258,12 @@ public class LogicEditorView extends RelativeLayout {
 				ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
 
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
-						getContext(), new LogicEditorConfiguration(), this);
+						getContext(), blocks, new LogicEditorConfiguration(), this);
 
 				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
 
-				newZone.addActionBlocksBeans(blocks, 0);
 				newZone.setX(x + binding.logicEditorCanvaView.getScrollX());
 				newZone.setY(y + binding.logicEditorCanvaView.getScrollY());
 				getLogicEditorCanva().addView(newZone);
@@ -277,13 +276,12 @@ public class LogicEditorView extends RelativeLayout {
 				blocks.add(block);
 
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
-						getContext(), new LogicEditorConfiguration(), this);
+						getContext(), blocks, new LogicEditorConfiguration(), this);
 
 				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT);
 
-				newZone.addActionBlocksBeans(blocks, 0);
 				newZone.setX(x + binding.logicEditorCanvaView.getScrollX());
 				newZone.setY(y + binding.logicEditorCanvaView.getScrollY());
 				getLogicEditorCanva().addView(newZone);

@@ -60,21 +60,24 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 
 	public ActionBlockDropZoneView(
 			Context context,
+			ArrayList<ActionBlockBean> blockBeans,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
+		this.blockBeans = blockBeans == null ? new ArrayList<ActionBlockBean>() : blockBeans;
 		setOrientation(VERTICAL);
-		blockBeans = new ArrayList<ActionBlockBean>();
+		addBlockView();
 		actionBlockDropZone = new ActionBlockDropZone() {
 
 			@Override
 			public boolean isTerminated() {
-				if (blockBeans == null)
+				if (ActionBlockDropZoneView.this.blockBeans == null)
 					return false;
-				if (blockBeans.size() == 0)
+				if (ActionBlockDropZoneView.this.blockBeans.size() == 0)
 					return false;
-				return blockBeans.get(blockBeans.size() - 1) instanceof TerminatorBlockBean;
+				return ActionBlockDropZoneView.this.blockBeans
+						.get(ActionBlockDropZoneView.this.blockBeans.size() - 1) instanceof TerminatorBlockBean;
 			}
 		};
 	}
@@ -314,6 +317,42 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			}
 
 			return (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean));
+		}
+	}
+
+	private void addBlockView() {
+		for (int i = 0; i < blockBeans.size(); ++i) {
+			ActionBlockBean actionBlock = blockBeans.get(i);
+			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
+					context, actionBlock, getConfiguration(), getLogicEditor());
+
+			if (actionBlockBeanView == null)
+				continue;
+
+			actionBlockBeanView.setInsideCanva(true);
+			super.addView(actionBlockBeanView, i);
+
+			if (i == 0) {
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+
+				lp.setMargins(0, 0, 0, 0);
+				actionBlockBeanView.setLayoutParams(lp);
+			} else {
+
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+
+				lp.setMargins(
+						0,
+						UnitUtils.dpToPx(
+								getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+						0,
+						0);
+				actionBlockBeanView.setLayoutParams(lp);
+			}
 		}
 	}
 
