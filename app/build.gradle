@@ -330,7 +330,8 @@ dependencies {
 	implementation project(":treeview")
 	implementation project(":logiceditor")
 	implementation project(":javablocks")
-	implementation project(":beans")
+	implementation project(":beans:basebeans")
+	implementation project(":beans:blockbeans")
 }
 
 def shouldInstallExtension() {

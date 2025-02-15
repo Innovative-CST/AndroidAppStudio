@@ -29,10 +29,32 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/** A simple BlockElement that just display text on block */
+public class LabelBlockElementBean
+		implements BlockElementBean<LabelBlockElementBean>, Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.LABEL_BLOCK_ELEMENT_BEAN;
+
+	private String label;
+
+	public String getLabel() {
+		return this.label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	@Override
+	public LabelBlockElementBean cloneBean() {
+		LabelBlockElementBean clone = new LabelBlockElementBean();
+		clone.setLabel(getLabel() == null ? null : new String(getLabel()));
+		return clone;
+	}
 }

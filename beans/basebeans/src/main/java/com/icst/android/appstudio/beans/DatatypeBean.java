@@ -29,10 +29,80 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BeansUIDConstants;
+
+/** A class of Datatype, to compare that the two Datatypes are different or not
+ * by comparing class
+ * name and import. This Bean can also be used to store data. */
+public class DatatypeBean implements Serializable {
+
+	public static final long serialVersionUID = BeansUIDConstants.DATATYPE_BEAN_BEAN;
+
+	private String className;
+	private String classImport;
+	private boolean isImportNecessary;
+
+	/** Compare two DatatypeBean by checking that its import and class name is same
+	 * or not with other.
+	 *
+	 * <p>
+	 * <b>Note</b>: Comparision is not done by memory pointer, it is checked whether
+	 * the className
+	 * and classImoort of datatype is equal or not.
+	 *
+	 * @param mDatatypeBean
+	 *            DatatypeBean to compare with.
+	 * @return True if @mDatatypeBean is equal. */
+	public boolean equals(DatatypeBean mDatatypeBean) {
+		if (mDatatypeBean == null) {
+			return false;
+		}
+		boolean isClassNameEqual = false;
+		if (className == null) {
+			isClassNameEqual = mDatatypeBean.className == null ? true : false;
+		} else {
+			if (mDatatypeBean.className == null)
+				return false;
+			isClassNameEqual = mDatatypeBean.className.equals(className);
+		}
+
+		boolean isClassImportEqual = false;
+		if (classImport == null) {
+			isClassImportEqual = mDatatypeBean.classImport == null ? true : false;
+		} else {
+			if (mDatatypeBean.className == null)
+				return false;
+			isClassImportEqual = mDatatypeBean.classImport.equals(classImport);
+		}
+
+		return isClassNameEqual && isClassImportEqual;
+	}
+
+	public String getClassName() {
+		return this.className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public String getClassImport() {
+		return this.classImport;
+	}
+
+	public void setClassImport(String classImport) {
+		this.classImport = classImport;
+	}
+
+	public boolean isImportNecessary() {
+		return this.isImportNecessary;
+	}
+
+	public void setImportNecessary(boolean isImportNecessary) {
+		this.isImportNecessary = isImportNecessary;
+	}
 }

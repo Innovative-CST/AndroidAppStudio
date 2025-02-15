@@ -29,10 +29,80 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
+
+/** ActionBlockBean, BlockBean that perform action. */
+public abstract class ActionBlockBean<T> extends BlockBean<T>
+		implements CodeProcessorBean, Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.ACTION_BLOCK_BEAN;
+
+	/** All the layers of block that holds content of block. */
+	private ArrayList<LayerBean> layers;
+
+	public ArrayList<LayerBean> getLayers() {
+		return this.layers;
+	}
+
+	public void setLayers(ArrayList<LayerBean> layers) {
+		this.layers = layers;
+	}
+
+	@Override
+	public String getProcessedCode() {
+		String code = getCodeSyntax();
+
+		for (int i = 0; i < getLayers().size(); ++i) {
+			LayerBean layerBean = getLayers().get(i);
+			code = processLayerCode(code, layerBean);
+		}
+
+		return code;
+	}
+
+	private String processLayerCode(String code, LayerBean layerBean) {
+		if (layerBean instanceof BlockElementLayerBean blockElementLayerBean) {
+			return processElementLayerCode(code, blockElementLayerBean);
+		} else if (layerBean instanceof ActionBlockLayerBean actionBlockLayerBean) {
+			return processActionBlockLayerCode(code, actionBlockLayerBean);
+		}
+		return code;
+	}
+
+	private String processActionBlockLayerCode(
+			String code, ActionBlockLayerBean actionBlockLayerBean) {
+
+		String key = actionBlockLayerBean.getKey();
+		String replacingCode = CodeFormatterUtils.getKeySyntaxString(key);
+		int intendation = CodeFormatterUtils.getIntendation(code, replacingCode);
+
+		String layerCode = actionBlockLayerBean.getProcessedCode();
+		String layerIntendedCode = CodeFormatterUtils.addIntendation(layerCode, intendation);
+
+		code = code.replace(replacingCode, layerIntendedCode);
+
+		return code;
+	}
+
+	private String processElementLayerCode(
+			String code, BlockElementLayerBean blockElementLayerBean) {
+		for (int i = 0; i < blockElementLayerBean.getBlockElementBeans().size(); ++i) {
+			BlockElementBean blockElementBean = blockElementLayerBean.getBlockElementBeans().get(i);
+			if (blockElementBean instanceof ValueInputBlockElementBean valueInputBlockElementBean) {
+				code = processValueInputBlockElementCode(code, valueInputBlockElementBean);
+			}
+		}
+		return code;
+	}
+
+	private String processValueInputBlockElementCode(
+			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
+		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
+	}
 }

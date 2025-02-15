@@ -29,10 +29,24 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans.utils;
 
-dependencies {
-	api project(":beans:blockbeans")
+public class BlockBeansUIDConstants {
+	public static final long BLOCK_BEAN = 1L;
+	public static final long BASE_BLOCK_BEAN = 1L;
+	public static final long ACTION_BLOCK_BEAN = 1L;
+	public static final long EVENT_BLOCK_BEAN = 1L;
+	public static final long EXPRESSION_BLOCK_BEAN = 1L;
+	public static final long REGULAR_BLOCK_BEAN = 1L;
+	public static final long TERMINATOR_BLOCK_BEAN = 1L;
+	public static final long LAYER_BEAN = 1L;
+	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
+	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
+	public static final long DATATYPE_BEAN_BEAN = 1L;
+	public static final long EVENT_BEAN = 1L;
+	public static final long LABEL_BLOCK_ELEMENT_BEAN = 1L;
+	public static final long STRING_BLOCK_ELEMENT_BEAN = 1L;
+	public static final long BOOLEAN_BLOCK_ELEMENT_BEAN = 1L;
+	public static final long BLOCK_PALETTE_BEAN = 1L;
+	public static final long ARTIFACT_BEAN = 1L;
 }

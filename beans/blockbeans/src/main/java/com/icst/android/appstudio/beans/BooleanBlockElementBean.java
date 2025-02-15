@@ -29,10 +29,83 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+public class BooleanBlockElementBean
+		implements ValueInputBlockElementBean<BooleanBlockElementBean>, Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.BOOLEAN_BLOCK_ELEMENT_BEAN;
+
+	private boolean bool;
+	private BooleanBlockBean booleanBlock;
+	private String key;
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	public boolean getBool() {
+		return this.bool;
+	}
+
+	public void setBool(boolean bool) {
+		this.bool = bool;
+	}
+
+	public BooleanBlockBean getBooleanBlock() {
+		return this.booleanBlock;
+	}
+
+	public void setBooleanBlock(BooleanBlockBean booleanBlock) {
+		this.booleanBlock = booleanBlock;
+	}
+
+	public void setValue(boolean booleanVal) {
+		this.booleanBlock = null;
+		this.bool = booleanVal;
+	}
+
+	public void setValue(BooleanBlockBean boolBlock) {
+		this.booleanBlock = boolBlock;
+		this.bool = false;
+	}
+
+	@Override
+	public String getValue() {
+		if (getBooleanBlock() == null) {
+			return String.valueOf(getBool());
+		} else {
+			if (getBooleanBlock().getCodeSyntax() != null) {
+				return getBooleanBlock().getProcessedCode();
+			}
+		}
+		return String.valueOf(getBool());
+	}
+
+	@Override
+	public DatatypeBean getAcceptedReturnType() {
+		DatatypeBean acceptedReturnType = new DatatypeBean();
+		acceptedReturnType.setImportNecessary(false);
+		acceptedReturnType.setClassImport("java.lang.Boolean");
+		acceptedReturnType.setClassName("Boolean");
+		return acceptedReturnType;
+	}
+
+	@Override
+	public BooleanBlockElementBean cloneBean() {
+		BooleanBlockElementBean clone = new BooleanBlockElementBean();
+		clone.setBool(new Boolean(getBool()));
+		clone.setBooleanBlock(getBooleanBlock() == null ? null : getBooleanBlock().cloneBean());
+		clone.setKey(getKey() == null ? null : new String(getKey()));
+		return clone;
+	}
 }

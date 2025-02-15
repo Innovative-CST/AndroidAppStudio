@@ -29,10 +29,36 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/** A Bean that holds a group of Block elements. Used to store the Block items,
+ * block elements but
+ * does not hold nested blocks. */
+public class BlockElementLayerBean extends LayerBean<BlockElementLayerBean>
+		implements Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.BLOCK_ELEMENT_LAYER_BEAN;
+
+	private ArrayList<BlockElementBean> blockElementBeans;
+
+	public ArrayList<BlockElementBean> getBlockElementBeans() {
+		return this.blockElementBeans;
+	}
+
+	public void setBlockElementBeans(ArrayList<BlockElementBean> blockElementBeans) {
+		this.blockElementBeans = blockElementBeans;
+	}
+
+	@Override
+	public BlockElementLayerBean cloneBean() {
+		BlockElementLayerBean clone = new BlockElementLayerBean();
+		clone.setBlockElementBeans(BeanArrayCloneUtils.clone(getBlockElementBeans()));
+		return clone;
+	}
 }

@@ -29,10 +29,80 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BeansUIDConstants;
+
+/** Represents an artifact in a repository. */
+public class ArtifactBean implements Serializable {
+
+	public static final long serialVersionUID = BeansUIDConstants.ARTIFACT_BEAN;
+
+	// Group ID of the artifact (e.g., "com.example")
+	private String groupId;
+
+	// Artifact ID of the artifact (e.g., "my-library")
+	private String artifactId;
+
+	// Version of the artifact (e.g., "1.0.0")
+	private String version;
+
+	// Name of the repository where the artifact is hosted
+	private String repositoryName;
+
+	// URL of the repository
+	private String repositoryUrl;
+
+	// File extension of the artifact (e.g., "jar", "aar")
+	private String extension;
+
+	public String getGroupId() {
+		return this.groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getArtifactId() {
+		return this.artifactId;
+	}
+
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
+	}
+
+	public String getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getRepositoryName() {
+		return this.repositoryName;
+	}
+
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+
+	public String getRepositoryUrl() {
+		return this.repositoryUrl;
+	}
+
+	public void setRepositoryUrl(String repositoryUrl) {
+		this.repositoryUrl = repositoryUrl;
+	}
+
+	public String getExtension() {
+		return this.extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 }

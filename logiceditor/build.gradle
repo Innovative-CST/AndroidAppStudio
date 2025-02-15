@@ -66,6 +66,6 @@ android {
 
 dependencies {
 	api("com.google.android.material:material:$material_design_version")
-	implementation(project(":beans"))
+	api(project(":beans:blockbeans"))
 	api(project(":themeEngine"))
 }

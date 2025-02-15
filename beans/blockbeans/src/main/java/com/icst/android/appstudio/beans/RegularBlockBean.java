@@ -29,10 +29,38 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/** RegularBlockBean: Can hold RegularBlockBean (nested blocks), BlockElementBean */
+public class RegularBlockBean extends ActionBlockBean<RegularBlockBean> implements Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.BLOCK_BEAN;
+
+	private String codeSyntax;
+
+	@Override
+	public String getCodeSyntax() {
+		return this.codeSyntax;
+	}
+
+	public void setCodeSyntax(String codeSyntax) {
+		this.codeSyntax = codeSyntax;
+	}
+
+	@Override
+	public RegularBlockBean cloneBean() {
+		RegularBlockBean clone = new RegularBlockBean();
+		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
+		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+		clone.setColor(getColor() == null ? null : new String(getColor()));
+		clone.setDragAllowed(new Boolean(isDragAllowed()));
+		clone.setLayers(BeanArrayCloneUtils.clone(getLayers()));
+		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		return clone;
+	}
 }

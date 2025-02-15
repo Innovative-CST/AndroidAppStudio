@@ -29,10 +29,50 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+public class BlockPaletteBean implements Serializable {
+	public static final long serialVersionUID = BlockBeansUIDConstants.BLOCK_PALETTE_BEAN;
+
+	private ArrayList<BlockBean> blocks;
+	private String color;
+	private String name;
+	private String id;
+
+	public ArrayList<BlockBean> getBlocks() {
+		return this.blocks;
+	}
+
+	public void setBlocks(ArrayList<BlockBean> blocks) {
+		this.blocks = blocks;
+	}
+
+	public String getColor() {
+		return this.color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

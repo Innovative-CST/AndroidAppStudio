@@ -29,10 +29,22 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+public class EventBlockBean extends BaseBlockBean<EventBlockBean> implements Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.EVENT_BLOCK_BEAN;
+
+	public void getValueFromKey(String key) {
+		// TODO: Implementation to get the values from block element using key...
+	}
+
+	@Override
+	public EventBlockBean cloneBean() {
+		return null;
+	}
 }

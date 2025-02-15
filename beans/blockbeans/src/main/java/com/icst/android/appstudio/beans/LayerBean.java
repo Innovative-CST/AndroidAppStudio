@@ -29,10 +29,19 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/** A abstract class, to be inherited by types Layer, It provides a interface
+ * for
+ * types of Layer of
+ * Block. Layer is a meant to used to prevent long block from being so long and
+ * hence can be
+ * rendered below from point of new layer (e.g: Like we press enter to put long
+ * text on next line) */
+public abstract class LayerBean<T> implements Serializable, CloneableBean<T> {
+	public static final long serialVersionUID = BlockBeansUIDConstants.LAYER_BEAN;
 }

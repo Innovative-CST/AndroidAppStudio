@@ -29,10 +29,28 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/** A basic BlockBean model that just hold fields layer (not nested block) and
+ * does not return any
+ * code from it. */
+public abstract class BaseBlockBean<T> extends BlockBean<T> implements Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.BASE_BLOCK_BEAN;
+
+	/** All the layers of block elememts that holds content of block. */
+	private ArrayList<BlockElementLayerBean> elementsLayers;
+
+	public ArrayList<BlockElementLayerBean> getElementsLayers() {
+		return this.elementsLayers;
+	}
+
+	public void setElementsLayers(ArrayList<BlockElementLayerBean> elementsLayers) {
+		this.elementsLayers = elementsLayers;
+	}
 }

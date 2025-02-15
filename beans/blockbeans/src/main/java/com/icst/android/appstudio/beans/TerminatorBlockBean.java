@@ -29,10 +29,42 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/** TerminatorBlockBean: Can hold RegularBlockBean (nested blocks),
+ * BlockElementBean but differs from
+ * RegularBlockBean because this must be the last block bean and after that no
+ * action block can be
+ * placed. */
+public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
+		implements Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.BLOCK_BEAN;
+
+	private String codeSyntax;
+
+	public String getCodeSyntax() {
+		return this.codeSyntax;
+	}
+
+	public void setCodeSyntax(String codeSyntax) {
+		this.codeSyntax = codeSyntax;
+	}
+
+	@Override
+	public TerminatorBlockBean cloneBean() {
+		TerminatorBlockBean clone = new TerminatorBlockBean();
+		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
+		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+		clone.setColor(getColor() == null ? null : new String(getColor()));
+		clone.setDragAllowed(new Boolean(isDragAllowed()));
+		clone.setLayers(BeanArrayCloneUtils.clone(getLayers()));
+		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		return clone;
+	}
 }

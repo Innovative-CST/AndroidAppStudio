@@ -29,10 +29,90 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+public class StringBlockElementBean
+		implements ValueInputBlockElementBean<StringBlockElementBean>, Serializable {
+	public static final long serialVersionUID = BlockBeansUIDConstants.STRING_BLOCK_ELEMENT_BEAN;
+
+	private String string;
+	private StringBlockBean stringBlock;
+	private String key;
+
+	public String getString() {
+		return this.string;
+	}
+
+	public void setString(String string) {
+		this.string = string;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public void setValue(String str) {
+		if (str == null) {
+			return;
+		}
+		stringBlock = null;
+		string = str;
+	}
+
+	public void setValue(StringBlockBean strBlock) {
+		if (strBlock == null) {
+			return;
+		}
+		stringBlock = strBlock;
+		string = null;
+	}
+
+	public StringBlockBean getStringBlock() {
+		return this.stringBlock;
+	}
+
+	public void setStringBlock(StringBlockBean stringBlock) {
+		this.stringBlock = stringBlock;
+	}
+
+	@Override
+	public String getValue() {
+		if (getStringBlock() == null) {
+			if (getString() != null) {
+				return new String("\"").concat(getString()).concat("\"");
+			}
+		} else {
+			if (getStringBlock().getCodeSyntax() != null) {
+				return getStringBlock().getProcessedCode();
+			}
+		}
+		return new String("\"").concat("\"");
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	@Override
+	public DatatypeBean getAcceptedReturnType() {
+		DatatypeBean acceptedReturnType = new DatatypeBean();
+		acceptedReturnType.setImportNecessary(false);
+		acceptedReturnType.setClassImport("java.lang.String");
+		acceptedReturnType.setClassName("String");
+		return acceptedReturnType;
+	}
+
+	@Override
+	public StringBlockElementBean cloneBean() {
+		StringBlockElementBean clone = new StringBlockElementBean();
+		clone.setString(getString() == null ? null : new String(getString()));
+		clone.setStringBlock(stringBlock == null ? null : stringBlock.cloneBean());
+		clone.setKey(getKey() == null ? null : new String(getKey()));
+		return clone;
+	}
 }

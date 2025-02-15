@@ -29,10 +29,58 @@
  * Copyright © 2024 Dev Kumar
  */
 
-plugins {
-	id("java-library")
-}
+package com.icst.android.appstudio.beans;
 
-dependencies {
-	api project(":beans:blockbeans")
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+/**
+ * A Bean that holds a group of ActionBlocks and can hold one TerminatorBlockBean. Used to store the
+ * nested BlockBeans, and does not hold BlockElementBean directly into it.
+ */
+public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implements Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.ACTION_ELEMENT_LAYER_BEAN;
+
+	private ArrayList<ActionBlockBean> actionBlockBeans;
+	private String key;
+
+	public ArrayList<ActionBlockBean> getActionBlockBeans() {
+		return this.actionBlockBeans;
+	}
+
+	public void setActionBlockBeans(ArrayList<ActionBlockBean> actionBlockBeans) {
+		this.actionBlockBeans = actionBlockBeans;
+	}
+
+	public String getKey() {
+		return this.key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getProcessedCode() {
+		StringBuilder code = new StringBuilder();
+		if (actionBlockBeans == null) {
+			return "";
+		}
+		actionBlockBeans.forEach(actionBlockBean -> {
+			code.append(actionBlockBean.getProcessedCode());
+			code.append("\n");
+		});
+		return code.toString();
+	}
+
+	@Override
+	public ActionBlockLayerBean cloneBean() {
+		ActionBlockLayerBean clone = new ActionBlockLayerBean();
+		clone.setActionBlockBeans(BeanArrayCloneUtils.clone(getActionBlockBeans()));
+		clone.setKey(getKey() == null ? null : new String(getKey()));
+		return clone;
+	}
 }

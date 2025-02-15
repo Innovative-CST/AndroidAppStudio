@@ -20,7 +20,7 @@ ext {
 
 spotless {
 	java {
-		target "*/src/*/java/**/*.java", "test/logiceditor/src/*/java/**/*.java"
+		target "*/src/*/java/**/*.java", "test/logiceditor/src/*/java/**/*.java", "*/*/src/*/java/**/*.java"
 		importOrder(
 				"java",
 				"javax",
