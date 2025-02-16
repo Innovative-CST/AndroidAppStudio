@@ -144,12 +144,12 @@ public final class BlockShapesUtils {
 		mPaint.setPathEffect(new CornerPathEffect(3));
 
 		mPath.lineTo(width, 0);
-		mPath.lineTo(width - dpToPx(context, 5), dpToPx(context, 5));
-		mPath.lineTo(dpToPx(context, 54), dpToPx(context, 5));
+		mPath.lineTo(width - dpToPx(context, 5), dpToPx(context, 4));
+		mPath.lineTo(dpToPx(context, 54), dpToPx(context, 4));
 		mPath.lineTo(dpToPx(context, 46), dpToPx(context, 10));
-		mPath.lineTo(dpToPx(context, 33), dpToPx(context, 10));
-		mPath.lineTo(dpToPx(context, 23), dpToPx(context, 5));
-		mPath.lineTo(dpToPx(context, 15), dpToPx(context, 5));
+		mPath.lineTo(dpToPx(context, 31), dpToPx(context, 10));
+		mPath.lineTo(dpToPx(context, 23), dpToPx(context, 4));
+		mPath.lineTo(dpToPx(context, 15), dpToPx(context, 4));
 		mPath.lineTo(dpToPx(context, 10), dpToPx(context, 10));
 		mPath.lineTo(dpToPx(context, 10), height + dpToPx(context, 0));
 		mPath.lineTo(dpToPx(context, 15), height + dpToPx(context, 5));
