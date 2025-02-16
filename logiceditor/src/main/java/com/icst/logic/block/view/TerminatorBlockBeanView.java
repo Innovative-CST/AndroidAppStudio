@@ -43,6 +43,7 @@ import com.icst.logic.utils.BlockShapesUtils;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
+import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.LayerBeanView;
 
 import android.content.Context;
@@ -101,29 +102,13 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 			layersView.addView(layerView.getView());
 			layerView.getView().setLayoutParams(mLayoutParam);
 			this.layers.add(layerView);
-
-			layerView
-					.getView()
-					.getViewTreeObserver()
-					.addOnGlobalLayoutListener(
-							() -> {
-								updateLayerWidthsToMax();
-							});
 		}
 
-		RegularBlockBeanView.LayoutParams lp = new RegularBlockBeanView.LayoutParams(
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT,
-				RegularBlockBeanView.LayoutParams.WRAP_CONTENT);
+		TerminatorBlockBeanView.LayoutParams lp = new TerminatorBlockBeanView.LayoutParams(
+				TerminatorBlockBeanView.LayoutParams.WRAP_CONTENT,
+				TerminatorBlockBeanView.LayoutParams.WRAP_CONTENT);
 		addView(layersView);
 		layersView.setLayoutParams(lp);
-	}
-
-	private void updateLayerWidthsToMax() {
-		int maxWidth = getMaxLayerWidth();
-
-		for (LayerBeanView layer : layers) {
-			layer.getView().setMinimumWidth(maxWidth);
-		}
 	}
 
 	// Method to calculate the maximum width from the list of layers
@@ -133,19 +118,13 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 		for (LayerBeanView layer : layers) {
 			if (layer instanceof ActionBlockLayerView) {
 				continue;
+			} else if (layer instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
+				int width = mBlockElementLayerBeanView.getWrapContentDimension()[0];
+				maxWidth = Math.max(width, maxWidth);
 			}
-
-			View layerView = layer.getView();
-			int tempMinWidth = layerView.getMinimumWidth();
-			layerView.setMinimumWidth(0);
-			layerView.measure(
-					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
-			layerView.setMinimumWidth(tempMinWidth);
 		}
-
 		maxWidth += getPaddingLeft() + getPaddingRight();
+
 		return maxWidth;
 	}
 
@@ -182,13 +161,18 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int totalHeight = 0;
 		int maxWidth = 0;
+		int maxLayerWidth = getMaxLayerWidth();
 
-		// Measure each child
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			measureChild(child, widthMeasureSpec, heightMeasureSpec);
-			totalHeight += child.getMeasuredHeight();
-			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
+		measureChild(layersView, widthMeasureSpec, heightMeasureSpec);
+		totalHeight += layersView.getMeasuredHeight();
+		maxWidth = Math.max(maxWidth, layersView.getMeasuredWidth());
+
+		for (LayerBeanView layer : layers) {
+			if (layer instanceof ActionBlockLayerView actionBlockLayerView) {
+				actionBlockLayerView.setMaxLayerWidth(maxLayerWidth);
+			} else if (layer instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
+				mBlockElementLayerBeanView.setMaxLayerWidth(maxLayerWidth);
+			}
 		}
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 7) + UnitUtils.dpToPx(getContext(), 5) - 2;
@@ -198,7 +182,8 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		BlockShapesUtils.drawActionBlockHeader(canvas, getContext(), 0, 0, getMeasuredWidth(),
+		int maxLayerWidth = getMaxLayerWidth();
+		BlockShapesUtils.drawActionBlockHeader(canvas, getContext(), 0, 0, maxLayerWidth,
 				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), terminatorBlockBean.getColor())));
 
 		int totalHeight = 0;
@@ -208,7 +193,7 @@ public class TerminatorBlockBeanView extends ActionBlockBeanView {
 		}
 		totalHeight += UnitUtils.dpToPx(getContext(), 7);
 		BlockShapesUtils.drawTerminatorBlockFooter(canvas, getContext(), 0, totalHeight - 1,
-				getMaxLayerWidth() + getPaddingLeft() + getPaddingRight(),
+				maxLayerWidth + getPaddingLeft() + getPaddingRight(),
 				Color.parseColor(ColorUtils.harmonizeHexColor(getContext(), terminatorBlockBean.getColor())));
 	}
 

@@ -25,6 +25,7 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	private String color;
 	private BlockBean block;
 	private ActionBlockLayerBean layer;
+	private int maxLayerWidth;
 
 	public ActionBlockLayerView(
 			Context context,
@@ -50,7 +51,7 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 			LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams) child.getLayoutParams());
 			totalHeight += lp.topMargin;
 		}
-		int maxWidth = Math.max(UnitUtils.dpToPx(getContext(), 60), getMinimumWidth());
+		int maxWidth = Math.max(UnitUtils.dpToPx(getContext(), 60), getMaxLayerWidth());
 		if (totalHeight < UnitUtils.dpToPx(getContext(), 30)) {
 			totalHeight = UnitUtils.dpToPx(getContext(), 30);
 		}
@@ -94,7 +95,7 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
 		}
 		maxWidth += UnitUtils.dpToPx(getContext(), LAYER_PADDING) + 2;
-		maxWidth = Math.max(maxWidth, getMinimumWidth());
+		maxWidth = Math.max(maxWidth, getMaxLayerWidth());
 		if (totalHeight < UnitUtils.dpToPx(getContext(), 30)) {
 			totalHeight = UnitUtils.dpToPx(getContext(), 30);
 		}
@@ -161,5 +162,14 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 	@Override
 	public ActionBlockLayerView getView() {
 		return this;
+	}
+
+	public int getMaxLayerWidth() {
+		return this.maxLayerWidth;
+	}
+
+	public void setMaxLayerWidth(int maxLayerWidth) {
+		this.maxLayerWidth = maxLayerWidth;
+		requestLayout();
 	}
 }

@@ -39,7 +39,6 @@ import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -50,14 +49,120 @@ public class BlockElementLayerBeanView extends LinearLayout
 	private boolean isLastLayer;
 	private String color;
 	private BlockBean block;
+	private int maxLayerWidth;
 
 	public BlockElementLayerBeanView(Context context) {
 		super(context);
-		setOrientation(HORIZONTAL);
-		setGravity(Gravity.CENTER_VERTICAL);
 		setPadding(UnitUtils.dpToPx(context, 2), 0, UnitUtils.dpToPx(context, 2), 0);
 		setMinimumWidth(100);
 		setMinimumHeight(20);
+	}
+
+	private int[] measureView(int minWidth) {
+
+		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+
+		int paddingLeft = getPaddingLeft();
+		int paddingRight = getPaddingRight();
+		int paddingTop = getPaddingTop();
+		int paddingBottom = getPaddingBottom();
+
+		int totalWidth = paddingLeft + paddingRight;
+		int maxChildHeight = 0;
+
+		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+		// Calculate available height for children
+		int availableHeight = (heightMode == MeasureSpec.UNSPECIFIED)
+				? Integer.MAX_VALUE
+				: heightSize - paddingTop - paddingBottom;
+
+		// First pass to measure children
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (child.getVisibility() == GONE)
+				continue;
+
+			LayoutParams lp = (LayoutParams) child.getLayoutParams();
+			int childWidthSpec = getChildMeasureSpec(widthMeasureSpec, 0, lp.width);
+			int childHeightSpec = MeasureSpec.makeMeasureSpec(availableHeight, MeasureSpec.AT_MOST);
+
+			child.measure(childWidthSpec, childHeightSpec);
+
+			totalWidth += child.getMeasuredWidth();
+			maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
+		}
+		totalWidth = Math.max(getMinimumWidth(), totalWidth);
+		totalWidth = Math.max(minWidth, totalWidth);
+
+		maxChildHeight = Math.max(maxChildHeight, getMinimumHeight());
+
+		// Resolve parent dimensions
+		int resolvedWidth = resolveSize(totalWidth, widthMeasureSpec);
+		int resolvedHeight = resolveSize(maxChildHeight + paddingTop + paddingBottom, heightMeasureSpec);
+
+		// Check if height needs adjustment and remeasure children if necessary
+		if (heightMode != MeasureSpec.UNSPECIFIED && resolvedHeight < heightSize) {
+			availableHeight = resolvedHeight - paddingTop - paddingBottom;
+			maxChildHeight = 0;
+			totalWidth = paddingLeft + paddingRight;
+
+			for (int i = 0; i < getChildCount(); i++) {
+				View child = getChildAt(i);
+				if (child.getVisibility() == GONE)
+					continue;
+
+				LayoutParams lp = (LayoutParams) child.getLayoutParams();
+				int childWidthSpec = getChildMeasureSpec(widthMeasureSpec, 0, lp.width);
+				int childHeightSpec = MeasureSpec.makeMeasureSpec(availableHeight, MeasureSpec.AT_MOST);
+
+				child.measure(childWidthSpec, childHeightSpec);
+
+				totalWidth += child.getMeasuredWidth();
+				maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
+			}
+			resolvedWidth = resolveSize(totalWidth, widthMeasureSpec);
+			resolvedHeight = resolveSize(maxChildHeight + paddingTop + paddingBottom, heightMeasureSpec);
+		}
+
+		return new int[] { resolvedWidth, resolvedHeight };
+	}
+
+	public int[] getWrapContentDimension() {
+		return measureView(0);
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		int[] dimensions = measureView(maxLayerWidth);
+		setMeasuredDimension(dimensions[0], dimensions[1]);
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		int paddingLeft = getPaddingLeft();
+		int currentLeft = paddingLeft;
+		int parentHeight = getHeight();
+
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (child.getVisibility() == GONE)
+				continue;
+
+			int childWidth = child.getMeasuredWidth();
+			int childHeight = child.getMeasuredHeight();
+
+			// Center child vertically
+			int childTop = (parentHeight - childHeight) / 2;
+
+			child.layout(currentLeft, childTop, currentLeft + childWidth, childTop + childHeight);
+
+			currentLeft += childWidth;
+		}
 	}
 
 	public void highlightNearestTargetIfAllowed(
@@ -182,5 +287,21 @@ public class BlockElementLayerBeanView extends LinearLayout
 	@Override
 	public BlockElementLayerBeanView getView() {
 		return this;
+	}
+
+	public int getMaxLayerWidth() {
+		return this.maxLayerWidth;
+	}
+
+	public void setMaxLayerWidth(int maxLayerWidth) {
+		this.maxLayerWidth = maxLayerWidth;
+		requestLayout();
+	}
+
+	@Override
+	protected LayoutParams generateDefaultLayoutParams() {
+		return new BlockElementLayerBeanView.LayoutParams(
+				BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
+				BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
 	}
 }

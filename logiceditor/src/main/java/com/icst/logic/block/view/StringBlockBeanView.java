@@ -93,13 +93,6 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 			layersView.addView(layerView.getView());
 			layerView.getView().setLayoutParams(mLayoutParam);
 			this.layers.add(layerView);
-
-			layerView.getView()
-					.getViewTreeObserver()
-					.addOnGlobalLayoutListener(
-							() -> {
-								updateLayerWidthsToMax();
-							});
 		}
 
 		StringBlockBeanView.LayoutParams lp = new StringBlockBeanView.LayoutParams(
@@ -109,30 +102,18 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 		layersView.setLayoutParams(lp);
 	}
 
-	private void updateLayerWidthsToMax() {
-		int maxWidth = getMaxLayerWidth();
-
-		for (LayerBeanView layer : layers) {
-			layer.getView().setMinimumWidth(maxWidth);
-		}
-	}
-
 	// Method to calculate the maximum width from the list of layers
 	private int getMaxLayerWidth() {
 		int maxWidth = 0;
 
 		for (LayerBeanView layer : layers) {
-			View layerView = layer.getView();
-			int tempMinWidth = layerView.getMinimumWidth();
-			layerView.setMinimumWidth(0);
-			layerView.measure(
-					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-					View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-			maxWidth = Math.max(layerView.getMeasuredWidth(), maxWidth);
-			layerView.setMinimumWidth(tempMinWidth);
+			if (layer instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
+				int width = mBlockElementLayerBeanView.getWrapContentDimension()[0];
+				maxWidth = Math.max(width, maxWidth);
+			}
 		}
+		maxWidth += getPaddingLeft() + getPaddingRight();
 
-		maxWidth += getPaddingLeft();
 		return maxWidth;
 	}
 
@@ -140,13 +121,16 @@ public class StringBlockBeanView extends ExpressionBlockBeanView {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int totalHeight = 0;
 		int maxWidth = 0;
+		int maxLayerWidth = getMaxLayerWidth();
 
-		// Measure each child
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			measureChild(child, widthMeasureSpec, heightMeasureSpec);
-			totalHeight += child.getMeasuredHeight();
-			maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
+		measureChild(layersView, widthMeasureSpec, heightMeasureSpec);
+		totalHeight += layersView.getMeasuredHeight();
+		maxWidth = Math.max(maxWidth, layersView.getMeasuredWidth());
+
+		for (LayerBeanView layer : layers) {
+			if (layer instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
+				mBlockElementLayerBeanView.setMaxLayerWidth(maxLayerWidth);
+			}
 		}
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 4) + UnitUtils.dpToPx(getContext(), 4);

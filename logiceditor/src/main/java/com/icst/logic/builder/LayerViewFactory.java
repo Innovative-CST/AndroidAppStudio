@@ -43,7 +43,6 @@ import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ColorUtils;
-import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.BooleanBlockElementBeanView;
@@ -106,28 +105,10 @@ public final class LayerViewFactory {
 								View mView = buildLabelView(
 										labelBean, blockBean, context, configuration);
 								view.addView(mView);
-								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
-								lp.setMargins(
-										UnitUtils.dpToPx(context, 2),
-										0,
-										UnitUtils.dpToPx(context, 2),
-										0);
-								mView.setLayoutParams(lp);
 							} else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
 								View mView = buildExpressionBlockBeanView(
 										mExpressionBlockBean, context, configuration);
 								view.addView(mView);
-								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
-								lp.setMargins(
-										UnitUtils.dpToPx(context, 2),
-										0,
-										UnitUtils.dpToPx(context, 2),
-										0);
-								mView.setLayoutParams(lp);
 							} else if (element instanceof StringBlockElementBean mStringBlockElement) {
 								View mView = buildStringFieldView(
 										mStringBlockElement,
@@ -137,15 +118,6 @@ public final class LayerViewFactory {
 										logicEdtitor,
 										configuration);
 								view.addView(mView);
-								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
-								lp.setMargins(
-										UnitUtils.dpToPx(context, 2),
-										0,
-										UnitUtils.dpToPx(context, 2),
-										0);
-								mView.setLayoutParams(lp);
 							} else if (element instanceof BooleanBlockElementBean mBooleanBlockElementBean) {
 								View mView = buildBooleanFieldView(
 										mBooleanBlockElementBean,
@@ -155,15 +127,6 @@ public final class LayerViewFactory {
 										logicEdtitor,
 										configuration);
 								view.addView(mView);
-								BlockElementLayerBeanView.LayoutParams lp = new BlockElementLayerBeanView.LayoutParams(
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT,
-										BlockElementLayerBeanView.LayoutParams.WRAP_CONTENT);
-								lp.setMargins(
-										UnitUtils.dpToPx(context, 2),
-										0,
-										UnitUtils.dpToPx(context, 2),
-										0);
-								mView.setLayoutParams(lp);
 							}
 						});
 
