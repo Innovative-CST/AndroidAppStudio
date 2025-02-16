@@ -54,8 +54,6 @@ public class BlockElementLayerBeanView extends LinearLayout
 	public BlockElementLayerBeanView(Context context) {
 		super(context);
 		setPadding(UnitUtils.dpToPx(context, 2), 0, UnitUtils.dpToPx(context, 2), 0);
-		setMinimumWidth(100);
-		setMinimumHeight(20);
 	}
 
 	private int[] measureView(int minWidth) {
@@ -94,6 +92,8 @@ public class BlockElementLayerBeanView extends LinearLayout
 			child.measure(childWidthSpec, childHeightSpec);
 
 			totalWidth += child.getMeasuredWidth();
+
+			totalWidth += UnitUtils.dpToPx(getContext(), 4);
 			maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
 		}
 		totalWidth = Math.max(getMinimumWidth(), totalWidth);
@@ -123,6 +123,7 @@ public class BlockElementLayerBeanView extends LinearLayout
 				child.measure(childWidthSpec, childHeightSpec);
 
 				totalWidth += child.getMeasuredWidth();
+				totalWidth += UnitUtils.dpToPx(getContext(), 4);
 				maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
 			}
 			resolvedWidth = resolveSize(totalWidth, widthMeasureSpec);
@@ -145,7 +146,7 @@ public class BlockElementLayerBeanView extends LinearLayout
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		int paddingLeft = getPaddingLeft();
-		int currentLeft = paddingLeft;
+		int currentLeft = paddingLeft + UnitUtils.dpToPx(getContext(), 2);
 		int parentHeight = getHeight();
 
 		for (int i = 0; i < getChildCount(); i++) {
@@ -160,8 +161,7 @@ public class BlockElementLayerBeanView extends LinearLayout
 			int childTop = (parentHeight - childHeight) / 2;
 
 			child.layout(currentLeft, childTop, currentLeft + childWidth, childTop + childHeight);
-
-			currentLeft += childWidth;
+			currentLeft += childWidth + UnitUtils.dpToPx(getContext(), 4);
 		}
 	}
 
