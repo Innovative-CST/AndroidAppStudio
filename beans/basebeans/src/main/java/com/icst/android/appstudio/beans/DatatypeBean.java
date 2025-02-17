@@ -38,7 +38,7 @@ import com.icst.android.appstudio.beans.utils.BeansUIDConstants;
 /** A class of Datatype, to compare that the two Datatypes are different or not
  * by comparing class
  * name and import. This Bean can also be used to store data. */
-public class DatatypeBean implements Serializable {
+public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 
 	public static final long serialVersionUID = BeansUIDConstants.DATATYPE_BEAN_BEAN;
 
@@ -80,6 +80,15 @@ public class DatatypeBean implements Serializable {
 		}
 
 		return isClassNameEqual && isClassImportEqual;
+	}
+
+	@Override
+	public DatatypeBean cloneBean() {
+		DatatypeBean clone = new DatatypeBean();
+		clone.setClassName(getClassName() == null ? null : new String(getClassName()));
+		clone.setClassImport(getClassImport() == null ? null : new String(getClassName()));
+		clone.setImportNecessary(new Boolean(isImportNecessary()));
+		return clone;
 	}
 
 	public String getClassName() {
