@@ -29,23 +29,75 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-public class BlockBeansUIDConstants {
-	public static final long BLOCK_BEAN = 1L;
-	public static final long BASE_BLOCK_BEAN = 1L;
-	public static final long ACTION_BLOCK_BEAN = 1L;
-	public static final long EVENT_BLOCK_BEAN = 1L;
-	public static final long EXPRESSION_BLOCK_BEAN = 1L;
-	public static final long REGULAR_BLOCK_BEAN = 1L;
-	public static final long TERMINATOR_BLOCK_BEAN = 1L;
-	public static final long LAYER_BEAN = 1L;
-	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
-	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
-	public static final long EVENT_BEAN = 1L;
-	public static final long LABEL_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long STRING_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long BOOLEAN_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long NUMERIC_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long BLOCK_PALETTE_BEAN = 1L;
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
+
+public class NumericBlockElementBean
+		implements ValueInputBlockElementBean<NumericBlockElementBean>, Serializable {
+
+	public static final long serialVersionUID = BlockBeansUIDConstants.NUMERIC_BLOCK_ELEMENT_BEAN;
+
+	private String numericalValue;
+	private NumericBlockBean numericBlock;
+	private DatatypeBean acceptedReturnType;
+	private String key;
+
+	@Override
+	public NumericBlockElementBean cloneBean() {
+		NumericBlockElementBean clone = new NumericBlockElementBean();
+		clone.setNumericalValue(getNumericalValue() == null ? null : new String(getNumericalValue()));
+		clone.setNumericBlock(getNumericBlock() == null ? null : getNumericBlock().cloneBean());
+		clone.setKey(getKey() == null ? null : new String(getKey()));
+		clone.setAcceptedReturnType(getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());
+		return clone;
+	}
+
+	@Override
+	public DatatypeBean getAcceptedReturnType() {
+		return acceptedReturnType;
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	@Override
+	public String getValue() {
+		if (getNumericBlock() == null) {
+			return getNumericalValue();
+		} else {
+			if (getNumericBlock().getCodeSyntax() != null) {
+				return getNumericBlock().getProcessedCode();
+			}
+		}
+		return getNumericalValue();
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getNumericalValue() {
+		return this.numericalValue;
+	}
+
+	public void setNumericalValue(String numericalValue) {
+		this.numericalValue = numericalValue;
+	}
+
+	public NumericBlockBean getNumericBlock() {
+		return this.numericBlock;
+	}
+
+	public void setNumericBlock(NumericBlockBean numericBlock) {
+		this.numericBlock = numericBlock;
+	}
+
+	public void setAcceptedReturnType(DatatypeBean acceptedReturnType) {
+		this.acceptedReturnType = acceptedReturnType;
+	}
 }

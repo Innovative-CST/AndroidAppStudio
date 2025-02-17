@@ -29,23 +29,38 @@
  * Copyright © 2024 Dev Kumar
  */
 
-package com.icst.android.appstudio.beans.utils;
+package com.icst.android.appstudio.beans;
 
-public class BlockBeansUIDConstants {
-	public static final long BLOCK_BEAN = 1L;
-	public static final long BASE_BLOCK_BEAN = 1L;
-	public static final long ACTION_BLOCK_BEAN = 1L;
-	public static final long EVENT_BLOCK_BEAN = 1L;
-	public static final long EXPRESSION_BLOCK_BEAN = 1L;
-	public static final long REGULAR_BLOCK_BEAN = 1L;
-	public static final long TERMINATOR_BLOCK_BEAN = 1L;
-	public static final long LAYER_BEAN = 1L;
-	public static final long BLOCK_ELEMENT_LAYER_BEAN = 1L;
-	public static final long ACTION_ELEMENT_LAYER_BEAN = 1L;
-	public static final long EVENT_BEAN = 1L;
-	public static final long LABEL_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long STRING_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long BOOLEAN_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long NUMERIC_BLOCK_ELEMENT_BEAN = 1L;
-	public static final long BLOCK_PALETTE_BEAN = 1L;
+import java.io.Serializable;
+
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
+
+public class NumericBlockBean extends ExpressionBlockBean<NumericBlockBean> implements Serializable {
+
+	@Override
+	public DatatypeBean[] getReturnDatatypes() {
+		DatatypeBean obj = new DatatypeBean();
+		obj.setClassImport("java.lang.Object");
+		obj.setClassName("Object");
+		obj.setImportNecessary(false);
+
+		DatatypeBean string = new DatatypeBean();
+		string.setClassImport("java.lang.Number");
+		string.setClassName("Number");
+		string.setImportNecessary(false);
+		return new DatatypeBean[] { obj, string };
+	}
+
+	@Override
+	public NumericBlockBean cloneBean() {
+		NumericBlockBean clone = new NumericBlockBean();
+		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
+		clone.setColor(getColor() == null ? null : new String(getColor()));
+		clone.setDragAllowed(new Boolean(isValueReadOnly()));
+		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
+		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+		return clone;
+	}
+
 }
