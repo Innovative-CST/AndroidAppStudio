@@ -40,6 +40,7 @@ import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.BooleanBlockBean;
 import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.NumericBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
@@ -54,8 +55,39 @@ public class OperatorBlockBeans {
 		blocks.add(trim());
 		blocks.add(trueBlock());
 		blocks.add(notBlock());
+		blocks.add(stringToIntegerBlock());
 		mOperatorBlockPalette.setBlocks(blocks);
 		return mOperatorBlockPalette;
+	}
+
+	private static NumericBlockBean stringToIntegerBlock() {
+		NumericBlockBean block = new NumericBlockBean();
+		block.setColor("#50BE36");
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		StringBlockElementBean stringField = new StringBlockElementBean();
+		stringField.setKey("string");
+		layer1Elements.add(stringField);
+
+		LabelBlockElementBean toIntTextLabel = new LabelBlockElementBean();
+		toIntTextLabel.setLabel("to integer");
+		layer1Elements.add(toIntTextLabel);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+		StringBuilder code = new StringBuilder();
+		code.append("Integer.valueOf(");
+		code.append(CodeFormatterUtils.getKeySyntaxString("string"));
+		code.append(");");
+
+		block.setCodeSyntax(code.toString());
+		return block;
 	}
 
 	private static BooleanBlockBean notBlock() {
