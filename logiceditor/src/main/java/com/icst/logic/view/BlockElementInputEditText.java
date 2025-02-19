@@ -81,6 +81,13 @@ public class BlockElementInputEditText extends TextInputEditText {
 								BlockElementInputEditText.this.textInputLayout.setErrorEnabled(true);
 								BlockElementInputEditText.this.textInputLayout.setError(getStringError());
 							}
+						} else if (BlockElementInputEditText.this.inputType == InputType.INT) {
+							if (isValidInteger()) {
+								BlockElementInputEditText.this.textInputLayout.setErrorEnabled(false);
+							} else {
+								BlockElementInputEditText.this.textInputLayout.setErrorEnabled(true);
+								BlockElementInputEditText.this.textInputLayout.setError(getIntegerError());
+							}
 						}
 					}
 
@@ -95,13 +102,28 @@ public class BlockElementInputEditText extends TextInputEditText {
 		return matcher.matches();
 	}
 
+	public boolean isValidInteger() {
+		try {
+			Integer.parseInt(getText().toString());
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
 	private String getStringError() {
 		return "This input is invalid string please make sure that string is properly escaped.";
+	}
+
+	private String getIntegerError() {
+		return "This input is invalid integer please make sure that it is a proper Integer and ranges between -2,147,483,648 to 2,147,483,647.";
 	}
 
 	public boolean isValid() {
 		if (inputType == InputType.STRING) {
 			return isValidString();
+		} else if (inputType == InputType.INT) {
+			return isValidInteger();
 		}
 		return true;
 	}

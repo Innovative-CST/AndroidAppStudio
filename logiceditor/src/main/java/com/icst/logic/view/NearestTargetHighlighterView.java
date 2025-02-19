@@ -33,6 +33,7 @@ package com.icst.logic.view;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
 import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.android.appstudio.beans.NumericBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.utils.BlockImageUtils;
@@ -75,12 +76,16 @@ public class NearestTargetHighlighterView extends LinearLayout {
 			setBackgroundColor(Color.TRANSPARENT);
 		} else if (block instanceof StringBlockBean) {
 			setBackgroundColor(Color.BLACK);
+		} else if (block instanceof NumericBlockBean) {
+			setBackgroundColor(Color.BLACK);
 		}
 	}
 
 	@Override
 	protected void onMeasure(int arg0, int arg1) {
 		if (block instanceof StringBlockBean) {
+			setMeasuredDimension(0, 0);
+		} else if (block instanceof NumericBlockBean) {
 			setMeasuredDimension(0, 0);
 		} else {
 			super.onMeasure(arg0, arg1);

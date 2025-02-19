@@ -86,7 +86,7 @@ public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 	public DatatypeBean cloneBean() {
 		DatatypeBean clone = new DatatypeBean();
 		clone.setClassName(getClassName() == null ? null : new String(getClassName()));
-		clone.setClassImport(getClassImport() == null ? null : new String(getClassName()));
+		clone.setClassImport(getClassImport() == null ? null : new String(getClassImport()));
 		clone.setImportNecessary(new Boolean(isImportNecessary()));
 		return clone;
 	}

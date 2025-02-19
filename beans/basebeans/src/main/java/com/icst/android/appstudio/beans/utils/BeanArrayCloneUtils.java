@@ -34,6 +34,7 @@ package com.icst.android.appstudio.beans.utils;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.CloneableBean;
+import com.icst.android.appstudio.beans.DatatypeBean;
 
 public final class BeanArrayCloneUtils {
 	public static <T extends CloneableBean> ArrayList<T> clone(ArrayList<T> beans) {
@@ -44,5 +45,15 @@ public final class BeanArrayCloneUtils {
 			clone.add((T) beans.get(i).cloneBean());
 		}
 		return clone;
+	}
+
+	public static DatatypeBean[] cloneDatatypeBeanArray(DatatypeBean[] datatypeBean) {
+		if (datatypeBean == null)
+			return null;
+		DatatypeBean[] clonedBeans = new DatatypeBean[datatypeBean.length];
+		for (int i = 0; i < datatypeBean.length; ++i) {
+			clonedBeans[i] = datatypeBean[i].cloneBean();
+		}
+		return clonedBeans;
 	}
 }

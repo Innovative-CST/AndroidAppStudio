@@ -33,6 +33,7 @@ package com.icst.logic.sheet;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.icst.android.appstudio.beans.DatatypeBean;
+import com.icst.android.appstudio.beans.NumericBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.android.appstudio.beans.ValueInputBlockElementBean;
 import com.icst.logic.editor.databinding.BottomsheetInputFieldBinding;
@@ -70,6 +71,25 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 							}
 						});
 			}
+		} else if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getIntegerDatatype())) {
+			if (mValueInputBlockElementBean instanceof NumericBlockElementBean mNumericBlockElementBean) {
+				binding.dialogTitle.setText("Enter your Integer");
+				binding.message.setText(
+						"Please make sure you enter a valid integer value, otherwise you will encounter error.");
+				binding.mBlockElementInputEditText.setText(
+						mNumericBlockElementBean.getNumericalValue() == null ? ""
+								: mNumericBlockElementBean.getNumericalValue());
+				binding.mBlockElementInputEditText.setInputType(
+						BlockElementInputEditText.InputType.INT,
+						binding.mTextInputLayout,
+						new BlockElementInputEditText.EditTextValueListener() {
+
+							@Override
+							public void onValueChange(String value) {
+								binding.done.setEnabled(binding.mBlockElementInputEditText.isValid());
+							}
+						});
+			}
 		}
 		setContentView(binding.getRoot());
 		binding.done.setOnClickListener(v -> {
@@ -84,6 +104,14 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 		stringDatatype.setClassImport("java.lang.String");
 		stringDatatype.setClassName("String");
 		return stringDatatype;
+	}
+
+	public DatatypeBean getIntegerDatatype() {
+		DatatypeBean intDatatype = new DatatypeBean();
+		intDatatype.setClassImport("java.lang.Integer");
+		intDatatype.setClassName("Integer");
+		intDatatype.setImportNecessary(false);
+		return intDatatype;
 	}
 
 	public interface ValueListener {

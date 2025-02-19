@@ -39,8 +39,10 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.BooleanBlockBean;
 import com.icst.android.appstudio.beans.BooleanBlockElementBean;
+import com.icst.android.appstudio.beans.DatatypeBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.NumericBlockBean;
+import com.icst.android.appstudio.beans.NumericBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
@@ -55,9 +57,52 @@ public class OperatorBlockBeans {
 		blocks.add(trim());
 		blocks.add(trueBlock());
 		blocks.add(notBlock());
+		blocks.add(equalNumBool());
 		blocks.add(stringToIntegerBlock());
 		mOperatorBlockPalette.setBlocks(blocks);
 		return mOperatorBlockPalette;
+	}
+
+	private static BooleanBlockBean equalNumBool() {
+		BooleanBlockBean block = new BooleanBlockBean();
+		block.setColor("#50BE36");
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		DatatypeBean numDatatype = new DatatypeBean();
+		numDatatype.setClassImport("java.lang.Integer");
+		numDatatype.setClassName("Integer");
+		numDatatype.setImportNecessary(false);
+
+		NumericBlockElementBean num1 = new NumericBlockElementBean();
+		num1.setKey("number1");
+		num1.setAcceptedReturnType(numDatatype.cloneBean());
+		layer1Elements.add(num1);
+
+		LabelBlockElementBean isEqualLabel = new LabelBlockElementBean();
+		isEqualLabel.setLabel("is equal to");
+		layer1Elements.add(isEqualLabel);
+
+		NumericBlockElementBean num2 = new NumericBlockElementBean();
+		num2.setKey("number2");
+		num2.setAcceptedReturnType(numDatatype.cloneBean());
+		layer1Elements.add(num2);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append(CodeFormatterUtils.getKeySyntaxString("number1"));
+		code.append(" == ");
+		code.append(CodeFormatterUtils.getKeySyntaxString("number2"));
+
+		block.setCodeSyntax(code.toString());
+		return block;
 	}
 
 	private static NumericBlockBean stringToIntegerBlock() {
@@ -84,9 +129,28 @@ public class OperatorBlockBeans {
 		StringBuilder code = new StringBuilder();
 		code.append("Integer.valueOf(");
 		code.append(CodeFormatterUtils.getKeySyntaxString("string"));
-		code.append(");");
+		code.append(")");
 
 		block.setCodeSyntax(code.toString());
+
+		// Return type
+		DatatypeBean obj = new DatatypeBean();
+		obj.setClassImport("java.lang.Object");
+		obj.setClassName("Object");
+		obj.setImportNecessary(false);
+
+		DatatypeBean numDatatype = new DatatypeBean();
+		numDatatype.setClassImport("java.lang.Number");
+		numDatatype.setClassName("Number");
+		numDatatype.setImportNecessary(false);
+
+		DatatypeBean intDatatype = new DatatypeBean();
+		intDatatype.setClassImport("java.lang.Integer");
+		intDatatype.setClassName("Integer");
+		intDatatype.setImportNecessary(false);
+
+		block.setReturnDatatypes(new DatatypeBean[] { obj, numDatatype, intDatatype });
+
 		return block;
 	}
 

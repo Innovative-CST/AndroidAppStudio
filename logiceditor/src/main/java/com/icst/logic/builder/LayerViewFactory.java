@@ -38,6 +38,7 @@ import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
+import com.icst.android.appstudio.beans.NumericBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
@@ -47,6 +48,7 @@ import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.BooleanBlockElementBeanView;
 import com.icst.logic.view.LayerBeanView;
+import com.icst.logic.view.NumericBlockElementBeanView;
 import com.icst.logic.view.StringBlockElementBeanView;
 
 import android.content.Context;
@@ -127,10 +129,37 @@ public final class LayerViewFactory {
 										logicEdtitor,
 										configuration);
 								view.addView(mView);
+							} else if (element instanceof NumericBlockElementBean mNumericBlockElementBean) {
+								View mView = buildNumericFieldView(
+										mNumericBlockElementBean,
+										blockBean,
+										blockView,
+										context,
+										logicEdtitor,
+										configuration);
+								view.addView(mView);
 							}
 						});
 
 		return view;
+	}
+
+	private static View buildNumericFieldView(
+			NumericBlockElementBean mNumericBlockElementBean,
+			BlockBean blockBean,
+			BlockBeanView blockView,
+			Context context,
+			LogicEditorView logicEdtitor,
+			LogicEditorConfiguration configuration) {
+		NumericBlockElementBeanView fieldView = new NumericBlockElementBeanView(context, blockView,
+				mNumericBlockElementBean,
+				configuration,
+				logicEdtitor);
+		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		fieldView.setLayoutParams(layerLayoutParams);
+		return fieldView;
 	}
 
 	private static View buildLabelView(

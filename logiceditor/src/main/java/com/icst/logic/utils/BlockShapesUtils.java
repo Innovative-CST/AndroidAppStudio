@@ -202,6 +202,36 @@ public final class BlockShapesUtils {
 		canvas.drawPath(path, mPaint);
 	}
 
+	public static void drawNumericBlockElement(
+			Canvas canvas, Context context, int width, int height, int color) {
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+
+		Path path = new Path();
+		path.arcTo(0, 0, height, height, 90, 180, false);
+		path.lineTo(width - height, 0);
+		path.arcTo(width - height, 0, width, height, 270, 180, false);
+		path.lineTo(height / 2, height);
+		canvas.drawPath(path, mPaint);
+	}
+
+	public static void drawNumericBlockHighlighter(
+			Canvas canvas, Context context, int width, int height, int color) {
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(5);
+		mPaint.setColor(color);
+		mPaint.setStyle(Paint.Style.FILL);
+
+		Path path = new Path();
+		path.arcTo(0, 0, height, height, 90, 180, false);
+		path.lineTo(width - height, 0);
+		path.arcTo(width - height, 0, width, height, 270, 180, false);
+		path.lineTo(height / 2, height);
+		canvas.drawPath(path, mPaint);
+	}
+
 	public static void drawBooleanBlockElement(
 			Canvas canvas, Context context, int width, int height, int color) {
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
