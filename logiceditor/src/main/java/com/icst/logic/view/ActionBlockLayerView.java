@@ -170,6 +170,6 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 
 	public void setMaxLayerWidth(int maxLayerWidth) {
 		this.maxLayerWidth = maxLayerWidth;
-		requestLayout();
+		//requestLayout();
 	}
 }

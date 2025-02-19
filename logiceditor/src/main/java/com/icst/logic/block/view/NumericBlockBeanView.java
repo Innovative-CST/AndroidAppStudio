@@ -144,15 +144,15 @@ public class NumericBlockBeanView extends ExpressionBlockBeanView {
 		int maxWidth = 0;
 		int maxLayerWidth = getMaxLayerWidth();
 
-		measureChild(layersView, widthMeasureSpec, heightMeasureSpec);
-		totalHeight += layersView.getMeasuredHeight();
-		maxWidth = Math.max(maxWidth, layersView.getMeasuredWidth());
-
 		for (LayerBeanView layer : layers) {
 			if (layer instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
 				mBlockElementLayerBeanView.setMaxLayerWidth(maxLayerWidth);
 			}
 		}
+
+		measureChild(layersView, widthMeasureSpec, heightMeasureSpec);
+		totalHeight += layersView.getMeasuredHeight();
+		maxWidth = Math.max(maxWidth, layersView.getMeasuredWidth());
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 4) + UnitUtils.dpToPx(getContext(), 4);
 		maxWidth += getPaddingLeft() + getPaddingRight() + totalHeight;
