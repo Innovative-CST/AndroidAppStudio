@@ -67,12 +67,14 @@ public class NumericBlockElementBean
 
 	@Override
 	public String getValue() {
-		if (getNumericBlock() == null) {
-			return getNumericalValue();
-		} else {
+		if (getNumericBlock() != null) {
 			if (getNumericBlock().getCodeSyntax() != null) {
 				return getNumericBlock().getProcessedCode();
 			}
+		}
+
+		if (getNumericalValue() == null) {
+			return "0";
 		}
 		return getNumericalValue();
 	}
