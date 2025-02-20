@@ -40,6 +40,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Typeface;
 import android.view.View;
 
 public class LogicEditorSpinner extends View {
@@ -60,6 +61,7 @@ public class LogicEditorSpinner extends View {
 		text = new Paint();
 		text.setColor(ColorUtils.getTextColorForColor(color));
 		text.setTextSize(20);
+		text.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 	}
 
 	private int dp(float px) {
