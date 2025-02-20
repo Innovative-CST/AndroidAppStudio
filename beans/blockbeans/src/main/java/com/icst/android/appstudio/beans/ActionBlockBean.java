@@ -120,6 +120,12 @@ public abstract class ActionBlockBean<T> extends BlockBean<T>
 			}
 		}
 
+		if (getBeanManifest() != null) {
+			if (getBeanManifest().getMetadata() != null) {
+				blocksMetadata.addAll(getBeanManifest().get(classType));
+			}
+		}
+
 		return blocksMetadata;
 	}
 }

@@ -91,6 +91,12 @@ public abstract class ExpressionBlockBean<T> extends BaseBlockBean<T>
 			blocksMetadata.addAll(getElementsLayers().get(i).getAllMetadata(classType));
 		}
 
+		if (getBeanManifest() != null) {
+			if (getBeanManifest().getMetadata() != null) {
+				blocksMetadata.addAll(getBeanManifest().get(classType));
+			}
+		}
+
 		return blocksMetadata;
 	}
 }
