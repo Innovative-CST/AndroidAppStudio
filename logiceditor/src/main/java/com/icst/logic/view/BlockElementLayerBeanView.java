@@ -305,7 +305,6 @@ public class BlockElementLayerBeanView extends LinearLayout
 
 	public void setMaxLayerWidth(int maxLayerWidth) {
 		this.maxLayerWidth = maxLayerWidth;
-		//requestLayout();
 	}
 
 	@Override
