@@ -32,6 +32,7 @@
 package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
 
@@ -44,6 +45,18 @@ public class NumericBlockElementBean
 	private NumericBlockBean numericBlock;
 	private DatatypeBean acceptedReturnType;
 	private String key;
+
+	@Override
+	public <K extends BeanMetadata> ArrayList<K> getAllMetadata(Class<K> classType) {
+
+		ArrayList<K> blocksMetadata = new ArrayList<K>();
+
+		if (getNumericBlock() != null) {
+			blocksMetadata.addAll(getNumericBlock().getAllMetadata(classType));
+		}
+
+		return blocksMetadata;
+	}
 
 	@Override
 	public NumericBlockElementBean cloneBean() {

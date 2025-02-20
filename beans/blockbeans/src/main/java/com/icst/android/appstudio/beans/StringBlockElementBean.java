@@ -32,6 +32,7 @@
 package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
 
@@ -91,6 +92,18 @@ public class StringBlockElementBean
 			}
 		}
 		return new String("\"").concat("\"");
+	}
+
+	@Override
+	public <K extends BeanMetadata> ArrayList<K> getAllMetadata(Class<K> classType) {
+
+		ArrayList<K> blocksMetadata = new ArrayList<K>();
+
+		if (getStringBlock() != null) {
+			blocksMetadata.addAll(getStringBlock().getAllMetadata(classType));
+		}
+
+		return blocksMetadata;
 	}
 
 	@Override

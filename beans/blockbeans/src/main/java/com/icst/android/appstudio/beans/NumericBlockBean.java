@@ -58,6 +58,7 @@ public class NumericBlockBean extends ExpressionBlockBean<NumericBlockBean> impl
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setReturnDatatypes(BeanArrayCloneUtils.cloneDatatypeBeanArray(getReturnDatatypes()));
+		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());
 		return clone;
 	}
 

@@ -76,6 +76,17 @@ public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implem
 		return code.toString();
 	}
 
+	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
+
+		ArrayList<T> blocksMetadata = new ArrayList<T>();
+
+		for (int i = 0; i < getActionBlockBeans().size(); ++i) {
+			blocksMetadata.addAll(getActionBlockBeans().get(i).getAllMetadata(classType));
+		}
+
+		return blocksMetadata;
+	}
+
 	@Override
 	public ActionBlockLayerBean cloneBean() {
 		ActionBlockLayerBean clone = new ActionBlockLayerBean();

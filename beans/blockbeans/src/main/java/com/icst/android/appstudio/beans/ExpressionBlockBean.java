@@ -32,6 +32,7 @@
 package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
@@ -80,5 +81,16 @@ public abstract class ExpressionBlockBean<T> extends BaseBlockBean<T>
 	private String processValueInputBlockElementCode(
 			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
 		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
+	}
+
+	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
+
+		ArrayList<T> blocksMetadata = new ArrayList<T>();
+
+		for (int i = 0; i < getElementsLayers().size(); ++i) {
+			blocksMetadata.addAll(getElementsLayers().get(i).getAllMetadata(classType));
+		}
+
+		return blocksMetadata;
 	}
 }

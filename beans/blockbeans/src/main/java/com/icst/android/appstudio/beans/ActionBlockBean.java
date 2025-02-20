@@ -105,4 +105,21 @@ public abstract class ActionBlockBean<T> extends BlockBean<T>
 			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
 		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
 	}
+
+	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
+
+		ArrayList<T> blocksMetadata = new ArrayList<T>();
+
+		for (int i = 0; i < getLayers().size(); ++i) {
+			LayerBean layerBean = getLayers().get(i);
+
+			if (layerBean instanceof BlockElementLayerBean blockElementLayerBean) {
+				blocksMetadata.addAll(blockElementLayerBean.getAllMetadata(classType));
+			} else if (layerBean instanceof ActionBlockLayerBean actionBlockLayerBean) {
+				blocksMetadata.addAll(actionBlockLayerBean.getAllMetadata(classType));
+			}
+		}
+
+		return blocksMetadata;
+	}
 }

@@ -55,6 +55,19 @@ public class BlockElementLayerBean extends LayerBean<BlockElementLayerBean>
 		this.blockElementBeans = blockElementBeans;
 	}
 
+	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
+
+		ArrayList<T> blocksMetadata = new ArrayList<T>();
+
+		for (int i = 0; i < blockElementBeans.size(); ++i) {
+			if (blockElementBeans.get(i) instanceof ValueInputBlockElementBean valueInputBlockElementBean) {
+				blocksMetadata.addAll(valueInputBlockElementBean.getAllMetadata(classType));
+			}
+		}
+
+		return blocksMetadata;
+	}
+
 	@Override
 	public BlockElementLayerBean cloneBean() {
 		BlockElementLayerBean clone = new BlockElementLayerBean();

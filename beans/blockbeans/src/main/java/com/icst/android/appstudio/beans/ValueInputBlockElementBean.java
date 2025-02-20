@@ -31,6 +31,8 @@
 
 package com.icst.android.appstudio.beans;
 
+import java.util.ArrayList;
+
 /** A type of BlockElementBean that inputes value from user and store in it. */
 public interface ValueInputBlockElementBean<T> extends BlockElementBean<T> {
 
@@ -39,4 +41,6 @@ public interface ValueInputBlockElementBean<T> extends BlockElementBean<T> {
 	String getValue();
 
 	DatatypeBean getAcceptedReturnType();
+
+	<K extends BeanMetadata> ArrayList<K> getAllMetadata(Class<K> classType);
 }

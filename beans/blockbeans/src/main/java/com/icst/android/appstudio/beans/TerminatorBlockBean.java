@@ -65,6 +65,7 @@ public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
 		clone.setDragAllowed(new Boolean(isDragAllowed()));
 		clone.setLayers(BeanArrayCloneUtils.clone(getLayers()));
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());
 		return clone;
 	}
 }

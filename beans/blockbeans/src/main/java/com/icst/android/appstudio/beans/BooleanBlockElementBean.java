@@ -32,6 +32,7 @@
 package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
 
@@ -89,6 +90,18 @@ public class BooleanBlockElementBean
 			}
 		}
 		return String.valueOf(getBool());
+	}
+
+	@Override
+	public <K extends BeanMetadata> ArrayList<K> getAllMetadata(Class<K> classType) {
+
+		ArrayList<K> blocksMetadata = new ArrayList<K>();
+
+		if (getBooleanBlock() != null) {
+			blocksMetadata.addAll(getBooleanBlock().getAllMetadata(classType));
+		}
+
+		return blocksMetadata;
 	}
 
 	@Override

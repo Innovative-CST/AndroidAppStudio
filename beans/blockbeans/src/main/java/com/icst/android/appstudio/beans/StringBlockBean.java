@@ -60,6 +60,7 @@ public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implem
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
+		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());
 		return clone;
 	}
 }

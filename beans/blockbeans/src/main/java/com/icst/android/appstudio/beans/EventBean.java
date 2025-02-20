@@ -47,9 +47,9 @@ public class EventBean implements CodeProcessorBean, Serializable {
 	private String codeSyntax;
 	private EventBlockBean eventDefinationBlockBean;
 	private ArrayList<ActionBlockBean> actionBlockBeans;
-	private DatatypeBean[] importClasses;
 	private String holderName;
 	private byte[] icon;
+	private BeanManifest beanManifest;
 
 	public String getName() {
 		return this.name;
@@ -81,14 +81,6 @@ public class EventBean implements CodeProcessorBean, Serializable {
 
 	public void setEventDefinationBlockBean(EventBlockBean eventDefinationBlockBean) {
 		this.eventDefinationBlockBean = eventDefinationBlockBean;
-	}
-
-	public DatatypeBean[] getImportClasses() {
-		return this.importClasses;
-	}
-
-	public void setImportClasses(DatatypeBean[] importClasses) {
-		this.importClasses = importClasses;
 	}
 
 	public String getHolderName() {
@@ -159,4 +151,26 @@ public class EventBean implements CodeProcessorBean, Serializable {
 
 		return code;
 	}
+
+	public BeanManifest getBeanManifest() {
+		return this.beanManifest;
+	}
+
+	public void setBeanManifest(BeanManifest beanManifest) {
+		this.beanManifest = beanManifest;
+	}
+
+	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
+		ArrayList<T> blocksMetadata = new ArrayList<T>();
+		for (int i = 0; i < getActionBlockBeans().size(); ++i) {
+			blocksMetadata.addAll(getActionBlockBeans().get(i).getAllMetadata(classType));
+		}
+		if (beanManifest != null) {
+			if (beanManifest.getMetadata() != null) {
+				blocksMetadata.addAll(beanManifest.get(classType));
+			}
+		}
+		return blocksMetadata;
+	}
+
 }
