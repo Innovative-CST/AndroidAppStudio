@@ -39,7 +39,6 @@ import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.EventBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.logic.adapter.BlockPaletteAdapter;
-import com.icst.logic.bean.ActionBlockDropZone;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.block.view.BooleanBlockView;
@@ -414,14 +413,14 @@ public class LogicEditorView extends RelativeLayout {
 		binding.logicEditorCanvaView.openEventInCanva(event, configuration, this);
 	}
 
-	public void dragActionBlockDropZone(
-			ActionBlockDropZone actionBlockDropZone,
-			ActionBlockDropZone draggedFrom,
-			int indexOfDrag) {
-		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
-		eventDispatcher.onActionBlockDropZoneDragged(actionBlockDropZone, draggedFrom, indexOfDrag);
-		// TODO: Action block drop zone block logic...
-	}
+	//	public void dragActionBlockDropZone(
+	//			ActionBlockDropZone actionBlockDropZone,
+	//			ActionBlockDropZone draggedFrom,
+	//			int indexOfDrag) {
+	//		// Deliver drag events to LogicEditorEventDispatcher and update HistoryManager
+	//		eventDispatcher.onActionBlockDropZoneDragged(actionBlockDropZone, draggedFrom, indexOfDrag);
+	//		// TODO: Action block drop zone block logic...
+	//	}
 
 	public void setDummyHighlighter(NearestTargetHighlighterView highlighter) {
 		this.highlighter = highlighter;
