@@ -34,9 +34,9 @@ package com.icst.logic.listener;
 import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.ActionBlockBean;
+import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
-import com.icst.logic.block.view.BooleanBlockView;
-import com.icst.logic.block.view.NumericBlockBeanView;
+import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.block.view.RegularBlockBeanView;
 import com.icst.logic.block.view.TerminatorBlockBeanView;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -45,7 +45,6 @@ import com.icst.logic.utils.UnitUtils;
 import com.icst.logic.view.ActionBlockDropZoneView;
 import com.icst.logic.view.DraggingBlockDummy;
 import com.icst.logic.view.MainActionBlockDropZoneView;
-import com.icst.logic.view.StringBlockBeanView;
 
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -144,75 +143,30 @@ public class DraggableTouchListener implements View.OnTouchListener {
 							getLogicEditor().startDrag(draggingBean, draggingView, x, y);
 						}
 					}
-				} else if (touchingView instanceof StringBlockBeanView stringBlockView) {
-					if (!stringBlockView.isInsideCanva()) {
-						isDragging = true;
-						Object draggingBean = stringBlockView.getStringBlockBean().cloneBean();
-						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-						DraggingBlockDummy draggingView = new DraggingBlockDummy(
-								getLogicEditor().getContext(),
-								stringBlockView.getStringBlockBean().cloneBean(),
-								getLogicEditor().canDropDraggingView(x, y));
-						draggingView.setDraggedFromCanva(stringBlockView.isInsideCanva());
-						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+				}
+				if (touchingView instanceof ExpressionBlockBeanView expressionBlockBeanView) {
+
+					isDragging = true;
+					Object draggingBean = null;
+
+					if (expressionBlockBeanView.isInsideCanva()) {
+						draggingBean = expressionBlockBeanView.getExpressionBlockBean();
 					} else {
-						isDragging = true;
-						Object draggingBean = stringBlockView.getStringBlockBean();
-						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-						DraggingBlockDummy draggingView = new DraggingBlockDummy(
-								getLogicEditor().getContext(),
-								stringBlockView.getStringBlockBean().cloneBean(),
-								getLogicEditor().canDropDraggingView(x, y));
-						draggingView.setDraggedFromCanva(stringBlockView.isInsideCanva());
-						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
-						stringBlockView.setVisibility(View.GONE);
+						draggingBean = expressionBlockBeanView.getExpressionBlockBean().cloneBean();
 					}
-				} else if (touchingView instanceof BooleanBlockView booleanBlockView) {
-					if (!booleanBlockView.isInsideCanva()) {
-						isDragging = true;
-						Object draggingBean = booleanBlockView.getBooleanBlockBean().cloneBean();
-						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-						DraggingBlockDummy draggingView = new DraggingBlockDummy(
-								getLogicEditor().getContext(),
-								booleanBlockView.getBooleanBlockBean().cloneBean(),
-								getLogicEditor().canDropDraggingView(x, y));
-						draggingView.setDraggedFromCanva(booleanBlockView.isInsideCanva());
-						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
-					} else {
-						isDragging = true;
-						Object draggingBean = booleanBlockView.getBooleanBlockBean();
-						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-						DraggingBlockDummy draggingView = new DraggingBlockDummy(
-								getLogicEditor().getContext(),
-								booleanBlockView.getBooleanBlockBean().cloneBean(),
-								getLogicEditor().canDropDraggingView(x, y));
-						draggingView.setDraggedFromCanva(booleanBlockView.isInsideCanva());
-						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
-						booleanBlockView.setVisibility(View.GONE);
+
+					getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
+					DraggingBlockDummy draggingView = new DraggingBlockDummy(
+							getLogicEditor().getContext(),
+							BlockBean.class.cast(expressionBlockBeanView.getExpressionBlockBean().cloneBean()),
+							getLogicEditor().canDropDraggingView(x, y));
+					draggingView.setDraggedFromCanva(expressionBlockBeanView.isInsideCanva());
+					getLogicEditor().startDrag(draggingBean, draggingView, x, y);
+
+					if (expressionBlockBeanView.isInsideCanva()) {
+						expressionBlockBeanView.setVisibility(View.GONE);
 					}
-				} else if (touchingView instanceof NumericBlockBeanView numericBlockBeanView) {
-					if (!numericBlockBeanView.isInsideCanva()) {
-						isDragging = true;
-						Object draggingBean = numericBlockBeanView.getNumericBlockBean().cloneBean();
-						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-						DraggingBlockDummy draggingView = new DraggingBlockDummy(
-								getLogicEditor().getContext(),
-								numericBlockBeanView.getNumericBlockBean().cloneBean(),
-								getLogicEditor().canDropDraggingView(x, y));
-						draggingView.setDraggedFromCanva(numericBlockBeanView.isInsideCanva());
-						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
-					} else {
-						isDragging = true;
-						Object draggingBean = numericBlockBeanView.getNumericBlockBean();
-						getLogicEditor().getLogicEditorCanva().setAllowScroll(false);
-						DraggingBlockDummy draggingView = new DraggingBlockDummy(
-								getLogicEditor().getContext(),
-								numericBlockBeanView.getNumericBlockBean().cloneBean(),
-								getLogicEditor().canDropDraggingView(x, y));
-						draggingView.setDraggedFromCanva(numericBlockBeanView.isInsideCanva());
-						getLogicEditor().startDrag(draggingBean, draggingView, x, y);
-						numericBlockBeanView.setVisibility(View.GONE);
-					}
+
 				}
 			}
 		};
