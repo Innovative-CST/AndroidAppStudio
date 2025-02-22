@@ -163,8 +163,29 @@ public class GeneralBlockElementView extends LinearLayout {
 			BlockShapesUtils.drawGeneralExpressionBlockHighlighter(
 					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
 		} else {
-			BlockShapesUtils.drawGeneralBlockElement(
-					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+			boolean isBlockViewNull = expressionBlockView == null;
+			boolean blockAttached = false;
+			if (!isBlockViewNull) {
+				blockAttached = expressionBlockView.getParent() != null;
+			}
+			if (!blockAttached) {
+				BlockShapesUtils.drawGeneralBlockElement(
+						canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+			} else {
+				ExpressionBlockBean currentBlockBean = mGeneralExpressionBlockElementBean.getExpressionBlockBean();
+				if (currentBlockBean instanceof StringBlockBean stringBlockBean) {
+					// Not done yet!
+				} else if (currentBlockBean instanceof BooleanBlockBean booleanBlockBean) {
+					BlockShapesUtils.drawBooleanBlock(
+							canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+				} else if (currentBlockBean instanceof NumericBlockBean numericBlockBean) {
+					BlockShapesUtils.drawNumericBlock(
+							canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+				} else if (currentBlockBean instanceof GeneralExpressionBlockBean generalExpressionBlockBean) {
+					BlockShapesUtils.drawGeneralBlockElement(
+							canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
+				}
+			}
 		}
 	}
 
