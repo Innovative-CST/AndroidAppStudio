@@ -307,7 +307,6 @@ public final class BlockShapesUtils {
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(10);
 		mPaint.setColor(color);
-		mPaint.setAlpha(50);
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(5));
 
