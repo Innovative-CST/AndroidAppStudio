@@ -36,6 +36,7 @@ import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
+import com.icst.android.appstudio.beans.GeneralExpressionBlockElementBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.NumericBlockElementBean;
@@ -47,6 +48,7 @@ import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.BooleanBlockElementBeanView;
+import com.icst.logic.view.GeneralBlockElementView;
 import com.icst.logic.view.LayerBeanView;
 import com.icst.logic.view.NumericBlockElementBeanView;
 import com.icst.logic.view.StringBlockElementBeanView;
@@ -138,6 +140,15 @@ public final class LayerViewFactory {
 										logicEdtitor,
 										configuration);
 								view.addView(mView);
+							} else if (element instanceof GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean) {
+								View mView = buildGeneralExpressionFieldView(
+										mGeneralExpressionBlockElementBean,
+										blockBean,
+										blockView,
+										context,
+										logicEdtitor,
+										configuration);
+								view.addView(mView);
 							}
 						});
 
@@ -207,6 +218,23 @@ public final class LayerViewFactory {
 			LogicEditorView logicEdtitor,
 			LogicEditorConfiguration configuration) {
 		BooleanBlockElementBeanView fieldView = new BooleanBlockElementBeanView(context, blockView, field,
+				configuration,
+				logicEdtitor);
+		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		fieldView.setLayoutParams(layerLayoutParams);
+		return fieldView;
+	}
+
+	private static View buildGeneralExpressionFieldView(
+			GeneralExpressionBlockElementBean field,
+			BlockBean blockBean,
+			BlockBeanView blockView,
+			Context context,
+			LogicEditorView logicEdtitor,
+			LogicEditorConfiguration configuration) {
+		GeneralBlockElementView fieldView = new GeneralBlockElementView(context, blockView, field,
 				configuration,
 				logicEdtitor);
 		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(

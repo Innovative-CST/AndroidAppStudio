@@ -63,9 +63,7 @@ public class GeneralExpressionBlockElementBean
 
 	@Override
 	public String getValue() {
-		if (expressionBlockBean == null) {
-			return mValue;
-		} else {
+		if (expressionBlockBean != null) {
 			if (expressionBlockBean.getCodeSyntax() != null) {
 				return expressionBlockBean.getProcessedCode();
 			}
