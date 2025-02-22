@@ -169,7 +169,7 @@ public class GeneralExpressionBlockView extends ExpressionBlockBeanView {
 		maxWidth = Math.max(maxWidth, layersView.getMeasuredWidth());
 
 		totalHeight += UnitUtils.dpToPx(getContext(), 4) + UnitUtils.dpToPx(getContext(), 4);
-		maxWidth += getPaddingLeft() + getPaddingRight() + totalHeight;
+		maxWidth += getPaddingLeft() + getPaddingRight();
 		setMeasuredDimension(
 				resolveSize(maxWidth, widthMeasureSpec),
 				resolveSize(totalHeight, heightMeasureSpec));
