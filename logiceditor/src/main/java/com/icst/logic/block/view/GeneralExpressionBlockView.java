@@ -178,10 +178,10 @@ public class GeneralExpressionBlockView extends ExpressionBlockBeanView {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		int totalWidth = 0;
-		int currentTop = 0;
+		int currentTop = UnitUtils.dpToPx(getContext(), 4);
 
 		View child = layersView;
-		int left = getPaddingLeft() + (getLayersHeight() / 2);
+		int left = getPaddingLeft();
 		int top = currentTop;
 		int right = left + child.getMeasuredWidth();
 		int bottom = top + child.getMeasuredHeight();
