@@ -56,6 +56,7 @@ import com.icst.logic.view.BlockDropZoneView;
 import com.icst.logic.view.BooleanBlockElementBeanView;
 import com.icst.logic.view.DraggingBlockDummy;
 import com.icst.logic.view.ExpressionBlockDropZoneView;
+import com.icst.logic.view.GeneralBlockElementView;
 import com.icst.logic.view.MainActionBlockDropZoneView;
 import com.icst.logic.view.NearestTargetHighlighterView;
 import com.icst.logic.view.NumericBlockElementBeanView;
@@ -351,6 +352,9 @@ public class LogicEditorView extends RelativeLayout {
 				} else if (parent.getParent() instanceof NumericBlockElementBeanView numericBlockElementBeanView) {
 					expressionBlockBean.setOnTouchListener(null);
 					numericBlockElementBeanView.setValue("");
+				} else if (parent.getParent() instanceof GeneralBlockElementView generalBlockElementView) {
+					expressionBlockBean.setOnTouchListener(null);
+					generalBlockElementView.setValue("");
 				}
 
 			}
