@@ -33,10 +33,12 @@ package com.icst.logic.builder;
 
 import com.icst.android.appstudio.beans.BooleanBlockBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
+import com.icst.android.appstudio.beans.GeneralExpressionBlockBean;
 import com.icst.android.appstudio.beans.NumericBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.logic.block.view.BooleanBlockView;
 import com.icst.logic.block.view.ExpressionBlockBeanView;
+import com.icst.logic.block.view.GeneralExpressionBlockView;
 import com.icst.logic.block.view.NumericBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -59,6 +61,10 @@ public final class ExpressionBlockViewFactory {
 			return view;
 		} else if (expressionBlockBean instanceof NumericBlockBean numericBlockBean) {
 			NumericBlockBeanView view = new NumericBlockBeanView(context, numericBlockBean, configuration, logicEditor);
+			return view;
+		} else if (expressionBlockBean instanceof GeneralExpressionBlockBean generalExpressionBlockBean) {
+			GeneralExpressionBlockView view = new GeneralExpressionBlockView(context, generalExpressionBlockBean,
+					configuration, logicEditor);
 			return view;
 		}
 		return null;
