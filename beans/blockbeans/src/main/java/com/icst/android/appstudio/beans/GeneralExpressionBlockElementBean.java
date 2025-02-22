@@ -38,7 +38,7 @@ public class GeneralExpressionBlockElementBean
 		implements ValueInputBlockElementBean<GeneralExpressionBlockElementBean>, Serializable {
 
 	private String mValue;
-	private GeneralExpressionBlockBean generalExpressionBlockBean;
+	private ExpressionBlockBean expressionBlockBean;
 	private String key;
 	private DatatypeBean acceptedReturnType;
 
@@ -51,31 +51,23 @@ public class GeneralExpressionBlockElementBean
 		return key;
 	}
 
-	public GeneralExpressionBlockBean getGeneralExpressionBlock() {
-		return this.generalExpressionBlockBean;
-	}
-
-	public void setGeneralExpressionBlock(GeneralExpressionBlockBean generalExpressionBlockBean) {
-		this.generalExpressionBlockBean = generalExpressionBlockBean;
-	}
-
 	public void setValue(String value) {
-		this.generalExpressionBlockBean = null;
+		this.expressionBlockBean = null;
 		this.mValue = value;
 	}
 
-	public void setValue(GeneralExpressionBlockBean generalExpressionBlockBean) {
-		this.generalExpressionBlockBean = generalExpressionBlockBean;
+	public void setValue(ExpressionBlockBean expressionBlockBean) {
+		this.expressionBlockBean = expressionBlockBean;
 		this.mValue = null;
 	}
 
 	@Override
 	public String getValue() {
-		if (generalExpressionBlockBean == null) {
+		if (expressionBlockBean == null) {
 			return mValue;
 		} else {
-			if (generalExpressionBlockBean.getCodeSyntax() != null) {
-				return generalExpressionBlockBean.getProcessedCode();
+			if (expressionBlockBean.getCodeSyntax() != null) {
+				return expressionBlockBean.getProcessedCode();
 			}
 		}
 
@@ -90,8 +82,8 @@ public class GeneralExpressionBlockElementBean
 
 		ArrayList<K> blocksMetadata = new ArrayList<K>();
 
-		if (getGeneralExpressionBlock() != null) {
-			blocksMetadata.addAll(getGeneralExpressionBlock().getAllMetadata(classType));
+		if (getExpressionBlockBean() != null) {
+			blocksMetadata.addAll(getExpressionBlockBean().getAllMetadata(classType));
 		}
 
 		return blocksMetadata;
@@ -110,11 +102,21 @@ public class GeneralExpressionBlockElementBean
 	public GeneralExpressionBlockElementBean cloneBean() {
 		GeneralExpressionBlockElementBean clone = new GeneralExpressionBlockElementBean();
 		clone.setValue(mValue == null ? null : new String(mValue));
-		clone.setGeneralExpressionBlock(
-				getGeneralExpressionBlock() == null ? null : getGeneralExpressionBlock().cloneBean());
+		clone.setExpressionBlockBean(
+				getExpressionBlockBean() == null
+						? null
+						: ExpressionBlockBean.class.cast(getExpressionBlockBean().cloneBean()));
 		clone.setKey(getKey() == null ? null : new String(getKey()));
-		clone.setAcceptedReturnType(getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());
+		clone.setAcceptedReturnType(
+				getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());
 		return clone;
 	}
 
+	public ExpressionBlockBean getExpressionBlockBean() {
+		return this.expressionBlockBean;
+	}
+
+	public void setExpressionBlockBean(ExpressionBlockBean expressionBlockBean) {
+		this.expressionBlockBean = expressionBlockBean;
+	}
 }
