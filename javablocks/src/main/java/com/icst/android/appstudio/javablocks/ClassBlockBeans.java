@@ -39,7 +39,9 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.DatatypeBean;
 import com.icst.android.appstudio.beans.GeneralExpressionBlockBean;
+import com.icst.android.appstudio.beans.GeneralExpressionBlockElementBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public class ClassBlockBeans {
 
@@ -49,6 +51,7 @@ public class ClassBlockBeans {
 		mClassBlockPalette.setName("Class");
 		ArrayList<BlockBean> blocks = new ArrayList<>();
 		blocks.add(getClassBlock());
+		blocks.add(getObjectClassBlock());
 		mClassBlockPalette.setBlocks(blocks);
 		return mClassBlockPalette;
 	}
@@ -73,6 +76,57 @@ public class ClassBlockBeans {
 		block.setElementsLayers(layers);
 
 		block.setCodeSyntax("getClass()");
+
+		// Return type
+		DatatypeBean obj = new DatatypeBean();
+		obj.setClassImport("java.lang.Object");
+		obj.setClassName("Object");
+		obj.setImportNecessary(false);
+
+		DatatypeBean classDatatype = new DatatypeBean();
+		classDatatype.setClassImport("java.lang.Class<T>");
+		classDatatype.setClassName("Class");
+		classDatatype.setImportNecessary(false);
+
+		block.setReturnDatatypes(new DatatypeBean[] { obj, classDatatype });
+
+		return block;
+	}
+
+	private static GeneralExpressionBlockBean getObjectClassBlock() {
+		GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
+		block.setColor("#0061FE");
+
+		ArrayList<BlockElementLayerBean> layers = new ArrayList<BlockElementLayerBean>();
+		BlockElementLayerBean layer1 = new BlockElementLayerBean();
+
+		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		DatatypeBean objDatatype = new DatatypeBean();
+		objDatatype.setClassImport("java.lang.Object");
+		objDatatype.setClassName("Object");
+		objDatatype.setImportNecessary(false);
+
+		GeneralExpressionBlockElementBean objectInput = new GeneralExpressionBlockElementBean();
+		objectInput.setKey("object");
+		objectInput.setAcceptedReturnType(objDatatype);
+		layer1Elements.add(objectInput);
+
+		LabelBlockElementBean getClassLabel = new LabelBlockElementBean();
+		getClassLabel.setLabel("getClass");
+		layer1Elements.add(getClassLabel);
+
+		layer1.setBlockElementBeans(layer1Elements);
+
+		layers.add(layer1);
+
+		block.setElementsLayers(layers);
+
+		StringBuilder code = new StringBuilder();
+		code.append(CodeFormatterUtils.getKeySyntaxString("object"));
+		code.append(".getClass()");
+
+		block.setCodeSyntax(code.toString());
 
 		// Return type
 		DatatypeBean obj = new DatatypeBean();
