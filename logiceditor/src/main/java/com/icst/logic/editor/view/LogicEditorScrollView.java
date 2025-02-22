@@ -127,12 +127,25 @@ public class LogicEditorScrollView extends FrameLayout {
 		}
 
 		if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+
+			float deltaX = 0;
+			float deltaY = 0;
+
+			// ACTION_DOWN not called initially, store initial x, y coordinates of touches(after threshold scroll).
+			if (initialScrollX == -1.0 && initialScrollY == -1.0) {
+				initialScrollX = motionEvent.getX();
+				initialScrollY = motionEvent.getY();
+				return true;
+			}
+
 			/*
 			 * Calculate change in x, y coordinates respect with initial coordinates after
 			 * threshold scroll was met.
 			 */
-			float deltaX = initialScrollX - motionEvent.getX();
-			float deltaY = initialScrollY - motionEvent.getY();
+			if (initialScrollX != -1.0 && initialScrollY != -1.0) {
+				deltaX = initialScrollX - motionEvent.getX();
+				deltaY = initialScrollY - motionEvent.getY();
+			}
 
 			// Store |deltaX| and |deltaY|
 
