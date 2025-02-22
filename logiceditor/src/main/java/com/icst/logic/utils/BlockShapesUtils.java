@@ -285,6 +285,40 @@ public final class BlockShapesUtils {
 		canvas.drawPath(triangle2, mPaint);
 	}
 
+	public static void drawGeneralBlockElement(
+			Canvas canvas, Context context, int width, int height, int color) {
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(10);
+		mPaint.setColor(color);
+		mPaint.setAlpha(50);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(5));
+
+		Path mPath = new Path();
+		mPath.lineTo(width, 0);
+		mPath.lineTo(width, height);
+		mPath.lineTo(0, height);
+		mPath.close();
+		canvas.drawPath(mPath, mPaint);
+	}
+
+	public static void drawGeneralExpressionBlockHighlighter(
+			Canvas canvas, Context context, int width, int height, int color) {
+		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setStrokeWidth(10);
+		mPaint.setColor(color);
+		mPaint.setAlpha(50);
+		mPaint.setStyle(Paint.Style.FILL);
+		mPaint.setPathEffect(new CornerPathEffect(5));
+
+		Path mPath = new Path();
+		mPath.lineTo(width, 0);
+		mPath.lineTo(width, height);
+		mPath.lineTo(0, height);
+		mPath.close();
+		canvas.drawPath(mPath, mPaint);
+	}
+
 	public static float dpToPx(Context context, float dp) {
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		return dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);
