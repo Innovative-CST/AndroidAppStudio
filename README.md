@@ -71,16 +71,6 @@ Please make sure to follow the existing code style and conventions.
 | `logiceditor`      | New logiceditor (for block-based programming), it will replace logic editor present in `block` module soon.    |
 | `test/logiceditor`      | App to test the new logiceditor mentioned above.    |
 
-## Note for contributors
-
-Dear Contributors,
-
-We want to you to be aware the importance of respecting intellectual property rights and the terms of our app license.
-
-Your work done in this software is not allowed to be copied by anyone until the owner gives permission to copy/modify the source code. Furthermore, even if permission is granted to copy or modify the code, the person authorized to do so is not allowed to give permission to others to copy the source code further. This is crucial to protect the integrity of our software and to ensure that it is used responsibly.
-
-Please be aware that you will be listed as a contributor on other software projects that are allowed to use this source code under the terms specified in our app license. If you have any questions or concerns regarding the licensing terms, we encourage you to review the app license for more information.
-
 # Special Thanks to
 [rooki_eplay](https://www.instagram.com/rooki_eplay) for UI designing helping.
 [JonForShort](https://github.com/JonForShort) for providing android-tools binaries [files](https://github.com/JonForShort/android-tools).
