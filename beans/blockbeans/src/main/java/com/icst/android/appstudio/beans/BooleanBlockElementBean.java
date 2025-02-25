@@ -30,6 +30,7 @@ public class BooleanBlockElementBean
 	private boolean bool;
 	private BooleanBlockBean booleanBlock;
 	private String key;
+	private DatatypeBean acceptedReturnType;
 
 	public void setKey(String key) {
 		this.key = key;
@@ -92,11 +93,11 @@ public class BooleanBlockElementBean
 
 	@Override
 	public DatatypeBean getAcceptedReturnType() {
-		DatatypeBean acceptedReturnType = new DatatypeBean();
-		acceptedReturnType.setImportNecessary(false);
-		acceptedReturnType.setClassImport("java.lang.Boolean");
-		acceptedReturnType.setClassName("Boolean");
 		return acceptedReturnType;
+	}
+
+	public void setAcceptedReturnType(DatatypeBean acceptedReturnType) {
+		this.acceptedReturnType = acceptedReturnType;
 	}
 
 	@Override
@@ -105,6 +106,7 @@ public class BooleanBlockElementBean
 		clone.setBool(new Boolean(getBool()));
 		clone.setBooleanBlock(getBooleanBlock() == null ? null : getBooleanBlock().cloneBean());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
+		clone.setAcceptedReturnType(getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());
 		return clone;
 	}
 }

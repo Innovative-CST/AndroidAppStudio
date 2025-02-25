@@ -22,18 +22,16 @@ import java.io.Serializable;
 import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 
 public class BooleanBlockBean extends ExpressionBlockBean<BooleanBlockBean> implements Serializable {
+
+	private DatatypeBean[] returnDatatypes;
+
+	public void setReturnDatatypes(DatatypeBean[] returnDatatypes) {
+		this.returnDatatypes = returnDatatypes;
+	}
+
 	@Override
 	public DatatypeBean[] getReturnDatatypes() {
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
-
-		DatatypeBean string = new DatatypeBean();
-		string.setClassImport("java.lang.Boolean");
-		string.setClassName("Boolean");
-		string.setImportNecessary(false);
-		return new DatatypeBean[] { obj, string };
+		return returnDatatypes;
 	}
 
 	@Override
@@ -46,6 +44,7 @@ public class BooleanBlockBean extends ExpressionBlockBean<BooleanBlockBean> impl
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());
+		clone.setReturnDatatypes(BeanArrayCloneUtils.cloneDatatypeBeanArray(getReturnDatatypes()));
 		return clone;
 	}
 }
