@@ -58,8 +58,8 @@ public class OperatorBlockBeans {
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
 
 		DatatypeBean primitiveInteger = new DatatypeBean();
-        primitiveInteger.setClassName("int");
-		
+		primitiveInteger.setClassName("int");
+
 		NumericBlockElementBean num1 = new NumericBlockElementBean();
 		num1.setKey("number1");
 		num1.setAcceptedReturnType(primitiveInteger.cloneBean());
@@ -132,7 +132,7 @@ public class OperatorBlockBeans {
 		intDatatype.setClassImport("java.lang.Integer");
 		intDatatype.setClassName("Integer");
 		intDatatype.setImportNecessary(false);
-		
+
 		DatatypeBean intPrimitiveDatatype = new DatatypeBean();
 		intPrimitiveDatatype.setClassName("int");
 
@@ -153,13 +153,13 @@ public class OperatorBlockBeans {
 		trueText.setLabel("not");
 		layer1Elements.add(trueText);
 
-        DatatypeBean primitiveBoolean = new DatatypeBean();
+		DatatypeBean primitiveBoolean = new DatatypeBean();
 		primitiveBoolean.setClassName("boolean");
 
 		BooleanBlockElementBean booleanField = new BooleanBlockElementBean();
 		booleanField.setAcceptedReturnType(primitiveBoolean.cloneBean());
 		booleanField.setKey("mBool");
-		
+
 		layer1Elements.add(booleanField);
 
 		layer1.setBlockElementBeans(layer1Elements);
@@ -200,7 +200,7 @@ public class OperatorBlockBeans {
 		code.append("true");
 
 		block.setCodeSyntax(code.toString());
-		
+
 		DatatypeBean primitiveBoolean = new DatatypeBean();
 		primitiveBoolean.setClassName("boolean");
 
@@ -230,7 +230,7 @@ public class OperatorBlockBeans {
 		code.append("false");
 
 		block.setCodeSyntax(code.toString());
-		
+
 		DatatypeBean primitiveBoolean = new DatatypeBean();
 		primitiveBoolean.setClassName("boolean");
 
