@@ -23,15 +23,15 @@ import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 
 public class NumericBlockBean extends ExpressionBlockBean<NumericBlockBean> implements Serializable {
 
-	private DatatypeBean[] returnDatatypes;
+	private DatatypeBean returnDatatype;
 
-	public void setReturnDatatypes(DatatypeBean[] returnDatatypes) {
-		this.returnDatatypes = returnDatatypes;
+	public void setReturnDatatype(DatatypeBean returnDatatype) {
+		this.returnDatatype = returnDatatype;
 	}
 
 	@Override
-	public DatatypeBean[] getReturnDatatypes() {
-		return returnDatatypes;
+	public DatatypeBean getReturnDatatype() {
+		return returnDatatype;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class NumericBlockBean extends ExpressionBlockBean<NumericBlockBean> impl
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
-		clone.setReturnDatatypes(BeanArrayCloneUtils.cloneDatatypeBeanArray(getReturnDatatypes()));
+		clone.setReturnDatatype(getReturnDatatype() == null ? null : getReturnDatatype().cloneBean());
 		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());
 		return clone;
 	}

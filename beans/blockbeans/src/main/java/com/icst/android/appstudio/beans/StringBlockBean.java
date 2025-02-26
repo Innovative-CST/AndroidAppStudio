@@ -24,17 +24,11 @@ import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implements Serializable {
 
 	@Override
-	public DatatypeBean[] getReturnDatatypes() {
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
-
-		DatatypeBean string = new DatatypeBean();
-		string.setClassImport("java.lang.String");
-		string.setClassName("String");
-		string.setImportNecessary(false);
-		return new DatatypeBean[] { obj, string };
+	public DatatypeBean getReturnDatatype() {
+		DatatypeBean obj = new DatatypeBean("java.lang.Object","Object");
+		DatatypeBean string = new DatatypeBean("java.lang.String", "String");
+		string.addSuperType(obj);
+		return string;
 	}
 
 	@Override

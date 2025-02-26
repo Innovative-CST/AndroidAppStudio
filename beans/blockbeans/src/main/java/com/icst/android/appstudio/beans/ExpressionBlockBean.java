@@ -39,7 +39,7 @@ public abstract class ExpressionBlockBean<T> extends BaseBlockBean<T>
 		this.codeSyntax = codeSyntax;
 	}
 
-	public abstract DatatypeBean[] getReturnDatatypes();
+	public abstract DatatypeBean getReturnDatatype();
 
 	@Override
 	public String getProcessedCode() {

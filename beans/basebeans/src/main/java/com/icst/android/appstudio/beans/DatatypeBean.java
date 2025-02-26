@@ -17,66 +17,46 @@
 
 package com.icst.android.appstudio.beans;
 
+import com.icst.android.appstudio.beans.utils.BeanArrayCloneUtils;
 import java.io.Serializable;
-
 import com.icst.android.appstudio.beans.utils.BeansUIDConstants;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
-/** A class of Datatype, to compare that the two Datatypes are different or not
- * by comparing class
- * name and import. This Bean can also be used to store data. */
 public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 
 	public static final long serialVersionUID = BeansUIDConstants.DATATYPE_BEAN_BEAN;
-
+		
+	private String fullClassName;
 	private String className;
-	private String classImport;
-	private boolean isImportNecessary;
+    private ArrayList<DatatypeBean> superTypes;
 
-	/** Compare two DatatypeBean by checking that its import and class name is same
-	 * or not with other.
-	 *
-	 * <p>
-	 * <b>Note</b>: Comparision is not done by memory pointer, it is checked whether
-	 * the className
-	 * and classImoort of datatype is equal or not.
-	 *
-	 * @param mDatatypeBean
-	 *            DatatypeBean to compare with.
-	 * @return True if @mDatatypeBean is equal. */
-	public boolean equals(DatatypeBean mDatatypeBean) {
-		if (mDatatypeBean == null) {
-			return false;
-		}
-		boolean isClassNameEqual = false;
-		if (className == null) {
-			isClassNameEqual = mDatatypeBean.className == null ? true : false;
-		} else {
-			if (mDatatypeBean.className == null)
-				return false;
-			isClassNameEqual = mDatatypeBean.className.equals(className);
-		}
+    public DatatypeBean(String fullClassName, String className) {
+        this.fullClassName = fullClassName;
+		this.className = className;
+		superTypes = new ArrayList<>();
+    }
+	
+	public DatatypeBean(String fullClassName, String className, ArrayList<DatatypeBean> superTypes) {
+        this.fullClassName = fullClassName;
+		this.className = className;
+		this.superTypes = superTypes;
+    }
 
-		boolean isClassImportEqual = false;
-		if (classImport == null) {
-			isClassImportEqual = mDatatypeBean.classImport == null ? true : false;
-		} else {
-			if (mDatatypeBean.classImport == null)
-				return false;
-			isClassImportEqual = mDatatypeBean.classImport.equals(classImport);
-		}
+    public String getFullClassName() {
+        return fullClassName;
+    }
 
-		return isClassNameEqual && isClassImportEqual;
-	}
+    public ArrayList<DatatypeBean> getSuperTypes() {
+        return superTypes;
+    }
 
-	@Override
-	public DatatypeBean cloneBean() {
-		DatatypeBean clone = new DatatypeBean();
-		clone.setClassName(getClassName() == null ? null : new String(getClassName()));
-		clone.setClassImport(getClassImport() == null ? null : new String(getClassImport()));
-		clone.setImportNecessary(new Boolean(isImportNecessary()));
-		return clone;
-	}
-
+    public void addSuperType(DatatypeBean superType) {
+        superTypes.add(superType);
+    }
+	
 	public String getClassName() {
 		return this.className;
 	}
@@ -84,20 +64,47 @@ public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-
-	public String getClassImport() {
-		return this.classImport;
+	
+	public boolean isSuperTypeOrDatatype(DatatypeBean datatype) {
+        return isSuperTypeHelperOrDatatype(datatype, new HashSet<>());
+    }
+	
+	private boolean isSuperTypeHelperOrDatatype(DatatypeBean datatype, Set<DatatypeBean> visited) {
+		if(datatype == null || visited.contains(datatype)) {
+			return false;
+		}
+		
+		if(equals(datatype)) {
+			return true;
+		}
+		visited.add(datatype);
+		
+		for(DatatypeBean mDatatype : superTypes) {
+			if(mDatatype.isSuperTypeOrDatatype(datatype)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void setClassImport(String classImport) {
-		this.classImport = classImport;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DatatypeBean datatype = (DatatypeBean) o;
+        return fullClassName.equals(datatype.fullClassName);
+    }
 
-	public boolean isImportNecessary() {
-		return this.isImportNecessary;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullClassName);
+    }
 
-	public void setImportNecessary(boolean isImportNecessary) {
-		this.isImportNecessary = isImportNecessary;
+	@Override
+	public DatatypeBean cloneBean() {
+		String mClassName = className == null ? null : new String(className);
+		String mFullClassName = fullClassName == null ? null : new String(fullClassName);
+		ArrayList<DatatypeBean> clonedSuperTypes = BeanArrayCloneUtils.clone(superTypes);
+		return new DatatypeBean(mFullClassName,mClassName,clonedSuperTypes);
 	}
 }
