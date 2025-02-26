@@ -60,7 +60,7 @@ public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 		if (classImport == null) {
 			isClassImportEqual = mDatatypeBean.classImport == null ? true : false;
 		} else {
-			if (mDatatypeBean.className == null)
+			if (mDatatypeBean.classImport == null)
 				return false;
 			isClassImportEqual = mDatatypeBean.classImport.equals(classImport);
 		}
