@@ -22,6 +22,7 @@ import com.icst.android.appstudio.beans.DatatypeBean;
 import com.icst.android.appstudio.beans.NumericBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
 import com.icst.android.appstudio.beans.ValueInputBlockElementBean;
+import com.icst.android.appstudio.beans.utils.BuiltInDatatypes;
 import com.icst.logic.editor.databinding.BottomsheetInputFieldBinding;
 import com.icst.logic.view.BlockElementInputEditText;
 
@@ -39,7 +40,7 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 		super(context);
 
 		binding = BottomsheetInputFieldBinding.inflate(LayoutInflater.from(context));
-		if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getStringDatatype())) {
+		if (mValueInputBlockElementBean.getAcceptedReturnType().isSuperTypeOrDatatype(getStringDatatype())) {
 			if (mValueInputBlockElementBean instanceof StringBlockElementBean mStringBlockElementBean) {
 				binding.dialogTitle.setText("Enter String");
 				binding.message.setText(
@@ -85,19 +86,11 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 	}
 
 	public DatatypeBean getStringDatatype() {
-		DatatypeBean stringDatatype = new DatatypeBean();
-		stringDatatype.setImportNecessary(false);
-		stringDatatype.setClassImport("java.lang.String");
-		stringDatatype.setClassName("String");
-		return stringDatatype;
+		return BuiltInDatatypes.getStringDatatype();
 	}
 
 	public DatatypeBean getIntegerDatatype() {
-		DatatypeBean intDatatype = new DatatypeBean();
-		intDatatype.setClassImport("java.lang.Integer");
-		intDatatype.setClassName("Integer");
-		intDatatype.setImportNecessary(false);
-		return intDatatype;
+		return BuiltInDatatypes.getPrimitiveIntegerDatatype();
 	}
 
 	public interface ValueListener {

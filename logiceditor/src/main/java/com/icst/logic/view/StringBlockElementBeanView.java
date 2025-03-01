@@ -21,7 +21,6 @@ import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
-import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -226,9 +225,8 @@ public class StringBlockElementBeanView extends LinearLayout {
 			}
 		}
 		if (block instanceof ExpressionBlockBean expressionBlock) {
-			return BlockBeanUtils.arrayContainsDatatypeBeans(
-					expressionBlock.getReturnDatatypes(),
-					mStringBlockElementBean.getAcceptedReturnType());
+			return expressionBlock.getReturnDatatype()
+					.isSuperTypeOrDatatype(mStringBlockElementBean.getAcceptedReturnType());
 		}
 		return false;
 	}

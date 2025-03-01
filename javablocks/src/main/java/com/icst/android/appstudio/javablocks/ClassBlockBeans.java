@@ -27,6 +27,7 @@ import com.icst.android.appstudio.beans.DatatypeBean;
 import com.icst.android.appstudio.beans.GeneralExpressionBlockBean;
 import com.icst.android.appstudio.beans.GeneralExpressionBlockElementBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
+import com.icst.android.appstudio.beans.utils.BuiltInDatatypes;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public class ClassBlockBeans {
@@ -62,19 +63,7 @@ public class ClassBlockBeans {
 		block.setElementsLayers(layers);
 
 		block.setCodeSyntax("getClass()");
-
-		// Return type
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
-
-		DatatypeBean classDatatype = new DatatypeBean();
-		classDatatype.setClassImport("java.lang.Class<T>");
-		classDatatype.setClassName("Class");
-		classDatatype.setImportNecessary(false);
-
-		block.setReturnDatatypes(new DatatypeBean[] { obj, classDatatype });
+		block.setReturnDatatype(BuiltInDatatypes.getClassDatatype());
 
 		return block;
 	}
@@ -88,10 +77,7 @@ public class ClassBlockBeans {
 
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
 
-		DatatypeBean objDatatype = new DatatypeBean();
-		objDatatype.setClassImport("java.lang.Object");
-		objDatatype.setClassName("Object");
-		objDatatype.setImportNecessary(false);
+		DatatypeBean objDatatype = new DatatypeBean("java.lang.Object", "Object");
 
 		GeneralExpressionBlockElementBean objectInput = new GeneralExpressionBlockElementBean();
 		objectInput.setKey("object");
@@ -113,19 +99,7 @@ public class ClassBlockBeans {
 		code.append(".getClass()");
 
 		block.setCodeSyntax(code.toString());
-
-		// Return type
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
-
-		DatatypeBean classDatatype = new DatatypeBean();
-		classDatatype.setClassImport("java.lang.Class<T>");
-		classDatatype.setClassName("Class");
-		classDatatype.setImportNecessary(false);
-
-		block.setReturnDatatypes(new DatatypeBean[] { obj, classDatatype });
+		block.setReturnDatatype(BuiltInDatatypes.getClassDatatype());
 
 		return block;
 	}

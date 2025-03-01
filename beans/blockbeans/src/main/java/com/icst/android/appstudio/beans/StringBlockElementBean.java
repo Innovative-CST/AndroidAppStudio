@@ -99,7 +99,7 @@ public class StringBlockElementBean
 
 	@Override
 	public DatatypeBean getAcceptedReturnType() {
-	    DatatypeBean obj = new DatatypeBean("java.lang.Object","Object");
+		DatatypeBean obj = new DatatypeBean("java.lang.Object", "Object");
 		DatatypeBean string = new DatatypeBean("java.lang.String", "String");
 		string.addSuperType(obj);
 		return string;

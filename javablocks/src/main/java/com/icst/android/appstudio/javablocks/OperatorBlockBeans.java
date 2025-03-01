@@ -25,12 +25,12 @@ import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.BooleanBlockBean;
 import com.icst.android.appstudio.beans.BooleanBlockElementBean;
-import com.icst.android.appstudio.beans.DatatypeBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.NumericBlockBean;
 import com.icst.android.appstudio.beans.NumericBlockElementBean;
 import com.icst.android.appstudio.beans.StringBlockBean;
 import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.android.appstudio.beans.utils.BuiltInDatatypes;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public class OperatorBlockBeans {
@@ -57,12 +57,9 @@ public class OperatorBlockBeans {
 
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
 
-		DatatypeBean primitiveInteger = new DatatypeBean();
-		primitiveInteger.setClassName("int");
-
 		NumericBlockElementBean num1 = new NumericBlockElementBean();
 		num1.setKey("number1");
-		num1.setAcceptedReturnType(primitiveInteger.cloneBean());
+		num1.setAcceptedReturnType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
 		layer1Elements.add(num1);
 
 		LabelBlockElementBean isEqualLabel = new LabelBlockElementBean();
@@ -71,7 +68,7 @@ public class OperatorBlockBeans {
 
 		NumericBlockElementBean num2 = new NumericBlockElementBean();
 		num2.setKey("number2");
-		num2.setAcceptedReturnType(primitiveInteger.cloneBean());
+		num2.setAcceptedReturnType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
 		layer1Elements.add(num2);
 
 		layer1.setBlockElementBeans(layer1Elements);
@@ -116,27 +113,7 @@ public class OperatorBlockBeans {
 		code.append(")");
 
 		block.setCodeSyntax(code.toString());
-
-		// Return type
-		DatatypeBean obj = new DatatypeBean();
-		obj.setClassImport("java.lang.Object");
-		obj.setClassName("Object");
-		obj.setImportNecessary(false);
-
-		DatatypeBean numDatatype = new DatatypeBean();
-		numDatatype.setClassImport("java.lang.Number");
-		numDatatype.setClassName("Number");
-		numDatatype.setImportNecessary(false);
-
-		DatatypeBean intDatatype = new DatatypeBean();
-		intDatatype.setClassImport("java.lang.Integer");
-		intDatatype.setClassName("Integer");
-		intDatatype.setImportNecessary(false);
-
-		DatatypeBean intPrimitiveDatatype = new DatatypeBean();
-		intPrimitiveDatatype.setClassName("int");
-
-		block.setReturnDatatypes(new DatatypeBean[] { obj, numDatatype, intDatatype, intPrimitiveDatatype });
+		block.setReturnDatatype(BuiltInDatatypes.getIntegerDatatype());
 
 		return block;
 	}
@@ -153,11 +130,8 @@ public class OperatorBlockBeans {
 		trueText.setLabel("not");
 		layer1Elements.add(trueText);
 
-		DatatypeBean primitiveBoolean = new DatatypeBean();
-		primitiveBoolean.setClassName("boolean");
-
 		BooleanBlockElementBean booleanField = new BooleanBlockElementBean();
-		booleanField.setAcceptedReturnType(primitiveBoolean.cloneBean());
+		booleanField.setAcceptedReturnType(BuiltInDatatypes.getPrimitiveBooleanDatatype());
 		booleanField.setKey("mBool");
 
 		layer1Elements.add(booleanField);
@@ -173,8 +147,7 @@ public class OperatorBlockBeans {
 		code.append(CodeFormatterUtils.getKeySyntaxString("mBool"));
 
 		block.setCodeSyntax(code.toString());
-		block.setReturnDatatypes(new DatatypeBean[] { primitiveBoolean.cloneBean() });
-
+		block.setReturnDatatype(BuiltInDatatypes.getPrimitiveBooleanDatatype());
 		return block;
 	}
 
@@ -200,11 +173,7 @@ public class OperatorBlockBeans {
 		code.append("true");
 
 		block.setCodeSyntax(code.toString());
-
-		DatatypeBean primitiveBoolean = new DatatypeBean();
-		primitiveBoolean.setClassName("boolean");
-
-		block.setReturnDatatypes(new DatatypeBean[] { primitiveBoolean });
+		block.setReturnDatatype(BuiltInDatatypes.getPrimitiveBooleanDatatype());
 		return block;
 	}
 
@@ -230,11 +199,7 @@ public class OperatorBlockBeans {
 		code.append("false");
 
 		block.setCodeSyntax(code.toString());
-
-		DatatypeBean primitiveBoolean = new DatatypeBean();
-		primitiveBoolean.setClassName("boolean");
-
-		block.setReturnDatatypes(new DatatypeBean[] { primitiveBoolean });
+		block.setReturnDatatype(BuiltInDatatypes.getPrimitiveBooleanDatatype());
 		return block;
 	}
 

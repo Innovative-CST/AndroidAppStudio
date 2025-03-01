@@ -25,10 +25,10 @@ import com.icst.android.appstudio.beans.BlockElementBean;
 import com.icst.android.appstudio.beans.BlockElementLayerBean;
 import com.icst.android.appstudio.beans.BlockPaletteBean;
 import com.icst.android.appstudio.beans.BooleanBlockElementBean;
-import com.icst.android.appstudio.beans.DatatypeBean;
 import com.icst.android.appstudio.beans.LabelBlockElementBean;
 import com.icst.android.appstudio.beans.LayerBean;
 import com.icst.android.appstudio.beans.RegularBlockBean;
+import com.icst.android.appstudio.beans.utils.BuiltInDatatypes;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
 
 public final class ControlBlockBeans {
@@ -57,12 +57,9 @@ public final class ControlBlockBeans {
 		ifLabel.setLabel("if");
 		layer1Elements.add(ifLabel);
 
-		DatatypeBean primitiveBoolean = new DatatypeBean();
-		primitiveBoolean.setClassName("boolean");
-
 		BooleanBlockElementBean inputBoolean = new BooleanBlockElementBean();
 		inputBoolean.setKey("mBoolean");
-		inputBoolean.setAcceptedReturnType(primitiveBoolean);
+		inputBoolean.setAcceptedReturnType(BuiltInDatatypes.getPrimitiveBooleanDatatype());
 		layer1Elements.add(inputBoolean);
 
 		layer1.setBlockElementBeans(layer1Elements);
@@ -100,12 +97,9 @@ public final class ControlBlockBeans {
 		ifLabel.setLabel("if");
 		layer1Elements.add(ifLabel);
 
-		DatatypeBean primitiveBoolean = new DatatypeBean();
-		primitiveBoolean.setClassName("boolean");
-
 		BooleanBlockElementBean inputBoolean = new BooleanBlockElementBean();
 		inputBoolean.setKey("mBoolean");
-		inputBoolean.setAcceptedReturnType(primitiveBoolean);
+		inputBoolean.setAcceptedReturnType(BuiltInDatatypes.getPrimitiveBooleanDatatype());
 		layer1Elements.add(inputBoolean);
 
 		layer1.setBlockElementBeans(layer1Elements);

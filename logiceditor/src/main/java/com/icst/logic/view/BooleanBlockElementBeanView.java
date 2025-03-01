@@ -21,7 +21,6 @@ import com.icst.android.appstudio.beans.BlockBean;
 import com.icst.android.appstudio.beans.BooleanBlockBean;
 import com.icst.android.appstudio.beans.BooleanBlockElementBean;
 import com.icst.android.appstudio.beans.ExpressionBlockBean;
-import com.icst.android.appstudio.beans.utils.BlockBeanUtils;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.block.view.BooleanBlockView;
@@ -260,9 +259,8 @@ public class BooleanBlockElementBeanView extends LinearLayout {
 			}
 		}
 		if (block instanceof ExpressionBlockBean expressionBlock) {
-			return BlockBeanUtils.arrayContainsDatatypeBeans(
-					expressionBlock.getReturnDatatypes(),
-					mBooleanBlockElementBean.getAcceptedReturnType());
+			return expressionBlock.getReturnDatatype()
+					.isSuperTypeOrDatatype(mBooleanBlockElementBean.getAcceptedReturnType());
 		}
 		return false;
 	}
