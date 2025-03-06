@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
+import com.icst.android.appstudio.beans.utils.InputValueFormatter;
 
 /** ActionBlockBean, BlockBean that perform action. */
 public abstract class ActionBlockBean<T> extends BlockBean<T>
@@ -89,7 +90,7 @@ public abstract class ActionBlockBean<T> extends BlockBean<T>
 
 	private String processValueInputBlockElementCode(
 			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
-		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
+		return InputValueFormatter.formatCode(code, valueInputBlockElementBean);
 	}
 
 	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {

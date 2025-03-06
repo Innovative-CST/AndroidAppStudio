@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import com.icst.android.appstudio.beans.utils.BlockBeansUIDConstants;
 import com.icst.android.appstudio.beans.utils.CodeFormatterUtils;
+import com.icst.android.appstudio.beans.utils.InputValueFormatter;
 
 public class EventBean implements CodeProcessorBean, Serializable {
 
@@ -110,7 +111,7 @@ public class EventBean implements CodeProcessorBean, Serializable {
 
 	private String processValueInputBlockElementCode(
 			String code, ValueInputBlockElementBean valueInputBlockElementBean) {
-		return CodeFormatterUtils.formatCode(code, valueInputBlockElementBean);
+		return InputValueFormatter.formatCode(code, valueInputBlockElementBean);
 	}
 
 	@Override
