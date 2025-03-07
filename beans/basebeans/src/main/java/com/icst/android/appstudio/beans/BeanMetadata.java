@@ -19,5 +19,5 @@ package com.icst.android.appstudio.beans;
 
 import java.io.Serializable;
 
-public class BeanMetadata implements Serializable {
+public abstract class BeanMetadata implements Serializable {
 }
