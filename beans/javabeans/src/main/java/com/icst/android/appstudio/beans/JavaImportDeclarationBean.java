@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 import com.icst.android.appstudio.beans.utils.JavaBeansUIDConstants;
 
-public class JavaImportDeclarationBean
+public class JavaImportDeclarationBean extends BeanMetadata
 		implements Serializable, CloneableBean<JavaImportDeclarationBean> {
 
 	public static final long serialVersionUID = JavaBeansUIDConstants.JAVA_IMPORT_DECLARATION_BEAN;
