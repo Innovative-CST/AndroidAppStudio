@@ -18,12 +18,12 @@
 package com.icst.android.appstudio.adapters.xml;
 
 import com.icst.android.appstudio.activities.manifest.AttributesManagerActivity;
+import com.icst.android.appstudio.beans.XmlAttributeBean;
+import com.icst.android.appstudio.beans.XmlBean;
 import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
 import com.icst.android.appstudio.bottomsheet.XmlElementOperationBottomSheet;
 import com.icst.android.appstudio.databinding.AdapterXmlAttributeBinding;
 import com.icst.android.appstudio.databinding.AdapterXmlElementBinding;
-import com.icst.android.appstudio.xml.XmlAttributeModel;
-import com.icst.android.appstudio.xml.XmlModel;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -39,11 +39,11 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
 		}
 	}
 
-	private XmlModel xml;
+	private XmlBean xml;
 	private String tag;
 	private AttributesManagerActivity activity;
 
-	public XmlValuesAdapter(XmlModel xml, String tag, AttributesManagerActivity activity) {
+	public XmlValuesAdapter(XmlBean xml, String tag, AttributesManagerActivity activity) {
 		this.xml = xml;
 		this.tag = tag;
 		this.activity = activity;
@@ -93,8 +93,8 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
 												}
 
 												@Override
-												public void onModifyAttribute(XmlAttributeModel xmlAttributeModel) {
-													xml.getAttributes().set(position, xmlAttributeModel);
+												public void onModifyAttribute(XmlAttributeBean xmlAttributeBean) {
+													xml.getAttributes().set(position, xmlAttributeBean);
 													activity.load();
 												}
 											},
@@ -133,10 +133,10 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
 									Intent attributes = new Intent(activity, AttributesManagerActivity.class);
 
 									if (xml.getChildren().get(arrPos).getName().equals("activity")) {
-										attributes.putExtra("xmlModel", xml.getChildren().get(arrPos));
+										attributes.putExtra("xmlBean", xml.getChildren().get(arrPos));
 										attributes.putExtra("tag", "android:name");
 									} else {
-										attributes.putExtra("xmlModel", xml.getChildren().get(arrPos));
+										attributes.putExtra("xmlBean", xml.getChildren().get(arrPos));
 										attributes.putExtra("tag", "android:name");
 									}
 									activity.position = arrPos;
@@ -165,12 +165,12 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
 												}
 
 												@Override
-												public void onModify(XmlModel xmlModel) {
+												public void onModify(XmlBean xmlBean) {
 													int arrPosition = position;
 													if (xml.getAttributes() != null) {
 														arrPosition = position - xml.getAttributes().size();
 													}
-													xml.getChildren().set(arrPosition, xmlModel);
+													xml.getChildren().set(arrPosition, xmlBean);
 													activity.load();
 												}
 											},
@@ -208,11 +208,11 @@ public class XmlValuesAdapter extends RecyclerView.Adapter<XmlValuesAdapter.View
 		}
 	}
 
-	public XmlModel getXml() {
+	public XmlBean getXml() {
 		return this.xml;
 	}
 
-	public void setXml(XmlModel xml) {
+	public void setXml(XmlBean xml) {
 		this.xml = xml;
 	}
 }

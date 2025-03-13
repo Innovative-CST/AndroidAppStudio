@@ -19,13 +19,13 @@ package com.icst.android.appstudio.builder;
 
 import java.io.File;
 
+import com.icst.android.appstudio.beans.XmlBean;
 import com.icst.android.appstudio.block.model.FileModel;
 import com.icst.android.appstudio.helper.ProjectCodeBuilderCancelToken;
 import com.icst.android.appstudio.listener.ProjectCodeBuildListener;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.EnvironmentUtils;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
-import com.icst.android.appstudio.xml.XmlModel;
 
 import android.code.editor.common.utils.FileUtils;
 
@@ -54,7 +54,7 @@ public class AndroidManifestBuilder {
 			return;
 		}
 
-		XmlModel manifest = DeserializerUtils.deserialize(module.manifestFile, XmlModel.class);
+		XmlBean manifest = DeserializerUtils.deserialize(module.manifestFile, XmlBean.class);
 
 		if (manifest == null) {
 			if (listener != null) {

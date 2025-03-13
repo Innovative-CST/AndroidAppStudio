@@ -19,12 +19,12 @@ package com.icst.android.appstudio.builtin.xml;
 
 import java.util.ArrayList;
 
-import com.icst.android.appstudio.xml.XmlAttributeModel;
-import com.icst.android.appstudio.xml.XmlModel;
+import com.icst.android.appstudio.beans.XmlAttributeBean;
+import com.icst.android.appstudio.beans.XmlBean;
 
 public class BuiltInAndroidManifest {
-	public static XmlModel get(String project) {
-		XmlModel manifest = new XmlModel();
+	public static XmlBean get(String project) {
+		XmlBean manifest = new XmlBean();
 
 		manifest.setAddAndroidNameSpace(true);
 		manifest.setAddToolsNameSpace(true);
@@ -32,22 +32,22 @@ public class BuiltInAndroidManifest {
 		manifest.setName("manifest");
 		manifest.setRootElement(true);
 
-		ArrayList<XmlModel> manifestChilds = new ArrayList<XmlModel>();
+		ArrayList<XmlBean> manifestChilds = new ArrayList<XmlBean>();
 
-		XmlModel application = new XmlModel();
+		XmlBean application = new XmlBean();
 		application.setAddAndroidNameSpace(true);
 		application.setAddToolsNameSpace(true);
 		application.setId("application");
 		application.setName("application");
 
-		ArrayList<XmlAttributeModel> applicationAttr = new ArrayList<XmlAttributeModel>();
+		ArrayList<XmlAttributeBean> applicationAttr = new ArrayList<XmlAttributeBean>();
 
-		XmlAttributeModel applicationName = new XmlAttributeModel();
+		XmlAttributeBean applicationName = new XmlAttributeBean();
 		applicationName.setAttribute("android:name");
 		applicationName.setAttributeValue(".MyApplication");
 		applicationAttr.add(applicationName);
 
-		XmlAttributeModel applicationLabel = new XmlAttributeModel();
+		XmlAttributeBean applicationLabel = new XmlAttributeBean();
 		applicationLabel.setAttribute("android:label");
 		applicationLabel.setAttributeValue(project);
 		applicationAttr.add(applicationLabel);

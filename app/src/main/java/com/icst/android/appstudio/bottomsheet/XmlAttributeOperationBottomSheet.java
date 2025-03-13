@@ -18,8 +18,8 @@
 package com.icst.android.appstudio.bottomsheet;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.icst.android.appstudio.beans.XmlAttributeBean;
 import com.icst.android.appstudio.databinding.BottomsheetXmlAttributeOperationBinding;
-import com.icst.android.appstudio.xml.XmlAttributeModel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -28,10 +28,10 @@ import android.view.View;
 public class XmlAttributeOperationBottomSheet extends BottomSheetDialog {
 	private Context context;
 	private XmlAttributeOperation operationListener;
-	private XmlAttributeModel attr;
+	private XmlAttributeBean attr;
 
 	public XmlAttributeOperationBottomSheet(
-			Context context, XmlAttributeOperation operationListener, XmlAttributeModel attribute) {
+			Context context, XmlAttributeOperation operationListener, XmlAttributeBean attribute) {
 		super(context);
 		this.context = context;
 		this.operationListener = operationListener;
@@ -65,7 +65,7 @@ public class XmlAttributeOperationBottomSheet extends BottomSheetDialog {
 		binding.done.setOnClickListener(
 				v -> {
 					if (attr == null) {
-						attr = new XmlAttributeModel();
+						attr = new XmlAttributeBean();
 					}
 					attr.setAttribute(binding.attrName.getText().toString());
 					attr.setAttributeValue(binding.attrValue.getText().toString());
@@ -77,6 +77,6 @@ public class XmlAttributeOperationBottomSheet extends BottomSheetDialog {
 	public interface XmlAttributeOperation {
 		void onDeleteAttribute();
 
-		void onModifyAttribute(XmlAttributeModel xmlAttributeModel);
+		void onModifyAttribute(XmlAttributeBean xmlAttributeBean);
 	}
 }

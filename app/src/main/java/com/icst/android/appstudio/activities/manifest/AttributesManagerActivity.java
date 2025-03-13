@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
 import com.icst.android.appstudio.adapters.xml.XmlValuesAdapter;
+import com.icst.android.appstudio.beans.XmlAttributeBean;
+import com.icst.android.appstudio.beans.XmlBean;
 import com.icst.android.appstudio.bottomsheet.XmlAttributeOperationBottomSheet;
 import com.icst.android.appstudio.bottomsheet.XmlElementOperationBottomSheet;
 import com.icst.android.appstudio.databinding.ActivityAttributeManagerBinding;
-import com.icst.android.appstudio.xml.XmlAttributeModel;
-import com.icst.android.appstudio.xml.XmlModel;
 
 import android.content.Intent;
 import android.os.Build;
@@ -45,7 +45,7 @@ public class AttributesManagerActivity extends BaseActivity {
 
 	private ActivityAttributeManagerBinding binding;
 	private XmlValuesAdapter adapter;
-	private XmlModel xmlModel;
+	private XmlBean xmlBean;
 	public ActivityResultLauncher<Intent> changesCallback;
 	public int position;
 
@@ -62,14 +62,14 @@ public class AttributesManagerActivity extends BaseActivity {
 		getSupportActionBar().setHomeButtonEnabled(true);
 		binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-		if (!getIntent().hasExtra("xmlModel")) {
+		if (!getIntent().hasExtra("xmlBean")) {
 			Toast.makeText(this, "Error", 0).show();
 			finish();
 		} else {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-				xmlModel = getIntent().getSerializableExtra("xmlModel", XmlModel.class);
+				xmlBean = getIntent().getSerializableExtra("xmlBean", XmlBean.class);
 			} else {
-				xmlModel = (XmlModel) getIntent().getSerializableExtra("xmlModel");
+				xmlBean = (XmlBean) getIntent().getSerializableExtra("xmlBean");
 			}
 
 			load();
@@ -81,15 +81,15 @@ public class AttributesManagerActivity extends BaseActivity {
 					@Override
 					public void onActivityResult(ActivityResult result) {
 						Intent intent = result.getData();
-						XmlModel xml = (XmlModel) intent.getSerializableExtra("xmlModel");
-						xmlModel.getChildren().set(position, xml);
+						XmlBean xml = (XmlBean) intent.getSerializableExtra("xmlBean");
+						xmlBean.getChildren().set(position, xml);
 						load();
 					}
 				});
 	}
 
 	public void load() {
-		adapter = new XmlValuesAdapter(xmlModel, getIntent().getStringExtra("tag"), this);
+		adapter = new XmlValuesAdapter(xmlBean, getIntent().getStringExtra("tag"), this);
 		binding.listView.setAdapter(adapter);
 		binding.listView.setLayoutManager(new LinearLayoutManager(this));
 	}
@@ -97,7 +97,7 @@ public class AttributesManagerActivity extends BaseActivity {
 	@Override
 	public void onBackPressed() {
 		Intent result = new Intent();
-		result.putExtra("xmlModel", adapter.getXml());
+		result.putExtra("xmlBean", adapter.getXml());
 		setResult(RESULT_OK, result);
 		finish();
 	}
@@ -121,13 +121,13 @@ public class AttributesManagerActivity extends BaseActivity {
 						}
 
 						@Override
-						public void onModifyAttribute(XmlAttributeModel xmlAttributeModel) {
-							if (xmlModel.getAttributes() != null) {
-								xmlModel.getAttributes().add(xmlAttributeModel);
+						public void onModifyAttribute(XmlAttributeBean xmlAttributeBean) {
+							if (xmlBean.getAttributes() != null) {
+								xmlBean.getAttributes().add(xmlAttributeBean);
 							} else {
-								ArrayList<XmlAttributeModel> attrs = new ArrayList<XmlAttributeModel>();
-								attrs.add(xmlAttributeModel);
-								xmlModel.setAttributes(attrs);
+								ArrayList<XmlAttributeBean> attrs = new ArrayList<XmlAttributeBean>();
+								attrs.add(xmlAttributeBean);
+								xmlBean.setAttributes(attrs);
 							}
 
 							load();
@@ -145,13 +145,13 @@ public class AttributesManagerActivity extends BaseActivity {
 						}
 
 						@Override
-						public void onModify(XmlModel xml) {
-							if (xmlModel.getChildren() != null) {
-								xmlModel.getChildren().add(xml);
+						public void onModify(XmlBean xml) {
+							if (xmlBean.getChildren() != null) {
+								xmlBean.getChildren().add(xml);
 							} else {
-								ArrayList<XmlModel> childs = new ArrayList<XmlModel>();
+								ArrayList<XmlBean> childs = new ArrayList<XmlBean>();
 								childs.add(xml);
-								xmlModel.setChildren(childs);
+								xmlBean.setChildren(childs);
 							}
 
 							load();

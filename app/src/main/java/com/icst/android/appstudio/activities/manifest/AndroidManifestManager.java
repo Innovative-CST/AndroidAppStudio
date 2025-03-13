@@ -21,11 +21,11 @@ import java.io.File;
 
 import com.icst.android.appstudio.R;
 import com.icst.android.appstudio.activities.BaseActivity;
+import com.icst.android.appstudio.beans.XmlBean;
 import com.icst.android.appstudio.databinding.ActivityAndroidManifestManagerBinding;
 import com.icst.android.appstudio.models.ModuleModel;
 import com.icst.android.appstudio.utils.serialization.DeserializerUtils;
 import com.icst.android.appstudio.utils.serialization.SerializerUtil;
-import com.icst.android.appstudio.xml.XmlModel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +39,7 @@ public class AndroidManifestManager extends BaseActivity {
 
 	private ActivityAndroidManifestManagerBinding binding;
 	private ModuleModel module;
-	private XmlModel manifest;
+	private XmlBean manifest;
 	private ActivityResultLauncher<Intent> applicationChangesCallback;
 
 	@Override
@@ -60,7 +60,7 @@ public class AndroidManifestManager extends BaseActivity {
 				getIntent().getStringExtra("module"),
 				new File(getIntent().getStringExtra("projectRootDirectory")));
 
-		manifest = DeserializerUtils.deserialize(module.manifestFile, XmlModel.class);
+		manifest = DeserializerUtils.deserialize(module.manifestFile, XmlBean.class);
 
 		applicationChangesCallback = registerForActivityResult(
 				new ActivityResultContracts.StartActivityForResult(),
@@ -76,7 +76,7 @@ public class AndroidManifestManager extends BaseActivity {
 										if (manifest.getChildren().get(i).getName().equals("application")) {
 											manifest
 													.getChildren()
-													.set(i, (XmlModel) intent.getSerializableExtra("xmlModel"));
+													.set(i, (XmlBean) intent.getSerializableExtra("xmlBean"));
 											SerializerUtil.serialize(
 													manifest,
 													module.manifestFile,
@@ -106,7 +106,7 @@ public class AndroidManifestManager extends BaseActivity {
 						if (manifest.getChildren() != null) {
 							for (int i = 0; i < manifest.getChildren().size(); ++i) {
 								if (manifest.getChildren().get(i).getName().equals("application")) {
-									application.putExtra("xmlModel", manifest.getChildren().get(i));
+									application.putExtra("xmlBean", manifest.getChildren().get(i));
 									application.putExtra("tag", "android:name");
 								}
 							}

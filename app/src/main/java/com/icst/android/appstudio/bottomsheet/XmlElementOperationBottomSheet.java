@@ -18,8 +18,8 @@
 package com.icst.android.appstudio.bottomsheet;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.icst.android.appstudio.beans.XmlBean;
 import com.icst.android.appstudio.databinding.BottomsheetXmlElementOperationBinding;
-import com.icst.android.appstudio.xml.XmlModel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -28,27 +28,27 @@ import android.view.View;
 public class XmlElementOperationBottomSheet extends BottomSheetDialog {
 	private Context context;
 	private XmlElementOperation operationListener;
-	private XmlModel xmlModel;
+	private XmlBean xmlBean;
 
 	public XmlElementOperationBottomSheet(
-			Context context, XmlElementOperation operationListener, XmlModel xml) {
+			Context context, XmlElementOperation operationListener, XmlBean xml) {
 		super(context);
 		this.context = context;
 		this.operationListener = operationListener;
-		this.xmlModel = xml;
+		this.xmlBean = xml;
 
 		BottomsheetXmlElementOperationBinding binding = BottomsheetXmlElementOperationBinding
 				.inflate(LayoutInflater.from(context));
 
 		setContentView(binding.getRoot());
 
-		if (xmlModel == null) {
+		if (xmlBean == null) {
 			binding.delete.setVisibility(View.GONE);
 		}
 
-		if (xmlModel != null) {
+		if (xmlBean != null) {
 			if (xml.getName() != null) {
-				binding.elementName.setText(xmlModel.getName());
+				binding.elementName.setText(xmlBean.getName());
 			}
 		}
 
@@ -64,11 +64,11 @@ public class XmlElementOperationBottomSheet extends BottomSheetDialog {
 						return;
 					}
 					if (xml == null) {
-						xmlModel = new XmlModel();
+						xmlBean = new XmlBean();
 					}
-					xmlModel.setName(binding.elementName.getText().toString());
-					xmlModel.setId(binding.elementName.getText().toString());
-					operationListener.onModify(xmlModel);
+					xmlBean.setName(binding.elementName.getText().toString());
+					xmlBean.setId(binding.elementName.getText().toString());
+					operationListener.onModify(xmlBean);
 					dismiss();
 				});
 	}
@@ -76,6 +76,6 @@ public class XmlElementOperationBottomSheet extends BottomSheetDialog {
 	public interface XmlElementOperation {
 		void onDelete();
 
-		void onModify(XmlModel xmlModel);
+		void onModify(XmlBean xmlBean);
 	}
 }
