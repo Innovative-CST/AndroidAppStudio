@@ -318,6 +318,9 @@ dependencies {
 	implementation project(":javablocks")
 	implementation project(":beans:basebeans")
 	implementation project(":beans:blockbeans")
+	implementation project(":beans:layoutbeans")
+	implementation project(":beans:javabeans")
+	implementation project(":beans:xmlbeans")
 }
 
 def shouldInstallExtension() {
