@@ -27,10 +27,10 @@ public class ViewBean implements Serializable, CloneableBean<ViewBean> {
 
 	private String viewClass;
 	private boolean isRootElement;
-	private ArrayList<AttributesModel> attributes;
+	private ArrayList<ViewAttributeBean> attributes;
 	private ArrayList<ViewBean> childs;
 
-	public String getCode(String whitespace, LayoutModel layout) {
+	public String getCode(String whitespace, LayoutBean layout) {
 		StringBuilder code = new StringBuilder();
 		if (isRootElement) {
 			code.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
@@ -136,11 +136,11 @@ public class ViewBean implements Serializable, CloneableBean<ViewBean> {
 		this.isRootElement = isRootElement;
 	}
 
-	public ArrayList<AttributesModel> getAttributes() {
+	public ArrayList<ViewAttributeBean> getAttributes() {
 		return this.attributes;
 	}
 
-	public void setAttributes(ArrayList<AttributesModel> attributes) {
+	public void setAttributes(ArrayList<ViewAttributeBean> attributes) {
 		this.attributes = attributes;
 	}
 

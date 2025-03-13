@@ -47,7 +47,7 @@ public class JavaImportDeclarationBean
 	@Override
 	public int hashCode() {
 		if (className == null) {
-			return "null";
+			return 0;
 		}
 		return className.hashCode();
 	}
@@ -59,7 +59,7 @@ public class JavaImportDeclarationBean
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		JavaImportDeclarationBean mJavaImportDeclarationBean = (JavaImportDeclarationBean) obj;
-		return hashCode().equals(mJavaImportDeclarationBean.hashCode());
+		return hashCode() == mJavaImportDeclarationBean.hashCode();
 	}
 
 	@Override
