@@ -31,8 +31,12 @@ public class XmlBean implements Serializable {
 	private ArrayList<XmlBean> children;
 	private String name;
 	private String id;
+	
+	private String getCode() {
+		return getCode("");
+	}
 
-	public String getCode(String whitespace) {
+	private String getCode(String whitespace) {
 		StringBuilder code = new StringBuilder();
 		if (isRootElement) {
 			code.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
