@@ -7,7 +7,7 @@ import java.util.Objects;
 import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
 import com.elfilibustero.uidesigner.enums.ResourceType;
 import com.elfilibustero.uidesigner.lib.drawable.AlphaPatternDrawable;
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.graphics.drawable.Drawable;
 import android.util.Pair;

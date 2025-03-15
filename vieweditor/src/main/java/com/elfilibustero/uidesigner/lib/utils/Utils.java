@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.elfilibustero.uidesigner.AppLoader;
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.content.Context;
 import android.content.res.Configuration;

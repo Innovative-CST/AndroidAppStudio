@@ -1,7 +1,7 @@
 package com.icst.logic.view;
 
-import com.icst.android.appstudio.beans.ActionBlockLayerBean;
-import com.icst.android.appstudio.beans.BlockBean;
+import com.icst.blockidle.beans.ActionBlockLayerBean;
+import com.icst.blockidle.beans.BlockBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.BlockShapesUtils;

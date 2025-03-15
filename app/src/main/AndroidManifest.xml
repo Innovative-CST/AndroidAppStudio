@@ -1,135 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="com.icst.android.appstudio">
-    <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        android:minSdkVersion="30"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
-    <application
-        android:name=".MyApplication"
-        android:allowBackup="true"
-        android:icon="@drawable/logo"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:extractNativeLibs="true"
-        android:requestLegacyExternalStorage="true"
-        android:theme="@style/AppTheme">
 
-        <activity
-            android:name="com.icst.android.appstudio.activities.SplashActivity"
-            android:exported="true">
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <application 
+        android:allowBackup="true" 
+        android:icon="@mipmap/ic_launcher" 
+        android:roundIcon="@mipmap/ic_launcher" 
+        android:label="@string/app_name"
+        android:supportsRtl="true" 
+        android:theme="@style/AppTheme">
+        <activity 
+            android:name="com.icst.blockidle.activities.ProjectManagerActivity" 
+            android:exported="true"
+			android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
-                <action
+                <action 
                     android:name="android.intent.action.MAIN" />
-                <category
+                <category 
                     android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.ProjectManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.LicenseActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.LicenseReaderActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.ProjectModelConfigrationActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.AboutTeamActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.ModulesActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.EventsActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.EventEditorActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.AboutAppActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.CrashHandlerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.JavaFileManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.SettingActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.JavaFileModelEditorActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.ExtensionsManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.ExtensionActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.manifest.AndroidManifestManager"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.manifest.AttributesManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.resourcemanager.ResourceManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.resourcemanager.LayoutManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.resourcemanager.LayoutEditorActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.FileManagerActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.CodeEditorActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.JavaBlockProgrammingActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.icst.android.appstudio.activities.TerminalActivity"
-            android:resizeableActivity="true"
-            android:configChanges="orientation|screenSize|smallestScreenSize|density|screenLayout|keyboard|keyboardHidden|navigation"
-            android:exported="true" />
     </application>
 </manifest>

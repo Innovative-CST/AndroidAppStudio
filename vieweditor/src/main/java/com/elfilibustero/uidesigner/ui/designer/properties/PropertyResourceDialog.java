@@ -14,7 +14,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.icst.android.appstudio.vieweditor.databinding.PropertyResourceItemBinding;
+import com.icst.layout.editor.databinding.PropertyResourceItemBinding;
 
 import android.content.Context;
 import android.text.Editable;

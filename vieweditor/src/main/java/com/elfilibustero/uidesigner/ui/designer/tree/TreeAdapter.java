@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.view.GestureDetector;
 import android.view.LayoutInflater;

@@ -23,7 +23,7 @@ import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemButton;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemCalendarView;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemEditText;
 import com.elfilibustero.uidesigner.ui.designer.items.widget.ItemSearchView;
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.content.Context;
 import android.util.AttributeSet;

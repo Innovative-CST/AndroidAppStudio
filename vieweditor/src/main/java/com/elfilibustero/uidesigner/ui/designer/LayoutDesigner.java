@@ -40,10 +40,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.icst.android.appstudio.vieweditor.R;
-import com.icst.android.appstudio.vieweditor.databinding.LayoutEditorBinding;
-import com.icst.android.appstudio.vieweditor.databinding.PropertyInputItemBinding;
-import com.icst.android.appstudio.vieweditor.databinding.ShowAttributesDialogBinding;
+import com.icst.layout.editor.R;
+import com.icst.layout.editor.databinding.LayoutEditorBinding;
+import com.icst.layout.editor.databinding.PropertyInputItemBinding;
+import com.icst.layout.editor.databinding.ShowAttributesDialogBinding;
 
 import android.content.Context;
 import android.content.DialogInterface;

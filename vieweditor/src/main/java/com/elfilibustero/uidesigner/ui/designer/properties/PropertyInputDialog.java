@@ -9,7 +9,7 @@ import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
 import com.elfilibustero.uidesigner.lib.utils.SimpleTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.icst.android.appstudio.vieweditor.databinding.PropertyInputItemBinding;
+import com.icst.layout.editor.databinding.PropertyInputItemBinding;
 
 import android.content.Context;
 import android.text.Editable;

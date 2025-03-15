@@ -2,7 +2,7 @@ package com.elfilibustero.uidesigner.ui.designer.items.androidx;
 
 import com.elfilibustero.uidesigner.ui.designer.DesignerItem;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.content.Context;
 import android.view.MotionEvent;

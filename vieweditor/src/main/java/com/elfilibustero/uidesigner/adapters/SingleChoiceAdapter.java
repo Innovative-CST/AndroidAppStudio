@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.elfilibustero.uidesigner.adapters.interfaces.ItemSelectedListener;
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.view.LayoutInflater;
 import android.view.View;

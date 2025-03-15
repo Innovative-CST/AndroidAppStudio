@@ -1,7 +1,7 @@
 package com.elfilibustero.uidesigner.lib.view;
 
 import com.elfilibustero.uidesigner.beans.ViewBean;
-import com.icst.android.appstudio.vieweditor.databinding.PaletteButtonBinding;
+import com.icst.layout.editor.databinding.PaletteButtonBinding;
 
 import android.content.Context;
 import android.util.AttributeSet;

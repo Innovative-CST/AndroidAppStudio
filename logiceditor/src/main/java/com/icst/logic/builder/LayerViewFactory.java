@@ -1,32 +1,32 @@
 /*
- *  This file is part of AndroidAppStudio.
+ *  This file is part of Block IDLE.
  *
- *  AndroidAppStudio is free software: you can redistribute it and/or modify
+ *  Block IDLE is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  AndroidAppStudio is distributed in the hope that it will be useful,
+ *  Block IDLE is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *   along with AndroidAppStudio.  If not, see <https://www.gnu.org/licenses/>.
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.icst.logic.builder;
 
-import com.icst.android.appstudio.beans.ActionBlockLayerBean;
-import com.icst.android.appstudio.beans.BlockBean;
-import com.icst.android.appstudio.beans.BlockElementLayerBean;
-import com.icst.android.appstudio.beans.BooleanBlockElementBean;
-import com.icst.android.appstudio.beans.ExpressionBlockBean;
-import com.icst.android.appstudio.beans.GeneralExpressionBlockElementBean;
-import com.icst.android.appstudio.beans.LabelBlockElementBean;
-import com.icst.android.appstudio.beans.LayerBean;
-import com.icst.android.appstudio.beans.NumericBlockElementBean;
-import com.icst.android.appstudio.beans.StringBlockElementBean;
+import com.icst.blockidle.beans.ActionBlockLayerBean;
+import com.icst.blockidle.beans.BlockBean;
+import com.icst.blockidle.beans.BlockElementLayerBean;
+import com.icst.blockidle.beans.BooleanBlockElementBean;
+import com.icst.blockidle.beans.ExpressionBlockBean;
+import com.icst.blockidle.beans.GeneralExpressionBlockElementBean;
+import com.icst.blockidle.beans.LabelBlockElementBean;
+import com.icst.blockidle.beans.LayerBean;
+import com.icst.blockidle.beans.NumericBlockElementBean;
+import com.icst.blockidle.beans.StringBlockElementBean;
 import com.icst.logic.block.view.BlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;

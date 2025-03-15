@@ -3,7 +3,7 @@ package com.elfilibustero.uidesigner.adapters;
 import java.util.List;
 
 import com.elfilibustero.uidesigner.lib.utils.PropertiesUtil;
-import com.icst.android.appstudio.vieweditor.R;
+import com.icst.layout.editor.R;
 
 import android.util.Pair;
 import android.view.LayoutInflater;

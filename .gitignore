@@ -34,6 +34,9 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# AndroidIDE
+.androidide
+
 # IntelliJ
 *.iml
 .idea/workspace.xml
@@ -48,20 +51,17 @@ captures/
 # Comment next line if keeping position of elements in Navigation Editor is relevant for you
 .idea/navEditor.xml
 
-# VS Code
-.vscode
-
-# Keystore files
-# Uncomment the following lines if you do not want to check your keystore files in.
-#*.jks
-#*.keystore
+Keystore files
+Uncomment the following lines if you do not want to check your keystore files in.
+*.jks
+*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 .cxx/
 
 # Google Services (e.g. APIs or Firebase)
-# google-services.json
+google-services.json
 
 # Freeline
 freeline.py
@@ -84,6 +84,3 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
-
-# Android IDE
-.androidide

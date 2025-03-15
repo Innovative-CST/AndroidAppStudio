@@ -8,7 +8,7 @@ import com.elfilibustero.uidesigner.lib.utils.Constants;
 import com.elfilibustero.uidesigner.lib.utils.Utils;
 import com.elfilibustero.uidesigner.ui.designer.LayoutContainer;
 import com.google.android.material.color.MaterialColors;
-import com.icst.android.appstudio.vieweditor.databinding.DeviceViewBinding;
+import com.icst.layout.editor.databinding.DeviceViewBinding;
 
 import android.content.Context;
 import android.graphics.Canvas;
